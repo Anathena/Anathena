@@ -3,7 +3,7 @@
     using System;
     using System.Drawing;
 
-    public class NormalizedProcess
+    internal class NormalizedProcess
     {
         public Int32 processId { get; set; }
         public String processName { get; set; }

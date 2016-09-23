@@ -1,12 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Reflection;
-
-namespace Ana.Source.Engine.OperatingSystems
+﻿namespace Ana.Source.Engine.OperatingSystems
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Diagnostics;
+    using System.Reflection;
 
-    public interface IOperatingSystemAdapter
+    internal interface IOperatingSystemAdapter
     {
         // Virtual pages
         IEnumerable<NormalizedRegion> GetVirtualPages(MemoryProtectionEnum RequiredProtection, MemoryProtectionEnum ExcludedProtection,
@@ -48,7 +47,7 @@ namespace Ana.Source.Engine.OperatingSystems
         void Write(Type ElementType, IntPtr Address, dynamic Value);
         void Write<T>(IntPtr Address, T Value);
         void WriteBytes(IntPtr Address, Byte[] Values);
-
-    } // End interface
-
-} // End namespace
+    }
+    //// End interface
+}
+//// End namespace

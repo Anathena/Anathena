@@ -13,7 +13,7 @@
     /// <summary>
     /// Abstraction of the system, providing the ability to easily manipulate system internals regardless of the platform
     /// </summary>
-    public class EngineCore
+    internal class EngineCore
     {
         /// <summary>
         /// Singleton instance of the <see cref="MainViewModel" /> class

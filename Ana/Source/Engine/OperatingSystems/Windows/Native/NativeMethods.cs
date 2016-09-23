@@ -1,27 +1,28 @@
-﻿using System;
-using System.Runtime.InteropServices;
-
-namespace Ana.Source.Engine.OperatingSystems.Windows.Native
+﻿namespace Ana.Source.Engine.OperatingSystems.Windows.Native
 {
+    using System;
+    using System.Runtime.InteropServices;
+
     /// <summary>
     /// Static class referencing all P/Invoked functions used by the library.
     /// </summary>
-    public static class NativeMethods
+    internal static class NativeMethods
     {
         /// <summary>
+        /// Extracts the icon from a running process
         /// </summary>
-        /// <param name="ProcessHandle"></param>
-        /// <param name="Wow64Process"></param>
-        /// <returns>
-        /// </returns>
+        /// <param name="hInst">Handle to the process</param>
+        /// <param name="lpszExeFileName">Executable file name</param>
+        /// <param name="nIconIndex">Index of the icon</param>
+        /// <returns>A handle to the icon in the target process</returns>
         [DllImport("shell32.dll", SetLastError = true)]
         public static extern IntPtr ExtractIcon(IntPtr hInst, String lpszExeFileName, Int32 nIconIndex);
 
         /// <summary>
         /// Determines whether the specified process is running under WOW64
         /// </summary>
-        /// <param name="processHandle"></param>
-        /// <param name="wow64Process"></param>
+        /// <param name="processHandle">A handle to the running process</param>
+        /// <param name="wow64Process">Whether or not the process is 64 bit</param>
         /// <returns>
         /// A pointer to a value that is set to TRUE if the process is running under WOW64.
         /// If the process is running under 32-bit Windows, the value is set to FALSE.
@@ -259,8 +260,6 @@ namespace Ana.Source.Engine.OperatingSystems.Windows.Native
         [DllImport("kernel32.dll", SetLastError = true)]
         public static extern Int32 VirtualQueryEx(IntPtr hProcess, IntPtr lpAddress, out MemoryBasicInformation32 lpBuffer, Int32 dwLength);
 
-
-
         /// <summary>
         /// Retrieves information about a range of pages within the virtual address space of a specified process.
         /// </summary>
@@ -306,5 +305,6 @@ namespace Ana.Source.Engine.OperatingSystems.Windows.Native
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern Boolean WriteProcessMemory(IntPtr hProcess, IntPtr lpBaseAddress, Byte[] lpBuffer, Int32 nSize, out Int32 lpNumberOfBytesWritten);
     }
-
-} // End namespace
+    //// End class
+}
+//// End namespace

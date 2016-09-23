@@ -3,7 +3,7 @@
     /// <summary>
     /// An interface for an object that manipulates the graphics of a target process
     /// </summary>
-    public interface IInput
+    internal interface IInput
     {
     }
     //// End interface

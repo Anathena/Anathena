@@ -80,9 +80,7 @@
     <Compile Include="Source\Engine\Architecture\Disassembler\SharpDisasm\Udis86\BitOps.cs" />
     <Compile Include="Source\Engine\Architecture\Disassembler\SharpDisasm\Udis86\Decode.cs" />
     <Compile Include="Source\Engine\Architecture\Disassembler\SharpDisasm\Udis86\OpTable.cs">
-      <DependentUpon>OpTable.tt</DependentUpon>
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
+      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
     </Compile>
     <Compile Include="Source\Engine\Architecture\Disassembler\SharpDisasm\Udis86\RegClass.cs" />
     <Compile Include="Source\Engine\Architecture\Disassembler\SharpDisasm\Udis86\Syn.cs" />
@@ -112,7 +110,9 @@
     <Compile Include="Source\Engine\OperatingSystems\NormalizedModule.cs" />
     <Compile Include="Source\Engine\OperatingSystems\NormalizedRegion.cs" />
     <Compile Include="Source\Engine\OperatingSystems\OperatingSystemAdapterFactory.cs" />
-    <Compile Include="Source\Engine\OperatingSystems\Windows\Memory.cs" />
+    <Compile Include="Source\Engine\OperatingSystems\Windows\Memory.cs">
+      <ExcludeFromStyleCop>False</ExcludeFromStyleCop>
+    </Compile>
     <Compile Include="Source\Engine\OperatingSystems\Windows\Native\Enumerations.cs" />
     <Compile Include="Source\Engine\OperatingSystems\Windows\Native\NativeMethods.cs" />
     <Compile Include="Source\Engine\OperatingSystems\Windows\Native\Structures.cs" />
@@ -237,20 +237,6 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Content\Icons\SelectProcess.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Source\Engine\Architecture\Disassembler\SharpDisasm\Udis86\OpTable.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>OpTable.cs</LastGenOutput>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Source\Engine\Architecture\Disassembler\SharpDisasm\Udis86\optable.xml">
-      <SubType>Designer</SubType>
-    </Resource>
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Source\Engine\Architecture\Disassembler\SharpDisasm\Udis86\optable.xsl" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

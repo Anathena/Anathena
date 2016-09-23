@@ -1,6 +1,6 @@
 ﻿namespace Ana.Source.Engine.Processes
 {
-    interface IProcessObserver
+    internal interface IProcessObserver
     {
         void InitializeProcessObserver();
         void UpdateEngineCore(EngineCore EngineCore);

@@ -2,7 +2,7 @@
 
 namespace Ana.Source.Engine.Processes
 {
-    interface IProcessSubject
+    internal interface IProcessSubject
     {
         void Subscribe(IProcessObserver Observer);
         void Unsubscribe(IProcessObserver Observer);

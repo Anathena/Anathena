@@ -1,37 +1,38 @@
-﻿using Ana.Source.Engine.OperatingSystems.Windows.Native;
-using Ana.Source.Utils.Extensions;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Runtime.InteropServices;
-
-namespace Ana.Source.Engine.OperatingSystems.Windows
+﻿namespace Ana.Source.Engine.OperatingSystems.Windows
 {
+    using Native;
+    using System;
+    using System.Collections.Generic;
+    using System.Diagnostics;
+    using System.Linq;
+    using System.Runtime.InteropServices;
+    using Utils.Extensions;
+
     /// <summary>
     /// Static class providing tools for windows memory editing internals
     /// </summary>
-    public static class Memory
+    internal static class Memory
     {
         #region Read
 
         /// <summary>
-        /// Reads an array of bytes in the memory form the target process.
+        /// Reads an array of bytes in the memory form the target process
         /// </summary>
-        /// <param name="ProcessHandle">A handle to the process with memory that is being read.</param>
-        /// <param name="Address">A pointer to the base address in the specified process from which to read.</param>
-        /// <param name="Size">The number of bytes to be read from the specified process.</param>
-        /// <returns>The collection of read bytes.</returns>
-        public static Byte[] ReadBytes(IntPtr ProcessHandle, IntPtr Address, Int32 Size, out Boolean Success)
+        /// <param name="processHandle">A handle to the process with memory that is being read</param>
+        /// <param name="address">A pointer to the base address in the specified process from which to read</param>
+        /// <param name="size">The number of bytes to be read from the specified process</param>
+        /// <param name="success">Whether or not the read operation succeeded</param>
+        /// <returns>The bytes read from the target, can be null or empty on failure</returns>
+        public static Byte[] ReadBytes(IntPtr processHandle, IntPtr address, Int32 size, out Boolean success)
         {
             // Allocate the buffer
-            Byte[] Buffer = new Byte[Size];
-            Int32 BytesRead;
+            Byte[] buffer = new Byte[size];
+            Int32 bytesRead;
 
             // Read the data from the target process
-            Success = (NativeMethods.ReadProcessMemory(ProcessHandle, Address, Buffer, Size, out BytesRead) && Size == BytesRead);
+            success = NativeMethods.ReadProcessMemory(processHandle, address, buffer, size, out bytesRead) && size == bytesRead;
 
-            return Buffer;
+            return buffer;
         }
 
         #endregion
@@ -39,23 +40,25 @@ namespace Ana.Source.Engine.OperatingSystems.Windows
         #region Write
 
         /// <summary>
-        /// Writes data to an area of memory in a specified process.
+        /// Writes bytes to memory in a specified process
         /// </summary>
-        /// <param name="ProcessHandle">A handle to the process memory to be modified.</param>
-        /// <param name="Address">A pointer to the base address in the specified process to which data is written.</param>
-        /// <param name="ByteArray">A buffer that contains data to be written in the address space of the specified process.</param>
-        /// <returns>The number of bytes written.</returns>
-        public static Int32 WriteBytes(IntPtr ProcessHandle, IntPtr Address, Byte[] ByteArray)
+        /// <param name="processHandle">A handle to the process memory to be modified</param>
+        /// <param name="address">A pointer to the base address in the specified process to which data is written</param>
+        /// <param name="byteArray">A buffer that contains data to be written in the address space of the specified process</param>
+        /// <returns>The number of bytes written</returns>
+        public static Int32 WriteBytes(IntPtr processHandle, IntPtr address, Byte[] byteArray)
         {
             // Create the variable storing the number of bytes written
-            Int32 BytesWritten;
+            Int32 bytesWritten;
 
             // Write the data to the target process
-            if (NativeMethods.WriteProcessMemory(ProcessHandle, Address, ByteArray, ByteArray.Length, out BytesWritten))
+            if (NativeMethods.WriteProcessMemory(processHandle, address, byteArray, byteArray.Length, out bytesWritten))
             {
                 // Check whether the length of the data written is equal to the inital array
-                if (BytesWritten == ByteArray.Length)
-                    return BytesWritten;
+                if (bytesWritten == byteArray.Length)
+                {
+                    return bytesWritten;
+                }
             }
 
             return 0;
@@ -66,147 +69,178 @@ namespace Ana.Source.Engine.OperatingSystems.Windows
         /// <summary>
         /// Reserves a region of memory within the virtual address space of a specified process.
         /// </summary>
-        /// <param name="ProcessHandle">The handle to a process.</param>
-        /// <param name="Size">The size of the region of memory to allocate, in bytes.</param>
-        /// <param name="ProtectionFlags">The memory protection for the region of pages to be allocated.</param>
-        /// <param name="AllocationFlags">The type of memory allocation.</param>
-        /// <returns>The base address of the allocated region.</returns>
-        public static IntPtr Allocate(IntPtr ProcessHandle, Int32 Size, MemoryProtectionFlags ProtectionFlags = MemoryProtectionFlags.ExecuteReadWrite,
-            MemoryAllocationFlags AllocationFlags = MemoryAllocationFlags.Commit)
+        /// <param name="processHandle">The handle to a process.</param>
+        /// <param name="size">The size of the region of memory to allocate, in bytes.</param>
+        /// <param name="protectionFlags">The memory protection for the region of pages to be allocated.</param>
+        /// <param name="allocationFlags">The type of memory allocation.</param>
+        /// <returns>The base address of the allocated region</returns>
+        public static IntPtr Allocate(
+            IntPtr processHandle,
+            Int32 size,
+            MemoryProtectionFlags protectionFlags = MemoryProtectionFlags.ExecuteReadWrite,
+            MemoryAllocationFlags allocationFlags = MemoryAllocationFlags.Commit)
         {
             // Allocate a memory page
-            IntPtr Address = NativeMethods.VirtualAllocEx(ProcessHandle, IntPtr.Zero, Size, AllocationFlags, ProtectionFlags);
-
-            return Address;
+            return NativeMethods.VirtualAllocEx(processHandle, IntPtr.Zero, size, allocationFlags, protectionFlags);
         }
 
         /// <summary>
-        /// Opens an existing local process object.
+        /// Opens an existing local process object
         /// </summary>
-        /// <param name="AccessFlags">The access level to the process object.</param>
-        /// <param name="Process">The identifier of the local process to be opened.</param>
-        /// <returns>An open handle to the specified process.</returns>
-        public static IntPtr OpenProcess(ProcessAccessFlags AccessFlags, Process Process)
+        /// <param name="accessFlags">The access level to the process object</param>
+        /// <param name="process">The identifier of the local process to be opened</param>
+        /// <returns>An open handle to the specified process</returns>
+        public static IntPtr OpenProcess(ProcessAccessFlags accessFlags, Process process)
         {
-            return NativeMethods.OpenProcess(AccessFlags, false, Process == null ? 0 : Process.Id);
+            return NativeMethods.OpenProcess(accessFlags, false, process == null ? 0 : process.Id);
         }
 
         /// <summary>
-        /// Closes an open object handle.
+        /// Closes an open object handle
         /// </summary>
-        /// <param name="Handle">A valid handle to an open object.</param>
-        public static void CloseHandle(IntPtr Handle)
+        /// <param name="handle">A valid handle to an open object</param>
+        public static void CloseHandle(IntPtr handle)
         {
             // Close the handle
-            NativeMethods.CloseHandle(Handle);
+            NativeMethods.CloseHandle(handle);
         }
 
         /// <summary>
-        /// Releases a region of memory within the virtual address space of a specified process.
+        /// Releases a region of memory within the virtual address space of a specified process
         /// </summary>
-        /// <param name="ProcessHandle">A handle to a process.</param>
-        /// <param name="Address">A pointer to the starting address of the region of memory to be freed.</param>
-        public static void Free(IntPtr ProcessHandle, IntPtr Address)
+        /// <param name="processHandle">A handle to a process</param>
+        /// <param name="address">A pointer to the starting address of the region of memory to be freed</param>
+        public static void Free(IntPtr processHandle, IntPtr address)
         {
             // Free the memory
-            NativeMethods.VirtualFreeEx(ProcessHandle, Address, 0, MemoryReleaseFlags.Release);
+            NativeMethods.VirtualFreeEx(processHandle, address, 0, MemoryReleaseFlags.Release);
         }
 
         /// <summary>
-        /// Changes the protection on a region of committed pages in the virtual address space of a specified process.
+        /// Changes the protection on a region of committed pages in the virtual address space of a specified process
         /// </summary>
-        /// <param name="ProcessHandle">A handle to the process whose memory protection is to be changed.</param>
-        /// <param name="Address">A pointer to the base address of the region of pages whose access protection attributes are to be changed.</param>
-        /// <param name="Size">The size of the region whose access protection attributes are changed, in bytes.</param>
-        /// <param name="protection">The memory protection option.</param>
-        /// <returns>The old protection of the region in a <see cref="Native.MemoryBasicInformation32"/> structure.</returns>
-        public static MemoryProtectionFlags ChangeProtection(IntPtr ProcessHandle, IntPtr Address, int Size, MemoryProtectionFlags protection)
+        /// <param name="processHandle">A handle to the process whose memory protection is to be changed</param>
+        /// <param name="address">A pointer to the base address of the region of pages whose access protection attributes are to be changed</param>
+        /// <param name="size">The size of the region whose access protection attributes are changed, in bytes</param>
+        /// <param name="protection">The memory protection option</param>
+        /// <returns>The old protection of the region in a <see cref="MemoryBasicInformation32"/> structure</returns>
+        public static MemoryProtectionFlags ChangeProtection(IntPtr processHandle, IntPtr address, Int32 size, MemoryProtectionFlags protection)
         {
             // Create the variable storing the old protection of the memory page
-            MemoryProtectionFlags OldProtection;
+            MemoryProtectionFlags oldProtection;
 
             // Change the protection in the target process
-            NativeMethods.VirtualProtectEx(ProcessHandle, Address, Size, protection, out OldProtection);
+            NativeMethods.VirtualProtectEx(processHandle, address, size, protection, out oldProtection);
 
-            return OldProtection;
+            return oldProtection;
         }
 
         /// <summary>
-        /// Gets all blocks of memory allocated in the remote process.
+        /// Gets regions of memory allocated in the remote process based on provided parameters
         /// </summary>
-        public static IEnumerable<IntPtr> VirtualPages(IntPtr Handle, IntPtr StartAddress, IntPtr EndAddress,
-            MemoryProtectionFlags RequiredProtection, MemoryProtectionFlags ExcludedProtection, MemoryTypeEnum AllowedTypes)
+        /// <param name="handle">Target process handle</param>
+        /// <param name="startAddress">The start address of the query range</param>
+        /// <param name="endAddress">The end address of the query range</param>
+        /// <param name="requiredProtection">Protection flags required to be present</param>
+        /// <param name="excludedProtection">Protection flags that must not be present</param>
+        /// <param name="allowedTypes">Memory types that can be present</param>
+        /// <returns>A collection of pointers to virtual pages in the target process</returns>
+        public static IEnumerable<IntPtr> VirtualPages(
+            IntPtr handle,
+            IntPtr startAddress,
+            IntPtr endAddress,
+            MemoryProtectionFlags requiredProtection,
+            MemoryProtectionFlags excludedProtection,
+            MemoryTypeEnum allowedTypes)
         {
-            return Query(Handle, StartAddress, EndAddress, RequiredProtection, ExcludedProtection, AllowedTypes).Select(X => X.BaseAddress);
-        }
-
-        public static IEnumerable<IntPtr> AllVirtualPages(IntPtr Handle)
-        {
-            return Query(Handle, IntPtr.Zero, IntPtr.Zero.MaxValue(), 0, 0,
-                MemoryTypeEnum.None | MemoryTypeEnum.Private | MemoryTypeEnum.Image | MemoryTypeEnum.Mapped).Select(X => X.BaseAddress);
-        }
-
-        /// <summary>
-        /// Retrieves information about a range of pages within the virtual address space of a specified process.
-        /// </summary>
-        /// <param name="ProcessHandle">A handle to the process whose memory information is queried.</param>
-        /// <param name="BaseAddress">A pointer to the base address of the region of pages to be queried.</param>
-        /// <returns>A <see cref="Native.MemoryBasicInformation64"/> structures in which information about the specified page range is returned.</returns>
-        public static MemoryBasicInformation64 Query(IntPtr ProcessHandle, IntPtr BaseAddress)
-        {
-            Int32 QueryResult;
-            return Query(ProcessHandle, BaseAddress, out QueryResult);
+            return Query(handle, startAddress, endAddress, requiredProtection, excludedProtection, allowedTypes).Select(x => x.BaseAddress);
         }
 
         /// <summary>
-        /// Retrieves information about a range of pages within the virtual address space of a specified process.
+        /// Gets all regions of memory allocated in the remote process
         /// </summary>
-        /// <param name="ProcessHandle">A handle to the process whose memory information is queried.</param>
-        /// <param name="BaseAddress">A pointer to the base address of the region of pages to be queried.</param>
-        /// <returns>A <see cref="Native.MemoryBasicInformation64"/> structures in which information about the specified page range is returned.</returns>
-        public static MemoryBasicInformation64 Query(IntPtr ProcessHandle, IntPtr BaseAddress, out Int32 QueryResult)
+        /// <param name="handle">Target process handle</param>
+        /// <returns>A collection of pointers to virtual pages in the target process</returns>
+        public static IEnumerable<IntPtr> AllVirtualPages(IntPtr handle)
+        {
+            MemoryTypeEnum flags = MemoryTypeEnum.None | MemoryTypeEnum.Private | MemoryTypeEnum.Image | MemoryTypeEnum.Mapped;
+            return Query(handle, IntPtr.Zero, IntPtr.Zero.MaxValue(), 0, 0, flags).Select(x => x.BaseAddress);
+        }
+
+        /// <summary>
+        /// Retrieves information about a range of pages within the virtual address space of a specified process
+        /// </summary>
+        /// <param name="processHandle">A handle to the process whose memory information is queried</param>
+        /// <param name="baseAddress">A pointer to the base address of the region of pages to be queried</param>
+        /// <returns>A <see cref="MemoryBasicInformation64"/> structures in which information about the specified page range is returned</returns>
+        public static MemoryBasicInformation64 Query(IntPtr processHandle, IntPtr baseAddress)
+        {
+            Int32 queryResult;
+            return Query(processHandle, baseAddress, out queryResult);
+        }
+
+        /// <summary>
+        /// Retrieves information about a range of pages within the virtual address space of a specified process
+        /// </summary>
+        /// <param name="processHandle">A handle to the process whose memory information is queried</param>
+        /// <param name="baseAddress">A pointer to the base address of the region of pages to be queried</param>
+        /// <param name="queryResult">The value returned by the native methods when performing query</param>
+        /// <returns>A <see cref="MemoryBasicInformation64"/> structures in which information about the specified page range is returned</returns>
+        public static MemoryBasicInformation64 Query(IntPtr processHandle, IntPtr baseAddress, out Int32 queryResult)
         {
             // Allocate the structure to store information of memory
-            MemoryBasicInformation64 MemoryInfo64 = new MemoryBasicInformation64();
+            MemoryBasicInformation64 memoryInfo64 = new MemoryBasicInformation64();
 
             if (!Environment.Is64BitProcess)
             {
                 // 32 Bit struct is not the same
-                MemoryBasicInformation32 MemoryInfo32 = new MemoryBasicInformation32();
+                MemoryBasicInformation32 memoryInfo32 = new MemoryBasicInformation32();
 
                 // Query the memory region
-                QueryResult = NativeMethods.VirtualQueryEx(ProcessHandle, BaseAddress, out MemoryInfo32, Marshal.SizeOf(MemoryInfo32));
+                queryResult = NativeMethods.VirtualQueryEx(processHandle, baseAddress, out memoryInfo32, Marshal.SizeOf(memoryInfo32));
 
                 // Copy from the 32 bit struct to the 64 bit struct
-                MemoryInfo64.AllocationBase = MemoryInfo32.AllocationBase;
-                MemoryInfo64.AllocationProtect = MemoryInfo32.AllocationProtect;
-                MemoryInfo64.BaseAddress = MemoryInfo32.BaseAddress;
-                MemoryInfo64.Protect = MemoryInfo32.Protect;
-                MemoryInfo64.RegionSize = MemoryInfo32.RegionSize;
-                MemoryInfo64.State = MemoryInfo32.State;
-                MemoryInfo64.Type = MemoryInfo32.Type;
+                memoryInfo64.AllocationBase = memoryInfo32.AllocationBase;
+                memoryInfo64.AllocationProtect = memoryInfo32.AllocationProtect;
+                memoryInfo64.BaseAddress = memoryInfo32.BaseAddress;
+                memoryInfo64.Protect = memoryInfo32.Protect;
+                memoryInfo64.RegionSize = memoryInfo32.RegionSize;
+                memoryInfo64.State = memoryInfo32.State;
+                memoryInfo64.Type = memoryInfo32.Type;
             }
             else
             {
                 // Query the memory region
-                QueryResult = NativeMethods.VirtualQueryEx(ProcessHandle, BaseAddress, out MemoryInfo64, Marshal.SizeOf(MemoryInfo64));
+                queryResult = NativeMethods.VirtualQueryEx(processHandle, baseAddress, out memoryInfo64, Marshal.SizeOf(memoryInfo64));
             }
 
-            return MemoryInfo64;
+            return memoryInfo64;
         }
 
         /// <summary>
-        /// Retrieves information about a range of pages within the virtual address space of a specified process.
+        /// Retrieves information about a range of pages within the virtual address space of a specified process
         /// </summary>
-        /// <param name="processHandle">A handle to the process whose memory information is queried.</param>
-        /// <param name="startAddress">A pointer to the starting address of the region of pages to be queried.</param>
-        /// <param name="endAddress">A pointer to the ending address of the region of pages to be queried.</param>
-        /// <returns>A collection of <see cref="Native.MemoryBasicInformation64"/> structures.</returns>
-        public static IEnumerable<MemoryBasicInformation64> Query(IntPtr processHandle, IntPtr startAddress, IntPtr endAddress,
-            MemoryProtectionFlags requiredProtection, MemoryProtectionFlags excludedProtection, MemoryTypeEnum allowedTypes)
+        /// <param name="processHandle">A handle to the process whose memory information is queried</param>
+        /// <param name="startAddress">A pointer to the starting address of the region of pages to be queried</param>
+        /// <param name="endAddress">A pointer to the ending address of the region of pages to be queried</param>
+        /// <param name="requiredProtection">Protection flags required to be present</param>
+        /// <param name="excludedProtection">Protection flags that must not be present</param>
+        /// <param name="allowedTypes">Memory types that can be present</param>
+        /// <returns>
+        /// A collection of <see cref="MemoryBasicInformation64"/> structures containing info about all virtual pages in the target process
+        /// </returns>
+        public static IEnumerable<MemoryBasicInformation64> Query(
+            IntPtr processHandle,
+            IntPtr startAddress,
+            IntPtr endAddress,
+            MemoryProtectionFlags requiredProtection,
+            MemoryProtectionFlags excludedProtection,
+            MemoryTypeEnum allowedTypes)
         {
             if (startAddress.ToUInt64() >= endAddress.ToUInt64())
+            {
                 yield return new MemoryBasicInformation64();
+            }
 
             // Create the variable storing the result of the call of VirtualQueryEx
             Int32 queryResult;
@@ -219,60 +253,84 @@ namespace Ana.Source.Engine.OperatingSystems.Windows
                 MemoryBasicInformation64 memoryInfo = Query(processHandle, startAddress, out queryResult);
 
                 // Increment the starting address with the size of the page
-                IntPtr PreviousFrom = startAddress;
+                IntPtr previousFrom = startAddress;
                 startAddress = startAddress.Add(memoryInfo.RegionSize);
 
-                if (PreviousFrom.ToUInt64() > startAddress.ToUInt64())
+                if (previousFrom.ToUInt64() > startAddress.ToUInt64())
+                {
                     wrappedAround = true;
+                }
 
                 // Ignore free memory. These are unallocated memory regions.
                 if ((memoryInfo.State & MemoryStateFlags.Free) != 0)
+                {
                     continue;
+                }
 
                 // At least one readable memory flag is required
                 if ((memoryInfo.Protect & MemoryProtectionFlags.ReadOnly) == 0 && (memoryInfo.Protect & MemoryProtectionFlags.ExecuteRead) == 0 &&
                     (memoryInfo.Protect & MemoryProtectionFlags.ExecuteReadWrite) == 0 && (memoryInfo.Protect & MemoryProtectionFlags.ReadWrite) == 0)
+                {
                     continue;
+                }
 
                 // Do not bother with this shit, this memory is not worth scanning
                 if ((memoryInfo.Protect & MemoryProtectionFlags.ZeroAccess) != 0 || (memoryInfo.Protect & MemoryProtectionFlags.NoAccess) != 0 || (memoryInfo.Protect & MemoryProtectionFlags.Guard) != 0)
+                {
                     continue;
+                }
 
                 // Enforce allowed types
                 switch (memoryInfo.Type)
                 {
                     case MemoryTypeFlags.None:
                         if ((allowedTypes & MemoryTypeEnum.None) == 0)
+                        {
                             continue;
+                        }
+
                         break;
                     case MemoryTypeFlags.Private:
                         if ((allowedTypes & MemoryTypeEnum.Private) == 0)
+                        {
                             continue;
+                        }
+
                         break;
                     case MemoryTypeFlags.Image:
                         if ((allowedTypes & MemoryTypeEnum.Image) == 0)
+                        {
                             continue;
+                        }
+
                         break;
                     case MemoryTypeFlags.Mapped:
                         if ((allowedTypes & MemoryTypeEnum.Mapped) == 0)
+                        {
                             continue;
+                        }
+
                         break;
                 }
 
                 // Ensure at least one required protection flag is set
                 if (requiredProtection != 0 && (memoryInfo.Protect & requiredProtection) == 0)
+                {
                     continue;
+                }
 
                 // Ensure no ignored protection flags are set
                 if (excludedProtection != 0 && (memoryInfo.Protect & excludedProtection) != 0)
+                {
                     continue;
+                }
 
                 // Return the memory page
                 yield return memoryInfo;
-
-            } while (startAddress.ToUInt64() < endAddress.ToUInt64() && queryResult != 0 && !wrappedAround);
+            }
+            while (startAddress.ToUInt64() < endAddress.ToUInt64() && queryResult != 0 && !wrappedAround);
         }
-
-    } // End class
-
-} // End namespace
+    }
+    //// End class
+}
+//// End namespace

@@ -6,19 +6,28 @@
     using Utils.Extensions;
 
     /// <summary>
-    /// Implements Fasm.NET compiler for 32-bit development.
-    /// More info: https://github.com/ZenLulz/Fasm.NET
+    /// Implements Fasm.NET compiler for 32-bit development. More info: https://github.com/ZenLulz/Fasm.NET
     /// </summary>
     public class SharpDisassembler : IDisassembler
     {
-        private Disassembler Disassembler;
+        /// <summary>
+        /// An instruction disassembler
+        /// </summary>
+        private Disassembler disassembler;
 
-        public List<Instruction> Disassemble(Byte[] Bytes, Boolean Architecture32Bit, IntPtr Address)
+        /// <summary>
+        /// Disassemble the specified bytes
+        /// </summary>
+        /// <param name="bytes">The bytes to be disassembled</param>
+        /// <param name="isProcess32Bit">Whether or not the assembly is in the context of a 32 bit program</param>
+        /// <param name="baseAddress">The address where the code is rebased</param>
+        /// <returns>An array of bytes containing the assembly code</returns>
+        public List<Instruction> Disassemble(Byte[] bytes, Boolean isProcess32Bit, IntPtr baseAddress)
         {
-            Disassembler = new Disassembler(Bytes, Architecture32Bit ? ArchitectureMode.x86_32 : ArchitectureMode.x86_64, Address.ToUInt64());
-            return new List<Instruction>(Disassembler.Disassemble());
+            this.disassembler = new Disassembler(bytes, isProcess32Bit ? ArchitectureMode.x86_32 : ArchitectureMode.x86_64, baseAddress.ToUInt64());
+            return new List<Instruction>(this.disassembler.Disassemble());
         }
-
-    } // End class
-
-} // End namespace
+    }
+    //// End class
+}
+//// End namespace

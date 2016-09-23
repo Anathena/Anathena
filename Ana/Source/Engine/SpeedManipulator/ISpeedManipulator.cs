@@ -3,7 +3,7 @@
     /// <summary>
     /// An interface for an object that manipulates thread speed in a target process
     /// </summary>
-    public interface ISpeedManipulator
+    internal interface ISpeedManipulator
     {
     }
     //// End interface

@@ -3,7 +3,7 @@
 namespace Ana.Source.Engine.OperatingSystems
 {
     [Flags]
-    public enum MemoryProtectionEnum
+    internal enum MemoryProtectionEnum
     {
         Write = 0x1,
         Execute = 0x2,
@@ -11,12 +11,12 @@ namespace Ana.Source.Engine.OperatingSystems
     }
 
     [Flags]
-    public enum MemoryTypeEnum
+    internal enum MemoryTypeEnum
     {
         None = 0x1,
         Private = 0x2,
         Image = 0x4,
         Mapped = 0x8
     }
-
-} // End namespace
+}
+//// End namespace

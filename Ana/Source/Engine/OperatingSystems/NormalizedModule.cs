@@ -5,7 +5,7 @@ namespace Ana.Source.Engine.OperatingSystems
     /// <summary>
     /// Defines an OS independent module region and attributes
     /// </summary>
-    public class NormalizedModule : NormalizedRegion
+    internal class NormalizedModule : NormalizedRegion
     {
         public String Name;
 

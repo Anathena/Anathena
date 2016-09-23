@@ -7,7 +7,7 @@ namespace Ana.Source.Engine.OperatingSystems
     /// <summary>
     /// Defines an OS independent region in process memory space
     /// </summary>
-    public class NormalizedRegion
+    internal class NormalizedRegion
     {
         public IntPtr BaseAddress;
         public Int32 RegionSize;

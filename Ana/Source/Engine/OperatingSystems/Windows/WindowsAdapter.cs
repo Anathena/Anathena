@@ -1,19 +1,19 @@
-﻿using Ana.Source.Engine.OperatingSystems.Windows.Native;
-using Ana.Source.Utils.Extensions;
-using Ana.Source.Utils.Validation;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-
-namespace Ana.Source.Engine.OperatingSystems.Windows
+﻿namespace Ana.Source.Engine.OperatingSystems.Windows
 {
+    using Native;
+    using System;
+    using System.Collections.Generic;
+    using System.Diagnostics;
+    using System.Linq;
+    using System.Reflection;
+    using System.Text;
+    using Utils.Extensions;
+    using Utils.Validation;
+
     /// <summary>
     /// Class for memory editing a remote process.
     /// </summary>
-    public class WindowsAdapter : IOperatingSystemAdapter
+    internal class WindowsAdapter : IOperatingSystemAdapter
     {
         /// <summary>
         /// The remote process handle opened with all rights.
@@ -356,7 +356,7 @@ namespace Ana.Source.Engine.OperatingSystems.Windows
         {
             return !IsProcess32Bit(Process);
         }
-
-    } // End class
-
-} // End namespace
+    }
+    //// End class
+}
+//// End namespace

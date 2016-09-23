@@ -3,7 +3,7 @@ using System.Diagnostics;
 
 namespace Ana.Source.Engine.OperatingSystems
 {
-    class OperatingSystemAdapterFactory
+    internal class OperatingSystemAdapterFactory
     {
         public static IOperatingSystemAdapter GetOperatingSystemAdapter(Process Target)
         {

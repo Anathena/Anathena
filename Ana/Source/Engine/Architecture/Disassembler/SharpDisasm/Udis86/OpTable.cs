@@ -1,5 +1,6 @@
 ﻿namespace Ana.Source.Engine.Architecture.Disassembler.SharpDisasm.Udis86
 {
+    using System;
 
     #region Enums
 
@@ -939,9 +940,9 @@
     internal static class InstructionTables
     {
         #region Lookup Tables
-        public const int INVALID = 0;
+        public const Int32 INVALID = 0;
 
-        internal static readonly ushort[] ud_itab__0 = {
+        internal static readonly UInt16[] udItab0 = {
           /* 00 */          15,          16,          17,          18,
           /* 04 */          19,          20,    0x8000|1,    0x8000|2,
           /* 08 */         964,         965,         966,         967,
@@ -1008,19 +1009,19 @@
           /* fc */          78,        1396,  0x8000|444,  0x8000|445,
         };
 
-        internal static readonly ushort[] ud_itab__1 = {
+        internal static readonly UInt16[] udItab1 = {
           /* 00 */        1240,     INVALID,
         };
 
-        internal static readonly ushort[] ud_itab__2 = {
+        internal static readonly UInt16[] udItab2 = {
           /* 00 */        1096,     INVALID,
         };
 
-        internal static readonly ushort[] ud_itab__3 = {
+        internal static readonly UInt16[] udItab3 = {
           /* 00 */        1241,     INVALID,
         };
 
-        internal static readonly ushort[] ud_itab__4 = {
+        internal static readonly UInt16[] udItab4 = {
           /* 00 */    0x8000|5,    0x8000|6,         767,         797,
           /* 04 */     INVALID,        1426,          82,        1431,
           /* 08 */         716,        1471,     INVALID,        1444,
@@ -1087,108 +1088,108 @@
           /* fc */  0x8000|281,  0x8000|282,  0x8000|283,     INVALID,
         };
 
-        internal static readonly ushort[] ud_itab__5 = {
+        internal static readonly UInt16[] udItab5 = {
           /* 00 */        1384,        1406,         786,         798,
           /* 04 */        1453,        1454,     INVALID,     INVALID,
         };
 
-        internal static readonly ushort[] ud_itab__6 = {
+        internal static readonly UInt16[] udItab6 = {
           /* 00 */    0x8000|7,    0x8000|8,
         };
 
-        internal static readonly ushort[] ud_itab__7 = {
+        internal static readonly UInt16[] udItab7 = {
           /* 00 */        1374,        1383,         785,         774,
           /* 04 */        1385,     INVALID,         787,         719,
         };
 
-        internal static readonly ushort[] ud_itab__8 = {
+        internal static readonly UInt16[] udItab8 = {
           /* 00 */    0x8000|9,   0x8000|14,   0x8000|15,   0x8000|16,
           /* 04 */        1386,     INVALID,         788,   0x8000|25,
         };
 
-        internal static readonly ushort[] ud_itab__9 = {
+        internal static readonly UInt16[] udItab9 = {
           /* 00 */     INVALID,   0x8000|10,   0x8000|11,   0x8000|12,
           /* 04 */   0x8000|13,     INVALID,     INVALID,     INVALID,
         };
 
-        internal static readonly ushort[] ud_itab__10 = {
+        internal static readonly UInt16[] udItab10 = {
           /* 00 */     INVALID,        1455,     INVALID,
         };
 
-        internal static readonly ushort[] ud_itab__11 = {
+        internal static readonly UInt16[] udItab11 = {
           /* 00 */     INVALID,        1461,     INVALID,
         };
 
-        internal static readonly ushort[] ud_itab__12 = {
+        internal static readonly UInt16[] udItab12 = {
           /* 00 */     INVALID,        1462,     INVALID,
         };
 
-        internal static readonly ushort[] ud_itab__13 = {
+        internal static readonly UInt16[] udItab13 = {
           /* 00 */     INVALID,        1463,     INVALID,
         };
 
-        internal static readonly ushort[] ud_itab__14 = {
+        internal static readonly UInt16[] udItab14 = {
           /* 00 */         824,         952,     INVALID,     INVALID,
           /* 04 */     INVALID,     INVALID,     INVALID,     INVALID,
         };
 
-        internal static readonly ushort[] ud_itab__15 = {
+        internal static readonly UInt16[] udItab15 = {
           /* 00 */        1485,        1508,     INVALID,     INVALID,
           /* 04 */     INVALID,     INVALID,     INVALID,     INVALID,
         };
 
-        internal static readonly ushort[] ud_itab__16 = {
+        internal static readonly UInt16[] udItab16 = {
           /* 00 */   0x8000|17,   0x8000|18,   0x8000|19,   0x8000|20,
           /* 04 */   0x8000|21,   0x8000|22,   0x8000|23,   0x8000|24,
         };
 
-        internal static readonly ushort[] ud_itab__17 = {
+        internal static readonly UInt16[] udItab17 = {
           /* 00 */        1466,     INVALID,     INVALID,
         };
 
-        internal static readonly ushort[] ud_itab__18 = {
+        internal static readonly UInt16[] udItab18 = {
           /* 00 */        1467,     INVALID,     INVALID,
         };
 
-        internal static readonly ushort[] ud_itab__19 = {
+        internal static readonly UInt16[] udItab19 = {
           /* 00 */        1468,     INVALID,     INVALID,
         };
 
-        internal static readonly ushort[] ud_itab__20 = {
+        internal static readonly UInt16[] udItab20 = {
           /* 00 */        1469,     INVALID,     INVALID,
         };
 
-        internal static readonly ushort[] ud_itab__21 = {
+        internal static readonly UInt16[] udItab21 = {
           /* 00 */        1397,     INVALID,     INVALID,
         };
 
-        internal static readonly ushort[] ud_itab__22 = {
+        internal static readonly UInt16[] udItab22 = {
           /* 00 */          80,     INVALID,     INVALID,
         };
 
-        internal static readonly ushort[] ud_itab__23 = {
+        internal static readonly UInt16[] udItab23 = {
           /* 00 */        1399,     INVALID,     INVALID,
         };
 
-        internal static readonly ushort[] ud_itab__24 = {
+        internal static readonly UInt16[] udItab24 = {
           /* 00 */         720,     INVALID,     INVALID,
         };
 
-        internal static readonly ushort[] ud_itab__25 = {
+        internal static readonly UInt16[] udItab25 = {
           /* 00 */        1425,   0x8000|26,     INVALID,     INVALID,
           /* 04 */     INVALID,     INVALID,     INVALID,     INVALID,
         };
 
-        internal static readonly ushort[] ud_itab__26 = {
+        internal static readonly UInt16[] udItab26 = {
           /* 00 */        1298,     INVALID,     INVALID,
         };
 
-        internal static readonly ushort[] ud_itab__27 = {
+        internal static readonly UInt16[] udItab27 = {
           /* 00 */        1119,        1120,        1121,        1122,
           /* 04 */        1123,        1124,        1125,        1126,
         };
 
-        internal static readonly ushort[] ud_itab__28 = {
+        internal static readonly UInt16[] udItab28 = {
           /* 00 */     INVALID,     INVALID,     INVALID,     INVALID,
           /* 04 */     INVALID,     INVALID,     INVALID,     INVALID,
           /* 08 */     INVALID,     INVALID,     INVALID,     INVALID,
@@ -1255,108 +1256,108 @@
           /* fc */     INVALID,     INVALID,     INVALID,     INVALID,
         };
 
-        internal static readonly ushort[] ud_itab__29 = {
+        internal static readonly UInt16[] udItab29 = {
           /* 00 */         936,         925,         928,         932,
         };
 
-        internal static readonly ushort[] ud_itab__30 = {
+        internal static readonly UInt16[] udItab30 = {
           /* 00 */         938,         926,         929,         934,
         };
 
-        internal static readonly ushort[] ud_itab__31 = {
+        internal static readonly UInt16[] udItab31 = {
           /* 00 */   0x8000|32,   0x8000|33,
         };
 
-        internal static readonly ushort[] ud_itab__32 = {
+        internal static readonly UInt16[] udItab32 = {
           /* 00 */         892,        1563,        1571,         888,
         };
 
-        internal static readonly ushort[] ud_itab__33 = {
+        internal static readonly UInt16[] udItab33 = {
           /* 00 */         896,        1561,        1569,     INVALID,
         };
 
-        internal static readonly ushort[] ud_itab__34 = {
+        internal static readonly UInt16[] udItab34 = {
           /* 00 */         894,     INVALID,     INVALID,         890,
         };
 
-        internal static readonly ushort[] ud_itab__35 = {
+        internal static readonly UInt16[] udItab35 = {
           /* 00 */        1449,     INVALID,     INVALID,        1451,
         };
 
-        internal static readonly ushort[] ud_itab__36 = {
+        internal static readonly UInt16[] udItab36 = {
           /* 00 */        1447,     INVALID,     INVALID,        1445,
         };
 
-        internal static readonly ushort[] ud_itab__37 = {
+        internal static readonly UInt16[] udItab37 = {
           /* 00 */   0x8000|38,   0x8000|39,
         };
 
-        internal static readonly ushort[] ud_itab__38 = {
+        internal static readonly UInt16[] udItab38 = {
           /* 00 */         882,     INVALID,        1567,         878,
         };
 
-        internal static readonly ushort[] ud_itab__39 = {
+        internal static readonly UInt16[] udItab39 = {
           /* 00 */         886,     INVALID,        1565,     INVALID,
         };
 
-        internal static readonly ushort[] ud_itab__40 = {
+        internal static readonly UInt16[] udItab40 = {
           /* 00 */         884,     INVALID,     INVALID,         880,
         };
 
-        internal static readonly ushort[] ud_itab__41 = {
+        internal static readonly UInt16[] udItab41 = {
           /* 00 */        1127,        1128,        1129,        1130,
           /* 04 */     INVALID,     INVALID,     INVALID,     INVALID,
         };
 
-        internal static readonly ushort[] ud_itab__42 = {
+        internal static readonly UInt16[] udItab42 = {
           /* 00 */         862,     INVALID,     INVALID,         858,
         };
 
-        internal static readonly ushort[] ud_itab__43 = {
+        internal static readonly UInt16[] udItab43 = {
           /* 00 */         864,     INVALID,     INVALID,         860,
         };
 
-        internal static readonly ushort[] ud_itab__44 = {
+        internal static readonly UInt16[] udItab44 = {
           /* 00 */         141,         152,         154,         142,
         };
 
-        internal static readonly ushort[] ud_itab__45 = {
+        internal static readonly UInt16[] udItab45 = {
           /* 00 */         907,     INVALID,     INVALID,         905,
         };
 
-        internal static readonly ushort[] ud_itab__46 = {
+        internal static readonly UInt16[] udItab46 = {
           /* 00 */         165,         166,         168,         162,
         };
 
-        internal static readonly ushort[] ud_itab__47 = {
+        internal static readonly UInt16[] udItab47 = {
           /* 00 */         147,         148,         158,         138,
         };
 
-        internal static readonly ushort[] ud_itab__48 = {
+        internal static readonly UInt16[] udItab48 = {
           /* 00 */        1442,     INVALID,     INVALID,        1440,
         };
 
-        internal static readonly ushort[] ud_itab__49 = {
+        internal static readonly UInt16[] udItab49 = {
           /* 00 */         129,     INVALID,     INVALID,         127,
         };
 
-        internal static readonly ushort[] ud_itab__50 = {
+        internal static readonly UInt16[] udItab50 = {
           /* 00 */        1427,   0x8000|51,
         };
 
-        internal static readonly ushort[] ud_itab__51 = {
+        internal static readonly UInt16[] udItab51 = {
           /* 00 */     INVALID,        1428,     INVALID,
         };
 
-        internal static readonly ushort[] ud_itab__52 = {
+        internal static readonly UInt16[] udItab52 = {
           /* 00 */        1429,   0x8000|53,
         };
 
-        internal static readonly ushort[] ud_itab__53 = {
+        internal static readonly UInt16[] udItab53 = {
           /* 00 */     INVALID,        1430,     INVALID,
         };
 
-        internal static readonly ushort[] ud_itab__54 = {
+        internal static readonly UInt16[] udItab54 = {
           /* 00 */   0x8000|55,   0x8000|56,   0x8000|57,   0x8000|58,
           /* 04 */   0x8000|59,   0x8000|60,   0x8000|61,   0x8000|62,
           /* 08 */   0x8000|63,   0x8000|64,   0x8000|65,   0x8000|66,
@@ -1423,251 +1424,251 @@
           /* fc */     INVALID,     INVALID,     INVALID,     INVALID,
         };
 
-        internal static readonly ushort[] ud_itab__55 = {
+        internal static readonly UInt16[] udItab55 = {
           /* 00 */        1582,     INVALID,     INVALID,        1583,
         };
 
-        internal static readonly ushort[] ud_itab__56 = {
+        internal static readonly UInt16[] udItab56 = {
           /* 00 */        1585,     INVALID,     INVALID,        1586,
         };
 
-        internal static readonly ushort[] ud_itab__57 = {
+        internal static readonly UInt16[] udItab57 = {
           /* 00 */        1588,     INVALID,     INVALID,        1589,
         };
 
-        internal static readonly ushort[] ud_itab__58 = {
+        internal static readonly UInt16[] udItab58 = {
           /* 00 */        1591,     INVALID,     INVALID,        1592,
         };
 
-        internal static readonly ushort[] ud_itab__59 = {
+        internal static readonly UInt16[] udItab59 = {
           /* 00 */        1594,     INVALID,     INVALID,        1595,
         };
 
-        internal static readonly ushort[] ud_itab__60 = {
+        internal static readonly UInt16[] udItab60 = {
           /* 00 */        1597,     INVALID,     INVALID,        1598,
         };
 
-        internal static readonly ushort[] ud_itab__61 = {
+        internal static readonly UInt16[] udItab61 = {
           /* 00 */        1600,     INVALID,     INVALID,        1601,
         };
 
-        internal static readonly ushort[] ud_itab__62 = {
+        internal static readonly UInt16[] udItab62 = {
           /* 00 */        1603,     INVALID,     INVALID,        1604,
         };
 
-        internal static readonly ushort[] ud_itab__63 = {
+        internal static readonly UInt16[] udItab63 = {
           /* 00 */        1606,     INVALID,     INVALID,        1607,
         };
 
-        internal static readonly ushort[] ud_itab__64 = {
+        internal static readonly UInt16[] udItab64 = {
           /* 00 */        1612,     INVALID,     INVALID,        1613,
         };
 
-        internal static readonly ushort[] ud_itab__65 = {
+        internal static readonly UInt16[] udItab65 = {
           /* 00 */        1609,     INVALID,     INVALID,        1610,
         };
 
-        internal static readonly ushort[] ud_itab__66 = {
+        internal static readonly UInt16[] udItab66 = {
           /* 00 */        1615,     INVALID,     INVALID,        1616,
         };
 
-        internal static readonly ushort[] ud_itab__67 = {
+        internal static readonly UInt16[] udItab67 = {
           /* 00 */     INVALID,     INVALID,     INVALID,        1621,
         };
 
-        internal static readonly ushort[] ud_itab__68 = {
+        internal static readonly UInt16[] udItab68 = {
           /* 00 */     INVALID,     INVALID,     INVALID,        1657,
         };
 
-        internal static readonly ushort[] ud_itab__69 = {
+        internal static readonly UInt16[] udItab69 = {
           /* 00 */     INVALID,     INVALID,     INVALID,        1656,
         };
 
-        internal static readonly ushort[] ud_itab__70 = {
+        internal static readonly UInt16[] udItab70 = {
           /* 00 */     INVALID,     INVALID,     INVALID,        1711,
         };
 
-        internal static readonly ushort[] ud_itab__71 = {
+        internal static readonly UInt16[] udItab71 = {
           /* 00 */        1573,     INVALID,     INVALID,        1574,
         };
 
-        internal static readonly ushort[] ud_itab__72 = {
+        internal static readonly UInt16[] udItab72 = {
           /* 00 */        1576,     INVALID,     INVALID,        1577,
         };
 
-        internal static readonly ushort[] ud_itab__73 = {
+        internal static readonly UInt16[] udItab73 = {
           /* 00 */        1579,     INVALID,     INVALID,        1580,
         };
 
-        internal static readonly ushort[] ud_itab__74 = {
+        internal static readonly UInt16[] udItab74 = {
           /* 00 */     INVALID,     INVALID,     INVALID,        1685,
         };
 
-        internal static readonly ushort[] ud_itab__75 = {
+        internal static readonly UInt16[] udItab75 = {
           /* 00 */     INVALID,     INVALID,     INVALID,        1687,
         };
 
-        internal static readonly ushort[] ud_itab__76 = {
+        internal static readonly UInt16[] udItab76 = {
           /* 00 */     INVALID,     INVALID,     INVALID,        1689,
         };
 
-        internal static readonly ushort[] ud_itab__77 = {
+        internal static readonly UInt16[] udItab77 = {
           /* 00 */     INVALID,     INVALID,     INVALID,        1691,
         };
 
-        internal static readonly ushort[] ud_itab__78 = {
+        internal static readonly UInt16[] udItab78 = {
           /* 00 */     INVALID,     INVALID,     INVALID,        1693,
         };
 
-        internal static readonly ushort[] ud_itab__79 = {
+        internal static readonly UInt16[] udItab79 = {
           /* 00 */     INVALID,     INVALID,     INVALID,        1695,
         };
 
-        internal static readonly ushort[] ud_itab__80 = {
+        internal static readonly UInt16[] udItab80 = {
           /* 00 */     INVALID,     INVALID,     INVALID,        1622,
         };
 
-        internal static readonly ushort[] ud_itab__81 = {
+        internal static readonly UInt16[] udItab81 = {
           /* 00 */     INVALID,     INVALID,     INVALID,        1708,
         };
 
-        internal static readonly ushort[] ud_itab__82 = {
+        internal static readonly UInt16[] udItab82 = {
           /* 00 */     INVALID,     INVALID,     INVALID,        1681,
         };
 
-        internal static readonly ushort[] ud_itab__83 = {
+        internal static readonly UInt16[] udItab83 = {
           /* 00 */     INVALID,     INVALID,     INVALID,        1683,
         };
 
-        internal static readonly ushort[] ud_itab__84 = {
+        internal static readonly UInt16[] udItab84 = {
           /* 00 */     INVALID,     INVALID,     INVALID,        1696,
         };
 
-        internal static readonly ushort[] ud_itab__85 = {
+        internal static readonly UInt16[] udItab85 = {
           /* 00 */     INVALID,     INVALID,     INVALID,        1698,
         };
 
-        internal static readonly ushort[] ud_itab__86 = {
+        internal static readonly UInt16[] udItab86 = {
           /* 00 */     INVALID,     INVALID,     INVALID,        1700,
         };
 
-        internal static readonly ushort[] ud_itab__87 = {
+        internal static readonly UInt16[] udItab87 = {
           /* 00 */     INVALID,     INVALID,     INVALID,        1702,
         };
 
-        internal static readonly ushort[] ud_itab__88 = {
+        internal static readonly UInt16[] udItab88 = {
           /* 00 */     INVALID,     INVALID,     INVALID,        1704,
         };
 
-        internal static readonly ushort[] ud_itab__89 = {
+        internal static readonly UInt16[] udItab89 = {
           /* 00 */     INVALID,     INVALID,     INVALID,        1706,
         };
 
-        internal static readonly ushort[] ud_itab__90 = {
+        internal static readonly UInt16[] udItab90 = {
           /* 00 */     INVALID,     INVALID,     INVALID,        1717,
         };
 
-        internal static readonly ushort[] ud_itab__91 = {
+        internal static readonly UInt16[] udItab91 = {
           /* 00 */     INVALID,     INVALID,     INVALID,        1624,
         };
 
-        internal static readonly ushort[] ud_itab__92 = {
+        internal static readonly UInt16[] udItab92 = {
           /* 00 */     INVALID,     INVALID,     INVALID,        1626,
         };
 
-        internal static readonly ushort[] ud_itab__93 = {
+        internal static readonly UInt16[] udItab93 = {
           /* 00 */     INVALID,     INVALID,     INVALID,        1628,
         };
 
-        internal static readonly ushort[] ud_itab__94 = {
+        internal static readonly UInt16[] udItab94 = {
           /* 00 */     INVALID,     INVALID,     INVALID,        1630,
         };
 
-        internal static readonly ushort[] ud_itab__95 = {
+        internal static readonly UInt16[] udItab95 = {
           /* 00 */     INVALID,     INVALID,     INVALID,        1632,
         };
 
-        internal static readonly ushort[] ud_itab__96 = {
+        internal static readonly UInt16[] udItab96 = {
           /* 00 */     INVALID,     INVALID,     INVALID,        1634,
         };
 
-        internal static readonly ushort[] ud_itab__97 = {
+        internal static readonly UInt16[] udItab97 = {
           /* 00 */     INVALID,     INVALID,     INVALID,        1638,
         };
 
-        internal static readonly ushort[] ud_itab__98 = {
+        internal static readonly UInt16[] udItab98 = {
           /* 00 */     INVALID,     INVALID,     INVALID,        1636,
         };
 
-        internal static readonly ushort[] ud_itab__99 = {
+        internal static readonly UInt16[] udItab99 = {
           /* 00 */     INVALID,     INVALID,     INVALID,        1640,
         };
 
-        internal static readonly ushort[] ud_itab__100 = {
+        internal static readonly UInt16[] udItab100 = {
           /* 00 */     INVALID,     INVALID,     INVALID,        1642,
         };
 
-        internal static readonly ushort[] ud_itab__101 = {
+        internal static readonly UInt16[] udItab101 = {
           /* 00 */     INVALID,     INVALID,     INVALID,  0x8000|102,
         };
 
-        internal static readonly ushort[] ud_itab__102 = {
+        internal static readonly UInt16[] udItab102 = {
           /* 00 */  0x8000|103,  0x8000|104,
         };
 
-        internal static readonly ushort[] ud_itab__103 = {
+        internal static readonly UInt16[] udItab103 = {
           /* 00 */     INVALID,         717,     INVALID,
         };
 
-        internal static readonly ushort[] ud_itab__104 = {
+        internal static readonly UInt16[] udItab104 = {
           /* 00 */     INVALID,         718,     INVALID,
         };
 
-        internal static readonly ushort[] ud_itab__105 = {
+        internal static readonly UInt16[] udItab105 = {
           /* 00 */     INVALID,     INVALID,     INVALID,  0x8000|106,
         };
 
-        internal static readonly ushort[] ud_itab__106 = {
+        internal static readonly UInt16[] udItab106 = {
           /* 00 */  0x8000|107,  0x8000|108,
         };
 
-        internal static readonly ushort[] ud_itab__107 = {
+        internal static readonly UInt16[] udItab107 = {
           /* 00 */     INVALID,         721,     INVALID,
         };
 
-        internal static readonly ushort[] ud_itab__108 = {
+        internal static readonly UInt16[] udItab108 = {
           /* 00 */     INVALID,         722,     INVALID,
         };
 
-        internal static readonly ushort[] ud_itab__109 = {
+        internal static readonly UInt16[] udItab109 = {
           /* 00 */     INVALID,     INVALID,     INVALID,          45,
         };
 
-        internal static readonly ushort[] ud_itab__110 = {
+        internal static readonly UInt16[] udItab110 = {
           /* 00 */     INVALID,     INVALID,     INVALID,          41,
         };
 
-        internal static readonly ushort[] ud_itab__111 = {
+        internal static readonly UInt16[] udItab111 = {
           /* 00 */     INVALID,     INVALID,     INVALID,          43,
         };
 
-        internal static readonly ushort[] ud_itab__112 = {
+        internal static readonly UInt16[] udItab112 = {
           /* 00 */     INVALID,     INVALID,     INVALID,          37,
         };
 
-        internal static readonly ushort[] ud_itab__113 = {
+        internal static readonly UInt16[] udItab113 = {
           /* 00 */     INVALID,     INVALID,     INVALID,          39,
         };
 
-        internal static readonly ushort[] ud_itab__114 = {
+        internal static readonly UInt16[] udItab114 = {
           /* 00 */        1723,        1725,     INVALID,     INVALID,
         };
 
-        internal static readonly ushort[] ud_itab__115 = {
+        internal static readonly UInt16[] udItab115 = {
           /* 00 */        1724,        1726,     INVALID,     INVALID,
         };
 
-        internal static readonly ushort[] ud_itab__116 = {
+        internal static readonly UInt16[] udItab116 = {
           /* 00 */     INVALID,     INVALID,     INVALID,     INVALID,
           /* 04 */     INVALID,     INVALID,     INVALID,     INVALID,
           /* 08 */  0x8000|117,  0x8000|118,  0x8000|119,  0x8000|120,
@@ -1734,911 +1735,911 @@
           /* fc */     INVALID,     INVALID,     INVALID,     INVALID,
         };
 
-        internal static readonly ushort[] ud_itab__117 = {
+        internal static readonly UInt16[] udItab117 = {
           /* 00 */     INVALID,     INVALID,     INVALID,        1644,
         };
 
-        internal static readonly ushort[] ud_itab__118 = {
+        internal static readonly UInt16[] udItab118 = {
           /* 00 */     INVALID,     INVALID,     INVALID,        1646,
         };
 
-        internal static readonly ushort[] ud_itab__119 = {
+        internal static readonly UInt16[] udItab119 = {
           /* 00 */     INVALID,     INVALID,     INVALID,        1648,
         };
 
-        internal static readonly ushort[] ud_itab__120 = {
+        internal static readonly UInt16[] udItab120 = {
           /* 00 */     INVALID,     INVALID,     INVALID,        1650,
         };
 
-        internal static readonly ushort[] ud_itab__121 = {
+        internal static readonly UInt16[] udItab121 = {
           /* 00 */     INVALID,     INVALID,     INVALID,        1654,
         };
 
-        internal static readonly ushort[] ud_itab__122 = {
+        internal static readonly UInt16[] udItab122 = {
           /* 00 */     INVALID,     INVALID,     INVALID,        1652,
         };
 
-        internal static readonly ushort[] ud_itab__123 = {
+        internal static readonly UInt16[] udItab123 = {
           /* 00 */     INVALID,     INVALID,     INVALID,        1677,
         };
 
-        internal static readonly ushort[] ud_itab__124 = {
+        internal static readonly UInt16[] udItab124 = {
           /* 00 */        1618,     INVALID,     INVALID,        1619,
         };
 
-        internal static readonly ushort[] ud_itab__125 = {
+        internal static readonly UInt16[] udItab125 = {
           /* 00 */     INVALID,     INVALID,     INVALID,        1045,
         };
 
-        internal static readonly ushort[] ud_itab__126 = {
+        internal static readonly UInt16[] udItab126 = {
           /* 00 */     INVALID,     INVALID,     INVALID,        1056,
         };
 
-        internal static readonly ushort[] ud_itab__127 = {
+        internal static readonly UInt16[] udItab127 = {
           /* 00 */     INVALID,     INVALID,     INVALID,  0x8000|128,
         };
 
-        internal static readonly ushort[] ud_itab__128 = {
+        internal static readonly UInt16[] udItab128 = {
           /* 00 */        1047,        1049,        1051,
         };
 
-        internal static readonly ushort[] ud_itab__129 = {
+        internal static readonly UInt16[] udItab129 = {
           /* 00 */     INVALID,     INVALID,     INVALID,         201,
         };
 
-        internal static readonly ushort[] ud_itab__130 = {
+        internal static readonly UInt16[] udItab130 = {
           /* 00 */     INVALID,     INVALID,     INVALID,        1058,
         };
 
-        internal static readonly ushort[] ud_itab__131 = {
+        internal static readonly UInt16[] udItab131 = {
           /* 00 */     INVALID,     INVALID,     INVALID,        1557,
         };
 
-        internal static readonly ushort[] ud_itab__132 = {
+        internal static readonly UInt16[] udItab132 = {
           /* 00 */     INVALID,     INVALID,     INVALID,  0x8000|133,
         };
 
-        internal static readonly ushort[] ud_itab__133 = {
+        internal static readonly UInt16[] udItab133 = {
           /* 00 */        1062,        1063,        1064,
         };
 
-        internal static readonly ushort[] ud_itab__134 = {
+        internal static readonly UInt16[] udItab134 = {
           /* 00 */     INVALID,     INVALID,     INVALID,         197,
         };
 
-        internal static readonly ushort[] ud_itab__135 = {
+        internal static readonly UInt16[] udItab135 = {
           /* 00 */     INVALID,     INVALID,     INVALID,         195,
         };
 
-        internal static readonly ushort[] ud_itab__136 = {
+        internal static readonly UInt16[] udItab136 = {
           /* 00 */     INVALID,     INVALID,     INVALID,        1679,
         };
 
-        internal static readonly ushort[] ud_itab__137 = {
+        internal static readonly UInt16[] udItab137 = {
           /* 00 */     INVALID,     INVALID,     INVALID,        1512,
         };
 
-        internal static readonly ushort[] ud_itab__138 = {
+        internal static readonly UInt16[] udItab138 = {
           /* 00 */     INVALID,     INVALID,     INVALID,        1715,
         };
 
-        internal static readonly ushort[] ud_itab__139 = {
+        internal static readonly UInt16[] udItab139 = {
           /* 00 */     INVALID,     INVALID,     INVALID,        1713,
         };
 
-        internal static readonly ushort[] ud_itab__140 = {
+        internal static readonly UInt16[] udItab140 = {
           /* 00 */     INVALID,     INVALID,     INVALID,        1721,
         };
 
-        internal static readonly ushort[] ud_itab__141 = {
+        internal static readonly UInt16[] udItab141 = {
           /* 00 */     INVALID,     INVALID,     INVALID,        1719,
         };
 
-        internal static readonly ushort[] ud_itab__142 = {
+        internal static readonly UInt16[] udItab142 = {
           /* 00 */     INVALID,     INVALID,     INVALID,          47,
         };
 
-        internal static readonly ushort[] ud_itab__143 = {
+        internal static readonly UInt16[] udItab143 = {
           /* 00 */         900,     INVALID,     INVALID,         898,
         };
 
-        internal static readonly ushort[] ud_itab__144 = {
+        internal static readonly UInt16[] udItab144 = {
           /* 00 */        1387,        1391,        1393,        1389,
         };
 
-        internal static readonly ushort[] ud_itab__145 = {
+        internal static readonly UInt16[] udItab145 = {
           /* 00 */        1306,     INVALID,        1308,     INVALID,
         };
 
-        internal static readonly ushort[] ud_itab__146 = {
+        internal static readonly UInt16[] udItab146 = {
           /* 00 */        1291,     INVALID,        1293,     INVALID,
         };
 
-        internal static readonly ushort[] ud_itab__147 = {
+        internal static readonly UInt16[] udItab147 = {
           /* 00 */          61,     INVALID,     INVALID,          59,
         };
 
-        internal static readonly ushort[] ud_itab__148 = {
+        internal static readonly UInt16[] udItab148 = {
           /* 00 */          65,     INVALID,     INVALID,          63,
         };
 
-        internal static readonly ushort[] ud_itab__149 = {
+        internal static readonly UInt16[] udItab149 = {
           /* 00 */         976,     INVALID,     INVALID,         974,
         };
 
-        internal static readonly ushort[] ud_itab__150 = {
+        internal static readonly UInt16[] udItab150 = {
           /* 00 */        1499,     INVALID,     INVALID,        1497,
         };
 
-        internal static readonly ushort[] ud_itab__151 = {
+        internal static readonly UInt16[] udItab151 = {
           /* 00 */          27,          29,          31,          25,
         };
 
-        internal static readonly ushort[] ud_itab__152 = {
+        internal static readonly UInt16[] udItab152 = {
           /* 00 */         946,         948,         950,         944,
         };
 
-        internal static readonly ushort[] ud_itab__153 = {
+        internal static readonly UInt16[] udItab153 = {
           /* 00 */         145,         150,         156,         139,
         };
 
-        internal static readonly ushort[] ud_itab__154 = {
+        internal static readonly UInt16[] udItab154 = {
           /* 00 */         134,     INVALID,         163,         143,
         };
 
-        internal static readonly ushort[] ud_itab__155 = {
+        internal static readonly UInt16[] udItab155 = {
           /* 00 */        1419,        1421,        1423,        1417,
         };
 
-        internal static readonly ushort[] ud_itab__156 = {
+        internal static readonly UInt16[] udItab156 = {
           /* 00 */         818,         820,         822,         816,
         };
 
-        internal static readonly ushort[] ud_itab__157 = {
+        internal static readonly UInt16[] udItab157 = {
           /* 00 */         189,         191,         193,         187,
         };
 
-        internal static readonly ushort[] ud_itab__158 = {
+        internal static readonly UInt16[] udItab158 = {
           /* 00 */         802,         804,         806,         800,
         };
 
-        internal static readonly ushort[] ud_itab__159 = {
+        internal static readonly UInt16[] udItab159 = {
           /* 00 */        1209,     INVALID,     INVALID,        1207,
         };
 
-        internal static readonly ushort[] ud_itab__160 = {
+        internal static readonly UInt16[] udItab160 = {
           /* 00 */        1212,     INVALID,     INVALID,        1210,
         };
 
-        internal static readonly ushort[] ud_itab__161 = {
+        internal static readonly UInt16[] udItab161 = {
           /* 00 */        1215,     INVALID,     INVALID,        1213,
         };
 
-        internal static readonly ushort[] ud_itab__162 = {
+        internal static readonly UInt16[] udItab162 = {
           /* 00 */         987,     INVALID,     INVALID,         985,
         };
 
-        internal static readonly ushort[] ud_itab__163 = {
+        internal static readonly UInt16[] udItab163 = {
           /* 00 */        1038,     INVALID,     INVALID,        1036,
         };
 
-        internal static readonly ushort[] ud_itab__164 = {
+        internal static readonly UInt16[] udItab164 = {
           /* 00 */        1041,     INVALID,     INVALID,        1039,
         };
 
-        internal static readonly ushort[] ud_itab__165 = {
+        internal static readonly UInt16[] udItab165 = {
           /* 00 */        1044,     INVALID,     INVALID,        1042,
         };
 
-        internal static readonly ushort[] ud_itab__166 = {
+        internal static readonly UInt16[] udItab166 = {
           /* 00 */         993,     INVALID,     INVALID,         991,
         };
 
-        internal static readonly ushort[] ud_itab__167 = {
+        internal static readonly UInt16[] udItab167 = {
           /* 00 */        1200,     INVALID,     INVALID,        1198,
         };
 
-        internal static readonly ushort[] ud_itab__168 = {
+        internal static readonly UInt16[] udItab168 = {
           /* 00 */        1203,     INVALID,     INVALID,        1201,
         };
 
-        internal static readonly ushort[] ud_itab__169 = {
+        internal static readonly UInt16[] udItab169 = {
           /* 00 */        1206,     INVALID,     INVALID,        1204,
         };
 
-        internal static readonly ushort[] ud_itab__170 = {
+        internal static readonly UInt16[] udItab170 = {
           /* 00 */         990,     INVALID,     INVALID,         988,
         };
 
-        internal static readonly ushort[] ud_itab__171 = {
+        internal static readonly UInt16[] udItab171 = {
           /* 00 */     INVALID,     INVALID,     INVALID,        1547,
         };
 
-        internal static readonly ushort[] ud_itab__172 = {
+        internal static readonly UInt16[] udItab172 = {
           /* 00 */     INVALID,     INVALID,     INVALID,        1545,
         };
 
-        internal static readonly ushort[] ud_itab__173 = {
+        internal static readonly UInt16[] udItab173 = {
           /* 00 */  0x8000|174,     INVALID,     INVALID,  0x8000|175,
         };
 
-        internal static readonly ushort[] ud_itab__174 = {
+        internal static readonly UInt16[] udItab174 = {
           /* 00 */         866,         867,         910,
         };
 
-        internal static readonly ushort[] ud_itab__175 = {
+        internal static readonly UInt16[] udItab175 = {
           /* 00 */         868,         870,         911,
         };
 
-        internal static readonly ushort[] ud_itab__176 = {
+        internal static readonly UInt16[] udItab176 = {
           /* 00 */         920,     INVALID,        1522,        1517,
         };
 
-        internal static readonly ushort[] ud_itab__177 = {
+        internal static readonly UInt16[] udItab177 = {
           /* 00 */        1134,        1537,        1535,        1539,
         };
 
-        internal static readonly ushort[] ud_itab__178 = {
+        internal static readonly UInt16[] udItab178 = {
           /* 00 */     INVALID,     INVALID,  0x8000|179,     INVALID,
           /* 04 */  0x8000|180,     INVALID,  0x8000|181,     INVALID,
         };
 
-        internal static readonly ushort[] ud_itab__179 = {
+        internal static readonly UInt16[] udItab179 = {
           /* 00 */        1159,     INVALID,     INVALID,        1163,
         };
 
-        internal static readonly ushort[] ud_itab__180 = {
+        internal static readonly UInt16[] udItab180 = {
           /* 00 */        1152,     INVALID,     INVALID,        1150,
         };
 
-        internal static readonly ushort[] ud_itab__181 = {
+        internal static readonly UInt16[] udItab181 = {
           /* 00 */        1138,     INVALID,     INVALID,        1137,
         };
 
-        internal static readonly ushort[] ud_itab__182 = {
+        internal static readonly UInt16[] udItab182 = {
           /* 00 */     INVALID,     INVALID,  0x8000|183,     INVALID,
           /* 04 */  0x8000|184,     INVALID,  0x8000|185,     INVALID,
         };
 
-        internal static readonly ushort[] ud_itab__183 = {
+        internal static readonly UInt16[] udItab183 = {
           /* 00 */        1165,     INVALID,     INVALID,        1169,
         };
 
-        internal static readonly ushort[] ud_itab__184 = {
+        internal static readonly UInt16[] udItab184 = {
           /* 00 */        1153,     INVALID,     INVALID,        1157,
         };
 
-        internal static readonly ushort[] ud_itab__185 = {
+        internal static readonly UInt16[] udItab185 = {
           /* 00 */        1142,     INVALID,     INVALID,        1141,
         };
 
-        internal static readonly ushort[] ud_itab__186 = {
+        internal static readonly UInt16[] udItab186 = {
           /* 00 */     INVALID,     INVALID,  0x8000|187,  0x8000|188,
           /* 04 */     INVALID,     INVALID,  0x8000|189,  0x8000|190,
         };
 
-        internal static readonly ushort[] ud_itab__187 = {
+        internal static readonly UInt16[] udItab187 = {
           /* 00 */        1171,     INVALID,     INVALID,        1175,
         };
 
-        internal static readonly ushort[] ud_itab__188 = {
+        internal static readonly UInt16[] udItab188 = {
           /* 00 */     INVALID,     INVALID,     INVALID,        1543,
         };
 
-        internal static readonly ushort[] ud_itab__189 = {
+        internal static readonly UInt16[] udItab189 = {
           /* 00 */        1146,     INVALID,     INVALID,        1145,
         };
 
-        internal static readonly ushort[] ud_itab__190 = {
+        internal static readonly UInt16[] udItab190 = {
           /* 00 */     INVALID,     INVALID,     INVALID,        1541,
         };
 
-        internal static readonly ushort[] ud_itab__191 = {
+        internal static readonly UInt16[] udItab191 = {
           /* 00 */        1027,     INVALID,     INVALID,        1028,
         };
 
-        internal static readonly ushort[] ud_itab__192 = {
+        internal static readonly UInt16[] udItab192 = {
           /* 00 */        1030,     INVALID,     INVALID,        1031,
         };
 
-        internal static readonly ushort[] ud_itab__193 = {
+        internal static readonly UInt16[] udItab193 = {
           /* 00 */        1033,     INVALID,     INVALID,        1034,
         };
 
-        internal static readonly ushort[] ud_itab__194 = {
+        internal static readonly UInt16[] udItab194 = {
           /* 00 */     INVALID,        1464,     INVALID,
         };
 
-        internal static readonly ushort[] ud_itab__195 = {
+        internal static readonly UInt16[] udItab195 = {
           /* 00 */     INVALID,        1465,     INVALID,
         };
 
-        internal static readonly ushort[] ud_itab__196 = {
+        internal static readonly UInt16[] udItab196 = {
           /* 00 */     INVALID,        1551,     INVALID,        1549,
         };
 
-        internal static readonly ushort[] ud_itab__197 = {
+        internal static readonly UInt16[] udItab197 = {
           /* 00 */     INVALID,        1555,     INVALID,        1553,
         };
 
-        internal static readonly ushort[] ud_itab__198 = {
+        internal static readonly UInt16[] udItab198 = {
           /* 00 */  0x8000|199,     INVALID,         916,  0x8000|200,
         };
 
-        internal static readonly ushort[] ud_itab__199 = {
+        internal static readonly UInt16[] udItab199 = {
           /* 00 */         872,         873,         913,
         };
 
-        internal static readonly ushort[] ud_itab__200 = {
+        internal static readonly UInt16[] udItab200 = {
           /* 00 */         874,         876,         914,
         };
 
-        internal static readonly ushort[] ud_itab__201 = {
+        internal static readonly UInt16[] udItab201 = {
           /* 00 */         921,     INVALID,        1524,        1515,
         };
 
-        internal static readonly ushort[] ud_itab__202 = {
+        internal static readonly UInt16[] udItab202 = {
           /* 00 */     INVALID,  0x8000|203,
         };
 
-        internal static readonly ushort[] ud_itab__203 = {
+        internal static readonly UInt16[] udItab203 = {
           /* 00 */  0x8000|204,  0x8000|205,  0x8000|206,     INVALID,
           /* 04 */     INVALID,     INVALID,     INVALID,     INVALID,
         };
 
-        internal static readonly ushort[] ud_itab__204 = {
+        internal static readonly UInt16[] udItab204 = {
           /* 00 */         825,     INVALID,     INVALID,     INVALID,
           /* 04 */     INVALID,     INVALID,     INVALID,     INVALID,
         };
 
-        internal static readonly ushort[] ud_itab__205 = {
+        internal static readonly UInt16[] udItab205 = {
           /* 00 */        1509,     INVALID,     INVALID,     INVALID,
           /* 04 */     INVALID,     INVALID,     INVALID,     INVALID,
         };
 
-        internal static readonly ushort[] ud_itab__206 = {
+        internal static readonly UInt16[] udItab206 = {
           /* 00 */        1510,     INVALID,     INVALID,     INVALID,
           /* 04 */     INVALID,     INVALID,     INVALID,     INVALID,
         };
 
-        internal static readonly ushort[] ud_itab__207 = {
+        internal static readonly UInt16[] udItab207 = {
           /* 00 */     INVALID,  0x8000|208,
         };
 
-        internal static readonly ushort[] ud_itab__208 = {
+        internal static readonly UInt16[] udItab208 = {
           /* 00 */  0x8000|209,  0x8000|210,  0x8000|211,  0x8000|212,
           /* 04 */  0x8000|213,  0x8000|214,     INVALID,     INVALID,
         };
 
-        internal static readonly ushort[] ud_itab__209 = {
+        internal static readonly UInt16[] udItab209 = {
           /* 00 */        1511,     INVALID,     INVALID,     INVALID,
           /* 04 */     INVALID,     INVALID,     INVALID,     INVALID,
         };
 
-        internal static readonly ushort[] ud_itab__210 = {
+        internal static readonly UInt16[] udItab210 = {
           /* 00 */        1501,     INVALID,     INVALID,     INVALID,
           /* 04 */     INVALID,     INVALID,     INVALID,     INVALID,
         };
 
-        internal static readonly ushort[] ud_itab__211 = {
+        internal static readonly UInt16[] udItab211 = {
           /* 00 */        1502,     INVALID,     INVALID,     INVALID,
           /* 04 */     INVALID,     INVALID,     INVALID,     INVALID,
         };
 
-        internal static readonly ushort[] ud_itab__212 = {
+        internal static readonly UInt16[] udItab212 = {
           /* 00 */        1503,     INVALID,     INVALID,     INVALID,
           /* 04 */     INVALID,     INVALID,     INVALID,     INVALID,
         };
 
-        internal static readonly ushort[] ud_itab__213 = {
+        internal static readonly UInt16[] udItab213 = {
           /* 00 */        1504,     INVALID,     INVALID,     INVALID,
           /* 04 */     INVALID,     INVALID,     INVALID,     INVALID,
         };
 
-        internal static readonly ushort[] ud_itab__214 = {
+        internal static readonly UInt16[] udItab214 = {
           /* 00 */        1505,     INVALID,     INVALID,     INVALID,
           /* 04 */     INVALID,     INVALID,     INVALID,     INVALID,
         };
 
-        internal static readonly ushort[] ud_itab__215 = {
+        internal static readonly UInt16[] udItab215 = {
           /* 00 */  0x8000|216,  0x8000|217,
         };
 
-        internal static readonly ushort[] ud_itab__216 = {
+        internal static readonly UInt16[] udItab216 = {
           /* 00 */         683,         682,         768,        1400,
           /* 04 */        1507,        1506,     INVALID,          79,
         };
 
-        internal static readonly ushort[] ud_itab__217 = {
+        internal static readonly UInt16[] udItab217 = {
           /* 00 */     INVALID,     INVALID,     INVALID,     INVALID,
           /* 04 */     INVALID,  0x8000|218,  0x8000|219,  0x8000|220,
         };
 
-        internal static readonly ushort[] ud_itab__218 = {
+        internal static readonly UInt16[] udItab218 = {
           /* 00 */         777,         778,         779,         780,
           /* 04 */         781,         782,         783,         784,
         };
 
-        internal static readonly ushort[] ud_itab__219 = {
+        internal static readonly UInt16[] udItab219 = {
           /* 00 */         808,         809,         810,         811,
           /* 04 */         812,         813,         814,         815,
         };
 
-        internal static readonly ushort[] ud_itab__220 = {
+        internal static readonly UInt16[] udItab220 = {
           /* 00 */        1366,        1367,        1368,        1369,
           /* 04 */        1370,        1371,        1372,        1373,
         };
 
-        internal static readonly ushort[] ud_itab__221 = {
+        internal static readonly UInt16[] udItab221 = {
           /* 00 */     INVALID,     INVALID,        1710,     INVALID,
         };
 
-        internal static readonly ushort[] ud_itab__222 = {
+        internal static readonly UInt16[] udItab222 = {
           /* 00 */     INVALID,     INVALID,     INVALID,     INVALID,
           /* 04 */        1669,        1676,        1674,        1672,
         };
 
-        internal static readonly ushort[] ud_itab__223 = {
+        internal static readonly UInt16[] udItab223 = {
           /* 00 */         112,         117,         120,         110,
         };
 
-        internal static readonly ushort[] ud_itab__224 = {
+        internal static readonly UInt16[] udItab224 = {
           /* 00 */        1059,     INVALID,     INVALID,        1060,
         };
 
-        internal static readonly ushort[] ud_itab__225 = {
+        internal static readonly UInt16[] udItab225 = {
           /* 00 */        1055,     INVALID,     INVALID,        1053,
         };
 
-        internal static readonly ushort[] ud_itab__226 = {
+        internal static readonly UInt16[] udItab226 = {
           /* 00 */        1381,     INVALID,     INVALID,        1379,
         };
 
-        internal static readonly ushort[] ud_itab__227 = {
+        internal static readonly UInt16[] udItab227 = {
           /* 00 */  0x8000|228,  0x8000|235,
         };
 
-        internal static readonly ushort[] ud_itab__228 = {
+        internal static readonly UInt16[] udItab228 = {
           /* 00 */     INVALID,  0x8000|229,     INVALID,     INVALID,
           /* 04 */     INVALID,     INVALID,  0x8000|230,  0x8000|234,
         };
 
-        internal static readonly ushort[] ud_itab__229 = {
+        internal static readonly UInt16[] udItab229 = {
           /* 00 */         124,         125,         126,
         };
 
-        internal static readonly ushort[] ud_itab__230 = {
+        internal static readonly UInt16[] udItab230 = {
           /* 00 */  0x8000|231,     INVALID,  0x8000|232,  0x8000|233,
         };
 
-        internal static readonly ushort[] ud_itab__231 = {
+        internal static readonly UInt16[] udItab231 = {
           /* 00 */     INVALID,        1459,     INVALID,
         };
 
-        internal static readonly ushort[] ud_itab__232 = {
+        internal static readonly UInt16[] udItab232 = {
           /* 00 */     INVALID,        1458,     INVALID,
         };
 
-        internal static readonly ushort[] ud_itab__233 = {
+        internal static readonly UInt16[] udItab233 = {
           /* 00 */     INVALID,        1457,     INVALID,
         };
 
-        internal static readonly ushort[] ud_itab__234 = {
+        internal static readonly UInt16[] udItab234 = {
           /* 00 */     INVALID,        1460,     INVALID,
         };
 
-        internal static readonly ushort[] ud_itab__235 = {
+        internal static readonly UInt16[] udItab235 = {
           /* 00 */     INVALID,     INVALID,     INVALID,     INVALID,
           /* 04 */     INVALID,     INVALID,        1456,     INVALID,
         };
 
-        internal static readonly ushort[] ud_itab__236 = {
+        internal static readonly UInt16[] udItab236 = {
           /* 00 */     INVALID,          35,     INVALID,          33,
         };
 
-        internal static readonly ushort[] ud_itab__237 = {
+        internal static readonly UInt16[] udItab237 = {
           /* 00 */        1160,     INVALID,     INVALID,        1161,
         };
 
-        internal static readonly ushort[] ud_itab__238 = {
+        internal static readonly UInt16[] udItab238 = {
           /* 00 */        1166,     INVALID,     INVALID,        1167,
         };
 
-        internal static readonly ushort[] ud_itab__239 = {
+        internal static readonly UInt16[] udItab239 = {
           /* 00 */        1172,     INVALID,     INVALID,        1173,
         };
 
-        internal static readonly ushort[] ud_itab__240 = {
+        internal static readonly UInt16[] udItab240 = {
           /* 00 */        1527,     INVALID,     INVALID,        1528,
         };
 
-        internal static readonly ushort[] ud_itab__241 = {
+        internal static readonly UInt16[] udItab241 = {
           /* 00 */        1093,     INVALID,     INVALID,        1094,
         };
 
-        internal static readonly ushort[] ud_itab__242 = {
+        internal static readonly UInt16[] udItab242 = {
           /* 00 */     INVALID,        1521,        1526,         918,
         };
 
-        internal static readonly ushort[] ud_itab__243 = {
+        internal static readonly UInt16[] udItab243 = {
           /* 00 */        1086,     INVALID,     INVALID,        1084,
         };
 
-        internal static readonly ushort[] ud_itab__244 = {
+        internal static readonly UInt16[] udItab244 = {
           /* 00 */        1192,     INVALID,     INVALID,        1193,
         };
 
-        internal static readonly ushort[] ud_itab__245 = {
+        internal static readonly UInt16[] udItab245 = {
           /* 00 */        1195,     INVALID,     INVALID,        1196,
         };
 
-        internal static readonly ushort[] ud_itab__246 = {
+        internal static readonly UInt16[] udItab246 = {
           /* 00 */        1083,     INVALID,     INVALID,        1081,
         };
 
-        internal static readonly ushort[] ud_itab__247 = {
+        internal static readonly UInt16[] udItab247 = {
           /* 00 */        1017,     INVALID,     INVALID,        1015,
         };
 
-        internal static readonly ushort[] ud_itab__248 = {
+        internal static readonly UInt16[] udItab248 = {
           /* 00 */        1009,     INVALID,     INVALID,        1010,
         };
 
-        internal static readonly ushort[] ud_itab__249 = {
+        internal static readonly UInt16[] udItab249 = {
           /* 00 */        1012,     INVALID,     INVALID,        1013,
         };
 
-        internal static readonly ushort[] ud_itab__250 = {
+        internal static readonly UInt16[] udItab250 = {
           /* 00 */        1075,     INVALID,     INVALID,        1076,
         };
 
-        internal static readonly ushort[] ud_itab__251 = {
+        internal static readonly UInt16[] udItab251 = {
           /* 00 */        1020,     INVALID,     INVALID,        1018,
         };
 
-        internal static readonly ushort[] ud_itab__252 = {
+        internal static readonly UInt16[] udItab252 = {
           /* 00 */        1023,     INVALID,     INVALID,        1021,
         };
 
-        internal static readonly ushort[] ud_itab__253 = {
+        internal static readonly UInt16[] udItab253 = {
           /* 00 */        1147,     INVALID,     INVALID,        1148,
         };
 
-        internal static readonly ushort[] ud_itab__254 = {
+        internal static readonly UInt16[] udItab254 = {
           /* 00 */        1156,     INVALID,     INVALID,        1154,
         };
 
-        internal static readonly ushort[] ud_itab__255 = {
+        internal static readonly UInt16[] udItab255 = {
           /* 00 */        1026,     INVALID,     INVALID,        1024,
         };
 
-        internal static readonly ushort[] ud_itab__256 = {
+        internal static readonly UInt16[] udItab256 = {
           /* 00 */        1087,     INVALID,     INVALID,        1088,
         };
 
-        internal static readonly ushort[] ud_itab__257 = {
+        internal static readonly UInt16[] udItab257 = {
           /* 00 */        1092,     INVALID,     INVALID,        1090,
         };
 
-        internal static readonly ushort[] ud_itab__258 = {
+        internal static readonly UInt16[] udItab258 = {
           /* 00 */     INVALID,         136,         132,         160,
         };
 
-        internal static readonly ushort[] ud_itab__259 = {
+        internal static readonly UInt16[] udItab259 = {
           /* 00 */         909,     INVALID,     INVALID,         902,
         };
 
-        internal static readonly ushort[] ud_itab__260 = {
+        internal static readonly UInt16[] udItab260 = {
           /* 00 */        1186,     INVALID,     INVALID,        1187,
         };
 
-        internal static readonly ushort[] ud_itab__261 = {
+        internal static readonly UInt16[] udItab261 = {
           /* 00 */        1189,     INVALID,     INVALID,        1190,
         };
 
-        internal static readonly ushort[] ud_itab__262 = {
+        internal static readonly UInt16[] udItab262 = {
           /* 00 */        1080,     INVALID,     INVALID,        1078,
         };
 
-        internal static readonly ushort[] ud_itab__263 = {
+        internal static readonly UInt16[] udItab263 = {
           /* 00 */        1118,     INVALID,     INVALID,        1116,
         };
 
-        internal static readonly ushort[] ud_itab__264 = {
+        internal static readonly UInt16[] udItab264 = {
           /* 00 */        1003,     INVALID,     INVALID,        1004,
         };
 
-        internal static readonly ushort[] ud_itab__265 = {
+        internal static readonly UInt16[] udItab265 = {
           /* 00 */        1006,     INVALID,     INVALID,        1007,
         };
 
-        internal static readonly ushort[] ud_itab__266 = {
+        internal static readonly UInt16[] udItab266 = {
           /* 00 */        1074,     INVALID,     INVALID,        1072,
         };
 
-        internal static readonly ushort[] ud_itab__267 = {
+        internal static readonly UInt16[] udItab267 = {
           /* 00 */        1266,     INVALID,     INVALID,        1264,
         };
 
-        internal static readonly ushort[] ud_itab__268 = {
+        internal static readonly UInt16[] udItab268 = {
           /* 00 */     INVALID,        1559,     INVALID,     INVALID,
         };
 
-        internal static readonly ushort[] ud_itab__269 = {
+        internal static readonly UInt16[] udItab269 = {
           /* 00 */        1136,     INVALID,     INVALID,        1135,
         };
 
-        internal static readonly ushort[] ud_itab__270 = {
+        internal static readonly UInt16[] udItab270 = {
           /* 00 */        1140,     INVALID,     INVALID,        1139,
         };
 
-        internal static readonly ushort[] ud_itab__271 = {
+        internal static readonly UInt16[] udItab271 = {
           /* 00 */        1144,     INVALID,     INVALID,        1143,
         };
 
-        internal static readonly ushort[] ud_itab__272 = {
+        internal static readonly UInt16[] udItab272 = {
           /* 00 */        1533,     INVALID,     INVALID,        1534,
         };
 
-        internal static readonly ushort[] ud_itab__273 = {
+        internal static readonly UInt16[] udItab273 = {
           /* 00 */        1069,     INVALID,     INVALID,        1070,
         };
 
-        internal static readonly ushort[] ud_itab__274 = {
+        internal static readonly UInt16[] udItab274 = {
           /* 00 */        1133,     INVALID,     INVALID,        1131,
         };
 
-        internal static readonly ushort[] ud_itab__275 = {
+        internal static readonly UInt16[] udItab275 = {
           /* 00 */     INVALID,  0x8000|276,
         };
 
-        internal static readonly ushort[] ud_itab__276 = {
+        internal static readonly UInt16[] udItab276 = {
           /* 00 */         799,     INVALID,     INVALID,        1519,
         };
 
-        internal static readonly ushort[] ud_itab__277 = {
+        internal static readonly UInt16[] udItab277 = {
           /* 00 */        1179,     INVALID,     INVALID,        1177,
         };
 
-        internal static readonly ushort[] ud_itab__278 = {
+        internal static readonly UInt16[] udItab278 = {
           /* 00 */        1182,     INVALID,     INVALID,        1180,
         };
 
-        internal static readonly ushort[] ud_itab__279 = {
+        internal static readonly UInt16[] udItab279 = {
           /* 00 */        1183,     INVALID,     INVALID,        1184,
         };
 
-        internal static readonly ushort[] ud_itab__280 = {
+        internal static readonly UInt16[] udItab280 = {
           /* 00 */        1532,     INVALID,     INVALID,        1530,
         };
 
-        internal static readonly ushort[] ud_itab__281 = {
+        internal static readonly UInt16[] udItab281 = {
           /* 00 */         996,     INVALID,     INVALID,         994,
         };
 
-        internal static readonly ushort[] ud_itab__282 = {
+        internal static readonly UInt16[] udItab282 = {
           /* 00 */         997,     INVALID,     INVALID,         998,
         };
 
-        internal static readonly ushort[] ud_itab__283 = {
+        internal static readonly UInt16[] udItab283 = {
           /* 00 */        1000,     INVALID,     INVALID,        1001,
         };
 
-        internal static readonly ushort[] ud_itab__284 = {
+        internal static readonly UInt16[] udItab284 = {
           /* 00 */        1242,     INVALID,
         };
 
-        internal static readonly ushort[] ud_itab__285 = {
+        internal static readonly UInt16[] udItab285 = {
           /* 00 */        1097,     INVALID,
         };
 
-        internal static readonly ushort[] ud_itab__286 = {
+        internal static readonly UInt16[] udItab286 = {
           /* 00 */        1243,     INVALID,
         };
 
-        internal static readonly ushort[] ud_itab__287 = {
+        internal static readonly UInt16[] udItab287 = {
           /* 00 */        1098,     INVALID,
         };
 
-        internal static readonly ushort[] ud_itab__288 = {
+        internal static readonly UInt16[] udItab288 = {
           /* 00 */         173,     INVALID,
         };
 
-        internal static readonly ushort[] ud_itab__289 = {
+        internal static readonly UInt16[] udItab289 = {
           /* 00 */         174,     INVALID,
         };
 
-        internal static readonly ushort[] ud_itab__290 = {
+        internal static readonly UInt16[] udItab290 = {
           /* 00 */           1,     INVALID,
         };
 
-        internal static readonly ushort[] ud_itab__291 = {
+        internal static readonly UInt16[] udItab291 = {
           /* 00 */           4,     INVALID,
         };
 
-        internal static readonly ushort[] ud_itab__292 = {
+        internal static readonly UInt16[] udItab292 = {
           /* 00 */  0x8000|293,  0x8000|294,     INVALID,
         };
 
-        internal static readonly ushort[] ud_itab__293 = {
+        internal static readonly UInt16[] udItab293 = {
           /* 00 */        1257,     INVALID,
         };
 
-        internal static readonly ushort[] ud_itab__294 = {
+        internal static readonly UInt16[] udItab294 = {
           /* 00 */        1258,     INVALID,
         };
 
-        internal static readonly ushort[] ud_itab__295 = {
+        internal static readonly UInt16[] udItab295 = {
           /* 00 */  0x8000|296,  0x8000|297,     INVALID,
         };
 
-        internal static readonly ushort[] ud_itab__296 = {
+        internal static readonly UInt16[] udItab296 = {
           /* 00 */        1110,     INVALID,
         };
 
-        internal static readonly ushort[] ud_itab__297 = {
+        internal static readonly UInt16[] udItab297 = {
           /* 00 */        1111,     INVALID,
         };
 
-        internal static readonly ushort[] ud_itab__298 = {
+        internal static readonly UInt16[] udItab298 = {
           /* 00 */        1658,     INVALID,
         };
 
-        internal static readonly ushort[] ud_itab__299 = {
+        internal static readonly UInt16[] udItab299 = {
           /* 00 */          67,          68,
         };
 
-        internal static readonly ushort[] ud_itab__300 = {
+        internal static readonly UInt16[] udItab300 = {
           /* 00 */         710,         711,     INVALID,
         };
 
-        internal static readonly ushort[] ud_itab__301 = {
+        internal static readonly UInt16[] udItab301 = {
           /* 00 */         983,         984,     INVALID,
         };
 
-        internal static readonly ushort[] ud_itab__302 = {
+        internal static readonly UInt16[] udItab302 = {
           /* 00 */          21,         970,          11,        1342,
           /* 04 */          55,        1413,        1493,         106,
         };
 
-        internal static readonly ushort[] ud_itab__303 = {
+        internal static readonly UInt16[] udItab303 = {
           /* 00 */          23,         971,          13,        1343,
           /* 04 */          57,        1414,        1494,         108,
         };
 
-        internal static readonly ushort[] ud_itab__304 = {
+        internal static readonly UInt16[] udItab304 = {
           /* 00 */  0x8000|305,  0x8000|306,  0x8000|307,  0x8000|308,
           /* 04 */  0x8000|309,  0x8000|310,  0x8000|311,  0x8000|312,
         };
 
-        internal static readonly ushort[] ud_itab__305 = {
+        internal static readonly UInt16[] udItab305 = {
           /* 00 */          22,     INVALID,
         };
 
-        internal static readonly ushort[] ud_itab__306 = {
+        internal static readonly UInt16[] udItab306 = {
           /* 00 */         972,     INVALID,
         };
 
-        internal static readonly ushort[] ud_itab__307 = {
+        internal static readonly UInt16[] udItab307 = {
           /* 00 */          12,     INVALID,
         };
 
-        internal static readonly ushort[] ud_itab__308 = {
+        internal static readonly UInt16[] udItab308 = {
           /* 00 */        1344,     INVALID,
         };
 
-        internal static readonly ushort[] ud_itab__309 = {
+        internal static readonly UInt16[] udItab309 = {
           /* 00 */          56,     INVALID,
         };
 
-        internal static readonly ushort[] ud_itab__310 = {
+        internal static readonly UInt16[] udItab310 = {
           /* 00 */        1415,     INVALID,
         };
 
-        internal static readonly ushort[] ud_itab__311 = {
+        internal static readonly UInt16[] udItab311 = {
           /* 00 */        1495,     INVALID,
         };
 
-        internal static readonly ushort[] ud_itab__312 = {
+        internal static readonly UInt16[] udItab312 = {
           /* 00 */         107,     INVALID,
         };
 
-        internal static readonly ushort[] ud_itab__313 = {
+        internal static readonly UInt16[] udItab313 = {
           /* 00 */          24,         973,          14,        1345,
           /* 04 */          58,        1416,        1496,         109,
         };
 
-        internal static readonly ushort[] ud_itab__314 = {
+        internal static readonly UInt16[] udItab314 = {
           /* 00 */        1109,     INVALID,     INVALID,     INVALID,
           /* 04 */     INVALID,     INVALID,     INVALID,     INVALID,
         };
 
-        internal static readonly ushort[] ud_itab__315 = {
+        internal static readonly UInt16[] udItab315 = {
           /* 00 */          74,          75,          76,
         };
 
-        internal static readonly ushort[] ud_itab__316 = {
+        internal static readonly UInt16[] udItab316 = {
           /* 00 */         170,         171,         172,
         };
 
-        internal static readonly ushort[] ud_itab__317 = {
+        internal static readonly UInt16[] udItab317 = {
           /* 00 */          73,     INVALID,
         };
 
-        internal static readonly ushort[] ud_itab__318 = {
+        internal static readonly UInt16[] udItab318 = {
           /* 00 */  0x8000|319,  0x8000|320,  0x8000|321,
         };
 
-        internal static readonly ushort[] ud_itab__319 = {
+        internal static readonly UInt16[] udItab319 = {
           /* 00 */        1259,        1260,
         };
 
-        internal static readonly ushort[] ud_itab__320 = {
+        internal static readonly UInt16[] udItab320 = {
           /* 00 */        1261,        1262,
         };
 
-        internal static readonly ushort[] ud_itab__321 = {
+        internal static readonly UInt16[] udItab321 = {
           /* 00 */     INVALID,        1263,
         };
 
-        internal static readonly ushort[] ud_itab__322 = {
+        internal static readonly UInt16[] udItab322 = {
           /* 00 */  0x8000|323,  0x8000|324,  0x8000|325,
         };
 
-        internal static readonly ushort[] ud_itab__323 = {
+        internal static readonly UInt16[] udItab323 = {
           /* 00 */        1112,     INVALID,
         };
 
-        internal static readonly ushort[] ud_itab__324 = {
+        internal static readonly UInt16[] udItab324 = {
           /* 00 */        1113,        1114,
         };
 
-        internal static readonly ushort[] ud_itab__325 = {
+        internal static readonly UInt16[] udItab325 = {
           /* 00 */     INVALID,        1115,
         };
 
-        internal static readonly ushort[] ud_itab__326 = {
+        internal static readonly UInt16[] udItab326 = {
           /* 00 */         923,         924,         927,
         };
 
-        internal static readonly ushort[] ud_itab__327 = {
+        internal static readonly UInt16[] udItab327 = {
           /* 00 */         115,         116,         119,
         };
 
-        internal static readonly ushort[] ud_itab__328 = {
+        internal static readonly UInt16[] udItab328 = {
           /* 00 */        1403,        1404,        1405,
         };
 
-        internal static readonly ushort[] ud_itab__329 = {
+        internal static readonly UInt16[] udItab329 = {
           /* 00 */         791,         792,         793,
         };
 
-        internal static readonly ushort[] ud_itab__330 = {
+        internal static readonly UInt16[] udItab330 = {
           /* 00 */        1347,        1348,        1349,
         };
 
-        internal static readonly ushort[] ud_itab__331 = {
+        internal static readonly UInt16[] udItab331 = {
           /* 00 */        1279,        1286,        1267,        1275,
           /* 04 */        1327,        1334,        1318,        1313,
         };
 
-        internal static readonly ushort[] ud_itab__332 = {
+        internal static readonly UInt16[] udItab332 = {
           /* 00 */        1284,        1287,        1268,        1274,
           /* 04 */        1323,        1330,        1319,        1315,
         };
 
-        internal static readonly ushort[] ud_itab__333 = {
+        internal static readonly UInt16[] udItab333 = {
           /* 00 */  0x8000|334,  0x8000|335,     INVALID,     INVALID,
           /* 04 */     INVALID,  0x8000|341,  0x8000|357,  0x8000|369,
           /* 08 */     INVALID,  0x8000|394,     INVALID,     INVALID,
           /* 0c */     INVALID,  0x8000|399,     INVALID,     INVALID,
         };
 
-        internal static readonly ushort[] ud_itab__334 = {
+        internal static readonly UInt16[] udItab334 = {
           /* 00 */         771,     INVALID,
         };
 
-        internal static readonly ushort[] ud_itab__335 = {
+        internal static readonly UInt16[] udItab335 = {
           /* 00 */     INVALID,     INVALID,     INVALID,     INVALID,
           /* 04 */     INVALID,     INVALID,     INVALID,     INVALID,
           /* 08 */     INVALID,     INVALID,     INVALID,     INVALID,
@@ -2705,28 +2706,28 @@
           /* fc */     INVALID,     INVALID,     INVALID,     INVALID,
         };
 
-        internal static readonly ushort[] ud_itab__336 = {
+        internal static readonly UInt16[] udItab336 = {
           /* 00 */         893,         897,
         };
 
-        internal static readonly ushort[] ud_itab__337 = {
+        internal static readonly UInt16[] udItab337 = {
           /* 00 */         883,         887,
         };
 
-        internal static readonly ushort[] ud_itab__338 = {
+        internal static readonly UInt16[] udItab338 = {
           /* 00 */        1742,        1743,
         };
 
-        internal static readonly ushort[] ud_itab__339 = {
+        internal static readonly UInt16[] udItab339 = {
           /* 00 */  0x8000|340,     INVALID,
         };
 
-        internal static readonly ushort[] ud_itab__340 = {
+        internal static readonly UInt16[] udItab340 = {
           /* 00 */     INVALID,     INVALID,     INVALID,        1401,
           /* 04 */     INVALID,     INVALID,     INVALID,     INVALID,
         };
 
-        internal static readonly ushort[] ud_itab__341 = {
+        internal static readonly UInt16[] udItab341 = {
           /* 00 */     INVALID,     INVALID,     INVALID,     INVALID,
           /* 04 */     INVALID,     INVALID,     INVALID,     INVALID,
           /* 08 */     INVALID,     INVALID,     INVALID,     INVALID,
@@ -2793,70 +2794,70 @@
           /* fc */         995,         999,        1002,     INVALID,
         };
 
-        internal static readonly ushort[] ud_itab__342 = {
+        internal static readonly UInt16[] udItab342 = {
           /* 00 */         889,     INVALID,
         };
 
-        internal static readonly ushort[] ud_itab__343 = {
+        internal static readonly UInt16[] udItab343 = {
           /* 00 */         879,     INVALID,
         };
 
-        internal static readonly ushort[] ud_itab__344 = {
+        internal static readonly UInt16[] udItab344 = {
           /* 00 */         869,         871,         912,
         };
 
-        internal static readonly ushort[] ud_itab__345 = {
+        internal static readonly UInt16[] udItab345 = {
           /* 00 */     INVALID,     INVALID,        1164,     INVALID,
           /* 04 */        1151,     INVALID,  0x8000|346,     INVALID,
         };
 
-        internal static readonly ushort[] ud_itab__346 = {
+        internal static readonly UInt16[] udItab346 = {
           /* 00 */        1756,     INVALID,
         };
 
-        internal static readonly ushort[] ud_itab__347 = {
+        internal static readonly UInt16[] udItab347 = {
           /* 00 */     INVALID,     INVALID,        1170,     INVALID,
           /* 04 */        1158,     INVALID,  0x8000|348,     INVALID,
         };
 
-        internal static readonly ushort[] ud_itab__348 = {
+        internal static readonly UInt16[] udItab348 = {
           /* 00 */        1758,     INVALID,
         };
 
-        internal static readonly ushort[] ud_itab__349 = {
+        internal static readonly UInt16[] udItab349 = {
           /* 00 */     INVALID,     INVALID,        1176,        1544,
           /* 04 */     INVALID,     INVALID,  0x8000|350,        1542,
         };
 
-        internal static readonly ushort[] ud_itab__350 = {
+        internal static readonly UInt16[] udItab350 = {
           /* 00 */        1760,     INVALID,
         };
 
-        internal static readonly ushort[] ud_itab__351 = {
+        internal static readonly UInt16[] udItab351 = {
           /* 00 */         875,         877,         915,
         };
 
-        internal static readonly ushort[] ud_itab__352 = {
+        internal static readonly UInt16[] udItab352 = {
           /* 00 */        1085,     INVALID,
         };
 
-        internal static readonly ushort[] ud_itab__353 = {
+        internal static readonly UInt16[] udItab353 = {
           /* 00 */        1755,     INVALID,
         };
 
-        internal static readonly ushort[] ud_itab__354 = {
+        internal static readonly UInt16[] udItab354 = {
           /* 00 */        1757,     INVALID,
         };
 
-        internal static readonly ushort[] ud_itab__355 = {
+        internal static readonly UInt16[] udItab355 = {
           /* 00 */        1759,     INVALID,
         };
 
-        internal static readonly ushort[] ud_itab__356 = {
+        internal static readonly UInt16[] udItab356 = {
           /* 00 */     INVALID,        1520,
         };
 
-        internal static readonly ushort[] ud_itab__357 = {
+        internal static readonly UInt16[] udItab357 = {
           /* 00 */        1584,        1587,        1590,        1593,
           /* 04 */        1596,        1599,        1602,        1605,
           /* 08 */        1608,        1614,        1611,        1617,
@@ -2923,51 +2924,51 @@
           /* fc */     INVALID,     INVALID,     INVALID,     INVALID,
         };
 
-        internal static readonly ushort[] ud_itab__358 = {
+        internal static readonly UInt16[] udItab358 = {
           /* 00 */        1737,     INVALID,
         };
 
-        internal static readonly ushort[] ud_itab__359 = {
+        internal static readonly UInt16[] udItab359 = {
           /* 00 */        1735,     INVALID,
         };
 
-        internal static readonly ushort[] ud_itab__360 = {
+        internal static readonly UInt16[] udItab360 = {
           /* 00 */        1740,     INVALID,
         };
 
-        internal static readonly ushort[] ud_itab__361 = {
+        internal static readonly UInt16[] udItab361 = {
           /* 00 */        1741,     INVALID,
         };
 
-        internal static readonly ushort[] ud_itab__362 = {
+        internal static readonly UInt16[] udItab362 = {
           /* 00 */        1727,     INVALID,
         };
 
-        internal static readonly ushort[] ud_itab__363 = {
+        internal static readonly UInt16[] udItab363 = {
           /* 00 */  0x8000|364,     INVALID,
         };
 
-        internal static readonly ushort[] ud_itab__364 = {
+        internal static readonly UInt16[] udItab364 = {
           /* 00 */     INVALID,        1728,
         };
 
-        internal static readonly ushort[] ud_itab__365 = {
+        internal static readonly UInt16[] udItab365 = {
           /* 00 */        1731,     INVALID,
         };
 
-        internal static readonly ushort[] ud_itab__366 = {
+        internal static readonly UInt16[] udItab366 = {
           /* 00 */        1733,     INVALID,
         };
 
-        internal static readonly ushort[] ud_itab__367 = {
+        internal static readonly UInt16[] udItab367 = {
           /* 00 */        1732,     INVALID,
         };
 
-        internal static readonly ushort[] ud_itab__368 = {
+        internal static readonly UInt16[] udItab368 = {
           /* 00 */        1734,     INVALID,
         };
 
-        internal static readonly ushort[] ud_itab__369 = {
+        internal static readonly UInt16[] udItab369 = {
           /* 00 */     INVALID,     INVALID,     INVALID,     INVALID,
           /* 04 */  0x8000|370,  0x8000|371,  0x8000|372,     INVALID,
           /* 08 */        1645,        1647,        1649,        1651,
@@ -3034,103 +3035,103 @@
           /* fc */     INVALID,     INVALID,     INVALID,     INVALID,
         };
 
-        internal static readonly ushort[] ud_itab__370 = {
+        internal static readonly UInt16[] udItab370 = {
           /* 00 */        1738,     INVALID,
         };
 
-        internal static readonly ushort[] ud_itab__371 = {
+        internal static readonly UInt16[] udItab371 = {
           /* 00 */        1736,     INVALID,
         };
 
-        internal static readonly ushort[] ud_itab__372 = {
+        internal static readonly UInt16[] udItab372 = {
           /* 00 */  0x8000|373,     INVALID,
         };
 
-        internal static readonly ushort[] ud_itab__373 = {
+        internal static readonly UInt16[] udItab373 = {
           /* 00 */     INVALID,        1739,
         };
 
-        internal static readonly ushort[] ud_itab__374 = {
+        internal static readonly UInt16[] udItab374 = {
           /* 00 */        1046,     INVALID,
         };
 
-        internal static readonly ushort[] ud_itab__375 = {
+        internal static readonly UInt16[] udItab375 = {
           /* 00 */  0x8000|376,  0x8000|377,  0x8000|378,
         };
 
-        internal static readonly ushort[] ud_itab__376 = {
+        internal static readonly UInt16[] udItab376 = {
           /* 00 */        1048,     INVALID,
         };
 
-        internal static readonly ushort[] ud_itab__377 = {
+        internal static readonly UInt16[] udItab377 = {
           /* 00 */        1050,     INVALID,
         };
 
-        internal static readonly ushort[] ud_itab__378 = {
+        internal static readonly UInt16[] udItab378 = {
           /* 00 */     INVALID,        1052,
         };
 
-        internal static readonly ushort[] ud_itab__379 = {
+        internal static readonly UInt16[] udItab379 = {
           /* 00 */  0x8000|380,     INVALID,
         };
 
-        internal static readonly ushort[] ud_itab__380 = {
+        internal static readonly UInt16[] udItab380 = {
           /* 00 */     INVALID,        1730,
         };
 
-        internal static readonly ushort[] ud_itab__381 = {
+        internal static readonly UInt16[] udItab381 = {
           /* 00 */  0x8000|382,     INVALID,
         };
 
-        internal static readonly ushort[] ud_itab__382 = {
+        internal static readonly UInt16[] udItab382 = {
           /* 00 */     INVALID,        1729,
         };
 
-        internal static readonly ushort[] ud_itab__383 = {
+        internal static readonly UInt16[] udItab383 = {
           /* 00 */  0x8000|384,     INVALID,
         };
 
-        internal static readonly ushort[] ud_itab__384 = {
+        internal static readonly UInt16[] udItab384 = {
           /* 00 */        1065,     INVALID,
         };
 
-        internal static readonly ushort[] ud_itab__385 = {
+        internal static readonly UInt16[] udItab385 = {
           /* 00 */  0x8000|386,  0x8000|388,
         };
 
-        internal static readonly ushort[] ud_itab__386 = {
+        internal static readonly UInt16[] udItab386 = {
           /* 00 */  0x8000|387,     INVALID,
         };
 
-        internal static readonly ushort[] ud_itab__387 = {
+        internal static readonly UInt16[] udItab387 = {
           /* 00 */        1066,     INVALID,
         };
 
-        internal static readonly ushort[] ud_itab__388 = {
+        internal static readonly UInt16[] udItab388 = {
           /* 00 */  0x8000|389,  0x8000|390,
         };
 
-        internal static readonly ushort[] ud_itab__389 = {
+        internal static readonly UInt16[] udItab389 = {
           /* 00 */        1067,     INVALID,
         };
 
-        internal static readonly ushort[] ud_itab__390 = {
+        internal static readonly UInt16[] udItab390 = {
           /* 00 */        1068,     INVALID,
         };
 
-        internal static readonly ushort[] ud_itab__391 = {
+        internal static readonly UInt16[] udItab391 = {
           /* 00 */        1745,     INVALID,
         };
 
-        internal static readonly ushort[] ud_itab__392 = {
+        internal static readonly UInt16[] udItab392 = {
           /* 00 */        1744,     INVALID,
         };
 
-        internal static readonly ushort[] ud_itab__393 = {
+        internal static readonly UInt16[] udItab393 = {
           /* 00 */        1754,     INVALID,
         };
 
-        internal static readonly ushort[] ud_itab__394 = {
+        internal static readonly UInt16[] udItab394 = {
           /* 00 */     INVALID,     INVALID,     INVALID,     INVALID,
           /* 04 */     INVALID,     INVALID,     INVALID,     INVALID,
           /* 08 */     INVALID,     INVALID,     INVALID,     INVALID,
@@ -3197,23 +3198,23 @@
           /* fc */     INVALID,     INVALID,     INVALID,     INVALID,
         };
 
-        internal static readonly ushort[] ud_itab__395 = {
+        internal static readonly UInt16[] udItab395 = {
           /* 00 */        1751,        1750,
         };
 
-        internal static readonly ushort[] ud_itab__396 = {
+        internal static readonly UInt16[] udItab396 = {
           /* 00 */        1753,        1752,
         };
 
-        internal static readonly ushort[] ud_itab__397 = {
+        internal static readonly UInt16[] udItab397 = {
           /* 00 */        1572,        1570,
         };
 
-        internal static readonly ushort[] ud_itab__398 = {
+        internal static readonly UInt16[] udItab398 = {
           /* 00 */        1568,        1566,
         };
 
-        internal static readonly ushort[] ud_itab__399 = {
+        internal static readonly UInt16[] udItab399 = {
           /* 00 */     INVALID,     INVALID,     INVALID,     INVALID,
           /* 04 */     INVALID,     INVALID,     INVALID,     INVALID,
           /* 08 */     INVALID,     INVALID,     INVALID,     INVALID,
@@ -3280,89 +3281,89 @@
           /* fc */     INVALID,     INVALID,     INVALID,     INVALID,
         };
 
-        internal static readonly ushort[] ud_itab__400 = {
+        internal static readonly UInt16[] udItab400 = {
           /* 00 */        1747,        1746,
         };
 
-        internal static readonly ushort[] ud_itab__401 = {
+        internal static readonly UInt16[] udItab401 = {
           /* 00 */        1749,        1748,
         };
 
-        internal static readonly ushort[] ud_itab__402 = {
+        internal static readonly UInt16[] udItab402 = {
           /* 00 */        1564,        1562,
         };
 
-        internal static readonly ushort[] ud_itab__403 = {
+        internal static readonly UInt16[] udItab403 = {
           /* 00 */  0x8000|404,  0x8000|335,     INVALID,     INVALID,
           /* 04 */     INVALID,  0x8000|341,  0x8000|357,  0x8000|369,
           /* 08 */     INVALID,  0x8000|394,     INVALID,     INVALID,
           /* 0c */     INVALID,  0x8000|399,     INVALID,     INVALID,
         };
 
-        internal static readonly ushort[] ud_itab__404 = {
+        internal static readonly UInt16[] udItab404 = {
           /* 00 */         769,     INVALID,
         };
 
-        internal static readonly ushort[] ud_itab__405 = {
+        internal static readonly UInt16[] udItab405 = {
           /* 00 */         826,     INVALID,     INVALID,     INVALID,
           /* 04 */     INVALID,     INVALID,     INVALID,     INVALID,
         };
 
-        internal static readonly ushort[] ud_itab__406 = {
+        internal static readonly UInt16[] udItab406 = {
           /* 00 */         827,     INVALID,     INVALID,     INVALID,
           /* 04 */     INVALID,     INVALID,     INVALID,     INVALID,
         };
 
-        internal static readonly ushort[] ud_itab__407 = {
+        internal static readonly UInt16[] udItab407 = {
           /* 00 */         715,     INVALID,
         };
 
-        internal static readonly ushort[] ud_itab__408 = {
+        internal static readonly UInt16[] udItab408 = {
           /* 00 */         723,         724,         725,
         };
 
-        internal static readonly ushort[] ud_itab__409 = {
+        internal static readonly UInt16[] udItab409 = {
           /* 00 */        1280,        1285,        1269,        1273,
           /* 04 */        1326,        1333,        1320,        1314,
         };
 
-        internal static readonly ushort[] ud_itab__410 = {
+        internal static readonly UInt16[] udItab410 = {
           /* 00 */        1281,        1288,        1272,        1276,
           /* 04 */        1325,        1332,        1329,        1312,
         };
 
-        internal static readonly ushort[] ud_itab__411 = {
+        internal static readonly UInt16[] udItab411 = {
           /* 00 */        1282,        1289,        1270,        1277,
           /* 04 */        1324,        1331,        1321,        1316,
         };
 
-        internal static readonly ushort[] ud_itab__412 = {
+        internal static readonly UInt16[] udItab412 = {
           /* 00 */        1283,        1290,        1271,        1278,
           /* 04 */        1328,        1335,        1322,        1317,
         };
 
-        internal static readonly ushort[] ud_itab__413 = {
+        internal static readonly UInt16[] udItab413 = {
           /* 00 */           3,     INVALID,
         };
 
-        internal static readonly ushort[] ud_itab__414 = {
+        internal static readonly UInt16[] udItab414 = {
           /* 00 */           2,     INVALID,
         };
 
-        internal static readonly ushort[] ud_itab__415 = {
+        internal static readonly UInt16[] udItab415 = {
           /* 00 */        1311,     INVALID,
         };
 
-        internal static readonly ushort[] ud_itab__416 = {
+        internal static readonly UInt16[] udItab416 = {
           /* 00 */  0x8000|417,  0x8000|418,
         };
 
-        internal static readonly ushort[] ud_itab__417 = {
+        internal static readonly UInt16[] udItab417 = {
           /* 00 */         206,         503,         307,         357,
           /* 04 */         587,         630,         387,         413,
         };
 
-        internal static readonly ushort[] ud_itab__418 = {
+        internal static readonly UInt16[] udItab418 = {
           /* 00 */         215,         216,         217,         218,
           /* 04 */         219,         220,         221,         222,
           /* 08 */         504,         505,         506,         507,
@@ -3381,16 +3382,16 @@
           /* 3c */         418,         419,         420,         421,
         };
 
-        internal static readonly ushort[] ud_itab__419 = {
+        internal static readonly UInt16[] udItab419 = {
           /* 00 */  0x8000|420,  0x8000|421,
         };
 
-        internal static readonly ushort[] ud_itab__420 = {
+        internal static readonly UInt16[] udItab420 = {
           /* 00 */         476,     INVALID,         573,         540,
           /* 04 */         493,         492,         584,         583,
         };
 
-        internal static readonly ushort[] ud_itab__421 = {
+        internal static readonly UInt16[] udItab421 = {
           /* 00 */         477,         478,         479,         480,
           /* 04 */         481,         482,         483,         484,
           /* 08 */         658,         659,         660,         661,
@@ -3409,16 +3410,16 @@
           /* 3c */         530,         534,         535,         376,
         };
 
-        internal static readonly ushort[] ud_itab__422 = {
+        internal static readonly UInt16[] udItab422 = {
           /* 00 */  0x8000|423,  0x8000|424,
         };
 
-        internal static readonly ushort[] ud_itab__423 = {
+        internal static readonly UInt16[] udItab423 = {
           /* 00 */         456,         520,         448,         450,
           /* 04 */         462,         464,         460,         458,
         };
 
-        internal static readonly ushort[] ud_itab__424 = {
+        internal static readonly UInt16[] udItab424 = {
           /* 00 */         235,         236,         237,         238,
           /* 04 */         239,         240,         241,         242,
           /* 08 */         243,         244,         245,         246,
@@ -3437,16 +3438,16 @@
           /* 3c */     INVALID,     INVALID,     INVALID,     INVALID,
         };
 
-        internal static readonly ushort[] ud_itab__425 = {
+        internal static readonly UInt16[] udItab425 = {
           /* 00 */  0x8000|426,  0x8000|427,
         };
 
-        internal static readonly ushort[] ud_itab__426 = {
+        internal static readonly UInt16[] udItab426 = {
           /* 00 */         453,         471,         467,         470,
           /* 04 */     INVALID,         474,     INVALID,         538,
         };
 
-        internal static readonly ushort[] ud_itab__427 = {
+        internal static readonly UInt16[] udItab427 = {
           /* 00 */         267,         268,         269,         270,
           /* 04 */         271,         272,         273,         274,
           /* 08 */         275,         276,         277,         278,
@@ -3465,16 +3466,16 @@
           /* 3c */     INVALID,     INVALID,     INVALID,     INVALID,
         };
 
-        internal static readonly ushort[] ud_itab__428 = {
+        internal static readonly UInt16[] udItab428 = {
           /* 00 */  0x8000|429,  0x8000|430,
         };
 
-        internal static readonly ushort[] ud_itab__429 = {
+        internal static readonly UInt16[] udItab429 = {
           /* 00 */         205,         494,         308,         358,
           /* 04 */         588,         613,         378,         404,
         };
 
-        internal static readonly ushort[] ud_itab__430 = {
+        internal static readonly UInt16[] udItab430 = {
           /* 00 */         207,         208,         209,         210,
           /* 04 */         211,         212,         213,         214,
           /* 08 */         495,         496,         497,         498,
@@ -3493,16 +3494,16 @@
           /* 3c */         383,         384,         385,         386,
         };
 
-        internal static readonly ushort[] ud_itab__431 = {
+        internal static readonly UInt16[] udItab431 = {
           /* 00 */  0x8000|432,  0x8000|433,
         };
 
-        internal static readonly ushort[] ud_itab__432 = {
+        internal static readonly UInt16[] udItab432 = {
           /* 00 */         475,         472,         574,         539,
           /* 04 */         531,     INVALID,         533,         585,
         };
 
-        internal static readonly ushort[] ud_itab__433 = {
+        internal static readonly UInt16[] udItab433 = {
           /* 00 */         431,         432,         433,         434,
           /* 04 */         435,         436,         437,         438,
           /* 08 */         666,         667,         668,         669,
@@ -3521,16 +3522,16 @@
           /* 3c */     INVALID,     INVALID,     INVALID,     INVALID,
         };
 
-        internal static readonly ushort[] ud_itab__434 = {
+        internal static readonly UInt16[] udItab434 = {
           /* 00 */  0x8000|435,  0x8000|436,
         };
 
-        internal static readonly ushort[] ud_itab__435 = {
+        internal static readonly UInt16[] udItab435 = {
           /* 00 */         457,         521,         447,         449,
           /* 04 */         463,         465,         461,         459,
         };
 
-        internal static readonly ushort[] ud_itab__436 = {
+        internal static readonly UInt16[] udItab436 = {
           /* 00 */         223,         224,         225,         226,
           /* 04 */         227,         228,         229,         230,
           /* 08 */         512,         513,         514,         515,
@@ -3549,16 +3550,16 @@
           /* 3c */         400,         401,         402,         403,
         };
 
-        internal static readonly ushort[] ud_itab__437 = {
+        internal static readonly UInt16[] udItab437 = {
           /* 00 */  0x8000|438,  0x8000|439,
         };
 
-        internal static readonly ushort[] ud_itab__438 = {
+        internal static readonly UInt16[] udItab438 = {
           /* 00 */         451,         473,         466,         468,
           /* 04 */         231,         452,         232,         469,
         };
 
-        internal static readonly ushort[] ud_itab__439 = {
+        internal static readonly UInt16[] udItab439 = {
           /* 00 */         439,         440,         441,         442,
           /* 04 */         443,         444,         445,         446,
           /* 08 */         674,         675,         676,         677,
@@ -3577,35 +3578,35 @@
           /* 3c */     INVALID,     INVALID,     INVALID,     INVALID,
         };
 
-        internal static readonly ushort[] ud_itab__440 = {
+        internal static readonly UInt16[] udItab440 = {
           /* 00 */         758,         759,         760,
         };
 
-        internal static readonly ushort[] ud_itab__441 = {
+        internal static readonly UInt16[] udItab441 = {
           /* 00 */         764,     INVALID,
         };
 
-        internal static readonly ushort[] ud_itab__442 = {
+        internal static readonly UInt16[] udItab442 = {
           /* 00 */        1432,        1437,         962,         953,
           /* 04 */         942,         695,         186,         689,
         };
 
-        internal static readonly ushort[] ud_itab__443 = {
+        internal static readonly UInt16[] udItab443 = {
           /* 00 */        1438,        1439,         963,         954,
           /* 04 */         943,         696,         185,         688,
         };
 
-        internal static readonly ushort[] ud_itab__444 = {
+        internal static readonly UInt16[] udItab444 = {
           /* 00 */         708,         183,     INVALID,     INVALID,
           /* 04 */     INVALID,     INVALID,     INVALID,     INVALID,
         };
 
-        internal static readonly ushort[] ud_itab__445 = {
+        internal static readonly UInt16[] udItab445 = {
           /* 00 */         707,         184,  0x8000|446,          71,
           /* 04 */         761,         762,        1255,     INVALID,
         };
 
-        internal static readonly ushort[] ud_itab__446 = {
+        internal static readonly UInt16[] udItab446 = {
           /* 00 */          69,          70,
         };
         #endregion
@@ -3613,453 +3614,453 @@
         #region Lookup Table List
 
         internal static readonly UdLookupTableListEntry[] ud_lookup_table_list = new UdLookupTableListEntry[] {
-            /* 000 */ new UdLookupTableListEntry( ud_itab__0, UdTableType.UD_TAB__OPC_TABLE, "opctbl" ),
-            /* 001 */ new UdLookupTableListEntry( ud_itab__1, UdTableType.UD_TAB__OPC_MODE, "/m" ),
-            /* 002 */ new UdLookupTableListEntry( ud_itab__2, UdTableType.UD_TAB__OPC_MODE, "/m" ),
-            /* 003 */ new UdLookupTableListEntry( ud_itab__3, UdTableType.UD_TAB__OPC_MODE, "/m" ),
-            /* 004 */ new UdLookupTableListEntry( ud_itab__4, UdTableType.UD_TAB__OPC_TABLE, "opctbl" ),
-            /* 005 */ new UdLookupTableListEntry( ud_itab__5, UdTableType.UD_TAB__OPC_REG, "/reg" ),
-            /* 006 */ new UdLookupTableListEntry( ud_itab__6, UdTableType.UD_TAB__OPC_MOD, "/mod" ),
-            /* 007 */ new UdLookupTableListEntry( ud_itab__7, UdTableType.UD_TAB__OPC_REG, "/reg" ),
-            /* 008 */ new UdLookupTableListEntry( ud_itab__8, UdTableType.UD_TAB__OPC_REG, "/reg" ),
-            /* 009 */ new UdLookupTableListEntry( ud_itab__9, UdTableType.UD_TAB__OPC_RM, "/rm" ),
-            /* 010 */ new UdLookupTableListEntry( ud_itab__10, UdTableType.UD_TAB__OPC_VENDOR, "/vendor" ),
-            /* 011 */ new UdLookupTableListEntry( ud_itab__11, UdTableType.UD_TAB__OPC_VENDOR, "/vendor" ),
-            /* 012 */ new UdLookupTableListEntry( ud_itab__12, UdTableType.UD_TAB__OPC_VENDOR, "/vendor" ),
-            /* 013 */ new UdLookupTableListEntry( ud_itab__13, UdTableType.UD_TAB__OPC_VENDOR, "/vendor" ),
-            /* 014 */ new UdLookupTableListEntry( ud_itab__14, UdTableType.UD_TAB__OPC_RM, "/rm" ),
-            /* 015 */ new UdLookupTableListEntry( ud_itab__15, UdTableType.UD_TAB__OPC_RM, "/rm" ),
-            /* 016 */ new UdLookupTableListEntry( ud_itab__16, UdTableType.UD_TAB__OPC_RM, "/rm" ),
-            /* 017 */ new UdLookupTableListEntry( ud_itab__17, UdTableType.UD_TAB__OPC_VENDOR, "/vendor" ),
-            /* 018 */ new UdLookupTableListEntry( ud_itab__18, UdTableType.UD_TAB__OPC_VENDOR, "/vendor" ),
-            /* 019 */ new UdLookupTableListEntry( ud_itab__19, UdTableType.UD_TAB__OPC_VENDOR, "/vendor" ),
-            /* 020 */ new UdLookupTableListEntry( ud_itab__20, UdTableType.UD_TAB__OPC_VENDOR, "/vendor" ),
-            /* 021 */ new UdLookupTableListEntry( ud_itab__21, UdTableType.UD_TAB__OPC_VENDOR, "/vendor" ),
-            /* 022 */ new UdLookupTableListEntry( ud_itab__22, UdTableType.UD_TAB__OPC_VENDOR, "/vendor" ),
-            /* 023 */ new UdLookupTableListEntry( ud_itab__23, UdTableType.UD_TAB__OPC_VENDOR, "/vendor" ),
-            /* 024 */ new UdLookupTableListEntry( ud_itab__24, UdTableType.UD_TAB__OPC_VENDOR, "/vendor" ),
-            /* 025 */ new UdLookupTableListEntry( ud_itab__25, UdTableType.UD_TAB__OPC_RM, "/rm" ),
-            /* 026 */ new UdLookupTableListEntry( ud_itab__26, UdTableType.UD_TAB__OPC_VENDOR, "/vendor" ),
-            /* 027 */ new UdLookupTableListEntry( ud_itab__27, UdTableType.UD_TAB__OPC_REG, "/reg" ),
-            /* 028 */ new UdLookupTableListEntry( ud_itab__28, UdTableType.UD_TAB__OPC_3DNOW, "/3dnow" ),
-            /* 029 */ new UdLookupTableListEntry( ud_itab__29, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
-            /* 030 */ new UdLookupTableListEntry( ud_itab__30, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
-            /* 031 */ new UdLookupTableListEntry( ud_itab__31, UdTableType.UD_TAB__OPC_MOD, "/mod" ),
-            /* 032 */ new UdLookupTableListEntry( ud_itab__32, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
-            /* 033 */ new UdLookupTableListEntry( ud_itab__33, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
-            /* 034 */ new UdLookupTableListEntry( ud_itab__34, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
-            /* 035 */ new UdLookupTableListEntry( ud_itab__35, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
-            /* 036 */ new UdLookupTableListEntry( ud_itab__36, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
-            /* 037 */ new UdLookupTableListEntry( ud_itab__37, UdTableType.UD_TAB__OPC_MOD, "/mod" ),
-            /* 038 */ new UdLookupTableListEntry( ud_itab__38, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
-            /* 039 */ new UdLookupTableListEntry( ud_itab__39, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
-            /* 040 */ new UdLookupTableListEntry( ud_itab__40, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
-            /* 041 */ new UdLookupTableListEntry( ud_itab__41, UdTableType.UD_TAB__OPC_REG, "/reg" ),
-            /* 042 */ new UdLookupTableListEntry( ud_itab__42, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
-            /* 043 */ new UdLookupTableListEntry( ud_itab__43, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
-            /* 044 */ new UdLookupTableListEntry( ud_itab__44, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
-            /* 045 */ new UdLookupTableListEntry( ud_itab__45, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
-            /* 046 */ new UdLookupTableListEntry( ud_itab__46, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
-            /* 047 */ new UdLookupTableListEntry( ud_itab__47, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
-            /* 048 */ new UdLookupTableListEntry( ud_itab__48, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
-            /* 049 */ new UdLookupTableListEntry( ud_itab__49, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
-            /* 050 */ new UdLookupTableListEntry( ud_itab__50, UdTableType.UD_TAB__OPC_MODE, "/m" ),
-            /* 051 */ new UdLookupTableListEntry( ud_itab__51, UdTableType.UD_TAB__OPC_VENDOR, "/vendor" ),
-            /* 052 */ new UdLookupTableListEntry( ud_itab__52, UdTableType.UD_TAB__OPC_MODE, "/m" ),
-            /* 053 */ new UdLookupTableListEntry( ud_itab__53, UdTableType.UD_TAB__OPC_VENDOR, "/vendor" ),
-            /* 054 */ new UdLookupTableListEntry( ud_itab__54, UdTableType.UD_TAB__OPC_TABLE, "opctbl" ),
-            /* 055 */ new UdLookupTableListEntry( ud_itab__55, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
-            /* 056 */ new UdLookupTableListEntry( ud_itab__56, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
-            /* 057 */ new UdLookupTableListEntry( ud_itab__57, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
-            /* 058 */ new UdLookupTableListEntry( ud_itab__58, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
-            /* 059 */ new UdLookupTableListEntry( ud_itab__59, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
-            /* 060 */ new UdLookupTableListEntry( ud_itab__60, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
-            /* 061 */ new UdLookupTableListEntry( ud_itab__61, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
-            /* 062 */ new UdLookupTableListEntry( ud_itab__62, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
-            /* 063 */ new UdLookupTableListEntry( ud_itab__63, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
-            /* 064 */ new UdLookupTableListEntry( ud_itab__64, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
-            /* 065 */ new UdLookupTableListEntry( ud_itab__65, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
-            /* 066 */ new UdLookupTableListEntry( ud_itab__66, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
-            /* 067 */ new UdLookupTableListEntry( ud_itab__67, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
-            /* 068 */ new UdLookupTableListEntry( ud_itab__68, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
-            /* 069 */ new UdLookupTableListEntry( ud_itab__69, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
-            /* 070 */ new UdLookupTableListEntry( ud_itab__70, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
-            /* 071 */ new UdLookupTableListEntry( ud_itab__71, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
-            /* 072 */ new UdLookupTableListEntry( ud_itab__72, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
-            /* 073 */ new UdLookupTableListEntry( ud_itab__73, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
-            /* 074 */ new UdLookupTableListEntry( ud_itab__74, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
-            /* 075 */ new UdLookupTableListEntry( ud_itab__75, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
-            /* 076 */ new UdLookupTableListEntry( ud_itab__76, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
-            /* 077 */ new UdLookupTableListEntry( ud_itab__77, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
-            /* 078 */ new UdLookupTableListEntry( ud_itab__78, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
-            /* 079 */ new UdLookupTableListEntry( ud_itab__79, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
-            /* 080 */ new UdLookupTableListEntry( ud_itab__80, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
-            /* 081 */ new UdLookupTableListEntry( ud_itab__81, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
-            /* 082 */ new UdLookupTableListEntry( ud_itab__82, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
-            /* 083 */ new UdLookupTableListEntry( ud_itab__83, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
-            /* 084 */ new UdLookupTableListEntry( ud_itab__84, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
-            /* 085 */ new UdLookupTableListEntry( ud_itab__85, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
-            /* 086 */ new UdLookupTableListEntry( ud_itab__86, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
-            /* 087 */ new UdLookupTableListEntry( ud_itab__87, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
-            /* 088 */ new UdLookupTableListEntry( ud_itab__88, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
-            /* 089 */ new UdLookupTableListEntry( ud_itab__89, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
-            /* 090 */ new UdLookupTableListEntry( ud_itab__90, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
-            /* 091 */ new UdLookupTableListEntry( ud_itab__91, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
-            /* 092 */ new UdLookupTableListEntry( ud_itab__92, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
-            /* 093 */ new UdLookupTableListEntry( ud_itab__93, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
-            /* 094 */ new UdLookupTableListEntry( ud_itab__94, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
-            /* 095 */ new UdLookupTableListEntry( ud_itab__95, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
-            /* 096 */ new UdLookupTableListEntry( ud_itab__96, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
-            /* 097 */ new UdLookupTableListEntry( ud_itab__97, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
-            /* 098 */ new UdLookupTableListEntry( ud_itab__98, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
-            /* 099 */ new UdLookupTableListEntry( ud_itab__99, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
-            /* 100 */ new UdLookupTableListEntry( ud_itab__100, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
-            /* 101 */ new UdLookupTableListEntry( ud_itab__101, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
-            /* 102 */ new UdLookupTableListEntry( ud_itab__102, UdTableType.UD_TAB__OPC_MODE, "/m" ),
-            /* 103 */ new UdLookupTableListEntry( ud_itab__103, UdTableType.UD_TAB__OPC_VENDOR, "/vendor" ),
-            /* 104 */ new UdLookupTableListEntry( ud_itab__104, UdTableType.UD_TAB__OPC_VENDOR, "/vendor" ),
-            /* 105 */ new UdLookupTableListEntry( ud_itab__105, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
-            /* 106 */ new UdLookupTableListEntry( ud_itab__106, UdTableType.UD_TAB__OPC_MODE, "/m" ),
-            /* 107 */ new UdLookupTableListEntry( ud_itab__107, UdTableType.UD_TAB__OPC_VENDOR, "/vendor" ),
-            /* 108 */ new UdLookupTableListEntry( ud_itab__108, UdTableType.UD_TAB__OPC_VENDOR, "/vendor" ),
-            /* 109 */ new UdLookupTableListEntry( ud_itab__109, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
-            /* 110 */ new UdLookupTableListEntry( ud_itab__110, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
-            /* 111 */ new UdLookupTableListEntry( ud_itab__111, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
-            /* 112 */ new UdLookupTableListEntry( ud_itab__112, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
-            /* 113 */ new UdLookupTableListEntry( ud_itab__113, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
-            /* 114 */ new UdLookupTableListEntry( ud_itab__114, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
-            /* 115 */ new UdLookupTableListEntry( ud_itab__115, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
-            /* 116 */ new UdLookupTableListEntry( ud_itab__116, UdTableType.UD_TAB__OPC_TABLE, "opctbl" ),
-            /* 117 */ new UdLookupTableListEntry( ud_itab__117, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
-            /* 118 */ new UdLookupTableListEntry( ud_itab__118, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
-            /* 119 */ new UdLookupTableListEntry( ud_itab__119, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
-            /* 120 */ new UdLookupTableListEntry( ud_itab__120, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
-            /* 121 */ new UdLookupTableListEntry( ud_itab__121, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
-            /* 122 */ new UdLookupTableListEntry( ud_itab__122, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
-            /* 123 */ new UdLookupTableListEntry( ud_itab__123, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
-            /* 124 */ new UdLookupTableListEntry( ud_itab__124, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
-            /* 125 */ new UdLookupTableListEntry( ud_itab__125, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
-            /* 126 */ new UdLookupTableListEntry( ud_itab__126, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
-            /* 127 */ new UdLookupTableListEntry( ud_itab__127, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
-            /* 128 */ new UdLookupTableListEntry( ud_itab__128, UdTableType.UD_TAB__OPC_OSIZE, "/o" ),
-            /* 129 */ new UdLookupTableListEntry( ud_itab__129, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
-            /* 130 */ new UdLookupTableListEntry( ud_itab__130, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
-            /* 131 */ new UdLookupTableListEntry( ud_itab__131, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
-            /* 132 */ new UdLookupTableListEntry( ud_itab__132, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
-            /* 133 */ new UdLookupTableListEntry( ud_itab__133, UdTableType.UD_TAB__OPC_OSIZE, "/o" ),
-            /* 134 */ new UdLookupTableListEntry( ud_itab__134, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
-            /* 135 */ new UdLookupTableListEntry( ud_itab__135, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
-            /* 136 */ new UdLookupTableListEntry( ud_itab__136, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
-            /* 137 */ new UdLookupTableListEntry( ud_itab__137, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
-            /* 138 */ new UdLookupTableListEntry( ud_itab__138, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
-            /* 139 */ new UdLookupTableListEntry( ud_itab__139, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
-            /* 140 */ new UdLookupTableListEntry( ud_itab__140, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
-            /* 141 */ new UdLookupTableListEntry( ud_itab__141, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
-            /* 142 */ new UdLookupTableListEntry( ud_itab__142, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
-            /* 143 */ new UdLookupTableListEntry( ud_itab__143, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
-            /* 144 */ new UdLookupTableListEntry( ud_itab__144, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
-            /* 145 */ new UdLookupTableListEntry( ud_itab__145, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
-            /* 146 */ new UdLookupTableListEntry( ud_itab__146, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
-            /* 147 */ new UdLookupTableListEntry( ud_itab__147, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
-            /* 148 */ new UdLookupTableListEntry( ud_itab__148, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
-            /* 149 */ new UdLookupTableListEntry( ud_itab__149, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
-            /* 150 */ new UdLookupTableListEntry( ud_itab__150, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
-            /* 151 */ new UdLookupTableListEntry( ud_itab__151, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
-            /* 152 */ new UdLookupTableListEntry( ud_itab__152, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
-            /* 153 */ new UdLookupTableListEntry( ud_itab__153, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
-            /* 154 */ new UdLookupTableListEntry( ud_itab__154, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
-            /* 155 */ new UdLookupTableListEntry( ud_itab__155, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
-            /* 156 */ new UdLookupTableListEntry( ud_itab__156, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
-            /* 157 */ new UdLookupTableListEntry( ud_itab__157, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
-            /* 158 */ new UdLookupTableListEntry( ud_itab__158, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
-            /* 159 */ new UdLookupTableListEntry( ud_itab__159, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
-            /* 160 */ new UdLookupTableListEntry( ud_itab__160, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
-            /* 161 */ new UdLookupTableListEntry( ud_itab__161, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
-            /* 162 */ new UdLookupTableListEntry( ud_itab__162, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
-            /* 163 */ new UdLookupTableListEntry( ud_itab__163, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
-            /* 164 */ new UdLookupTableListEntry( ud_itab__164, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
-            /* 165 */ new UdLookupTableListEntry( ud_itab__165, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
-            /* 166 */ new UdLookupTableListEntry( ud_itab__166, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
-            /* 167 */ new UdLookupTableListEntry( ud_itab__167, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
-            /* 168 */ new UdLookupTableListEntry( ud_itab__168, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
-            /* 169 */ new UdLookupTableListEntry( ud_itab__169, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
-            /* 170 */ new UdLookupTableListEntry( ud_itab__170, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
-            /* 171 */ new UdLookupTableListEntry( ud_itab__171, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
-            /* 172 */ new UdLookupTableListEntry( ud_itab__172, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
-            /* 173 */ new UdLookupTableListEntry( ud_itab__173, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
-            /* 174 */ new UdLookupTableListEntry( ud_itab__174, UdTableType.UD_TAB__OPC_OSIZE, "/o" ),
-            /* 175 */ new UdLookupTableListEntry( ud_itab__175, UdTableType.UD_TAB__OPC_OSIZE, "/o" ),
-            /* 176 */ new UdLookupTableListEntry( ud_itab__176, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
-            /* 177 */ new UdLookupTableListEntry( ud_itab__177, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
-            /* 178 */ new UdLookupTableListEntry( ud_itab__178, UdTableType.UD_TAB__OPC_REG, "/reg" ),
-            /* 179 */ new UdLookupTableListEntry( ud_itab__179, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
-            /* 180 */ new UdLookupTableListEntry( ud_itab__180, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
-            /* 181 */ new UdLookupTableListEntry( ud_itab__181, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
-            /* 182 */ new UdLookupTableListEntry( ud_itab__182, UdTableType.UD_TAB__OPC_REG, "/reg" ),
-            /* 183 */ new UdLookupTableListEntry( ud_itab__183, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
-            /* 184 */ new UdLookupTableListEntry( ud_itab__184, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
-            /* 185 */ new UdLookupTableListEntry( ud_itab__185, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
-            /* 186 */ new UdLookupTableListEntry( ud_itab__186, UdTableType.UD_TAB__OPC_REG, "/reg" ),
-            /* 187 */ new UdLookupTableListEntry( ud_itab__187, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
-            /* 188 */ new UdLookupTableListEntry( ud_itab__188, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
-            /* 189 */ new UdLookupTableListEntry( ud_itab__189, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
-            /* 190 */ new UdLookupTableListEntry( ud_itab__190, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
-            /* 191 */ new UdLookupTableListEntry( ud_itab__191, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
-            /* 192 */ new UdLookupTableListEntry( ud_itab__192, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
-            /* 193 */ new UdLookupTableListEntry( ud_itab__193, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
-            /* 194 */ new UdLookupTableListEntry( ud_itab__194, UdTableType.UD_TAB__OPC_VENDOR, "/vendor" ),
-            /* 195 */ new UdLookupTableListEntry( ud_itab__195, UdTableType.UD_TAB__OPC_VENDOR, "/vendor" ),
-            /* 196 */ new UdLookupTableListEntry( ud_itab__196, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
-            /* 197 */ new UdLookupTableListEntry( ud_itab__197, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
-            /* 198 */ new UdLookupTableListEntry( ud_itab__198, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
-            /* 199 */ new UdLookupTableListEntry( ud_itab__199, UdTableType.UD_TAB__OPC_OSIZE, "/o" ),
-            /* 200 */ new UdLookupTableListEntry( ud_itab__200, UdTableType.UD_TAB__OPC_OSIZE, "/o" ),
-            /* 201 */ new UdLookupTableListEntry( ud_itab__201, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
-            /* 202 */ new UdLookupTableListEntry( ud_itab__202, UdTableType.UD_TAB__OPC_MOD, "/mod" ),
-            /* 203 */ new UdLookupTableListEntry( ud_itab__203, UdTableType.UD_TAB__OPC_REG, "/reg" ),
-            /* 204 */ new UdLookupTableListEntry( ud_itab__204, UdTableType.UD_TAB__OPC_RM, "/rm" ),
-            /* 205 */ new UdLookupTableListEntry( ud_itab__205, UdTableType.UD_TAB__OPC_RM, "/rm" ),
-            /* 206 */ new UdLookupTableListEntry( ud_itab__206, UdTableType.UD_TAB__OPC_RM, "/rm" ),
-            /* 207 */ new UdLookupTableListEntry( ud_itab__207, UdTableType.UD_TAB__OPC_MOD, "/mod" ),
-            /* 208 */ new UdLookupTableListEntry( ud_itab__208, UdTableType.UD_TAB__OPC_REG, "/reg" ),
-            /* 209 */ new UdLookupTableListEntry( ud_itab__209, UdTableType.UD_TAB__OPC_RM, "/rm" ),
-            /* 210 */ new UdLookupTableListEntry( ud_itab__210, UdTableType.UD_TAB__OPC_RM, "/rm" ),
-            /* 211 */ new UdLookupTableListEntry( ud_itab__211, UdTableType.UD_TAB__OPC_RM, "/rm" ),
-            /* 212 */ new UdLookupTableListEntry( ud_itab__212, UdTableType.UD_TAB__OPC_RM, "/rm" ),
-            /* 213 */ new UdLookupTableListEntry( ud_itab__213, UdTableType.UD_TAB__OPC_RM, "/rm" ),
-            /* 214 */ new UdLookupTableListEntry( ud_itab__214, UdTableType.UD_TAB__OPC_RM, "/rm" ),
-            /* 215 */ new UdLookupTableListEntry( ud_itab__215, UdTableType.UD_TAB__OPC_MOD, "/mod" ),
-            /* 216 */ new UdLookupTableListEntry( ud_itab__216, UdTableType.UD_TAB__OPC_REG, "/reg" ),
-            /* 217 */ new UdLookupTableListEntry( ud_itab__217, UdTableType.UD_TAB__OPC_REG, "/reg" ),
-            /* 218 */ new UdLookupTableListEntry( ud_itab__218, UdTableType.UD_TAB__OPC_RM, "/rm" ),
-            /* 219 */ new UdLookupTableListEntry( ud_itab__219, UdTableType.UD_TAB__OPC_RM, "/rm" ),
-            /* 220 */ new UdLookupTableListEntry( ud_itab__220, UdTableType.UD_TAB__OPC_RM, "/rm" ),
-            /* 221 */ new UdLookupTableListEntry( ud_itab__221, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
-            /* 222 */ new UdLookupTableListEntry( ud_itab__222, UdTableType.UD_TAB__OPC_REG, "/reg" ),
-            /* 223 */ new UdLookupTableListEntry( ud_itab__223, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
-            /* 224 */ new UdLookupTableListEntry( ud_itab__224, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
-            /* 225 */ new UdLookupTableListEntry( ud_itab__225, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
-            /* 226 */ new UdLookupTableListEntry( ud_itab__226, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
-            /* 227 */ new UdLookupTableListEntry( ud_itab__227, UdTableType.UD_TAB__OPC_MOD, "/mod" ),
-            /* 228 */ new UdLookupTableListEntry( ud_itab__228, UdTableType.UD_TAB__OPC_REG, "/reg" ),
-            /* 229 */ new UdLookupTableListEntry( ud_itab__229, UdTableType.UD_TAB__OPC_OSIZE, "/o" ),
-            /* 230 */ new UdLookupTableListEntry( ud_itab__230, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
-            /* 231 */ new UdLookupTableListEntry( ud_itab__231, UdTableType.UD_TAB__OPC_VENDOR, "/vendor" ),
-            /* 232 */ new UdLookupTableListEntry( ud_itab__232, UdTableType.UD_TAB__OPC_VENDOR, "/vendor" ),
-            /* 233 */ new UdLookupTableListEntry( ud_itab__233, UdTableType.UD_TAB__OPC_VENDOR, "/vendor" ),
-            /* 234 */ new UdLookupTableListEntry( ud_itab__234, UdTableType.UD_TAB__OPC_VENDOR, "/vendor" ),
-            /* 235 */ new UdLookupTableListEntry( ud_itab__235, UdTableType.UD_TAB__OPC_REG, "/reg" ),
-            /* 236 */ new UdLookupTableListEntry( ud_itab__236, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
-            /* 237 */ new UdLookupTableListEntry( ud_itab__237, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
-            /* 238 */ new UdLookupTableListEntry( ud_itab__238, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
-            /* 239 */ new UdLookupTableListEntry( ud_itab__239, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
-            /* 240 */ new UdLookupTableListEntry( ud_itab__240, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
-            /* 241 */ new UdLookupTableListEntry( ud_itab__241, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
-            /* 242 */ new UdLookupTableListEntry( ud_itab__242, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
-            /* 243 */ new UdLookupTableListEntry( ud_itab__243, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
-            /* 244 */ new UdLookupTableListEntry( ud_itab__244, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
-            /* 245 */ new UdLookupTableListEntry( ud_itab__245, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
-            /* 246 */ new UdLookupTableListEntry( ud_itab__246, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
-            /* 247 */ new UdLookupTableListEntry( ud_itab__247, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
-            /* 248 */ new UdLookupTableListEntry( ud_itab__248, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
-            /* 249 */ new UdLookupTableListEntry( ud_itab__249, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
-            /* 250 */ new UdLookupTableListEntry( ud_itab__250, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
-            /* 251 */ new UdLookupTableListEntry( ud_itab__251, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
-            /* 252 */ new UdLookupTableListEntry( ud_itab__252, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
-            /* 253 */ new UdLookupTableListEntry( ud_itab__253, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
-            /* 254 */ new UdLookupTableListEntry( ud_itab__254, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
-            /* 255 */ new UdLookupTableListEntry( ud_itab__255, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
-            /* 256 */ new UdLookupTableListEntry( ud_itab__256, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
-            /* 257 */ new UdLookupTableListEntry( ud_itab__257, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
-            /* 258 */ new UdLookupTableListEntry( ud_itab__258, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
-            /* 259 */ new UdLookupTableListEntry( ud_itab__259, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
-            /* 260 */ new UdLookupTableListEntry( ud_itab__260, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
-            /* 261 */ new UdLookupTableListEntry( ud_itab__261, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
-            /* 262 */ new UdLookupTableListEntry( ud_itab__262, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
-            /* 263 */ new UdLookupTableListEntry( ud_itab__263, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
-            /* 264 */ new UdLookupTableListEntry( ud_itab__264, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
-            /* 265 */ new UdLookupTableListEntry( ud_itab__265, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
-            /* 266 */ new UdLookupTableListEntry( ud_itab__266, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
-            /* 267 */ new UdLookupTableListEntry( ud_itab__267, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
-            /* 268 */ new UdLookupTableListEntry( ud_itab__268, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
-            /* 269 */ new UdLookupTableListEntry( ud_itab__269, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
-            /* 270 */ new UdLookupTableListEntry( ud_itab__270, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
-            /* 271 */ new UdLookupTableListEntry( ud_itab__271, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
-            /* 272 */ new UdLookupTableListEntry( ud_itab__272, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
-            /* 273 */ new UdLookupTableListEntry( ud_itab__273, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
-            /* 274 */ new UdLookupTableListEntry( ud_itab__274, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
-            /* 275 */ new UdLookupTableListEntry( ud_itab__275, UdTableType.UD_TAB__OPC_MOD, "/mod" ),
-            /* 276 */ new UdLookupTableListEntry( ud_itab__276, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
-            /* 277 */ new UdLookupTableListEntry( ud_itab__277, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
-            /* 278 */ new UdLookupTableListEntry( ud_itab__278, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
-            /* 279 */ new UdLookupTableListEntry( ud_itab__279, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
-            /* 280 */ new UdLookupTableListEntry( ud_itab__280, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
-            /* 281 */ new UdLookupTableListEntry( ud_itab__281, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
-            /* 282 */ new UdLookupTableListEntry( ud_itab__282, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
-            /* 283 */ new UdLookupTableListEntry( ud_itab__283, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
-            /* 284 */ new UdLookupTableListEntry( ud_itab__284, UdTableType.UD_TAB__OPC_MODE, "/m" ),
-            /* 285 */ new UdLookupTableListEntry( ud_itab__285, UdTableType.UD_TAB__OPC_MODE, "/m" ),
-            /* 286 */ new UdLookupTableListEntry( ud_itab__286, UdTableType.UD_TAB__OPC_MODE, "/m" ),
-            /* 287 */ new UdLookupTableListEntry( ud_itab__287, UdTableType.UD_TAB__OPC_MODE, "/m" ),
-            /* 288 */ new UdLookupTableListEntry( ud_itab__288, UdTableType.UD_TAB__OPC_MODE, "/m" ),
-            /* 289 */ new UdLookupTableListEntry( ud_itab__289, UdTableType.UD_TAB__OPC_MODE, "/m" ),
-            /* 290 */ new UdLookupTableListEntry( ud_itab__290, UdTableType.UD_TAB__OPC_MODE, "/m" ),
-            /* 291 */ new UdLookupTableListEntry( ud_itab__291, UdTableType.UD_TAB__OPC_MODE, "/m" ),
-            /* 292 */ new UdLookupTableListEntry( ud_itab__292, UdTableType.UD_TAB__OPC_OSIZE, "/o" ),
-            /* 293 */ new UdLookupTableListEntry( ud_itab__293, UdTableType.UD_TAB__OPC_MODE, "/m" ),
-            /* 294 */ new UdLookupTableListEntry( ud_itab__294, UdTableType.UD_TAB__OPC_MODE, "/m" ),
-            /* 295 */ new UdLookupTableListEntry( ud_itab__295, UdTableType.UD_TAB__OPC_OSIZE, "/o" ),
-            /* 296 */ new UdLookupTableListEntry( ud_itab__296, UdTableType.UD_TAB__OPC_MODE, "/m" ),
-            /* 297 */ new UdLookupTableListEntry( ud_itab__297, UdTableType.UD_TAB__OPC_MODE, "/m" ),
-            /* 298 */ new UdLookupTableListEntry( ud_itab__298, UdTableType.UD_TAB__OPC_MODE, "/m" ),
-            /* 299 */ new UdLookupTableListEntry( ud_itab__299, UdTableType.UD_TAB__OPC_MODE, "/m" ),
-            /* 300 */ new UdLookupTableListEntry( ud_itab__300, UdTableType.UD_TAB__OPC_OSIZE, "/o" ),
-            /* 301 */ new UdLookupTableListEntry( ud_itab__301, UdTableType.UD_TAB__OPC_OSIZE, "/o" ),
-            /* 302 */ new UdLookupTableListEntry( ud_itab__302, UdTableType.UD_TAB__OPC_REG, "/reg" ),
-            /* 303 */ new UdLookupTableListEntry( ud_itab__303, UdTableType.UD_TAB__OPC_REG, "/reg" ),
-            /* 304 */ new UdLookupTableListEntry( ud_itab__304, UdTableType.UD_TAB__OPC_REG, "/reg" ),
-            /* 305 */ new UdLookupTableListEntry( ud_itab__305, UdTableType.UD_TAB__OPC_MODE, "/m" ),
-            /* 306 */ new UdLookupTableListEntry( ud_itab__306, UdTableType.UD_TAB__OPC_MODE, "/m" ),
-            /* 307 */ new UdLookupTableListEntry( ud_itab__307, UdTableType.UD_TAB__OPC_MODE, "/m" ),
-            /* 308 */ new UdLookupTableListEntry( ud_itab__308, UdTableType.UD_TAB__OPC_MODE, "/m" ),
-            /* 309 */ new UdLookupTableListEntry( ud_itab__309, UdTableType.UD_TAB__OPC_MODE, "/m" ),
-            /* 310 */ new UdLookupTableListEntry( ud_itab__310, UdTableType.UD_TAB__OPC_MODE, "/m" ),
-            /* 311 */ new UdLookupTableListEntry( ud_itab__311, UdTableType.UD_TAB__OPC_MODE, "/m" ),
-            /* 312 */ new UdLookupTableListEntry( ud_itab__312, UdTableType.UD_TAB__OPC_MODE, "/m" ),
-            /* 313 */ new UdLookupTableListEntry( ud_itab__313, UdTableType.UD_TAB__OPC_REG, "/reg" ),
-            /* 314 */ new UdLookupTableListEntry( ud_itab__314, UdTableType.UD_TAB__OPC_REG, "/reg" ),
-            /* 315 */ new UdLookupTableListEntry( ud_itab__315, UdTableType.UD_TAB__OPC_OSIZE, "/o" ),
-            /* 316 */ new UdLookupTableListEntry( ud_itab__316, UdTableType.UD_TAB__OPC_OSIZE, "/o" ),
-            /* 317 */ new UdLookupTableListEntry( ud_itab__317, UdTableType.UD_TAB__OPC_MODE, "/m" ),
-            /* 318 */ new UdLookupTableListEntry( ud_itab__318, UdTableType.UD_TAB__OPC_OSIZE, "/o" ),
-            /* 319 */ new UdLookupTableListEntry( ud_itab__319, UdTableType.UD_TAB__OPC_MODE, "/m" ),
-            /* 320 */ new UdLookupTableListEntry( ud_itab__320, UdTableType.UD_TAB__OPC_MODE, "/m" ),
-            /* 321 */ new UdLookupTableListEntry( ud_itab__321, UdTableType.UD_TAB__OPC_MODE, "/m" ),
-            /* 322 */ new UdLookupTableListEntry( ud_itab__322, UdTableType.UD_TAB__OPC_OSIZE, "/o" ),
-            /* 323 */ new UdLookupTableListEntry( ud_itab__323, UdTableType.UD_TAB__OPC_MODE, "/m" ),
-            /* 324 */ new UdLookupTableListEntry( ud_itab__324, UdTableType.UD_TAB__OPC_MODE, "/m" ),
-            /* 325 */ new UdLookupTableListEntry( ud_itab__325, UdTableType.UD_TAB__OPC_MODE, "/m" ),
-            /* 326 */ new UdLookupTableListEntry( ud_itab__326, UdTableType.UD_TAB__OPC_OSIZE, "/o" ),
-            /* 327 */ new UdLookupTableListEntry( ud_itab__327, UdTableType.UD_TAB__OPC_OSIZE, "/o" ),
-            /* 328 */ new UdLookupTableListEntry( ud_itab__328, UdTableType.UD_TAB__OPC_OSIZE, "/o" ),
-            /* 329 */ new UdLookupTableListEntry( ud_itab__329, UdTableType.UD_TAB__OPC_OSIZE, "/o" ),
-            /* 330 */ new UdLookupTableListEntry( ud_itab__330, UdTableType.UD_TAB__OPC_OSIZE, "/o" ),
-            /* 331 */ new UdLookupTableListEntry( ud_itab__331, UdTableType.UD_TAB__OPC_REG, "/reg" ),
-            /* 332 */ new UdLookupTableListEntry( ud_itab__332, UdTableType.UD_TAB__OPC_REG, "/reg" ),
-            /* 333 */ new UdLookupTableListEntry( ud_itab__333, UdTableType.UD_TAB__OPC_VEX, "/vex" ),
-            /* 334 */ new UdLookupTableListEntry( ud_itab__334, UdTableType.UD_TAB__OPC_MODE, "/m" ),
-            /* 335 */ new UdLookupTableListEntry( ud_itab__335, UdTableType.UD_TAB__OPC_TABLE, "opctbl" ),
-            /* 336 */ new UdLookupTableListEntry( ud_itab__336, UdTableType.UD_TAB__OPC_MOD, "/mod" ),
-            /* 337 */ new UdLookupTableListEntry( ud_itab__337, UdTableType.UD_TAB__OPC_MOD, "/mod" ),
-            /* 338 */ new UdLookupTableListEntry( ud_itab__338, UdTableType.UD_TAB__OPC_VEX_L, "/vexl" ),
-            /* 339 */ new UdLookupTableListEntry( ud_itab__339, UdTableType.UD_TAB__OPC_MOD, "/mod" ),
-            /* 340 */ new UdLookupTableListEntry( ud_itab__340, UdTableType.UD_TAB__OPC_REG, "/reg" ),
-            /* 341 */ new UdLookupTableListEntry( ud_itab__341, UdTableType.UD_TAB__OPC_TABLE, "opctbl" ),
-            /* 342 */ new UdLookupTableListEntry( ud_itab__342, UdTableType.UD_TAB__OPC_MOD, "/mod" ),
-            /* 343 */ new UdLookupTableListEntry( ud_itab__343, UdTableType.UD_TAB__OPC_MOD, "/mod" ),
-            /* 344 */ new UdLookupTableListEntry( ud_itab__344, UdTableType.UD_TAB__OPC_OSIZE, "/o" ),
-            /* 345 */ new UdLookupTableListEntry( ud_itab__345, UdTableType.UD_TAB__OPC_REG, "/reg" ),
-            /* 346 */ new UdLookupTableListEntry( ud_itab__346, UdTableType.UD_TAB__OPC_VEX_L, "/vexl" ),
-            /* 347 */ new UdLookupTableListEntry( ud_itab__347, UdTableType.UD_TAB__OPC_REG, "/reg" ),
-            /* 348 */ new UdLookupTableListEntry( ud_itab__348, UdTableType.UD_TAB__OPC_VEX_L, "/vexl" ),
-            /* 349 */ new UdLookupTableListEntry( ud_itab__349, UdTableType.UD_TAB__OPC_REG, "/reg" ),
-            /* 350 */ new UdLookupTableListEntry( ud_itab__350, UdTableType.UD_TAB__OPC_VEX_L, "/vexl" ),
-            /* 351 */ new UdLookupTableListEntry( ud_itab__351, UdTableType.UD_TAB__OPC_OSIZE, "/o" ),
-            /* 352 */ new UdLookupTableListEntry( ud_itab__352, UdTableType.UD_TAB__OPC_VEX_L, "/vexl" ),
-            /* 353 */ new UdLookupTableListEntry( ud_itab__353, UdTableType.UD_TAB__OPC_VEX_L, "/vexl" ),
-            /* 354 */ new UdLookupTableListEntry( ud_itab__354, UdTableType.UD_TAB__OPC_VEX_L, "/vexl" ),
-            /* 355 */ new UdLookupTableListEntry( ud_itab__355, UdTableType.UD_TAB__OPC_VEX_L, "/vexl" ),
-            /* 356 */ new UdLookupTableListEntry( ud_itab__356, UdTableType.UD_TAB__OPC_MOD, "/mod" ),
-            /* 357 */ new UdLookupTableListEntry( ud_itab__357, UdTableType.UD_TAB__OPC_TABLE, "opctbl" ),
-            /* 358 */ new UdLookupTableListEntry( ud_itab__358, UdTableType.UD_TAB__OPC_VEX_W, "/vexw" ),
-            /* 359 */ new UdLookupTableListEntry( ud_itab__359, UdTableType.UD_TAB__OPC_VEX_W, "/vexw" ),
-            /* 360 */ new UdLookupTableListEntry( ud_itab__360, UdTableType.UD_TAB__OPC_VEX_W, "/vexw" ),
-            /* 361 */ new UdLookupTableListEntry( ud_itab__361, UdTableType.UD_TAB__OPC_VEX_W, "/vexw" ),
-            /* 362 */ new UdLookupTableListEntry( ud_itab__362, UdTableType.UD_TAB__OPC_VEX_W, "/vexw" ),
-            /* 363 */ new UdLookupTableListEntry( ud_itab__363, UdTableType.UD_TAB__OPC_VEX_W, "/vexw" ),
-            /* 364 */ new UdLookupTableListEntry( ud_itab__364, UdTableType.UD_TAB__OPC_VEX_L, "/vexl" ),
-            /* 365 */ new UdLookupTableListEntry( ud_itab__365, UdTableType.UD_TAB__OPC_VEX_W, "/vexw" ),
-            /* 366 */ new UdLookupTableListEntry( ud_itab__366, UdTableType.UD_TAB__OPC_VEX_W, "/vexw" ),
-            /* 367 */ new UdLookupTableListEntry( ud_itab__367, UdTableType.UD_TAB__OPC_VEX_W, "/vexw" ),
-            /* 368 */ new UdLookupTableListEntry( ud_itab__368, UdTableType.UD_TAB__OPC_VEX_W, "/vexw" ),
-            /* 369 */ new UdLookupTableListEntry( ud_itab__369, UdTableType.UD_TAB__OPC_TABLE, "opctbl" ),
-            /* 370 */ new UdLookupTableListEntry( ud_itab__370, UdTableType.UD_TAB__OPC_VEX_W, "/vexw" ),
-            /* 371 */ new UdLookupTableListEntry( ud_itab__371, UdTableType.UD_TAB__OPC_VEX_W, "/vexw" ),
-            /* 372 */ new UdLookupTableListEntry( ud_itab__372, UdTableType.UD_TAB__OPC_VEX_W, "/vexw" ),
-            /* 373 */ new UdLookupTableListEntry( ud_itab__373, UdTableType.UD_TAB__OPC_VEX_L, "/vexl" ),
-            /* 374 */ new UdLookupTableListEntry( ud_itab__374, UdTableType.UD_TAB__OPC_VEX_W, "/vexw" ),
-            /* 375 */ new UdLookupTableListEntry( ud_itab__375, UdTableType.UD_TAB__OPC_OSIZE, "/o" ),
-            /* 376 */ new UdLookupTableListEntry( ud_itab__376, UdTableType.UD_TAB__OPC_VEX_W, "/vexw" ),
-            /* 377 */ new UdLookupTableListEntry( ud_itab__377, UdTableType.UD_TAB__OPC_VEX_W, "/vexw" ),
-            /* 378 */ new UdLookupTableListEntry( ud_itab__378, UdTableType.UD_TAB__OPC_VEX_W, "/vexw" ),
-            /* 379 */ new UdLookupTableListEntry( ud_itab__379, UdTableType.UD_TAB__OPC_VEX_W, "/vexw" ),
-            /* 380 */ new UdLookupTableListEntry( ud_itab__380, UdTableType.UD_TAB__OPC_VEX_L, "/vexl" ),
-            /* 381 */ new UdLookupTableListEntry( ud_itab__381, UdTableType.UD_TAB__OPC_VEX_W, "/vexw" ),
-            /* 382 */ new UdLookupTableListEntry( ud_itab__382, UdTableType.UD_TAB__OPC_VEX_L, "/vexl" ),
-            /* 383 */ new UdLookupTableListEntry( ud_itab__383, UdTableType.UD_TAB__OPC_VEX_W, "/vexw" ),
-            /* 384 */ new UdLookupTableListEntry( ud_itab__384, UdTableType.UD_TAB__OPC_VEX_L, "/vexl" ),
-            /* 385 */ new UdLookupTableListEntry( ud_itab__385, UdTableType.UD_TAB__OPC_MODE, "/m" ),
-            /* 386 */ new UdLookupTableListEntry( ud_itab__386, UdTableType.UD_TAB__OPC_VEX_W, "/vexw" ),
-            /* 387 */ new UdLookupTableListEntry( ud_itab__387, UdTableType.UD_TAB__OPC_VEX_L, "/vexl" ),
-            /* 388 */ new UdLookupTableListEntry( ud_itab__388, UdTableType.UD_TAB__OPC_VEX_W, "/vexw" ),
-            /* 389 */ new UdLookupTableListEntry( ud_itab__389, UdTableType.UD_TAB__OPC_VEX_L, "/vexl" ),
-            /* 390 */ new UdLookupTableListEntry( ud_itab__390, UdTableType.UD_TAB__OPC_VEX_L, "/vexl" ),
-            /* 391 */ new UdLookupTableListEntry( ud_itab__391, UdTableType.UD_TAB__OPC_VEX_W, "/vexw" ),
-            /* 392 */ new UdLookupTableListEntry( ud_itab__392, UdTableType.UD_TAB__OPC_VEX_W, "/vexw" ),
-            /* 393 */ new UdLookupTableListEntry( ud_itab__393, UdTableType.UD_TAB__OPC_VEX_W, "/vexw" ),
-            /* 394 */ new UdLookupTableListEntry( ud_itab__394, UdTableType.UD_TAB__OPC_TABLE, "opctbl" ),
-            /* 395 */ new UdLookupTableListEntry( ud_itab__395, UdTableType.UD_TAB__OPC_MOD, "/mod" ),
-            /* 396 */ new UdLookupTableListEntry( ud_itab__396, UdTableType.UD_TAB__OPC_MOD, "/mod" ),
-            /* 397 */ new UdLookupTableListEntry( ud_itab__397, UdTableType.UD_TAB__OPC_MOD, "/mod" ),
-            /* 398 */ new UdLookupTableListEntry( ud_itab__398, UdTableType.UD_TAB__OPC_MOD, "/mod" ),
-            /* 399 */ new UdLookupTableListEntry( ud_itab__399, UdTableType.UD_TAB__OPC_TABLE, "opctbl" ),
-            /* 400 */ new UdLookupTableListEntry( ud_itab__400, UdTableType.UD_TAB__OPC_MOD, "/mod" ),
-            /* 401 */ new UdLookupTableListEntry( ud_itab__401, UdTableType.UD_TAB__OPC_MOD, "/mod" ),
-            /* 402 */ new UdLookupTableListEntry( ud_itab__402, UdTableType.UD_TAB__OPC_MOD, "/mod" ),
-            /* 403 */ new UdLookupTableListEntry( ud_itab__403, UdTableType.UD_TAB__OPC_VEX, "/vex" ),
-            /* 404 */ new UdLookupTableListEntry( ud_itab__404, UdTableType.UD_TAB__OPC_MODE, "/m" ),
-            /* 405 */ new UdLookupTableListEntry( ud_itab__405, UdTableType.UD_TAB__OPC_REG, "/reg" ),
-            /* 406 */ new UdLookupTableListEntry( ud_itab__406, UdTableType.UD_TAB__OPC_REG, "/reg" ),
-            /* 407 */ new UdLookupTableListEntry( ud_itab__407, UdTableType.UD_TAB__OPC_MODE, "/m" ),
-            /* 408 */ new UdLookupTableListEntry( ud_itab__408, UdTableType.UD_TAB__OPC_OSIZE, "/o" ),
-            /* 409 */ new UdLookupTableListEntry( ud_itab__409, UdTableType.UD_TAB__OPC_REG, "/reg" ),
-            /* 410 */ new UdLookupTableListEntry( ud_itab__410, UdTableType.UD_TAB__OPC_REG, "/reg" ),
-            /* 411 */ new UdLookupTableListEntry( ud_itab__411, UdTableType.UD_TAB__OPC_REG, "/reg" ),
-            /* 412 */ new UdLookupTableListEntry( ud_itab__412, UdTableType.UD_TAB__OPC_REG, "/reg" ),
-            /* 413 */ new UdLookupTableListEntry( ud_itab__413, UdTableType.UD_TAB__OPC_MODE, "/m" ),
-            /* 414 */ new UdLookupTableListEntry( ud_itab__414, UdTableType.UD_TAB__OPC_MODE, "/m" ),
-            /* 415 */ new UdLookupTableListEntry( ud_itab__415, UdTableType.UD_TAB__OPC_MODE, "/m" ),
-            /* 416 */ new UdLookupTableListEntry( ud_itab__416, UdTableType.UD_TAB__OPC_MOD, "/mod" ),
-            /* 417 */ new UdLookupTableListEntry( ud_itab__417, UdTableType.UD_TAB__OPC_REG, "/reg" ),
-            /* 418 */ new UdLookupTableListEntry( ud_itab__418, UdTableType.UD_TAB__OPC_X87, "/x87" ),
-            /* 419 */ new UdLookupTableListEntry( ud_itab__419, UdTableType.UD_TAB__OPC_MOD, "/mod" ),
-            /* 420 */ new UdLookupTableListEntry( ud_itab__420, UdTableType.UD_TAB__OPC_REG, "/reg" ),
-            /* 421 */ new UdLookupTableListEntry( ud_itab__421, UdTableType.UD_TAB__OPC_X87, "/x87" ),
-            /* 422 */ new UdLookupTableListEntry( ud_itab__422, UdTableType.UD_TAB__OPC_MOD, "/mod" ),
-            /* 423 */ new UdLookupTableListEntry( ud_itab__423, UdTableType.UD_TAB__OPC_REG, "/reg" ),
-            /* 424 */ new UdLookupTableListEntry( ud_itab__424, UdTableType.UD_TAB__OPC_X87, "/x87" ),
-            /* 425 */ new UdLookupTableListEntry( ud_itab__425, UdTableType.UD_TAB__OPC_MOD, "/mod" ),
-            /* 426 */ new UdLookupTableListEntry( ud_itab__426, UdTableType.UD_TAB__OPC_REG, "/reg" ),
-            /* 427 */ new UdLookupTableListEntry( ud_itab__427, UdTableType.UD_TAB__OPC_X87, "/x87" ),
-            /* 428 */ new UdLookupTableListEntry( ud_itab__428, UdTableType.UD_TAB__OPC_MOD, "/mod" ),
-            /* 429 */ new UdLookupTableListEntry( ud_itab__429, UdTableType.UD_TAB__OPC_REG, "/reg" ),
-            /* 430 */ new UdLookupTableListEntry( ud_itab__430, UdTableType.UD_TAB__OPC_X87, "/x87" ),
-            /* 431 */ new UdLookupTableListEntry( ud_itab__431, UdTableType.UD_TAB__OPC_MOD, "/mod" ),
-            /* 432 */ new UdLookupTableListEntry( ud_itab__432, UdTableType.UD_TAB__OPC_REG, "/reg" ),
-            /* 433 */ new UdLookupTableListEntry( ud_itab__433, UdTableType.UD_TAB__OPC_X87, "/x87" ),
-            /* 434 */ new UdLookupTableListEntry( ud_itab__434, UdTableType.UD_TAB__OPC_MOD, "/mod" ),
-            /* 435 */ new UdLookupTableListEntry( ud_itab__435, UdTableType.UD_TAB__OPC_REG, "/reg" ),
-            /* 436 */ new UdLookupTableListEntry( ud_itab__436, UdTableType.UD_TAB__OPC_X87, "/x87" ),
-            /* 437 */ new UdLookupTableListEntry( ud_itab__437, UdTableType.UD_TAB__OPC_MOD, "/mod" ),
-            /* 438 */ new UdLookupTableListEntry( ud_itab__438, UdTableType.UD_TAB__OPC_REG, "/reg" ),
-            /* 439 */ new UdLookupTableListEntry( ud_itab__439, UdTableType.UD_TAB__OPC_X87, "/x87" ),
-            /* 440 */ new UdLookupTableListEntry( ud_itab__440, UdTableType.UD_TAB__OPC_ASIZE, "/a" ),
-            /* 441 */ new UdLookupTableListEntry( ud_itab__441, UdTableType.UD_TAB__OPC_MODE, "/m" ),
-            /* 442 */ new UdLookupTableListEntry( ud_itab__442, UdTableType.UD_TAB__OPC_REG, "/reg" ),
-            /* 443 */ new UdLookupTableListEntry( ud_itab__443, UdTableType.UD_TAB__OPC_REG, "/reg" ),
-            /* 444 */ new UdLookupTableListEntry( ud_itab__444, UdTableType.UD_TAB__OPC_REG, "/reg" ),
-            /* 445 */ new UdLookupTableListEntry( ud_itab__445, UdTableType.UD_TAB__OPC_REG, "/reg" ),
-            /* 446 */ new UdLookupTableListEntry( ud_itab__446, UdTableType.UD_TAB__OPC_MODE, "/m" ),
+            /* 000 */ new UdLookupTableListEntry( udItab0, UdTableType.UD_TAB__OPC_TABLE, "opctbl" ),
+            /* 001 */ new UdLookupTableListEntry( udItab1, UdTableType.UD_TAB__OPC_MODE, "/m" ),
+            /* 002 */ new UdLookupTableListEntry( udItab2, UdTableType.UD_TAB__OPC_MODE, "/m" ),
+            /* 003 */ new UdLookupTableListEntry( udItab3, UdTableType.UD_TAB__OPC_MODE, "/m" ),
+            /* 004 */ new UdLookupTableListEntry( udItab4, UdTableType.UD_TAB__OPC_TABLE, "opctbl" ),
+            /* 005 */ new UdLookupTableListEntry( udItab5, UdTableType.UD_TAB__OPC_REG, "/reg" ),
+            /* 006 */ new UdLookupTableListEntry( udItab6, UdTableType.UD_TAB__OPC_MOD, "/mod" ),
+            /* 007 */ new UdLookupTableListEntry( udItab7, UdTableType.UD_TAB__OPC_REG, "/reg" ),
+            /* 008 */ new UdLookupTableListEntry( udItab8, UdTableType.UD_TAB__OPC_REG, "/reg" ),
+            /* 009 */ new UdLookupTableListEntry( udItab9, UdTableType.UD_TAB__OPC_RM, "/rm" ),
+            /* 010 */ new UdLookupTableListEntry( udItab10, UdTableType.UD_TAB__OPC_VENDOR, "/vendor" ),
+            /* 011 */ new UdLookupTableListEntry( udItab11, UdTableType.UD_TAB__OPC_VENDOR, "/vendor" ),
+            /* 012 */ new UdLookupTableListEntry( udItab12, UdTableType.UD_TAB__OPC_VENDOR, "/vendor" ),
+            /* 013 */ new UdLookupTableListEntry( udItab13, UdTableType.UD_TAB__OPC_VENDOR, "/vendor" ),
+            /* 014 */ new UdLookupTableListEntry( udItab14, UdTableType.UD_TAB__OPC_RM, "/rm" ),
+            /* 015 */ new UdLookupTableListEntry( udItab15, UdTableType.UD_TAB__OPC_RM, "/rm" ),
+            /* 016 */ new UdLookupTableListEntry( udItab16, UdTableType.UD_TAB__OPC_RM, "/rm" ),
+            /* 017 */ new UdLookupTableListEntry( udItab17, UdTableType.UD_TAB__OPC_VENDOR, "/vendor" ),
+            /* 018 */ new UdLookupTableListEntry( udItab18, UdTableType.UD_TAB__OPC_VENDOR, "/vendor" ),
+            /* 019 */ new UdLookupTableListEntry( udItab19, UdTableType.UD_TAB__OPC_VENDOR, "/vendor" ),
+            /* 020 */ new UdLookupTableListEntry( udItab20, UdTableType.UD_TAB__OPC_VENDOR, "/vendor" ),
+            /* 021 */ new UdLookupTableListEntry( udItab21, UdTableType.UD_TAB__OPC_VENDOR, "/vendor" ),
+            /* 022 */ new UdLookupTableListEntry( udItab22, UdTableType.UD_TAB__OPC_VENDOR, "/vendor" ),
+            /* 023 */ new UdLookupTableListEntry( udItab23, UdTableType.UD_TAB__OPC_VENDOR, "/vendor" ),
+            /* 024 */ new UdLookupTableListEntry( udItab24, UdTableType.UD_TAB__OPC_VENDOR, "/vendor" ),
+            /* 025 */ new UdLookupTableListEntry( udItab25, UdTableType.UD_TAB__OPC_RM, "/rm" ),
+            /* 026 */ new UdLookupTableListEntry( udItab26, UdTableType.UD_TAB__OPC_VENDOR, "/vendor" ),
+            /* 027 */ new UdLookupTableListEntry( udItab27, UdTableType.UD_TAB__OPC_REG, "/reg" ),
+            /* 028 */ new UdLookupTableListEntry( udItab28, UdTableType.UD_TAB__OPC_3DNOW, "/3dnow" ),
+            /* 029 */ new UdLookupTableListEntry( udItab29, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
+            /* 030 */ new UdLookupTableListEntry( udItab30, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
+            /* 031 */ new UdLookupTableListEntry( udItab31, UdTableType.UD_TAB__OPC_MOD, "/mod" ),
+            /* 032 */ new UdLookupTableListEntry( udItab32, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
+            /* 033 */ new UdLookupTableListEntry( udItab33, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
+            /* 034 */ new UdLookupTableListEntry( udItab34, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
+            /* 035 */ new UdLookupTableListEntry( udItab35, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
+            /* 036 */ new UdLookupTableListEntry( udItab36, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
+            /* 037 */ new UdLookupTableListEntry( udItab37, UdTableType.UD_TAB__OPC_MOD, "/mod" ),
+            /* 038 */ new UdLookupTableListEntry( udItab38, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
+            /* 039 */ new UdLookupTableListEntry( udItab39, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
+            /* 040 */ new UdLookupTableListEntry( udItab40, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
+            /* 041 */ new UdLookupTableListEntry( udItab41, UdTableType.UD_TAB__OPC_REG, "/reg" ),
+            /* 042 */ new UdLookupTableListEntry( udItab42, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
+            /* 043 */ new UdLookupTableListEntry( udItab43, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
+            /* 044 */ new UdLookupTableListEntry( udItab44, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
+            /* 045 */ new UdLookupTableListEntry( udItab45, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
+            /* 046 */ new UdLookupTableListEntry( udItab46, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
+            /* 047 */ new UdLookupTableListEntry( udItab47, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
+            /* 048 */ new UdLookupTableListEntry( udItab48, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
+            /* 049 */ new UdLookupTableListEntry( udItab49, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
+            /* 050 */ new UdLookupTableListEntry( udItab50, UdTableType.UD_TAB__OPC_MODE, "/m" ),
+            /* 051 */ new UdLookupTableListEntry( udItab51, UdTableType.UD_TAB__OPC_VENDOR, "/vendor" ),
+            /* 052 */ new UdLookupTableListEntry( udItab52, UdTableType.UD_TAB__OPC_MODE, "/m" ),
+            /* 053 */ new UdLookupTableListEntry( udItab53, UdTableType.UD_TAB__OPC_VENDOR, "/vendor" ),
+            /* 054 */ new UdLookupTableListEntry( udItab54, UdTableType.UD_TAB__OPC_TABLE, "opctbl" ),
+            /* 055 */ new UdLookupTableListEntry( udItab55, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
+            /* 056 */ new UdLookupTableListEntry( udItab56, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
+            /* 057 */ new UdLookupTableListEntry( udItab57, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
+            /* 058 */ new UdLookupTableListEntry( udItab58, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
+            /* 059 */ new UdLookupTableListEntry( udItab59, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
+            /* 060 */ new UdLookupTableListEntry( udItab60, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
+            /* 061 */ new UdLookupTableListEntry( udItab61, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
+            /* 062 */ new UdLookupTableListEntry( udItab62, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
+            /* 063 */ new UdLookupTableListEntry( udItab63, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
+            /* 064 */ new UdLookupTableListEntry( udItab64, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
+            /* 065 */ new UdLookupTableListEntry( udItab65, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
+            /* 066 */ new UdLookupTableListEntry( udItab66, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
+            /* 067 */ new UdLookupTableListEntry( udItab67, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
+            /* 068 */ new UdLookupTableListEntry( udItab68, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
+            /* 069 */ new UdLookupTableListEntry( udItab69, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
+            /* 070 */ new UdLookupTableListEntry( udItab70, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
+            /* 071 */ new UdLookupTableListEntry( udItab71, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
+            /* 072 */ new UdLookupTableListEntry( udItab72, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
+            /* 073 */ new UdLookupTableListEntry( udItab73, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
+            /* 074 */ new UdLookupTableListEntry( udItab74, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
+            /* 075 */ new UdLookupTableListEntry( udItab75, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
+            /* 076 */ new UdLookupTableListEntry( udItab76, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
+            /* 077 */ new UdLookupTableListEntry( udItab77, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
+            /* 078 */ new UdLookupTableListEntry( udItab78, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
+            /* 079 */ new UdLookupTableListEntry( udItab79, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
+            /* 080 */ new UdLookupTableListEntry( udItab80, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
+            /* 081 */ new UdLookupTableListEntry( udItab81, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
+            /* 082 */ new UdLookupTableListEntry( udItab82, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
+            /* 083 */ new UdLookupTableListEntry( udItab83, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
+            /* 084 */ new UdLookupTableListEntry( udItab84, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
+            /* 085 */ new UdLookupTableListEntry( udItab85, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
+            /* 086 */ new UdLookupTableListEntry( udItab86, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
+            /* 087 */ new UdLookupTableListEntry( udItab87, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
+            /* 088 */ new UdLookupTableListEntry( udItab88, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
+            /* 089 */ new UdLookupTableListEntry( udItab89, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
+            /* 090 */ new UdLookupTableListEntry( udItab90, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
+            /* 091 */ new UdLookupTableListEntry( udItab91, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
+            /* 092 */ new UdLookupTableListEntry( udItab92, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
+            /* 093 */ new UdLookupTableListEntry( udItab93, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
+            /* 094 */ new UdLookupTableListEntry( udItab94, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
+            /* 095 */ new UdLookupTableListEntry( udItab95, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
+            /* 096 */ new UdLookupTableListEntry( udItab96, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
+            /* 097 */ new UdLookupTableListEntry( udItab97, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
+            /* 098 */ new UdLookupTableListEntry( udItab98, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
+            /* 099 */ new UdLookupTableListEntry( udItab99, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
+            /* 100 */ new UdLookupTableListEntry( udItab100, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
+            /* 101 */ new UdLookupTableListEntry( udItab101, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
+            /* 102 */ new UdLookupTableListEntry( udItab102, UdTableType.UD_TAB__OPC_MODE, "/m" ),
+            /* 103 */ new UdLookupTableListEntry( udItab103, UdTableType.UD_TAB__OPC_VENDOR, "/vendor" ),
+            /* 104 */ new UdLookupTableListEntry( udItab104, UdTableType.UD_TAB__OPC_VENDOR, "/vendor" ),
+            /* 105 */ new UdLookupTableListEntry( udItab105, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
+            /* 106 */ new UdLookupTableListEntry( udItab106, UdTableType.UD_TAB__OPC_MODE, "/m" ),
+            /* 107 */ new UdLookupTableListEntry( udItab107, UdTableType.UD_TAB__OPC_VENDOR, "/vendor" ),
+            /* 108 */ new UdLookupTableListEntry( udItab108, UdTableType.UD_TAB__OPC_VENDOR, "/vendor" ),
+            /* 109 */ new UdLookupTableListEntry( udItab109, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
+            /* 110 */ new UdLookupTableListEntry( udItab110, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
+            /* 111 */ new UdLookupTableListEntry( udItab111, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
+            /* 112 */ new UdLookupTableListEntry( udItab112, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
+            /* 113 */ new UdLookupTableListEntry( udItab113, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
+            /* 114 */ new UdLookupTableListEntry( udItab114, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
+            /* 115 */ new UdLookupTableListEntry( udItab115, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
+            /* 116 */ new UdLookupTableListEntry( udItab116, UdTableType.UD_TAB__OPC_TABLE, "opctbl" ),
+            /* 117 */ new UdLookupTableListEntry( udItab117, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
+            /* 118 */ new UdLookupTableListEntry( udItab118, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
+            /* 119 */ new UdLookupTableListEntry( udItab119, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
+            /* 120 */ new UdLookupTableListEntry( udItab120, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
+            /* 121 */ new UdLookupTableListEntry( udItab121, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
+            /* 122 */ new UdLookupTableListEntry( udItab122, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
+            /* 123 */ new UdLookupTableListEntry( udItab123, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
+            /* 124 */ new UdLookupTableListEntry( udItab124, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
+            /* 125 */ new UdLookupTableListEntry( udItab125, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
+            /* 126 */ new UdLookupTableListEntry( udItab126, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
+            /* 127 */ new UdLookupTableListEntry( udItab127, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
+            /* 128 */ new UdLookupTableListEntry( udItab128, UdTableType.UD_TAB__OPC_OSIZE, "/o" ),
+            /* 129 */ new UdLookupTableListEntry( udItab129, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
+            /* 130 */ new UdLookupTableListEntry( udItab130, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
+            /* 131 */ new UdLookupTableListEntry( udItab131, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
+            /* 132 */ new UdLookupTableListEntry( udItab132, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
+            /* 133 */ new UdLookupTableListEntry( udItab133, UdTableType.UD_TAB__OPC_OSIZE, "/o" ),
+            /* 134 */ new UdLookupTableListEntry( udItab134, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
+            /* 135 */ new UdLookupTableListEntry( udItab135, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
+            /* 136 */ new UdLookupTableListEntry( udItab136, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
+            /* 137 */ new UdLookupTableListEntry( udItab137, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
+            /* 138 */ new UdLookupTableListEntry( udItab138, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
+            /* 139 */ new UdLookupTableListEntry( udItab139, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
+            /* 140 */ new UdLookupTableListEntry( udItab140, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
+            /* 141 */ new UdLookupTableListEntry( udItab141, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
+            /* 142 */ new UdLookupTableListEntry( udItab142, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
+            /* 143 */ new UdLookupTableListEntry( udItab143, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
+            /* 144 */ new UdLookupTableListEntry( udItab144, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
+            /* 145 */ new UdLookupTableListEntry( udItab145, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
+            /* 146 */ new UdLookupTableListEntry( udItab146, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
+            /* 147 */ new UdLookupTableListEntry( udItab147, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
+            /* 148 */ new UdLookupTableListEntry( udItab148, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
+            /* 149 */ new UdLookupTableListEntry( udItab149, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
+            /* 150 */ new UdLookupTableListEntry( udItab150, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
+            /* 151 */ new UdLookupTableListEntry( udItab151, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
+            /* 152 */ new UdLookupTableListEntry( udItab152, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
+            /* 153 */ new UdLookupTableListEntry( udItab153, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
+            /* 154 */ new UdLookupTableListEntry( udItab154, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
+            /* 155 */ new UdLookupTableListEntry( udItab155, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
+            /* 156 */ new UdLookupTableListEntry( udItab156, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
+            /* 157 */ new UdLookupTableListEntry( udItab157, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
+            /* 158 */ new UdLookupTableListEntry( udItab158, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
+            /* 159 */ new UdLookupTableListEntry( udItab159, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
+            /* 160 */ new UdLookupTableListEntry( udItab160, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
+            /* 161 */ new UdLookupTableListEntry( udItab161, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
+            /* 162 */ new UdLookupTableListEntry( udItab162, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
+            /* 163 */ new UdLookupTableListEntry( udItab163, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
+            /* 164 */ new UdLookupTableListEntry( udItab164, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
+            /* 165 */ new UdLookupTableListEntry( udItab165, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
+            /* 166 */ new UdLookupTableListEntry( udItab166, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
+            /* 167 */ new UdLookupTableListEntry( udItab167, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
+            /* 168 */ new UdLookupTableListEntry( udItab168, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
+            /* 169 */ new UdLookupTableListEntry( udItab169, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
+            /* 170 */ new UdLookupTableListEntry( udItab170, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
+            /* 171 */ new UdLookupTableListEntry( udItab171, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
+            /* 172 */ new UdLookupTableListEntry( udItab172, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
+            /* 173 */ new UdLookupTableListEntry( udItab173, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
+            /* 174 */ new UdLookupTableListEntry( udItab174, UdTableType.UD_TAB__OPC_OSIZE, "/o" ),
+            /* 175 */ new UdLookupTableListEntry( udItab175, UdTableType.UD_TAB__OPC_OSIZE, "/o" ),
+            /* 176 */ new UdLookupTableListEntry( udItab176, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
+            /* 177 */ new UdLookupTableListEntry( udItab177, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
+            /* 178 */ new UdLookupTableListEntry( udItab178, UdTableType.UD_TAB__OPC_REG, "/reg" ),
+            /* 179 */ new UdLookupTableListEntry( udItab179, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
+            /* 180 */ new UdLookupTableListEntry( udItab180, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
+            /* 181 */ new UdLookupTableListEntry( udItab181, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
+            /* 182 */ new UdLookupTableListEntry( udItab182, UdTableType.UD_TAB__OPC_REG, "/reg" ),
+            /* 183 */ new UdLookupTableListEntry( udItab183, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
+            /* 184 */ new UdLookupTableListEntry( udItab184, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
+            /* 185 */ new UdLookupTableListEntry( udItab185, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
+            /* 186 */ new UdLookupTableListEntry( udItab186, UdTableType.UD_TAB__OPC_REG, "/reg" ),
+            /* 187 */ new UdLookupTableListEntry( udItab187, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
+            /* 188 */ new UdLookupTableListEntry( udItab188, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
+            /* 189 */ new UdLookupTableListEntry( udItab189, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
+            /* 190 */ new UdLookupTableListEntry( udItab190, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
+            /* 191 */ new UdLookupTableListEntry( udItab191, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
+            /* 192 */ new UdLookupTableListEntry( udItab192, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
+            /* 193 */ new UdLookupTableListEntry( udItab193, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
+            /* 194 */ new UdLookupTableListEntry( udItab194, UdTableType.UD_TAB__OPC_VENDOR, "/vendor" ),
+            /* 195 */ new UdLookupTableListEntry( udItab195, UdTableType.UD_TAB__OPC_VENDOR, "/vendor" ),
+            /* 196 */ new UdLookupTableListEntry( udItab196, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
+            /* 197 */ new UdLookupTableListEntry( udItab197, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
+            /* 198 */ new UdLookupTableListEntry( udItab198, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
+            /* 199 */ new UdLookupTableListEntry( udItab199, UdTableType.UD_TAB__OPC_OSIZE, "/o" ),
+            /* 200 */ new UdLookupTableListEntry( udItab200, UdTableType.UD_TAB__OPC_OSIZE, "/o" ),
+            /* 201 */ new UdLookupTableListEntry( udItab201, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
+            /* 202 */ new UdLookupTableListEntry( udItab202, UdTableType.UD_TAB__OPC_MOD, "/mod" ),
+            /* 203 */ new UdLookupTableListEntry( udItab203, UdTableType.UD_TAB__OPC_REG, "/reg" ),
+            /* 204 */ new UdLookupTableListEntry( udItab204, UdTableType.UD_TAB__OPC_RM, "/rm" ),
+            /* 205 */ new UdLookupTableListEntry( udItab205, UdTableType.UD_TAB__OPC_RM, "/rm" ),
+            /* 206 */ new UdLookupTableListEntry( udItab206, UdTableType.UD_TAB__OPC_RM, "/rm" ),
+            /* 207 */ new UdLookupTableListEntry( udItab207, UdTableType.UD_TAB__OPC_MOD, "/mod" ),
+            /* 208 */ new UdLookupTableListEntry( udItab208, UdTableType.UD_TAB__OPC_REG, "/reg" ),
+            /* 209 */ new UdLookupTableListEntry( udItab209, UdTableType.UD_TAB__OPC_RM, "/rm" ),
+            /* 210 */ new UdLookupTableListEntry( udItab210, UdTableType.UD_TAB__OPC_RM, "/rm" ),
+            /* 211 */ new UdLookupTableListEntry( udItab211, UdTableType.UD_TAB__OPC_RM, "/rm" ),
+            /* 212 */ new UdLookupTableListEntry( udItab212, UdTableType.UD_TAB__OPC_RM, "/rm" ),
+            /* 213 */ new UdLookupTableListEntry( udItab213, UdTableType.UD_TAB__OPC_RM, "/rm" ),
+            /* 214 */ new UdLookupTableListEntry( udItab214, UdTableType.UD_TAB__OPC_RM, "/rm" ),
+            /* 215 */ new UdLookupTableListEntry( udItab215, UdTableType.UD_TAB__OPC_MOD, "/mod" ),
+            /* 216 */ new UdLookupTableListEntry( udItab216, UdTableType.UD_TAB__OPC_REG, "/reg" ),
+            /* 217 */ new UdLookupTableListEntry( udItab217, UdTableType.UD_TAB__OPC_REG, "/reg" ),
+            /* 218 */ new UdLookupTableListEntry( udItab218, UdTableType.UD_TAB__OPC_RM, "/rm" ),
+            /* 219 */ new UdLookupTableListEntry( udItab219, UdTableType.UD_TAB__OPC_RM, "/rm" ),
+            /* 220 */ new UdLookupTableListEntry( udItab220, UdTableType.UD_TAB__OPC_RM, "/rm" ),
+            /* 221 */ new UdLookupTableListEntry( udItab221, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
+            /* 222 */ new UdLookupTableListEntry( udItab222, UdTableType.UD_TAB__OPC_REG, "/reg" ),
+            /* 223 */ new UdLookupTableListEntry( udItab223, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
+            /* 224 */ new UdLookupTableListEntry( udItab224, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
+            /* 225 */ new UdLookupTableListEntry( udItab225, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
+            /* 226 */ new UdLookupTableListEntry( udItab226, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
+            /* 227 */ new UdLookupTableListEntry( udItab227, UdTableType.UD_TAB__OPC_MOD, "/mod" ),
+            /* 228 */ new UdLookupTableListEntry( udItab228, UdTableType.UD_TAB__OPC_REG, "/reg" ),
+            /* 229 */ new UdLookupTableListEntry( udItab229, UdTableType.UD_TAB__OPC_OSIZE, "/o" ),
+            /* 230 */ new UdLookupTableListEntry( udItab230, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
+            /* 231 */ new UdLookupTableListEntry( udItab231, UdTableType.UD_TAB__OPC_VENDOR, "/vendor" ),
+            /* 232 */ new UdLookupTableListEntry( udItab232, UdTableType.UD_TAB__OPC_VENDOR, "/vendor" ),
+            /* 233 */ new UdLookupTableListEntry( udItab233, UdTableType.UD_TAB__OPC_VENDOR, "/vendor" ),
+            /* 234 */ new UdLookupTableListEntry( udItab234, UdTableType.UD_TAB__OPC_VENDOR, "/vendor" ),
+            /* 235 */ new UdLookupTableListEntry( udItab235, UdTableType.UD_TAB__OPC_REG, "/reg" ),
+            /* 236 */ new UdLookupTableListEntry( udItab236, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
+            /* 237 */ new UdLookupTableListEntry( udItab237, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
+            /* 238 */ new UdLookupTableListEntry( udItab238, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
+            /* 239 */ new UdLookupTableListEntry( udItab239, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
+            /* 240 */ new UdLookupTableListEntry( udItab240, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
+            /* 241 */ new UdLookupTableListEntry( udItab241, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
+            /* 242 */ new UdLookupTableListEntry( udItab242, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
+            /* 243 */ new UdLookupTableListEntry( udItab243, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
+            /* 244 */ new UdLookupTableListEntry( udItab244, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
+            /* 245 */ new UdLookupTableListEntry( udItab245, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
+            /* 246 */ new UdLookupTableListEntry( udItab246, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
+            /* 247 */ new UdLookupTableListEntry( udItab247, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
+            /* 248 */ new UdLookupTableListEntry( udItab248, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
+            /* 249 */ new UdLookupTableListEntry( udItab249, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
+            /* 250 */ new UdLookupTableListEntry( udItab250, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
+            /* 251 */ new UdLookupTableListEntry( udItab251, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
+            /* 252 */ new UdLookupTableListEntry( udItab252, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
+            /* 253 */ new UdLookupTableListEntry( udItab253, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
+            /* 254 */ new UdLookupTableListEntry( udItab254, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
+            /* 255 */ new UdLookupTableListEntry( udItab255, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
+            /* 256 */ new UdLookupTableListEntry( udItab256, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
+            /* 257 */ new UdLookupTableListEntry( udItab257, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
+            /* 258 */ new UdLookupTableListEntry( udItab258, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
+            /* 259 */ new UdLookupTableListEntry( udItab259, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
+            /* 260 */ new UdLookupTableListEntry( udItab260, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
+            /* 261 */ new UdLookupTableListEntry( udItab261, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
+            /* 262 */ new UdLookupTableListEntry( udItab262, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
+            /* 263 */ new UdLookupTableListEntry( udItab263, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
+            /* 264 */ new UdLookupTableListEntry( udItab264, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
+            /* 265 */ new UdLookupTableListEntry( udItab265, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
+            /* 266 */ new UdLookupTableListEntry( udItab266, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
+            /* 267 */ new UdLookupTableListEntry( udItab267, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
+            /* 268 */ new UdLookupTableListEntry( udItab268, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
+            /* 269 */ new UdLookupTableListEntry( udItab269, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
+            /* 270 */ new UdLookupTableListEntry( udItab270, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
+            /* 271 */ new UdLookupTableListEntry( udItab271, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
+            /* 272 */ new UdLookupTableListEntry( udItab272, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
+            /* 273 */ new UdLookupTableListEntry( udItab273, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
+            /* 274 */ new UdLookupTableListEntry( udItab274, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
+            /* 275 */ new UdLookupTableListEntry( udItab275, UdTableType.UD_TAB__OPC_MOD, "/mod" ),
+            /* 276 */ new UdLookupTableListEntry( udItab276, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
+            /* 277 */ new UdLookupTableListEntry( udItab277, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
+            /* 278 */ new UdLookupTableListEntry( udItab278, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
+            /* 279 */ new UdLookupTableListEntry( udItab279, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
+            /* 280 */ new UdLookupTableListEntry( udItab280, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
+            /* 281 */ new UdLookupTableListEntry( udItab281, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
+            /* 282 */ new UdLookupTableListEntry( udItab282, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
+            /* 283 */ new UdLookupTableListEntry( udItab283, UdTableType.UD_TAB__OPC_SSE, "/sse" ),
+            /* 284 */ new UdLookupTableListEntry( udItab284, UdTableType.UD_TAB__OPC_MODE, "/m" ),
+            /* 285 */ new UdLookupTableListEntry( udItab285, UdTableType.UD_TAB__OPC_MODE, "/m" ),
+            /* 286 */ new UdLookupTableListEntry( udItab286, UdTableType.UD_TAB__OPC_MODE, "/m" ),
+            /* 287 */ new UdLookupTableListEntry( udItab287, UdTableType.UD_TAB__OPC_MODE, "/m" ),
+            /* 288 */ new UdLookupTableListEntry( udItab288, UdTableType.UD_TAB__OPC_MODE, "/m" ),
+            /* 289 */ new UdLookupTableListEntry( udItab289, UdTableType.UD_TAB__OPC_MODE, "/m" ),
+            /* 290 */ new UdLookupTableListEntry( udItab290, UdTableType.UD_TAB__OPC_MODE, "/m" ),
+            /* 291 */ new UdLookupTableListEntry( udItab291, UdTableType.UD_TAB__OPC_MODE, "/m" ),
+            /* 292 */ new UdLookupTableListEntry( udItab292, UdTableType.UD_TAB__OPC_OSIZE, "/o" ),
+            /* 293 */ new UdLookupTableListEntry( udItab293, UdTableType.UD_TAB__OPC_MODE, "/m" ),
+            /* 294 */ new UdLookupTableListEntry( udItab294, UdTableType.UD_TAB__OPC_MODE, "/m" ),
+            /* 295 */ new UdLookupTableListEntry( udItab295, UdTableType.UD_TAB__OPC_OSIZE, "/o" ),
+            /* 296 */ new UdLookupTableListEntry( udItab296, UdTableType.UD_TAB__OPC_MODE, "/m" ),
+            /* 297 */ new UdLookupTableListEntry( udItab297, UdTableType.UD_TAB__OPC_MODE, "/m" ),
+            /* 298 */ new UdLookupTableListEntry( udItab298, UdTableType.UD_TAB__OPC_MODE, "/m" ),
+            /* 299 */ new UdLookupTableListEntry( udItab299, UdTableType.UD_TAB__OPC_MODE, "/m" ),
+            /* 300 */ new UdLookupTableListEntry( udItab300, UdTableType.UD_TAB__OPC_OSIZE, "/o" ),
+            /* 301 */ new UdLookupTableListEntry( udItab301, UdTableType.UD_TAB__OPC_OSIZE, "/o" ),
+            /* 302 */ new UdLookupTableListEntry( udItab302, UdTableType.UD_TAB__OPC_REG, "/reg" ),
+            /* 303 */ new UdLookupTableListEntry( udItab303, UdTableType.UD_TAB__OPC_REG, "/reg" ),
+            /* 304 */ new UdLookupTableListEntry( udItab304, UdTableType.UD_TAB__OPC_REG, "/reg" ),
+            /* 305 */ new UdLookupTableListEntry( udItab305, UdTableType.UD_TAB__OPC_MODE, "/m" ),
+            /* 306 */ new UdLookupTableListEntry( udItab306, UdTableType.UD_TAB__OPC_MODE, "/m" ),
+            /* 307 */ new UdLookupTableListEntry( udItab307, UdTableType.UD_TAB__OPC_MODE, "/m" ),
+            /* 308 */ new UdLookupTableListEntry( udItab308, UdTableType.UD_TAB__OPC_MODE, "/m" ),
+            /* 309 */ new UdLookupTableListEntry( udItab309, UdTableType.UD_TAB__OPC_MODE, "/m" ),
+            /* 310 */ new UdLookupTableListEntry( udItab310, UdTableType.UD_TAB__OPC_MODE, "/m" ),
+            /* 311 */ new UdLookupTableListEntry( udItab311, UdTableType.UD_TAB__OPC_MODE, "/m" ),
+            /* 312 */ new UdLookupTableListEntry( udItab312, UdTableType.UD_TAB__OPC_MODE, "/m" ),
+            /* 313 */ new UdLookupTableListEntry( udItab313, UdTableType.UD_TAB__OPC_REG, "/reg" ),
+            /* 314 */ new UdLookupTableListEntry( udItab314, UdTableType.UD_TAB__OPC_REG, "/reg" ),
+            /* 315 */ new UdLookupTableListEntry( udItab315, UdTableType.UD_TAB__OPC_OSIZE, "/o" ),
+            /* 316 */ new UdLookupTableListEntry( udItab316, UdTableType.UD_TAB__OPC_OSIZE, "/o" ),
+            /* 317 */ new UdLookupTableListEntry( udItab317, UdTableType.UD_TAB__OPC_MODE, "/m" ),
+            /* 318 */ new UdLookupTableListEntry( udItab318, UdTableType.UD_TAB__OPC_OSIZE, "/o" ),
+            /* 319 */ new UdLookupTableListEntry( udItab319, UdTableType.UD_TAB__OPC_MODE, "/m" ),
+            /* 320 */ new UdLookupTableListEntry( udItab320, UdTableType.UD_TAB__OPC_MODE, "/m" ),
+            /* 321 */ new UdLookupTableListEntry( udItab321, UdTableType.UD_TAB__OPC_MODE, "/m" ),
+            /* 322 */ new UdLookupTableListEntry( udItab322, UdTableType.UD_TAB__OPC_OSIZE, "/o" ),
+            /* 323 */ new UdLookupTableListEntry( udItab323, UdTableType.UD_TAB__OPC_MODE, "/m" ),
+            /* 324 */ new UdLookupTableListEntry( udItab324, UdTableType.UD_TAB__OPC_MODE, "/m" ),
+            /* 325 */ new UdLookupTableListEntry( udItab325, UdTableType.UD_TAB__OPC_MODE, "/m" ),
+            /* 326 */ new UdLookupTableListEntry( udItab326, UdTableType.UD_TAB__OPC_OSIZE, "/o" ),
+            /* 327 */ new UdLookupTableListEntry( udItab327, UdTableType.UD_TAB__OPC_OSIZE, "/o" ),
+            /* 328 */ new UdLookupTableListEntry( udItab328, UdTableType.UD_TAB__OPC_OSIZE, "/o" ),
+            /* 329 */ new UdLookupTableListEntry( udItab329, UdTableType.UD_TAB__OPC_OSIZE, "/o" ),
+            /* 330 */ new UdLookupTableListEntry( udItab330, UdTableType.UD_TAB__OPC_OSIZE, "/o" ),
+            /* 331 */ new UdLookupTableListEntry( udItab331, UdTableType.UD_TAB__OPC_REG, "/reg" ),
+            /* 332 */ new UdLookupTableListEntry( udItab332, UdTableType.UD_TAB__OPC_REG, "/reg" ),
+            /* 333 */ new UdLookupTableListEntry( udItab333, UdTableType.UD_TAB__OPC_VEX, "/vex" ),
+            /* 334 */ new UdLookupTableListEntry( udItab334, UdTableType.UD_TAB__OPC_MODE, "/m" ),
+            /* 335 */ new UdLookupTableListEntry( udItab335, UdTableType.UD_TAB__OPC_TABLE, "opctbl" ),
+            /* 336 */ new UdLookupTableListEntry( udItab336, UdTableType.UD_TAB__OPC_MOD, "/mod" ),
+            /* 337 */ new UdLookupTableListEntry( udItab337, UdTableType.UD_TAB__OPC_MOD, "/mod" ),
+            /* 338 */ new UdLookupTableListEntry( udItab338, UdTableType.UD_TAB__OPC_VEX_L, "/vexl" ),
+            /* 339 */ new UdLookupTableListEntry( udItab339, UdTableType.UD_TAB__OPC_MOD, "/mod" ),
+            /* 340 */ new UdLookupTableListEntry( udItab340, UdTableType.UD_TAB__OPC_REG, "/reg" ),
+            /* 341 */ new UdLookupTableListEntry( udItab341, UdTableType.UD_TAB__OPC_TABLE, "opctbl" ),
+            /* 342 */ new UdLookupTableListEntry( udItab342, UdTableType.UD_TAB__OPC_MOD, "/mod" ),
+            /* 343 */ new UdLookupTableListEntry( udItab343, UdTableType.UD_TAB__OPC_MOD, "/mod" ),
+            /* 344 */ new UdLookupTableListEntry( udItab344, UdTableType.UD_TAB__OPC_OSIZE, "/o" ),
+            /* 345 */ new UdLookupTableListEntry( udItab345, UdTableType.UD_TAB__OPC_REG, "/reg" ),
+            /* 346 */ new UdLookupTableListEntry( udItab346, UdTableType.UD_TAB__OPC_VEX_L, "/vexl" ),
+            /* 347 */ new UdLookupTableListEntry( udItab347, UdTableType.UD_TAB__OPC_REG, "/reg" ),
+            /* 348 */ new UdLookupTableListEntry( udItab348, UdTableType.UD_TAB__OPC_VEX_L, "/vexl" ),
+            /* 349 */ new UdLookupTableListEntry( udItab349, UdTableType.UD_TAB__OPC_REG, "/reg" ),
+            /* 350 */ new UdLookupTableListEntry( udItab350, UdTableType.UD_TAB__OPC_VEX_L, "/vexl" ),
+            /* 351 */ new UdLookupTableListEntry( udItab351, UdTableType.UD_TAB__OPC_OSIZE, "/o" ),
+            /* 352 */ new UdLookupTableListEntry( udItab352, UdTableType.UD_TAB__OPC_VEX_L, "/vexl" ),
+            /* 353 */ new UdLookupTableListEntry( udItab353, UdTableType.UD_TAB__OPC_VEX_L, "/vexl" ),
+            /* 354 */ new UdLookupTableListEntry( udItab354, UdTableType.UD_TAB__OPC_VEX_L, "/vexl" ),
+            /* 355 */ new UdLookupTableListEntry( udItab355, UdTableType.UD_TAB__OPC_VEX_L, "/vexl" ),
+            /* 356 */ new UdLookupTableListEntry( udItab356, UdTableType.UD_TAB__OPC_MOD, "/mod" ),
+            /* 357 */ new UdLookupTableListEntry( udItab357, UdTableType.UD_TAB__OPC_TABLE, "opctbl" ),
+            /* 358 */ new UdLookupTableListEntry( udItab358, UdTableType.UD_TAB__OPC_VEX_W, "/vexw" ),
+            /* 359 */ new UdLookupTableListEntry( udItab359, UdTableType.UD_TAB__OPC_VEX_W, "/vexw" ),
+            /* 360 */ new UdLookupTableListEntry( udItab360, UdTableType.UD_TAB__OPC_VEX_W, "/vexw" ),
+            /* 361 */ new UdLookupTableListEntry( udItab361, UdTableType.UD_TAB__OPC_VEX_W, "/vexw" ),
+            /* 362 */ new UdLookupTableListEntry( udItab362, UdTableType.UD_TAB__OPC_VEX_W, "/vexw" ),
+            /* 363 */ new UdLookupTableListEntry( udItab363, UdTableType.UD_TAB__OPC_VEX_W, "/vexw" ),
+            /* 364 */ new UdLookupTableListEntry( udItab364, UdTableType.UD_TAB__OPC_VEX_L, "/vexl" ),
+            /* 365 */ new UdLookupTableListEntry( udItab365, UdTableType.UD_TAB__OPC_VEX_W, "/vexw" ),
+            /* 366 */ new UdLookupTableListEntry( udItab366, UdTableType.UD_TAB__OPC_VEX_W, "/vexw" ),
+            /* 367 */ new UdLookupTableListEntry( udItab367, UdTableType.UD_TAB__OPC_VEX_W, "/vexw" ),
+            /* 368 */ new UdLookupTableListEntry( udItab368, UdTableType.UD_TAB__OPC_VEX_W, "/vexw" ),
+            /* 369 */ new UdLookupTableListEntry( udItab369, UdTableType.UD_TAB__OPC_TABLE, "opctbl" ),
+            /* 370 */ new UdLookupTableListEntry( udItab370, UdTableType.UD_TAB__OPC_VEX_W, "/vexw" ),
+            /* 371 */ new UdLookupTableListEntry( udItab371, UdTableType.UD_TAB__OPC_VEX_W, "/vexw" ),
+            /* 372 */ new UdLookupTableListEntry( udItab372, UdTableType.UD_TAB__OPC_VEX_W, "/vexw" ),
+            /* 373 */ new UdLookupTableListEntry( udItab373, UdTableType.UD_TAB__OPC_VEX_L, "/vexl" ),
+            /* 374 */ new UdLookupTableListEntry( udItab374, UdTableType.UD_TAB__OPC_VEX_W, "/vexw" ),
+            /* 375 */ new UdLookupTableListEntry( udItab375, UdTableType.UD_TAB__OPC_OSIZE, "/o" ),
+            /* 376 */ new UdLookupTableListEntry( udItab376, UdTableType.UD_TAB__OPC_VEX_W, "/vexw" ),
+            /* 377 */ new UdLookupTableListEntry( udItab377, UdTableType.UD_TAB__OPC_VEX_W, "/vexw" ),
+            /* 378 */ new UdLookupTableListEntry( udItab378, UdTableType.UD_TAB__OPC_VEX_W, "/vexw" ),
+            /* 379 */ new UdLookupTableListEntry( udItab379, UdTableType.UD_TAB__OPC_VEX_W, "/vexw" ),
+            /* 380 */ new UdLookupTableListEntry( udItab380, UdTableType.UD_TAB__OPC_VEX_L, "/vexl" ),
+            /* 381 */ new UdLookupTableListEntry( udItab381, UdTableType.UD_TAB__OPC_VEX_W, "/vexw" ),
+            /* 382 */ new UdLookupTableListEntry( udItab382, UdTableType.UD_TAB__OPC_VEX_L, "/vexl" ),
+            /* 383 */ new UdLookupTableListEntry( udItab383, UdTableType.UD_TAB__OPC_VEX_W, "/vexw" ),
+            /* 384 */ new UdLookupTableListEntry( udItab384, UdTableType.UD_TAB__OPC_VEX_L, "/vexl" ),
+            /* 385 */ new UdLookupTableListEntry( udItab385, UdTableType.UD_TAB__OPC_MODE, "/m" ),
+            /* 386 */ new UdLookupTableListEntry( udItab386, UdTableType.UD_TAB__OPC_VEX_W, "/vexw" ),
+            /* 387 */ new UdLookupTableListEntry( udItab387, UdTableType.UD_TAB__OPC_VEX_L, "/vexl" ),
+            /* 388 */ new UdLookupTableListEntry( udItab388, UdTableType.UD_TAB__OPC_VEX_W, "/vexw" ),
+            /* 389 */ new UdLookupTableListEntry( udItab389, UdTableType.UD_TAB__OPC_VEX_L, "/vexl" ),
+            /* 390 */ new UdLookupTableListEntry( udItab390, UdTableType.UD_TAB__OPC_VEX_L, "/vexl" ),
+            /* 391 */ new UdLookupTableListEntry( udItab391, UdTableType.UD_TAB__OPC_VEX_W, "/vexw" ),
+            /* 392 */ new UdLookupTableListEntry( udItab392, UdTableType.UD_TAB__OPC_VEX_W, "/vexw" ),
+            /* 393 */ new UdLookupTableListEntry( udItab393, UdTableType.UD_TAB__OPC_VEX_W, "/vexw" ),
+            /* 394 */ new UdLookupTableListEntry( udItab394, UdTableType.UD_TAB__OPC_TABLE, "opctbl" ),
+            /* 395 */ new UdLookupTableListEntry( udItab395, UdTableType.UD_TAB__OPC_MOD, "/mod" ),
+            /* 396 */ new UdLookupTableListEntry( udItab396, UdTableType.UD_TAB__OPC_MOD, "/mod" ),
+            /* 397 */ new UdLookupTableListEntry( udItab397, UdTableType.UD_TAB__OPC_MOD, "/mod" ),
+            /* 398 */ new UdLookupTableListEntry( udItab398, UdTableType.UD_TAB__OPC_MOD, "/mod" ),
+            /* 399 */ new UdLookupTableListEntry( udItab399, UdTableType.UD_TAB__OPC_TABLE, "opctbl" ),
+            /* 400 */ new UdLookupTableListEntry( udItab400, UdTableType.UD_TAB__OPC_MOD, "/mod" ),
+            /* 401 */ new UdLookupTableListEntry( udItab401, UdTableType.UD_TAB__OPC_MOD, "/mod" ),
+            /* 402 */ new UdLookupTableListEntry( udItab402, UdTableType.UD_TAB__OPC_MOD, "/mod" ),
+            /* 403 */ new UdLookupTableListEntry( udItab403, UdTableType.UD_TAB__OPC_VEX, "/vex" ),
+            /* 404 */ new UdLookupTableListEntry( udItab404, UdTableType.UD_TAB__OPC_MODE, "/m" ),
+            /* 405 */ new UdLookupTableListEntry( udItab405, UdTableType.UD_TAB__OPC_REG, "/reg" ),
+            /* 406 */ new UdLookupTableListEntry( udItab406, UdTableType.UD_TAB__OPC_REG, "/reg" ),
+            /* 407 */ new UdLookupTableListEntry( udItab407, UdTableType.UD_TAB__OPC_MODE, "/m" ),
+            /* 408 */ new UdLookupTableListEntry( udItab408, UdTableType.UD_TAB__OPC_OSIZE, "/o" ),
+            /* 409 */ new UdLookupTableListEntry( udItab409, UdTableType.UD_TAB__OPC_REG, "/reg" ),
+            /* 410 */ new UdLookupTableListEntry( udItab410, UdTableType.UD_TAB__OPC_REG, "/reg" ),
+            /* 411 */ new UdLookupTableListEntry( udItab411, UdTableType.UD_TAB__OPC_REG, "/reg" ),
+            /* 412 */ new UdLookupTableListEntry( udItab412, UdTableType.UD_TAB__OPC_REG, "/reg" ),
+            /* 413 */ new UdLookupTableListEntry( udItab413, UdTableType.UD_TAB__OPC_MODE, "/m" ),
+            /* 414 */ new UdLookupTableListEntry( udItab414, UdTableType.UD_TAB__OPC_MODE, "/m" ),
+            /* 415 */ new UdLookupTableListEntry( udItab415, UdTableType.UD_TAB__OPC_MODE, "/m" ),
+            /* 416 */ new UdLookupTableListEntry( udItab416, UdTableType.UD_TAB__OPC_MOD, "/mod" ),
+            /* 417 */ new UdLookupTableListEntry( udItab417, UdTableType.UD_TAB__OPC_REG, "/reg" ),
+            /* 418 */ new UdLookupTableListEntry( udItab418, UdTableType.UD_TAB__OPC_X87, "/x87" ),
+            /* 419 */ new UdLookupTableListEntry( udItab419, UdTableType.UD_TAB__OPC_MOD, "/mod" ),
+            /* 420 */ new UdLookupTableListEntry( udItab420, UdTableType.UD_TAB__OPC_REG, "/reg" ),
+            /* 421 */ new UdLookupTableListEntry( udItab421, UdTableType.UD_TAB__OPC_X87, "/x87" ),
+            /* 422 */ new UdLookupTableListEntry( udItab422, UdTableType.UD_TAB__OPC_MOD, "/mod" ),
+            /* 423 */ new UdLookupTableListEntry( udItab423, UdTableType.UD_TAB__OPC_REG, "/reg" ),
+            /* 424 */ new UdLookupTableListEntry( udItab424, UdTableType.UD_TAB__OPC_X87, "/x87" ),
+            /* 425 */ new UdLookupTableListEntry( udItab425, UdTableType.UD_TAB__OPC_MOD, "/mod" ),
+            /* 426 */ new UdLookupTableListEntry( udItab426, UdTableType.UD_TAB__OPC_REG, "/reg" ),
+            /* 427 */ new UdLookupTableListEntry( udItab427, UdTableType.UD_TAB__OPC_X87, "/x87" ),
+            /* 428 */ new UdLookupTableListEntry( udItab428, UdTableType.UD_TAB__OPC_MOD, "/mod" ),
+            /* 429 */ new UdLookupTableListEntry( udItab429, UdTableType.UD_TAB__OPC_REG, "/reg" ),
+            /* 430 */ new UdLookupTableListEntry( udItab430, UdTableType.UD_TAB__OPC_X87, "/x87" ),
+            /* 431 */ new UdLookupTableListEntry( udItab431, UdTableType.UD_TAB__OPC_MOD, "/mod" ),
+            /* 432 */ new UdLookupTableListEntry( udItab432, UdTableType.UD_TAB__OPC_REG, "/reg" ),
+            /* 433 */ new UdLookupTableListEntry( udItab433, UdTableType.UD_TAB__OPC_X87, "/x87" ),
+            /* 434 */ new UdLookupTableListEntry( udItab434, UdTableType.UD_TAB__OPC_MOD, "/mod" ),
+            /* 435 */ new UdLookupTableListEntry( udItab435, UdTableType.UD_TAB__OPC_REG, "/reg" ),
+            /* 436 */ new UdLookupTableListEntry( udItab436, UdTableType.UD_TAB__OPC_X87, "/x87" ),
+            /* 437 */ new UdLookupTableListEntry( udItab437, UdTableType.UD_TAB__OPC_MOD, "/mod" ),
+            /* 438 */ new UdLookupTableListEntry( udItab438, UdTableType.UD_TAB__OPC_REG, "/reg" ),
+            /* 439 */ new UdLookupTableListEntry( udItab439, UdTableType.UD_TAB__OPC_X87, "/x87" ),
+            /* 440 */ new UdLookupTableListEntry( udItab440, UdTableType.UD_TAB__OPC_ASIZE, "/a" ),
+            /* 441 */ new UdLookupTableListEntry( udItab441, UdTableType.UD_TAB__OPC_MODE, "/m" ),
+            /* 442 */ new UdLookupTableListEntry( udItab442, UdTableType.UD_TAB__OPC_REG, "/reg" ),
+            /* 443 */ new UdLookupTableListEntry( udItab443, UdTableType.UD_TAB__OPC_REG, "/reg" ),
+            /* 444 */ new UdLookupTableListEntry( udItab444, UdTableType.UD_TAB__OPC_REG, "/reg" ),
+            /* 445 */ new UdLookupTableListEntry( udItab445, UdTableType.UD_TAB__OPC_REG, "/reg" ),
+            /* 446 */ new UdLookupTableListEntry( udItab446, UdTableType.UD_TAB__OPC_MODE, "/m" ),
         };
         #endregion
 
@@ -5983,7 +5984,7 @@
         };
 
 
-        internal static readonly string[] ud_mnemonics_str = new string[]
+        internal static readonly String[] ud_mnemonics_str = new String[]
         {
             "aaa",
             "aad",
@@ -6895,7 +6896,7 @@
             "pause"
         };
         #endregion
-
-    } // End class
-
-} // End namespace
+    }
+    //// End class
+}
+//// End namespace
