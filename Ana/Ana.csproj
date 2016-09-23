@@ -105,6 +105,7 @@
     <Compile Include="Source\Engine\Architecture\Architecture86_64.cs" />
     <Compile Include="Source\Engine\EngineCore.cs" />
     <Compile Include="Source\Engine\Graphics\IGraphics.cs" />
+    <Compile Include="Source\Engine\Input\IInput.cs" />
     <Compile Include="Source\Engine\ManagedObjectResolver\IManagedObjectResolver.cs" />
     <Compile Include="Source\Engine\OperatingSystems\IOperatingSystemAdapter.cs" />
     <Compile Include="Source\Engine\OperatingSystems\NormalizedFlags.cs" />
@@ -116,6 +117,7 @@
     <Compile Include="Source\Engine\OperatingSystems\Windows\Native\NativeMethods.cs" />
     <Compile Include="Source\Engine\OperatingSystems\Windows\Native\Structures.cs" />
     <Compile Include="Source\Engine\OperatingSystems\Windows\WindowsAdapter.cs" />
+    <Compile Include="Source\Engine\Processes\IProcesses.cs" />
     <Compile Include="Source\Engine\Processes\IProcessObserver.cs" />
     <Compile Include="Source\Engine\Processes\IProcessSubject.cs" />
     <Compile Include="Source\Engine\Processes\NormalizedProcess.cs" />
@@ -227,6 +229,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Source\Engine\AddressResolver\DotNet\" />
     <Folder Include="Source\Engine\AddressResolver\Java\" />
     <Folder Include="Source\Engine\AddressResolver\Python\" />
     <Folder Include="Source\Engine\Proxy\" />

@@ -155,7 +155,7 @@
         /// <summary>
         /// Decodes a single instruction and increments buffer position.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>TODO TODO</returns>
         public Instruction NextInstruction()
         {
             Int32 length = 0;

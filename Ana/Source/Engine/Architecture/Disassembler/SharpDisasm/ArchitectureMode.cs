@@ -19,7 +19,6 @@
         /// 64-bit Architecture
         /// </summary>
         x86_64 = 64
-
     }
     //// End enum
 }

@@ -14,8 +14,8 @@
         /// <summary>
         /// Initializes a new instance of the <see cref="Instruction" /> class
         /// </summary>
-        /// <param name="u"></param>
-        /// <param name="keepBinary"></param>
+        /// <param name="u">TODO u</param>
+        /// <param name="keepBinary">TODO keepBinary</param>
         internal Instruction(ref Ud u, Boolean keepBinary)
         {
             this.Offset = u.InstructionOffset;

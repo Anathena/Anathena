@@ -1,38 +1,326 @@
 ﻿namespace Ana.Source.Engine.Architecture.Disassembler.SharpDisasm.Udis86
 {
     /// <summary>
-    /// Operand codes. Order is important.
+    /// Operand codes. Order is important
     /// </summary>
     public enum UdOperandCode
     {
+        /// <summary>
+        /// TODO TODO
+        /// </summary>
         OP_NONE,
 
-        OP_A, OP_E, OP_M, OP_G,
-        OP_I, OP_F,
+        // -----------------------------------------------------------------------------------
 
-        OP_R0, OP_R1, OP_R2, OP_R3,
-        OP_R4, OP_R5, OP_R6, OP_R7,
+        /// <summary>
+        /// TODO TODO
+        /// </summary>
+        OP_A,
 
-        OP_AL, OP_CL, OP_DL,
-        OP_AX, OP_CX, OP_DX,
-        OP_eAX, OP_eCX, OP_eDX,
-        OP_rAX, OP_rCX, OP_rDX,
+        /// <summary>
+        /// TODO TODO
+        /// </summary>
+        OP_E,
 
-        OP_ES, OP_CS, OP_SS, OP_DS,
-        OP_FS, OP_GS,
+        /// <summary>
+        /// TODO TODO
+        /// </summary>
+        OP_M,
 
-        OP_ST0, OP_ST1, OP_ST2, OP_ST3,
-        OP_ST4, OP_ST5, OP_ST6, OP_ST7,
+        /// <summary>
+        /// TODO TODO
+        /// </summary>
+        OP_G,
 
-        OP_J, OP_S, OP_O,
-        OP_I1, OP_I3, OP_sI,
+        /// <summary>
+        /// TODO TODO
+        /// </summary>
+        OP_I,
 
-        OP_V, OP_W, OP_Q, OP_P,
-        OP_U, OP_N, OP_MU, OP_H,
+        /// <summary>
+        /// TODO TODO
+        /// </summary>
+        OP_F,
+
+        // -----------------------------------------------------------------------------------
+
+        /// <summary>
+        /// TODO TODO
+        /// </summary>
+        OP_R0,
+
+        /// <summary>
+        /// TODO TODO
+        /// </summary>
+        OP_R1,
+
+        /// <summary>
+        /// TODO TODO
+        /// </summary>
+        OP_R2,
+
+        /// <summary>
+        /// TODO TODO
+        /// </summary>
+        OP_R3,
+
+        /// <summary>
+        /// TODO TODO
+        /// </summary>
+        OP_R4,
+
+        /// <summary>
+        /// TODO TODO
+        /// </summary>
+        OP_R5,
+
+        /// <summary>
+        /// TODO TODO
+        /// </summary>
+        OP_R6,
+
+        /// <summary>
+        /// TODO TODO
+        /// </summary>
+        OP_R7,
+
+        // -----------------------------------------------------------------------------------
+
+        /// <summary>
+        /// TODO TODO
+        /// </summary>
+        OP_AL,
+
+        /// <summary>
+        /// TODO TODO
+        /// </summary>
+        OP_CL,
+
+        /// <summary>
+        /// TODO TODO
+        /// </summary>
+        OP_DL,
+
+        /// <summary>
+        /// TODO TODO
+        /// </summary>
+        OP_AX,
+
+        /// <summary>
+        /// TODO TODO
+        /// </summary>
+        OP_CX,
+
+        /// <summary>
+        /// TODO TODO
+        /// </summary>
+        OP_DX,
+
+        /// <summary>
+        /// TODO TODO
+        /// </summary>
+        OP_eAX,
+
+        /// <summary>
+        /// TODO TODO
+        /// </summary>
+        OP_eCX,
+
+        /// <summary>
+        /// TODO TODO
+        /// </summary>
+        OP_eDX,
+
+        /// <summary>
+        /// TODO TODO
+        /// </summary>
+        OP_rAX,
+
+        /// <summary>
+        /// TODO TODO
+        /// </summary>
+        OP_rCX,
+
+        /// <summary>
+        /// TODO TODO
+        /// </summary>
+        OP_rDX,
+
+        // -----------------------------------------------------------------------------------
+
+        /// <summary>
+        /// TODO TODO
+        /// </summary>
+        OP_ES,
+
+        /// <summary>
+        /// TODO TODO
+        /// </summary>
+        OP_CS,
+
+        /// <summary>
+        /// TODO TODO
+        /// </summary>
+        OP_SS,
+
+        /// <summary>
+        /// TODO TODO
+        /// </summary>
+        OP_DS,
+
+        /// <summary>
+        /// TODO TODO
+        /// </summary>
+        OP_FS,
+
+        /// <summary>
+        /// TODO TODO
+        /// </summary>
+        OP_GS,
+
+        // -----------------------------------------------------------------------------------
+
+        /// <summary>
+        /// TODO TODO
+        /// </summary>
+        OP_ST0,
+
+        /// <summary>
+        /// TODO TODO
+        /// </summary>
+        OP_ST1,
+
+        /// <summary>
+        /// TODO TODO
+        /// </summary>
+        OP_ST2,
+
+        /// <summary>
+        /// TODO TODO
+        /// </summary>
+        OP_ST3,
+
+        /// <summary>
+        /// TODO TODO
+        /// </summary>
+        OP_ST4,
+
+        /// <summary>
+        /// TODO TODO
+        /// </summary>
+        OP_ST5,
+
+        /// <summary>
+        /// TODO TODO
+        /// </summary>
+        OP_ST6,
+
+        /// <summary>
+        /// TODO TODO
+        /// </summary>
+        OP_ST7,
+
+        // -----------------------------------------------------------------------------------
+
+        /// <summary>
+        /// TODO TODO
+        /// </summary>
+        OP_J,
+
+        /// <summary>
+        /// TODO TODO
+        /// </summary>
+        OP_S,
+
+        /// <summary>
+        /// TODO TODO
+        /// </summary>
+        OP_O,
+
+        /// <summary>
+        /// TODO TODO
+        /// </summary>
+        OP_I1,
+
+        /// <summary>
+        /// TODO TODO
+        /// </summary>
+        OP_I3,
+
+        /// <summary>
+        /// TODO TODO
+        /// </summary>
+        OP_sI,
+
+        // -----------------------------------------------------------------------------------
+
+        /// <summary>
+        /// TODO TODO
+        /// </summary>
+        OP_V,
+
+        /// <summary>
+        /// TODO TODO
+        /// </summary>
+        OP_W,
+
+        /// <summary>
+        /// TODO TODO
+        /// </summary>
+        OP_Q,
+
+        /// <summary>
+        /// TODO TODO
+        /// </summary>
+        OP_P,
+
+        /// <summary>
+        /// TODO TODO
+        /// </summary>
+        OP_U,
+
+        /// <summary>
+        /// TODO TODO
+        /// </summary>
+        OP_N,
+
+        /// <summary>
+        /// TODO TODO
+        /// </summary>
+        OP_MU,
+
+        /// <summary>
+        /// TODO TODO
+        /// </summary>
+        OP_H,
+
+        /// <summary>
+        /// TODO TODO
+        /// </summary>
         OP_L,
 
-        OP_R, OP_C, OP_D,
+        // -----------------------------------------------------------------------------------
 
+        /// <summary>
+        /// TODO TODO
+        /// </summary>
+        OP_R,
+
+        /// <summary>
+        /// TODO TODO
+        /// </summary>
+        OP_C,
+
+        /// <summary>
+        /// TODO TODO
+        /// </summary>
+        OP_D,
+
+        // -----------------------------------------------------------------------------------
+
+        /// <summary>
+        /// TODO TODO
+        /// </summary>
         OP_MR
     }
     //// End class
