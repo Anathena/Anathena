@@ -1,15 +1,21 @@
-﻿using Ana.Source.Engine.OperatingSystems.Windows;
-using System.Diagnostics;
-
-namespace Ana.Source.Engine.OperatingSystems
+﻿namespace Ana.Source.Engine.OperatingSystems
 {
+    using Windows;
+
+    /// <summary>
+    /// Factory for obtaining an object that allows access to the underlying operating system
+    /// </summary>
     internal class OperatingSystemAdapterFactory
     {
-        public static IOperatingSystemAdapter GetOperatingSystemAdapter(Process Target)
+        /// <summary>
+        /// Gets an adapter to the operating system
+        /// </summary>
+        /// <returns>An adapter that provides access to the operating system</returns>
+        public static IOperatingSystemAdapter GetOperatingSystemAdapter()
         {
-            return new WindowsAdapter(Target);
+            return new WindowsAdapter();
         }
-
-    } // End class
-
-} // End namespace
+    }
+    //// End class
+}
+//// End namespace

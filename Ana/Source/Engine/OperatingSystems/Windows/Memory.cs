@@ -1,9 +1,9 @@
 ﻿namespace Ana.Source.Engine.OperatingSystems.Windows
 {
     using Native;
+    using Processes;
     using System;
     using System.Collections.Generic;
-    using System.Diagnostics;
     using System.Linq;
     using System.Runtime.InteropServices;
     using Utils.Extensions;
@@ -90,9 +90,9 @@
         /// <param name="accessFlags">The access level to the process object</param>
         /// <param name="process">The identifier of the local process to be opened</param>
         /// <returns>An open handle to the specified process</returns>
-        public static IntPtr OpenProcess(ProcessAccessFlags accessFlags, Process process)
+        public static IntPtr OpenProcess(ProcessAccessFlags accessFlags, NormalizedProcess process)
         {
-            return NativeMethods.OpenProcess(accessFlags, false, process == null ? 0 : process.Id);
+            return NativeMethods.OpenProcess(accessFlags, false, process == null ? 0 : process.processId);
         }
 
         /// <summary>

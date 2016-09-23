@@ -116,12 +116,12 @@
     <Compile Include="Source\Engine\OperatingSystems\Windows\Native\Enumerations.cs" />
     <Compile Include="Source\Engine\OperatingSystems\Windows\Native\NativeMethods.cs" />
     <Compile Include="Source\Engine\OperatingSystems\Windows\Native\Structures.cs" />
-    <Compile Include="Source\Engine\OperatingSystems\Windows\WindowsAdapter.cs" />
+    <Compile Include="Source\Engine\OperatingSystems\Windows\WindowsAdapter.cs">
+      <ExcludeFromStyleCop>False</ExcludeFromStyleCop>
+    </Compile>
     <Compile Include="Source\Engine\Processes\IProcesses.cs" />
-    <Compile Include="Source\Engine\Processes\IProcessObserver.cs" />
-    <Compile Include="Source\Engine\Processes\IProcessSubject.cs" />
     <Compile Include="Source\Engine\Processes\NormalizedProcess.cs" />
-    <Compile Include="Source\Engine\Processes\ProcessCollector.cs" />
+    <Compile Include="Source\Engine\Processes\ProcessAdapter.cs" />
     <Compile Include="Source\Engine\SpeedManipulator\ISpeedManipulator.cs" />
     <Compile Include="Source\Engine\Unrandomizer\IUnrandomizer.cs" />
     <Compile Include="Source\Mvvm\Converters\IconConverter.cs" />

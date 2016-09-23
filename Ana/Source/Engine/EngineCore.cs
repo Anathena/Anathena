@@ -18,7 +18,7 @@
         /// <summary>
         /// Singleton instance of the <see cref="MainViewModel" /> class
         /// </summary>
-        private static Lazy<EngineCore> mainViewModelInstance = new Lazy<EngineCore>(
+        private static Lazy<EngineCore> engineCoreInstance = new Lazy<EngineCore>(
                 () => { return new EngineCore(); },
                 LazyThreadSafetyMode.PublicationOnly);
 
@@ -29,6 +29,11 @@
         {
             this.Architecture = ArchitectureFactory.GetArchitecture();
             //// this.OperatingSystemAdapter = OperatingSystemAdapterFactory.GetOperatingSystemAdapter(TargetProcess);
+        }
+
+        public static EngineCore GetInstance()
+        {
+            return engineCoreInstance.Value;
         }
 
         /// <summary>

@@ -1,6 +1,7 @@
 ﻿namespace Ana.Source.ProcessSelector
 {
     using Docking;
+    using Engine;
     using Engine.Processes;
     using Main;
     using Mvvm.Command;
@@ -44,7 +45,7 @@
         {
             get
             {
-                return ProcessCollector.GetProcesses();
+                return EngineCore.GetInstance().Processes.GetProcesses();
             }
         }
 

@@ -5,20 +5,27 @@
 
     internal class NormalizedProcess
     {
-        public Int32 processId { get; set; }
-        public String processName { get; set; }
-        public DateTime startTime { get; set; }
-        public Boolean isSystemProcess { get; set; }
-        public Icon icon { get; set; }
-
-        public NormalizedProcess(Int32 processId, String processName, DateTime startTime, Boolean isSystemProcess, Icon icon)
+        public NormalizedProcess(Int32 processId, String processName, DateTime startTime, Boolean isSystemProcess, IntPtr handle, Icon icon)
         {
             this.processId = processId;
-            this.processName = processName;
-            this.startTime = startTime;
-            this.isSystemProcess = isSystemProcess;
-            this.icon = icon;
+            this.ProcessName = processName;
+            this.StartTime = startTime;
+            this.IsSystemProcess = isSystemProcess;
+            this.Handle = handle;
+            this.Icon = icon;
         }
+
+        public Int32 processId { get; set; }
+
+        public String ProcessName { get; set; }
+
+        public DateTime StartTime { get; set; }
+
+        public Boolean IsSystemProcess { get; set; }
+
+        public IntPtr Handle { get; set; }
+
+        public Icon Icon { get; set; }
 
         /*
             override this.Equals(otherObject) =
