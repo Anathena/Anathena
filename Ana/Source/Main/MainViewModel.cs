@@ -28,7 +28,7 @@
         /// <summary>
         /// Prevents a default instance of the <see cref="MainViewModel" /> class from being created
         /// </summary>
-        private MainViewModel()
+        public MainViewModel()
         {
             this.tools = new HashSet<ToolViewModel>();
             this.OpenProject = new RelayCommand(() => this.OpenProjectExecute(), () => true);

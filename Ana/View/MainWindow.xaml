@@ -26,16 +26,22 @@
             <Menu>
                 <MenuItem Header="File">
                 </MenuItem>
+                <MenuItem Header="Edit" DataContext="{Binding Source={StaticResource ViewModelLocator}}">
+                    <MenuItem Header="Settings" IsChecked="{Binding SettingsViewModel.IsVisible, Mode=TwoWay}" IsCheckable="True"/>
+                </MenuItem>
                 <MenuItem Header="Tools" DataContext="{Binding Source={StaticResource ViewModelLocator}}">
-                    <MenuItem Header="Cheat Browser" IsChecked="{Binding ProcessSelectorViewModel.IsVisible, Mode=TwoWay}" IsCheckable="True"/>
+                    <MenuItem Header="Cheat Browser" IsChecked="{Binding CheatBrowserViewModel.IsVisible, Mode=TwoWay}" IsCheckable="True"/>
                     <MenuItem Header="Process Selector" IsChecked="{Binding ProcessSelectorViewModel.IsVisible, Mode=TwoWay}" IsCheckable="True"/>
-                    <MenuItem Header="Project Explorer" IsChecked="{Binding ProcessSelectorViewModel.IsVisible, Mode=TwoWay}" IsCheckable="True"/>
-                    <MenuItem Header="Scans" IsChecked="{Binding ProcessSelectorViewModel.IsVisible, Mode=TwoWay}" IsCheckable="True"/>
-                    <MenuItem Header="Properties" IsChecked="{Binding ProcessSelectorViewModel.IsVisible, Mode=TwoWay}" IsCheckable="True"/>
-                    <MenuItem Header="Results" IsChecked="{Binding ProcessSelectorViewModel.IsVisible, Mode=TwoWay}" IsCheckable="True"/>
-                    <MenuItem Header="Snapshot Manager" IsChecked="{Binding ProcessSelectorViewModel.IsVisible, Mode=TwoWay}" IsCheckable="True"/>
-                    <MenuItem Header=".Net Explorer" IsChecked="{Binding ProcessSelectorViewModel.IsVisible, Mode=TwoWay}" IsCheckable="True"/>
-                    <MenuItem Header="Debugger" IsChecked="{Binding ProcessSelectorViewModel.IsVisible, Mode=TwoWay}" IsCheckable="True"/>
+                    <MenuItem Header="Project Explorer" IsChecked="{Binding ProjectExplorerViewModel.IsVisible, Mode=TwoWay}" IsCheckable="True"/>
+                    <MenuItem Header="Scans">
+                        <MenuItem Header="Change Counter" IsChecked="{Binding ChangeCounterViewModel.IsVisible, Mode=TwoWay}" IsCheckable="True"/>
+                        <MenuItem Header="Manual Scanner" IsChecked="{Binding ManualScannerViewModel.IsVisible, Mode=TwoWay}" IsCheckable="True"/>
+                        <MenuItem Header="Label Thresholder" IsChecked="{Binding LabelThresholderViewModel.IsVisible, Mode=TwoWay}" IsCheckable="True"/>
+                    </MenuItem>
+                    <MenuItem Header="Property Viewer" IsChecked="{Binding PropertyViewerViewModel.IsVisible, Mode=TwoWay}" IsCheckable="True"/>
+                    <MenuItem Header="Results" IsChecked="{Binding ScanResultsViewModel.IsVisible, Mode=TwoWay}" IsCheckable="True"/>
+                    <MenuItem Header="Snapshot Manager" IsChecked="{Binding SnapshotManagerViewModel.IsVisible, Mode=TwoWay}" IsCheckable="True"/>
+                    <MenuItem Header=".Net Explorer" IsChecked="{Binding DotNetExplorerViewModel.IsVisible, Mode=TwoWay}" IsCheckable="True"/>
                 </MenuItem>
             </Menu>
         </Grid>
@@ -58,6 +64,66 @@
                             <view:ProcessSelector/>
                         </DataTemplate>
                     </local:PanesTemplateSelector.ProcessSelectorViewTemplate>
+                    <!-- Change Counter -->
+                    <local:PanesTemplateSelector.ChangeCounterViewTemplate>
+                        <DataTemplate>
+                            <view:ChangeCounter/>
+                        </DataTemplate>
+                    </local:PanesTemplateSelector.ChangeCounterViewTemplate>
+                    <!-- Label Thresholder -->
+                    <local:PanesTemplateSelector.LabelThresholderViewTemplate>
+                        <DataTemplate>
+                            <view:LabelThresholder/>
+                        </DataTemplate>
+                    </local:PanesTemplateSelector.LabelThresholderViewTemplate>
+                    <!-- Manual Scanner -->
+                    <local:PanesTemplateSelector.ManualScannerViewTemplate>
+                        <DataTemplate>
+                            <view:ManualScanner/>
+                        </DataTemplate>
+                    </local:PanesTemplateSelector.ManualScannerViewTemplate>
+                    <!-- Snapshot Manager -->
+                    <local:PanesTemplateSelector.SnapshotManagerViewTemplate>
+                        <DataTemplate>
+                            <view:SnapshotManager/>
+                        </DataTemplate>
+                    </local:PanesTemplateSelector.SnapshotManagerViewTemplate>
+                    <!-- Scan Results -->
+                    <local:PanesTemplateSelector.ScanResultsViewTemplate>
+                        <DataTemplate>
+                            <view:ScanResults/>
+                        </DataTemplate>
+                    </local:PanesTemplateSelector.ScanResultsViewTemplate>
+                    <!-- Cheat Browser -->
+                    <local:PanesTemplateSelector.CheatBrowserViewTemplate>
+                        <DataTemplate>
+                            <view:CheatBrowser/>
+                        </DataTemplate>
+                    </local:PanesTemplateSelector.CheatBrowserViewTemplate>
+                    <!-- .Net Explorer -->
+                    <local:PanesTemplateSelector.DotNetExplorerViewTemplate>
+                        <DataTemplate>
+                            <view:DotNetExplorer/>
+                        </DataTemplate>
+                    </local:PanesTemplateSelector.DotNetExplorerViewTemplate>
+                    <!-- Property Viewer -->
+                    <local:PanesTemplateSelector.PropertyViewerViewTemplate>
+                        <DataTemplate>
+                            <view:PropertyViewer/>
+                        </DataTemplate>
+                    </local:PanesTemplateSelector.PropertyViewerViewTemplate>
+                    <!-- Settings -->
+                    <local:PanesTemplateSelector.SettingsViewTemplate>
+                        <DataTemplate>
+                            <view:Settings/>
+                        </DataTemplate>
+                    </local:PanesTemplateSelector.SettingsViewTemplate>
+                    <!-- Project Explorer -->
+                    <local:PanesTemplateSelector.ProjectExplorerViewTemplate>
+                        <DataTemplate>
+                            <view:ProjectExplorer/>
+                        </DataTemplate>
+                    </local:PanesTemplateSelector.ProjectExplorerViewTemplate>
                 </local:PanesTemplateSelector>
             </avalonDock:DockingManager.LayoutItemTemplateSelector>
 

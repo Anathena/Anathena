@@ -1,4 +1,4 @@
-﻿namespace Ana.Source.ProcessSelector
+﻿namespace Ana.Source.ManualScanner
 {
     using Docking;
     using Engine;
@@ -8,25 +8,23 @@
     using System;
     using System.Collections.Generic;
     using System.Windows.Input;
-    using Utils;
 
     /// <summary>
-    /// View model for the Process Selector
+    /// View model for the Manual Scanner
     /// </summary>
-    internal class ProcessSelectorViewModel : ToolViewModel
+    internal class ManualScannerViewModel : ToolViewModel
     {
         /// <summary>
         /// The content id for the docking library associated with this view model
         /// </summary>
-        public const String ToolContentId = nameof(ProcessSelectorViewModel);
+        public const String ToolContentId = nameof(ManualScannerViewModel);
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ProcessSelectorViewModel" /> class
+        /// Initializes a new instance of the <see cref="ManualScannerViewModel" /> class
         /// </summary>
-        public ProcessSelectorViewModel() : base("Process Selector")
+        public ManualScannerViewModel() : base("Manual Scanner")
         {
             this.ContentId = ToolContentId;
-            this.IconSource = ImageLoader.LoadImage("pack://application:,,/Content/Icons/SelectProcess.png");
 
             this.SelectProcessCommand = new RelayCommand<NormalizedProcess>((process) => this.SelectProcess(process), (process) => true);
 

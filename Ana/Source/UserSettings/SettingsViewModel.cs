@@ -1,4 +1,4 @@
-﻿namespace Ana.Source.ProcessSelector
+﻿namespace Ana.Source.UserSettings
 {
     using Docking;
     using Engine;
@@ -11,19 +11,19 @@
     using Utils;
 
     /// <summary>
-    /// View model for the Process Selector
+    /// View model for the Settings
     /// </summary>
-    internal class ProcessSelectorViewModel : ToolViewModel
+    internal class SettingsViewModel : ToolViewModel
     {
         /// <summary>
         /// The content id for the docking library associated with this view model
         /// </summary>
-        public const String ToolContentId = nameof(ProcessSelectorViewModel);
+        public const String ToolContentId = nameof(SettingsViewModel);
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ProcessSelectorViewModel" /> class
+        /// Initializes a new instance of the <see cref="SettingsViewModel" /> class
         /// </summary>
-        public ProcessSelectorViewModel() : base("Process Selector")
+        public SettingsViewModel() : base("Settings")
         {
             this.ContentId = ToolContentId;
             this.IconSource = ImageLoader.LoadImage("pack://application:,,/Content/Icons/SelectProcess.png");

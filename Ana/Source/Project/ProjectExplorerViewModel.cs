@@ -1,4 +1,4 @@
-﻿namespace Ana.Source.ProcessSelector
+﻿namespace Ana.Source.Project
 {
     using Docking;
     using Engine;
@@ -11,19 +11,19 @@
     using Utils;
 
     /// <summary>
-    /// View model for the Process Selector
+    /// View model for the Project Explorer
     /// </summary>
-    internal class ProcessSelectorViewModel : ToolViewModel
+    internal class ProjectExplorerViewModel : ToolViewModel
     {
         /// <summary>
         /// The content id for the docking library associated with this view model
         /// </summary>
-        public const String ToolContentId = nameof(ProcessSelectorViewModel);
+        public const String ToolContentId = nameof(ProjectExplorerViewModel);
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ProcessSelectorViewModel" /> class
+        /// Initializes a new instance of the <see cref="ProjectExplorerViewModel" /> class
         /// </summary>
-        public ProcessSelectorViewModel() : base("Process Selector")
+        public ProjectExplorerViewModel() : base("Project Explorer")
         {
             this.ContentId = ToolContentId;
             this.IconSource = ImageLoader.LoadImage("pack://application:,,/Content/Icons/SelectProcess.png");

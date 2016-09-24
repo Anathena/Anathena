@@ -66,6 +66,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Source\CheatBrowser\CheatBrowserViewModel.cs" />
+    <Compile Include="Source\DotNetExplorer\DotNetExplorerViewModel.cs" />
     <Compile Include="Source\Engine\AddressResolver\AddressResolver.cs" />
     <Compile Include="Source\Engine\AddressResolver\DotNet\DotNetObject.cs" />
     <Compile Include="Source\Engine\Architecture\ArchitectureFactory.cs" />
@@ -146,25 +148,28 @@
     <Compile Include="Source\LuaEngine\Memory\IMemoryCore.cs" />
     <Compile Include="Source\LuaEngine\Memory\LuaMemoryCore.cs" />
     <Compile Include="Source\Mvvm\Converters\IconConverter.cs" />
+    <Compile Include="Source\Project\ProjectExplorerViewModel.cs" />
     <Compile Include="Source\Project\ProjectExplorer.cs" />
     <Compile Include="Source\Project\ProjectItems\AddressItem.cs" />
     <Compile Include="Source\Project\ProjectItems\FolderItem.cs" />
     <Compile Include="Source\Project\ProjectItems\ProjectItem.cs" />
     <Compile Include="Source\Project\ProjectItems\ScriptItem.cs" />
     <Compile Include="Source\Project\ProjectItems\ScriptTemplates\LuaTemplates.cs" />
+    <Compile Include="Source\PropertyViewer\PropertyViewerViewModel.cs" />
+    <Compile Include="Source\Results\ScanResultsViewModel.cs" />
     <Compile Include="Source\Scanners\ChangeCounter\ChangeCounter.cs" />
-    <Compile Include="Source\Scanners\FiniteStateScanner\FiniteState.cs" />
-    <Compile Include="Source\Scanners\FiniteStateScanner\FiniteStateBuilder.cs" />
-    <Compile Include="Source\Scanners\FiniteStateScanner\FiniteStateMachine.cs" />
-    <Compile Include="Source\Scanners\FiniteStateScanner\FiniteStateScanner.cs" />
+    <Compile Include="Source\Scanners\ChangeCounter\ChangeCouinterViewModel.cs" />
     <Compile Include="Source\Scanners\IScannerMVP.cs" />
+    <Compile Include="Source\Scanners\LabelThresholder\LabelThresholderViewModel.cs" />
     <Compile Include="Source\Scanners\LabelThresholder\LabelThresholder.cs" />
+    <Compile Include="Source\Scanners\ManualScanner\ManualScannerViewModel.cs" />
     <Compile Include="Source\Scanners\ManualScanner\ManualScanner.cs" />
     <Compile Include="Source\Scanners\PointerScanner\PointerScanner.cs" />
     <Compile Include="Source\Scanners\ScanConstraints\ScanConstraint.cs" />
     <Compile Include="Source\Scanners\ScanConstraints\ScanConstraintEditor.cs" />
     <Compile Include="Source\Scanners\ScanConstraints\ScanConstraintManager.cs" />
     <Compile Include="Source\Scanners\ValueCollector\ValueCollector.cs" />
+    <Compile Include="Source\Snapshots\SnapshotManagerViewModel.cs" />
     <Compile Include="Source\Snapshots\Prefilters\ISnapshotPrefilter.cs" />
     <Compile Include="Source\Snapshots\Prefilters\ShallowPointerPrefilter.cs" />
     <Compile Include="Source\Snapshots\Prefilters\SnapshotPrefilterFactory.cs" />
@@ -172,6 +177,7 @@
     <Compile Include="Source\Snapshots\SnapshotElement.cs" />
     <Compile Include="Source\Snapshots\SnapshotManager.cs" />
     <Compile Include="Source\Snapshots\SnapshotRegion.cs" />
+    <Compile Include="Source\UserSettings\SettingsViewModel.cs" />
     <Compile Include="Source\UserSettings\Settings.cs" />
     <Compile Include="Source\Utils\DataStructures\ConcurrentHashSet.cs">
       <ExcludeFromStyleCop>False</ExcludeFromStyleCop>
@@ -194,6 +200,36 @@
     <Compile Include="Source\Utils\TimedLock.cs" />
     <Compile Include="Source\Utils\Validation\CheckSyntax.cs" />
     <Compile Include="Source\Utils\Validation\Conversions.cs" />
+    <Compile Include="View\ScanResults.xaml.cs">
+      <DependentUpon>ScanResults.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Settings.xaml.cs">
+      <DependentUpon>Settings.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\ProjectExplorer.xaml.cs">
+      <DependentUpon>ProjectExplorer.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\PropertyViewer.xaml.cs">
+      <DependentUpon>PropertyViewer.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\DotNetExplorer.xaml.cs">
+      <DependentUpon>DotNetExplorer.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\CheatBrowser.xaml.cs">
+      <DependentUpon>CheatBrowser.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\SnapshotManager.xaml.cs">
+      <DependentUpon>SnapshotManager.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\ManualScanner.xaml.cs">
+      <DependentUpon>ManualScanner.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\LabelThresholder.xaml.cs">
+      <DependentUpon>LabelThresholder.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\ChangeCounter.xaml.cs">
+      <DependentUpon>ChangeCounter.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\ProcessSelector.xaml.cs">
       <DependentUpon>ProcessSelector.xaml</DependentUpon>
     </Compile>
@@ -202,7 +238,9 @@
       <ExcludeFromStyleCop>False</ExcludeFromStyleCop>
     </Compile>
     <Compile Include="Source\Docking\PanesStyleSelector.cs" />
-    <Compile Include="Source\Docking\PanesTemplateSelector.cs" />
+    <Compile Include="Source\Docking\PanesTemplateSelector.cs">
+      <ExcludeFromStyleCop>False</ExcludeFromStyleCop>
+    </Compile>
     <Compile Include="Source\Docking\PaneViewModel.cs" />
     <Compile Include="Source\Main\MainModel.cs" />
     <Compile Include="Source\Mvvm\Command\EventToCommand.cs" />
@@ -239,7 +277,47 @@
     <Compile Include="Source\Mvvm\Views\INavigationService.cs" />
     <Compile Include="Source\Docking\ToolViewModel.cs" />
     <Compile Include="Source\Main\MainViewModel.cs" />
+    <Page Include="View\ScanResults.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\Settings.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\ProjectExplorer.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\PropertyViewer.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\DotNetExplorer.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\CheatBrowser.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\SnapshotManager.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\ManualScanner.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\LabelThresholder.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="View\MainWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\ChangeCounter.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

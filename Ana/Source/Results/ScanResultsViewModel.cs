@@ -1,4 +1,4 @@
-﻿namespace Ana.Source.ProcessSelector
+﻿namespace Ana.Source.ScanResults
 {
     using Docking;
     using Engine;
@@ -13,17 +13,17 @@
     /// <summary>
     /// View model for the Process Selector
     /// </summary>
-    internal class ProcessSelectorViewModel : ToolViewModel
+    internal class ScanResultsViewModel : ToolViewModel
     {
         /// <summary>
         /// The content id for the docking library associated with this view model
         /// </summary>
-        public const String ToolContentId = nameof(ProcessSelectorViewModel);
+        public const String ToolContentId = nameof(ScanResultsViewModel);
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ProcessSelectorViewModel" /> class
+        /// Initializes a new instance of the <see cref="ScanResultsViewModel" /> class
         /// </summary>
-        public ProcessSelectorViewModel() : base("Process Selector")
+        public ScanResultsViewModel() : base("Scan Results")
         {
             this.ContentId = ToolContentId;
             this.IconSource = ImageLoader.LoadImage("pack://application:,,/Content/Icons/SelectProcess.png");

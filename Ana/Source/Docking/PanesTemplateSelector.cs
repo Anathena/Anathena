@@ -1,9 +1,19 @@
 ﻿namespace Ana.Source.Docking
 {
+    using ChangeCounter;
+    using CheatBrowser;
+    using DotNetExplorer;
+    using LabelThresholder;
+    using ManualScanner;
     using ProcessSelector;
+    using Project;
+    using PropertyViewer;
+    using ScanResults;
+    using Snapshots;
     using System;
     using System.Windows;
     using System.Windows.Controls;
+    using UserSettings;
     using Xceed.Wpf.AvalonDock.Layout;
 
     /// <summary>
@@ -24,6 +34,56 @@
         public DataTemplate ProcessSelectorViewTemplate { get; set; }
 
         /// <summary>
+        /// Gets or sets the template for the Change Counter
+        /// </summary>
+        public DataTemplate ChangeCounterViewTemplate { get; set; }
+
+        /// <summary>
+        /// Gets or sets the template for the Label Thresholder
+        /// </summary>
+        public DataTemplate LabelThresholderViewTemplate { get; set; }
+
+        /// <summary>
+        /// Gets or sets the template for the Manual Scanner
+        /// </summary>
+        public DataTemplate ManualScannerViewTemplate { get; set; }
+
+        /// <summary>
+        /// Gets or sets the template for the Snapshot Manager
+        /// </summary>
+        public DataTemplate SnapshotManagerViewTemplate { get; set; }
+
+        /// <summary>
+        /// Gets or sets the template for the Scan Results
+        /// </summary>
+        public DataTemplate ScanResultsViewTemplate { get; set; }
+
+        /// <summary>
+        /// Gets or sets the template for the Cheat Browser
+        /// </summary>
+        public DataTemplate CheatBrowserViewTemplate { get; set; }
+
+        /// <summary>
+        /// Gets or sets the template for the .Net Explorer
+        /// </summary>
+        public DataTemplate DotNetExplorerViewTemplate { get; set; }
+
+        /// <summary>
+        /// Gets or sets the template for the Property Viewer
+        /// </summary>
+        public DataTemplate PropertyViewerViewTemplate { get; set; }
+
+        /// <summary>
+        /// Gets or sets the template for the Settings
+        /// </summary>
+        public DataTemplate SettingsViewTemplate { get; set; }
+
+        /// <summary>
+        /// Gets or sets the template for the Project Explorer
+        /// </summary>
+        public DataTemplate ProjectExplorerViewTemplate { get; set; }
+
+        /// <summary>
         /// Returns the required template to display the given view model
         /// </summary>
         /// <param name="item">The view model</param>
@@ -36,6 +96,46 @@
             if (item is ProcessSelectorViewModel)
             {
                 return this.ProcessSelectorViewTemplate;
+            }
+            else if (item is ChangeCounterViewModel)
+            {
+                return this.ChangeCounterViewTemplate;
+            }
+            else if (item is LabelThresholderViewModel)
+            {
+                return this.LabelThresholderViewTemplate;
+            }
+            else if (item is ManualScannerViewModel)
+            {
+                return this.ManualScannerViewTemplate;
+            }
+            else if (item is SnapshotManagerViewModel)
+            {
+                return this.SnapshotManagerViewTemplate;
+            }
+            else if (item is ScanResultsViewModel)
+            {
+                return this.ScanResultsViewTemplate;
+            }
+            else if (item is CheatBrowserViewModel)
+            {
+                return this.CheatBrowserViewTemplate;
+            }
+            else if (item is DotNetExplorerViewModel)
+            {
+                return this.DotNetExplorerViewTemplate;
+            }
+            else if (item is PropertyViewerViewModel)
+            {
+                return this.PropertyViewerViewTemplate;
+            }
+            else if (item is SettingsViewModel)
+            {
+                return this.SettingsViewTemplate;
+            }
+            else if (item is ProjectExplorerViewModel)
+            {
+                return this.ProjectExplorerViewTemplate;
             }
 
             return base.SelectTemplate(item, container);
