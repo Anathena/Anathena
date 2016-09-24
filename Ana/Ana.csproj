@@ -37,9 +37,16 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="KopiLua">
+      <HintPath>..\Lua\KopiLua.dll</HintPath>
+    </Reference>
+    <Reference Include="NLua">
+      <HintPath>..\Lua\NLua.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
@@ -59,6 +66,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Source\Engine\AddressResolver\AddressResolver.cs" />
+    <Compile Include="Source\Engine\AddressResolver\DotNet\DotNetObject.cs" />
     <Compile Include="Source\Engine\Architecture\ArchitectureFactory.cs" />
     <Compile Include="Source\Engine\Architecture\ArchitectureTypes.cs" />
     <Compile Include="Source\Engine\Architecture\Assembler\AssemblerFactory.cs" />
@@ -125,7 +134,45 @@
     <Compile Include="Source\Engine\Processes\ProcessAdapter.cs" />
     <Compile Include="Source\Engine\SpeedManipulator\ISpeedManipulator.cs" />
     <Compile Include="Source\Engine\Unrandomizer\IUnrandomizer.cs" />
+    <Compile Include="Source\LuaEngine\Graphics\LuaGraphicsCore.cs" />
+    <Compile Include="Source\LuaEngine\Graphics\IGraphicsCore.cs" />
+    <Compile Include="Source\LuaEngine\Hook\IHookCore.cs" />
+    <Compile Include="Source\LuaEngine\Hook\LuaHookCore.cs" />
+    <Compile Include="Source\LuaEngine\Input\IInputCore.cs" />
+    <Compile Include="Source\LuaEngine\Input\LuaInputCore.cs" />
+    <Compile Include="Source\LuaEngine\LuaCore.cs" />
+    <Compile Include="Source\LuaEngine\LuaKeywordManager.cs" />
+    <Compile Include="Source\LuaEngine\LuaScript.cs" />
+    <Compile Include="Source\LuaEngine\Memory\IMemoryCore.cs" />
+    <Compile Include="Source\LuaEngine\Memory\LuaMemoryCore.cs" />
     <Compile Include="Source\Mvvm\Converters\IconConverter.cs" />
+    <Compile Include="Source\Project\ProjectExplorer.cs" />
+    <Compile Include="Source\Project\ProjectItems\AddressItem.cs" />
+    <Compile Include="Source\Project\ProjectItems\FolderItem.cs" />
+    <Compile Include="Source\Project\ProjectItems\ProjectItem.cs" />
+    <Compile Include="Source\Project\ProjectItems\ScriptItem.cs" />
+    <Compile Include="Source\Project\ProjectItems\ScriptTemplates\LuaTemplates.cs" />
+    <Compile Include="Source\Scanners\ChangeCounter\ChangeCounter.cs" />
+    <Compile Include="Source\Scanners\FiniteStateScanner\FiniteState.cs" />
+    <Compile Include="Source\Scanners\FiniteStateScanner\FiniteStateBuilder.cs" />
+    <Compile Include="Source\Scanners\FiniteStateScanner\FiniteStateMachine.cs" />
+    <Compile Include="Source\Scanners\FiniteStateScanner\FiniteStateScanner.cs" />
+    <Compile Include="Source\Scanners\IScannerMVP.cs" />
+    <Compile Include="Source\Scanners\LabelThresholder\LabelThresholder.cs" />
+    <Compile Include="Source\Scanners\ManualScanner\ManualScanner.cs" />
+    <Compile Include="Source\Scanners\PointerScanner\PointerScanner.cs" />
+    <Compile Include="Source\Scanners\ScanConstraints\ScanConstraint.cs" />
+    <Compile Include="Source\Scanners\ScanConstraints\ScanConstraintEditor.cs" />
+    <Compile Include="Source\Scanners\ScanConstraints\ScanConstraintManager.cs" />
+    <Compile Include="Source\Scanners\ValueCollector\ValueCollector.cs" />
+    <Compile Include="Source\Snapshots\Prefilters\ISnapshotPrefilter.cs" />
+    <Compile Include="Source\Snapshots\Prefilters\ShallowPointerPrefilter.cs" />
+    <Compile Include="Source\Snapshots\Prefilters\SnapshotPrefilterFactory.cs" />
+    <Compile Include="Source\Snapshots\Snapshot.cs" />
+    <Compile Include="Source\Snapshots\SnapshotElement.cs" />
+    <Compile Include="Source\Snapshots\SnapshotManager.cs" />
+    <Compile Include="Source\Snapshots\SnapshotRegion.cs" />
+    <Compile Include="Source\UserSettings\Settings.cs" />
     <Compile Include="Source\Utils\DataStructures\ConcurrentHashSet.cs">
       <ExcludeFromStyleCop>False</ExcludeFromStyleCop>
     </Compile>
@@ -236,7 +283,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Source\Engine\AddressResolver\DotNet\" />
     <Folder Include="Source\Engine\AddressResolver\Java\" />
     <Folder Include="Source\Engine\AddressResolver\Python\" />
     <Folder Include="Source\Engine\Proxy\" />
