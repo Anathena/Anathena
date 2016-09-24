@@ -27,13 +27,9 @@
         /// </summary>
         private EngineCore()
         {
+            this.Processes = new ProcessAdapter();
+            this.OperatingSystemAdapter = OperatingSystemAdapterFactory.GetOperatingSystemAdapter();
             this.Architecture = ArchitectureFactory.GetArchitecture();
-            //// this.OperatingSystemAdapter = OperatingSystemAdapterFactory.GetOperatingSystemAdapter(TargetProcess);
-        }
-
-        public static EngineCore GetInstance()
-        {
-            return engineCoreInstance.Value;
         }
 
         /// <summary>
@@ -70,6 +66,15 @@
         /// Gets an object that provides access to system input for mouse, keyboard, and controllers
         /// </summary>
         public IInput Input { get; private set; }
+
+        /// <summary>
+        /// Gets an instance of the engine
+        /// </summary>
+        /// <returns>An instance of the engine</returns>
+        public static EngineCore GetInstance()
+        {
+            return engineCoreInstance.Value;
+        }
     }
     //// End interface
 }

@@ -1,5 +1,6 @@
 ﻿namespace Ana.Source.Engine.OperatingSystems
 {
+    using Processes;
     using System;
     using System.Collections.Generic;
     using System.Reflection;
@@ -7,7 +8,7 @@
     /// <summary>
     /// An interface that describes general methods for memory manipulations that must be handled by the operating system
     /// </summary>
-    internal interface IOperatingSystemAdapter
+    internal interface IOperatingSystemAdapter : IProcessListener
     {
         /// <summary>
         /// Gets regions of memory allocated in the remote process based on provided parameters
@@ -30,6 +31,18 @@
         /// </summary>
         /// <returns>A collection of regions in the process</returns>
         IEnumerable<NormalizedRegion> GetAllVirtualPages();
+
+        /// <summary>
+        /// Gets the maximum address possible in the target process
+        /// </summary>
+        /// <returns>The maximum address possible in the target process</returns>
+        IntPtr GetMaximumAddress();
+
+        /// <summary>
+        /// Gets the maximum usermode address possible in the target process
+        /// </summary>
+        /// <returns>The maximum usermode address possible in the target process</returns>
+        IntPtr GetMaximumUserModeAddress();
 
         /// <summary>
         /// Gets all modules in the opened process
@@ -66,13 +79,13 @@
         /// Determines if the operating system is 32 bit
         /// </summary>
         /// <returns>A boolean indicating if the OS is 32 bit or not</returns>
-        Boolean IsOS32Bit();
+        Boolean IsOperatingSystem32Bit();
 
         /// <summary>
         /// Determines if the operating system is 64 bit
         /// </summary>
         /// <returns>A boolean indicating if the OS is 64 bit or not</returns>
-        Boolean IsOS64Bit();
+        Boolean IsOperatingSystem64Bit();
 
         /// <summary>
         /// Determines if this program is 32 bit
@@ -85,6 +98,20 @@
         /// </summary>
         /// <returns>A boolean indicating if this program is 64 bit or not</returns>
         Boolean IsAnathena64Bit();
+
+        /// <summary>
+        /// Determines if a process is 32 bit
+        /// </summary>
+        /// <param name="process">The process to check</param>
+        /// <returns>Returns true if the process is 32 bit, otherwise false</returns>
+        Boolean IsProcess32Bit(NormalizedProcess process);
+
+        /// <summary>
+        /// Determines if a process is 64 bit
+        /// </summary>
+        /// <param name="process">The process to check</param>
+        /// <returns>Returns true if the process is 64 bit, otherwise false</returns>
+        Boolean IsProcess64Bit(NormalizedProcess process);
 
         /// <summary>
         /// Searches for an array of bytes in the opened process

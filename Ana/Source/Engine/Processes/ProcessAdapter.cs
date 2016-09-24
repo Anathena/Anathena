@@ -6,12 +6,18 @@
     using System.Diagnostics;
     using System.Drawing;
     using System.Linq;
+    using Utils.DataStructures;
 
     /// <summary>
     /// A class responsible for collecting all running processes on the system
     /// </summary>
     internal class ProcessAdapter : IProcesses
     {
+        /// <summary>
+        /// Thread safe collection of listeners
+        /// </summary>
+        private ConcurrentHashSet<IProcessListener> processListeners;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="ProcessAdapter" /> class
         /// </summary>
@@ -23,6 +29,29 @@
         /// Gets or sets the the opened process
         /// </summary>
         private NormalizedProcess OpenedProcess { get; set; }
+
+        /// <summary>
+        /// Subscribes the listener to process change events
+        /// </summary>
+        /// <param name="listener">The object that wants to listen to process update events</param>
+        public void Subscribe(IProcessListener listener)
+        {
+            if (this.processListeners == null)
+            {
+                this.processListeners = new ConcurrentHashSet<IProcessListener>();
+            }
+
+            this.processListeners.Add(listener);
+        }
+
+        /// <summary>
+        /// Unsubscribes the listener from process change events
+        /// </summary>
+        /// <param name="listener">The object that wants to listen to process update events</param>
+        public void Unsubscribe(IProcessListener listener)
+        {
+            this.processListeners?.Remove(listener);
+        }
 
         /// <summary>
         /// Gets all running processes on the system
@@ -37,9 +66,8 @@
                         intermediateProcess.ExternalProcess.ProcessName,
                         intermediateProcess.IsSystemProcess ? DateTime.MinValue : intermediateProcess.ExternalProcess.StartTime,
                         intermediateProcess.IsSystemProcess,
-                        intermediateProcess.ExternalProcess.Handle,
                         this.GetIcon(intermediateProcess)))
-                .OrderByDescending(normalizedProcess => normalizedProcess.processId);
+                .OrderByDescending(normalizedProcess => normalizedProcess.ProcessId);
         }
 
         /// <summary>
@@ -49,6 +77,14 @@
         public void OpenProcess(NormalizedProcess process)
         {
             this.OpenedProcess = process;
+
+            if (this.processListeners != null)
+            {
+                foreach (IProcessListener listener in this.processListeners)
+                {
+                    listener.Update(process);
+                }
+            }
         }
 
         /// <summary>
@@ -66,21 +102,13 @@
         /// <returns>Returns true if the opened process is 32 bit, otherwise false</returns>
         public Boolean IsOpenedProcess32Bit()
         {
-            Boolean isWow64;
-
             // First do the simple check if seeing if the OS is 32 bit, in which case the process wont be 64 bit
-            if (!Environment.Is64BitOperatingSystem)
+            if (EngineCore.GetInstance().OperatingSystemAdapter.IsOperatingSystem32Bit())
             {
                 return true;
             }
 
-            if (!NativeMethods.IsWow64Process(this.OpenedProcess == null ? IntPtr.Zero : this.OpenedProcess.Handle, out isWow64))
-            {
-                // Error, assume 32 bit
-                return true;
-            }
-
-            return isWow64;
+            return EngineCore.GetInstance().OperatingSystemAdapter.IsProcess32Bit(this.OpenedProcess);
         }
 
         /// <summary>
@@ -90,40 +118,6 @@
         public Boolean IsOpenedProcess64Bit()
         {
             return !this.IsOpenedProcess32Bit();
-        }
-
-        /// <summary>
-        /// Determines if a process is 32 bit
-        /// </summary>
-        /// <param name="process">The process to check</param>
-        /// <returns>Returns true if the process is 32 bit, otherwise false</returns>
-        public Boolean IsProcess32Bit(NormalizedProcess process)
-        {
-            Boolean isWow64;
-
-            // First do the simple check if seeing if the OS is 32 bit, in which case the process wont be 64 bit
-            if (EngineCore.GetInstance().OperatingSystemAdapter.IsOS32Bit())
-            {
-                return true;
-            }
-
-            if (!NativeMethods.IsWow64Process(process.Handle, out isWow64))
-            {
-                // Error, assume 32 bit
-                return true;
-            }
-
-            return isWow64;
-        }
-
-        /// <summary>
-        /// Determines if a process is 64 bit
-        /// </summary>
-        /// <param name="process">The process to check</param>
-        /// <returns>Returns true if the process is 64 bit, otherwise false</returns>
-        public Boolean IsProcess64Bit(NormalizedProcess process)
-        {
-            return !this.IsProcess32Bit(process);
         }
 
         /// <summary>

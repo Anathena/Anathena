@@ -4,38 +4,65 @@
     using System;
     using System.Linq;
     using System.Reflection;
-    using System.Text;
 
     /// <summary>
-    /// Converts a value from one format to another format
+    /// Collection of methods to convert values from one format to another format
     /// </summary>
     [Obfuscation(ApplyToMembers = true, Exclude = true)]
-    class Conversions
+    internal class Conversions
     {
+        /// <summary>
+        /// Converts a string to the corresponding primitive type
+        /// </summary>
+        /// <param name="value">The string to convert</param>
+        /// <returns>The type that corresponds to the given string</returns>
         public static Type StringToPrimitiveType(String value)
         {
             return PrimitiveTypes.GetPrimitiveTypes().Where(x => x.Name == value).First();
         }
 
-        public static dynamic ParseDecStringAsValue(Type ValueType, String Value)
+        /// <summary>
+        /// Parse a string containing a non-hex value and return the value
+        /// </summary>
+        /// <param name="valueType">The type the string represents</param>
+        /// <param name="value">The string to convert</param>
+        /// <returns>The value converted from the given string</returns>
+        public static dynamic ParseDecStringAsValue(Type valueType, String value)
         {
-            switch (Type.GetTypeCode(ValueType))
+            switch (Type.GetTypeCode(valueType))
             {
-                case TypeCode.Byte: return Byte.Parse(Value);
-                case TypeCode.Char: return Byte.Parse(Value);
-                case TypeCode.SByte: return SByte.Parse(Value);
-                case TypeCode.Int16: return Int16.Parse(Value);
-                case TypeCode.Int32: return Int32.Parse(Value);
-                case TypeCode.Int64: return Int64.Parse(Value);
-                case TypeCode.UInt16: return UInt16.Parse(Value);
-                case TypeCode.UInt32: return UInt32.Parse(Value);
-                case TypeCode.UInt64: return UInt64.Parse(Value);
-                case TypeCode.Single: return Single.Parse(Value);
-                case TypeCode.Double: return Double.Parse(Value);
+                case TypeCode.Byte:
+                    return Byte.Parse(value);
+                case TypeCode.Char:
+                    return Byte.Parse(value);
+                case TypeCode.SByte:
+                    return SByte.Parse(value);
+                case TypeCode.Int16:
+                    return Int16.Parse(value);
+                case TypeCode.Int32:
+                    return Int32.Parse(value);
+                case TypeCode.Int64:
+                    return Int64.Parse(value);
+                case TypeCode.UInt16:
+                    return UInt16.Parse(value);
+                case TypeCode.UInt32:
+                    return UInt32.Parse(value);
+                case TypeCode.UInt64:
+                    return UInt64.Parse(value);
+                case TypeCode.Single:
+                    return Single.Parse(value);
+                case TypeCode.Double:
+                    return Double.Parse(value);
                 default: return null;
             }
         }
 
+        /// <summary>
+        /// Converts a string containing hex characters to the given data type
+        /// </summary>
+        /// <param name="valueType">The type to convert the parsed hex to</param>
+        /// <param name="value">The hex string to parse</param>
+        /// <returns>The converted value from the hex</returns>
         public static dynamic ParseHexStringAsValue(Type valueType, String value)
         {
             return ParseDecStringAsValue(valueType, ParseHexStringAsDecString(valueType, value));
@@ -57,17 +84,28 @@
 
             switch (Type.GetTypeCode(valueType))
             {
-                case TypeCode.Byte: return vealValue.ToString("X");
-                case TypeCode.Char: return vealValue.ToString("X");
-                case TypeCode.SByte: return vealValue.ToString("X");
-                case TypeCode.Int16: return vealValue.ToString("X");
-                case TypeCode.Int32: return vealValue.ToString("X");
-                case TypeCode.Int64: return vealValue.ToString("X");
-                case TypeCode.UInt16: return vealValue.ToString("X");
-                case TypeCode.UInt32: return vealValue.ToString("X");
-                case TypeCode.UInt64: return vealValue.ToString("X");
-                case TypeCode.Single: return BitConverter.ToUInt32(BitConverter.GetBytes(vealValue), 0).ToString("X");
-                case TypeCode.Double: return BitConverter.ToUInt64(BitConverter.GetBytes(vealValue), 0).ToString("X");
+                case TypeCode.Byte:
+                    return vealValue.ToString("X");
+                case TypeCode.Char:
+                    return vealValue.ToString("X");
+                case TypeCode.SByte:
+                    return vealValue.ToString("X");
+                case TypeCode.Int16:
+                    return vealValue.ToString("X");
+                case TypeCode.Int32:
+                    return vealValue.ToString("X");
+                case TypeCode.Int64:
+                    return vealValue.ToString("X");
+                case TypeCode.UInt16:
+                    return vealValue.ToString("X");
+                case TypeCode.UInt32:
+                    return vealValue.ToString("X");
+                case TypeCode.UInt64:
+                    return vealValue.ToString("X");
+                case TypeCode.Single:
+                    return BitConverter.ToUInt32(BitConverter.GetBytes(vealValue), 0).ToString("X");
+                case TypeCode.Double:
+                    return BitConverter.ToUInt64(BitConverter.GetBytes(vealValue), 0).ToString("X");
                 default: return null;
             }
         }
@@ -78,17 +116,28 @@
 
             switch (Type.GetTypeCode(valueType))
             {
-                case TypeCode.Byte: return realValue.ToString();
-                case TypeCode.Char: return realValue.ToString();
-                case TypeCode.SByte: return unchecked((SByte)(realValue)).ToString();
-                case TypeCode.Int16: return unchecked((Int16)(realValue)).ToString();
-                case TypeCode.Int32: return unchecked((Int32)(realValue)).ToString();
-                case TypeCode.Int64: return unchecked((Int64)(realValue)).ToString();
-                case TypeCode.UInt16: return realValue.ToString();
-                case TypeCode.UInt32: return realValue.ToString();
-                case TypeCode.UInt64: return realValue.ToString();
-                case TypeCode.Single: return BitConverter.ToSingle(BitConverter.GetBytes(unchecked((UInt32)realValue)), 0).ToString();
-                case TypeCode.Double: return BitConverter.ToDouble(BitConverter.GetBytes(realValue), 0).ToString();
+                case TypeCode.Byte:
+                    return realValue.ToString();
+                case TypeCode.Char:
+                    return realValue.ToString();
+                case TypeCode.SByte:
+                    return unchecked((SByte)realValue).ToString();
+                case TypeCode.Int16:
+                    return unchecked((Int16)realValue).ToString();
+                case TypeCode.Int32:
+                    return unchecked((Int32)realValue).ToString();
+                case TypeCode.Int64:
+                    return unchecked((Int64)realValue).ToString();
+                case TypeCode.UInt16:
+                    return realValue.ToString();
+                case TypeCode.UInt32:
+                    return realValue.ToString();
+                case TypeCode.UInt64:
+                    return realValue.ToString();
+                case TypeCode.Single:
+                    return BitConverter.ToSingle(BitConverter.GetBytes(unchecked((UInt32)realValue)), 0).ToString();
+                case TypeCode.Double:
+                    return BitConverter.ToDouble(BitConverter.GetBytes(realValue), 0).ToString();
                 default: return null;
             }
         }
@@ -103,11 +152,17 @@
             String valueString = value.ToString();
 
             if (CheckSyntax.IsUInt32(valueString))
+            {
                 return String.Format("{0:X8}", Convert.ToUInt32(value));
+            }
             else if (CheckSyntax.IsInt32(valueString))
-                return String.Format("{0:X8}", unchecked((UInt32)(Convert.ToInt32(value))));
+            {
+                return String.Format("{0:X8}", unchecked((UInt32)Convert.ToInt32(value)));
+            }
             else
+            {
                 return String.Empty;
+            }
         }
 
         public static String ToAddress(Int64 value)
@@ -120,15 +175,25 @@
             String valueString = value.ToString();
 
             if (CheckSyntax.IsUInt32(valueString))
+            {
                 return String.Format("{0:X8}", Convert.ToUInt32(value));
+            }
             else if (CheckSyntax.IsInt32(valueString))
-                return String.Format("{0:X8}", unchecked((UInt32)(Convert.ToInt32(value))));
+            {
+                return String.Format("{0:X8}", unchecked((UInt32)Convert.ToInt32(value)));
+            }
             else if (CheckSyntax.IsUInt64(valueString))
+            {
                 return String.Format("{0:X16}", Convert.ToUInt64(value));
+            }
             else if (CheckSyntax.IsInt64(valueString))
-                return String.Format("{0:X16}", unchecked((UInt64)(Convert.ToInt64(value))));
+            {
+                return String.Format("{0:X16}", unchecked((UInt64)Convert.ToInt64(value)));
+            }
             else
+            {
                 return String.Empty;
+            }
         }
 
         public static String ToAddress(IntPtr value)
@@ -188,7 +253,13 @@
             return null;
         }
 
-        public static String BytesToMetric<T>(T byteCount)
+        /// <summary>
+        /// Converts a given number of bytes to the most relevant metric. ie 2123 bytes => 2KB
+        /// </summary>
+        /// <typeparam name="T">The data type expressing the byte count</typeparam>
+        /// <param name="byteCount">The number of bytes</param>
+        /// <returns>The byte count converted to a string representing the same value as the most relevant metric</returns>
+        public static String BytesToMetric<T>(T byteCount) where T : struct
         {
             // Note: UInt64s run out around EB
             String[] suffix = { "B", "KB", "MB", "GB", "TB", "PB", "EB" };
@@ -202,7 +273,7 @@
 
             Int32 place = Convert.ToInt32(Math.Floor(Math.Log(realByteCount, 1024)));
             Double number = Math.Round(realByteCount / Math.Pow(1024, place), 1);
-            return (number.ToString() + suffix[place]);
+            return number.ToString() + suffix[place];
         }
 
         public static Int32 GetTypeSize<T>()
@@ -235,7 +306,7 @@
                 case TypeCode.Byte:
                     return (T)(Object)byteArray[0];
                 case TypeCode.Char:
-                    return (T)(Object)Encoding.UTF8.GetChars(byteArray)[0]; // BitConverter.ToChar(byteArray, 0);
+                    return (T)(Object)BitConverter.ToChar(byteArray, 0);
                 case TypeCode.Double:
                     return (T)(Object)BitConverter.ToDouble(byteArray, 0);
                 case TypeCode.Int16:
@@ -256,7 +327,6 @@
                     throw new ArgumentException("Invalid type provided");
             }
         }
-
     }
     //// End class
 }

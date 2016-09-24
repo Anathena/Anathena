@@ -6,7 +6,7 @@
     using Utils.Extensions;
 
     /// <summary>
-    /// Implements Fasm.NET compiler for 32-bit development. More info: https://github.com/ZenLulz/Fasm.NET
+    /// An implementation of the udis disassembler
     /// </summary>
     public class SharpDisassembler : IDisassembler
     {

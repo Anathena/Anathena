@@ -119,24 +119,31 @@
     <Compile Include="Source\Engine\OperatingSystems\Windows\WindowsAdapter.cs">
       <ExcludeFromStyleCop>False</ExcludeFromStyleCop>
     </Compile>
+    <Compile Include="Source\Engine\Processes\IProcessListener.cs" />
     <Compile Include="Source\Engine\Processes\IProcesses.cs" />
     <Compile Include="Source\Engine\Processes\NormalizedProcess.cs" />
     <Compile Include="Source\Engine\Processes\ProcessAdapter.cs" />
     <Compile Include="Source\Engine\SpeedManipulator\ISpeedManipulator.cs" />
     <Compile Include="Source\Engine\Unrandomizer\IUnrandomizer.cs" />
     <Compile Include="Source\Mvvm\Converters\IconConverter.cs" />
-    <Compile Include="Source\Utils\DataStructures\BiDictionary.cs" />
-    <Compile Include="Source\Utils\DataStructures\ConcurrentHashSet.cs" />
-    <Compile Include="Source\Utils\DataStructures\ObjectCache.cs" />
+    <Compile Include="Source\Utils\DataStructures\ConcurrentHashSet.cs">
+      <ExcludeFromStyleCop>False</ExcludeFromStyleCop>
+    </Compile>
     <Compile Include="Source\Utils\Extensions\ArrayExtensions.cs" />
     <Compile Include="Source\Utils\Extensions\IEnumerableExtensions.cs" />
-    <Compile Include="Source\Utils\Extensions\IntExtensions.cs" />
-    <Compile Include="Source\Utils\Extensions\IntPtrExtensions.cs" />
+    <Compile Include="Source\Utils\Extensions\IntegerExtensions.cs">
+      <ExcludeFromStyleCop>False</ExcludeFromStyleCop>
+    </Compile>
+    <Compile Include="Source\Utils\Extensions\IntPtrExtensions.cs">
+      <ExcludeFromStyleCop>False</ExcludeFromStyleCop>
+    </Compile>
     <Compile Include="Source\Utils\Extensions\ObjectExtensions.cs" />
     <Compile Include="Source\Utils\Extensions\PrimitiveExtensions.cs" />
     <Compile Include="Source\Utils\ImageLoader.cs" />
     <Compile Include="Source\Utils\PrimitiveTypes.cs" />
-    <Compile Include="Source\Utils\RepeatedTask.cs" />
+    <Compile Include="Source\Utils\RepeatedTask.cs">
+      <ExcludeFromStyleCop>False</ExcludeFromStyleCop>
+    </Compile>
     <Compile Include="Source\Utils\TimedLock.cs" />
     <Compile Include="Source\Utils\Validation\CheckSyntax.cs" />
     <Compile Include="Source\Utils\Validation\Conversions.cs" />

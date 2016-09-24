@@ -4,78 +4,97 @@
     using System.Threading;
     using System.Threading.Tasks;
 
+    /// <summary>
+    /// A task that repeatedly performs an action
+    /// </summary>
     internal abstract class RepeatedTask
     {
-        private CancellationTokenSource cancelRequest;  // Tells the task to finish
-        private Task task;                              // Event that constantly checks the target process for changes
-
-        protected Boolean cancelFlag;   // Flag that may be triggered in the update cycle to end the task
-        protected Int32 abortTime;      // Time to wait (in ms) before giving up when ending scan
-        protected Int32 updateInterval; // Time to wait (in ms) before next update (and time to wait for cancelation)
-        private Object accessLock;
-
-        private Boolean startedFlag;
-        private Boolean finishedFlag;
-
+        /// <summary>
+        /// Initializes a new instance of the <see cref="RepeatedTask" /> class
+        /// </summary>
         public RepeatedTask()
         {
-            accessLock = new Object();
-            abortTime = 3000;       // Set a default abort time
-            updateInterval = 400;   // Set a default update interval
+            this.AccessLock = new Object();
+            this.AbortTime = 3000;       // Set a default abort time
+            this.UpdateInterval = 400;   // Set a default update interval
         }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether the task should be canceled
+        /// </summary>
+        protected Boolean CancelFlag { get; set; }
+
+        /// <summary>
+        /// Gets or sets the time to wait (in ms) before giving up when ending scan
+        /// </summary>
+        protected Int32 AbortTime { get; set; }
+
+        /// <summary>
+        /// Gets or sets the time to wait (in ms) before next update (and time to wait for cancelation)
+        /// </summary>
+        protected Int32 UpdateInterval { get; set; }
+
+        /// <summary>
+        /// Gets or sets the multithreading lock for shared resources
+        /// </summary>
+        private Object AccessLock { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether the repeated task has started
+        /// </summary>
+        private Boolean StartedFlag { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether the repeated task has finished
+        /// </summary>
+        private Boolean FinishedFlag { get; set; }
+
+        /// <summary>
+        /// Gets or sets an object that informs the running task that it should cancel and exit
+        /// </summary>
+        private CancellationTokenSource CancelRequest { get; set; }
+
+        /// <summary>
+        /// Gets or sets the task being repeated
+        /// </summary>
+        private Task Task { get; set; }
+
+        /// <summary>
+        /// Starts the repeated task
+        /// </summary>
         public virtual void Begin()
         {
-            using (TimedLock.Lock(accessLock))
+            using (TimedLock.Lock(this.AccessLock))
             {
-                if (startedFlag)
+                if (this.StartedFlag)
                 {
                     return;
                 }
 
-                startedFlag = true;
+                this.StartedFlag = true;
             }
 
-            cancelFlag = false;
-            finishedFlag = false;
+            this.CancelFlag = false;
+            this.FinishedFlag = false;
 
-            cancelRequest = new CancellationTokenSource();
-            task = Task.Run(async () =>
+            this.CancelRequest = new CancellationTokenSource();
+            Task = Task.Run(
+            async () =>
             {
                 while (true)
                 {
-                    UpdateController();
+                    this.UpdateController();
 
                     // Await with cancellation
-                    await Task.Delay(updateInterval, cancelRequest.Token);
+                    await Task.Delay(this.UpdateInterval, this.CancelRequest.Token);
                 }
-            }, cancelRequest.Token);
+            },
+            this.CancelRequest.Token);
         }
 
-        private void UpdateController()
-        {
-            using (TimedLock.Lock(accessLock))
-            {
-                if (finishedFlag)
-                {
-                    return;
-                }
-
-                if (cancelFlag)
-                {
-                    finishedFlag = true;
-
-                    Action action = End;
-                    action.BeginInvoke(x => action.EndInvoke(x), null);
-                    return;
-                }
-
-                Update();
-            }
-        }
-
-        protected abstract void Update();
-
+        /// <summary>
+        /// Cancels the running task
+        /// </summary>
         public void TriggerEnd()
         {
             Task.Run(() =>
@@ -83,20 +102,53 @@
                 // Wait for the task to finish
                 try
                 {
-                    cancelRequest?.Cancel();
-                    task?.Wait(abortTime);
+                    this.CancelRequest?.Cancel();
+                    this.Task?.Wait(AbortTime);
                 }
                 catch (Exception)
                 {
                 }
 
-                End();
+                this.End();
             });
         }
 
+        /// <summary>
+        /// Performs the update logic for the running task
+        /// </summary>
+        protected abstract void Update();
+
+        /// <summary>
+        /// Called when the repeated task completes
+        /// </summary>
         protected virtual void End()
         {
-            startedFlag = false;
+            this.StartedFlag = false;
+        }
+
+        /// <summary>
+        /// Controls the repeated task, calling <see cref="Update"/> at each interval
+        /// </summary>
+        private void UpdateController()
+        {
+            using (TimedLock.Lock(this.AccessLock))
+            {
+                if (this.FinishedFlag)
+                {
+                    return;
+                }
+
+                if (this.CancelFlag)
+                {
+                    this.FinishedFlag = true;
+
+                    Action action = this.End;
+                    action.BeginInvoke(x => action.EndInvoke(x), null);
+                    return;
+                }
+
+                this.Update();
+            }
         }
     }
     //// End class

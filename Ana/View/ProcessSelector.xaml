@@ -18,7 +18,7 @@
             <ListView.Resources>
                 <converters:IconConverter x:Key="IconConverter"/>
                 <DataTemplate x:Key="Template">
-                    <Image Source="{Binding Path=icon, Converter={StaticResource IconConverter}}" Width="16" Height="16"/>
+                    <Image Source="{Binding Path=Icon, Converter={StaticResource IconConverter}}" Width="16" Height="16"/>
                 </DataTemplate>
             </ListView.Resources>
             <ListView.ItemTemplate>
@@ -31,8 +31,8 @@
                             <ColumnDefinition/>
                             <ColumnDefinition/>
                         </Grid.ColumnDefinitions>
-                        <Image Grid.Column="0" Source="{Binding Path=icon, Converter={StaticResource IconConverter}}" Width="16" Height="16"/>
-                        <TextBlock Grid.Column="1" Text="{Binding Path=processName}" Width="{Binding Path=ActualWidth, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListView}}}"/>
+                        <Image Grid.Column="0" Source="{Binding Path=Icon, Converter={StaticResource IconConverter}}" Width="16" Height="16"/>
+                        <TextBlock Grid.Column="1" Text="{Binding Path=ProcessName}" Width="{Binding Path=ActualWidth, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListView}}}"/>
                     </Grid>
                 </DataTemplate>
             </ListView.ItemTemplate>

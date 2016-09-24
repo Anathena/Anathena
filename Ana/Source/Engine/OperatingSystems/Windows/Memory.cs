@@ -92,7 +92,7 @@
         /// <returns>An open handle to the specified process</returns>
         public static IntPtr OpenProcess(ProcessAccessFlags accessFlags, NormalizedProcess process)
         {
-            return NativeMethods.OpenProcess(accessFlags, false, process == null ? 0 : process.processId);
+            return NativeMethods.OpenProcess(accessFlags, false, process == null ? 0 : process.ProcessId);
         }
 
         /// <summary>
@@ -154,17 +154,6 @@
             MemoryTypeEnum allowedTypes)
         {
             return Query(handle, startAddress, endAddress, requiredProtection, excludedProtection, allowedTypes).Select(x => x.BaseAddress);
-        }
-
-        /// <summary>
-        /// Gets all regions of memory allocated in the remote process
-        /// </summary>
-        /// <param name="handle">Target process handle</param>
-        /// <returns>A collection of pointers to virtual pages in the target process</returns>
-        public static IEnumerable<IntPtr> AllVirtualPages(IntPtr handle)
-        {
-            MemoryTypeEnum flags = MemoryTypeEnum.None | MemoryTypeEnum.Private | MemoryTypeEnum.Image | MemoryTypeEnum.Mapped;
-            return Query(handle, IntPtr.Zero, IntPtr.Zero.MaxValue(), 0, 0, flags).Select(x => x.BaseAddress);
         }
 
         /// <summary>

@@ -1,10 +1,13 @@
 ﻿namespace Ana.Source.Engine.OperatingSystems.Windows
 {
     using Native;
+    using Processes;
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics;
     using System.Reflection;
     using System.Text;
+    using System.Threading.Tasks;
     using Utils.Extensions;
     using Utils.Validation;
 
@@ -18,13 +21,26 @@
         /// </summary>
         public WindowsAdapter()
         {
-            this.Handle = Memory.OpenProcess(ProcessAccessFlags.AllAccess, EngineCore.GetInstance().Processes.GetOpenedProcess());
+            // Subscribe to process events (async call as to avoid locking on GetInstance() if engine is being constructed)
+            Task.Run(() => { EngineCore.GetInstance().Processes.Subscribe(this); });
         }
 
         /// <summary>
         /// Gets the remote process handle opened with all rights.
         /// </summary>
         public IntPtr Handle { get; private set; }
+
+        /// <summary>
+        /// Recieve a process update. This is an optimization over grabbing the process from the <see cref="IProcesses"/> component
+        /// of the <see cref="EngineCore"/> every time we need it, which would be cumbersome when doing hundreds of thousands of memory read/writes
+        /// </summary>
+        /// <param name="process">The newly selected process</param>
+        public void Update(NormalizedProcess process)
+        {
+            Process systemProcess = Process.GetProcessById(process.ProcessId);
+
+            this.Handle = systemProcess == null ? IntPtr.Zero : systemProcess.Handle;
+        }
 
         #region Read
         /// <summary>
@@ -358,7 +374,44 @@
         /// <returns>A collection of regions in the process</returns>
         public IEnumerable<NormalizedRegion> GetAllVirtualPages()
         {
-            return this.GetVirtualPages(0, 0, MemoryTypeEnum.None | MemoryTypeEnum.Private | MemoryTypeEnum.Image | MemoryTypeEnum.Mapped, IntPtr.Zero, IntPtr.Zero.MaxValue());
+            MemoryTypeEnum flags = MemoryTypeEnum.None | MemoryTypeEnum.Private | MemoryTypeEnum.Image | MemoryTypeEnum.Mapped;
+            return this.GetVirtualPages(0, 0, flags, IntPtr.Zero, this.GetMaximumAddress());
+        }
+
+        /// <summary>
+        /// Gets the maximum address possible in the target process
+        /// </summary>
+        /// <returns>The maximum address possible in the target process</returns>
+        public IntPtr GetMaximumAddress()
+        {
+            if (IntPtr.Size == sizeof(Int32))
+            {
+                return unchecked(UInt32.MaxValue.ToIntPtr());
+            }
+            else if (IntPtr.Size == sizeof(Int64))
+            {
+                return unchecked(UInt64.MaxValue.ToIntPtr());
+            }
+
+            throw new Exception("Unable to determine maximum address");
+        }
+
+        /// <summary>
+        /// Gets the maximum usermode address possible in the target process
+        /// </summary>
+        /// <returns>The maximum usermode address possible in the target process</returns>
+        public IntPtr GetMaximumUserModeAddress()
+        {
+            if (IntPtr.Size == sizeof(Int32))
+            {
+                return unchecked((IntPtr)Int32.MaxValue);
+            }
+            else if (IntPtr.Size == sizeof(Int64))
+            {
+                return unchecked((IntPtr)Int64.MaxValue);
+            }
+
+            throw new Exception("Unable to determine maximum address");
         }
 
         /// <summary>
@@ -416,7 +469,7 @@
         /// Determines if the operating system is 32 bit
         /// </summary>
         /// <returns>A boolean indicating if the OS is 32 bit or not</returns>
-        public Boolean IsOS32Bit()
+        public Boolean IsOperatingSystem32Bit()
         {
             return !Environment.Is64BitOperatingSystem;
         }
@@ -425,7 +478,7 @@
         /// Determines if the operating system is 64 bit
         /// </summary>
         /// <returns>A boolean indicating if the OS is 64 bit or not</returns>
-        public Boolean IsOS64Bit()
+        public Boolean IsOperatingSystem64Bit()
         {
             return Environment.Is64BitOperatingSystem;
         }
@@ -446,6 +499,42 @@
         public Boolean IsAnathena64Bit()
         {
             return Environment.Is64BitProcess;
+        }
+
+        /// <summary>
+        /// Determines if a process is 32 bit
+        /// </summary>
+        /// <param name="process">The process to check</param>
+        /// <returns>Returns true if the process is 32 bit, otherwise false</returns>
+        public Boolean IsProcess32Bit(NormalizedProcess process)
+        {
+            Boolean isWow64;
+
+            // First do the simple check if seeing if the OS is 32 bit, in which case the process wont be 64 bit
+            if (EngineCore.GetInstance().OperatingSystemAdapter.IsOperatingSystem32Bit())
+            {
+                return true;
+            }
+
+            Process systemProcess = Process.GetProcessById(process.ProcessId);
+
+            if (systemProcess == null || !NativeMethods.IsWow64Process(systemProcess.Handle, out isWow64))
+            {
+                // Error, assume 32 bit
+                return true;
+            }
+
+            return isWow64;
+        }
+
+        /// <summary>
+        /// Determines if a process is 64 bit
+        /// </summary>
+        /// <param name="process">The process to check</param>
+        /// <returns>Returns true if the process is 64 bit, otherwise false</returns>
+        public Boolean IsProcess64Bit(NormalizedProcess process)
+        {
+            return !this.IsProcess32Bit(process);
         }
     }
     //// End class

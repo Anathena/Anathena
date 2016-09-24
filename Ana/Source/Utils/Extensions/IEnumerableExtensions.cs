@@ -8,26 +8,26 @@
     /// <summary>
     /// Extension methods for IEnumerable interfaces
     /// </summary>
-    static class IEnumerableExtensions
+    internal static class IEnumerableExtensions
     {
         /// <summary>
-        /// This shouldn't exist, this was a bad idea
+        /// A foreach extension method to perform an action on all elements in an enumeration
         /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="enumeration"></param>
-        /// <param name="action"></param>
+        /// <typeparam name="T">The type of the enumeration</typeparam>
+        /// <param name="enumeration">The enumeration to iterate through</param>
+        /// <param name="action">The action to perform for each item</param>
         public static void ForEach<T>(this IEnumerable<T> enumeration, Action<T> action)
         {
-            foreach (T Item in enumeration)
+            foreach (T item in enumeration)
             {
-                action(Item);
+                action(item);
             }
         }
 
         /// <summary>
         /// Gets the type contained in the IEnumerable interface
         /// </summary>
-        /// <param name="source"></param>
+        /// <param name="source">The enumeration to get the child type of</param>
         /// <returns>A type contained in the IEnumerable interface. Returns null if none found</returns>
         public static Type GetElementType(this IEnumerable source)
         {
@@ -45,7 +45,6 @@
 
             return null;
         }
-
     }
     //// End class
 }

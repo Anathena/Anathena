@@ -9,6 +9,18 @@
     internal interface IProcesses
     {
         /// <summary>
+        /// Subscribes the listener to process change events
+        /// </summary>
+        /// <param name="listener">The object that wants to listen to process update events</param>
+        void Subscribe(IProcessListener listener);
+
+        /// <summary>
+        /// Unsubscribes the listener from process change events
+        /// </summary>
+        /// <param name="listener">The object that wants to stop listening to process update events</param>
+        void Unsubscribe(IProcessListener listener);
+
+        /// <summary>
         /// Gets all running processes on the system
         /// </summary>
         /// <returns>An enumeration of see <see cref="NormalizedProcess" /></returns>
@@ -37,20 +49,6 @@
         /// </summary>
         /// <returns>Returns true if the opened process is 64 bit, otherwise false</returns>
         Boolean IsOpenedProcess64Bit();
-
-        /// <summary>
-        /// Determines if a process is 32 bit
-        /// </summary>
-        /// <param name="process">The process to check</param>
-        /// <returns>Returns true if the process is 32 bit, otherwise false</returns>
-        Boolean IsProcess32Bit(NormalizedProcess process);
-
-        /// <summary>
-        /// Determines if a process is 64 bit
-        /// </summary>
-        /// <param name="process">The process to check</param>
-        /// <returns>Returns true if the process is 64 bit, otherwise false</returns>
-        Boolean IsProcess64Bit(NormalizedProcess process);
     }
     //// End interface
 }

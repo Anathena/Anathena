@@ -60,6 +60,8 @@
                 return;
             }
 
+            EngineCore.GetInstance().Processes.OpenProcess(process);
+
             this.IsVisible = false;
         }
     }

@@ -30,7 +30,6 @@
                 return self;
             }
         }
-
     }
     //// End calss
 }
