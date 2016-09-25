@@ -7,6 +7,7 @@
     using Mvvm.Command;
     using System;
     using System.Collections.Generic;
+    using System.Threading;
     using System.Windows.Input;
 
     /// <summary>
@@ -15,6 +16,13 @@
     internal class SnapshotManagerViewModel : ToolViewModel
     {
         /// <summary>
+        /// Singleton instance of the <see cref="SnapshotManagerViewModel" /> class
+        /// </summary>
+        private static Lazy<SnapshotManagerViewModel> snapshotManagerViewModelInstance = new Lazy<SnapshotManagerViewModel>(
+                () => { return new SnapshotManagerViewModel(); },
+                LazyThreadSafetyMode.PublicationOnly);
+
+        /// <summary>
         /// The content id for the docking library associated with this view model
         /// </summary>
         public const String ToolContentId = nameof(SnapshotManagerViewModel);
@@ -22,13 +30,22 @@
         /// <summary>
         /// Initializes a new instance of the <see cref="SnapshotManagerViewModel" /> class
         /// </summary>
-        public SnapshotManagerViewModel() : base("Snapshot Manager")
+        private SnapshotManagerViewModel() : base("Snapshot Manager")
         {
             this.ContentId = ToolContentId;
 
             this.SelectProcessCommand = new RelayCommand<NormalizedProcess>((process) => this.SelectProcess(process), (process) => true);
 
             MainViewModel.GetInstance().Subscribe(this);
+        }
+
+        /// <summary>
+        /// Gets a singleton instance of the <see cref="SnapshotManagerViewModel"/> class
+        /// </summary>
+        /// <returns>A singleton instance of the class</returns>
+        public static SnapshotManagerViewModel GetInstance()
+        {
+            return snapshotManagerViewModelInstance.Value;
         }
 
         /// <summary>

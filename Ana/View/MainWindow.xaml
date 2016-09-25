@@ -130,16 +130,7 @@
             <!-- Container Style -->
             <avalonDock:DockingManager.LayoutItemContainerStyleSelector>
                 <local:PanesStyleSelector>
-                    <!-- Process Selector -->
-                    <local:PanesStyleSelector.ProcessSelectorStyle>
-                        <Style TargetType="{x:Type avalonDock:LayoutAnchorableItem}">
-                            <Setter Property="Title" Value="{Binding Model.Title}"/>
-                            <Setter Property="IconSource" Value="{Binding Model.IconSource}"/>
-                            <Setter Property="Visibility" Value="{Binding Model.IsVisible, Mode=TwoWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter={x:Static Visibility.Hidden}}"/>
-                            <Setter Property="ContentId" Value="{Binding Model.ContentId}"/>
-                        </Style>
-                    </local:PanesStyleSelector.ProcessSelectorStyle>
-                    <!-- General Docking Tools -->
+                    <!-- General Docking Tools Style -->
                     <local:PanesStyleSelector.ToolStyle>
                         <Style TargetType="{x:Type avalonDock:LayoutAnchorableItem}">
                             <Setter Property="Title" Value="{Binding Model.Title}"/>

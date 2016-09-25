@@ -7,6 +7,8 @@
     using Mvvm.Command;
     using System;
     using System.Collections.Generic;
+    using System.Threading;
+    using System.Threading.Tasks;
     using System.Windows.Input;
     using Utils;
 
@@ -16,6 +18,13 @@
     internal class ProcessSelectorViewModel : ToolViewModel
     {
         /// <summary>
+        /// Singleton instance of the <see cref="ProcessSelectorViewModel" /> class
+        /// </summary>
+        private static Lazy<ProcessSelectorViewModel> processSelectorViewModelInstance = new Lazy<ProcessSelectorViewModel>(
+                () => { return new ProcessSelectorViewModel(); },
+                LazyThreadSafetyMode.PublicationOnly);
+
+        /// <summary>
         /// The content id for the docking library associated with this view model
         /// </summary>
         public const String ToolContentId = nameof(ProcessSelectorViewModel);
@@ -23,14 +32,23 @@
         /// <summary>
         /// Initializes a new instance of the <see cref="ProcessSelectorViewModel" /> class
         /// </summary>
-        public ProcessSelectorViewModel() : base("Process Selector")
+        private ProcessSelectorViewModel() : base("Process Selector")
         {
             this.ContentId = ToolContentId;
             this.IconSource = ImageLoader.LoadImage("pack://application:,,/Content/Icons/SelectProcess.png");
 
             this.SelectProcessCommand = new RelayCommand<NormalizedProcess>((process) => this.SelectProcess(process), (process) => true);
 
-            MainViewModel.GetInstance().Subscribe(this);
+            Task.Run(() => { MainViewModel.GetInstance().Subscribe(this); });
+        }
+
+        /// <summary>
+        /// Gets a singleton instance of the <see cref="ProcessSelectorViewModel"/> class
+        /// </summary>
+        /// <returns>A singleton instance of the class</returns>
+        public static ProcessSelectorViewModel GetInstance()
+        {
+            return processSelectorViewModelInstance.Value;
         }
 
         /// <summary>

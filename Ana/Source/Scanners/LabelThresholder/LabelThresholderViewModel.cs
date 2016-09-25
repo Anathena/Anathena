@@ -7,6 +7,7 @@
     using Mvvm.Command;
     using System;
     using System.Collections.Generic;
+    using System.Threading;
     using System.Windows.Input;
 
     /// <summary>
@@ -15,6 +16,13 @@
     internal class LabelThresholderViewModel : ToolViewModel
     {
         /// <summary>
+        /// Singleton instance of the <see cref="LabelThresholderViewModel" /> class
+        /// </summary>
+        private static Lazy<LabelThresholderViewModel> labelThresholderViewModelInstance = new Lazy<LabelThresholderViewModel>(
+                () => { return new LabelThresholderViewModel(); },
+                LazyThreadSafetyMode.PublicationOnly);
+
+        /// <summary>
         /// The content id for the docking library associated with this view model
         /// </summary>
         public const String ToolContentId = nameof(LabelThresholderViewModel);
@@ -22,13 +30,22 @@
         /// <summary>
         /// Initializes a new instance of the <see cref="LabelThresholderViewModel" /> class
         /// </summary>
-        public LabelThresholderViewModel() : base("Label Thresholder")
+        private LabelThresholderViewModel() : base("Label Thresholder")
         {
             this.ContentId = ToolContentId;
 
             this.SelectProcessCommand = new RelayCommand<NormalizedProcess>((process) => this.SelectProcess(process), (process) => true);
 
             MainViewModel.GetInstance().Subscribe(this);
+        }
+
+        /// <summary>
+        /// Gets a singleton instance of the <see cref="LabelThresholderViewModel"/> class
+        /// </summary>
+        /// <returns>A singleton instance of the class</returns>
+        public static LabelThresholderViewModel GetInstance()
+        {
+            return labelThresholderViewModelInstance.Value;
         }
 
         /// <summary>

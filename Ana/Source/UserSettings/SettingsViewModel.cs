@@ -7,6 +7,7 @@
     using Mvvm.Command;
     using System;
     using System.Collections.Generic;
+    using System.Threading;
     using System.Windows.Input;
     using Utils;
 
@@ -16,6 +17,13 @@
     internal class SettingsViewModel : ToolViewModel
     {
         /// <summary>
+        /// Singleton instance of the <see cref="SettingsViewModel" /> class
+        /// </summary>
+        private static Lazy<SettingsViewModel> settingsViewModelInstance = new Lazy<SettingsViewModel>(
+                () => { return new SettingsViewModel(); },
+                LazyThreadSafetyMode.PublicationOnly);
+
+        /// <summary>
         /// The content id for the docking library associated with this view model
         /// </summary>
         public const String ToolContentId = nameof(SettingsViewModel);
@@ -23,7 +31,7 @@
         /// <summary>
         /// Initializes a new instance of the <see cref="SettingsViewModel" /> class
         /// </summary>
-        public SettingsViewModel() : base("Settings")
+        private SettingsViewModel() : base("Settings")
         {
             this.ContentId = ToolContentId;
             this.IconSource = ImageLoader.LoadImage("pack://application:,,/Content/Icons/SelectProcess.png");
@@ -31,6 +39,15 @@
             this.SelectProcessCommand = new RelayCommand<NormalizedProcess>((process) => this.SelectProcess(process), (process) => true);
 
             MainViewModel.GetInstance().Subscribe(this);
+        }
+
+        /// <summary>
+        /// Gets a singleton instance of the <see cref="SettingsViewModel"/> class
+        /// </summary>
+        /// <returns>A singleton instance of the class</returns>
+        public static SettingsViewModel GetInstance()
+        {
+            return settingsViewModelInstance.Value;
         }
 
         /// <summary>

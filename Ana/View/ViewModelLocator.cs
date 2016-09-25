@@ -20,83 +20,10 @@
     internal class ViewModelLocator
     {
         /// <summary>
-        /// Main view model
-        /// </summary>
-        private static MainViewModel mainViewModel;
-
-        /// <summary>
-        /// Process Selector view model
-        /// </summary>
-        private static ProcessSelectorViewModel processSelectorViewModel;
-
-        /// <summary>
-        /// Change Counter view model
-        /// </summary>
-        private static ChangeCounterViewModel changeCounterViewModel;
-
-        /// <summary>
-        /// Label Thresholder view model
-        /// </summary>
-        private static LabelThresholderViewModel labelThresholderViewModel;
-
-        /// <summary>
-        /// Manual Scanner view model
-        /// </summary>
-        private static ManualScannerViewModel manualScannerViewModel;
-
-        /// <summary>
-        /// Snapshot Manager view model
-        /// </summary>
-        private static SnapshotManagerViewModel snapshotManagerViewModel;
-
-        /// <summary>
-        /// Scan Results view model
-        /// </summary>
-        private static ScanResultsViewModel scanResultsViewModel;
-
-        /// <summary>
-        /// Cheat Browser view model
-        /// </summary>
-        private static CheatBrowserViewModel cheatBrowserViewModel;
-
-        /// <summary>
-        /// .Net Explorer view model
-        /// </summary>
-        private static DotNetExplorerViewModel dotNetExplorerViewModel;
-
-        /// <summary>
-        /// Property Viewer view model
-        /// </summary>
-        private static PropertyViewerViewModel propertyViewerViewModel;
-
-        /// <summary>
-        /// Settings view model
-        /// </summary>
-        private static SettingsViewModel settingsViewModel;
-
-        /// <summary>
-        /// Project Explorer view model
-        /// </summary>
-        private static ProjectExplorerViewModel projectExplorerViewModel;
-
-        /// <summary>
         /// Initializes a new instance of the ViewModelLocator class.
         /// </summary>
         public ViewModelLocator()
         {
-            // TODO: Figure out how to remove these and switch to Lazy Singletons and still have WPF recognize them
-            mainViewModel = MainViewModel.GetInstance();
-            processSelectorViewModel = new ProcessSelectorViewModel();
-            changeCounterViewModel = new ChangeCounterViewModel();
-            labelThresholderViewModel = new LabelThresholderViewModel();
-            manualScannerViewModel = new ManualScannerViewModel();
-            snapshotManagerViewModel = new SnapshotManagerViewModel();
-            scanResultsViewModel = new ScanResultsViewModel();
-            cheatBrowserViewModel = new CheatBrowserViewModel();
-            dotNetExplorerViewModel = new DotNetExplorerViewModel();
-            propertyViewerViewModel = new PropertyViewerViewModel();
-            settingsViewModel = new SettingsViewModel();
-            projectExplorerViewModel = new ProjectExplorerViewModel();
         }
 
         /// <summary>
@@ -106,12 +33,7 @@
         {
             get
             {
-                if (mainViewModel == null)
-                {
-                    mainViewModel = MainViewModel.GetInstance();
-                }
-
-                return mainViewModel;
+                return MainViewModel.GetInstance();
             }
         }
 
@@ -122,12 +44,7 @@
         {
             get
             {
-                if (processSelectorViewModel == null)
-                {
-                    processSelectorViewModel = new ProcessSelectorViewModel();
-                }
-
-                return processSelectorViewModel;
+                return ProcessSelectorViewModel.GetInstance();
             }
         }
 
@@ -138,12 +55,7 @@
         {
             get
             {
-                if (changeCounterViewModel == null)
-                {
-                    changeCounterViewModel = new ChangeCounterViewModel();
-                }
-
-                return changeCounterViewModel;
+                return ChangeCounterViewModel.GetInstance();
             }
         }
 
@@ -154,12 +66,7 @@
         {
             get
             {
-                if (labelThresholderViewModel == null)
-                {
-                    labelThresholderViewModel = new LabelThresholderViewModel();
-                }
-
-                return labelThresholderViewModel;
+                return LabelThresholderViewModel.GetInstance();
             }
         }
 
@@ -170,12 +77,7 @@
         {
             get
             {
-                if (manualScannerViewModel == null)
-                {
-                    manualScannerViewModel = new ManualScannerViewModel();
-                }
-
-                return manualScannerViewModel;
+                return ManualScannerViewModel.GetInstance();
             }
         }
 
@@ -186,12 +88,7 @@
         {
             get
             {
-                if (snapshotManagerViewModel == null)
-                {
-                    snapshotManagerViewModel = new SnapshotManagerViewModel();
-                }
-
-                return snapshotManagerViewModel;
+                return SnapshotManagerViewModel.GetInstance();
             }
         }
 
@@ -202,12 +99,7 @@
         {
             get
             {
-                if (scanResultsViewModel == null)
-                {
-                    scanResultsViewModel = new ScanResultsViewModel();
-                }
-
-                return scanResultsViewModel;
+                return ScanResultsViewModel.GetInstance();
             }
         }
 
@@ -218,12 +110,7 @@
         {
             get
             {
-                if (cheatBrowserViewModel == null)
-                {
-                    cheatBrowserViewModel = new CheatBrowserViewModel();
-                }
-
-                return cheatBrowserViewModel;
+                return CheatBrowserViewModel.GetInstance();
             }
         }
 
@@ -234,12 +121,7 @@
         {
             get
             {
-                if (dotNetExplorerViewModel == null)
-                {
-                    dotNetExplorerViewModel = new DotNetExplorerViewModel();
-                }
-
-                return dotNetExplorerViewModel;
+                return DotNetExplorerViewModel.GetInstance();
             }
         }
 
@@ -250,12 +132,7 @@
         {
             get
             {
-                if (propertyViewerViewModel == null)
-                {
-                    propertyViewerViewModel = new PropertyViewerViewModel();
-                }
-
-                return propertyViewerViewModel;
+                return PropertyViewerViewModel.GetInstance();
             }
         }
 
@@ -266,12 +143,7 @@
         {
             get
             {
-                if (settingsViewModel == null)
-                {
-                    settingsViewModel = new SettingsViewModel();
-                }
-
-                return settingsViewModel;
+                return SettingsViewModel.GetInstance();
             }
         }
 
@@ -282,12 +154,7 @@
         {
             get
             {
-                if (projectExplorerViewModel == null)
-                {
-                    projectExplorerViewModel = new ProjectExplorerViewModel();
-                }
-
-                return projectExplorerViewModel;
+                return ProjectExplorerViewModel.GetInstance();
             }
         }
     }

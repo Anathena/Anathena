@@ -10,7 +10,7 @@
         /// <summary>
         /// Value indicating if tool pane is visible
         /// </summary>
-        private Boolean isVisible = true;
+        private Boolean isVisible;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ToolViewModel" /> class

@@ -7,6 +7,7 @@
     using Mvvm.Command;
     using System;
     using System.Collections.Generic;
+    using System.Threading;
     using System.Windows.Input;
 
     /// <summary>
@@ -15,6 +16,13 @@
     internal class ManualScannerViewModel : ToolViewModel
     {
         /// <summary>
+        /// Singleton instance of the <see cref="ManualScannerViewModel" /> class
+        /// </summary>
+        private static Lazy<ManualScannerViewModel> manualScannerViewModelInstance = new Lazy<ManualScannerViewModel>(
+                () => { return new ManualScannerViewModel(); },
+                LazyThreadSafetyMode.PublicationOnly);
+
+        /// <summary>
         /// The content id for the docking library associated with this view model
         /// </summary>
         public const String ToolContentId = nameof(ManualScannerViewModel);
@@ -22,13 +30,22 @@
         /// <summary>
         /// Initializes a new instance of the <see cref="ManualScannerViewModel" /> class
         /// </summary>
-        public ManualScannerViewModel() : base("Manual Scanner")
+        private ManualScannerViewModel() : base("Manual Scanner")
         {
             this.ContentId = ToolContentId;
 
             this.SelectProcessCommand = new RelayCommand<NormalizedProcess>((process) => this.SelectProcess(process), (process) => true);
 
             MainViewModel.GetInstance().Subscribe(this);
+        }
+
+        /// <summary>
+        /// Gets a singleton instance of the <see cref="ManualScannerViewModel"/> class
+        /// </summary>
+        /// <returns>A singleton instance of the class</returns>
+        public static ManualScannerViewModel GetInstance()
+        {
+            return manualScannerViewModelInstance.Value;
         }
 
         /// <summary>

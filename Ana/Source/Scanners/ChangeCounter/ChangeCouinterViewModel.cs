@@ -7,6 +7,7 @@
     using Mvvm.Command;
     using System;
     using System.Collections.Generic;
+    using System.Threading;
     using System.Windows.Input;
 
     /// <summary>
@@ -15,6 +16,13 @@
     internal class ChangeCounterViewModel : ToolViewModel
     {
         /// <summary>
+        /// Singleton instance of the <see cref="ChangeCounterViewModel" /> class
+        /// </summary>
+        private static Lazy<ChangeCounterViewModel> changeCounterViewModelInstance = new Lazy<ChangeCounterViewModel>(
+                () => { return new ChangeCounterViewModel(); },
+                LazyThreadSafetyMode.PublicationOnly);
+
+        /// <summary>
         /// The content id for the docking library associated with this view model
         /// </summary>
         public const String ToolContentId = nameof(ChangeCounterViewModel);
@@ -22,13 +30,22 @@
         /// <summary>
         /// Initializes a new instance of the <see cref="ChangeCounterViewModel" /> class
         /// </summary>
-        public ChangeCounterViewModel() : base("Change Counter")
+        private ChangeCounterViewModel() : base("Change Counter")
         {
             this.ContentId = ToolContentId;
 
             this.SelectProcessCommand = new RelayCommand<NormalizedProcess>((process) => this.SelectProcess(process), (process) => true);
 
             MainViewModel.GetInstance().Subscribe(this);
+        }
+
+        /// <summary>
+        /// Gets a singleton instance of the <see cref="ChangeCounterViewModel"/> class
+        /// </summary>
+        /// <returns>A singleton instance of the class</returns>
+        public static ChangeCounterViewModel GetInstance()
+        {
+            return changeCounterViewModelInstance.Value;
         }
 
         /// <summary>
