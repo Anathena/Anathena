@@ -67,74 +67,74 @@
 
             <!-- All Dockable Windows -->
             <avalonDock:DockingManager.LayoutItemTemplateSelector>
-                <local:PanesTemplateSelector>
+                <view:ViewTemplateSelector>
                     <!-- Process Selector -->
-                    <local:PanesTemplateSelector.ProcessSelectorViewTemplate>
+                    <view:ViewTemplateSelector.ProcessSelectorViewTemplate>
                         <DataTemplate>
                             <view:ProcessSelector/>
                         </DataTemplate>
-                    </local:PanesTemplateSelector.ProcessSelectorViewTemplate>
+                    </view:ViewTemplateSelector.ProcessSelectorViewTemplate>
                     <!-- Change Counter -->
-                    <local:PanesTemplateSelector.ChangeCounterViewTemplate>
+                    <view:ViewTemplateSelector.ChangeCounterViewTemplate>
                         <DataTemplate>
                             <view:ChangeCounter/>
                         </DataTemplate>
-                    </local:PanesTemplateSelector.ChangeCounterViewTemplate>
+                    </view:ViewTemplateSelector.ChangeCounterViewTemplate>
                     <!-- Label Thresholder -->
-                    <local:PanesTemplateSelector.LabelThresholderViewTemplate>
+                    <view:ViewTemplateSelector.LabelThresholderViewTemplate>
                         <DataTemplate>
                             <view:LabelThresholder/>
                         </DataTemplate>
-                    </local:PanesTemplateSelector.LabelThresholderViewTemplate>
+                    </view:ViewTemplateSelector.LabelThresholderViewTemplate>
                     <!-- Manual Scanner -->
-                    <local:PanesTemplateSelector.ManualScannerViewTemplate>
+                    <view:ViewTemplateSelector.ManualScannerViewTemplate>
                         <DataTemplate>
                             <view:ManualScanner/>
                         </DataTemplate>
-                    </local:PanesTemplateSelector.ManualScannerViewTemplate>
+                    </view:ViewTemplateSelector.ManualScannerViewTemplate>
                     <!-- Snapshot Manager -->
-                    <local:PanesTemplateSelector.SnapshotManagerViewTemplate>
+                    <view:ViewTemplateSelector.SnapshotManagerViewTemplate>
                         <DataTemplate>
                             <view:SnapshotManager/>
                         </DataTemplate>
-                    </local:PanesTemplateSelector.SnapshotManagerViewTemplate>
+                    </view:ViewTemplateSelector.SnapshotManagerViewTemplate>
                     <!-- Scan Results -->
-                    <local:PanesTemplateSelector.ScanResultsViewTemplate>
+                    <view:ViewTemplateSelector.ScanResultsViewTemplate>
                         <DataTemplate>
                             <view:ScanResults/>
                         </DataTemplate>
-                    </local:PanesTemplateSelector.ScanResultsViewTemplate>
+                    </view:ViewTemplateSelector.ScanResultsViewTemplate>
                     <!-- Cheat Browser -->
-                    <local:PanesTemplateSelector.CheatBrowserViewTemplate>
+                    <view:ViewTemplateSelector.CheatBrowserViewTemplate>
                         <DataTemplate>
                             <view:CheatBrowser/>
                         </DataTemplate>
-                    </local:PanesTemplateSelector.CheatBrowserViewTemplate>
+                    </view:ViewTemplateSelector.CheatBrowserViewTemplate>
                     <!-- .Net Explorer -->
-                    <local:PanesTemplateSelector.DotNetExplorerViewTemplate>
+                    <view:ViewTemplateSelector.DotNetExplorerViewTemplate>
                         <DataTemplate>
                             <view:DotNetExplorer/>
                         </DataTemplate>
-                    </local:PanesTemplateSelector.DotNetExplorerViewTemplate>
+                    </view:ViewTemplateSelector.DotNetExplorerViewTemplate>
                     <!-- Property Viewer -->
-                    <local:PanesTemplateSelector.PropertyViewerViewTemplate>
+                    <view:ViewTemplateSelector.PropertyViewerViewTemplate>
                         <DataTemplate>
                             <view:PropertyViewer/>
                         </DataTemplate>
-                    </local:PanesTemplateSelector.PropertyViewerViewTemplate>
+                    </view:ViewTemplateSelector.PropertyViewerViewTemplate>
                     <!-- Settings -->
-                    <local:PanesTemplateSelector.SettingsViewTemplate>
+                    <view:ViewTemplateSelector.SettingsViewTemplate>
                         <DataTemplate>
                             <view:Settings/>
                         </DataTemplate>
-                    </local:PanesTemplateSelector.SettingsViewTemplate>
+                    </view:ViewTemplateSelector.SettingsViewTemplate>
                     <!-- Project Explorer -->
-                    <local:PanesTemplateSelector.ProjectExplorerViewTemplate>
+                    <view:ViewTemplateSelector.ProjectExplorerViewTemplate>
                         <DataTemplate>
                             <view:ProjectExplorer/>
                         </DataTemplate>
-                    </local:PanesTemplateSelector.ProjectExplorerViewTemplate>
-                </local:PanesTemplateSelector>
+                    </view:ViewTemplateSelector.ProjectExplorerViewTemplate>
+                </view:ViewTemplateSelector>
             </avalonDock:DockingManager.LayoutItemTemplateSelector>
 
             <!-- Container Style -->

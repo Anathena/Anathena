@@ -5,8 +5,10 @@
     using Engine.Processes;
     using Main;
     using Mvvm.Command;
+    using ProjectItems;
     using System;
     using System.Collections.Generic;
+    using System.Collections.ObjectModel;
     using System.Threading;
     using System.Windows.Input;
     using Utils;
@@ -28,6 +30,8 @@
                 () => { return new ProjectExplorerViewModel(); },
                 LazyThreadSafetyMode.PublicationOnly);
 
+        private readonly ReadOnlyCollection<ProjectItemViewModel> projectItems;
+
         /// <summary>
         /// Prevents a default instance of the <see cref="ProjectExplorerViewModel" /> class from being created
         /// </summary>
@@ -37,7 +41,25 @@
             this.IconSource = ImageLoader.LoadImage("pack://application:,,/Content/Icons/SelectProcess.png");
             this.SelectProcessCommand = new RelayCommand<NormalizedProcess>((process) => this.SelectProcess(process), (process) => true);
             this.IsVisible = true;
+
+
+            this.projectItems = new ReadOnlyCollection<ProjectItemViewModel>
+                (
+                new List<ProjectItemViewModel>(new ProjectItemViewModel[] { new ProjectItemViewModel(new FolderItem(), null) })
+                // (from region in projectItems select new ProjectItemViewModel(region, null)).ToList()
+                );
+
             MainViewModel.GetInstance().Subscribe(this);
+        }
+
+
+
+        public ReadOnlyCollection<ProjectItemViewModel> Regions
+        {
+            get
+            {
+                return projectItems;
+            }
         }
 
         /// <summary>

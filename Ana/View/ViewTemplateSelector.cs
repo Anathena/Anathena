@@ -1,30 +1,29 @@
-﻿namespace Ana.Source.Docking
+﻿namespace Ana.View
 {
-    using ChangeCounter;
-    using CheatBrowser;
-    using DotNetExplorer;
-    using LabelThresholder;
-    using ManualScanner;
-    using ProcessSelector;
-    using Project;
-    using PropertyViewer;
-    using ScanResults;
-    using Snapshots;
+    using Source.ChangeCounter;
+    using Source.CheatBrowser;
+    using Source.DotNetExplorer;
+    using Source.LabelThresholder;
+    using Source.ManualScanner;
+    using Source.ProcessSelector;
+    using Source.Project;
+    using Source.PropertyViewer;
+    using Source.ScanResults;
+    using Source.Snapshots;
+    using Source.UserSettings;
     using System;
     using System.Windows;
     using System.Windows.Controls;
-    using UserSettings;
-    using Xceed.Wpf.AvalonDock.Layout;
 
     /// <summary>
     /// Provides the template required to view a pane
     /// </summary>
-    internal class PanesTemplateSelector : DataTemplateSelector
+    internal class ViewTemplateSelector : DataTemplateSelector
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="PanesTemplateSelector" /> class
+        /// Initializes a new instance of the <see cref="ViewTemplateSelector" /> class
         /// </summary>
-        public PanesTemplateSelector()
+        public ViewTemplateSelector()
         {
         }
 
@@ -91,8 +90,6 @@
         /// <returns>The template associated with the provided view model</returns>
         public override DataTemplate SelectTemplate(Object item, DependencyObject container)
         {
-            LayoutContent itemAsLayoutContent = item as LayoutContent;
-
             if (item is ProcessSelectorViewModel)
             {
                 return this.ProcessSelectorViewTemplate;
