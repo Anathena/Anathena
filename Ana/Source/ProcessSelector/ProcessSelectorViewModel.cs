@@ -18,6 +18,11 @@
     internal class ProcessSelectorViewModel : ToolViewModel
     {
         /// <summary>
+        /// The content id for the docking library associated with this view model
+        /// </summary>
+        public const String ToolContentId = nameof(ProcessSelectorViewModel);
+
+        /// <summary>
         /// Singleton instance of the <see cref="ProcessSelectorViewModel" /> class
         /// </summary>
         private static Lazy<ProcessSelectorViewModel> processSelectorViewModelInstance = new Lazy<ProcessSelectorViewModel>(
@@ -25,30 +30,15 @@
                 LazyThreadSafetyMode.PublicationOnly);
 
         /// <summary>
-        /// The content id for the docking library associated with this view model
-        /// </summary>
-        public const String ToolContentId = nameof(ProcessSelectorViewModel);
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="ProcessSelectorViewModel" /> class
+        /// Prevents a default instance of the <see cref="ProcessSelectorViewModel" /> class from being created
         /// </summary>
         private ProcessSelectorViewModel() : base("Process Selector")
         {
             this.ContentId = ToolContentId;
             this.IconSource = ImageLoader.LoadImage("pack://application:,,/Content/Icons/SelectProcess.png");
-
             this.SelectProcessCommand = new RelayCommand<NormalizedProcess>((process) => this.SelectProcess(process), (process) => true);
 
             Task.Run(() => { MainViewModel.GetInstance().Subscribe(this); });
-        }
-
-        /// <summary>
-        /// Gets a singleton instance of the <see cref="ProcessSelectorViewModel"/> class
-        /// </summary>
-        /// <returns>A singleton instance of the class</returns>
-        public static ProcessSelectorViewModel GetInstance()
-        {
-            return processSelectorViewModelInstance.Value;
         }
 
         /// <summary>
@@ -65,6 +55,15 @@
             {
                 return EngineCore.GetInstance().Processes.GetProcesses();
             }
+        }
+
+        /// <summary>
+        /// Gets a singleton instance of the <see cref="ProcessSelectorViewModel"/> class
+        /// </summary>
+        /// <returns>A singleton instance of the class</returns>
+        public static ProcessSelectorViewModel GetInstance()
+        {
+            return processSelectorViewModelInstance.Value;
         }
 
         /// <summary>

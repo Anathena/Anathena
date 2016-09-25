@@ -16,6 +16,11 @@
     internal class LabelThresholderViewModel : ToolViewModel
     {
         /// <summary>
+        /// The content id for the docking library associated with this view model
+        /// </summary>
+        public const String ToolContentId = nameof(LabelThresholderViewModel);
+
+        /// <summary>
         /// Singleton instance of the <see cref="LabelThresholderViewModel" /> class
         /// </summary>
         private static Lazy<LabelThresholderViewModel> labelThresholderViewModelInstance = new Lazy<LabelThresholderViewModel>(
@@ -23,29 +28,14 @@
                 LazyThreadSafetyMode.PublicationOnly);
 
         /// <summary>
-        /// The content id for the docking library associated with this view model
-        /// </summary>
-        public const String ToolContentId = nameof(LabelThresholderViewModel);
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="LabelThresholderViewModel" /> class
+        /// Prevents a default instance of the <see cref="LabelThresholderViewModel" /> class from being created
         /// </summary>
         private LabelThresholderViewModel() : base("Label Thresholder")
         {
             this.ContentId = ToolContentId;
-
             this.SelectProcessCommand = new RelayCommand<NormalizedProcess>((process) => this.SelectProcess(process), (process) => true);
 
             MainViewModel.GetInstance().Subscribe(this);
-        }
-
-        /// <summary>
-        /// Gets a singleton instance of the <see cref="LabelThresholderViewModel"/> class
-        /// </summary>
-        /// <returns>A singleton instance of the class</returns>
-        public static LabelThresholderViewModel GetInstance()
-        {
-            return labelThresholderViewModelInstance.Value;
         }
 
         /// <summary>
@@ -62,6 +52,15 @@
             {
                 return EngineCore.GetInstance().Processes.GetProcesses();
             }
+        }
+
+        /// <summary>
+        /// Gets a singleton instance of the <see cref="LabelThresholderViewModel"/> class
+        /// </summary>
+        /// <returns>A singleton instance of the class</returns>
+        public static LabelThresholderViewModel GetInstance()
+        {
+            return labelThresholderViewModelInstance.Value;
         }
 
         /// <summary>

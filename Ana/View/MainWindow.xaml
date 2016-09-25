@@ -6,6 +6,7 @@
         
         DataContext="{Binding MainViewModel, Source={StaticResource ViewModelLocator}}"
         xmlns:avalonDock="http://schemas.xceed.com/wpf/xaml/avalondock"
+        xmlns:intr="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity" 
         xmlns:shell="clr-namespace:Microsoft.Windows.Shell;assembly=AvalonDock"
         xmlns:local="clr-namespace:Ana.Source.Docking"
         xmlns:view="clr-namespace:Ana.View"
@@ -14,6 +15,15 @@
         <avalonDock:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
     </Window.Resources>
     <Grid>
+        <intr:Interaction.Triggers>
+            <intr:EventTrigger EventName="Loaded">
+                <intr:InvokeCommandAction Command="{Binding LoadLayout}" CommandParameter="{Binding ., ElementName=dockManager}"/>
+            </intr:EventTrigger>
+            <intr:EventTrigger EventName="Unloaded">
+                <intr:InvokeCommandAction Command="{Binding SaveLayout}" CommandParameter="{Binding ., ElementName=dockManager}"/>
+            </intr:EventTrigger>
+        </intr:Interaction.Triggers>
+        
         <Grid.RowDefinitions>
             <!-- Menu Bar Row -->
             <RowDefinition Height="Auto"/>
@@ -54,7 +64,7 @@
             <avalonDock:DockingManager.Theme>
                 <avalonDock:ExpressionDarkTheme/>
             </avalonDock:DockingManager.Theme>
-            
+
             <!-- All Dockable Windows -->
             <avalonDock:DockingManager.LayoutItemTemplateSelector>
                 <local:PanesTemplateSelector>
@@ -149,7 +159,7 @@
                 <!-- Docking Group for All Windows -->
                 <avalonDock:LayoutPanel>
                     <avalonDock:LayoutAnchorablePaneGroup/>
-                </avalonDock:LayoutPanel>
+                </avalonDock:LayoutPanel>  
             </avalonDock:LayoutRoot>
         </avalonDock:DockingManager>
     </Grid>

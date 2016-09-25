@@ -17,6 +17,11 @@
     internal class ScanResultsViewModel : ToolViewModel
     {
         /// <summary>
+        /// The content id for the docking library associated with this view model
+        /// </summary>
+        public const String ToolContentId = nameof(ScanResultsViewModel);
+
+        /// <summary>
         /// Singleton instance of the <see cref="ScanResultsViewModel" /> class
         /// </summary>
         private static Lazy<ScanResultsViewModel> scanResultsViewModelInstance = new Lazy<ScanResultsViewModel>(
@@ -24,30 +29,16 @@
                 LazyThreadSafetyMode.PublicationOnly);
 
         /// <summary>
-        /// The content id for the docking library associated with this view model
-        /// </summary>
-        public const String ToolContentId = nameof(ScanResultsViewModel);
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="ScanResultsViewModel" /> class
+        /// Prevents a default instance of the <see cref="ScanResultsViewModel" /> class from being created
         /// </summary>
         private ScanResultsViewModel() : base("Scan Results")
         {
             this.ContentId = ToolContentId;
             this.IconSource = ImageLoader.LoadImage("pack://application:,,/Content/Icons/SelectProcess.png");
-
             this.SelectProcessCommand = new RelayCommand<NormalizedProcess>((process) => this.SelectProcess(process), (process) => true);
+            this.IsVisible = true;
 
             MainViewModel.GetInstance().Subscribe(this);
-        }
-
-        /// <summary>
-        /// Gets a singleton instance of the <see cref="ScanResultsViewModel"/> class
-        /// </summary>
-        /// <returns>A singleton instance of the class</returns>
-        public static ScanResultsViewModel GetInstance()
-        {
-            return scanResultsViewModelInstance.Value;
         }
 
         /// <summary>
@@ -64,6 +55,15 @@
             {
                 return EngineCore.GetInstance().Processes.GetProcesses();
             }
+        }
+
+        /// <summary>
+        /// Gets a singleton instance of the <see cref="ScanResultsViewModel"/> class
+        /// </summary>
+        /// <returns>A singleton instance of the class</returns>
+        public static ScanResultsViewModel GetInstance()
+        {
+            return scanResultsViewModelInstance.Value;
         }
 
         /// <summary>

@@ -17,6 +17,11 @@
     internal class ProjectExplorerViewModel : ToolViewModel
     {
         /// <summary>
+        /// The content id for the docking library associated with this view model
+        /// </summary>
+        public const String ToolContentId = nameof(ProjectExplorerViewModel);
+
+        /// <summary>
         /// Singleton instance of the <see cref="ProjectExplorerViewModel" /> class
         /// </summary>
         private static Lazy<ProjectExplorerViewModel> projectExplorerViewModelInstance = new Lazy<ProjectExplorerViewModel>(
@@ -24,30 +29,15 @@
                 LazyThreadSafetyMode.PublicationOnly);
 
         /// <summary>
-        /// The content id for the docking library associated with this view model
-        /// </summary>
-        public const String ToolContentId = nameof(ProjectExplorerViewModel);
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="ProjectExplorerViewModel" /> class
+        /// Prevents a default instance of the <see cref="ProjectExplorerViewModel" /> class from being created
         /// </summary>
         private ProjectExplorerViewModel() : base("Project Explorer")
         {
             this.ContentId = ToolContentId;
             this.IconSource = ImageLoader.LoadImage("pack://application:,,/Content/Icons/SelectProcess.png");
-
             this.SelectProcessCommand = new RelayCommand<NormalizedProcess>((process) => this.SelectProcess(process), (process) => true);
-
+            this.IsVisible = true;
             MainViewModel.GetInstance().Subscribe(this);
-        }
-
-        /// <summary>
-        /// Gets a singleton instance of the <see cref="ProjectExplorerViewModel"/> class
-        /// </summary>
-        /// <returns>A singleton instance of the class</returns>
-        public static ProjectExplorerViewModel GetInstance()
-        {
-            return projectExplorerViewModelInstance.Value;
         }
 
         /// <summary>
@@ -64,6 +54,15 @@
             {
                 return EngineCore.GetInstance().Processes.GetProcesses();
             }
+        }
+
+        /// <summary>
+        /// Gets a singleton instance of the <see cref="ProjectExplorerViewModel"/> class
+        /// </summary>
+        /// <returns>A singleton instance of the class</returns>
+        public static ProjectExplorerViewModel GetInstance()
+        {
+            return projectExplorerViewModelInstance.Value;
         }
 
         /// <summary>

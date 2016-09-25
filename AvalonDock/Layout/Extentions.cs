@@ -14,14 +14,7 @@
 
   **********************************************************************/
 
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Windows;
-using System.Windows.Media;
-using System.Windows.Media.Media3D;
-using System.Diagnostics;
 using System.Runtime.InteropServices;
 
 namespace Xceed.Wpf.AvalonDock.Layout
@@ -43,7 +36,7 @@ namespace Xceed.Wpf.AvalonDock.Layout
         }
 
         public static T FindParent<T>(this ILayoutElement element) //where T : ILayoutContainer
-        { 
+        {
             var parent = element.Parent;
             while (parent != null &&
                 !(parent is T))
@@ -115,7 +108,7 @@ namespace Xceed.Wpf.AvalonDock.Layout
                 }
             }
 
-            Debug.Fail("Unable to find the side for an element, possible layout problem!");
+            // Debug.Fail("Unable to find the side for an element, possible layout problem!");
             return AnchorSide.Right;
         }
 

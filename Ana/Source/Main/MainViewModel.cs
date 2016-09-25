@@ -5,14 +5,22 @@
     using Mvvm.Command;
     using System;
     using System.Collections.Generic;
+    using System.IO;
     using System.Threading;
     using System.Windows.Input;
-
+    using System.Xml;
+    using Xceed.Wpf.AvalonDock;
+    using Xceed.Wpf.AvalonDock.Layout.Serialization;
     /// <summary>
     /// Main view model
     /// </summary>
     internal class MainViewModel : ViewModelBase
     {
+        /// <summary>
+        /// The save file for the docking layout
+        /// </summary>
+        private const String LayoutSaveFile = "layout.xml";
+
         /// <summary>
         /// Singleton instance of the <see cref="MainViewModel" /> class
         /// </summary>
@@ -28,14 +36,26 @@
         /// <summary>
         /// Prevents a default instance of the <see cref="MainViewModel" /> class from being created
         /// </summary>
-        public MainViewModel()
+        private MainViewModel()
         {
             this.tools = new HashSet<ToolViewModel>();
+            this.LoadLayout = new RelayCommand<DockingManager>((dockingManager) => this.LoadLayoutExecute(dockingManager), (dockingManager) => true);
+            this.SaveLayout = new RelayCommand<DockingManager>((dockingManager) => this.SaveLayoutExecute(dockingManager), (dockingManager) => true);
             this.OpenProject = new RelayCommand(() => this.OpenProjectExecute(), () => true);
         }
 
         /// <summary>
-        /// Gets the command to create a pop up
+        /// Gets the command to open the current docking layout
+        /// </summary>
+        public ICommand LoadLayout { get; private set; }
+
+        /// <summary>
+        /// Gets the command to save the current docking layout
+        /// </summary>
+        public ICommand SaveLayout { get; private set; }
+
+        /// <summary>
+        /// Gets the command to open a project from disk
         /// </summary>
         public ICommand OpenProject { get; private set; }
 
@@ -86,6 +106,38 @@
             {
                 this.tools?.Remove(toolViewModel);
             }
+        }
+
+        /// <summary>
+        /// Loads and deserializes the saved layout from disk
+        /// </summary>
+        private void LoadLayoutExecute(DockingManager dockManager)
+        {
+            XmlLayoutSerializer serializer = new XmlLayoutSerializer(dockManager);
+            serializer.Deserialize(LayoutSaveFile);
+            return;
+            XmlDocument doc = new XmlDocument();
+            doc.Load(LayoutSaveFile);
+
+            if (!string.IsNullOrEmpty(doc.InnerXml))
+            {
+                XmlLayoutSerializer layoutSerializer = new XmlLayoutSerializer(dockManager);
+                layoutSerializer.LayoutSerializationCallback += (s, c) =>
+                {
+                    object o = c.Content;
+                };
+
+                layoutSerializer.Deserialize(new StringReader(doc.InnerXml));
+            }
+        }
+
+        /// <summary>
+        /// Saves and deserializes the saved layout from disk
+        /// </summary>
+        private void SaveLayoutExecute(DockingManager dockManager)
+        {
+            XmlLayoutSerializer serializer = new XmlLayoutSerializer(dockManager);
+            serializer.Serialize(LayoutSaveFile);
         }
 
         /// <summary>
