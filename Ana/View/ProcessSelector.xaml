@@ -14,7 +14,7 @@
     mc:Ignorable="d"
     d:DesignHeight="300" d:DesignWidth="300">
     <Grid>
-        <ListView ItemsSource="{Binding ProcessList}">
+        <ListView ItemsSource="{Binding ProcessList}" Background="Transparent" BorderThickness="0">
             <ListView.Resources>
                 <converters:IconConverter x:Key="IconConverter"/>
                 <DataTemplate x:Key="Template">
@@ -31,8 +31,15 @@
                             <ColumnDefinition/>
                             <ColumnDefinition/>
                         </Grid.ColumnDefinitions>
-                        <Image Grid.Column="0" Source="{Binding Path=Icon, Converter={StaticResource IconConverter}}" Width="16" Height="16"/>
-                        <TextBlock Grid.Column="1" Text="{Binding Path=ProcessName}" Width="{Binding Path=ActualWidth, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListView}}}"/>
+                        <Image Grid.Column="0"
+                               Source="{Binding Path=Icon, Converter={StaticResource IconConverter}}"
+                               Width="16"
+                               Height="16"/>
+                        <TextBlock Grid.Column="1"
+                                   Margin="6 0 0 0"
+                                   Text="{Binding Path=ProcessName}"
+                                   Width="{Binding Path=ActualWidth, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListView}}}"
+                                   Foreground="{StaticResource AvalonDock_Expression_BaseColor12}"/>
                     </Grid>
                 </DataTemplate>
             </ListView.ItemTemplate>

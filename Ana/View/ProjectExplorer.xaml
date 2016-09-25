@@ -11,11 +11,56 @@
     xmlns:local="clr-namespace:Ana"
     xmlns:project="clr-namespace:Ana.Source.Project.ProjectItems"
     xmlns:converters="clr-namespace:Ana.Source.Mvvm.Converters"
+    xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
     xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
     mc:Ignorable="d"
     d:DesignHeight="300" d:DesignWidth="300">
     <Grid>
-        <TreeView ItemsSource="{Binding Regions}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="20"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <WrapPanel>
+            <WrapPanel.Resources>
+                <ImageBrush x:Key="IconBrush" AlignmentX="Left" ImageSource="pack://application:,,,/Ana;component/Content/Icons/Increased.png" Stretch="Uniform"/>
+            </WrapPanel.Resources>
+            <xctk:DropDownButton Grid.Row="0" Width="32" Height="18" Background="{StaticResource IconBrush}">
+                <xctk:DropDownButton.DropDownContent>
+                    <StackPanel>
+                        <Button HorizontalContentAlignment="Left" BorderBrush="{StaticResource AvalonDock_Expression_BaseColor3}" Background="{StaticResource AvalonDock_Expression_BaseColor1}">
+                            <WrapPanel>
+                                <Image Width="16" Height="16" Source="pack://application:,,,/Ana;component/Content/Icons/Open.png"/>
+                                <TextBlock Text="Add Folder" Background="Transparent" Foreground="{StaticResource AvalonDock_Expression_BaseColor2}"/>
+                            </WrapPanel>
+                        </Button>
+                        <Button HorizontalContentAlignment="Left" BorderBrush="{StaticResource AvalonDock_Expression_BaseColor3}" Background="{StaticResource AvalonDock_Expression_BaseColor1}">
+                            <WrapPanel>
+                                <Image Width="16" Height="16" Source="pack://application:,,,/Ana;component/Content/Icons/Open.png"/>
+                                <TextBlock Text="Add Address" Foreground="{StaticResource AvalonDock_Expression_BaseColor2}"/>
+                            </WrapPanel>
+                        </Button>
+                        <Button HorizontalContentAlignment="Left" BorderBrush="{StaticResource AvalonDock_Expression_BaseColor3}" Background="{StaticResource AvalonDock_Expression_BaseColor1}">
+                            <WrapPanel>
+                                <Image Width="16" Height="16" Source="pack://application:,,,/Ana;component/Content/Icons/Open.png"/>
+                                <TextBlock Text="Add Script" Foreground="{StaticResource AvalonDock_Expression_BaseColor2}"/>
+                            </WrapPanel>
+                        </Button>
+                    </StackPanel>
+                </xctk:DropDownButton.DropDownContent>
+            </xctk:DropDownButton>
+        </WrapPanel>
+        <!--<Menu Grid.Row="0" BorderThickness="0 0 0 1" BorderBrush="{StaticResource AvalonDock_Expression_BaseColor4}" Background="{StaticResource AvalonDock_Expression_BaseColor1}">
+            <WrapPanel>
+                <Image Width="16" Height="16" Source="pack://application:,,,/Ana;component/Content/Icons/Increased.png"/>
+                <ComboBox Foreground="Transparent" BorderBrush="Transparent" Style="{StaticResource FlatComboBoxStyle}" Background="Blue">
+
+                    <Image Width="16" Height="16" Source="pack://application:,,,/Ana;component/Content/Icons/Increased.png"/>
+                    <Image Width="16" Height="16" Source="pack://application:,,,/Ana;component/Content/Icons/Open.png"/>
+                    <Image Width="16" Height="16" Source="pack://application:,,,/Ana;component/Content/Icons/Open.png"/>
+                </ComboBox>
+            </WrapPanel>
+        </Menu>-->
+        <TreeView ItemsSource="{Binding Regions}" Background="Transparent" BorderThickness="0" Grid.Row="1">
             <TreeView.ItemContainerStyle>
                 <!-- 
             This Style binds a TreeViewItem to a TreeViewItemViewModel. 
@@ -35,8 +80,8 @@
             <TreeView.Resources>
                 <HierarchicalDataTemplate  DataType="{x:Type project:ProjectItemViewModel}"  ItemsSource="{Binding Children}"  >
                     <StackPanel Orientation="Horizontal">
-                        <!-- <Image Width="16" Height="16" Margin="3,0" Source="Images\State.png" /> -->
-                        <TextBlock Text="{Binding Description}" />
+                        <Image Width="16" Height="16" Margin="3,0" Source="pack://application:,,,/Ana;component/Content/Icons/Open.png"/>
+                        <TextBlock Text="{Binding Description}" Foreground="{StaticResource AvalonDock_Expression_BaseColor12}" />
                     </StackPanel>
                 </HierarchicalDataTemplate>
             </TreeView.Resources>

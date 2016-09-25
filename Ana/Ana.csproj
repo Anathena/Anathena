@@ -43,6 +43,7 @@
     <Reference Include="NLua">
       <HintPath>..\Lua\NLua.dll</HintPath>
     </Reference>
+    <Reference Include="PresentationFramework.Aero2" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -281,6 +282,14 @@
     <Compile Include="Source\Main\MainViewModel.cs">
       <ExcludeFromStyleCop>False</ExcludeFromStyleCop>
     </Compile>
+    <Page Include="View\Controls\FlatComboBoxStyle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Style\DarkBrushes.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="View\ScanResults.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -363,6 +372,10 @@
       <Project>{db81988f-e0f2-45a0-a1fd-8c37f3d35244}</Project>
       <Name>AvalonDock</Name>
     </ProjectReference>
+    <ProjectReference Include="..\WpfToolkit\WpfToolkit.csproj">
+      <Project>{72e591d6-8f83-4d8c-8f67-9c325e623234}</Project>
+      <Name>WpfToolkit</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Source\Engine\AddressResolver\Java\" />
@@ -375,6 +388,48 @@
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Content\Icons\Cancel.png" />
+    <Resource Include="Content\Icons\Changed.png" />
+    <Resource Include="Content\Icons\CollectValues.png" />
+    <Resource Include="Content\Icons\Decreased.png" />
+    <Resource Include="Content\Icons\DownArrows.png" />
+    <Resource Include="Content\Icons\ENotation.png" />
+    <Resource Include="Content\Icons\Equal.png" />
+    <Resource Include="Content\Icons\GreaterThan.png" />
+    <Resource Include="Content\Icons\GreaterThanOrEqual.png" />
+    <Resource Include="Content\Icons\Home.png" />
+    <Resource Include="Content\Icons\Increased.png" />
+    <Resource Include="Content\Icons\Intersection.png" />
+    <Resource Include="Content\Icons\Invert.png" />
+    <Resource Include="Content\Icons\LeftArrow.png" />
+    <Resource Include="Content\Icons\LessThan.png" />
+    <Resource Include="Content\Icons\LessThanOrEqual.png" />
+    <Resource Include="Content\Icons\LogicalAND.png" />
+    <Resource Include="Content\Icons\LogicalOR.png" />
+    <Resource Include="Content\Icons\MainIcon.ico" />
+    <Resource Include="Content\Icons\MainIconSmall.ico" />
+    <Resource Include="Content\Icons\Merge.png" />
+    <Resource Include="Content\Icons\MinusX.png" />
+    <Resource Include="Content\Icons\MoveDown.png" />
+    <Resource Include="Content\Icons\MoveLeft.png" />
+    <Resource Include="Content\Icons\MoveRight.png" />
+    <Resource Include="Content\Icons\MoveUp.png" />
+    <Resource Include="Content\Icons\Negation.png" />
+    <Resource Include="Content\Icons\New.png" />
+    <Resource Include="Content\Icons\NextScan.png" />
+    <Resource Include="Content\Icons\NotEqual.png" />
+    <Resource Include="Content\Icons\Open.png" />
+    <Resource Include="Content\Icons\PlusX.png" />
+    <Resource Include="Content\Icons\RightArrow.png" />
+    <Resource Include="Content\Icons\Save.png" />
+    <Resource Include="Content\Icons\Stop.png" />
+    <Resource Include="Content\Icons\Unchanged.png" />
+    <Resource Include="Content\Icons\Undo.png" />
+    <Resource Include="Content\Icons\Union.png" />
+    <Resource Include="Content\Icons\UnknownValue.png" />
+    <Resource Include="Content\Icons\X.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

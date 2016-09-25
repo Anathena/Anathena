@@ -35,7 +35,7 @@
         private ProcessSelectorViewModel() : base("Process Selector")
         {
             this.ContentId = ToolContentId;
-            this.IconSource = ImageLoader.LoadImage("pack://application:,,/Content/Icons/SelectProcess.png");
+            this.IconSource = ImageLoader.LoadImage("pack://application:,,,/Ana;component/Content/Icons/SelectProcess.png");
             this.SelectProcessCommand = new RelayCommand<NormalizedProcess>((process) => this.SelectProcess(process), (process) => true);
 
             Task.Run(() => { MainViewModel.GetInstance().Subscribe(this); });
