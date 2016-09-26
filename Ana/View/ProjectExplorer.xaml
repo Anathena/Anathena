@@ -76,12 +76,10 @@
 				</MenuItem>
 			</Menu>
 		</WrapPanel>
+        <!-- Project Explorer Tree View -->
 		<TreeView ItemsSource="{Binding ProjectItems, Mode=OneWay}" Background="Transparent" BorderThickness="0" Grid.Row="1">
-			<TreeView.ItemContainerStyle>
-				<!-- 
-			This Style binds a TreeViewItem to a TreeViewItemViewModel. 
-			-->
-				<Style TargetType="{x:Type TreeViewItem}">
+            <TreeView.ItemContainerStyle>
+                <Style TargetType="{x:Type TreeViewItem}">
 					<Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}" />
 					<Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}" />
 					<Setter Property="FontWeight" Value="Normal" />

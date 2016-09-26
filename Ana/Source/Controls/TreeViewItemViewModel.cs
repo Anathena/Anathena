@@ -18,7 +18,7 @@ namespace Ana.Source.Controls
         private Boolean isExpanded;
         private Boolean isSelected;
 
-        protected TreeViewItemViewModel(TreeViewItemViewModel parent, Boolean lazyLoadChildren)
+        protected TreeViewItemViewModel(TreeViewItemViewModel parent, Boolean lazyLoadChildren = false)
         {
             this.parent = parent;
 
@@ -70,7 +70,7 @@ namespace Ana.Source.Controls
                 if (value != isExpanded)
                 {
                     isExpanded = value;
-                    this.RaisePropertyChanged(nameof(this.isExpanded));
+                    this.RaisePropertyChanged(nameof(this.IsExpanded));
                 }
 
                 // Expand all the way up to the root.

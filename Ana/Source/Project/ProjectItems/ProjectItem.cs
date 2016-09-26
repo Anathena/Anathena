@@ -24,50 +24,59 @@ namespace Ana.Source.Project.ProjectItems
         private const Int32 HotKeyDelay = 400;
 
         [Browsable(false)]
-        private DateTime LastActivated;
-
-        [Browsable(false)]
-        private ProjectItem _Parent;
+        private ProjectItem parent;
 
         [Browsable(false)]
         public ProjectItem Parent
         {
-            get { return _Parent; }
+            get
+            {
+                return parent;
+            }
+
             set
             {
-                _Parent = value;
+                parent = value;
 
                 ProjectExplorer.GetInstance().ProjectChanged();
             }
         }
 
         [Browsable(false)]
-        private List<ProjectItem> _Children;
+        private List<ProjectItem> children;
 
         [DataMember()]
         [Browsable(false)]
         public List<ProjectItem> Children
         {
-            get { return _Children; }
+            get
+            {
+                if (children == null)
+                {
+                    children = new List<ProjectItem>();
+                }
+
+                return children;
+            }
             set
             {
-                _Children = value;
+                children = value;
 
                 ProjectExplorer.GetInstance().ProjectChanged();
             }
         }
 
         [Browsable(false)]
-        private String _Description;
+        private String description;
 
         [DataMember()]
         [Category("Properties"), DisplayName("Description"), Description("Description to be shown for the Project Items")]
         public String Description
         {
-            get { return _Description; }
+            get { return description; }
             set
             {
-                _Description = value; UpdateEntryVisual();
+                description = value; UpdateEntryVisual();
 
                 ProjectExplorer.GetInstance().ProjectChanged();
             }
@@ -92,15 +101,15 @@ namespace Ana.Source.Project.ProjectItems
 
         [DataMember()]
         [Browsable(false)]
-        private UInt32 _TextColorARGB;
+        private UInt32 textColorARGB;
 
         [Category("Properties"), DisplayName("Text Color"), Description("Display Color")]
         public Color TextColor
         {
-            get { return Color.FromArgb(unchecked((Int32)(_TextColorARGB))); }
+            get { return Color.FromArgb(unchecked((Int32)(textColorARGB))); }
             set
             {
-                _TextColorARGB = value == null ? 0 : unchecked((UInt32)(value.ToArgb())); UpdateEntryVisual();
+                textColorARGB = value == null ? 0 : unchecked((UInt32)(value.ToArgb())); UpdateEntryVisual();
 
                 ProjectExplorer.GetInstance().ProjectChanged();
             }
@@ -113,24 +122,22 @@ namespace Ana.Source.Project.ProjectItems
         public ProjectItem(String Description)
         {
             // Bypass setters/getters to avoid triggering any GUI updates in constructor
-            this._Description = Description == null ? String.Empty : Description;
-            this._Parent = null;
-            this._Children = new List<ProjectItem>();
-            this._TextColorARGB = unchecked((UInt32)SystemColors.ControlText.ToArgb());
+            this.description = Description == null ? String.Empty : Description;
+            this.parent = null;
+            this.children = new List<ProjectItem>();
+            this.textColorARGB = unchecked((UInt32)SystemColors.ControlText.ToArgb());
             this.Activated = false;
-
-            LastActivated = DateTime.MinValue;
         }
 
         [OnDeserialized]
-        public void OnDeserialized(StreamingContext c)
+        public void OnDeserialized(StreamingContext streamingContext)
         {
 
         }
 
-        public virtual void SetActivationState(Boolean Activated)
+        public virtual void SetActivationState(Boolean activated)
         {
-            this.Activated = Activated;
+            this.Activated = activated;
         }
 
         public Boolean GetActivationState()
@@ -138,122 +145,134 @@ namespace Ana.Source.Project.ProjectItems
             return Activated;
         }
 
-        public void AddChild(ProjectItem ProjectItem)
+        public void AddChild(ProjectItem projectItem)
         {
-            ProjectItem.Parent = this;
+            projectItem.Parent = this;
 
             if (Children == null)
                 Children = new List<ProjectItem>();
 
-            Children.Add(ProjectItem);
+            Children.Add(projectItem);
         }
 
-        public void AddSibling(ProjectItem ProjectItem, Boolean After)
+        public void AddSibling(ProjectItem projectItem, Boolean after)
         {
-            ProjectItem.Parent = this.Parent;
+            projectItem.Parent = this.Parent;
 
-            if (After)
-                Parent?.Children?.Insert(Parent.Children.IndexOf(this) + 1, ProjectItem);
+            if (after)
+                Parent?.Children?.Insert(Parent.Children.IndexOf(this) + 1, projectItem);
             else
-                Parent?.Children?.Insert(Parent.Children.IndexOf(this), ProjectItem);
+                Parent?.Children?.Insert(Parent.Children.IndexOf(this), projectItem);
         }
 
-        public void Delete(IEnumerable<ProjectItem> ToDelete)
+        public void Delete(IEnumerable<ProjectItem> toDelete)
         {
-            if (ToDelete == null)
+            if (toDelete == null)
+            {
                 return;
+            }
 
             // Sort children and nodes to delete (Makes the algorithm O(nlogn) rather than O(n^2))
-            IEnumerable<ProjectItem> ChildrenSorted = Children.ToList().OrderBy(X => X.GetHashCode());
-            ToDelete = ToDelete.OrderBy(X => X.GetHashCode());
+            IEnumerable<ProjectItem> childrenSorted = Children.ToList().OrderBy(X => X.GetHashCode());
+            toDelete = toDelete.OrderBy(X => X.GetHashCode());
 
-            if (ToDelete.Count() <= 0 || ChildrenSorted.Count() <= 0)
+            if (toDelete.Count() <= 0 || childrenSorted.Count() <= 0)
                 return;
 
-            ProjectItem NextDelete = ToDelete.First();
-            ProjectItem NextNode = ChildrenSorted.First();
+            ProjectItem nextDelete = toDelete.First();
+            ProjectItem nextNode = childrenSorted.First();
 
-            ToDelete = ToDelete.Skip(1);
-            ChildrenSorted = ChildrenSorted.Skip(1);
+            toDelete = toDelete.Skip(1);
+            childrenSorted = childrenSorted.Skip(1);
 
             // Walk through both lists and see if there are elements in common and delete them
-            while (NextDelete != null && NextNode != null)
+            while (nextDelete != null && nextNode != null)
             {
-                if (NextNode.GetHashCode() > NextDelete.GetHashCode())
+                if (nextNode.GetHashCode() > nextDelete.GetHashCode())
                 {
-                    NextDelete = null;
+                    nextDelete = null;
                 }
-                else if (NextNode.GetHashCode() < NextDelete.GetHashCode())
+                else if (nextNode.GetHashCode() < nextDelete.GetHashCode())
                 {
-                    NextNode = null;
+                    nextNode = null;
                 }
-                else if (NextNode.GetHashCode() == NextDelete.GetHashCode())
+                else if (nextNode.GetHashCode() == nextDelete.GetHashCode())
                 {
-                    Children.Remove(NextNode);
+                    Children.Remove(nextNode);
 
-                    NextDelete = null;
-                    NextNode = null;
+                    nextDelete = null;
+                    nextNode = null;
                 }
 
-                if (NextDelete == null)
+                if (nextDelete == null)
                 {
-                    if (ToDelete.Count() <= 0)
+                    if (toDelete.Count() <= 0)
                         break;
 
-                    NextDelete = ToDelete.First();
-                    ToDelete = ToDelete.Skip(1);
+                    nextDelete = toDelete.First();
+                    toDelete = toDelete.Skip(1);
                 }
 
-                if (NextNode == null)
+                if (nextNode == null)
                 {
-                    if (ChildrenSorted.Count() <= 0)
+                    if (childrenSorted.Count() <= 0)
                         break;
 
-                    NextNode = ChildrenSorted.First();
-                    ChildrenSorted = ChildrenSorted.Skip(1);
+                    nextNode = childrenSorted.First();
+                    childrenSorted = childrenSorted.Skip(1);
                 }
             }
         }
 
-        public void BuildParents(ProjectItem Parent = null)
+        public void BuildParents(ProjectItem parent = null)
         {
-            this.Parent = Parent;
+            this.Parent = parent;
 
-            foreach (ProjectItem Child in Children)
-                Child.BuildParents(this);
+            foreach (ProjectItem child in Children)
+            {
+                child.BuildParents(this);
+            }
         }
 
         public Boolean HasNode(ProjectItem ProjectItem)
         {
             if (Children.Contains(ProjectItem))
+            {
                 return true;
+            }
 
             foreach (ProjectItem Child in Children)
             {
                 if (Child.HasNode(ProjectItem))
+                {
                     return true;
+                }
             }
 
             return false;
         }
 
-        public Boolean RemoveNode(ProjectItem ProjectItem)
+        public Boolean RemoveNode(ProjectItem projectItem)
         {
-            if (ProjectItem == null)
-                return false;
-
-            if (Children.Contains(ProjectItem))
+            if (projectItem == null)
             {
-                ProjectItem.Parent = null;
-                Children.Remove(ProjectItem);
+                return false;
+            }
+
+            if (Children.Contains(projectItem))
+            {
+                projectItem.Parent = null;
+                Children.Remove(projectItem);
                 return true;
             }
             else
             {
                 foreach (ProjectItem Child in Children)
                 {
-                    if (Child.RemoveNode(ProjectItem))
+                    if (Child.RemoveNode(projectItem))
+                    {
                         return true;
+                    }
                 }
             }
 

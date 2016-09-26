@@ -7,7 +7,7 @@
     {
         private readonly ProjectItem projectItem;
 
-        public ProjectItemViewModel(ProjectItem projectItem, TreeViewItemViewModel parentRegion = null) : base(parentRegion, true)
+        public ProjectItemViewModel(ProjectItem projectItem, TreeViewItemViewModel parentRegion = null) : base(parentRegion)
         {
             this.projectItem = projectItem;
         }
@@ -17,6 +17,14 @@
             get
             {
                 return projectItem.Description;
+            }
+        }
+
+        public ProjectItem ProjectItem
+        {
+            get
+            {
+                return projectItem;
             }
         }
 

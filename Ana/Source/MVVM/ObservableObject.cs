@@ -102,7 +102,7 @@
         /// <param name="propertyName">The name of the property that
         /// changed.</param>
         [SuppressMessage("Microsoft.Design", "CA1030:UseEventsWhereAppropriate", Justification = "This cannot be an event")]
-        public virtual void RaisePropertyChanged(string propertyName)
+        public virtual void RaisePropertyChanged(String propertyName)
         {
             this.VerifyPropertyName(propertyName);
 

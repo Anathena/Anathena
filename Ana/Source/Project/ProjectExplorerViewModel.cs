@@ -29,6 +29,8 @@
 
         private ReadOnlyCollection<ProjectItemViewModel> projectItems;
 
+        private ProjectItemViewModel selectedProjectItem;
+
         /// <summary>
         /// Prevents a default instance of the <see cref="ProjectExplorerViewModel" /> class from being created
         /// </summary>
@@ -55,6 +57,19 @@
             {
                 projectItems = value;
                 RaisePropertyChanged(nameof(this.ProjectItems));
+            }
+        }
+
+        public ProjectItemViewModel SelectedProjectItem
+        {
+            get
+            {
+                return selectedProjectItem;
+            }
+
+            set
+            {
+                selectedProjectItem = value;
             }
         }
 
@@ -108,9 +123,53 @@
 
         private void AddNewProjectItem(ProjectItem projectItem)
         {
-            List<ProjectItemViewModel> NewItems = new List<ProjectItemViewModel>(this.ProjectItems);
-            NewItems.Add(new ProjectItemViewModel(projectItem));
-            this.ProjectItems = new ReadOnlyCollection<ProjectItemViewModel>(NewItems);
+            List<ProjectItemViewModel> newItems = new List<ProjectItemViewModel>(this.ProjectItems);
+
+            ProjectItemViewModel target = null;
+
+            foreach (ProjectItemViewModel projectItemViewModel in ProjectItems)
+            {
+                target = GetAddProjectItemTargetRecurse(projectItemViewModel);
+
+                if (target != null)
+                {
+                    break;
+                }
+            }
+            if (target != null)
+            {
+                target.Children.Add(new ProjectItemViewModel(projectItem));
+            }
+            else
+            {
+                newItems.Add(new ProjectItemViewModel(projectItem));
+            }
+            this.ProjectItems = new ReadOnlyCollection<ProjectItemViewModel>(newItems);
+        }
+
+        private ProjectItemViewModel GetAddProjectItemTargetRecurse(ProjectItemViewModel projectItemViewModel)
+        {
+            if (projectItemViewModel.ProjectItem is FolderItem)
+            {
+                if (projectItemViewModel.IsSelected)
+                {
+                    return projectItemViewModel;
+                }
+                else
+                {
+                    foreach (ProjectItemViewModel childViewModel in projectItemViewModel.Children)
+                    {
+                        ProjectItemViewModel childResult = GetAddProjectItemTargetRecurse(childViewModel);
+
+                        if (childResult != null)
+                        {
+                            return childResult;
+                        }
+                    }
+                }
+            }
+
+            return null;
         }
     }
     //// End class
