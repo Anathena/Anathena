@@ -282,7 +282,7 @@
     <Compile Include="Source\Main\MainViewModel.cs">
       <ExcludeFromStyleCop>False</ExcludeFromStyleCop>
     </Compile>
-    <Page Include="View\Controls\FlatComboBoxStyle.xaml">
+    <Page Include="View\Style\FlatComboBoxStyle.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -338,6 +338,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="View\Style\DropDownAutoClose.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -382,6 +386,7 @@
     <Folder Include="Source\Engine\AddressResolver\Python\" />
     <Folder Include="Source\Engine\Proxy\" />
     <Folder Include="Source\Mvvm\Behaviors\" />
+    <Folder Include="View\Controls\" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Content\Icons\SelectProcess.png" />

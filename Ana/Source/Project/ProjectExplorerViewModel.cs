@@ -1,8 +1,6 @@
 ﻿namespace Ana.Source.Project
 {
     using Docking;
-    using Engine;
-    using Engine.Processes;
     using Main;
     using Mvvm.Command;
     using ProjectItems;
@@ -11,7 +9,6 @@
     using System.Collections.ObjectModel;
     using System.Threading;
     using System.Windows.Input;
-    using Utils;
 
     /// <summary>
     /// View model for the Project Explorer
@@ -30,7 +27,7 @@
                 () => { return new ProjectExplorerViewModel(); },
                 LazyThreadSafetyMode.PublicationOnly);
 
-        private readonly ReadOnlyCollection<ProjectItemViewModel> projectItems;
+        private ReadOnlyCollection<ProjectItemViewModel> projectItems;
 
         /// <summary>
         /// Prevents a default instance of the <see cref="ProjectExplorerViewModel" /> class from being created
@@ -38,45 +35,43 @@
         private ProjectExplorerViewModel() : base("Project Explorer")
         {
             this.ContentId = ToolContentId;
-            this.IconSource = ImageLoader.LoadImage("pack://application:,,/Content/Icons/SelectProcess.png");
-            this.SelectProcessCommand = new RelayCommand<NormalizedProcess>((process) => this.SelectProcess(process), (process) => true);
+            this.AddNewFolderItem = new RelayCommand(() => this.AddNewFolderItemExecute(), () => true);
+            this.AddNewAddressItem = new RelayCommand(() => this.AddNewAddressItemExecute(), () => true);
+            this.AddNewScriptItem = new RelayCommand(() => this.AddNewScriptItemExecute(), () => true);
             this.IsVisible = true;
 
-
-            this.projectItems = new ReadOnlyCollection<ProjectItemViewModel>
-                (
-                new List<ProjectItemViewModel>(new ProjectItemViewModel[] { new ProjectItemViewModel(new FolderItem(), null) })
-                // (from region in projectItems select new ProjectItemViewModel(region, null)).ToList()
-                );
+            this.projectItems = new ReadOnlyCollection<ProjectItemViewModel>(new List<ProjectItemViewModel>());
 
             MainViewModel.GetInstance().Subscribe(this);
         }
 
-
-
-        public ReadOnlyCollection<ProjectItemViewModel> Regions
+        public ReadOnlyCollection<ProjectItemViewModel> ProjectItems
         {
             get
             {
                 return projectItems;
             }
-        }
-
-        /// <summary>
-        /// Gets the command to select a target process
-        /// </summary>
-        public ICommand SelectProcessCommand { get; private set; }
-
-        /// <summary>
-        /// Gets the processes running on the machine
-        /// </summary>
-        public IEnumerable<NormalizedProcess> ProcessList
-        {
-            get
+            set
             {
-                return EngineCore.GetInstance().Processes.GetProcesses();
+                projectItems = value;
+                RaisePropertyChanged(nameof(this.ProjectItems));
             }
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public ICommand AddNewFolderItem { get; private set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public ICommand AddNewAddressItem { get; private set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public ICommand AddNewScriptItem { get; private set; }
 
         /// <summary>
         /// Gets a singleton instance of the <see cref="ProjectExplorerViewModel"/> class
@@ -88,19 +83,34 @@
         }
 
         /// <summary>
-        /// Makes the target process selection
+        /// 
         /// </summary>
-        /// <param name="process">The process being selected</param>
-        private void SelectProcess(NormalizedProcess process)
+        private void AddNewFolderItemExecute()
         {
-            if (process == null)
-            {
-                return;
-            }
+            AddNewProjectItem(new FolderItem());
+        }
 
-            EngineCore.GetInstance().Processes.OpenProcess(process);
+        /// <summary>
+        /// 
+        /// </summary>
+        private void AddNewAddressItemExecute()
+        {
+            AddNewProjectItem(new AddressItem());
+        }
 
-            this.IsVisible = false;
+        /// <summary>
+        /// 
+        /// </summary>
+        private void AddNewScriptItemExecute()
+        {
+            AddNewProjectItem(new ScriptItem());
+        }
+
+        private void AddNewProjectItem(ProjectItem projectItem)
+        {
+            List<ProjectItemViewModel> NewItems = new List<ProjectItemViewModel>(this.ProjectItems);
+            NewItems.Add(new ProjectItemViewModel(projectItem));
+            this.ProjectItems = new ReadOnlyCollection<ProjectItemViewModel>(NewItems);
         }
     }
     //// End class

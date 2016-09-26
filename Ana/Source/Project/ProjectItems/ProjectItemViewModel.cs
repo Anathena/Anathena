@@ -7,7 +7,7 @@
     {
         private readonly ProjectItem projectItem;
 
-        public ProjectItemViewModel(ProjectItem projectItem, TreeViewItemViewModel parentRegion) : base(parentRegion, true)
+        public ProjectItemViewModel(ProjectItem projectItem, TreeViewItemViewModel parentRegion = null) : base(parentRegion, true)
         {
             this.projectItem = projectItem;
         }
@@ -18,6 +18,11 @@
             {
                 return projectItem.Description;
             }
+        }
+
+        public void AddChild(ProjectItem child)
+        {
+            projectItem.AddChild(child);
         }
 
         protected override void LoadChildren()

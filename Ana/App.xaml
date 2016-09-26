@@ -11,7 +11,8 @@
             <viewModel:ViewModelLocator x:Key="ViewModelLocator" d:IsDataSource="True" />
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="pack://application:,,,/Ana;component/View/Style/DarkBrushes.xaml" />
-                <ResourceDictionary Source="pack://application:,,,/Ana;component/View/Controls/FlatComboBoxStyle.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/Ana;component/View/Style/DropDownAutoClose.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/Ana;component/View/Style/FlatComboBoxStyle.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>
