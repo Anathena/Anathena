@@ -9,7 +9,6 @@
     using System.Collections.Generic;
     using System.Threading;
     using System.Windows.Input;
-    using Utils;
 
     /// <summary>
     /// View model for the Property Viewer
@@ -34,7 +33,6 @@
         private PropertyViewerViewModel() : base("Property Viewer")
         {
             this.ContentId = ToolContentId;
-            this.IconSource = ImageLoader.LoadImage("pack://application:,,/Content/Icons/SelectProcess.png");
             this.SelectProcessCommand = new RelayCommand<NormalizedProcess>((process) => this.SelectProcess(process), (process) => true);
             this.IsVisible = true;
 

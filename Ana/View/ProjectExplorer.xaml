@@ -20,12 +20,12 @@
 			<RowDefinition Height="16"/>
 			<RowDefinition/>
 		</Grid.RowDefinitions>
-		<WrapPanel Grid.Row="0"  Background="{StaticResource AvalonDock_Expression_BaseColor13}">
+		<WrapPanel Grid.Row="0"  Background="{StaticResource AvalonDock_Expression_BaseColor1}">
 			<WrapPanel.Resources>
 				<ImageBrush x:Key="iconBrush" Stretch="Uniform" AlignmentX="Left" ImageSource="pack://application:,,,/Ana;component/Content/Icons/Increased.png"/>
 			</WrapPanel.Resources>
-            <Menu>
-                <MenuItem Style="{StaticResource DropDownAutoClose}" Background="{StaticResource AvalonDock_Expression_BaseColor1}" BorderThickness="0" Icon="pack://application:,,,/Ana;component/Content/Icons/Open.png" >
+			<Menu Background="Transparent">
+				<MenuItem Style="{StaticResource DropDownAutoClose}" BorderThickness="0" Icon="pack://application:,,,/Ana;component/Content/Icons/Open.png" >
 					<MenuItem.Header>
 						<Border>
 							<StackPanel Orientation="Horizontal">
@@ -47,7 +47,7 @@
 							  Background="{StaticResource AvalonDock_Expression_BaseColor1}"
 							  Command="{Binding AddNewFolderItem}">
 						<MenuItem.Header>
-							<WrapPanel>
+                            <WrapPanel Width="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=ActualWidth}">
 								<Image Width="16" Height="16" Source="pack://application:,,,/Ana;component/Content/Icons/Open.png"/>
 								<TextBlock Text="Add Folder" Background="Transparent" Foreground="{StaticResource AvalonDock_Expression_BaseColor2}"/>
 							</WrapPanel>
@@ -57,7 +57,7 @@
 							  Background="{StaticResource AvalonDock_Expression_BaseColor1}"
 							  Command="{Binding AddNewAddressItem}">
 						<MenuItem.Header>
-							<WrapPanel>
+                            <WrapPanel Width="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=ActualWidth}">
 								<Image Width="16" Height="16" Source="pack://application:,,,/Ana;component/Content/Icons/Open.png"/>
 								<TextBlock Text="Add Address" Background="Transparent" Foreground="{StaticResource AvalonDock_Expression_BaseColor2}"/>
 							</WrapPanel>
@@ -67,7 +67,7 @@
 							  Background="{StaticResource AvalonDock_Expression_BaseColor1}"
 							  Command="{Binding AddNewScriptItem}">
 						<MenuItem.Header>
-							<WrapPanel>
+							<WrapPanel Width="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=ActualWidth}">
 								<Image Width="16" Height="16" Source="pack://application:,,,/Ana;component/Content/Icons/Open.png"/>
 								<TextBlock Text="Add Script" Background="Transparent" Foreground="{StaticResource AvalonDock_Expression_BaseColor2}"/>
 							</WrapPanel>
@@ -76,10 +76,10 @@
 				</MenuItem>
 			</Menu>
 		</WrapPanel>
-        <!-- Project Explorer Tree View -->
-		<TreeView ItemsSource="{Binding ProjectItems, Mode=OneWay}" Background="Transparent" BorderThickness="0" Grid.Row="1">
-            <TreeView.ItemContainerStyle>
-                <Style TargetType="{x:Type TreeViewItem}">
+		<!-- Project Explorer Tree View -->
+		<TreeView ItemsSource="{Binding ProjectItems, Mode=OneWay}" Background="{StaticResource AvalonDock_Expression_BaseColor3}" BorderThickness="0" Grid.Row="1">
+			<TreeView.ItemContainerStyle>
+				<Style TargetType="{x:Type TreeViewItem}">
 					<Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}" />
 					<Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}" />
 					<Setter Property="FontWeight" Value="Normal" />

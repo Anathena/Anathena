@@ -13,7 +13,7 @@
     xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
     mc:Ignorable="d"
     d:DesignHeight="300" d:DesignWidth="300">
-    <Grid>
+    <Grid Background="{StaticResource AvalonDock_Expression_BaseColor3}">
        
     </Grid>
 </UserControl>

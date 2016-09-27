@@ -2,7 +2,7 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:local="clr-namespace:Ana.View.Style">
     <Style x:Key="DropDownAutoClose"  TargetType="MenuItem"  >
-        <Setter Property="HorizontalAlignment" Value="Center" />
+        <Setter Property="HorizontalAlignment" Value="Left" />
         <Setter Property="SnapsToDevicePixels" Value="True" />
         <Setter Property="Template">
             <Setter.Value>
@@ -11,7 +11,7 @@
                         Background="{TemplateBinding Background}"
                         BorderBrush="{TemplateBinding BorderBrush}"
                         BorderThickness="{TemplateBinding BorderThickness}">
-                        <Grid >
+                        <Grid>
                             <ContentPresenter ContentSource="Header" />
                             <Rectangle x:Name="overlay"
                                                Fill="Black"
@@ -20,14 +20,22 @@
                                                Opacity="0.1" >
                             </Rectangle>
 
-                            <Popup IsOpen="{Binding Path=IsSubmenuOpen, RelativeSource={RelativeSource TemplatedParent}}" Placement="Bottom" x:Name="SubMenuPopup" Focusable="false" PopupAnimation="{DynamicResource {x:Static SystemParameters.MenuPopupAnimationKey}}">
+                            <Popup IsOpen="{Binding Path=IsSubmenuOpen, RelativeSource={RelativeSource TemplatedParent}}"
+                                   Placement="Bottom"
+                                   x:Name="SubMenuPopup"
+                                   Focusable="false"
+                                   PopupAnimation="{DynamicResource {x:Static SystemParameters.MenuPopupAnimationKey}}">
                                 <Border x:Name="SubMenuBorder" 
+                                            CornerRadius="4"
                                             Background="White"
                                             BorderBrush="{Binding Path=Foreground, RelativeSource={RelativeSource AncestorType={x:Type Menu}}}" 
-                                            BorderThickness="1" Padding="2,2,2,2">
-                                    <Grid x:Name="SubMenu" Grid.IsSharedSizeScope="True">
+                                            BorderThickness="1"
+                                            Padding="1">
+                                    <Grid x:Name="SubMenu">
                                         <!-- StackPanel holds children of the menu. This is set by IsItemsHost=True -->
-                                        <StackPanel IsItemsHost="True" KeyboardNavigation.DirectionalNavigation="Cycle"/>
+                                        <StackPanel IsItemsHost="True"
+                                                    HorizontalAlignment="Left"
+                                                    KeyboardNavigation.DirectionalNavigation="Cycle"/>
                                     </Grid>
                                 </Border>
                             </Popup>

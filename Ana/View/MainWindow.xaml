@@ -32,8 +32,8 @@
         </Grid.RowDefinitions>
 
         <!-- Menu Bar -->
-        <Grid Grid.Row="0">
-            <Menu>
+        <Grid Grid.Row="0" >
+            <Menu Foreground="{StaticResource AvalonDock_Expression_BaseColor2}" Background="{StaticResource AvalonDock_Expression_BaseColor4}">
                 <MenuItem Header="File">
                 </MenuItem>
                 <MenuItem Header="Edit" DataContext="{Binding Source={StaticResource ViewModelLocator}}">
