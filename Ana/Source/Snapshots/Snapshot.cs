@@ -498,7 +498,7 @@ namespace Ana.Source.Snapshots
                 NewSnapshotRegions.Remove(Region);
 
             // Get current memory regions
-            Snapshot<LabelType> Mask = new Snapshot<LabelType>(SnapshotManager.GetInstance().CollectSnapshot(UseSettings: false, UsePrefilter: false));
+            Snapshot<LabelType> Mask = new Snapshot<LabelType>(SnapshotManager.GetInstance().CollectSnapshot(useSettings: false, usePrefilter: false));
 
             // Mask each region against the current virtual memory regions
             IEnumerable<SnapshotRegion<LabelType>> MaskedRegions = MaskRegions(Mask, DeallocatedRegions);

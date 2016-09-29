@@ -67,6 +67,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Source\ActionScheduler\ActionSchedulerViewModel.cs" />
+    <Compile Include="Source\ActionScheduler\IAction.cs" />
     <Compile Include="Source\CheatBrowser\CheatBrowserViewModel.cs" />
     <Compile Include="Source\Controls\TreeViewItemViewModel.cs" />
     <Compile Include="Source\DotNetExplorer\DotNetExplorerViewModel.cs" />

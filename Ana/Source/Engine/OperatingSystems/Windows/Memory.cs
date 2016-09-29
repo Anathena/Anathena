@@ -4,7 +4,6 @@
     using Processes;
     using System;
     using System.Collections.Generic;
-    using System.Linq;
     using System.Runtime.InteropServices;
     using Utils.Extensions;
 
@@ -13,8 +12,6 @@
     /// </summary>
     internal static class Memory
     {
-        #region Read
-
         /// <summary>
         /// Reads an array of bytes in the memory form the target process
         /// </summary>
@@ -34,10 +31,6 @@
 
             return buffer;
         }
-
-        #endregion
-
-        #region Write
 
         /// <summary>
         /// Writes bytes to memory in a specified process
@@ -63,8 +56,6 @@
 
             return 0;
         }
-
-        #endregion
 
         /// <summary>
         /// Reserves a region of memory within the virtual address space of a specified process.
@@ -136,77 +127,6 @@
         }
 
         /// <summary>
-        /// Gets regions of memory allocated in the remote process based on provided parameters
-        /// </summary>
-        /// <param name="handle">Target process handle</param>
-        /// <param name="startAddress">The start address of the query range</param>
-        /// <param name="endAddress">The end address of the query range</param>
-        /// <param name="requiredProtection">Protection flags required to be present</param>
-        /// <param name="excludedProtection">Protection flags that must not be present</param>
-        /// <param name="allowedTypes">Memory types that can be present</param>
-        /// <returns>A collection of pointers to virtual pages in the target process</returns>
-        public static IEnumerable<IntPtr> VirtualPages(
-            IntPtr handle,
-            IntPtr startAddress,
-            IntPtr endAddress,
-            MemoryProtectionFlags requiredProtection,
-            MemoryProtectionFlags excludedProtection,
-            MemoryTypeEnum allowedTypes)
-        {
-            return Query(handle, startAddress, endAddress, requiredProtection, excludedProtection, allowedTypes).Select(x => x.BaseAddress);
-        }
-
-        /// <summary>
-        /// Retrieves information about a range of pages within the virtual address space of a specified process
-        /// </summary>
-        /// <param name="processHandle">A handle to the process whose memory information is queried</param>
-        /// <param name="baseAddress">A pointer to the base address of the region of pages to be queried</param>
-        /// <returns>A <see cref="MemoryBasicInformation64"/> structures in which information about the specified page range is returned</returns>
-        public static MemoryBasicInformation64 Query(IntPtr processHandle, IntPtr baseAddress)
-        {
-            Int32 queryResult;
-            return Query(processHandle, baseAddress, out queryResult);
-        }
-
-        /// <summary>
-        /// Retrieves information about a range of pages within the virtual address space of a specified process
-        /// </summary>
-        /// <param name="processHandle">A handle to the process whose memory information is queried</param>
-        /// <param name="baseAddress">A pointer to the base address of the region of pages to be queried</param>
-        /// <param name="queryResult">The value returned by the native methods when performing query</param>
-        /// <returns>A <see cref="MemoryBasicInformation64"/> structures in which information about the specified page range is returned</returns>
-        public static MemoryBasicInformation64 Query(IntPtr processHandle, IntPtr baseAddress, out Int32 queryResult)
-        {
-            // Allocate the structure to store information of memory
-            MemoryBasicInformation64 memoryInfo64 = new MemoryBasicInformation64();
-
-            if (!Environment.Is64BitProcess)
-            {
-                // 32 Bit struct is not the same
-                MemoryBasicInformation32 memoryInfo32 = new MemoryBasicInformation32();
-
-                // Query the memory region
-                queryResult = NativeMethods.VirtualQueryEx(processHandle, baseAddress, out memoryInfo32, Marshal.SizeOf(memoryInfo32));
-
-                // Copy from the 32 bit struct to the 64 bit struct
-                memoryInfo64.AllocationBase = memoryInfo32.AllocationBase;
-                memoryInfo64.AllocationProtect = memoryInfo32.AllocationProtect;
-                memoryInfo64.BaseAddress = memoryInfo32.BaseAddress;
-                memoryInfo64.Protect = memoryInfo32.Protect;
-                memoryInfo64.RegionSize = memoryInfo32.RegionSize;
-                memoryInfo64.State = memoryInfo32.State;
-                memoryInfo64.Type = memoryInfo32.Type;
-            }
-            else
-            {
-                // Query the memory region
-                queryResult = NativeMethods.VirtualQueryEx(processHandle, baseAddress, out memoryInfo64, Marshal.SizeOf(memoryInfo64));
-            }
-
-            return memoryInfo64;
-        }
-
-        /// <summary>
         /// Retrieves information about a range of pages within the virtual address space of a specified process
         /// </summary>
         /// <param name="processHandle">A handle to the process whose memory information is queried</param>
@@ -218,7 +138,7 @@
         /// <returns>
         /// A collection of <see cref="MemoryBasicInformation64"/> structures containing info about all virtual pages in the target process
         /// </returns>
-        public static IEnumerable<MemoryBasicInformation64> Query(
+        public static IEnumerable<MemoryBasicInformation64> VirtualPages(
             IntPtr processHandle,
             IntPtr startAddress,
             IntPtr endAddress,
@@ -231,15 +151,37 @@
                 yield return new MemoryBasicInformation64();
             }
 
-            // Create the variable storing the result of the call of VirtualQueryEx
-            Int32 queryResult;
             Boolean wrappedAround = false;
+            Int32 queryResult;
 
             // Enumerate the memory pages
             do
             {
                 // Allocate the structure to store information of memory
-                MemoryBasicInformation64 memoryInfo = Query(processHandle, startAddress, out queryResult);
+                MemoryBasicInformation64 memoryInfo = new MemoryBasicInformation64();
+
+                if (!Environment.Is64BitProcess)
+                {
+                    // 32 Bit struct is not the same
+                    MemoryBasicInformation32 memoryInfo32 = new MemoryBasicInformation32();
+
+                    // Query the memory region (32 bit native method)
+                    queryResult = NativeMethods.VirtualQueryEx(processHandle, startAddress, out memoryInfo32, Marshal.SizeOf(memoryInfo32));
+
+                    // Copy from the 32 bit struct to the 64 bit struct
+                    memoryInfo.AllocationBase = memoryInfo32.AllocationBase;
+                    memoryInfo.AllocationProtect = memoryInfo32.AllocationProtect;
+                    memoryInfo.BaseAddress = memoryInfo32.BaseAddress;
+                    memoryInfo.Protect = memoryInfo32.Protect;
+                    memoryInfo.RegionSize = memoryInfo32.RegionSize;
+                    memoryInfo.State = memoryInfo32.State;
+                    memoryInfo.Type = memoryInfo32.Type;
+                }
+                else
+                {
+                    // Query the memory region (64 bit native method)
+                    queryResult = NativeMethods.VirtualQueryEx(processHandle, startAddress, out memoryInfo, Marshal.SizeOf(memoryInfo));
+                }
 
                 // Increment the starting address with the size of the page
                 IntPtr previousFrom = startAddress;

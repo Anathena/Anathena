@@ -5,6 +5,7 @@
     using System;
     using System.Collections.Generic;
     using System.Diagnostics;
+    using System.Linq;
     using System.Reflection;
     using System.Text;
     using System.Threading.Tasks;
@@ -26,7 +27,7 @@
         }
 
         /// <summary>
-        /// Gets the remote process handle opened with all rights.
+        /// Gets the remote process handle opened with all rights
         /// </summary>
         public IntPtr Handle { get; private set; }
 
@@ -361,11 +362,8 @@
                 excludedFlags |= MemoryProtectionFlags.ExecuteWriteCopy;
             }
 
-            List<IntPtr> pages = new List<IntPtr>(Memory.VirtualPages(this.Handle, startAddress, endAddress, requiredFlags, excludedFlags, allowedTypes));
-            List<NormalizedRegion> regions = new List<NormalizedRegion>();
-            pages.ForEach(page => regions.Add(new NormalizedRegion(page, (Int32)Memory.Query(this.Handle, page).RegionSize)));
-
-            return regions;
+            return Memory.VirtualPages(this.Handle, startAddress, endAddress, requiredFlags, excludedFlags, allowedTypes)
+                .Select(x => new NormalizedRegion(x.BaseAddress, (Int32)x.RegionSize));
         }
 
         /// <summary>
@@ -422,13 +420,21 @@
         {
             List<NormalizedModule> normalizedModules = new List<NormalizedModule>();
 
-            // Just doing this so I dont get any warnings. Fix the process design...
-            if (normalizedModules.Count <= 0)
+            NormalizedProcess process = EngineCore.GetInstance().Processes.GetOpenedProcess();
+
+            if (process == null)
             {
-                throw new NotImplementedException();
+                return normalizedModules;
             }
 
-            //// Process?.Modules?.Cast<ProcessModule>().ForEach(X => normalizedModules.Add(new NormalizedModule(X.ModuleName, X.BaseAddress, X.ModuleMemorySize)));
+            Process systemProcess = Process.GetProcessById(process.ProcessId);
+
+            if (systemProcess == null)
+            {
+                return normalizedModules;
+            }
+
+            systemProcess?.Modules?.Cast<ProcessModule>().ForEach(x => normalizedModules.Add(new NormalizedModule(x.ModuleName, x.BaseAddress, x.ModuleMemorySize)));
 
             return normalizedModules;
         }
@@ -512,6 +518,12 @@
 
             // First do the simple check if seeing if the OS is 32 bit, in which case the process wont be 64 bit
             if (EngineCore.GetInstance().OperatingSystemAdapter.IsOperatingSystem32Bit())
+            {
+                return true;
+            }
+
+            // No process provided, assume 32 bit
+            if (process == null)
             {
                 return true;
             }

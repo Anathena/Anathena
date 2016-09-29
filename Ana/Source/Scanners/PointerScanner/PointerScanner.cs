@@ -442,7 +442,7 @@ namespace Ana.Source.Scanners.PointerScanner
             PointerPool.Clear();
 
             // Collect memory regions
-            Snapshot = new Snapshot<Null>(SnapshotManager.GetInstance().CollectSnapshot(UseSettings: false, UsePrefilter: false));
+            Snapshot = new Snapshot<Null>(SnapshotManager.GetInstance().CollectSnapshot(useSettings: false, usePrefilter: false));
 
             // Set to type of a pointer
             if (EngineCore.GetInstance().Processes.IsOpenedProcess32Bit())

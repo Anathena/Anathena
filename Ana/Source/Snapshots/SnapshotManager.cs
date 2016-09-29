@@ -12,123 +12,141 @@ using System.Threading;
 
 namespace Ana.Source.Snapshots
 {
+    /// <summary>
+    /// Manages snapshots of memory taken from the target process
+    /// </summary>
     internal class SnapshotManager
     {
-        // Singleton instance of Snapshot Manager
-        private static Lazy<SnapshotManager> SnapshotManagerInstance = new Lazy<SnapshotManager>(() => { return new SnapshotManager(); }, LazyThreadSafetyMode.PublicationOnly);
-
-        // Lock to ensure multiple entities do not try and update the snapshot list at the same time
-        private Object AccessLock;
-
-        private EngineCore EngineCore;
-        private Stack<Snapshot> Snapshots;          // Snapshots being managed
-        private Stack<Snapshot> DeletedSnapshots;   // Deleted snapshots for the capability of redoing after undo
+        /// <summary>
+        /// Singleton instance of Snapshot Manager
+        /// </summary>
+        private static Lazy<SnapshotManager> SnapshotManagerInstance = new Lazy<SnapshotManager>(
+            () => { return new SnapshotManager(); },
+            LazyThreadSafetyMode.PublicationOnly);
 
         private SnapshotManager()
         {
-            AccessLock = new Object();
-            Snapshots = new Stack<Snapshot>();
-            DeletedSnapshots = new Stack<Snapshot>();
+            this.AccessLock = new Object();
+            this.Snapshots = new Stack<Snapshot>();
+            this.DeletedSnapshots = new Stack<Snapshot>();
         }
 
-        public void OnGUIOpen() { }
+        /// <summary>
+        /// Lock to ensure multiple entities do not try and update the snapshot list at the same time
+        /// </summary>
+        private Object AccessLock { get; set; }
+
+        /// <summary>
+        /// Gets or sets the snapshots being managed
+        /// </summary>
+        private Stack<Snapshot> Snapshots { get; set; }
+
+        /// <summary>
+        /// Gets or sets the deleted snapshots for the capability of redoing after undo
+        /// </summary>
+        private Stack<Snapshot> DeletedSnapshots;
 
         public static SnapshotManager GetInstance()
         {
-            return SnapshotManagerInstance.Value;
-        }
-
-        public void UpdateEngineCore(EngineCore EngineCore)
-        {
-            this.EngineCore = EngineCore;
+            return SnapshotManager.SnapshotManagerInstance.Value;
         }
 
         /// <summary>
         /// Returns the memory regions associated with the current snapshot. If none exist, a query will be done.
         /// </summary>
-        /// <param name="CreateIfNone"></param>
+        /// <param name="createIfNone"></param>
         /// <returns></returns>
-        public Snapshot GetActiveSnapshot(Boolean CreateIfNone = true)
+        public Snapshot GetActiveSnapshot(Boolean createIfNone = true)
         {
-            using (TimedLock.Lock(AccessLock))
+            using (TimedLock.Lock(this.AccessLock))
             {
                 // Take a snapshot if there are none, or the current one is empty
-                if (Snapshots.Count == 0 || Snapshots.Peek() == null || Snapshots.Peek().GetElementCount() == 0)
+                if (this.Snapshots.Count == 0 || this.Snapshots.Peek() == null || this.Snapshots.Peek().GetElementCount() == 0)
                 {
-                    if (CreateIfNone)
-                        return CollectSnapshot();
+                    if (createIfNone)
+                    {
+                        return this.CollectSnapshot();
+                    }
                     else
+                    {
                         return null;
+                    }
                 }
 
                 // Return the snapshot
-                return Snapshots.Peek();
+                return this.Snapshots.Peek();
             }
         }
 
-        public IEnumerable<NormalizedRegion> CollectSnapshotRegions(Boolean UseSettings = true)
+        public IEnumerable<NormalizedRegion> CollectSnapshotRegions(Boolean useSettings = true)
         {
-            IntPtr StartAddress;
-            IntPtr EndAddress;
+            IntPtr startAddress;
+            IntPtr endAddress;
 
-            MemoryProtectionEnum RequiredPageFlags;
-            MemoryProtectionEnum ExcludedPageFlags;
-            MemoryTypeEnum AllowedTypeFlags;
+            MemoryProtectionEnum requiredPageFlags;
+            MemoryProtectionEnum excludedPageFlags;
+            MemoryTypeEnum allowedTypeFlags;
 
             // Use settings parameters
-            if (UseSettings)
+            if (useSettings)
             {
-                RequiredPageFlags = Settings.GetInstance().GetRequiredProtectionSettings();
-                ExcludedPageFlags = Settings.GetInstance().GetExcludedProtectionSettings();
-                AllowedTypeFlags = Settings.GetInstance().GetAllowedTypeSettings();
+                requiredPageFlags = Settings.GetInstance().GetRequiredProtectionSettings();
+                excludedPageFlags = Settings.GetInstance().GetExcludedProtectionSettings();
+                allowedTypeFlags = Settings.GetInstance().GetAllowedTypeSettings();
 
                 if (Settings.GetInstance().GetIsUserMode())
                 {
-                    StartAddress = IntPtr.Zero;
-                    EndAddress = EngineCore.GetInstance().OperatingSystemAdapter.GetMaximumUserModeAddress();
+                    startAddress = IntPtr.Zero;
+                    endAddress = EngineCore.GetInstance().OperatingSystemAdapter.GetMaximumUserModeAddress();
                 }
                 else
                 {
-                    StartAddress = Settings.GetInstance().GetStartAddress().ToIntPtr();
-                    EndAddress = Settings.GetInstance().GetEndAddress().ToIntPtr();
+                    startAddress = Settings.GetInstance().GetStartAddress().ToIntPtr();
+                    endAddress = Settings.GetInstance().GetEndAddress().ToIntPtr();
                 }
             }
             // Standard pointer scan parameters
             else
             {
-                StartAddress = IntPtr.Zero;
-                EndAddress = EngineCore.GetInstance().OperatingSystemAdapter.GetMaximumUserModeAddress();
-                RequiredPageFlags = 0;
-                ExcludedPageFlags = 0;
-                AllowedTypeFlags = MemoryTypeEnum.None | MemoryTypeEnum.Private | MemoryTypeEnum.Image | MemoryTypeEnum.Mapped;
+                startAddress = IntPtr.Zero;
+                endAddress = EngineCore.GetInstance().OperatingSystemAdapter.GetMaximumUserModeAddress();
+                requiredPageFlags = 0;
+                excludedPageFlags = 0;
+                allowedTypeFlags = MemoryTypeEnum.None | MemoryTypeEnum.Private | MemoryTypeEnum.Image | MemoryTypeEnum.Mapped;
             }
 
             // Collect virtual pages
-            List<NormalizedRegion> VirtualPages = new List<NormalizedRegion>();
-            foreach (NormalizedRegion Page in EngineCore.GetInstance().OperatingSystemAdapter.GetVirtualPages(RequiredPageFlags, ExcludedPageFlags, AllowedTypeFlags, StartAddress, EndAddress))
-                VirtualPages.Add(Page);
+            List<NormalizedRegion> virtualPages = new List<NormalizedRegion>();
+            foreach (NormalizedRegion Page in EngineCore.GetInstance().OperatingSystemAdapter.GetVirtualPages(
+                    requiredPageFlags,
+                    excludedPageFlags,
+                    allowedTypeFlags,
+                    startAddress,
+                    endAddress))
+            {
+                virtualPages.Add(Page);
+            }
 
-            return VirtualPages;
+            return virtualPages;
         }
 
         /// <summary>
         /// Take a snapshot of all memory regions in the target process
         /// </summary>
-        public Snapshot CollectSnapshot(Boolean UseSettings = true, Boolean UsePrefilter = true)
+        public Snapshot CollectSnapshot(Boolean useSettings = true, Boolean usePrefilter = true)
         {
-            if (EngineCore == null)
-                return new Snapshot<Null>();
-
-            if (UsePrefilter)
+            if (usePrefilter)
+            {
                 return SnapshotPrefilterFactory.GetSnapshotPrefilter(typeof(ShallowPointerPrefilter)).GetPrefilteredSnapshot();
+            }
 
-            IEnumerable<NormalizedRegion> VirtualPages = CollectSnapshotRegions(UseSettings);
+            IEnumerable<NormalizedRegion> virtualPages = this.CollectSnapshotRegions(useSettings);
 
             // Convert each virtual page to a snapshot region (a more condensed representation of the information)
-            List<SnapshotRegion> MemoryRegions = new List<SnapshotRegion>();
-            VirtualPages.ForEach(X => MemoryRegions.Add(new SnapshotRegion<Null>(X.BaseAddress, X.RegionSize)));
+            List<SnapshotRegion> memoryRegions = new List<SnapshotRegion>();
+            virtualPages.ForEach(x => memoryRegions.Add(new SnapshotRegion<Null>(x.BaseAddress, x.RegionSize)));
 
-            return new Snapshot<Null>(MemoryRegions);
+            return new Snapshot<Null>(memoryRegions);
         }
 
         /// <summary>
@@ -136,8 +154,8 @@ namespace Ana.Source.Snapshots
         /// </summary>
         public void CollectValues()
         {
-            ValueCollector ValueCollector = new ValueCollector();
-            ValueCollector.Begin();
+            ValueCollector valueCollector = new ValueCollector();
+            valueCollector.Begin();
         }
 
         /// <summary>
@@ -145,15 +163,17 @@ namespace Ana.Source.Snapshots
         /// </summary>
         public void CreateNewSnapshot()
         {
-            using (TimedLock.Lock(AccessLock))
+            using (TimedLock.Lock(this.AccessLock))
             {
-                if (Snapshots.Count != 0 && Snapshots.Peek() == null)
+                if (this.Snapshots.Count != 0 && this.Snapshots.Peek() == null)
+                {
                     return;
+                }
             }
 
-            ClearSnapshots();
+            this.ClearSnapshots();
 
-            SaveSnapshot(null);
+            this.SaveSnapshot(null);
         }
 
         /// <summary>
@@ -161,15 +181,15 @@ namespace Ana.Source.Snapshots
         /// </summary>
         public void RedoSnapshot()
         {
-            using (TimedLock.Lock(AccessLock))
+            using (TimedLock.Lock(this.AccessLock))
             {
-                if (DeletedSnapshots.Count == 0)
+                if (this.DeletedSnapshots.Count == 0)
+                {
                     return;
+                }
 
-                Snapshots.Push(DeletedSnapshots.Pop());
+                this.Snapshots.Push(this.DeletedSnapshots.Pop());
             }
-
-            UpdateDisplay();
         }
 
         /// <summary>
@@ -177,18 +197,20 @@ namespace Ana.Source.Snapshots
         /// </summary>
         public void UndoSnapshot()
         {
-            using (TimedLock.Lock(AccessLock))
+            using (TimedLock.Lock(this.AccessLock))
             {
-                if (Snapshots.Count == 0)
+                if (this.Snapshots.Count == 0)
+                {
                     return;
+                }
 
-                DeletedSnapshots.Push(Snapshots.Pop());
+                this.DeletedSnapshots.Push(this.Snapshots.Pop());
 
-                if (DeletedSnapshots.Peek() == null)
-                    DeletedSnapshots.Pop();
+                if (this.DeletedSnapshots.Peek() == null)
+                {
+                    this.DeletedSnapshots.Pop();
+                }
             }
-
-            UpdateDisplay();
         }
 
         /// <summary>
@@ -196,53 +218,58 @@ namespace Ana.Source.Snapshots
         /// </summary>
         public void ClearSnapshots()
         {
-            using (TimedLock.Lock(AccessLock))
+            using (TimedLock.Lock(this.AccessLock))
             {
-                Snapshots.Clear();
-                DeletedSnapshots.Clear();
+                this.Snapshots.Clear();
+                this.DeletedSnapshots.Clear();
             }
-
-            UpdateDisplay();
         }
 
         /// <summary>
         /// Saves a new snapshot, which becomes the current active snapshot
         /// </summary>
-        /// <param name="Snapshot"></param>
-        public void SaveSnapshot(Snapshot Snapshot)
+        /// <param name="snapshot"></param>
+        public void SaveSnapshot(Snapshot snapshot)
         {
-            using (TimedLock.Lock(AccessLock))
+            using (TimedLock.Lock(this.AccessLock))
             {
-                if (Snapshot != null)
-                    Snapshot.SetTimeStampToNow();
+                if (snapshot != null)
+                {
+                    snapshot.SetTimeStampToNow();
+                }
 
-                if (Snapshots.Count != 0 && Snapshots.Peek() == null)
-                    Snapshots.Pop();
+                if (this.Snapshots.Count != 0 && this.Snapshots.Peek() == null)
+                {
+                    this.Snapshots.Pop();
+                }
 
-                Snapshots.Push(Snapshot);
+                this.Snapshots.Push(snapshot);
 
-                DeletedSnapshots.Clear();
+                this.DeletedSnapshots.Clear();
             }
-
-            UpdateDisplay();
         }
 
-        public Snapshot GetSnapshotAtIndex(Int32 Index)
+        public Snapshot GetSnapshotAtIndex(Int32 index)
         {
-            using (TimedLock.Lock(AccessLock))
+            using (TimedLock.Lock(this.AccessLock))
             {
-                if (Index < Snapshots.Count)
+                if (index < this.Snapshots.Count)
                 {
-                    if (Index < Snapshots.Count)
-                        return Snapshots.Reverse().ElementAt(Index);
+                    if (index < this.Snapshots.Count)
+                    {
+                        return this.Snapshots.Reverse().ElementAt(index);
+                    }
                 }
                 else
                 {
-                    Index -= Snapshots.Count;
-                    if (Index < DeletedSnapshots.Count)
-                        return DeletedSnapshots.ElementAt(Index);
+                    index -= this.Snapshots.Count;
+                    if (index < this.DeletedSnapshots.Count)
+                    {
+                        return this.DeletedSnapshots.ElementAt(index);
+                    }
                 }
             }
+
             return null;
         }
 
@@ -251,16 +278,8 @@ namespace Ana.Source.Snapshots
         /// </summary>
         public void ForceRefresh()
         {
-            UpdateDisplay();
         }
-
-        /// <summary>
-        /// Updates display with current snapshot information
-        /// </summary>
-        private void UpdateDisplay()
-        {
-        }
-
-    } // End class
-
-} // End namespace
+    }
+    //// End class
+}
+//// End namespace

@@ -3,6 +3,7 @@
     using Docking;
     using Mvvm;
     using Mvvm.Command;
+    using Snapshots.Prefilter;
     using System;
     using System.Collections.Generic;
     using System.IO;
@@ -42,6 +43,8 @@
             this.LoadLayout = new RelayCommand<DockingManager>((dockingManager) => this.LoadLayoutExecute(dockingManager), (dockingManager) => true);
             this.SaveLayout = new RelayCommand<DockingManager>((dockingManager) => this.SaveLayoutExecute(dockingManager), (dockingManager) => true);
             this.OpenProject = new RelayCommand(() => this.OpenProjectExecute(), () => true);
+
+            SnapshotPrefilterFactory.GetSnapshotPrefilter(typeof(ShallowPointerPrefilter)).BeginPrefilter();
         }
 
         /// <summary>
