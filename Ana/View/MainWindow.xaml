@@ -1,166 +1,230 @@
 ﻿<Window x:Class="Ana.View.MainWindow"
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:sys="clr-namespace:System;assembly=mscorlib"
-        xmlns:sysWindows="clr-namespace:System.Windows;assembly=PresentationCore"
-        
-        DataContext="{Binding MainViewModel, Source={StaticResource ViewModelLocator}}"
-        xmlns:avalonDock="http://schemas.xceed.com/wpf/xaml/avalondock"
-        xmlns:intr="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity" 
-        xmlns:shell="clr-namespace:Microsoft.Windows.Shell;assembly=AvalonDock"
-        xmlns:local="clr-namespace:Ana.Source.Docking"
-        xmlns:view="clr-namespace:Ana.View"
-        Title="Anathena" Height="640" Width="512">
-    <Window.Resources>
-        <avalonDock:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
-    </Window.Resources>
-    <Grid>
-        <intr:Interaction.Triggers>
-            <intr:EventTrigger EventName="Loaded">
-                <intr:InvokeCommandAction Command="{Binding LoadLayout}" CommandParameter="{Binding ., ElementName=dockManager}"/>
-            </intr:EventTrigger>
-            <intr:EventTrigger EventName="Unloaded">
-                <intr:InvokeCommandAction Command="{Binding SaveLayout}" CommandParameter="{Binding ., ElementName=dockManager}"/>
-            </intr:EventTrigger>
-        </intr:Interaction.Triggers>
-        
-        <Grid.RowDefinitions>
-            <!-- Menu Bar Row -->
-            <RowDefinition Height="Auto"/>
-            <!-- Docking Panel Row -->
-            <RowDefinition Height="*"/>
-        </Grid.RowDefinitions>
+		xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+		xmlns:sys="clr-namespace:System;assembly=mscorlib"
+		xmlns:sysWindows="clr-namespace:System.Windows;assembly=PresentationCore"
+		
+		DataContext="{Binding MainViewModel, Source={StaticResource ViewModelLocator}}"
+		xmlns:avalonDock="http://schemas.xceed.com/wpf/xaml/avalondock"
+		xmlns:intr="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity" 
+		xmlns:shell="clr-namespace:Microsoft.Windows.Shell;assembly=AvalonDock"
+		xmlns:local="clr-namespace:Ana.Source.Docking"
+		xmlns:view="clr-namespace:Ana.View"
+		Title="Anathena" Height="640" Width="512">
+	<Window.Resources>
+		<avalonDock:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
+	</Window.Resources>
+	<Grid>
+		<intr:Interaction.Triggers>
+			<intr:EventTrigger EventName="Loaded">
+				<intr:InvokeCommandAction Command="{Binding LoadLayout}" CommandParameter="{Binding ., ElementName=dockManager}"/>
+			</intr:EventTrigger>
+			<intr:EventTrigger EventName="Unloaded">
+				<intr:InvokeCommandAction Command="{Binding SaveLayout}" CommandParameter="{Binding ., ElementName=dockManager}"/>
+			</intr:EventTrigger>
+		</intr:Interaction.Triggers>
 
-        <!-- Menu Bar -->
-        <Grid Grid.Row="0" >
-            <Menu Foreground="{StaticResource AvalonDock_Expression_BaseColor2}" Background="{StaticResource AvalonDock_Expression_BaseColor4}">
-                <MenuItem Header="File">
-                </MenuItem>
-                <MenuItem Header="Edit" DataContext="{Binding Source={StaticResource ViewModelLocator}}">
-                    <MenuItem Header="Settings" IsChecked="{Binding SettingsViewModel.IsVisible, Mode=TwoWay}" IsCheckable="True"/>
-                </MenuItem>
-                <MenuItem Header="Tools" DataContext="{Binding Source={StaticResource ViewModelLocator}}">
-                    <MenuItem Header="Cheat Browser" IsChecked="{Binding CheatBrowserViewModel.IsVisible, Mode=TwoWay}" IsCheckable="True"/>
-                    <MenuItem Header="Process Selector" IsChecked="{Binding ProcessSelectorViewModel.IsVisible, Mode=TwoWay}" IsCheckable="True"/>
-                    <MenuItem Header="Project Explorer" IsChecked="{Binding ProjectExplorerViewModel.IsVisible, Mode=TwoWay}" IsCheckable="True"/>
-                    <MenuItem Header="Scans">
-                        <MenuItem Header="Change Counter" IsChecked="{Binding ChangeCounterViewModel.IsVisible, Mode=TwoWay}" IsCheckable="True"/>
-                        <MenuItem Header="Manual Scanner" IsChecked="{Binding ManualScannerViewModel.IsVisible, Mode=TwoWay}" IsCheckable="True"/>
-                        <MenuItem Header="Label Thresholder" IsChecked="{Binding LabelThresholderViewModel.IsVisible, Mode=TwoWay}" IsCheckable="True"/>
-                    </MenuItem>
-                    <MenuItem Header="Property Viewer" IsChecked="{Binding PropertyViewerViewModel.IsVisible, Mode=TwoWay}" IsCheckable="True"/>
-                    <MenuItem Header="Results" IsChecked="{Binding ScanResultsViewModel.IsVisible, Mode=TwoWay}" IsCheckable="True"/>
-                    <MenuItem Header="Snapshot Manager" IsChecked="{Binding SnapshotManagerViewModel.IsVisible, Mode=TwoWay}" IsCheckable="True"/>
-                    <MenuItem Header=".Net Explorer" IsChecked="{Binding DotNetExplorerViewModel.IsVisible, Mode=TwoWay}" IsCheckable="True"/>
-                </MenuItem>
-            </Menu>
-        </Grid>
+		<Grid.RowDefinitions>
+			<!-- Menu Bar Row -->
+			<RowDefinition Height="Auto"/>
+			<!-- Button Menu Bar Row -->
+			<RowDefinition Height="Auto"/>
+			<!-- Docking Panel Row -->
+			<RowDefinition Height="*"/>
+		</Grid.RowDefinitions>
 
-        <!-- Docking Panel AnchorablesSource="{Binding Tools}"-->
-        <avalonDock:DockingManager x:Name="dockManager"
-                                   AnchorablesSource="{Binding Tools}" 
-                                   Grid.Row="1">
-            <!-- Theme -->
-            <avalonDock:DockingManager.Theme>
-                <avalonDock:ExpressionDarkTheme/>
-            </avalonDock:DockingManager.Theme>
+		<!-- Menu Bar -->
+		<Grid Grid.Row="0" >
+			<Menu Foreground="{StaticResource AvalonDock_Expression_BaseColor2}"
+				  Background="{StaticResource AvalonDock_Expression_BaseColor4}"
+				  BorderBrush="{StaticResource AvalonDock_Expression_BaseColor4}">
+				<Menu.Resources>
+					<Style x:Key="subMenuStyle" TargetType="{x:Type MenuItem}">
+						<Setter Property="Foreground" Value="{StaticResource AvalonDock_Expression_BaseColor2}"></Setter>
+						<Setter Property="Background" Value="{StaticResource AvalonDock_Expression_BaseColor4}"></Setter>
+						<Setter Property="BorderBrush" Value="{StaticResource AvalonDock_Expression_BaseColor4}"></Setter>
+					</Style>
+				</Menu.Resources>
+				<!-- File Header -->
+				<MenuItem Header="File">
+				</MenuItem>
+				
+				<!-- Edit Header -->
+				<MenuItem BorderThickness="0" Header="Edit" DataContext="{Binding Source={StaticResource ViewModelLocator}}">
+					<MenuItem Header="Settings"
+							  IsChecked="{Binding SettingsViewModel.IsVisible, Mode=TwoWay}"
+							  IsCheckable="True"
+							  Style="{StaticResource subMenuStyle}"/>
+				</MenuItem>
+				
+				<!-- Tools Header -->
+				<MenuItem Header="Tools" DataContext="{Binding Source={StaticResource ViewModelLocator}}">
+					<MenuItem Header="Cheat Browser" 
+							  IsChecked="{Binding CheatBrowserViewModel.IsVisible, Mode=TwoWay}"
+							  IsCheckable="True"
+							  Style="{StaticResource subMenuStyle}"/>
+					<MenuItem Header="Process Selector" 
+							  IsChecked="{Binding ProcessSelectorViewModel.IsVisible, Mode=TwoWay}"
+							  IsCheckable="True"
+							  Style="{StaticResource subMenuStyle}"/>
+					<MenuItem Header="Project Explorer" 
+							  IsChecked="{Binding ProjectExplorerViewModel.IsVisible, Mode=TwoWay}" 
+							  IsCheckable="True"
+							  Style="{StaticResource subMenuStyle}"/>
+					<MenuItem Header="Scans"
+							  Style="{StaticResource subMenuStyle}">
+						<MenuItem Header="Change Counter"
+								  IsChecked="{Binding ChangeCounterViewModel.IsVisible, Mode=TwoWay}"
+								  IsCheckable="True"
+								  Style="{StaticResource subMenuStyle}"/>
+						<MenuItem Header="Manual Scanner"
+								  IsChecked="{Binding ManualScannerViewModel.IsVisible, Mode=TwoWay}"
+								  IsCheckable="True"
+								  Style="{StaticResource subMenuStyle}"/>
+						<MenuItem Header="Label Thresholder"
+								  IsChecked="{Binding LabelThresholderViewModel.IsVisible, Mode=TwoWay}" 
+								  IsCheckable="True"
+								  Style="{StaticResource subMenuStyle}"/>
+					</MenuItem>
+					<MenuItem Header="Property Viewer"
+							  IsChecked="{Binding PropertyViewerViewModel.IsVisible, Mode=TwoWay}"
+							  IsCheckable="True"
+							  Style="{StaticResource subMenuStyle}"/>
+					<MenuItem Header="Results"
+							  IsChecked="{Binding ScanResultsViewModel.IsVisible, Mode=TwoWay}"
+							  IsCheckable="True"
+							  Style="{StaticResource subMenuStyle}"/>
+					<MenuItem Header="Snapshot Manager" 
+							  IsChecked="{Binding SnapshotManagerViewModel.IsVisible, Mode=TwoWay}" 
+							  IsCheckable="True"
+							  Style="{StaticResource subMenuStyle}"/>
+					<MenuItem Header=".Net Explorer"
+							  IsChecked="{Binding DotNetExplorerViewModel.IsVisible, Mode=TwoWay}"
+							  IsCheckable="True"
+							  Style="{StaticResource subMenuStyle}"/>
+				</MenuItem>
+			</Menu>
+		</Grid>
 
-            <!-- All Dockable Windows -->
-            <avalonDock:DockingManager.LayoutItemTemplateSelector>
-                <view:ViewTemplateSelector>
-                    <!-- Process Selector -->
-                    <view:ViewTemplateSelector.ProcessSelectorViewTemplate>
-                        <DataTemplate>
-                            <view:ProcessSelector/>
-                        </DataTemplate>
-                    </view:ViewTemplateSelector.ProcessSelectorViewTemplate>
-                    <!-- Change Counter -->
-                    <view:ViewTemplateSelector.ChangeCounterViewTemplate>
-                        <DataTemplate>
-                            <view:ChangeCounter/>
-                        </DataTemplate>
-                    </view:ViewTemplateSelector.ChangeCounterViewTemplate>
-                    <!-- Label Thresholder -->
-                    <view:ViewTemplateSelector.LabelThresholderViewTemplate>
-                        <DataTemplate>
-                            <view:LabelThresholder/>
-                        </DataTemplate>
-                    </view:ViewTemplateSelector.LabelThresholderViewTemplate>
-                    <!-- Manual Scanner -->
-                    <view:ViewTemplateSelector.ManualScannerViewTemplate>
-                        <DataTemplate>
-                            <view:ManualScanner/>
-                        </DataTemplate>
-                    </view:ViewTemplateSelector.ManualScannerViewTemplate>
-                    <!-- Snapshot Manager -->
-                    <view:ViewTemplateSelector.SnapshotManagerViewTemplate>
-                        <DataTemplate>
-                            <view:SnapshotManager/>
-                        </DataTemplate>
-                    </view:ViewTemplateSelector.SnapshotManagerViewTemplate>
-                    <!-- Scan Results -->
-                    <view:ViewTemplateSelector.ScanResultsViewTemplate>
-                        <DataTemplate>
-                            <view:ScanResults/>
-                        </DataTemplate>
-                    </view:ViewTemplateSelector.ScanResultsViewTemplate>
-                    <!-- Cheat Browser -->
-                    <view:ViewTemplateSelector.CheatBrowserViewTemplate>
-                        <DataTemplate>
-                            <view:CheatBrowser/>
-                        </DataTemplate>
-                    </view:ViewTemplateSelector.CheatBrowserViewTemplate>
-                    <!-- .Net Explorer -->
-                    <view:ViewTemplateSelector.DotNetExplorerViewTemplate>
-                        <DataTemplate>
-                            <view:DotNetExplorer/>
-                        </DataTemplate>
-                    </view:ViewTemplateSelector.DotNetExplorerViewTemplate>
-                    <!-- Property Viewer -->
-                    <view:ViewTemplateSelector.PropertyViewerViewTemplate>
-                        <DataTemplate>
-                            <view:PropertyViewer/>
-                        </DataTemplate>
-                    </view:ViewTemplateSelector.PropertyViewerViewTemplate>
-                    <!-- Settings -->
-                    <view:ViewTemplateSelector.SettingsViewTemplate>
-                        <DataTemplate>
-                            <view:Settings/>
-                        </DataTemplate>
-                    </view:ViewTemplateSelector.SettingsViewTemplate>
-                    <!-- Project Explorer -->
-                    <view:ViewTemplateSelector.ProjectExplorerViewTemplate>
-                        <DataTemplate>
-                            <view:ProjectExplorer/>
-                        </DataTemplate>
-                    </view:ViewTemplateSelector.ProjectExplorerViewTemplate>
-                </view:ViewTemplateSelector>
-            </avalonDock:DockingManager.LayoutItemTemplateSelector>
+		<!-- Button Menu Bar -->
+		<WrapPanel Grid.Row="1"  Background="{StaticResource AvalonDock_Expression_BaseColor4}">
+			<Menu Background="Transparent" Padding="4">
+				<MenuItem Style="{StaticResource DropDownAutoClose}"
+                          BorderThickness="0">
+					<MenuItem.Header>
+                        <Image Source="pack://application:,,,/Ana;component/Content/Icons/SelectProcess.png"
+                               Width="16"
+                               Height="16"/>
+					</MenuItem.Header>
+				</MenuItem>
+			</Menu>
+		</WrapPanel>
 
-            <!-- Container Style -->
-            <avalonDock:DockingManager.LayoutItemContainerStyleSelector>
-                <local:PanesStyleSelector>
-                    <!-- General Docking Tools Style -->
-                    <local:PanesStyleSelector.ToolStyle>
-                        <Style TargetType="{x:Type avalonDock:LayoutAnchorableItem}">
-                            <Setter Property="Title" Value="{Binding Model.Title}"/>
-                            <Setter Property="IconSource" Value="{Binding Model.IconSource}"/>
-                            <Setter Property="Visibility" Value="{Binding Model.IsVisible, Mode=TwoWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter={x:Static Visibility.Hidden}}"/>
-                            <Setter Property="ContentId" Value="{Binding Model.ContentId}"/>
-                            <Setter Property="IsSelected" Value="{Binding Model.IsSelected, Mode=TwoWay}"/>
-                            <Setter Property="IsActive" Value="{Binding Model.IsActive, Mode=TwoWay}"/>
-                        </Style>
-                    </local:PanesStyleSelector.ToolStyle>
-                </local:PanesStyleSelector>
-            </avalonDock:DockingManager.LayoutItemContainerStyleSelector>
+		<!-- Docking Panel AnchorablesSource="{Binding Tools}"-->
+		<avalonDock:DockingManager x:Name="dockManager"
+								   AnchorablesSource="{Binding Tools}" 
+								   Grid.Row="2">
+			<!-- Theme -->
+			<avalonDock:DockingManager.Theme>
+				<avalonDock:ExpressionDarkTheme/>
+			</avalonDock:DockingManager.Theme>
 
-            <!-- Layout Style -->
-            <avalonDock:LayoutRoot>
-                <!-- Docking Group for All Windows -->
-                <avalonDock:LayoutPanel>
-                    <avalonDock:LayoutAnchorablePaneGroup/>
-                </avalonDock:LayoutPanel>  
-            </avalonDock:LayoutRoot>
-        </avalonDock:DockingManager>
-    </Grid>
+			<!-- All Dockable Windows -->
+			<avalonDock:DockingManager.LayoutItemTemplateSelector>
+				<view:ViewTemplateSelector>
+					<!-- Process Selector -->
+					<view:ViewTemplateSelector.ProcessSelectorViewTemplate>
+						<DataTemplate>
+							<view:ProcessSelector/>
+						</DataTemplate>
+					</view:ViewTemplateSelector.ProcessSelectorViewTemplate>
+					<!-- Change Counter -->
+					<view:ViewTemplateSelector.ChangeCounterViewTemplate>
+						<DataTemplate>
+							<view:ChangeCounter/>
+						</DataTemplate>
+					</view:ViewTemplateSelector.ChangeCounterViewTemplate>
+					<!-- Label Thresholder -->
+					<view:ViewTemplateSelector.LabelThresholderViewTemplate>
+						<DataTemplate>
+							<view:LabelThresholder/>
+						</DataTemplate>
+					</view:ViewTemplateSelector.LabelThresholderViewTemplate>
+					<!-- Manual Scanner -->
+					<view:ViewTemplateSelector.ManualScannerViewTemplate>
+						<DataTemplate>
+							<view:ManualScanner/>
+						</DataTemplate>
+					</view:ViewTemplateSelector.ManualScannerViewTemplate>
+					<!-- Snapshot Manager -->
+					<view:ViewTemplateSelector.SnapshotManagerViewTemplate>
+						<DataTemplate>
+							<view:SnapshotManager/>
+						</DataTemplate>
+					</view:ViewTemplateSelector.SnapshotManagerViewTemplate>
+					<!-- Scan Results -->
+					<view:ViewTemplateSelector.ScanResultsViewTemplate>
+						<DataTemplate>
+							<view:ScanResults/>
+						</DataTemplate>
+					</view:ViewTemplateSelector.ScanResultsViewTemplate>
+					<!-- Cheat Browser -->
+					<view:ViewTemplateSelector.CheatBrowserViewTemplate>
+						<DataTemplate>
+							<view:CheatBrowser/>
+						</DataTemplate>
+					</view:ViewTemplateSelector.CheatBrowserViewTemplate>
+					<!-- .Net Explorer -->
+					<view:ViewTemplateSelector.DotNetExplorerViewTemplate>
+						<DataTemplate>
+							<view:DotNetExplorer/>
+						</DataTemplate>
+					</view:ViewTemplateSelector.DotNetExplorerViewTemplate>
+					<!-- Property Viewer -->
+					<view:ViewTemplateSelector.PropertyViewerViewTemplate>
+						<DataTemplate>
+							<view:PropertyViewer/>
+						</DataTemplate>
+					</view:ViewTemplateSelector.PropertyViewerViewTemplate>
+					<!-- Settings -->
+					<view:ViewTemplateSelector.SettingsViewTemplate>
+						<DataTemplate>
+							<view:Settings/>
+						</DataTemplate>
+					</view:ViewTemplateSelector.SettingsViewTemplate>
+					<!-- Project Explorer -->
+					<view:ViewTemplateSelector.ProjectExplorerViewTemplate>
+						<DataTemplate>
+							<view:ProjectExplorer/>
+						</DataTemplate>
+					</view:ViewTemplateSelector.ProjectExplorerViewTemplate>
+				</view:ViewTemplateSelector>
+			</avalonDock:DockingManager.LayoutItemTemplateSelector>
+
+			<!-- Container Style -->
+			<avalonDock:DockingManager.LayoutItemContainerStyleSelector>
+				<local:PanesStyleSelector>
+					<!-- General Docking Tools Style -->
+					<local:PanesStyleSelector.ToolStyle>
+						<Style TargetType="{x:Type avalonDock:LayoutAnchorableItem}">
+							<Setter Property="Title" Value="{Binding Model.Title}"/>
+							<Setter Property="IconSource" Value="{Binding Model.IconSource}"/>
+							<Setter Property="Visibility" Value="{Binding Model.IsVisible, Mode=TwoWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter={x:Static Visibility.Hidden}}"/>
+							<Setter Property="ContentId" Value="{Binding Model.ContentId}"/>
+							<Setter Property="IsSelected" Value="{Binding Model.IsSelected, Mode=TwoWay}"/>
+							<Setter Property="IsActive" Value="{Binding Model.IsActive, Mode=TwoWay}"/>
+						</Style>
+					</local:PanesStyleSelector.ToolStyle>
+				</local:PanesStyleSelector>
+			</avalonDock:DockingManager.LayoutItemContainerStyleSelector>
+
+			<!-- Layout Style -->
+			<avalonDock:LayoutRoot>
+				<!-- Docking Group for All Windows -->
+				<avalonDock:LayoutPanel>
+					<avalonDock:LayoutAnchorablePaneGroup/>
+				</avalonDock:LayoutPanel>  
+			</avalonDock:LayoutRoot>
+		</avalonDock:DockingManager>
+	</Grid>
 </Window>

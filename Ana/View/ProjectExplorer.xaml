@@ -20,34 +20,29 @@
 			<RowDefinition Height="16"/>
 			<RowDefinition/>
 		</Grid.RowDefinitions>
-		<WrapPanel Grid.Row="0"  Background="{StaticResource AvalonDock_Expression_BaseColor1}">
-			<WrapPanel.Resources>
-				<ImageBrush x:Key="iconBrush" Stretch="Uniform" AlignmentX="Left" ImageSource="pack://application:,,,/Ana;component/Content/Icons/Increased.png"/>
-			</WrapPanel.Resources>
-			<Menu Background="Transparent">
-				<MenuItem Style="{StaticResource DropDownAutoClose}" BorderThickness="0" Icon="pack://application:,,,/Ana;component/Content/Icons/Open.png" >
-					<MenuItem.Header>
-						<Border>
-							<StackPanel Orientation="Horizontal">
-								<Image Width="16" Height="16" Source="pack://application:,,,/Ana;component/Content/Icons/Increased.png"/>
-								<Grid x:Name="arrowGlyph"
+        <WrapPanel Grid.Row="0"  Background="{StaticResource AvalonDock_Expression_BaseColor1}">
+            <Menu Background="Transparent">
+				<MenuItem Style="{StaticResource DropDownAutoClose}" BorderThickness="0">
+                    <MenuItem.Header>
+                        <StackPanel Orientation="Horizontal">
+                            <Image Width="16" Height="16" Source="pack://application:,,,/Ana;component/Content/Icons/Increased.png"/>
+                            <Grid x:Name="arrowGlyph"
 									IsHitTestVisible="False"
 									Margin="4,3,4,3"
 									Grid.Column="1">
-									<Path x:Name="Arrow"
+                                <Path x:Name="Arrow"
 									   Width="7"
 									   Height="4"
 									   Data="M 0,1 C0,1 0,0 0,0 0,0 3,0 3,0 3,0 3,1 3,1 3,1 4,1 4,1 4,1 4,0 4,0 4,0 7,0 7,0 7,0 7,1 7,1 7,1 6,1 6,1 6,1 6,2 6,2 6,2 5,2 5,2 5,2 5,3 5,3 5,3 4,3 4,3 4,3 4,4 4,4 4,4 3,4 3,4 3,4 3,3 3,3 3,3 2,3 2,3 2,3 2,2 2,2 2,2 1,2 1,2 1,2 1,1 1,1 1,1 0,1 0,1 z"
 									   Fill="White" />
-								</Grid>
-							</StackPanel>
-						</Border>
-					</MenuItem.Header>
+                            </Grid>
+                        </StackPanel>
+                    </MenuItem.Header>
 					<MenuItem BorderBrush="{StaticResource AvalonDock_Expression_BaseColor1}"
 							  Background="{StaticResource AvalonDock_Expression_BaseColor1}"
 							  Command="{Binding AddNewFolderItem}">
 						<MenuItem.Header>
-                            <WrapPanel Width="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=ActualWidth}">
+							<WrapPanel Width="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=ActualWidth}">
 								<Image Width="16" Height="16" Source="pack://application:,,,/Ana;component/Content/Icons/Open.png"/>
 								<TextBlock Text="Add Folder" Background="Transparent" Foreground="{StaticResource AvalonDock_Expression_BaseColor2}"/>
 							</WrapPanel>
@@ -57,7 +52,7 @@
 							  Background="{StaticResource AvalonDock_Expression_BaseColor1}"
 							  Command="{Binding AddNewAddressItem}">
 						<MenuItem.Header>
-                            <WrapPanel Width="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=ActualWidth}">
+							<WrapPanel Width="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=ActualWidth}">
 								<Image Width="16" Height="16" Source="pack://application:,,,/Ana;component/Content/Icons/Open.png"/>
 								<TextBlock Text="Add Address" Background="Transparent" Foreground="{StaticResource AvalonDock_Expression_BaseColor2}"/>
 							</WrapPanel>

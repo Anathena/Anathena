@@ -27,9 +27,10 @@
         }
 
         /// <summary>
-        /// Gets the remote process handle opened with all rights
+        /// Saves a reference to the system process running. This is an optimization to minimize accesses
+        /// to the Processes component of the Engine
         /// </summary>
-        public IntPtr Handle { get; private set; }
+        public Process SystemProcess { get; private set; }
 
         /// <summary>
         /// Recieve a process update. This is an optimization over grabbing the process from the <see cref="IProcesses"/> component
@@ -38,9 +39,7 @@
         /// <param name="process">The newly selected process</param>
         public void Update(NormalizedProcess process)
         {
-            Process systemProcess = Process.GetProcessById(process.ProcessId);
-
-            this.Handle = systemProcess == null ? IntPtr.Zero : systemProcess.Handle;
+            this.SystemProcess = Process.GetProcessById(process.ProcessId);
         }
 
         #region Read
@@ -124,7 +123,7 @@
         /// <returns>The array of bytes</returns>
         public Byte[] ReadBytes(IntPtr address, Int32 count, out Boolean success)
         {
-            return Memory.ReadBytes(this.Handle, address, count, out success);
+            return Memory.ReadBytes(SystemProcess == null ? IntPtr.Zero : SystemProcess.Handle, address, count, out success);
         }
 
         /// <summary>
@@ -251,7 +250,7 @@
         public void WriteBytes(IntPtr address, Byte[] byteArray)
         {
             // Write the byte array
-            Memory.WriteBytes(this.Handle, address, byteArray);
+            Memory.WriteBytes(SystemProcess == null ? IntPtr.Zero : SystemProcess.Handle, address, byteArray);
         }
 
         /// <summary>
@@ -291,7 +290,7 @@
         /// <returns>A pointer to the location of the allocated memory</returns>
         public IntPtr AllocateMemory(Int32 size)
         {
-            return Memory.Allocate(this.Handle, size);
+            return Memory.Allocate(SystemProcess == null ? IntPtr.Zero : SystemProcess.Handle, size);
         }
 
         /// <summary>
@@ -300,7 +299,7 @@
         /// <param name="address">The address to perform the region wide deallocation</param>
         public void DeallocateMemory(IntPtr address)
         {
-            Memory.Free(this.Handle, address);
+            Memory.Free(SystemProcess == null ? IntPtr.Zero : SystemProcess.Handle, address);
         }
 
         /// <summary>
@@ -362,7 +361,7 @@
                 excludedFlags |= MemoryProtectionFlags.ExecuteWriteCopy;
             }
 
-            return Memory.VirtualPages(this.Handle, startAddress, endAddress, requiredFlags, excludedFlags, allowedTypes)
+            return Memory.VirtualPages(SystemProcess == null ? IntPtr.Zero : SystemProcess.Handle, startAddress, endAddress, requiredFlags, excludedFlags, allowedTypes)
                 .Select(x => new NormalizedRegion(x.BaseAddress, (Int32)x.RegionSize));
         }
 
@@ -400,16 +399,14 @@
         /// <returns>The maximum usermode address possible in the target process</returns>
         public IntPtr GetMaximumUserModeAddress()
         {
-            if (IntPtr.Size == sizeof(Int32))
+            if (EngineCore.GetInstance().Processes.IsOpenedProcess32Bit())
             {
                 return unchecked((IntPtr)Int32.MaxValue);
             }
-            else if (IntPtr.Size == sizeof(Int64))
+            else
             {
                 return unchecked((IntPtr)Int64.MaxValue);
             }
-
-            throw new Exception("Unable to determine maximum address");
         }
 
         /// <summary>
