@@ -8,6 +8,7 @@
     using System.Collections.Generic;
     using System.IO;
     using System.Threading;
+    using System.Windows;
     using System.Windows.Input;
     using System.Xml;
     using Xceed.Wpf.AvalonDock;
@@ -40,12 +41,30 @@
         private MainViewModel()
         {
             this.tools = new HashSet<ToolViewModel>();
+            this.Close = new RelayCommand<Window>((window) => this.CloseExecute(window), (window) => true);
+            this.Maximize = new RelayCommand<Window>((window) => this.MaximizeExecute(window), (window) => true);
+            this.Minimize = new RelayCommand<Window>((window) => this.MinimizeExecute(window), (window) => true);
             this.LoadLayout = new RelayCommand<DockingManager>((dockingManager) => this.LoadLayoutExecute(dockingManager), (dockingManager) => true);
             this.SaveLayout = new RelayCommand<DockingManager>((dockingManager) => this.SaveLayoutExecute(dockingManager), (dockingManager) => true);
             this.OpenProject = new RelayCommand(() => this.OpenProjectExecute(), () => true);
 
             SnapshotPrefilterFactory.GetSnapshotPrefilter(typeof(ShallowPointerPrefilter)).BeginPrefilter();
         }
+
+        /// <summary>
+        /// Gets the command to close the main window
+        /// </summary>
+        public ICommand Close { get; private set; }
+
+        /// <summary>
+        /// Gets the command to maximize the main window
+        /// </summary>
+        public ICommand Maximize { get; private set; }
+
+        /// <summary>
+        /// Gets the command to minimize the main window
+        /// </summary>
+        public ICommand Minimize { get; private set; }
 
         /// <summary>
         /// Gets the command to open the current docking layout
@@ -112,6 +131,30 @@
         }
 
         /// <summary>
+        /// Closes the main window
+        /// </summary>
+        private void CloseExecute(Window window)
+        {
+            window.Close();
+        }
+
+        /// <summary>
+        /// Maximizes the main window
+        /// </summary>
+        private void MaximizeExecute(Window window)
+        {
+            window.WindowState = WindowState.Maximized;
+        }
+
+        /// <summary>
+        /// Minimizes the main window
+        /// </summary>
+        private void MinimizeExecute(Window window)
+        {
+            window.WindowState = WindowState.Minimized;
+        }
+
+        /// <summary>
         /// Loads and deserializes the saved layout from disk
         /// </summary>
         private void LoadLayoutExecute(DockingManager dockManager)
@@ -144,7 +187,7 @@
         }
 
         /// <summary>
-        /// Method to open a project from disk
+        /// Opens a project from disk
         /// </summary>
         private void OpenProjectExecute()
         {
