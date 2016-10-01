@@ -128,16 +128,19 @@ namespace Ana.Source.LuaEngine.Memory
             return EngineCore.Assembler.Assemble(EngineCore.Memory.IsProcess32Bit(), Assembly, Address.ToIntPtr());
         }
 
-        public UInt64 GetModuleAddress(String ModuleName)
+        public UInt64 GetModuleAddress(String moduleName)
         {
             this.PrintDebugTag();
 
+            moduleName = moduleName?.Split('.')?.First();
+
             UInt64 Address = 0;
-            foreach (NormalizedModule Module in EngineCore.Memory.GetModules())
+            foreach (NormalizedModule module in EngineCore.Memory.GetModules())
             {
-                if (Module.Name.Equals(ModuleName, StringComparison.OrdinalIgnoreCase))
+                String targetModuleName = module?.Name?.Split('.')?.First();
+                if (targetModuleName.Equals(moduleName, StringComparison.OrdinalIgnoreCase))
                 {
-                    Address = Module.BaseAddress.ToUInt64();
+                    Address = module.BaseAddress.ToUInt64();
                     break;
                 }
             }

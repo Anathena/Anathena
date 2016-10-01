@@ -1,7 +1,8 @@
 ﻿namespace Ana.Source.Docking
 {
+    using Mvvm.Command;
     using System;
-
+    using System.Windows.Input;
     /// <summary>
     /// Generic view model for all tool panes
     /// </summary>
@@ -19,7 +20,13 @@
         public ToolViewModel(String title)
         {
             this.Title = title;
+            this.ToggleVisibility = new RelayCommand(() => this.ToggleVisibilityExecute(), () => true);
         }
+
+        /// <summary>
+        /// Gets a command that toggles the visibility of this tool
+        /// </summary>
+        public ICommand ToggleVisibility { get; private set; }
 
         /// <summary>
         /// Gets or sets a value indicating whether or not the tool pane is visible
@@ -39,6 +46,14 @@
                     this.RaisePropertyChanged(nameof(this.IsVisible));
                 }
             }
+        }
+
+        /// <summary>
+        /// Toggles the visibility of this tool
+        /// </summary>
+        public void ToggleVisibilityExecute()
+        {
+            this.IsVisible = !this.IsVisible;
         }
     }
     //// End class

@@ -63,7 +63,7 @@
 							  IsChecked="{Binding CheatBrowserViewModel.IsVisible, Mode=TwoWay}"
 							  IsCheckable="True"
 							  Style="{StaticResource subMenuStyle}"/>
-					<MenuItem Header="Process Selector" 
+					<MenuItem Header="Process Selector"
 							  IsChecked="{Binding ProcessSelectorViewModel.IsVisible, Mode=TwoWay}"
 							  IsCheckable="True"
 							  Style="{StaticResource subMenuStyle}"/>
@@ -108,13 +108,47 @@
 
 		<!-- Button Menu Bar -->
 		<WrapPanel Grid.Row="1"  Background="{StaticResource AvalonDock_Expression_BaseColor4}">
-			<Menu Background="Transparent" Padding="4">
-				<MenuItem Style="{StaticResource DropDownAutoClose}"
-                          BorderThickness="0">
+			<Menu Background="Transparent" Padding="4" DataContext="{Binding Source={StaticResource ViewModelLocator}}">
+				<MenuItem Command="{Binding ProcessSelectorViewModel.ToggleVisibility}">
 					<MenuItem.Header>
-                        <Image Source="pack://application:,,,/Ana;component/Content/Icons/SelectProcess.png"
-                               Width="16"
-                               Height="16"/>
+						<Image Source="pack://application:,,,/Ana;component/Content/Icons/SelectProcess.png"
+							   Width="16"
+							   Height="16"/>
+					</MenuItem.Header>
+				</MenuItem>
+				<MenuItem>
+					<MenuItem.Header>
+						<Image Source="pack://application:,,,/Ana;component/Content/Icons/Open.png"
+							   Width="16"
+							   Height="16"/>
+					</MenuItem.Header>
+				</MenuItem>
+				<MenuItem>
+					<MenuItem.Header>
+						<Image Source="pack://application:,,,/Ana;component/Content/Icons/Save.png"
+							   Width="16"
+							   Height="16"/>
+					</MenuItem.Header>
+				</MenuItem>
+				<MenuItem>
+					<MenuItem.Header>
+						<Image Source="pack://application:,,,/Ana;component/Content/Icons/New.png"
+							   Width="16"
+							   Height="16"/>
+					</MenuItem.Header>
+				</MenuItem>
+				<MenuItem>
+					<MenuItem.Header>
+						<Image Source="pack://application:,,,/Ana;component/Content/Icons/CollectValues.png"
+							   Width="16"
+							   Height="16"/>
+					</MenuItem.Header>
+				</MenuItem>
+				<MenuItem>
+					<MenuItem.Header>
+						<Image Source="pack://application:,,,/Ana;component/Content/Icons/Undo.png"
+							   Width="16"
+							   Height="16"/>
 					</MenuItem.Header>
 				</MenuItem>
 			</Menu>

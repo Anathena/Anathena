@@ -1,5 +1,4 @@
-﻿using Ana.Source.Engine;
-using Ana.Source.Utils;
+﻿using Ana.Source.Utils;
 using Ana.Source.Utils.Extensions;
 using System;
 using System.Collections;
@@ -15,8 +14,6 @@ namespace Ana.Source.Snapshots
     /// </summary>
     abstract class Snapshot : IEnumerable
     {
-        protected EngineCore EngineCore;
-
         protected IEnumerable<SnapshotRegion> SnapshotRegions;
         protected List<SnapshotRegion> DeallocatedRegions;
         protected Object DeallocatedRegionLock;
@@ -45,16 +42,6 @@ namespace Ana.Source.Snapshots
                 }
                 return null;
             }
-        }
-
-        public void UpdateEngineCore(EngineCore EngineCore)
-        {
-            this.EngineCore = EngineCore;
-        }
-
-        public EngineCore GetEngineCore()
-        {
-            return EngineCore;
         }
 
         public abstract void ReadAllSnapshotMemory();
