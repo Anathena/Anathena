@@ -14,6 +14,49 @@
     mc:Ignorable="d"
     d:DesignHeight="300" d:DesignWidth="300">
     <Grid Background="{StaticResource AvalonDock_Expression_BaseColor3}">
-       
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Border Grid.Row="0"
+                Padding="8 4 8 4"
+                Background="{StaticResource AvalonDock_Expression_BaseColor4}">
+            <WrapPanel>
+                <TextBlock Foreground="{StaticResource AvalonDock_Expression_BaseColor2}"
+                           Padding="0 0 4 0"
+                           Text="Address Count:">
+                </TextBlock>
+                <TextBlock Foreground="{StaticResource AvalonDock_Expression_BaseColor2}"
+                           Text="0">
+                </TextBlock>
+            </WrapPanel>
+        </Border>
+
+        <ListView Grid.Row="1"
+                  ItemsSource="{Binding ProcessList}"
+                  Background="{StaticResource AvalonDock_Expression_BaseColor3}"
+                  BorderThickness="0">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <Grid>
+                        <Grid.InputBindings>
+                            <MouseBinding Gesture="LeftDoubleClick"
+                                          Command="{Binding DataContext.SelectProcessCommand, ElementName=AnaProcessSelector}"
+                                          CommandParameter="{Binding .}"/>
+                        </Grid.InputBindings>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0">
+                            
+                        </TextBlock>
+                        <TextBlock Grid.Column="1">
+                            
+                        </TextBlock>
+                    </Grid>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
     </Grid>
 </UserControl>

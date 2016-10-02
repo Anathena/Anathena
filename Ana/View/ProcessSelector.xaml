@@ -14,18 +14,24 @@
     mc:Ignorable="d"
     d:DesignHeight="300" d:DesignWidth="300">
     <Grid>
-        <ListView ItemsSource="{Binding ProcessList}" Background="{StaticResource AvalonDock_Expression_BaseColor3}" BorderThickness="0">
+        <ListView ItemsSource="{Binding ProcessList}"
+                  Background="{StaticResource AvalonDock_Expression_BaseColor3}"
+                  BorderThickness="0">
             <ListView.Resources>
                 <converters:IconConverter x:Key="IconConverter"/>
                 <DataTemplate x:Key="Template">
-                    <Image Source="{Binding Path=Icon, Converter={StaticResource IconConverter}}" Width="16" Height="16"/>
+                    <Image Source="{Binding Path=Icon, Converter={StaticResource IconConverter}}"
+                           Width="16"
+                           Height="16"/>
                 </DataTemplate>
             </ListView.Resources>
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <Grid>
                         <Grid.InputBindings>
-                            <MouseBinding Gesture="LeftDoubleClick" Command="{Binding DataContext.SelectProcessCommand, ElementName=AnaProcessSelector}" CommandParameter="{Binding .}"/>
+                            <MouseBinding Gesture="LeftDoubleClick"
+                                          Command="{Binding DataContext.SelectProcessCommand, ElementName=AnaProcessSelector}"
+                                          CommandParameter="{Binding .}"/>
                         </Grid.InputBindings>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition/>

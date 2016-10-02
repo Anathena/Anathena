@@ -13,7 +13,7 @@
 		xmlns:view="clr-namespace:Ana.View"
 		WindowStyle="None"
 		AllowsTransparency="False"
-		Title="Anathena" Height="640" Width="512">
+		Title="Anathena" Height="640" Width="768">
 	<Window.Resources>
 		<avalonDock:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
 	</Window.Resources>
@@ -318,10 +318,8 @@
 			<avalonDock:LayoutRoot>
 				<!-- Docking Group for All Windows -->
 				<avalonDock:LayoutPanel>
-                    <avalonDock:LayoutAnchorablePaneGroup>
-                        
-                    </avalonDock:LayoutAnchorablePaneGroup>
-				</avalonDock:LayoutPanel>  
+                    <avalonDock:LayoutAnchorablePaneGroup/>
+                </avalonDock:LayoutPanel>  
 			</avalonDock:LayoutRoot>
 		</avalonDock:DockingManager>
 	</Grid>

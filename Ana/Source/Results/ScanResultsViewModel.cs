@@ -1,8 +1,6 @@
 ﻿namespace Ana.Source.ScanResults
 {
     using Docking;
-    using Engine;
-    using Engine.Processes;
     using Main;
     using Mvvm.Command;
     using System;
@@ -33,27 +31,56 @@
         private ScanResultsViewModel() : base("Scan Results")
         {
             this.ContentId = ToolContentId;
-            this.SelectProcessCommand = new RelayCommand<NormalizedProcess>((process) => this.SelectProcess(process), (process) => true);
+            this.AddAddressCommand = new RelayCommand<Object>((address) => this.AddAddress(address), (address) => true);
             this.IsVisible = true;
 
             MainViewModel.GetInstance().Subscribe(this);
         }
 
         /// <summary>
-        /// Gets the command to select a target process
+        /// Gets the command to scroll down the view
         /// </summary>
-        public ICommand SelectProcessCommand { get; private set; }
+        public ICommand ScrollDownViewCommand { get; private set; }
 
         /// <summary>
-        /// Gets the processes running on the machine
+        /// Gets the command to scroll up the view
         /// </summary>
-        public IEnumerable<NormalizedProcess> ProcessList
-        {
-            get
-            {
-                return EngineCore.GetInstance().Processes.GetProcesses();
-            }
-        }
+        public ICommand ScrollUpViewCommand { get; private set; }
+
+        /// <summary>
+        /// Gets the command to select a target process
+        /// </summary>
+        public ICommand AddAddressCommand { get; private set; }
+
+        /// <summary>
+        /// The total number of addresses found
+        /// </summary>
+        public UInt64 AddressCount { get; set; }
+
+        /// <summary>
+        /// Gets the addresses
+        /// </summary>
+        public IEnumerable<Object> Addresses { get; private set; }
+
+        /// <summary>
+        /// Gets the labels for the addresses
+        /// </summary>
+        public IEnumerable<Object> AddressLabels { get; private set; }
+
+        /// <summary>
+        /// Gets the values of the addresses
+        /// </summary>
+        public IEnumerable<Object> AddressValues { get; private set; }
+
+        /// <summary>
+        /// Gets the previous values of the addresses
+        /// </summary>
+        public IEnumerable<Object> AddressPreviousValues { get; private set; }
+
+        /// <summary>
+        /// Gets or sets the view window into what addresses are passed to the view
+        /// </summary>
+        private UInt64 ViewWindowStart { get; set; }
 
         /// <summary>
         /// Gets a singleton instance of the <see cref="ScanResultsViewModel"/> class
@@ -65,19 +92,10 @@
         }
 
         /// <summary>
-        /// Makes the target process selection
+        /// Adds the given address to the table
         /// </summary>
-        /// <param name="process">The process being selected</param>
-        private void SelectProcess(NormalizedProcess process)
+        private void AddAddress(Object address)
         {
-            if (process == null)
-            {
-                return;
-            }
-
-            EngineCore.GetInstance().Processes.OpenProcess(process);
-
-            this.IsVisible = false;
         }
     }
     //// End class
