@@ -132,11 +132,15 @@
 							  Style="{StaticResource subMenuStyle}"/>
 					<MenuItem Header="Scans"
 							  Style="{StaticResource subMenuStyle}">
-						<MenuItem Header="Change Counter"
+                        <MenuItem Header="Change Counter"
 								  IsChecked="{Binding ChangeCounterViewModel.IsVisible, Mode=TwoWay}"
 								  IsCheckable="True"
 								  Style="{StaticResource subMenuStyle}"/>
-						<MenuItem Header="Manual Scanner"
+                        <MenuItem Header="Input Correlator"
+								  IsChecked="{Binding InputCorrelatorViewModel.IsVisible, Mode=TwoWay}"
+								  IsCheckable="True"
+								  Style="{StaticResource subMenuStyle}"/>
+                        <MenuItem Header="Manual Scanner"
 								  IsChecked="{Binding ManualScannerViewModel.IsVisible, Mode=TwoWay}"
 								  IsCheckable="True"
 								  Style="{StaticResource subMenuStyle}"/>
@@ -166,8 +170,11 @@
 		</Grid>
 
 		<!-- Button Menu Bar -->
-		<WrapPanel Grid.Row="2"  Background="{StaticResource AvalonDock_Expression_BaseColor4}">
-			<Menu Background="Transparent" Padding="4" DataContext="{Binding Source={StaticResource ViewModelLocator}}">
+		<WrapPanel Grid.Row="2"
+				   Background="{StaticResource AvalonDock_Expression_BaseColor4}">
+			<Menu Background="Transparent"
+				  Padding="4"
+				  DataContext="{Binding Source={StaticResource ViewModelLocator}}">
 				<MenuItem Command="{Binding ProcessSelectorViewModel.ToggleVisibility}">
 					<MenuItem.Header>
 						<Image Source="pack://application:,,,/Ana;component/Content/Icons/SelectProcess.png"
@@ -199,8 +206,8 @@
 					</MenuItem.Header>
 				</MenuItem>
 				<Separator Style="{DynamicResource VerticalSeparator}" />
-                <MenuItem Command="{Binding ValueCollectorViewModel.CollectValuesCommand}">
-                    <MenuItem.Header>
+				<MenuItem Command="{Binding ValueCollectorViewModel.CollectValuesCommand}">
+					<MenuItem.Header>
 						<Image Source="pack://application:,,,/Ana;component/Content/Icons/CollectValues.png"
 							   Width="16"
 							   Height="16"/>
@@ -233,14 +240,20 @@
 						<DataTemplate>
 							<view:ProcessSelector/>
 						</DataTemplate>
-					</view:ViewTemplateSelector.ProcessSelectorViewTemplate>
-					<!-- Change Counter -->
-					<view:ViewTemplateSelector.ChangeCounterViewTemplate>
-						<DataTemplate>
-							<view:ChangeCounter/>
-						</DataTemplate>
-					</view:ViewTemplateSelector.ChangeCounterViewTemplate>
-					<!-- Label Thresholder -->
+                    </view:ViewTemplateSelector.ProcessSelectorViewTemplate>
+                    <!-- Change Counter -->
+                    <view:ViewTemplateSelector.ChangeCounterViewTemplate>
+                        <DataTemplate>
+                            <view:ChangeCounter/>
+                        </DataTemplate>
+                    </view:ViewTemplateSelector.ChangeCounterViewTemplate>
+                    <!-- Input Correlator -->
+                    <view:ViewTemplateSelector.InputCorrelatorViewTemplate>
+                        <DataTemplate>
+                            <view:InputCorrelator/>
+                        </DataTemplate>
+                    </view:ViewTemplateSelector.InputCorrelatorViewTemplate>
+                    <!-- Label Thresholder -->
 					<view:ViewTemplateSelector.LabelThresholderViewTemplate>
 						<DataTemplate>
 							<view:LabelThresholder/>
@@ -317,9 +330,7 @@
 			<!-- Layout Style -->
 			<avalonDock:LayoutRoot>
 				<!-- Docking Group for All Windows -->
-				<avalonDock:LayoutPanel>
-                    <avalonDock:LayoutAnchorablePaneGroup/>
-                </avalonDock:LayoutPanel>  
+				<avalonDock:LayoutPanel/>
 			</avalonDock:LayoutRoot>
 		</avalonDock:DockingManager>
 	</Grid>

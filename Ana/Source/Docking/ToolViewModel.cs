@@ -3,6 +3,7 @@
     using Mvvm.Command;
     using System;
     using System.Windows.Input;
+
     /// <summary>
     /// Generic view model for all tool panes
     /// </summary>

@@ -1,62 +1,81 @@
 ﻿<UserControl x:Class="Ana.View.ScanResults "
-    x:Name="AnaScanResults"
-    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             
-    DataContext="{Binding ScanResultsViewModel, Source={StaticResource ViewModelLocator}}"
-    xmlns:sys="clr-namespace:System;assembly=mscorlib"
-    xmlns:sysWindows="clr-namespace:System.Windows;assembly=PresentationCore"
-    xmlns:local="clr-namespace:Ana"
-    xmlns:converters="clr-namespace:Ana.Source.Mvvm.Converters"
-    xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
-    mc:Ignorable="d"
-    d:DesignHeight="300" d:DesignWidth="300">
-    <Grid Background="{StaticResource AvalonDock_Expression_BaseColor3}">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition/>
-        </Grid.RowDefinitions>
-        <Border Grid.Row="0"
-                Padding="8 4 8 4"
-                Background="{StaticResource AvalonDock_Expression_BaseColor4}">
-            <WrapPanel>
-                <TextBlock Foreground="{StaticResource AvalonDock_Expression_BaseColor2}"
-                           Padding="0 0 4 0"
-                           Text="Address Count:">
-                </TextBlock>
-                <TextBlock Foreground="{StaticResource AvalonDock_Expression_BaseColor2}"
-                           Text="0">
-                </TextBlock>
-            </WrapPanel>
-        </Border>
+	x:Name="AnaScanResults"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+			 
+	DataContext="{Binding ScanResultsViewModel, Source={StaticResource ViewModelLocator}}"
+	xmlns:sys="clr-namespace:System;assembly=mscorlib"
+	xmlns:sysWindows="clr-namespace:System.Windows;assembly=PresentationCore"
+	xmlns:local="clr-namespace:Ana"
+	xmlns:converters="clr-namespace:Ana.Source.Mvvm.Converters"
+	xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+	mc:Ignorable="d"
+	d:DesignHeight="300" d:DesignWidth="300">
+	<Grid Background="{StaticResource AvalonDock_Expression_BaseColor3}">
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto"/>
+			<RowDefinition/>
+		</Grid.RowDefinitions>
+		<Border Grid.Row="0"
+				Padding="8 4 8 4"
+				Background="{StaticResource AvalonDock_Expression_BaseColor4}">
+			<WrapPanel>
+				<Menu Background="Transparent"
+					  DataContext="{Binding Source={StaticResource ViewModelLocator}}">
+					<MenuItem Command="{Binding ProcessSelectorViewModel.ToggleVisibility}">
+						<MenuItem.Header>
+							<Image Source="pack://application:,,,/Ana;component/Content/Icons/DownArrows.png"
+							   Width="16"
+							   Height="16"/>
+						</MenuItem.Header>
+					</MenuItem>
+				</Menu>
+					<TextBlock Foreground="{StaticResource AvalonDock_Expression_BaseColor2}"
+						   Padding="4 0 4 0"
+						   Text="Address Count:">
+				</TextBlock>
+				<TextBlock Foreground="{StaticResource AvalonDock_Expression_BaseColor2}"
+						   Text="0B">
+				</TextBlock>
+				<TextBlock Foreground="{StaticResource AvalonDock_Expression_BaseColor2}"
+						   Text=" - (">
+				</TextBlock>
+				<TextBlock Foreground="{StaticResource AvalonDock_Expression_BaseColor2}"
+						   Text="0">
+				</TextBlock>
+				<TextBlock Foreground="{StaticResource AvalonDock_Expression_BaseColor2}"
+						   Text=")">
+				</TextBlock>
+			</WrapPanel>
+		</Border>
 
-        <ListView Grid.Row="1"
-                  ItemsSource="{Binding ProcessList}"
-                  Background="{StaticResource AvalonDock_Expression_BaseColor3}"
-                  BorderThickness="0">
-            <ListView.ItemTemplate>
-                <DataTemplate>
-                    <Grid>
-                        <Grid.InputBindings>
-                            <MouseBinding Gesture="LeftDoubleClick"
-                                          Command="{Binding DataContext.SelectProcessCommand, ElementName=AnaProcessSelector}"
-                                          CommandParameter="{Binding .}"/>
-                        </Grid.InputBindings>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition/>
-                            <ColumnDefinition/>
-                        </Grid.ColumnDefinitions>
-                        <TextBlock Grid.Column="0">
-                            
-                        </TextBlock>
-                        <TextBlock Grid.Column="1">
-                            
-                        </TextBlock>
-                    </Grid>
-                </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
-    </Grid>
+		<ListView Grid.Row="1"
+				  ItemsSource="{Binding ProcessList}"
+				  Background="{StaticResource AvalonDock_Expression_BaseColor3}"
+				  BorderThickness="0">
+			<ListView.ItemTemplate>
+				<DataTemplate>
+					<Grid>
+						<Grid.InputBindings>
+							<MouseBinding Gesture="LeftDoubleClick"
+										  Command="{Binding DataContext.SelectProcessCommand, ElementName=AnaProcessSelector}"
+										  CommandParameter="{Binding .}"/>
+						</Grid.InputBindings>
+						<Grid.ColumnDefinitions>
+							<ColumnDefinition/>
+							<ColumnDefinition/>
+						</Grid.ColumnDefinitions>
+						<TextBlock Grid.Column="0">
+							
+						</TextBlock>
+						<TextBlock Grid.Column="1">
+							
+						</TextBlock>
+					</Grid>
+				</DataTemplate>
+			</ListView.ItemTemplate>
+		</ListView>
+	</Grid>
 </UserControl>

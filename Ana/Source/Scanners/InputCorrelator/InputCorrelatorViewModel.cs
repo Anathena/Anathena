@@ -6,26 +6,26 @@
     using System.Threading;
 
     /// <summary>
-    /// View model for the Change Counter
+    /// View model for the Input Correlator
     /// </summary>
-    internal class ChangeCounterViewModel : ToolViewModel
+    internal class InputCorrelatorViewModel : ToolViewModel
     {
         /// <summary>
         /// The content id for the docking library associated with this view model
         /// </summary>
-        public const String ToolContentId = nameof(ChangeCounterViewModel);
+        public const String ToolContentId = nameof(InputCorrelatorViewModel);
 
         /// <summary>
-        /// Singleton instance of the <see cref="ChangeCounterViewModel" /> class
+        /// Singleton instance of the <see cref="InputCorrelatorViewModel" /> class
         /// </summary>
-        private static Lazy<ChangeCounterViewModel> changeCounterViewModelInstance = new Lazy<ChangeCounterViewModel>(
-                () => { return new ChangeCounterViewModel(); },
+        private static Lazy<InputCorrelatorViewModel> inputCorrelatorViewModelInstance = new Lazy<InputCorrelatorViewModel>(
+                () => { return new InputCorrelatorViewModel(); },
                 LazyThreadSafetyMode.PublicationOnly);
 
         /// <summary>
-        /// Prevents a default instance of the <see cref="ChangeCounterViewModel" /> class from being created
+        /// Prevents a default instance of the <see cref="InputCorrelatorViewModel" /> class from being created
         /// </summary>
-        private ChangeCounterViewModel() : base("Change Counter")
+        private InputCorrelatorViewModel() : base("Input Correlator")
         {
             this.ContentId = ToolContentId;
 
@@ -36,9 +36,9 @@
         /// Gets a singleton instance of the <see cref="ChangeCounterViewModel"/> class
         /// </summary>
         /// <returns>A singleton instance of the class</returns>
-        public static ChangeCounterViewModel GetInstance()
+        public static InputCorrelatorViewModel GetInstance()
         {
-            return changeCounterViewModelInstance.Value;
+            return inputCorrelatorViewModelInstance.Value;
         }
     }
     //// End class

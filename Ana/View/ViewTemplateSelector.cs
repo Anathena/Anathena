@@ -38,6 +38,11 @@
         public DataTemplate ChangeCounterViewTemplate { get; set; }
 
         /// <summary>
+        /// Gets or sets the template for the Input Correlator
+        /// </summary>
+        public DataTemplate InputCorrelatorViewTemplate { get; set; }
+
+        /// <summary>
         /// Gets or sets the template for the Label Thresholder
         /// </summary>
         public DataTemplate LabelThresholderViewTemplate { get; set; }
@@ -97,6 +102,10 @@
             else if (item is ChangeCounterViewModel)
             {
                 return this.ChangeCounterViewTemplate;
+            }
+            else if (item is InputCorrelatorViewModel)
+            {
+                return this.InputCorrelatorViewTemplate;
             }
             else if (item is LabelThresholderViewModel)
             {

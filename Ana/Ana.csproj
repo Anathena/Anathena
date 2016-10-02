@@ -164,6 +164,7 @@
     <Compile Include="Source\Results\ScanResultsViewModel.cs" />
     <Compile Include="Source\Scanners\ChangeCounter\ChangeCounter.cs" />
     <Compile Include="Source\Scanners\ChangeCounter\ChangeCouinterViewModel.cs" />
+    <Compile Include="Source\Scanners\InputCorrelator\InputCorrelatorViewModel.cs" />
     <Compile Include="Source\Scanners\ScannerBase.cs" />
     <Compile Include="Source\Scanners\LabelThresholder\LabelThresholderViewModel.cs" />
     <Compile Include="Source\Scanners\LabelThresholder\LabelThresholder.cs" />
@@ -208,6 +209,9 @@
     <Compile Include="Source\Utils\TimedLock.cs" />
     <Compile Include="Source\Utils\Validation\CheckSyntax.cs" />
     <Compile Include="Source\Utils\Validation\Conversions.cs" />
+    <Compile Include="View\InputCorrelator.xaml.cs">
+      <DependentUpon>InputCorrelator.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\ScanResults.xaml.cs">
       <DependentUpon>ScanResults.xaml</DependentUpon>
     </Compile>
@@ -287,6 +291,10 @@
     <Compile Include="Source\Main\MainViewModel.cs">
       <ExcludeFromStyleCop>False</ExcludeFromStyleCop>
     </Compile>
+    <Page Include="View\InputCorrelator.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="View\Style\FlatComboBox.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
