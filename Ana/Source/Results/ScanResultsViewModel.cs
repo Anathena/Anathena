@@ -3,6 +3,7 @@
     using Docking;
     using Main;
     using Mvvm.Command;
+    using Snapshots;
     using System;
     using System.Collections.Generic;
     using System.Threading;
@@ -34,6 +35,10 @@
             this.AddAddressCommand = new RelayCommand<Object>((address) => this.AddAddress(address), (address) => true);
             this.IsVisible = true;
 
+            // Temp debug
+            SnapshotRegion<Null> k = new SnapshotRegion<Null>(new IntPtr(0x6666), 420);
+            Addresses = new List<SnapshotElement>(new SnapshotElement[] { new SnapshotElement<Null>(k), new SnapshotElement<Null>(k) });
+
             MainViewModel.GetInstance().Subscribe(this);
         }
 
@@ -60,7 +65,7 @@
         /// <summary>
         /// Gets the addresses
         /// </summary>
-        public IEnumerable<Object> Addresses { get; private set; }
+        public IEnumerable<SnapshotElement> Addresses { get; private set; }
 
         /// <summary>
         /// Gets the labels for the addresses
