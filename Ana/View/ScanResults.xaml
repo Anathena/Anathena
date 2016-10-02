@@ -10,9 +10,9 @@
 	xmlns:sysWindows="clr-namespace:System.Windows;assembly=PresentationCore"
 	xmlns:local="clr-namespace:Ana"
 	xmlns:converters="clr-namespace:Ana.Source.Mvvm.Converters"
-	xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
 	mc:Ignorable="d"
-	d:DesignHeight="300" d:DesignWidth="300">
+	d:DesignHeight="300"
+	d:DesignWidth="300">
 	<Grid Background="{StaticResource AvalonDock_Expression_BaseColor3}">
 		<Grid.RowDefinitions>
 			<RowDefinition Height="Auto"/>
@@ -51,32 +51,75 @@
 			</WrapPanel>
 		</Border>
 
-        <Border Grid.Row="1">
-            <ListView ItemsSource="{Binding Addresses}"
-				      Background="{StaticResource AvalonDock_Expression_BaseColor3}"
-				      BorderThickness="0">
-                <ListView.ItemTemplate>
-                    <DataTemplate>
-                        <Grid Width="{Binding Path=ActualWidth, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListView}}}">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition/>
-                                <ColumnDefinition/>
-                            </Grid.ColumnDefinitions>
-                            <Grid.InputBindings>
-                                <MouseBinding Gesture="LeftDoubleClick"
-										      Command="{Binding DataContext.AddAddressCommand, ElementName=AnaScanResults}"
-										      CommandParameter="{Binding .}"/>
-                            </Grid.InputBindings>
-                            <TextBlock Grid.Column="0"
-                                       Text="{Binding Path=BaseAddress}"
-                                       Foreground="{StaticResource AvalonDock_Expression_BaseColor2}"/>
-                            <TextBlock Grid.Column="1"
-                                       Text="{Binding Path=BaseAddress}"
-                                       Foreground="{StaticResource AvalonDock_Expression_BaseColor2}"/>
-                        </Grid>
-                    </DataTemplate>
-                </ListView.ItemTemplate>
-            </ListView>
-        </Border>
-    </Grid>
+		<Border Grid.Row="1">
+			<ListView ItemsSource="{Binding Addresses}"
+					  Background="{StaticResource AvalonDock_Expression_BaseColor3}"
+					  BorderThickness="0">
+				<ListView.ItemTemplate>
+					<DataTemplate>
+						<Grid Width="{Binding Path=ActualWidth, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListView}}}">
+							<Grid.ColumnDefinitions>
+								<ColumnDefinition/>
+								<ColumnDefinition/>
+								<ColumnDefinition/>
+							</Grid.ColumnDefinitions>
+							<Grid.InputBindings>
+								<MouseBinding Gesture="LeftDoubleClick"
+											  Command="{Binding DataContext.AddAddressCommand, ElementName=AnaScanResults}"
+											  CommandParameter="{Binding .}"/>
+							</Grid.InputBindings>
+							<TextBlock Grid.Column="0"
+									   Text="{Binding Path=BaseAddress}"
+									   Foreground="{StaticResource AvalonDock_Expression_BaseColor2}"/>
+							<TextBlock Grid.Column="1"
+									   Text="{Binding Path=BaseAddress}"
+									   Foreground="{StaticResource AvalonDock_Expression_BaseColor2}"/>
+							<TextBlock Grid.Column="2"
+									   Text="{Binding Path=BaseAddress}"
+									   Foreground="{StaticResource AvalonDock_Expression_BaseColor2}"/>
+						</Grid>
+					</DataTemplate>
+				</ListView.ItemTemplate>
+				<ListView.Template>
+					<ControlTemplate>
+						<Grid HorizontalAlignment="Left">
+							<Grid.RowDefinitions>
+								<RowDefinition Height="Auto"/>
+								<RowDefinition Height="Auto"/>
+							</Grid.RowDefinitions>
+							<Grid Grid.Row="0"
+								  VerticalAlignment="Center">
+								<Grid.ColumnDefinitions>
+									<ColumnDefinition />
+									<ColumnDefinition />
+									<ColumnDefinition />
+								</Grid.ColumnDefinitions>
+								<Grid.Resources>
+									<Style TargetType="TextBlock">
+										<Setter Property="Margin" Value="5,0" />
+										<Setter Property="Foreground" Value="{StaticResource AvalonDock_Expression_BaseColor2}" />
+										<Setter Property="FontWeight" Value="Bold" />
+									</Style>
+									<Style TargetType="Border">
+										<Setter Property="BorderThickness" Value="0" />
+										<Setter Property="Background" Value="{StaticResource AvalonDock_Expression_BaseColor5}" />
+									</Style>
+								</Grid.Resources>
+								<Border Grid.Column="0">
+									<TextBlock >Address</TextBlock>
+								</Border>
+								<Border Grid.Column="1">
+									<TextBlock >Value</TextBlock>
+								</Border>
+								<Border Grid.Column="2">
+									<TextBlock >Label</TextBlock>
+								</Border>
+							</Grid>
+							<ItemsPresenter Grid.Row="1"></ItemsPresenter>
+						</Grid>
+					</ControlTemplate>
+				</ListView.Template>
+			</ListView>
+		</Border>
+	</Grid>
 </UserControl>

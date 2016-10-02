@@ -151,6 +151,7 @@
     <Compile Include="Source\LuaEngine\LuaScript.cs" />
     <Compile Include="Source\LuaEngine\Memory\IMemoryCore.cs" />
     <Compile Include="Source\LuaEngine\Memory\LuaMemoryCore.cs" />
+    <Compile Include="Source\Mvvm\Behavior\HandleDoubleClickBehavior.cs" />
     <Compile Include="Source\Mvvm\Converters\IconConverter.cs" />
     <Compile Include="Source\Project\ProjectExplorerViewModel.cs" />
     <Compile Include="Source\Project\ProjectExplorer.cs" />
@@ -402,7 +403,6 @@
     <Folder Include="Source\Engine\AddressResolver\Java\" />
     <Folder Include="Source\Engine\AddressResolver\Python\" />
     <Folder Include="Source\Engine\Proxy\" />
-    <Folder Include="Source\Mvvm\Behaviors\" />
     <Folder Include="View\Controls\" />
   </ItemGroup>
   <ItemGroup>
