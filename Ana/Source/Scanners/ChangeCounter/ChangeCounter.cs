@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Ana.Source.Scanners.ChangeCounter
 {
-    class ChangeCounter : RepeatedTask
+    class ChangeCounter : ScannerBase
     {
         // Snapshot being labeled with change counts
         private Snapshot<UInt16> Snapshot;
@@ -19,7 +19,7 @@ namespace Ana.Source.Scanners.ChangeCounter
 
         private Object ProgressLock;
 
-        public ChangeCounter()
+        public ChangeCounter() : base("Change Counter")
         {
             ProgressLock = new Object();
         }
@@ -101,7 +101,7 @@ namespace Ana.Source.Scanners.ChangeCounter
 
             // Create a snapshot from the valid regions
             Snapshot.DiscardInvalidRegions();
-            Snapshot.SetScanMethod("Change Counter");
+            Snapshot.SetScanMethod(this.ScannerName);
 
             SnapshotManager.GetInstance().SaveSnapshot(Snapshot);
             // Main.GetInstance().OpenLabelThresholder();

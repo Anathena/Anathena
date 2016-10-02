@@ -44,7 +44,7 @@
         </ControlTemplate.Triggers>
     </ControlTemplate>
 
-    <Style x:Key="FlatComboBoxStyle"  TargetType="{x:Type ComboBox}">
+    <Style x:Key="FlatComboBox"  TargetType="{x:Type ComboBox}">
         <Setter Property="UIElement.SnapsToDevicePixels" Value="True"/>
         <Setter Property="FrameworkElement.OverridesDefaultStyle" Value="True"/>
         <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto"/>

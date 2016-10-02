@@ -8,14 +8,14 @@ using System.Threading.Tasks;
 
 namespace Ana.Source.Scanners.ManualScanner
 {
-    class ManualScanner : IScannerModel
+    class ManualScanner : ScannerBase
     {
         private Snapshot<Null> Snapshot;
 
         private ScanConstraintManager ScanConstraintManager;
         private Object ProgressLock;
 
-        public ManualScanner()
+        public ManualScanner() : base("Manual Scan")
         {
             ProgressLock = new Object();
         }
@@ -150,7 +150,7 @@ namespace Ana.Source.Scanners.ManualScanner
             base.End();
 
             Snapshot.DiscardInvalidRegions();
-            Snapshot.SetScanMethod("Manual Scan");
+            Snapshot.SetScanMethod(this.ScannerName);
 
             SnapshotManager.GetInstance().SaveSnapshot(Snapshot);
 

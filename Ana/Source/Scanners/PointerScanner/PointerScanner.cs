@@ -31,7 +31,7 @@ namespace Ana.Source.Scanners.PointerScanner
         - Compare pointer to all pointers in the previous level. Store offsets from current level to all pointers in previous level.
     */
 
-    class PointerScanner : IScannerModel
+    class PointerScanner : ScannerBase
     {
         private EngineCore EngineCore;
         private Snapshot<Null> Snapshot;
@@ -64,7 +64,7 @@ namespace Ana.Source.Scanners.PointerScanner
 
         private ScanModeEnum ScanMode;
 
-        public PointerScanner()
+        public PointerScanner() : base("Pointer Scanner")
         {
             IndexValueMap = new ConcurrentDictionary<Int32, String>();
             PointerPool = new ConcurrentDictionary<IntPtr, IntPtr>();
@@ -591,7 +591,7 @@ namespace Ana.Source.Scanners.PointerScanner
                 BuildPointers(Pointers, Level - 1, Base, Target.Value, NewOffsets);
             });
         }
-
-    } // End class
-
-} // End namespace
+    }
+    //// End class
+}
+//// End namespace

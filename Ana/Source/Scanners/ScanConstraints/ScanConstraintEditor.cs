@@ -4,7 +4,7 @@ using System.Reflection;
 
 namespace Ana.Source.Scanners.ScanConstraints
 {
-    class ScanConstraintEditor : IScannerModel
+    class ScanConstraintEditor
     {
         // User controlled variables
         private ScanConstraintManager ScanConstraints;
@@ -12,13 +12,6 @@ namespace Ana.Source.Scanners.ScanConstraints
         public ScanConstraintEditor()
         {
             ScanConstraints = new ScanConstraintManager();
-        }
-
-        public void OnGUIOpen() { }
-
-        private void UpdateDisplay()
-        {
-
         }
 
         public ScanConstraintManager GetScanConstraintManager()
@@ -34,7 +27,6 @@ namespace Ana.Source.Scanners.ScanConstraints
         public void SetElementType(Type ElementType)
         {
             ScanConstraints.SetElementType(ElementType);
-            UpdateDisplay();
         }
 
         public ScanConstraint GetConstraintAt(Int32 Index)
@@ -46,28 +38,24 @@ namespace Ana.Source.Scanners.ScanConstraints
         public void AddConstraint(ConstraintsEnum ValueConstraint, dynamic Value)
         {
             ScanConstraints.AddConstraint(new ScanConstraint(ValueConstraint, Value));
-            UpdateDisplay();
         }
 
         [Obfuscation(Exclude = true)]
         public void UpdateConstraint(Int32 Index, dynamic Value)
         {
             ScanConstraints[Index].Value = Value;
-            UpdateDisplay();
         }
 
         public void RemoveConstraints(IEnumerable<Int32> ConstraintIndicies)
         {
             ScanConstraints.RemoveConstraints(ConstraintIndicies);
-            UpdateDisplay();
         }
 
         public void ClearConstraints()
         {
             ScanConstraints.ClearConstraints();
-            UpdateDisplay();
         }
-
-    } // End class
-
-} // End namespace
+    }
+    //// End class
+}
+//// End namespace

@@ -6,11 +6,9 @@
     using Snapshots.Prefilter;
     using System;
     using System.Collections.Generic;
-    using System.IO;
     using System.Threading;
     using System.Windows;
     using System.Windows.Input;
-    using System.Xml;
     using Xceed.Wpf.AvalonDock;
     using Xceed.Wpf.AvalonDock.Layout.Serialization;
     /// <summary>
@@ -161,20 +159,6 @@
         {
             XmlLayoutSerializer serializer = new XmlLayoutSerializer(dockManager);
             serializer.Deserialize(LayoutSaveFile);
-            return;
-            XmlDocument doc = new XmlDocument();
-            doc.Load(LayoutSaveFile);
-
-            if (!string.IsNullOrEmpty(doc.InnerXml))
-            {
-                XmlLayoutSerializer layoutSerializer = new XmlLayoutSerializer(dockManager);
-                layoutSerializer.LayoutSerializationCallback += (s, c) =>
-                {
-                    object o = c.Content;
-                };
-
-                layoutSerializer.Deserialize(new StringReader(doc.InnerXml));
-            }
         }
 
         /// <summary>

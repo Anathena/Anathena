@@ -67,6 +67,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Source\ActionScheduler\ActionSchedulerViewModel.cs" />
+    <Compile Include="Source\ActionScheduler\ActionChannels.cs" />
     <Compile Include="Source\ActionScheduler\IAction.cs" />
     <Compile Include="Source\CheatBrowser\CheatBrowserViewModel.cs" />
     <Compile Include="Source\Controls\TreeViewItemViewModel.cs" />
@@ -163,7 +164,7 @@
     <Compile Include="Source\Results\ScanResultsViewModel.cs" />
     <Compile Include="Source\Scanners\ChangeCounter\ChangeCounter.cs" />
     <Compile Include="Source\Scanners\ChangeCounter\ChangeCouinterViewModel.cs" />
-    <Compile Include="Source\Scanners\IScannerMVP.cs" />
+    <Compile Include="Source\Scanners\ScannerBase.cs" />
     <Compile Include="Source\Scanners\LabelThresholder\LabelThresholderViewModel.cs" />
     <Compile Include="Source\Scanners\LabelThresholder\LabelThresholder.cs" />
     <Compile Include="Source\Scanners\ManualScanner\ManualScannerViewModel.cs" />
@@ -172,7 +173,10 @@
     <Compile Include="Source\Scanners\ScanConstraints\ScanConstraint.cs" />
     <Compile Include="Source\Scanners\ScanConstraints\ScanConstraintEditor.cs" />
     <Compile Include="Source\Scanners\ScanConstraints\ScanConstraintManager.cs" />
-    <Compile Include="Source\Scanners\ValueCollector\ValueCollector.cs" />
+    <Compile Include="Source\Scanners\ValueCollector\ValueCollectorViewModel.cs">
+      <ExcludeFromStyleCop>False</ExcludeFromStyleCop>
+    </Compile>
+    <Compile Include="Source\Scanners\ValueCollector\ValueCollectorModel.cs" />
     <Compile Include="Source\Snapshots\SnapshotManagerViewModel.cs" />
     <Compile Include="Source\Snapshots\Prefilters\ISnapshotPrefilter.cs" />
     <Compile Include="Source\Snapshots\Prefilters\ShallowPointerPrefilter.cs" />
@@ -283,7 +287,7 @@
     <Compile Include="Source\Main\MainViewModel.cs">
       <ExcludeFromStyleCop>False</ExcludeFromStyleCop>
     </Compile>
-    <Page Include="View\Style\FlatComboBoxStyle.xaml">
+    <Page Include="View\Style\FlatComboBox.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -340,6 +344,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\Style\DropDownAutoClose.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Style\VerticalSeparator.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

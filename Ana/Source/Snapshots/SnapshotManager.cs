@@ -1,6 +1,5 @@
 ﻿using Ana.Source.Engine;
 using Ana.Source.Engine.OperatingSystems;
-using Ana.Source.Scanners.ValueCollector;
 using Ana.Source.Snapshots.Prefilter;
 using Ana.Source.UserSettings;
 using Ana.Source.Utils;
@@ -147,15 +146,6 @@ namespace Ana.Source.Snapshots
             virtualPages.ForEach(x => memoryRegions.Add(new SnapshotRegion<Null>(x.BaseAddress, x.RegionSize)));
 
             return new Snapshot<Null>(memoryRegions);
-        }
-
-        /// <summary>
-        /// Runs a value collector scan, which will gather all values to be used in subsequent scans
-        /// </summary>
-        public void CollectValues()
-        {
-            ValueCollector valueCollector = new ValueCollector();
-            valueCollector.Begin();
         }
 
         /// <summary>

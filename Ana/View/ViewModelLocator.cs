@@ -9,6 +9,7 @@
     using Source.ProcessSelector;
     using Source.Project;
     using Source.PropertyViewer;
+    using Source.Scanners.ValueCollector;
     using Source.ScanResults;
     using Source.Snapshots;
     using Source.UserSettings;
@@ -155,6 +156,17 @@
             get
             {
                 return ProjectExplorerViewModel.GetInstance();
+            }
+        }
+
+        /// <summary>
+        /// Gets the Project Explorer view model
+        /// </summary>
+        public ValueCollectorViewModel ValueCollectorViewModel
+        {
+            get
+            {
+                return ValueCollectorViewModel.GetInstance();
             }
         }
     }
