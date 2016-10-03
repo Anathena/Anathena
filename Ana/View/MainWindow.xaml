@@ -60,7 +60,8 @@
 			<Menu Grid.Column="1"
 				  Background="Transparent"
 				  VerticalAlignment="Center">
-				<MenuItem shell:WindowChrome.IsHitTestVisibleInChrome="True"
+				<MenuItem ToolTip="Minimize"
+						  shell:WindowChrome.IsHitTestVisibleInChrome="True"
 						  Command="{Binding Minimize}"
 						  CommandParameter="{Binding ElementName=AnaWindow}">
 					<MenuItem.Header>
@@ -69,17 +70,18 @@
 							   Height="16"/>
 					</MenuItem.Header>
 				</MenuItem>
-				<MenuItem 
-						shell:WindowChrome.IsHitTestVisibleInChrome="True"
-						Command="{Binding Maximize}"
-						CommandParameter="{Binding ElementName=AnaWindow}">
+				<MenuItem ToolTip="Maximize/Restore"
+						  shell:WindowChrome.IsHitTestVisibleInChrome="True"
+						  Command="{Binding Maximize}"
+						  CommandParameter="{Binding ElementName=AnaWindow}">
 					<MenuItem.Header>
 						<Image Source="pack://application:,,,/Ana;component/Content/Icons/UnknownValue.png"
 							   Width="16"
 							   Height="16"/>
 						</MenuItem.Header>
 				</MenuItem>
-				<MenuItem shell:WindowChrome.IsHitTestVisibleInChrome="True"
+				<MenuItem ToolTip="Close"
+						  shell:WindowChrome.IsHitTestVisibleInChrome="True"
 						  Command="{Binding Close}"
 						  CommandParameter="{Binding ElementName=AnaWindow}">
 					<MenuItem.Header>
@@ -96,77 +98,95 @@
 		<Grid Grid.Row="1" >
 			<Menu Foreground="{StaticResource AvalonDock_Expression_BaseColor2}"
 				  Background="{StaticResource AvalonDock_Expression_BaseColor4}"
-				  BorderBrush="{StaticResource AvalonDock_Expression_BaseColor4}">
+				  BorderBrush="{StaticResource AvalonDock_Expression_BaseColor2}">
 				<Menu.Resources>
-					<Style x:Key="subMenuStyle" TargetType="{x:Type MenuItem}">
+					<Style x:Key="menuItemStyle" TargetType="{x:Type MenuItem}">
 						<Setter Property="Foreground" Value="{StaticResource AvalonDock_Expression_BaseColor2}"></Setter>
 						<Setter Property="Background" Value="{StaticResource AvalonDock_Expression_BaseColor4}"></Setter>
 						<Setter Property="BorderBrush" Value="{StaticResource AvalonDock_Expression_BaseColor4}"></Setter>
+						<Setter Property="BorderThickness" Value="0"></Setter>
 					</Style>
 				</Menu.Resources>
-				<!-- File Header -->
-				<MenuItem Header="File">
-				</MenuItem>
-				
-				<!-- Edit Header -->
-				<MenuItem BorderThickness="0" Header="Edit" DataContext="{Binding Source={StaticResource ViewModelLocator}}">
+                <!-- File Header -->
+                <MenuItem Header="File"
+                          Style="{StaticResource DropDown}"
+						  DataContext="{Binding Source={StaticResource ViewModelLocator}}">
+                    <MenuItem Header="Open"
+							  Style="{StaticResource menuItemStyle}"/>
+                    <MenuItem Header="Import Project"
+							  Style="{StaticResource menuItemStyle}"/>
+                    <MenuItem Header="Save"
+							  Style="{StaticResource menuItemStyle}"/>
+                    <MenuItem Header="Save As"
+							  Style="{StaticResource menuItemStyle}"/>
+                    <MenuItem Header="Exit"
+							  Style="{StaticResource menuItemStyle}"/>
+                </MenuItem>
+
+                <!-- Edit Header -->
+                <MenuItem Header="Edit"
+                          Style="{StaticResource DropDown}"
+						  DataContext="{Binding Source={StaticResource ViewModelLocator}}">
 					<MenuItem Header="Settings"
 							  IsChecked="{Binding SettingsViewModel.IsVisible, Mode=TwoWay}"
 							  IsCheckable="True"
-							  Style="{StaticResource subMenuStyle}"/>
+							  Style="{StaticResource menuItemStyle}"/>
 				</MenuItem>
 				
 				<!-- Tools Header -->
-				<MenuItem Header="Tools" DataContext="{Binding Source={StaticResource ViewModelLocator}}">
+                <MenuItem Header="Tools"
+                          Style="{StaticResource DropDown}"
+						  DataContext="{Binding Source={StaticResource ViewModelLocator}}">
 					<MenuItem Header="Cheat Browser" 
 							  IsChecked="{Binding CheatBrowserViewModel.IsVisible, Mode=TwoWay}"
 							  IsCheckable="True"
-							  Style="{StaticResource subMenuStyle}"/>
+							  Style="{StaticResource menuItemStyle}"/>
 					<MenuItem Header="Process Selector"
 							  IsChecked="{Binding ProcessSelectorViewModel.IsVisible, Mode=TwoWay}"
 							  IsCheckable="True"
-							  Style="{StaticResource subMenuStyle}"/>
+							  Style="{StaticResource menuItemStyle}"/>
 					<MenuItem Header="Project Explorer" 
 							  IsChecked="{Binding ProjectExplorerViewModel.IsVisible, Mode=TwoWay}" 
 							  IsCheckable="True"
-							  Style="{StaticResource subMenuStyle}"/>
-					<MenuItem Header="Scans"
-							  Style="{StaticResource subMenuStyle}">
-                        <MenuItem Header="Change Counter"
-								  IsChecked="{Binding ChangeCounterViewModel.IsVisible, Mode=TwoWay}"
-								  IsCheckable="True"
-								  Style="{StaticResource subMenuStyle}"/>
-                        <MenuItem Header="Input Correlator"
-								  IsChecked="{Binding InputCorrelatorViewModel.IsVisible, Mode=TwoWay}"
-								  IsCheckable="True"
-								  Style="{StaticResource subMenuStyle}"/>
-                        <MenuItem Header="Manual Scanner"
-								  IsChecked="{Binding ManualScannerViewModel.IsVisible, Mode=TwoWay}"
-								  IsCheckable="True"
-								  Style="{StaticResource subMenuStyle}"/>
-						<MenuItem Header="Label Thresholder"
-								  IsChecked="{Binding LabelThresholderViewModel.IsVisible, Mode=TwoWay}" 
-								  IsCheckable="True"
-								  Style="{StaticResource subMenuStyle}"/>
-					</MenuItem>
+							  Style="{StaticResource menuItemStyle}"/>
 					<MenuItem Header="Property Viewer"
 							  IsChecked="{Binding PropertyViewerViewModel.IsVisible, Mode=TwoWay}"
 							  IsCheckable="True"
-							  Style="{StaticResource subMenuStyle}"/>
+							  Style="{StaticResource menuItemStyle}"/>
 					<MenuItem Header="Results"
 							  IsChecked="{Binding ScanResultsViewModel.IsVisible, Mode=TwoWay}"
 							  IsCheckable="True"
-							  Style="{StaticResource subMenuStyle}"/>
+							  Style="{StaticResource menuItemStyle}"/>
 					<MenuItem Header="Snapshot Manager" 
 							  IsChecked="{Binding SnapshotManagerViewModel.IsVisible, Mode=TwoWay}" 
 							  IsCheckable="True"
-							  Style="{StaticResource subMenuStyle}"/>
+							  Style="{StaticResource menuItemStyle}"/>
 					<MenuItem Header=".Net Explorer"
 							  IsChecked="{Binding DotNetExplorerViewModel.IsVisible, Mode=TwoWay}"
 							  IsCheckable="True"
-							  Style="{StaticResource subMenuStyle}"/>
-				</MenuItem>
-			</Menu>
+							  Style="{StaticResource menuItemStyle}"/>
+                </MenuItem>
+                <MenuItem Header="Scans"
+						  Style="{StaticResource DropDown}"
+                          DataContext="{Binding Source={StaticResource ViewModelLocator}}">
+                    <MenuItem Header="Change Counter"
+								  IsChecked="{Binding ChangeCounterViewModel.IsVisible, Mode=TwoWay}"
+								  IsCheckable="True"
+								  Style="{StaticResource menuItemStyle}"/>
+                    <MenuItem Header="Input Correlator"
+								  IsChecked="{Binding InputCorrelatorViewModel.IsVisible, Mode=TwoWay}"
+								  IsCheckable="True"
+								  Style="{StaticResource menuItemStyle}"/>
+                    <MenuItem Header="Manual Scanner"
+								  IsChecked="{Binding ManualScannerViewModel.IsVisible, Mode=TwoWay}"
+								  IsCheckable="True"
+								  Style="{StaticResource menuItemStyle}"/>
+                    <MenuItem Header="Label Thresholder"
+								  IsChecked="{Binding LabelThresholderViewModel.IsVisible, Mode=TwoWay}" 
+								  IsCheckable="True"
+								  Style="{StaticResource menuItemStyle}"/>
+                </MenuItem>
+            </Menu>
 		</Grid>
 
 		<!-- Button Menu Bar -->
@@ -175,7 +195,8 @@
 			<Menu Background="Transparent"
 				  Padding="4"
 				  DataContext="{Binding Source={StaticResource ViewModelLocator}}">
-				<MenuItem Command="{Binding ProcessSelectorViewModel.ToggleVisibility}">
+				<MenuItem ToolTip="Select a Target Process"
+						  Command="{Binding ProcessSelectorViewModel.ToggleVisibility}">
 					<MenuItem.Header>
 						<Image Source="pack://application:,,,/Ana;component/Content/Icons/SelectProcess.png"
 							   Width="16"
@@ -183,14 +204,14 @@
 					</MenuItem.Header>
 				</MenuItem>
 				<Separator Style="{DynamicResource VerticalSeparator}" />
-				<MenuItem>
+				<MenuItem ToolTip="Open Cheat File">
 					<MenuItem.Header>
 						<Image Source="pack://application:,,,/Ana;component/Content/Icons/Open.png"
 							   Width="16"
 							   Height="16"/>
 					</MenuItem.Header>
 				</MenuItem>
-				<MenuItem>
+				<MenuItem ToolTip="Save Cheat File">
 					<MenuItem.Header>
 						<Image Source="pack://application:,,,/Ana;component/Content/Icons/Save.png"
 							   Width="16"
@@ -198,26 +219,34 @@
 					</MenuItem.Header>
 				</MenuItem>
 				<Separator Style="{DynamicResource VerticalSeparator}" />
-				<MenuItem>
+				<MenuItem ToolTip="New Scan">
 					<MenuItem.Header>
 						<Image Source="pack://application:,,,/Ana;component/Content/Icons/New.png"
 							   Width="16"
 							   Height="16"/>
 					</MenuItem.Header>
 				</MenuItem>
-				<Separator Style="{DynamicResource VerticalSeparator}" />
-				<MenuItem Command="{Binding ValueCollectorViewModel.CollectValuesCommand}">
+				<MenuItem ToolTip="Undo Scan">
+					<MenuItem.Header>
+						<Image Source="pack://application:,,,/Ana;component/Content/Icons/Undo.png"
+							   Width="16"
+							   Height="16"/>
+					</MenuItem.Header>
+				</MenuItem>
+				<MenuItem ToolTip="Collect Values"
+						  Command="{Binding ValueCollectorViewModel.CollectValuesCommand}">
 					<MenuItem.Header>
 						<Image Source="pack://application:,,,/Ana;component/Content/Icons/CollectValues.png"
 							   Width="16"
 							   Height="16"/>
 					</MenuItem.Header>
 				</MenuItem>
-				<MenuItem>
+				<Separator Style="{DynamicResource VerticalSeparator}" />
+				<MenuItem IsHitTestVisible="False">
 					<MenuItem.Header>
-						<Image Source="pack://application:,,,/Ana;component/Content/Icons/Undo.png"
-							   Width="16"
-							   Height="16"/>
+						<TextBlock Text="No Selected Process"
+								   Foreground="{StaticResource AvalonDock_Expression_BaseColor2}">
+						</TextBlock>
 					</MenuItem.Header>
 				</MenuItem>
 			</Menu>
@@ -240,20 +269,20 @@
 						<DataTemplate>
 							<view:ProcessSelector/>
 						</DataTemplate>
-                    </view:ViewTemplateSelector.ProcessSelectorViewTemplate>
-                    <!-- Change Counter -->
-                    <view:ViewTemplateSelector.ChangeCounterViewTemplate>
-                        <DataTemplate>
-                            <view:ChangeCounter/>
-                        </DataTemplate>
-                    </view:ViewTemplateSelector.ChangeCounterViewTemplate>
-                    <!-- Input Correlator -->
-                    <view:ViewTemplateSelector.InputCorrelatorViewTemplate>
-                        <DataTemplate>
-                            <view:InputCorrelator/>
-                        </DataTemplate>
-                    </view:ViewTemplateSelector.InputCorrelatorViewTemplate>
-                    <!-- Label Thresholder -->
+					</view:ViewTemplateSelector.ProcessSelectorViewTemplate>
+					<!-- Change Counter -->
+					<view:ViewTemplateSelector.ChangeCounterViewTemplate>
+						<DataTemplate>
+							<view:ChangeCounter/>
+						</DataTemplate>
+					</view:ViewTemplateSelector.ChangeCounterViewTemplate>
+					<!-- Input Correlator -->
+					<view:ViewTemplateSelector.InputCorrelatorViewTemplate>
+						<DataTemplate>
+							<view:InputCorrelator/>
+						</DataTemplate>
+					</view:ViewTemplateSelector.InputCorrelatorViewTemplate>
+					<!-- Label Thresholder -->
 					<view:ViewTemplateSelector.LabelThresholderViewTemplate>
 						<DataTemplate>
 							<view:LabelThresholder/>

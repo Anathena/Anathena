@@ -24,7 +24,7 @@
             <Menu Background="Transparent"
                   Padding="4"
                   DataContext="{Binding Source={StaticResource ViewModelLocator}}">
-                <MenuItem>
+                <MenuItem ToolTip="Start Scan">
                     <MenuItem.Header>
                         <Image Source="pack://application:,,,/Ana;component/Content/Icons/RightArrow.png"
 							   Width="16"
@@ -32,7 +32,8 @@
                     </MenuItem.Header>
                 </MenuItem>
                 <Separator Style="{DynamicResource VerticalSeparator}" />
-                    <MenuItem Style="{StaticResource DropDownAutoClose}"
+                    <MenuItem ToolTip="Scan Constraints"
+                              Style="{StaticResource DropDownAutoClose}"
                               BorderThickness="0">
                         <MenuItem.Header>
                             <StackPanel Orientation="Horizontal">
@@ -51,7 +52,8 @@
                                 </Grid>
                             </StackPanel>
                         </MenuItem.Header>
-                        <MenuItem BorderBrush="{StaticResource AvalonDock_Expression_BaseColor1}"
+                        <MenuItem ToolTip="Changed Value"
+                                  BorderBrush="{StaticResource AvalonDock_Expression_BaseColor1}"
 							      Background="{StaticResource AvalonDock_Expression_BaseColor1}"
 							      Command="{Binding AddNewFolderItem}">
                             <MenuItem.Header>
@@ -65,7 +67,8 @@
                                 </WrapPanel>
                             </MenuItem.Header>
                         </MenuItem>
-                        <MenuItem BorderBrush="{StaticResource AvalonDock_Expression_BaseColor1}"
+                        <MenuItem ToolTip="Unchanged Value"
+                                  BorderBrush="{StaticResource AvalonDock_Expression_BaseColor1}"
 							      Background="{StaticResource AvalonDock_Expression_BaseColor1}"
 							      Command="{Binding AddNewAddressItem}">
                             <MenuItem.Header>
@@ -78,7 +81,8 @@
                                 </WrapPanel>
                             </MenuItem.Header>
                         </MenuItem>
-                        <MenuItem BorderBrush="{StaticResource AvalonDock_Expression_BaseColor1}"
+                        <MenuItem ToolTip="Increased Value"
+                                  BorderBrush="{StaticResource AvalonDock_Expression_BaseColor1}"
 							      Background="{StaticResource AvalonDock_Expression_BaseColor1}"
 							      Command="{Binding AddNewScriptItem}">
                             <MenuItem.Header>
@@ -91,7 +95,8 @@
                                 </WrapPanel>
                             </MenuItem.Header>
                         </MenuItem>
-                        <MenuItem BorderBrush="{StaticResource AvalonDock_Expression_BaseColor1}"
+                        <MenuItem ToolTip="Decreased Value"
+                                  BorderBrush="{StaticResource AvalonDock_Expression_BaseColor1}"
 							      Background="{StaticResource AvalonDock_Expression_BaseColor1}"
 							      Command="{Binding AddNewScriptItem}">
                             <MenuItem.Header>
@@ -104,7 +109,8 @@
                                 </WrapPanel>
                             </MenuItem.Header>
                         </MenuItem>
-                        <MenuItem BorderBrush="{StaticResource AvalonDock_Expression_BaseColor1}"
+                        <MenuItem ToolTip="Equal to Value"
+                                  BorderBrush="{StaticResource AvalonDock_Expression_BaseColor1}"
 							      Background="{StaticResource AvalonDock_Expression_BaseColor1}"
 							      Command="{Binding AddNewScriptItem}">
                             <MenuItem.Header>
@@ -117,7 +123,8 @@
                                 </WrapPanel>
                             </MenuItem.Header>
                         </MenuItem>
-                        <MenuItem BorderBrush="{StaticResource AvalonDock_Expression_BaseColor1}"
+                        <MenuItem ToolTip="Not Equal to Value"
+                                  BorderBrush="{StaticResource AvalonDock_Expression_BaseColor1}"
 							      Background="{StaticResource AvalonDock_Expression_BaseColor1}"
 							      Command="{Binding AddNewScriptItem}">
                             <MenuItem.Header>
@@ -130,7 +137,8 @@
                                 </WrapPanel>
                             </MenuItem.Header>
                         </MenuItem>
-                        <MenuItem BorderBrush="{StaticResource AvalonDock_Expression_BaseColor1}"
+                        <MenuItem ToolTip="Increased by Value"
+                                  BorderBrush="{StaticResource AvalonDock_Expression_BaseColor1}"
 							      Background="{StaticResource AvalonDock_Expression_BaseColor1}"
 							      Command="{Binding AddNewScriptItem}">
                             <MenuItem.Header>
@@ -143,7 +151,8 @@
                                 </WrapPanel>
                             </MenuItem.Header>
                         </MenuItem>
-                        <MenuItem BorderBrush="{StaticResource AvalonDock_Expression_BaseColor1}"
+                        <MenuItem ToolTip="Decreased by Value"
+                                  BorderBrush="{StaticResource AvalonDock_Expression_BaseColor1}"
 							      Background="{StaticResource AvalonDock_Expression_BaseColor1}"
 							      Command="{Binding AddNewScriptItem}">
                             <MenuItem.Header>
@@ -156,7 +165,8 @@
                                 </WrapPanel>
                             </MenuItem.Header>
                         </MenuItem>
-                        <MenuItem BorderBrush="{StaticResource AvalonDock_Expression_BaseColor1}"
+                        <MenuItem ToolTip="Greater Than Value"
+                                  BorderBrush="{StaticResource AvalonDock_Expression_BaseColor1}"
 							      Background="{StaticResource AvalonDock_Expression_BaseColor1}"
 							      Command="{Binding AddNewScriptItem}">
                             <MenuItem.Header>
@@ -169,7 +179,8 @@
                                 </WrapPanel>
                             </MenuItem.Header>
                         </MenuItem>
-                        <MenuItem BorderBrush="{StaticResource AvalonDock_Expression_BaseColor1}"
+                        <MenuItem ToolTip="Greater Than or Equal to Value"
+                                  BorderBrush="{StaticResource AvalonDock_Expression_BaseColor1}"
 							      Background="{StaticResource AvalonDock_Expression_BaseColor1}"
 							      Command="{Binding AddNewScriptItem}">
                             <MenuItem.Header>
@@ -182,7 +193,8 @@
                                 </WrapPanel>
                             </MenuItem.Header>
                         </MenuItem>
-                        <MenuItem BorderBrush="{StaticResource AvalonDock_Expression_BaseColor1}"
+                        <MenuItem ToolTip="Less Than Value"
+                                  BorderBrush="{StaticResource AvalonDock_Expression_BaseColor1}"
 							      Background="{StaticResource AvalonDock_Expression_BaseColor1}"
 							      Command="{Binding AddNewScriptItem}">
                             <MenuItem.Header>
@@ -195,7 +207,8 @@
                                 </WrapPanel>
                             </MenuItem.Header>
                         </MenuItem>
-                        <MenuItem BorderBrush="{StaticResource AvalonDock_Expression_BaseColor1}"
+                        <MenuItem ToolTip="Less Than or Equal to Value"
+                                  BorderBrush="{StaticResource AvalonDock_Expression_BaseColor1}"
 							      Background="{StaticResource AvalonDock_Expression_BaseColor1}"
 							      Command="{Binding AddNewScriptItem}">
                             <MenuItem.Header>
@@ -208,7 +221,8 @@
                                 </WrapPanel>
                             </MenuItem.Header>
                         </MenuItem>
-                        <MenuItem BorderBrush="{StaticResource AvalonDock_Expression_BaseColor1}"
+                        <MenuItem ToolTip="Exclude Scientific Notation Values"
+                                  BorderBrush="{StaticResource AvalonDock_Expression_BaseColor1}"
 							      Background="{StaticResource AvalonDock_Expression_BaseColor1}"
 							      Command="{Binding AddNewScriptItem}">
                             <MenuItem.Header>
@@ -223,14 +237,14 @@
                         </MenuItem>
                     </MenuItem>
                     <Separator Style="{DynamicResource VerticalSeparator}" />
-                <MenuItem>
+                <MenuItem ToolTip="Clear Constraints">
                     <MenuItem.Header>
                         <Image Source="pack://application:,,,/Ana;component/Content/Icons/Cancel.png"
 							   Width="16"
 							   Height="16"/>
                     </MenuItem.Header>
                 </MenuItem>
-                <MenuItem>
+                <MenuItem ToolTip="Remove Constraint">
                     <MenuItem.Header>
                         <Image Source="pack://application:,,,/Ana;component/Content/Icons/X.png"
 							   Width="16"
