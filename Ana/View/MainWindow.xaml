@@ -32,7 +32,7 @@
 
 		<Grid.RowDefinitions>
 			<!-- Title Bar Row -->
-			<RowDefinition Height="24"/>
+			<RowDefinition Height="Auto"/>
 			<!-- Menu Bar Row -->
 			<RowDefinition Height="Auto"/>
 			<!-- Button Menu Bar Row -->
@@ -50,17 +50,24 @@
 				<ColumnDefinition/>
 				<!-- Buttons -->
 				<ColumnDefinition Width="Auto"/>
+
 			</Grid.ColumnDefinitions>
-			<TextBlock Grid.Column="0"
-					   Text="Anathena"
-					   Foreground="{StaticResource AvalonDock_Expression_BaseColor2}"
-					   Margin="10,0,0,0"
-					   VerticalAlignment="Center">
-			</TextBlock>
+            <WrapPanel Grid.Column="0">
+                <Image Width="24"
+                       Height="24"
+                       Margin="4"
+                       Source="pack://application:,,,/Ana;component/Content/Icons/MainIcon.ico">
+                </Image>
+                <TextBlock Text="Anathena"
+					       Foreground="{StaticResource AvalonDock_Expression_BaseColor7}"
+					       VerticalAlignment="Center">
+                </TextBlock>
+            </WrapPanel>
 			<Menu Grid.Column="1"
 				  Background="Transparent"
 				  VerticalAlignment="Center">
-				<MenuItem ToolTip="Minimize"
+                <MenuItem ToolTip="Minimize"
+                          Height="24"
 						  shell:WindowChrome.IsHitTestVisibleInChrome="True"
 						  Command="{Binding Minimize}"
 						  CommandParameter="{Binding ElementName=AnaWindow}">
@@ -70,28 +77,29 @@
 							   Height="16"/>
 					</MenuItem.Header>
 				</MenuItem>
-				<MenuItem ToolTip="Maximize/Restore"
+                <MenuItem ToolTip="Maximize/Restore"
+                          Height="24"
 						  shell:WindowChrome.IsHitTestVisibleInChrome="True"
-						  Command="{Binding Maximize}"
+						  Command="{Binding MaximizeRestore}"
 						  CommandParameter="{Binding ElementName=AnaWindow}">
 					<MenuItem.Header>
-						<Image Source="pack://application:,,,/Ana;component/Content/Icons/UnknownValue.png"
+						<Image Source="pack://application:,,,/Ana;component/Content/Icons/Maximize.png"
 							   Width="16"
 							   Height="16"/>
 						</MenuItem.Header>
 				</MenuItem>
-				<MenuItem ToolTip="Close"
+                <MenuItem ToolTip="Close"
+                          Height="24"
 						  shell:WindowChrome.IsHitTestVisibleInChrome="True"
 						  Command="{Binding Close}"
 						  CommandParameter="{Binding ElementName=AnaWindow}">
-					<MenuItem.Header>
-						<Image Source="pack://application:,,,/Ana;component/Content/Icons/X.png"
+                    <MenuItem.Header>
+                        <Image Source="pack://application:,,,/Ana;component/Content/Icons/X.png"
 							   Width="16"
 							   Height="16"/>
-					</MenuItem.Header>
-				</MenuItem>
-
-			</Menu>
+                    </MenuItem.Header>
+                </MenuItem>
+            </Menu>
 		</Grid>
 
 		<!-- Menu Bar -->
@@ -107,25 +115,25 @@
 						<Setter Property="BorderThickness" Value="0"></Setter>
 					</Style>
 				</Menu.Resources>
-                <!-- File Header -->
-                <MenuItem Header="File"
-                          Style="{StaticResource DropDown}"
+				<!-- File Header -->
+				<MenuItem Header="File"
+						  Style="{StaticResource DropDown}"
 						  DataContext="{Binding Source={StaticResource ViewModelLocator}}">
-                    <MenuItem Header="Open"
+					<MenuItem Header="Open"
 							  Style="{StaticResource menuItemStyle}"/>
-                    <MenuItem Header="Import Project"
+					<MenuItem Header="Import Project"
 							  Style="{StaticResource menuItemStyle}"/>
-                    <MenuItem Header="Save"
+					<MenuItem Header="Save"
 							  Style="{StaticResource menuItemStyle}"/>
-                    <MenuItem Header="Save As"
+					<MenuItem Header="Save As"
 							  Style="{StaticResource menuItemStyle}"/>
-                    <MenuItem Header="Exit"
+					<MenuItem Header="Exit"
 							  Style="{StaticResource menuItemStyle}"/>
-                </MenuItem>
+				</MenuItem>
 
-                <!-- Edit Header -->
-                <MenuItem Header="Edit"
-                          Style="{StaticResource DropDown}"
+				<!-- Edit Header -->
+				<MenuItem Header="Edit"
+						  Style="{StaticResource DropDown}"
 						  DataContext="{Binding Source={StaticResource ViewModelLocator}}">
 					<MenuItem Header="Settings"
 							  IsChecked="{Binding SettingsViewModel.IsVisible, Mode=TwoWay}"
@@ -134,8 +142,8 @@
 				</MenuItem>
 				
 				<!-- Tools Header -->
-                <MenuItem Header="Tools"
-                          Style="{StaticResource DropDown}"
+				<MenuItem Header="Tools"
+						  Style="{StaticResource DropDown}"
 						  DataContext="{Binding Source={StaticResource ViewModelLocator}}">
 					<MenuItem Header="Cheat Browser" 
 							  IsChecked="{Binding CheatBrowserViewModel.IsVisible, Mode=TwoWay}"
@@ -165,28 +173,28 @@
 							  IsChecked="{Binding DotNetExplorerViewModel.IsVisible, Mode=TwoWay}"
 							  IsCheckable="True"
 							  Style="{StaticResource menuItemStyle}"/>
-                </MenuItem>
-                <MenuItem Header="Scans"
+				</MenuItem>
+				<MenuItem Header="Scans"
 						  Style="{StaticResource DropDown}"
-                          DataContext="{Binding Source={StaticResource ViewModelLocator}}">
-                    <MenuItem Header="Change Counter"
+						  DataContext="{Binding Source={StaticResource ViewModelLocator}}">
+					<MenuItem Header="Change Counter"
 								  IsChecked="{Binding ChangeCounterViewModel.IsVisible, Mode=TwoWay}"
 								  IsCheckable="True"
 								  Style="{StaticResource menuItemStyle}"/>
-                    <MenuItem Header="Input Correlator"
+					<MenuItem Header="Input Correlator"
 								  IsChecked="{Binding InputCorrelatorViewModel.IsVisible, Mode=TwoWay}"
 								  IsCheckable="True"
 								  Style="{StaticResource menuItemStyle}"/>
-                    <MenuItem Header="Manual Scanner"
+					<MenuItem Header="Manual Scanner"
 								  IsChecked="{Binding ManualScannerViewModel.IsVisible, Mode=TwoWay}"
 								  IsCheckable="True"
 								  Style="{StaticResource menuItemStyle}"/>
-                    <MenuItem Header="Label Thresholder"
+					<MenuItem Header="Label Thresholder"
 								  IsChecked="{Binding LabelThresholderViewModel.IsVisible, Mode=TwoWay}" 
 								  IsCheckable="True"
 								  Style="{StaticResource menuItemStyle}"/>
-                </MenuItem>
-            </Menu>
+				</MenuItem>
+			</Menu>
 		</Grid>
 
 		<!-- Button Menu Bar -->
@@ -244,7 +252,7 @@
 				<Separator Style="{DynamicResource VerticalSeparator}" />
 				<MenuItem IsHitTestVisible="False">
 					<MenuItem.Header>
-						<TextBlock Text="No Selected Process"
+						<TextBlock Text="{Binding ProcessSelectorViewModel.ProcessName}"
 								   Foreground="{StaticResource AvalonDock_Expression_BaseColor2}">
 						</TextBlock>
 					</MenuItem.Header>

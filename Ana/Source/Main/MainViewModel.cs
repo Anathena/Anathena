@@ -40,7 +40,7 @@
         {
             this.tools = new HashSet<ToolViewModel>();
             this.Close = new RelayCommand<Window>((window) => this.CloseExecute(window), (window) => true);
-            this.Maximize = new RelayCommand<Window>((window) => this.MaximizeExecute(window), (window) => true);
+            this.MaximizeRestore = new RelayCommand<Window>((window) => this.MaximizeRestoreExecute(window), (window) => true);
             this.Minimize = new RelayCommand<Window>((window) => this.MinimizeExecute(window), (window) => true);
             this.LoadLayout = new RelayCommand<DockingManager>((dockingManager) => this.LoadLayoutExecute(dockingManager), (dockingManager) => true);
             this.SaveLayout = new RelayCommand<DockingManager>((dockingManager) => this.SaveLayoutExecute(dockingManager), (dockingManager) => true);
@@ -57,7 +57,7 @@
         /// <summary>
         /// Gets the command to maximize the main window
         /// </summary>
-        public ICommand Maximize { get; private set; }
+        public ICommand MaximizeRestore { get; private set; }
 
         /// <summary>
         /// Gets the command to minimize the main window
@@ -139,9 +139,21 @@
         /// <summary>
         /// Maximizes the main window
         /// </summary>
-        private void MaximizeExecute(Window window)
+        private void MaximizeRestoreExecute(Window window)
         {
-            window.WindowState = WindowState.Maximized;
+            if (window == null)
+            {
+                return;
+            }
+
+            if (window.WindowState != WindowState.Maximized)
+            {
+                window.WindowState = WindowState.Maximized;
+            }
+            else
+            {
+                window.WindowState = WindowState.Normal;
+            }
         }
 
         /// <summary>

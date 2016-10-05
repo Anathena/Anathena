@@ -58,6 +58,18 @@
         }
 
         /// <summary>
+        /// Gets the name of the opened process
+        /// </summary>
+        public String ProcessName
+        {
+            get
+            {
+                String processName = EngineCore.GetInstance().Processes?.GetOpenedProcess()?.ProcessName;
+                return String.IsNullOrEmpty(processName) ? "Please Select a Process" : processName;
+            }
+        }
+
+        /// <summary>
         /// Gets a singleton instance of the <see cref="ProcessSelectorViewModel"/> class
         /// </summary>
         /// <returns>A singleton instance of the class</returns>
@@ -78,6 +90,9 @@
             }
 
             EngineCore.GetInstance().Processes.OpenProcess(process);
+
+            // Raise event to update process name in the view
+            RaisePropertyChanged(nameof(this.ProcessName));
 
             this.IsVisible = false;
         }

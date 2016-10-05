@@ -67,7 +67,7 @@
 							  Command="{Binding AddNewAddressItem}">
 						<MenuItem.Header>
 							<WrapPanel Width="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=ActualWidth}">
-								<Image Width="16" Height="16" Source="pack://application:,,,/Ana;component/Content/Icons/Open.png"/>
+								<Image Width="16" Height="16" Source="pack://application:,,,/Ana;component/Content/Icons/CollectValues.png"/>
 								<TextBlock Text="Add Address"
                                            Background="Transparent"
                                            Foreground="{StaticResource AvalonDock_Expression_BaseColor2}"/>
@@ -80,7 +80,7 @@
 							  Command="{Binding AddNewScriptItem}">
 						<MenuItem.Header>
 							<WrapPanel Width="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=ActualWidth}">
-								<Image Width="16" Height="16" Source="pack://application:,,,/Ana;component/Content/Icons/Open.png"/>
+                                <Image Width="16" Height="16" Source="pack://application:,,,/Ana;component/Content/Icons/CollectValues.png"/>
 								<TextBlock Text="Add Script"
                                            Background="Transparent"
                                            Foreground="{StaticResource AvalonDock_Expression_BaseColor2}"/>
@@ -117,8 +117,7 @@
                                Margin="3,0"
                                Source="pack://application:,,,/Ana;component/Content/Icons/Open.png"/>
 						<TextBlock Text="{Binding Description}"
-                                   Width="{Binding Path=ActualWidth, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Grid}}}"
-                                   Foreground="{StaticResource AvalonDock_Expression_BaseColor12}" />
+                                   Foreground="{StaticResource AvalonDock_Expression_BaseColor2}" />
 					</StackPanel>
 				</HierarchicalDataTemplate>
 			</TreeView.Resources>

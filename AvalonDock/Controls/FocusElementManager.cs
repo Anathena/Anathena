@@ -16,15 +16,14 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
-using System.Text;
+using System.Windows;
 using System.Windows.Input;
 using System.Windows.Interop;
-using System.Windows;
-using System.Diagnostics;
-using Xceed.Wpf.AvalonDock.Layout;
 using System.Windows.Media;
 using System.Windows.Threading;
+using Xceed.Wpf.AvalonDock.Layout;
 
 namespace Xceed.Wpf.AvalonDock.Controls
 {
@@ -88,7 +87,7 @@ namespace Xceed.Wpf.AvalonDock.Controls
             var focusedElement = e.NewFocus as Visual;
             if (focusedElement != null &&
                 !(focusedElement is LayoutAnchorableTabItem || focusedElement is LayoutDocumentTabItem))
-              //Avoid tracking focus for elements like this
+            //Avoid tracking focus for elements like this
             {
                 var parentAnchorable = focusedElement.FindVisualAncestor<LayoutAnchorableControl>();
                 if (parentAnchorable != null)
@@ -149,14 +148,20 @@ namespace Xceed.Wpf.AvalonDock.Controls
             IInputElement objectToFocus;
             if (_modelFocusedElement.GetValue(model, out objectToFocus))
             {
-                focused = objectToFocus == Keyboard.Focus(objectToFocus);
+                try
+                {
+                    focused = objectToFocus == Keyboard.Focus(objectToFocus);
+                }
+                catch
+                {
+                }
             }
 
             IntPtr handleToFocus;
             if (_modelFocusedWindowHandle.GetValue(model, out handleToFocus))
                 focused = IntPtr.Zero != Win32Helper.SetFocus(handleToFocus);
 
-            Trace.WriteLine( string.Format( "SetFocusOnLastElement(focused={0}, model={1}, element={2})", focused, model, handleToFocus == IntPtr.Zero ? ( objectToFocus == null ? "" : objectToFocus.ToString() ) : handleToFocus.ToString() ) );
+            Trace.WriteLine(string.Format("SetFocusOnLastElement(focused={0}, model={1}, element={2})", focused, model, handleToFocus == IntPtr.Zero ? (objectToFocus == null ? "" : objectToFocus.ToString()) : handleToFocus.ToString()));
 
             if (focused)
             {
@@ -204,8 +209,8 @@ namespace Xceed.Wpf.AvalonDock.Controls
         {
             Trace.WriteLine("WindowActivating");
 
-            if (Keyboard.FocusedElement == null && 
-                _lastFocusedElement != null && 
+            if (Keyboard.FocusedElement == null &&
+                _lastFocusedElement != null &&
                 _lastFocusedElement.IsAlive)
             {
                 var elementToSetFocus = _lastFocusedElement.Target as ILayoutElement;
