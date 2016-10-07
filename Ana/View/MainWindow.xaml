@@ -13,7 +13,7 @@
 		xmlns:view="clr-namespace:Ana.View"
 		WindowStyle="None"
 		AllowsTransparency="False"
-		Title="Anathena" Height="640" Width="768">
+		Title="Anathena" Height="640" Width="512">
 	<Window.Resources>
 		<avalonDock:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
 	</Window.Resources>

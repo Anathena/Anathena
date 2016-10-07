@@ -11,8 +11,10 @@
     using System.Windows.Input;
     using Xceed.Wpf.AvalonDock;
     using Xceed.Wpf.AvalonDock.Layout.Serialization;
+
     /// <summary>
     /// Main view model
+    /// Note: There are several MVVM responsability violations in this class, but these are isolated and acceptable
     /// </summary>
     internal class MainViewModel : ViewModelBase
     {
@@ -131,14 +133,16 @@
         /// <summary>
         /// Closes the main window
         /// </summary>
+        /// <param name="window">The window to close</param>
         private void CloseExecute(Window window)
         {
             window.Close();
         }
 
         /// <summary>
-        /// Maximizes the main window
+        /// Maximizes or Restores the main window
         /// </summary>
+        /// <param name="window">The window to maximize or restore</param>
         private void MaximizeRestoreExecute(Window window)
         {
             if (window == null)
@@ -159,6 +163,7 @@
         /// <summary>
         /// Minimizes the main window
         /// </summary>
+        /// <param name="window">The window to minimize</param>
         private void MinimizeExecute(Window window)
         {
             window.WindowState = WindowState.Minimized;
@@ -167,6 +172,7 @@
         /// <summary>
         /// Loads and deserializes the saved layout from disk
         /// </summary>
+        /// <param name="dockManager">The docking root to which content is loaded</param>
         private void LoadLayoutExecute(DockingManager dockManager)
         {
             XmlLayoutSerializer serializer = new XmlLayoutSerializer(dockManager);
@@ -176,6 +182,7 @@
         /// <summary>
         /// Saves and deserializes the saved layout from disk
         /// </summary>
+        /// <param name="dockManager">The docking root to save</param>
         private void SaveLayoutExecute(DockingManager dockManager)
         {
             XmlLayoutSerializer serializer = new XmlLayoutSerializer(dockManager);

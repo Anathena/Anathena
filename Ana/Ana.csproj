@@ -227,6 +227,11 @@
     <Compile Include="Source\Utils\TimedLock.cs" />
     <Compile Include="Source\Utils\Validation\CheckSyntax.cs" />
     <Compile Include="Source\Utils\Validation\Conversions.cs" />
+    <Compile Include="Source\Utils\VirtualItemProvider\AsyncVirtualizingCollection.cs" />
+    <Compile Include="Source\Utils\VirtualItemProvider\IItemsProvider.cs" />
+    <Compile Include="Source\Utils\VirtualItemProvider\VirtualizingCollection.cs">
+      <ExcludeFromStyleCop>False</ExcludeFromStyleCop>
+    </Compile>
     <Compile Include="View\InputCorrelator.xaml.cs">
       <DependentUpon>InputCorrelator.xaml</DependentUpon>
     </Compile>
