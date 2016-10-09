@@ -7,7 +7,7 @@
     using System.Threading;
 
     /// <summary>
-    /// Derived VirtualizatingCollection, performing loading asychronously.
+    /// Derived VirtualizatingCollection, performing loading asychronously
     /// </summary>
     /// <typeparam name="T">The type of items in the collection</typeparam>
     internal class AsyncVirtualizingCollection<T> : VirtualizingCollection<T>, INotifyCollectionChanged, INotifyPropertyChanged
@@ -25,9 +25,9 @@
         /// <summary>
         /// Initializes a new instance of the <see cref="AsyncVirtualizingCollection{T}"/> class.
         /// </summary>
-        /// <param name="itemsProvider">The items provider.</param>
-        /// <param name="pageSize">Size of the page.</param>
-        /// <param name="pageTimeout">The page timeout.</param>
+        /// <param name="itemsProvider">The items provider</param>
+        /// <param name="pageSize">Size of the page</param>
+        /// <param name="pageTimeout">The page timeout</param>
         public AsyncVirtualizingCollection(IItemsProvider<T> itemsProvider, int pageSize, int pageTimeout) : base(itemsProvider, pageSize, pageTimeout)
         {
             this.synchronizationContext = SynchronizationContext.Current;
@@ -131,7 +131,7 @@
         /// Fires the property changed event
         /// </summary>
         /// <param name="propertyName">Name of the property</param>
-        private void FirePropertyChanged(string propertyName)
+        private void FirePropertyChanged(String propertyName)
         {
             PropertyChangedEventArgs e = new PropertyChangedEventArgs(propertyName);
             this.OnPropertyChanged(e);

@@ -23,17 +23,26 @@ namespace Ana.Source.Snapshots
             () => { return new SnapshotManager(); },
             LazyThreadSafetyMode.PublicationOnly);
 
+        private List<ISnapshotObserver> snapshotObservers;
+
         private SnapshotManager()
         {
             this.AccessLock = new Object();
+            this.ObserverLock = new Object();
             this.Snapshots = new Stack<Snapshot>();
             this.DeletedSnapshots = new Stack<Snapshot>();
+            this.snapshotObservers = new List<ISnapshotObserver>();
         }
 
         /// <summary>
         /// Lock to ensure multiple entities do not try and update the snapshot list at the same time
         /// </summary>
         private Object AccessLock { get; set; }
+
+        /// <summary>
+        /// Lock to ensure multiple entities do not try and update the snapshot list at the same time
+        /// </summary>
+        private Object ObserverLock { get; set; }
 
         /// <summary>
         /// Gets or sets the snapshots being managed
@@ -48,6 +57,29 @@ namespace Ana.Source.Snapshots
         public static SnapshotManager GetInstance()
         {
             return SnapshotManager.SnapshotManagerInstance.Value;
+        }
+
+        public void Subscribe(ISnapshotObserver snapshotObserver)
+        {
+            lock (ObserverLock)
+            {
+                if (!snapshotObservers.Contains(snapshotObserver))
+                {
+                    snapshotObservers.Add(snapshotObserver);
+                    snapshotObserver.Update(GetActiveSnapshot());
+                }
+            }
+        }
+
+        public void Unsubscribe(ISnapshotObserver snapshotObserver)
+        {
+            lock (ObserverLock)
+            {
+                if (snapshotObservers.Contains(snapshotObserver))
+                {
+                    snapshotObservers.Remove(snapshotObserver);
+                }
+            }
         }
 
         /// <summary>
@@ -162,7 +194,6 @@ namespace Ana.Source.Snapshots
             }
 
             this.ClearSnapshots();
-
             this.SaveSnapshot(null);
         }
 
@@ -179,6 +210,7 @@ namespace Ana.Source.Snapshots
                 }
 
                 this.Snapshots.Push(this.DeletedSnapshots.Pop());
+                this.NotifyObservers();
             }
         }
 
@@ -200,6 +232,8 @@ namespace Ana.Source.Snapshots
                 {
                     this.DeletedSnapshots.Pop();
                 }
+
+                this.NotifyObservers();
             }
         }
 
@@ -212,6 +246,7 @@ namespace Ana.Source.Snapshots
             {
                 this.Snapshots.Clear();
                 this.DeletedSnapshots.Clear();
+                this.NotifyObservers();
             }
         }
 
@@ -234,8 +269,8 @@ namespace Ana.Source.Snapshots
                 }
 
                 this.Snapshots.Push(snapshot);
-
                 this.DeletedSnapshots.Clear();
+                this.NotifyObservers();
             }
         }
 
@@ -263,11 +298,16 @@ namespace Ana.Source.Snapshots
             return null;
         }
 
-        /// <summary>
-        /// Current solution to modifying a snapshot not through the manager and displaying the results
-        /// </summary>
-        public void ForceRefresh()
+        private void NotifyObservers()
         {
+            lock (ObserverLock)
+            {
+                Snapshot activeSnapshot = GetActiveSnapshot();
+                foreach (ISnapshotObserver observer in snapshotObservers)
+                {
+                    observer.Update(activeSnapshot);
+                }
+            }
         }
     }
     //// End class

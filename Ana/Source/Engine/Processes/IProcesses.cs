@@ -12,13 +12,13 @@
         /// Subscribes the listener to process change events
         /// </summary>
         /// <param name="listener">The object that wants to listen to process update events</param>
-        void Subscribe(IProcessListener listener);
+        void Subscribe(IProcessObserver listener);
 
         /// <summary>
         /// Unsubscribes the listener from process change events
         /// </summary>
         /// <param name="listener">The object that wants to stop listening to process update events</param>
-        void Unsubscribe(IProcessListener listener);
+        void Unsubscribe(IProcessObserver listener);
 
         /// <summary>
         /// Gets all running processes on the system

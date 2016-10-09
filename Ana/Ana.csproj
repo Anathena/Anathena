@@ -152,7 +152,7 @@
     <Compile Include="Source\Engine\OperatingSystems\Windows\WindowsAdapter.cs">
       <ExcludeFromStyleCop>False</ExcludeFromStyleCop>
     </Compile>
-    <Compile Include="Source\Engine\Processes\IProcessListener.cs" />
+    <Compile Include="Source\Engine\Processes\IProcessObserver.cs" />
     <Compile Include="Source\Engine\Processes\IProcesses.cs" />
     <Compile Include="Source\Engine\Processes\NormalizedProcess.cs" />
     <Compile Include="Source\Engine\Processes\ProcessAdapter.cs" />
@@ -203,6 +203,7 @@
     <Compile Include="Source\Snapshots\Snapshot.cs" />
     <Compile Include="Source\Snapshots\SnapshotElement.cs" />
     <Compile Include="Source\Snapshots\SnapshotManager.cs" />
+    <Compile Include="Source\Snapshots\ISnapshotObserver.cs" />
     <Compile Include="Source\Snapshots\SnapshotRegion.cs" />
     <Compile Include="Source\UserSettings\SettingsViewModel.cs" />
     <Compile Include="Source\UserSettings\Settings.cs" />

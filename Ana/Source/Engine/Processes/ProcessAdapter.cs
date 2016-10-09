@@ -16,7 +16,7 @@
         /// <summary>
         /// Thread safe collection of listeners
         /// </summary>
-        private ConcurrentHashSet<IProcessListener> processListeners;
+        private ConcurrentHashSet<IProcessObserver> processListeners;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ProcessAdapter" /> class
@@ -34,11 +34,11 @@
         /// Subscribes the listener to process change events
         /// </summary>
         /// <param name="listener">The object that wants to listen to process update events</param>
-        public void Subscribe(IProcessListener listener)
+        public void Subscribe(IProcessObserver listener)
         {
             if (this.processListeners == null)
             {
-                this.processListeners = new ConcurrentHashSet<IProcessListener>();
+                this.processListeners = new ConcurrentHashSet<IProcessObserver>();
             }
 
             this.processListeners.Add(listener);
@@ -48,7 +48,7 @@
         /// Unsubscribes the listener from process change events
         /// </summary>
         /// <param name="listener">The object that wants to listen to process update events</param>
-        public void Unsubscribe(IProcessListener listener)
+        public void Unsubscribe(IProcessObserver listener)
         {
             this.processListeners?.Remove(listener);
         }
@@ -80,7 +80,7 @@
 
             if (this.processListeners != null)
             {
-                foreach (IProcessListener listener in this.processListeners)
+                foreach (IProcessObserver listener in this.processListeners)
                 {
                     listener.Update(process);
                 }

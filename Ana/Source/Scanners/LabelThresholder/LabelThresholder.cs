@@ -122,8 +122,6 @@ namespace Ana.Source.Scanners.LabelThresholder
             Snapshot.DiscardInvalidRegions();
             // Snapshot.SetScanMethod("Label Thresholder");
             // SnapshotManager.GetInstance().SaveSnapshot(Snapshot);
-            SnapshotManager.GetInstance().ForceRefresh();
-            // ScanResults.GetInstance().ForceRefresh();
         }
 
     } // End class

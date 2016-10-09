@@ -8,11 +8,11 @@
     using System.Collections.Generic;
     using System.Threading;
     using System.Windows.Input;
-
+    using Utils.Validation;
     /// <summary>
     /// View model for the Process Selector
     /// </summary>
-    internal class ScanResultsViewModel : ToolViewModel
+    internal class ScanResultsViewModel : ToolViewModel, ISnapshotObserver
     {
         /// <summary>
         /// The content id for the docking library associated with this view model
@@ -26,6 +26,9 @@
                 () => { return new ScanResultsViewModel(); },
                 LazyThreadSafetyMode.PublicationOnly);
 
+        private UInt64 addressCount;
+        private List<SnapshotElement> activeViewableElements;
+
         /// <summary>
         /// Prevents a default instance of the <see cref="ScanResultsViewModel" /> class from being created
         /// </summary>
@@ -33,12 +36,14 @@
         {
             this.ContentId = ToolContentId;
             this.AddAddressCommand = new RelayCommand<Object>((address) => this.AddAddress(address), (address) => true);
+            this.activeViewableElements = new List<SnapshotElement>();
             this.IsVisible = true;
 
             // Temp debug
             SnapshotRegion<Null> k = new SnapshotRegion<Null>(new IntPtr(0x6666), 420);
             Addresses = new List<SnapshotElement>(new SnapshotElement[] { new SnapshotElement<Null>(k), new SnapshotElement<Null>(k) });
 
+            SnapshotManager.GetInstance().Subscribe(this);
             MainViewModel.GetInstance().Subscribe(this);
         }
 
@@ -58,29 +63,37 @@
         public ICommand AddAddressCommand { get; private set; }
 
         /// <summary>
+        /// The the size (in B, KB, MB, or GB) of the results found
+        /// </summary>
+        public String ResultSize
+        {
+            get
+            {
+                return Conversions.BytesToMetric<UInt64>(this.addressCount);
+            }
+        }
+
+        /// <summary>
         /// The total number of addresses found
         /// </summary>
-        public UInt64 AddressCount { get; set; }
+        public UInt64 ResultCount
+        {
+            get
+            {
+                return this.addressCount;
+            }
+            set
+            {
+                this.addressCount = value;
+                RaisePropertyChanged(nameof(this.ResultCount));
+                RaisePropertyChanged(nameof(this.ResultSize));
+            }
+        }
 
         /// <summary>
-        /// Gets the addresses
+        /// Gets the address elements
         /// </summary>
         public IEnumerable<SnapshotElement> Addresses { get; private set; }
-
-        /// <summary>
-        /// Gets the labels for the addresses
-        /// </summary>
-        public IEnumerable<Object> AddressLabels { get; private set; }
-
-        /// <summary>
-        /// Gets the values of the addresses
-        /// </summary>
-        public IEnumerable<Object> AddressValues { get; private set; }
-
-        /// <summary>
-        /// Gets the previous values of the addresses
-        /// </summary>
-        public IEnumerable<Object> AddressPreviousValues { get; private set; }
 
         /// <summary>
         /// Gets or sets the view window into what addresses are passed to the view
@@ -94,6 +107,15 @@
         public static ScanResultsViewModel GetInstance()
         {
             return scanResultsViewModelInstance.Value;
+        }
+
+        /// <summary>
+        /// Recieves an update of the active snapshot
+        /// </summary>
+        /// <param name="process">The active snapshot</param>
+        public void Update(Snapshot snapshot)
+        {
+            this.ResultCount = snapshot == null ? 0 : snapshot.GetElementCount();
         }
 
         /// <summary>
