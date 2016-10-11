@@ -19,35 +19,35 @@
 			<RowDefinition/>
 			<RowDefinition Height="Auto"/>
 		</Grid.RowDefinitions>
-        <Border Grid.Row="0"
+		<Border Grid.Row="0"
 				Padding="8 4 8 4"
 				Background="{StaticResource AvalonDock_Expression_BaseColor4}">
-            <WrapPanel>
-                <Menu Background="Transparent"
-					  DataContext="{Binding Source={StaticResource ViewModelLocator}}">
+			<WrapPanel>
+				<Menu Background="Transparent">
                     <MenuItem>
-                        <MenuItem.Header>
-                            <Image Source="pack://application:,,,/Ana;component/Content/Icons/DownArrows.png"
-							   Width="16"
-							   Height="16"/>
-                        </MenuItem.Header>
-                    </MenuItem>
-                </Menu>
-                <TextBlock Foreground="{StaticResource AvalonDock_Expression_BaseColor2}"
+						<MenuItem.Header>
+							<Image Source="pack://application:,,,/Ana;component/Content/Icons/DownArrows.png"
+								   ToolTip="Add Selected Items"
+								   Width="16"
+								   Height="16"/>
+						</MenuItem.Header>
+					</MenuItem>
+				</Menu>
+				<TextBlock Foreground="{StaticResource AvalonDock_Expression_BaseColor2}"
 						   Text="{Binding ResultSize}">
-                </TextBlock>
-                <TextBlock Foreground="{StaticResource AvalonDock_Expression_BaseColor2}"
+				</TextBlock>
+				<TextBlock Foreground="{StaticResource AvalonDock_Expression_BaseColor2}"
 						   Text=" - (Count: ">
-                </TextBlock>
-                <TextBlock Foreground="{StaticResource AvalonDock_Expression_BaseColor2}"
+				</TextBlock>
+				<TextBlock Foreground="{StaticResource AvalonDock_Expression_BaseColor2}"
 						   Text="{Binding ResultCount}">
-                </TextBlock>
-                <TextBlock Foreground="{StaticResource AvalonDock_Expression_BaseColor2}"
+				</TextBlock>
+				<TextBlock Foreground="{StaticResource AvalonDock_Expression_BaseColor2}"
 						   Text=")">
-                </TextBlock>
-            </WrapPanel>
-        </Border>
-        <Border Grid.Row="1">
+				</TextBlock>
+			</WrapPanel>
+		</Border>
+		<Border Grid.Row="1">
 			<ListView ItemsSource="{Binding Addresses}"
 					  Background="{StaticResource AvalonDock_Expression_BaseColor3}"
 					  BorderThickness="0">
@@ -55,9 +55,9 @@
 					<DataTemplate>
 						<Grid Width="{Binding Path=ActualWidth, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListView}}}">
 							<Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
 								<ColumnDefinition/>
-								<ColumnDefinition/>
-								<ColumnDefinition/>
+                                <ColumnDefinition/>
 							</Grid.ColumnDefinitions>
 							<Grid.InputBindings>
 								<MouseBinding Gesture="LeftDoubleClick"
@@ -77,98 +77,117 @@
 					</DataTemplate>
 				</ListView.ItemTemplate>
 				<ListView.Template>
-                    <ControlTemplate>
-                        <ScrollViewer VerticalScrollBarVisibility="Visible"
+					<ControlTemplate>
+						<ScrollViewer VerticalScrollBarVisibility="Visible"
 									  HorizontalScrollBarVisibility="Hidden"
 									  Style="{StaticResource ScrollViewer}">
-                            <Grid HorizontalAlignment="Left">
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="Auto"/>
-                                    <RowDefinition Height="Auto"/>
-                                </Grid.RowDefinitions>
-                                <Grid Grid.Row="0"
+							<Grid HorizontalAlignment="Left">
+								<Grid.RowDefinitions>
+									<RowDefinition Height="Auto"/>
+									<RowDefinition Height="Auto"/>
+								</Grid.RowDefinitions>
+								<Grid Grid.Row="0"
+                                      Width="{Binding Path=ActualWidth, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListView}}}"
 									  VerticalAlignment="Center">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition />
-                                        <ColumnDefinition />
-                                        <ColumnDefinition />
-                                    </Grid.ColumnDefinitions>
-                                    <Grid.Resources>
-                                        <Style TargetType="TextBlock">
-                                            <Setter Property="Margin" Value="5,0" />
-                                            <Setter Property="Foreground" Value="{StaticResource AvalonDock_Expression_BaseColor2}" />
-                                            <Setter Property="FontWeight" Value="Bold" />
-                                        </Style>
-                                        <Style TargetType="Border">
-                                            <Setter Property="BorderThickness" Value="0" />
-                                            <Setter Property="Background" Value="{StaticResource AvalonDock_Expression_BaseColor5}" />
-                                        </Style>
-                                    </Grid.Resources>
-                                    <Border Grid.Column="0">
-                                        <TextBlock >Address</TextBlock>
-                                    </Border>
-                                    <Border Grid.Column="1">
-                                        <TextBlock >Value</TextBlock>
-                                    </Border>
-                                    <Border Grid.Column="2">
-                                        <TextBlock >Label</TextBlock>
-                                    </Border>
-                                </Grid>
-                                <ItemsPresenter Grid.Row="1"></ItemsPresenter>
-                            </Grid>
-                        </ScrollViewer>
-                    </ControlTemplate>
+									<Grid.ColumnDefinitions>
+                                        <ColumnDefinition/>
+										<ColumnDefinition/>
+                                        <ColumnDefinition/>
+									</Grid.ColumnDefinitions>
+									<Grid.Resources>
+										<Style TargetType="TextBlock">
+											<Setter Property="Margin" Value="5,0" />
+											<Setter Property="Foreground" Value="{StaticResource AvalonDock_Expression_BaseColor2}" />
+											<Setter Property="FontWeight" Value="Bold" />
+										</Style>
+										<Style TargetType="Border">
+											<Setter Property="BorderThickness" Value="0" />
+											<Setter Property="Background" Value="{StaticResource AvalonDock_Expression_BaseColor5}" />
+										</Style>
+									</Grid.Resources>
+									<Border Grid.Column="0">
+										<TextBlock >Address</TextBlock>
+									</Border>
+									<Border Grid.Column="1">
+										<TextBlock >Value</TextBlock>
+									</Border>
+									<Border Grid.Column="2">
+										<TextBlock >Label</TextBlock>
+									</Border>
+								</Grid>
+								<ItemsPresenter Grid.Row="1"></ItemsPresenter>
+							</Grid>
+						</ScrollViewer>
+					</ControlTemplate>
 				</ListView.Template>
 			</ListView>
-        </Border>
-        <Border Grid.Row="2"
+		</Border>
+		<Border Grid.Row="2"
 				Padding="8 4 8 4"
 				Background="{StaticResource AvalonDock_Expression_BaseColor4}">
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition/>
-                    <ColumnDefinition Width="Auto"/>
-                </Grid.ColumnDefinitions>
-                <Menu Grid.Column="0"
-                      Background="Transparent"
+			<Grid>
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="Auto"/>
+					<ColumnDefinition/>
+					<ColumnDefinition Width="Auto"/>
+				</Grid.ColumnDefinitions>
+				<Menu Grid.Column="0"
+					  Background="Transparent"
 					  DataContext="{Binding Source={StaticResource ViewModelLocator}}">
-                    <MenuItem>
-                        <MenuItem.Header>
-                            <Image Source="pack://application:,,,/Ana;component/Content/Icons/LeftArrow.png"
-							   Width="16"
-							   Height="16"/>
-                        </MenuItem.Header>
-                    </MenuItem>
-                </Menu>
-                <WrapPanel Grid.Column="1"
-                           HorizontalAlignment="Center">
-                    <TextBlock Foreground="{StaticResource AvalonDock_Expression_BaseColor2}"
+                    <MenuItem Command="{Binding ScanResultsViewModel.FirstPageCommand}">
+						<MenuItem.Header>
+							<Image Source="pack://application:,,,/Ana;component/Content/Icons/LeftArrows.png"
+								   ToolTip="First Page"
+								   Width="16"
+								   Height="16"/>
+						</MenuItem.Header>
+					</MenuItem>
+                    <MenuItem Command="{Binding ScanResultsViewModel.PreviousPageCommand}">
+						<MenuItem.Header>
+							<Image Source="pack://application:,,,/Ana;component/Content/Icons/LeftArrow.png"
+								   ToolTip="Previous Page"
+								   Width="16"
+								   Height="16"/>
+						</MenuItem.Header>
+					</MenuItem>
+				</Menu>
+				<WrapPanel Grid.Column="1"
+						   HorizontalAlignment="Center">
+					<TextBlock Foreground="{StaticResource AvalonDock_Expression_BaseColor2}"
 						   Text="Page: ">
-                    </TextBlock>
-                    <TextBlock Foreground="{StaticResource AvalonDock_Expression_BaseColor2}"
-						   Text="{Binding ResultCount}">
-                    </TextBlock>
-                    <TextBlock Foreground="{StaticResource AvalonDock_Expression_BaseColor2}"
+					</TextBlock>
+					<TextBlock Foreground="{StaticResource AvalonDock_Expression_BaseColor2}"
+						   Text="{Binding CurrentPage}">
+					</TextBlock>
+					<TextBlock Foreground="{StaticResource AvalonDock_Expression_BaseColor2}"
 						   Text=" of ">
-                    </TextBlock>
-                    <TextBlock Foreground="{StaticResource AvalonDock_Expression_BaseColor2}"
-						   Text="{Binding ResultCount}">
-                    </TextBlock>
-                </WrapPanel>
-                <Menu Grid.Column="2"
-                      HorizontalAlignment="Right"
-                      Background="Transparent"
+					</TextBlock>
+					<TextBlock Foreground="{StaticResource AvalonDock_Expression_BaseColor2}"
+						   Text="{Binding PageCount}">
+					</TextBlock>
+				</WrapPanel>
+				<Menu Grid.Column="2"
+					  HorizontalAlignment="Right"
+					  Background="Transparent"
 					  DataContext="{Binding Source={StaticResource ViewModelLocator}}">
-                    <MenuItem>
-                        <MenuItem.Header>
-                            <Image Source="pack://application:,,,/Ana;component/Content/Icons/RightArrow.png"
-							   Width="16"
-							   Height="16"/>
-                        </MenuItem.Header>
-                    </MenuItem>
-                </Menu>
-            </Grid>
-        </Border>
-    </Grid>
+                    <MenuItem Command="{Binding ScanResultsViewModel.NextPageCommand}">
+						<MenuItem.Header>
+							<Image Source="pack://application:,,,/Ana;component/Content/Icons/RightArrow.png"
+								   ToolTip="Next Page"
+								   Width="16"
+								   Height="16"/>
+						</MenuItem.Header>
+					</MenuItem>
+                    <MenuItem Command="{Binding ScanResultsViewModel.LastPageCommand}">
+						<MenuItem.Header>
+							<Image Source="pack://application:,,,/Ana;component/Content/Icons/RightArrows.png"
+								   ToolTip="Last Page"
+								   Width="16"
+								   Height="16"/>
+						</MenuItem.Header>
+					</MenuItem>
+				</Menu>
+			</Grid>
+		</Border>
+	</Grid>
 </UserControl>
