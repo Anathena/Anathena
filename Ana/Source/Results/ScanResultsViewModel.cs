@@ -28,6 +28,7 @@
 
         private UInt64 addressCount;
         private List<SnapshotElement> activeViewableElements;
+        private IEnumerable<SnapshotElement> addresses;
 
         /// <summary>
         /// Prevents a default instance of the <see cref="ScanResultsViewModel" /> class from being created
@@ -41,7 +42,14 @@
 
             // Temp debug
             SnapshotRegion<Null> k = new SnapshotRegion<Null>(new IntPtr(0x6666), 420);
-            Addresses = new List<SnapshotElement>(new SnapshotElement[] { new SnapshotElement<Null>(k), new SnapshotElement<Null>(k) });
+            this.addresses = new List<SnapshotElement>(new SnapshotElement[] { new SnapshotElement<Null>(k), new SnapshotElement<Null>(k),
+                new SnapshotElement<Null>(k), new SnapshotElement<Null>(k), new SnapshotElement<Null>(k), new SnapshotElement<Null>(k),
+                new SnapshotElement<Null>(k), new SnapshotElement<Null>(k), new SnapshotElement<Null>(k), new SnapshotElement<Null>(k),
+                new SnapshotElement<Null>(k), new SnapshotElement<Null>(k), new SnapshotElement<Null>(k), new SnapshotElement<Null>(k),
+                new SnapshotElement<Null>(k), new SnapshotElement<Null>(k), new SnapshotElement<Null>(k), new SnapshotElement<Null>(k),
+                new SnapshotElement<Null>(k), new SnapshotElement<Null>(k), new SnapshotElement<Null>(k), new SnapshotElement<Null>(k),
+                new SnapshotElement<Null>(k) });
+            this.RaisePropertyChanged(nameof(this.Addresses));
 
             SnapshotManager.GetInstance().Subscribe(this);
             MainViewModel.GetInstance().Subscribe(this);
@@ -63,7 +71,7 @@
         public ICommand AddAddressCommand { get; private set; }
 
         /// <summary>
-        /// The the size (in B, KB, MB, or GB) of the results found
+        /// The the size (in B, KB, MB, GB, TB, etc) of the results found
         /// </summary>
         public String ResultSize
         {
@@ -85,20 +93,21 @@
             set
             {
                 this.addressCount = value;
-                RaisePropertyChanged(nameof(this.ResultCount));
-                RaisePropertyChanged(nameof(this.ResultSize));
+                this.RaisePropertyChanged(nameof(this.ResultCount));
+                this.RaisePropertyChanged(nameof(this.ResultSize));
             }
         }
 
         /// <summary>
         /// Gets the address elements
         /// </summary>
-        public IEnumerable<SnapshotElement> Addresses { get; private set; }
-
-        /// <summary>
-        /// Gets or sets the view window into what addresses are passed to the view
-        /// </summary>
-        private UInt64 ViewWindowStart { get; set; }
+        public IEnumerable<SnapshotElement> Addresses
+        {
+            get
+            {
+                return addresses;
+            }
+        }
 
         /// <summary>
         /// Gets a singleton instance of the <see cref="ScanResultsViewModel"/> class
@@ -106,7 +115,7 @@
         /// <returns>A singleton instance of the class</returns>
         public static ScanResultsViewModel GetInstance()
         {
-            return scanResultsViewModelInstance.Value;
+            return ScanResultsViewModel.scanResultsViewModelInstance.Value;
         }
 
         /// <summary>

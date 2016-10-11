@@ -47,78 +47,79 @@
 			</WrapPanel>
 		</Border>
 
-        <Border Grid.Row="1">
-            <ListView ItemsSource="{Binding Addresses}"
+		<Border Grid.Row="1">
+			<ListView ItemsSource="{Binding Addresses}"
 					  Background="{StaticResource AvalonDock_Expression_BaseColor3}"
 					  BorderThickness="0">
-                <ListView.ItemTemplate>
-                    <DataTemplate>
-                        <Grid Width="{Binding Path=ActualWidth, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListView}}}">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition/>
-                                <ColumnDefinition/>
-                                <ColumnDefinition/>
-                            </Grid.ColumnDefinitions>
-                            <Grid.InputBindings>
-                                <MouseBinding Gesture="LeftDoubleClick"
+				<ListView.ItemTemplate>
+					<DataTemplate>
+						<Grid Width="{Binding Path=ActualWidth, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListView}}}">
+							<Grid.ColumnDefinitions>
+								<ColumnDefinition/>
+								<ColumnDefinition/>
+								<ColumnDefinition/>
+							</Grid.ColumnDefinitions>
+							<Grid.InputBindings>
+								<MouseBinding Gesture="LeftDoubleClick"
 											  Command="{Binding DataContext.AddAddressCommand, ElementName=AnaScanResults}"
 											  CommandParameter="{Binding .}"/>
-                            </Grid.InputBindings>
-                            <TextBlock Grid.Column="0"
+							</Grid.InputBindings>
+							<TextBlock Grid.Column="0"
 									   Text="{Binding Path=BaseAddress}"
 									   Foreground="{StaticResource AvalonDock_Expression_BaseColor2}"/>
-                            <TextBlock Grid.Column="1"
+							<TextBlock Grid.Column="1"
 									   Text="{Binding Path=BaseAddress}"
 									   Foreground="{StaticResource AvalonDock_Expression_BaseColor2}"/>
-                            <TextBlock Grid.Column="2"
+							<TextBlock Grid.Column="2"
 									   Text="{Binding Path=BaseAddress}"
 									   Foreground="{StaticResource AvalonDock_Expression_BaseColor2}"/>
-                        </Grid>
-                    </DataTemplate>
-                </ListView.ItemTemplate>
-                <ListView.Template>
-                    <ControlTemplate>
-                        <WrapPanel>
-                            <Grid HorizontalAlignment="Left">
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto"/>
-                                <RowDefinition Height="Auto"/>
-                            </Grid.RowDefinitions>
-                            <Grid Grid.Row="0"
-								  VerticalAlignment="Center">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition />
-                                        <ColumnDefinition />
-                                        <ColumnDefinition />
-                                    </Grid.ColumnDefinitions>
-                                <Grid.Resources>
-                                    <Style TargetType="TextBlock">
-                                        <Setter Property="Margin" Value="5,0" />
-                                        <Setter Property="Foreground" Value="{StaticResource AvalonDock_Expression_BaseColor2}" />
-                                        <Setter Property="FontWeight" Value="Bold" />
-                                    </Style>
-                                    <Style TargetType="Border">
-                                        <Setter Property="BorderThickness" Value="0" />
-                                        <Setter Property="Background" Value="{StaticResource AvalonDock_Expression_BaseColor5}" />
-                                    </Style>
-                                </Grid.Resources>
-                                <Border Grid.Column="0">
-                                    <TextBlock >Address</TextBlock>
-                                </Border>
-                                <Border Grid.Column="1">
-                                    <TextBlock >Value</TextBlock>
-                                </Border>
-                                <Border Grid.Column="2">
-                                    <TextBlock >Label</TextBlock>
-                                </Border>
-                            </Grid>
-                            <ItemsPresenter Grid.Row="1"></ItemsPresenter>
-                            <ScrollViewer Grid.Row="2" HorizontalAlignment="Right"/>
-                            </Grid>
-                        </WrapPanel>
-                    </ControlTemplate>
-                </ListView.Template>
-            </ListView>
-        </Border>
-    </Grid>
+						</Grid>
+					</DataTemplate>
+				</ListView.ItemTemplate>
+				<ListView.Template>
+					<ControlTemplate>
+						<ScrollViewer VerticalScrollBarVisibility="Visible"
+									  HorizontalScrollBarVisibility="Hidden"
+									  Style="{StaticResource ScrollViewer}">
+							<Grid HorizontalAlignment="Left">
+							<Grid.RowDefinitions>
+								<RowDefinition Height="Auto"/>
+								<RowDefinition Height="Auto"/>
+							</Grid.RowDefinitions>
+							<Grid Grid.Row="0"
+									  VerticalAlignment="Center">
+								<Grid.ColumnDefinitions>
+									<ColumnDefinition />
+									<ColumnDefinition />
+									<ColumnDefinition />
+								</Grid.ColumnDefinitions>
+								<Grid.Resources>
+									<Style TargetType="TextBlock">
+										<Setter Property="Margin" Value="5,0" />
+										<Setter Property="Foreground" Value="{StaticResource AvalonDock_Expression_BaseColor2}" />
+										<Setter Property="FontWeight" Value="Bold" />
+									</Style>
+									<Style TargetType="Border">
+										<Setter Property="BorderThickness" Value="0" />
+										<Setter Property="Background" Value="{StaticResource AvalonDock_Expression_BaseColor5}" />
+									</Style>
+								</Grid.Resources>
+								<Border Grid.Column="0">
+									<TextBlock >Address</TextBlock>
+								</Border>
+								<Border Grid.Column="1">
+									<TextBlock >Value</TextBlock>
+								</Border>
+								<Border Grid.Column="2">
+									<TextBlock >Label</TextBlock>
+								</Border>
+							</Grid>
+							<ItemsPresenter Grid.Row="1"></ItemsPresenter>
+							</Grid>
+						</ScrollViewer>
+					</ControlTemplate>
+				</ListView.Template>
+			</ListView>
+		</Border>
+	</Grid>
 </UserControl>

@@ -14,6 +14,7 @@
                 <ResourceDictionary Source="pack://application:,,,/Ana;component/View/Style/DropDown.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/Ana;component/View/Style/DropDownAutoClose.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/Ana;component/View/Style/FlatComboBox.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/Ana;component/View/Style/ScrollViewer.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/Ana;component/View/Style/VerticalSeparator.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
