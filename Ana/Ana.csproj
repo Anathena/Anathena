@@ -169,6 +169,7 @@
     <Compile Include="Source\LuaEngine\LuaScript.cs" />
     <Compile Include="Source\LuaEngine\Memory\IMemoryCore.cs" />
     <Compile Include="Source\LuaEngine\Memory\LuaMemoryCore.cs" />
+    <Compile Include="Source\Mvvm\Behavior\ScrollViewerBehavior.cs" />
     <Compile Include="Source\Mvvm\Converters\IconConverter.cs" />
     <Compile Include="Source\Project\ProjectExplorerViewModel.cs" />
     <Compile Include="Source\Project\ProjectExplorer.cs" />
@@ -418,7 +419,9 @@
     <None Include="Settings.StyleCop" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AvalonDock\AvalonDock.csproj">
@@ -434,7 +437,6 @@
     <Folder Include="Source\Engine\AddressResolver\Java\" />
     <Folder Include="Source\Engine\AddressResolver\Python\" />
     <Folder Include="Source\Engine\Proxy\" />
-    <Folder Include="Source\Mvvm\Behavior\" />
     <Folder Include="View\Controls\" />
   </ItemGroup>
   <ItemGroup>
@@ -507,15 +509,6 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Content\Icons\Maximize.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="ScanDatabase.mdf">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="ScanDatabase_log.ldf">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      <DependentUpon>ScanDatabase.mdf</DependentUpon>
-    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
