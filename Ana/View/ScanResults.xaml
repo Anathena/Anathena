@@ -56,24 +56,28 @@
 						<Grid Width="{Binding Path=ActualWidth, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListView}}}">
 							<Grid.ColumnDefinitions>
                                 <ColumnDefinition/>
-								<ColumnDefinition/>
                                 <ColumnDefinition/>
-							</Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
 							<Grid.InputBindings>
 								<MouseBinding Gesture="LeftDoubleClick"
 											  Command="{Binding DataContext.AddAddressCommand, ElementName=AnaScanResults}"
 											  CommandParameter="{Binding .}"/>
 							</Grid.InputBindings>
 							<TextBlock Grid.Column="0"
-									   Text="{Binding Path=BaseAddress}"
+									   Text="{Binding Path=Address}"
 									   Foreground="{StaticResource AvalonDock_Expression_BaseColor2}"/>
 							<TextBlock Grid.Column="1"
-									   Text="{Binding Path=BaseAddress}"
+									   Text="{Binding Path=Value}"
 									   Foreground="{StaticResource AvalonDock_Expression_BaseColor2}"/>
-							<TextBlock Grid.Column="2"
-									   Text="{Binding Path=BaseAddress}"
+                            <TextBlock Grid.Column="2"
+									   Text="{Binding Path=PreviousValue}"
 									   Foreground="{StaticResource AvalonDock_Expression_BaseColor2}"/>
-						</Grid>
+                            <TextBlock Grid.Column="3"
+									   Text="{Binding Path=Label}"
+									   Foreground="{StaticResource AvalonDock_Expression_BaseColor2}"/>
+                        </Grid>
 					</DataTemplate>
 				</ListView.ItemTemplate>
 				<ListView.Template>
@@ -91,9 +95,10 @@
 									  VerticalAlignment="Center">
 									<Grid.ColumnDefinitions>
                                         <ColumnDefinition/>
-										<ColumnDefinition/>
                                         <ColumnDefinition/>
-									</Grid.ColumnDefinitions>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition/>
+                                    </Grid.ColumnDefinitions>
 									<Grid.Resources>
 										<Style TargetType="TextBlock">
 											<Setter Property="Margin" Value="5,0" />
@@ -110,11 +115,14 @@
 									</Border>
 									<Border Grid.Column="1">
 										<TextBlock >Value</TextBlock>
-									</Border>
-									<Border Grid.Column="2">
-										<TextBlock >Label</TextBlock>
-									</Border>
-								</Grid>
+                                    </Border>
+                                    <Border Grid.Column="2">
+                                        <TextBlock >Previous</TextBlock>
+                                    </Border>
+                                    <Border Grid.Column="3">
+                                        <TextBlock >Label</TextBlock>
+                                    </Border>
+                                </Grid>
 								<ItemsPresenter Grid.Row="1"></ItemsPresenter>
 							</Grid>
 						</ScrollViewer>

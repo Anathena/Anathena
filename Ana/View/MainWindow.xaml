@@ -52,22 +52,22 @@
 				<ColumnDefinition Width="Auto"/>
 
 			</Grid.ColumnDefinitions>
-            <WrapPanel Grid.Column="0">
-                <Image Width="24"
-                       Height="24"
-                       Margin="4"
-                       Source="pack://application:,,,/Ana;component/Content/Icons/MainIcon.ico">
-                </Image>
-                <TextBlock Text="Anathena"
-					       Foreground="{StaticResource AvalonDock_Expression_BaseColor7}"
-					       VerticalAlignment="Center">
-                </TextBlock>
-            </WrapPanel>
+			<WrapPanel Grid.Column="0">
+				<Image Width="24"
+					   Height="24"
+					   Margin="4"
+					   Source="pack://application:,,,/Ana;component/Content/Icons/MainIcon.ico">
+				</Image>
+				<TextBlock Text="Anathena"
+						   Foreground="{StaticResource AvalonDock_Expression_BaseColor7}"
+						   VerticalAlignment="Center">
+				</TextBlock>
+			</WrapPanel>
 			<Menu Grid.Column="1"
 				  Background="Transparent"
 				  VerticalAlignment="Center">
-                <MenuItem ToolTip="Minimize"
-                          Height="24"
+				<MenuItem ToolTip="Minimize"
+						  Height="24"
 						  shell:WindowChrome.IsHitTestVisibleInChrome="True"
 						  Command="{Binding Minimize}"
 						  CommandParameter="{Binding ElementName=AnaWindow}">
@@ -77,8 +77,8 @@
 							   Height="16"/>
 					</MenuItem.Header>
 				</MenuItem>
-                <MenuItem ToolTip="Maximize/Restore"
-                          Height="24"
+				<MenuItem ToolTip="Maximize/Restore"
+						  Height="24"
 						  shell:WindowChrome.IsHitTestVisibleInChrome="True"
 						  Command="{Binding MaximizeRestore}"
 						  CommandParameter="{Binding ElementName=AnaWindow}">
@@ -88,18 +88,18 @@
 							   Height="16"/>
 						</MenuItem.Header>
 				</MenuItem>
-                <MenuItem ToolTip="Close"
-                          Height="24"
+				<MenuItem ToolTip="Close"
+						  Height="24"
 						  shell:WindowChrome.IsHitTestVisibleInChrome="True"
 						  Command="{Binding Close}"
 						  CommandParameter="{Binding ElementName=AnaWindow}">
-                    <MenuItem.Header>
-                        <Image Source="pack://application:,,,/Ana;component/Content/Icons/X.png"
+					<MenuItem.Header>
+						<Image Source="pack://application:,,,/Ana;component/Content/Icons/X.png"
 							   Width="16"
 							   Height="16"/>
-                    </MenuItem.Header>
-                </MenuItem>
-            </Menu>
+					</MenuItem.Header>
+				</MenuItem>
+			</Menu>
 		</Grid>
 
 		<!-- Menu Bar -->

@@ -8,7 +8,7 @@
     using Source.ProcessSelector;
     using Source.Project;
     using Source.PropertyViewer;
-    using Source.ScanResults;
+    using Source.Results;
     using Source.Snapshots;
     using Source.UserSettings;
     using System;

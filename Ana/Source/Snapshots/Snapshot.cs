@@ -19,9 +19,25 @@ namespace Ana.Source.Snapshots
         protected Object DeallocatedRegionLock;
 
         protected Type ElementType; // Type to consider each element of this snapshot
-        protected Int32 Alignment;  // Memory alignment constraint
         private String ScanMethod;  // String indicating most recent scan method used
         private DateTime TimeStamp; // Time stamp of most recent scan for a given snapshot
+
+        private Int32 alignment;
+
+        /// <summary>
+        /// Memory alignment constraint
+        /// </summary>
+        protected Int32 Alignment
+        {
+            get
+            {
+                return alignment;
+            }
+            set
+            {
+                alignment = Math.Max(1, value);
+            }
+        }
 
         /// <summary>
         /// Indexer to allow the retrieval of the element at the specified index. Note that this does NOT index into a region.
@@ -181,6 +197,7 @@ namespace Ana.Source.Snapshots
         public Snapshot()
         {
             this.SnapshotRegions = null;
+            this.Alignment = 1;
             Initialize();
         }
 
@@ -190,6 +207,7 @@ namespace Ana.Source.Snapshots
         /// <param name="BaseSnapshot"></param>
         public Snapshot(Snapshot BaseSnapshot)
         {
+            this.Alignment = 1;
             List<SnapshotRegion<LabelType>> Regions = new List<SnapshotRegion<LabelType>>();
 
             if (BaseSnapshot != null && BaseSnapshot.GetRegionCount() > 0)
@@ -215,7 +233,8 @@ namespace Ana.Source.Snapshots
         /// <param name="SnapshotRegions"></param>
         public Snapshot(IEnumerable<SnapshotRegion> SnapshotRegions)
         {
-            this.SnapshotRegions = SnapshotRegions == null ? null : SnapshotRegions.Select(X => (SnapshotRegion<LabelType>)X);
+            this.Alignment = 1;
+            this.SnapshotRegions = SnapshotRegions == null ? null : SnapshotRegions.Select(x => (SnapshotRegion<LabelType>)x);
             Initialize();
         }
 

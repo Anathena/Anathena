@@ -1,4 +1,4 @@
-﻿namespace Ana.Source.ScanResults
+﻿namespace Ana.Source.Results
 {
     using Docking;
     using Main;
@@ -34,7 +34,7 @@
 
         private UInt64 currentPage;
         private UInt64 addressCount;
-        private IEnumerable<SnapshotElement> addresses;
+        private IEnumerable<ScanResult> addresses;
 
         /// <summary>
         /// Prevents a default instance of the <see cref="ScanResultsViewModel" /> class from being created
@@ -48,7 +48,7 @@
             this.NextPageCommand = new RelayCommand(() => this.NextPage(), () => true);
             this.AddAddressCommand = new RelayCommand<Object>((address) => this.AddAddress(address), (address) => true);
             this.IsVisible = true;
-            this.addresses = new List<SnapshotElement>();
+            this.addresses = new List<ScanResult>();
 
             SnapshotManager.GetInstance().Subscribe(this);
             MainViewModel.GetInstance().Subscribe(this);
@@ -140,7 +140,7 @@
         /// <summary>
         /// Gets the address elements
         /// </summary>
-        public IEnumerable<SnapshotElement> Addresses
+        public IEnumerable<ScanResult> Addresses
         {
             get
             {
@@ -176,14 +176,21 @@
                 return;
             }
 
-            List<SnapshotElement> newAddresses = new List<SnapshotElement>();
+            List<ScanResult> newAddresses = new List<ScanResult>();
             UInt64 startIndex = Math.Min(PageSize * CurrentPage, snapshot.GetElementCount());
             UInt64 endIndex = Math.Min(PageSize * CurrentPage + PageSize, snapshot.GetElementCount());
 
-            for (UInt64 Index = startIndex; Index < endIndex; Index++)
+            for (UInt64 index = startIndex; index < endIndex; index++)
             {
-                SnapshotRegion<Null> region = new SnapshotRegion<Null>(snapshot[(Int32)Index].BaseAddress, sizeof(UInt64));
-                newAddresses.Add(new SnapshotElement<Null>(region));
+                SnapshotElement element = snapshot[(Int32)index];
+
+                dynamic label = String.Empty;
+                if (((dynamic)snapshot)[(Int32)index].ElementLabel != null)
+                    label = ((dynamic)snapshot)[(Int32)index].ElementLabel;
+
+                newAddresses.Add(new ScanResult(element.BaseAddress, element.GetValue().ToString(), element.GetPreviousValue().ToString(), label));
+
+
             }
 
             // Temp debug
@@ -212,7 +219,7 @@
         /// </summary>
         private void PreviousPage()
         {
-            CurrentPage = Math.Max(CurrentPage - 1, 0);
+            CurrentPage = CurrentPage == 0 ? CurrentPage : CurrentPage - 1;
         }
 
         /// <summary>
@@ -220,7 +227,7 @@
         /// </summary>
         private void NextPage()
         {
-            CurrentPage = Math.Min(CurrentPage + 1, PageCount);
+            CurrentPage = CurrentPage >= PageCount ? CurrentPage : CurrentPage + 1;
         }
 
         /// <summary>

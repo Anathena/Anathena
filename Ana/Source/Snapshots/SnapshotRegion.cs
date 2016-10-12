@@ -28,9 +28,9 @@ namespace Ana.Source.Snapshots
 
         public DateTime TimeSinceLastRead { get; private set; }
 
-        public SnapshotRegion(IntPtr BaseAddress, Int32 RegionSize) : base(BaseAddress, RegionSize) { RegionExtension = 0; }
-        public SnapshotRegion(NormalizedRegion RemoteRegion) : base(RemoteRegion.BaseAddress, RemoteRegion.RegionSize) { RegionExtension = 0; }
-        public SnapshotRegion(SnapshotRegion SnapshotRegion) : base(SnapshotRegion.BaseAddress, SnapshotRegion.RegionSize) { this.RegionExtension = SnapshotRegion.RegionExtension; }
+        public SnapshotRegion(IntPtr BaseAddress, Int32 RegionSize) : base(BaseAddress, RegionSize) { Alignment = 1; RegionExtension = 0; }
+        public SnapshotRegion(NormalizedRegion RemoteRegion) : base(RemoteRegion.BaseAddress, RemoteRegion.RegionSize) { Alignment = 1; RegionExtension = 0; }
+        public SnapshotRegion(SnapshotRegion SnapshotRegion) : base(SnapshotRegion.BaseAddress, SnapshotRegion.RegionSize) { Alignment = 1; this.RegionExtension = SnapshotRegion.RegionExtension; }
 
         [Obfuscation(Exclude = true)]
         public unsafe abstract SnapshotElement this[Int32 Index] { get; }

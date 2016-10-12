@@ -9,8 +9,8 @@
     using Source.ProcessSelector;
     using Source.Project;
     using Source.PropertyViewer;
+    using Source.Results;
     using Source.Scanners.ValueCollector;
-    using Source.ScanResults;
     using Source.Snapshots;
     using Source.UserSettings;
 
