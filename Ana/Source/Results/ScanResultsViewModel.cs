@@ -177,8 +177,8 @@
             }
 
             List<ScanResult> newAddresses = new List<ScanResult>();
-            UInt64 startIndex = Math.Min(PageSize * CurrentPage, snapshot.GetElementCount());
-            UInt64 endIndex = Math.Min(PageSize * CurrentPage + PageSize, snapshot.GetElementCount());
+            UInt64 startIndex = Math.Min(ScanResultsViewModel.PageSize * CurrentPage, snapshot.GetElementCount());
+            UInt64 endIndex = Math.Min(ScanResultsViewModel.PageSize * CurrentPage + ScanResultsViewModel.PageSize, snapshot.GetElementCount());
 
             for (UInt64 index = startIndex; index < endIndex; index++)
             {

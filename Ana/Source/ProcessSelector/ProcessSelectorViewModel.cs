@@ -36,10 +36,16 @@
         {
             this.ContentId = ToolContentId;
             this.IconSource = ImageLoader.LoadImage("pack://application:,,,/Ana;component/Content/Icons/SelectProcess.png");
+            this.RefreshProcessListCommand = new RelayCommand(() => this.RefreshProcessList(), () => true);
             this.SelectProcessCommand = new RelayCommand<NormalizedProcess>((process) => this.SelectProcess(process), (process) => true);
 
             Task.Run(() => { MainViewModel.GetInstance().Subscribe(this); });
         }
+
+        /// <summary>
+        /// Gets the command to refresh the process list
+        /// </summary>
+        public ICommand RefreshProcessListCommand { get; private set; }
 
         /// <summary>
         /// Gets the command to select a target process
@@ -76,6 +82,15 @@
         public static ProcessSelectorViewModel GetInstance()
         {
             return processSelectorViewModelInstance.Value;
+        }
+
+        /// <summary>
+        /// Refreshes the process list
+        /// </summary>
+        private void RefreshProcessList()
+        {
+            // Raise event to update the process list
+            RaisePropertyChanged(nameof(this.ProcessList));
         }
 
         /// <summary>

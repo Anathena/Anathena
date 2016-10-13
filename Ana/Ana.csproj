@@ -407,6 +407,58 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Content Include="xulrunner-32\D3DCompiler_43.dll" />
+    <Content Include="xulrunner-32\freebl3.dll" />
+    <Content Include="xulrunner-32\gkmedias.dll" />
+    <Content Include="xulrunner-32\IA2Marshal.dll" />
+    <Content Include="xulrunner-32\install_app.py" />
+    <Content Include="xulrunner-32\js-gdb.py" />
+    <Content Include="xulrunner-32\js.exe" />
+    <Content Include="xulrunner-32\libEGL.dll" />
+    <Content Include="xulrunner-32\libGLESv2.dll" />
+    <Content Include="xulrunner-32\mozalloc.dll" />
+    <Content Include="xulrunner-32\mozglue.dll" />
+    <Content Include="xulrunner-32\mozjs.dll" />
+    <Content Include="xulrunner-32\msvcp100.dll" />
+    <Content Include="xulrunner-32\msvcr100.dll" />
+    <Content Include="xulrunner-32\nss3.dll" />
+    <Content Include="xulrunner-32\nssckbi.dll" />
+    <Content Include="xulrunner-32\nssdbm3.dll" />
+    <Content Include="xulrunner-32\plugin-container.exe" />
+    <Content Include="xulrunner-32\plugin-hang-ui.exe" />
+    <Content Include="xulrunner-32\redit.exe" />
+    <Content Include="xulrunner-32\softokn3.dll" />
+    <Content Include="xulrunner-32\updater.exe" />
+    <Content Include="xulrunner-32\xpcshell.exe" />
+    <Content Include="xulrunner-32\xul.dll" />
+    <Content Include="xulrunner-32\xulrunner-stub.exe" />
+    <Content Include="xulrunner-32\xulrunner.exe" />
+    <Content Include="xulrunner-64\AccessibleMarshal.dll" />
+    <Content Include="xulrunner-64\crashreporter.exe" />
+    <Content Include="xulrunner-64\D3DCompiler_43.dll" />
+    <Content Include="xulrunner-64\freebl3.dll" />
+    <Content Include="xulrunner-64\gkmedias.dll" />
+    <Content Include="xulrunner-64\IA2Marshal.dll" />
+    <Content Include="xulrunner-64\js-gdb.py" />
+    <Content Include="xulrunner-64\js.exe" />
+    <Content Include="xulrunner-64\libEGL.dll" />
+    <Content Include="xulrunner-64\libGLESv2.dll" />
+    <Content Include="xulrunner-64\mozalloc.dll" />
+    <Content Include="xulrunner-64\mozglue.dll" />
+    <Content Include="xulrunner-64\mozjs.dll" />
+    <Content Include="xulrunner-64\msvcp100.dll" />
+    <Content Include="xulrunner-64\msvcr100.dll" />
+    <Content Include="xulrunner-64\nss3.dll" />
+    <Content Include="xulrunner-64\nssckbi.dll" />
+    <Content Include="xulrunner-64\nssdbm3.dll" />
+    <Content Include="xulrunner-64\plugin-container.exe" />
+    <Content Include="xulrunner-64\plugin-hang-ui.exe" />
+    <Content Include="xulrunner-64\redit.exe" />
+    <Content Include="xulrunner-64\softokn3.dll" />
+    <Content Include="xulrunner-64\updater.exe" />
+    <Content Include="xulrunner-64\xul.dll" />
+    <Content Include="xulrunner-64\xulrunner-stub.exe" />
+    <Content Include="xulrunner-64\xulrunner.exe" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -417,6 +469,30 @@
     </None>
     <AppDesigner Include="Properties\" />
     <None Include="Settings.StyleCop" />
+    <Content Include="xulrunner-32\crashreporter.ini" />
+    <Content Include="xulrunner-32\dependentlibs.list" />
+    <Content Include="xulrunner-32\dictionaries\en-US.aff" />
+    <Content Include="xulrunner-32\dictionaries\en-US.dic" />
+    <Content Include="xulrunner-32\freebl3.chk" />
+    <Content Include="xulrunner-32\LICENSE" />
+    <Content Include="xulrunner-32\nssdbm3.chk" />
+    <Content Include="xulrunner-32\omni.ja" />
+    <Content Include="xulrunner-32\platform.ini" />
+    <Content Include="xulrunner-32\precomplete" />
+    <Content Include="xulrunner-32\README.xulrunner" />
+    <Content Include="xulrunner-32\softokn3.chk" />
+    <Content Include="xulrunner-64\crashreporter.ini" />
+    <Content Include="xulrunner-64\dependentlibs.list" />
+    <Content Include="xulrunner-64\dictionaries\en-US.aff" />
+    <Content Include="xulrunner-64\dictionaries\en-US.dic" />
+    <Content Include="xulrunner-64\freebl3.chk" />
+    <Content Include="xulrunner-64\LICENSE" />
+    <Content Include="xulrunner-64\nssdbm3.chk" />
+    <Content Include="xulrunner-64\omni.ja" />
+    <Content Include="xulrunner-64\platform.ini" />
+    <Content Include="xulrunner-64\precomplete" />
+    <Content Include="xulrunner-64\README.xulrunner" />
+    <Content Include="xulrunner-64\softokn3.chk" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config">
@@ -427,6 +503,14 @@
     <ProjectReference Include="..\AvalonDock\AvalonDock.csproj">
       <Project>{db81988f-e0f2-45a0-a1fd-8c37f3d35244}</Project>
       <Name>AvalonDock</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\GeckoFX\Geckofx-Core\Geckofx-Core.csproj">
+      <Project>{6ab4eee6-1889-43ab-83f7-a4f083230be7}</Project>
+      <Name>Geckofx-Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\GeckoFX\Geckofx-Wpf\Geckofx-Wpf.csproj">
+      <Project>{b52fd785-ec50-4767-b085-300d94de8205}</Project>
+      <Name>Geckofx-Wpf</Name>
     </ProjectReference>
     <ProjectReference Include="..\WpfToolkit\WpfToolkit.csproj">
       <Project>{72e591d6-8f83-4d8c-8f67-9c325e623234}</Project>
@@ -515,7 +599,20 @@
     <Resource Include="Content\Icons\LeftArrows.png" />
     <Resource Include="Content\Icons\RightArrows.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="xulrunner-32\AccessibleMarshal.dll" />
+    <Content Include="xulrunner-32\breakpadinjector.dll" />
+    <Content Include="xulrunner-32\crashreporter.exe" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>
+    </PostBuildEvent>
+  </PropertyGroup>
+  <PropertyGroup>
+    <PreBuildEvent>XCOPY "$(ProjectDir)xulrunner-32\*.*" "$(TargetDir)xulrunner-32"  /Q /S /I /Y
+XCOPY "$(ProjectDir)xulrunner-64\*.*" "$(TargetDir)xulrunner-64"  /Q /S /I /Y</PreBuildEvent>
+  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

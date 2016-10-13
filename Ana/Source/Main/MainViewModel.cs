@@ -1,11 +1,15 @@
 ﻿namespace Ana.Source.Main
 {
     using Docking;
+    using Engine;
+    using Gecko;
     using Mvvm;
     using Mvvm.Command;
     using Snapshots.Prefilter;
     using System;
     using System.Collections.Generic;
+    using System.IO;
+    using System.Reflection;
     using System.Threading;
     using System.Windows;
     using System.Windows.Input;
@@ -47,6 +51,16 @@
             this.LoadLayout = new RelayCommand<DockingManager>((dockingManager) => this.LoadLayoutExecute(dockingManager), (dockingManager) => true);
             this.SaveLayout = new RelayCommand<DockingManager>((dockingManager) => this.SaveLayoutExecute(dockingManager), (dockingManager) => true);
             this.OpenProject = new RelayCommand(() => this.OpenProjectExecute(), () => true);
+
+            // Initialize engine for Gecko Fx web browser
+            if (EngineCore.GetInstance().OperatingSystemAdapter.IsAnathena32Bit())
+            {
+                Xpcom.Initialize(Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "xulrunner-32"));
+            }
+            else if (EngineCore.GetInstance().OperatingSystemAdapter.IsAnathena64Bit())
+            {
+                Xpcom.Initialize(Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "xulrunner-64"));
+            }
 
             SnapshotPrefilterFactory.GetSnapshotPrefilter(typeof(ShallowPointerPrefilter)).BeginPrefilter();
         }
