@@ -66,6 +66,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DOM\GeckoElementExtensionMethods.cs" />
+    <Compile Include="GeckoHelperAppLauncherDialog.cs" />
     <Compile Include="GeckoWebBrowser.cs" />
     <Compile Include="GeckoWebBrowser.DependencyProperties.cs" />
     <Compile Include="GeckoWebBrowser.Events.cs" />
