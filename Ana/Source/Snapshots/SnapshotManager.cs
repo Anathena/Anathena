@@ -1,16 +1,15 @@
-﻿using Ana.Source.Engine;
-using Ana.Source.Engine.OperatingSystems;
-using Ana.Source.Snapshots.Prefilter;
-using Ana.Source.UserSettings;
-using Ana.Source.Utils;
-using Ana.Source.Utils.Extensions;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
-
-namespace Ana.Source.Snapshots
+﻿namespace Ana.Source.Snapshots
 {
+    using Engine;
+    using Engine.OperatingSystems;
+    using Prefilter;
+    using System;
+    using System.Collections.Generic;
+    using System.Threading;
+    using UserSettings;
+    using Utils;
+    using Utils.Extensions;
+
     /// <summary>
     /// Manages snapshots of memory taken from the target process
     /// </summary>
@@ -19,28 +18,29 @@ namespace Ana.Source.Snapshots
         /// <summary>
         /// Singleton instance of Snapshot Manager
         /// </summary>
-        private static Lazy<SnapshotManager> SnapshotManagerInstance = new Lazy<SnapshotManager>(
+        private static Lazy<SnapshotManager> snapshotManagerInstance = new Lazy<SnapshotManager>(
             () => { return new SnapshotManager(); },
             LazyThreadSafetyMode.PublicationOnly);
 
-        private List<ISnapshotObserver> snapshotObservers;
-
+        /// <summary>
+        /// Prevents a default instance of the <see cref="SnapshotManager" /> class from being created
+        /// </summary>
         private SnapshotManager()
         {
             this.AccessLock = new Object();
             this.ObserverLock = new Object();
             this.Snapshots = new Stack<Snapshot>();
             this.DeletedSnapshots = new Stack<Snapshot>();
-            this.snapshotObservers = new List<ISnapshotObserver>();
+            this.SnapshotObservers = new List<ISnapshotObserver>();
         }
 
         /// <summary>
-        /// Lock to ensure multiple entities do not try and update the snapshot list at the same time
+        /// Gets or sets a lock to ensure multiple entities do not try and update the snapshot list at the same time
         /// </summary>
         private Object AccessLock { get; set; }
 
         /// <summary>
-        /// Lock to ensure multiple entities do not try and update the snapshot list at the same time
+        /// Gets or sets a lock to ensure multiple entities do not try and update the snapshot list at the same time
         /// </summary>
         private Object ObserverLock { get; set; }
 
@@ -52,32 +52,49 @@ namespace Ana.Source.Snapshots
         /// <summary>
         /// Gets or sets the deleted snapshots for the capability of redoing after undo
         /// </summary>
-        private Stack<Snapshot> DeletedSnapshots;
+        private Stack<Snapshot> DeletedSnapshots { get; set; }
 
+        /// <summary>
+        /// Gets or sets objects observing changes in the active snapshot
+        /// </summary>
+        private List<ISnapshotObserver> SnapshotObservers { get; set; }
+
+        /// <summary>
+        /// Gets a singleton instance of the <see cref="SnapshotManager"/> class
+        /// </summary>
+        /// <returns>A singleton instance of the class</returns>
         public static SnapshotManager GetInstance()
         {
-            return SnapshotManager.SnapshotManagerInstance.Value;
+            return SnapshotManager.snapshotManagerInstance.Value;
         }
 
+        /// <summary>
+        /// Subscribes the given object to changes in the active snapshot
+        /// </summary>
+        /// <param name="snapshotObserver">The object to observe active snapshot changes</param>
         public void Subscribe(ISnapshotObserver snapshotObserver)
         {
-            lock (ObserverLock)
+            lock (this.ObserverLock)
             {
-                if (!snapshotObservers.Contains(snapshotObserver))
+                if (!this.SnapshotObservers.Contains(snapshotObserver))
                 {
-                    snapshotObservers.Add(snapshotObserver);
-                    snapshotObserver.Update(GetActiveSnapshot());
+                    this.SnapshotObservers.Add(snapshotObserver);
+                    snapshotObserver.Update(this.GetActiveSnapshot());
                 }
             }
         }
 
+        /// <summary>
+        /// Unsubscribes the given object from changes in the active snapshot
+        /// </summary>
+        /// <param name="snapshotObserver">The object to observe active snapshot changes</param>
         public void Unsubscribe(ISnapshotObserver snapshotObserver)
         {
-            lock (ObserverLock)
+            lock (this.ObserverLock)
             {
-                if (snapshotObservers.Contains(snapshotObserver))
+                if (this.SnapshotObservers.Contains(snapshotObserver))
                 {
-                    snapshotObservers.Remove(snapshotObserver);
+                    this.SnapshotObservers.Remove(snapshotObserver);
                 }
             }
         }
@@ -85,8 +102,8 @@ namespace Ana.Source.Snapshots
         /// <summary>
         /// Returns the memory regions associated with the current snapshot. If none exist, a query will be done.
         /// </summary>
-        /// <param name="createIfNone"></param>
-        /// <returns></returns>
+        /// <param name="createIfNone">Creates a snapshot if none exists</param>
+        /// <returns>The current active snapshot of memory in the target process</returns>
         public Snapshot GetActiveSnapshot(Boolean createIfNone = true)
         {
             using (TimedLock.Lock(this.AccessLock))
@@ -109,6 +126,11 @@ namespace Ana.Source.Snapshots
             }
         }
 
+        /// <summary>
+        /// Collects all snapshot regions in the target process
+        /// </summary>
+        /// <param name="useSettings">Whether or not to apply user settings to the query</param>
+        /// <returns>Regions of memory in the target process</returns>
         public IEnumerable<NormalizedRegion> CollectSnapshotRegions(Boolean useSettings = true)
         {
             IntPtr startAddress;
@@ -118,9 +140,9 @@ namespace Ana.Source.Snapshots
             MemoryProtectionEnum excludedPageFlags;
             MemoryTypeEnum allowedTypeFlags;
 
-            // Use settings parameters
             if (useSettings)
             {
+                // Use settings parameters
                 requiredPageFlags = Settings.GetInstance().GetRequiredProtectionSettings();
                 excludedPageFlags = Settings.GetInstance().GetExcludedProtectionSettings();
                 allowedTypeFlags = Settings.GetInstance().GetAllowedTypeSettings();
@@ -136,9 +158,9 @@ namespace Ana.Source.Snapshots
                     endAddress = Settings.GetInstance().GetEndAddress().ToIntPtr();
                 }
             }
-            // Standard pointer scan parameters
             else
             {
+                // Standard pointer scan parameters
                 startAddress = IntPtr.Zero;
                 endAddress = EngineCore.GetInstance().OperatingSystemAdapter.GetMaximumUserModeAddress();
                 requiredPageFlags = 0;
@@ -148,22 +170,25 @@ namespace Ana.Source.Snapshots
 
             // Collect virtual pages
             List<NormalizedRegion> virtualPages = new List<NormalizedRegion>();
-            foreach (NormalizedRegion Page in EngineCore.GetInstance().OperatingSystemAdapter.GetVirtualPages(
+            foreach (NormalizedRegion page in EngineCore.GetInstance().OperatingSystemAdapter.GetVirtualPages(
                     requiredPageFlags,
                     excludedPageFlags,
                     allowedTypeFlags,
                     startAddress,
                     endAddress))
             {
-                virtualPages.Add(Page);
+                virtualPages.Add(page);
             }
 
             return virtualPages;
         }
 
         /// <summary>
-        /// Take a snapshot of all memory regions in the target process
+        /// Collects a new snapshot of memory in the target process
         /// </summary>
+        /// <param name="useSettings">Whether or not to apply user settings to the query</param>
+        /// <param name="usePrefilter">Whether or not to apply the active prefilter to the query</param>
+        /// <returns>The snapshot of memory taken in the target process</returns>
         public Snapshot CollectSnapshot(Boolean useSettings = true, Boolean usePrefilter = true)
         {
             if (usePrefilter)
@@ -253,7 +278,7 @@ namespace Ana.Source.Snapshots
         /// <summary>
         /// Saves a new snapshot, which becomes the current active snapshot
         /// </summary>
-        /// <param name="snapshot"></param>
+        /// <param name="snapshot">The snapshot to save</param>
         public void SaveSnapshot(Snapshot snapshot)
         {
             using (TimedLock.Lock(this.AccessLock))
@@ -274,36 +299,15 @@ namespace Ana.Source.Snapshots
             }
         }
 
-        public Snapshot GetSnapshotAtIndex(Int32 index)
-        {
-            using (TimedLock.Lock(this.AccessLock))
-            {
-                if (index < this.Snapshots.Count)
-                {
-                    if (index < this.Snapshots.Count)
-                    {
-                        return this.Snapshots.Reverse().ElementAt(index);
-                    }
-                }
-                else
-                {
-                    index -= this.Snapshots.Count;
-                    if (index < this.DeletedSnapshots.Count)
-                    {
-                        return this.DeletedSnapshots.ElementAt(index);
-                    }
-                }
-            }
-
-            return null;
-        }
-
+        /// <summary>
+        /// Notify all observing objects of an active snapshot change
+        /// </summary>
         private void NotifyObservers()
         {
-            lock (ObserverLock)
+            lock (this.ObserverLock)
             {
-                Snapshot activeSnapshot = GetActiveSnapshot();
-                foreach (ISnapshotObserver observer in snapshotObservers)
+                Snapshot activeSnapshot = this.GetActiveSnapshot();
+                foreach (ISnapshotObserver observer in this.SnapshotObservers)
                 {
                     observer.Update(activeSnapshot);
                 }

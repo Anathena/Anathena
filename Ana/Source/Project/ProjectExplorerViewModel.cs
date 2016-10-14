@@ -27,8 +27,14 @@
                 () => { return new ProjectExplorerViewModel(); },
                 LazyThreadSafetyMode.PublicationOnly);
 
+        /// <summary>
+        /// The collection of project items
+        /// </summary>
         private ReadOnlyCollection<ProjectItemViewModel> projectItems;
 
+        /// <summary>
+        /// The selected project item
+        /// </summary>
         private ProjectItemViewModel selectedProjectItem;
 
         /// <summary>
@@ -37,9 +43,9 @@
         private ProjectExplorerViewModel() : base("Project Explorer")
         {
             this.ContentId = ToolContentId;
-            this.AddNewFolderItem = new RelayCommand(() => this.AddNewFolderItemExecute(), () => true);
-            this.AddNewAddressItem = new RelayCommand(() => this.AddNewAddressItemExecute(), () => true);
-            this.AddNewScriptItem = new RelayCommand(() => this.AddNewScriptItemExecute(), () => true);
+            this.AddNewFolderItemCommand = new RelayCommand(() => this.AddNewFolderItem(), () => true);
+            this.AddNewAddressItemCommand = new RelayCommand(() => this.AddNewAddressItem(), () => true);
+            this.AddNewScriptItemCommand = new RelayCommand(() => this.AddNewScriptItem(), () => true);
             this.IsVisible = true;
 
             this.projectItems = new ReadOnlyCollection<ProjectItemViewModel>(new List<ProjectItemViewModel>());
@@ -47,46 +53,53 @@
             MainViewModel.GetInstance().Subscribe(this);
         }
 
+        /// <summary>
+        /// Gets or sets the collection of project items
+        /// </summary>
         public ReadOnlyCollection<ProjectItemViewModel> ProjectItems
         {
             get
             {
-                return projectItems;
+                return this.projectItems;
             }
+
             set
             {
-                projectItems = value;
-                RaisePropertyChanged(nameof(this.ProjectItems));
+                this.projectItems = value;
+                this.RaisePropertyChanged(nameof(this.ProjectItems));
             }
         }
 
+        /// <summary>
+        /// Gets or sets the selected project item
+        /// </summary>
         public ProjectItemViewModel SelectedProjectItem
         {
             get
             {
-                return selectedProjectItem;
+                return this.selectedProjectItem;
             }
 
             set
             {
-                selectedProjectItem = value;
+                this.selectedProjectItem = value;
             }
         }
 
         /// <summary>
-        /// 
+        /// Gets the command to add a new folder
         /// </summary>
-        public ICommand AddNewFolderItem { get; private set; }
+        public ICommand AddNewFolderItemCommand { get; private set; }
 
         /// <summary>
-        /// 
+        /// Gets the command to add a new address
         /// </summary>
-        public ICommand AddNewAddressItem { get; private set; }
+        public ICommand AddNewAddressItemCommand { get; private set; }
 
         /// <summary>
-        /// 
+        /// Gets the command to add a new script
         /// </summary>
-        public ICommand AddNewScriptItem { get; private set; }
+        public ICommand AddNewScriptItemCommand { get; private set; }
 
         /// <summary>
         /// Gets a singleton instance of the <see cref="ProjectExplorerViewModel"/> class
@@ -94,48 +107,53 @@
         /// <returns>A singleton instance of the class</returns>
         public static ProjectExplorerViewModel GetInstance()
         {
-            return projectExplorerViewModelInstance.Value;
+            return ProjectExplorerViewModel.projectExplorerViewModelInstance.Value;
         }
 
         /// <summary>
-        /// 
+        /// Adds a new folder to the project items
         /// </summary>
-        private void AddNewFolderItemExecute()
+        private void AddNewFolderItem()
         {
-            AddNewProjectItem(new FolderItem());
+            this.AddNewProjectItem(new FolderItem());
         }
 
         /// <summary>
-        /// 
+        /// Adds a new address to the project items
         /// </summary>
-        private void AddNewAddressItemExecute()
+        private void AddNewAddressItem()
         {
-            AddNewProjectItem(new AddressItem());
+            this.AddNewProjectItem(new AddressItem());
         }
 
         /// <summary>
-        /// 
+        /// Adds a new script to the project items
         /// </summary>
-        private void AddNewScriptItemExecute()
+        private void AddNewScriptItem()
         {
-            AddNewProjectItem(new ScriptItem());
+            this.AddNewProjectItem(new ScriptItem());
         }
 
+        /// <summary>
+        /// Adds the new project item to the project item collection
+        /// </summary>
+        /// <param name="projectItem">The project item to add</param>
         private void AddNewProjectItem(ProjectItem projectItem)
         {
             List<ProjectItemViewModel> newItems = new List<ProjectItemViewModel>(this.ProjectItems);
 
             ProjectItemViewModel target = null;
 
-            foreach (ProjectItemViewModel projectItemViewModel in ProjectItems)
+            foreach (ProjectItemViewModel projectItemViewModel in this.ProjectItems)
             {
-                target = GetAddProjectItemTargetRecurse(projectItemViewModel);
+                target = this.GetAddProjectItemTargetRecurse(projectItemViewModel);
 
                 if (target != null)
                 {
                     break;
                 }
             }
+
             if (target != null)
             {
                 target.Children.Add(new ProjectItemViewModel(projectItem));
@@ -144,9 +162,15 @@
             {
                 newItems.Add(new ProjectItemViewModel(projectItem));
             }
+
             this.ProjectItems = new ReadOnlyCollection<ProjectItemViewModel>(newItems);
         }
 
+        /// <summary>
+        /// Helper function for determining the correct folder to which the project item is added
+        /// </summary>
+        /// <param name="projectItemViewModel">The view model of the project item being added</param>
+        /// <returns>The view model for the project item to which the project item will be added</returns>
         private ProjectItemViewModel GetAddProjectItemTargetRecurse(ProjectItemViewModel projectItemViewModel)
         {
             if (projectItemViewModel.ProjectItem is FolderItem)
@@ -159,7 +183,7 @@
                 {
                     foreach (ProjectItemViewModel childViewModel in projectItemViewModel.Children)
                     {
-                        ProjectItemViewModel childResult = GetAddProjectItemTargetRecurse(childViewModel);
+                        ProjectItemViewModel childResult = this.GetAddProjectItemTargetRecurse(childViewModel);
 
                         if (childResult != null)
                         {

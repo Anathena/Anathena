@@ -1,12 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Reflection;
-
-namespace Ana.Source.Scanners.ScanConstraints
+﻿namespace Ana.Source.Scanners.ScanConstraints
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Reflection;
+
     class ScanConstraintEditor
     {
-        // User controlled variables
         private ScanConstraintManager ScanConstraints;
 
         public ScanConstraintEditor()

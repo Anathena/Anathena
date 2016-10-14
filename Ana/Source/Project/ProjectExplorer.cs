@@ -1,5 +1,4 @@
-﻿using Ana.Source.Engine;
-using Ana.Source.Project.ProjectItems;
+﻿using Ana.Source.Project.ProjectItems;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -17,8 +16,6 @@ namespace Ana.Source.Project
     {
         // Singleton instance of Project Explorer
         private static Lazy<ProjectExplorer> ProjectExplorerInstance = new Lazy<ProjectExplorer>(() => { return new ProjectExplorer(); }, LazyThreadSafetyMode.PublicationOnly);
-
-        private EngineCore EngineCore;
 
         private FolderItem ProjectRoot;
         private IEnumerable<ProjectItem> UpdateSet;
@@ -62,32 +59,36 @@ namespace Ana.Source.Project
                 ProjectItem.SetActivationState(ActivationState);
         }
 
-        public void PerformDefaultAction(ProjectItem ProjectItem)
+        public void PerformDefaultAction(ProjectItem projectItem)
         {
-            if (ProjectItem is ScriptItem)
+            if (projectItem is ScriptItem)
             {
                 // ScriptEditor ScriptEditor = new ScriptEditor();
-                // ScriptEditor.EditValue(null, (ProjectItem as ScriptItem).LuaScript);
+                // ScriptEditor.EditValue(null, (projectItem as ScriptItem).LuaScript);
             }
         }
 
-        public void DeleteItems(IEnumerable<ProjectItem> ProjectItems)
+        public void DeleteItems(IEnumerable<ProjectItem> projectItems)
         {
-            ProjectRoot.Delete(ProjectItems);
+            ProjectRoot.Delete(projectItems);
 
             RefreshProjectStructure();
         }
 
-        public void AddProjectItem(ProjectItem ProjectItem, ProjectItem Parent = null)
+        public void AddProjectItem(ProjectItem projectItem, ProjectItem parent = null)
         {
-            while (Parent != null && !(Parent is FolderItem))
-                Parent = Parent.Parent;
+            while (parent != null && !(parent is FolderItem))
+            {
+                parent = parent.Parent;
+            }
 
-            if (Parent == null)
-                Parent = ProjectRoot;
+            if (parent == null)
+            {
+                parent = ProjectRoot;
+            }
 
-            ProjectItem.Parent = Parent;
-            Parent.AddChild(ProjectItem);
+            projectItem.Parent = parent;
+            parent.AddChild(projectItem);
 
             RefreshProjectStructure();
 
@@ -116,7 +117,9 @@ namespace Ana.Source.Project
         private void ImportProjectItems(FolderItem ImportedProjectRoot)
         {
             foreach (ProjectItem Item in ImportedProjectRoot.Children)
+            {
                 ProjectRoot.AddChild(Item);
+            }
 
             RefreshProjectStructure();
 
@@ -136,24 +139,28 @@ namespace Ana.Source.Project
         /// <summary>
         /// Eventually we want the update set just to be the visible nodes in the display, not every single node
         /// </summary>
-        /// <param name="ProjectItem"></param>
-        /// <param name="CurrentSet"></param>
+        /// <param name="projectItem"></param>
+        /// <param name="currentSet"></param>
         /// <returns></returns>
-        private IEnumerable<ProjectItem> CreateUpdateSet_TODO_REPLACE_ME(ProjectItem ProjectItem, List<ProjectItem> CurrentSet = null)
+        private IEnumerable<ProjectItem> CreateUpdateSet_TODO_REPLACE_ME(ProjectItem projectItem, List<ProjectItem> currentSet = null)
         {
-            if (ProjectItem == null)
-                return CurrentSet;
-
-            if (CurrentSet == null)
-                CurrentSet = new List<ProjectItem>();
-
-            foreach (ProjectItem Child in ProjectItem.Children)
+            if (projectItem == null)
             {
-                CurrentSet.Add(Child);
-                CreateUpdateSet_TODO_REPLACE_ME(Child, CurrentSet);
+                return currentSet;
             }
 
-            return CurrentSet;
+            if (currentSet == null)
+            {
+                currentSet = new List<ProjectItem>();
+            }
+
+            foreach (ProjectItem Child in projectItem.Children)
+            {
+                currentSet.Add(Child);
+                CreateUpdateSet_TODO_REPLACE_ME(Child, currentSet);
+            }
+
+            return currentSet;
         }
 
         protected void Update()
@@ -161,10 +168,14 @@ namespace Ana.Source.Project
             UpdateSet = CreateUpdateSet_TODO_REPLACE_ME(ProjectRoot);
 
             if (UpdateSet == null)
+            {
                 return;
+            }
 
             foreach (ProjectItem ProjectItem in UpdateSet)
+            {
                 ProjectItem.Update();
+            }
         }
 
         protected void End()

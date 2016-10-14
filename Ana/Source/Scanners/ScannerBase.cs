@@ -10,11 +10,6 @@
     internal abstract class ScannerBase : RepeatedTask
     {
         /// <summary>
-        /// Gets the name of this scanner
-        /// </summary>
-        protected readonly String ScannerName;
-
-        /// <summary>
         /// Initializes a new instance of the <see cref="ScannerBase" /> class
         /// </summary>
         /// <param name="scannerName">The name of this scanner</param>
@@ -27,6 +22,11 @@
         /// Gets the number of scans that have been executed
         /// </summary>
         public Int32 ScanCount { get; private set; }
+
+        /// <summary>
+        /// Gets the name of this scanner
+        /// </summary>
+        protected String ScannerName { get; private set; }
 
         /// <summary>
         /// Begins the scan

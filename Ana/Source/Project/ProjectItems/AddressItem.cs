@@ -1,239 +1,328 @@
-﻿using Ana.Source.Engine;
-using Ana.Source.Engine.AddressResolver;
-using Ana.Source.Utils.Extensions;
-using Ana.Source.Utils.Validation;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Reflection;
-using System.Runtime.Serialization;
-
-namespace Ana.Source.Project.ProjectItems
+﻿namespace Ana.Source.Project.ProjectItems
 {
+    using Engine;
+    using Engine.AddressResolver;
+    using System;
+    using System.Collections.Generic;
+    using System.ComponentModel;
+    using System.Linq;
+    using System.Reflection;
+    using System.Runtime.Serialization;
+    using Utils.Extensions;
+    using Utils.Validation;
+
+    /// <summary>
+    /// Defines an address that can be added to the project explorer
+    /// </summary>
     [Obfuscation(ApplyToMembers = true, Exclude = true)]
-    [DataContract()]
+    [DataContract]
     internal class AddressItem : ProjectItem
     {
         [Browsable(false)]
-        private AddressResolver.ResolveTypeEnum _ResolveType;
+        private AddressResolver.ResolveTypeEnum resolveType;
 
-        [DataMember()]
+        [Browsable(false)]
+        private String baseIdentifier;
+
+        [Browsable(false)]
+        private IntPtr baseAddress;
+
+        [Browsable(false)]
+        private IEnumerable<Int32> offsets;
+
+        [DataMember]
+        [Browsable(false)]
+        private String typeName;
+
+        [Browsable(false)]
+        private dynamic addressValue;
+
+        [Browsable(false)]
+        private Boolean isValueHex;
+
+        [Browsable(false)]
+        private IntPtr effectiveAddress;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="AddressItem" /> class
+        /// </summary>
+        public AddressItem() : this(IntPtr.Zero, typeof(Int32), "New Address")
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="AddressItem" /> class
+        /// </summary>
+        /// <param name="baseAddress"></param>
+        /// <param name="elementType"></param>
+        /// <param name="description"></param>
+        /// <param name="resolveType"></param>
+        /// <param name="baseIdentifier"></param>
+        /// <param name="offsets"></param>
+        /// <param name="isValueHex"></param>
+        /// <param name="value"></param>
+        public AddressItem(
+            IntPtr baseAddress,
+            Type elementType,
+            String description = null,
+            AddressResolver.ResolveTypeEnum resolveType = AddressResolver.ResolveTypeEnum.Module,
+            String baseIdentifier = null,
+            IEnumerable<Int32> offsets = null,
+            Boolean isValueHex = false,
+            String value = null)
+            : base(description)
+        {
+            // Bypass setters to avoid running setter code
+            this.baseAddress = baseAddress;
+            this.ElementType = elementType;
+            this.resolveType = resolveType;
+            this.baseIdentifier = baseIdentifier;
+            this.offsets = offsets;
+            this.isValueHex = isValueHex;
+
+            if (!this.isValueHex && CheckSyntax.CanParseValue(elementType, value))
+            {
+                this.addressValue = Utils.Validation.Conversions.ParseDecStringAsValue(elementType, value);
+            }
+            else if (this.isValueHex && CheckSyntax.CanParseHex(elementType, value))
+            {
+                this.addressValue = Conversions.ParseHexStringAsDecString(elementType, value);
+            }
+        }
+
+        [DataMember]
         [RefreshProperties(RefreshProperties.All)]
         [Category("Properties"), DisplayName("Resolve Type"), Description("Method to use for resolving the address base. If there is an identifier to resolve, the address is treated as an offset.")]
         public AddressResolver.ResolveTypeEnum ResolveType
         {
-            get { return _ResolveType; }
+            get
+            {
+                return this.resolveType;
+            }
+
             set
             {
-                _ResolveType = value;
+                this.resolveType = value;
                 ProjectExplorer.GetInstance().ProjectChanged();
             }
         }
 
-        [Browsable(false)]
-        private String _BaseIdentifier;
-
-        [DataMember()]
+        [DataMember]
         [RefreshProperties(RefreshProperties.All)]
         [Category("Properties"), DisplayName("Resolve Id"), Description("Text identifier to use when resolving the base address, such as a module or .NET Object name")]
         public String BaseIdentifier
         {
-            get { return _BaseIdentifier; }
+            get
+            {
+                return this.baseIdentifier;
+            }
+
             set
             {
-                _BaseIdentifier = value == null ? String.Empty : value;
+                this.baseIdentifier = value == null ? String.Empty : value;
 
                 ProjectExplorer.GetInstance().ProjectChanged();
             }
         }
 
-        [Browsable(false)]
-        private IntPtr _BaseAddress;
-
-        [DataMember()]
+        [DataMember]
         [RefreshProperties(RefreshProperties.All)]
         [Category("Properties"), DisplayName("Address Base"), Description("Base address")]
         public IntPtr BaseAddress
         {
-            get { return _BaseAddress; }
+            get
+            {
+                return this.baseAddress;
+            }
+
             set
             {
-                EffectiveAddress = value; _BaseAddress = value;
+                this.EffectiveAddress = value;
+                this.baseAddress = value;
 
                 ProjectExplorer.GetInstance().ProjectChanged();
             }
         }
 
-        [Browsable(false)]
-        private IEnumerable<Int32> _Offsets;
-
-        [DataMember()]
+        [DataMember]
         [RefreshProperties(RefreshProperties.All)]
         [Category("Properties"), DisplayName("Address Offsets"), Description("Address offsets")]
         public IEnumerable<Int32> Offsets
         {
-            get { return _Offsets; }
+            get
+            {
+                return this.offsets;
+            }
+
             set
             {
-                _Offsets = value;
+                this.offsets = value;
 
                 ProjectExplorer.GetInstance().ProjectChanged();
             }
         }
-
-        [DataMember()]
-        [Browsable(false)]
-        private String TypeName;
 
         [RefreshProperties(RefreshProperties.All)]
         [Category("Properties"), DisplayName("Value Type"), Description("Data type of the address")]
         public Type ElementType
         {
-            get { return Type.GetType(TypeName); }
+            get
+            {
+                return Type.GetType(this.typeName);
+            }
+
             set
             {
-                String OldTypeName = this.TypeName;
-                TypeName = (value == null ? String.Empty : value.FullName);
-                _Value = (OldTypeName != TypeName) ? null : _Value;
+                String oldTypeName = this.typeName;
+                this.typeName = value == null ? String.Empty : value.FullName;
+                this.addressValue = (oldTypeName != this.typeName) ? null : this.addressValue;
 
                 ProjectExplorer.GetInstance().ProjectChanged();
             }
         }
-
-        [Browsable(false)]
-        private dynamic _Value;
 
         [Category("Properties"), DisplayName("Value"), Description("Value at the address")]
         public dynamic Value
         {
-            get { return _Value; }
-            set { _Value = value; WriteValue(value); }
+            get
+            {
+                return this.addressValue;
+            }
+
+            set
+            {
+                this.addressValue = value;
+                this.WriteValue(value);
+            }
         }
 
-        [Browsable(false)]
-        private Boolean _IsValueHex;
-
-        [DataMember()]
+        [DataMember]
         [RefreshProperties(RefreshProperties.All)]
         [Category("Properties"), DisplayName("Value as Hex"), Description("Whether or not to display value as hexedecimal")]
         public Boolean IsValueHex
         {
-            get { return _IsValueHex; }
+            get
+            {
+                return this.isValueHex;
+            }
+
             set
             {
-                _IsValueHex = value;
+                this.isValueHex = value;
 
                 ProjectExplorer.GetInstance().ProjectChanged();
             }
         }
-
-        [Browsable(false)]
-        private IntPtr _EffectiveAddress;
 
         [ReadOnly(true)]
         [Category("Properties"), DisplayName("Address"), Description("Effective address")]
         public IntPtr EffectiveAddress
         {
-            get { return _EffectiveAddress; }
-            private set { _EffectiveAddress = value; }
-        }
+            get
+            {
+                return this.effectiveAddress;
+            }
 
-        public AddressItem() : this(IntPtr.Zero, typeof(Int32), "New Address") { }
-        public AddressItem(IntPtr BaseAddress, Type ElementType, String Description = null, AddressResolver.ResolveTypeEnum ResolveType = AddressResolver.ResolveTypeEnum.Module,
-            String BaseIdentifier = null, IEnumerable<Int32> Offsets = null, Boolean IsValueHex = false, String Value = null) : base(Description)
-        {
-            // Bypass setters to avoid running setter code
-            this._BaseAddress = BaseAddress;
-            this.ElementType = ElementType;
-            this._ResolveType = ResolveType;
-            this._BaseIdentifier = BaseIdentifier;
-            this._Offsets = Offsets;
-            this._IsValueHex = IsValueHex;
-
-            if (!_IsValueHex && CheckSyntax.CanParseValue(ElementType, Value))
-                this._Value = Conversions.ParseDecStringAsValue(ElementType, Value);
-            else if (_IsValueHex && CheckSyntax.CanParseHex(ElementType, Value))
-                this._Value = Conversions.ParseHexStringAsDecString(ElementType, Value);
-        }
-
-        private void WriteValue(dynamic NewValue)
-        {
-            if (EngineCore.GetInstance() == null || NewValue == null)
-                return;
-
-            EngineCore.GetInstance().OperatingSystemAdapter.Write(ElementType, EffectiveAddress, NewValue);
+            private set
+            {
+                this.effectiveAddress = value;
+            }
         }
 
         public override void Update()
         {
-            Boolean ReadSuccess;
+            Boolean readSuccess;
 
             if (EngineCore.GetInstance() == null)
+            {
                 return;
+            }
 
-            EffectiveAddress = ResolveAddress();
+            this.EffectiveAddress = this.ResolveAddress();
 
-            // Freeze current value if this entry is activated
-            if (GetActivationState())
-                WriteValue(Value);
-            // Otherwise we read as normal (bypass value setter and set value directly to avoid a write-back to memory)
+            if (this.GetActivationState())
+            {
+                // Freeze current value if this entry is activated
+                this.WriteValue(this.Value);
+            }
             else
-                _Value = EngineCore.GetInstance().OperatingSystemAdapter.Read(ElementType, EffectiveAddress, out ReadSuccess);
+            {
+                // Otherwise we read as normal (bypass value setter and set value directly to avoid a write-back to memory)
+                this.addressValue = EngineCore.GetInstance().OperatingSystemAdapter.Read(this.ElementType, this.EffectiveAddress, out readSuccess);
+            }
         }
 
         public String GetAddressString()
         {
-            if (Offsets != null && Offsets.Count() > 0)
-                return "P->" + Conversions.ToAddress(EffectiveAddress);
+            if (this.Offsets != null && this.Offsets.Count() > 0)
+            {
+                return "P->" + Conversions.ToAddress(this.EffectiveAddress);
+            }
 
-            return Conversions.ToAddress(EffectiveAddress);
+            return Conversions.ToAddress(this.EffectiveAddress);
         }
 
         public IntPtr ResolveAddress()
         {
-            IntPtr Pointer = IntPtr.Zero;
-            Boolean SuccessReading = true;
+            IntPtr pointer = IntPtr.Zero;
+            Boolean successReading = true;
 
-            switch (ResolveType)
+            switch (this.ResolveType)
             {
                 case AddressResolver.ResolveTypeEnum.Module:
-                    Pointer = BaseAddress;
+                    pointer = this.BaseAddress;
                     break;
                 case AddressResolver.ResolveTypeEnum.DotNet:
-                    Pointer = AddressResolver.GetInstance().ResolveDotNetObject(BaseIdentifier);
-                    Pointer = Pointer.Add(BaseAddress);
+                    pointer = AddressResolver.GetInstance().ResolveDotNetObject(this.BaseIdentifier);
+                    pointer = pointer.Add(this.BaseAddress);
                     break;
             }
-
 
             if (EngineCore.GetInstance() == null)
             {
-                if (Offsets != null && Offsets.Count() > 0)
-                    Pointer = IntPtr.Zero;
+                if (this.Offsets != null && this.Offsets.Count() > 0)
+                {
+                    pointer = IntPtr.Zero;
+                }
 
-                return Pointer;
+                return pointer;
             }
 
-            if (Offsets == null || Offsets.Count() == 0)
-                return Pointer;
-
-            foreach (Int32 Offset in Offsets)
+            if (this.Offsets == null || this.Offsets.Count() == 0)
             {
-                Pointer = EngineCore.GetInstance().OperatingSystemAdapter.Read<IntPtr>(Pointer, out SuccessReading);
-
-                if (Pointer == IntPtr.Zero)
-                    break;
-
-                Pointer = Pointer.Add(Offset);
-
-                if (!SuccessReading)
-                    break;
+                return pointer;
             }
 
-            return Pointer;
+            foreach (Int32 offset in this.Offsets)
+            {
+                pointer = EngineCore.GetInstance().OperatingSystemAdapter.Read<IntPtr>(pointer, out successReading);
+
+                if (pointer == IntPtr.Zero)
+                {
+                    break;
+                }
+
+                pointer = pointer.Add(offset);
+
+                if (!successReading)
+                {
+                    break;
+                }
+            }
+
+            return pointer;
         }
 
-    } // End class
+        private void WriteValue(dynamic newValue)
+        {
+            if (EngineCore.GetInstance() == null || newValue == null)
+            {
+                return;
+            }
 
-} // End namespace
+            EngineCore.GetInstance().OperatingSystemAdapter.Write(this.ElementType, this.EffectiveAddress, newValue);
+        }
+    }
+    //// End class
+}
+//// End namespace

@@ -1,125 +1,157 @@
-﻿using Ana.Source.Mvvm;
-using System;
-using System.Collections.ObjectModel;
-
-namespace Ana.Source.Controls
+﻿namespace Ana.Source.Controls
 {
+    using Mvvm;
+    using System;
+    using System.Collections.ObjectModel;
+
     /// <summary>
     /// Base class for all ViewModel classes displayed by TreeViewItems.  
     /// This acts as an adapter between a raw data object and a TreeViewItem.
     /// </summary>
     internal class TreeViewItemViewModel : ViewModelBase
     {
+        /// <summary>
+        /// Dummy child for nodes with dynamically loaded children
+        /// </summary>
         private static readonly TreeViewItemViewModel DummyChild = new TreeViewItemViewModel();
 
+        /// <summary>
+        /// Root items in the collection
+        /// </summary>
         private readonly ObservableCollection<TreeViewItemViewModel> children;
+
+        /// <summary>
+        /// The parent tree view of this node
+        /// </summary>
         private readonly TreeViewItemViewModel parent;
 
+        /// <summary>
+        /// Whether or not this node has its children expanded
+        /// </summary>
         private Boolean isExpanded;
+
+        /// <summary>
+        /// Whether or not this node is selected
+        /// </summary>
         private Boolean isSelected;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TreeViewItemViewModel" /> class
+        /// </summary>
+        /// <param name="parent">The parent of this node</param>
+        /// <param name="lazyLoadChildren">Whether children need to be lazy loaded</param>
         protected TreeViewItemViewModel(TreeViewItemViewModel parent, Boolean lazyLoadChildren = false)
         {
             this.parent = parent;
 
-            children = new ObservableCollection<TreeViewItemViewModel>();
+            this.children = new ObservableCollection<TreeViewItemViewModel>();
 
             if (lazyLoadChildren)
             {
-                children.Add(DummyChild);
+                this.children.Add(DummyChild);
             }
         }
 
-        // This is used to create the DummyChild instance.
+        /// <summary>
+        /// Prevents a default instance of the <see cref="TreeViewItemViewModel" /> class from being created        
+        /// This is used to create the DummyChild instance
+        /// </summary>
         private TreeViewItemViewModel()
         {
         }
 
         /// <summary>
-        /// Returns the logical child items of this object.
+        /// Gets the parent tree view of this node
         /// </summary>
-        public ObservableCollection<TreeViewItemViewModel> Children
+        public TreeViewItemViewModel Parent
         {
-            get { return children; }
+            get
+            {
+                return this.parent;
+            }
         }
 
         /// <summary>
-        /// Returns true if this object's Children have not yet been populated.
+        /// Gets the logical child items of this object
+        /// </summary>
+        public ObservableCollection<TreeViewItemViewModel> Children
+        {
+            get
+            {
+                return this.children;
+            }
+        }
+
+        /// <summary>
+        /// Gets a value indicating whether this object's children have not yet been populated
         /// </summary>
         public Boolean HasDummyChild
         {
             get
             {
-                return this.Children.Count == 1 && this.Children[0] == DummyChild;
+                return this.Children.Count == 1 && this.Children[0] == TreeViewItemViewModel.DummyChild;
             }
         }
 
         /// <summary>
-        /// Gets/sets whether the TreeViewItem 
-        /// associated with this object is expanded.
+        /// Gets or sets a value indicating whether the TreeViewItem associated with this object is expanded
         /// </summary>
         public Boolean IsExpanded
         {
             get
             {
-                return isExpanded;
+                return this.isExpanded;
             }
 
             set
             {
-                if (value != isExpanded)
+                if (value != this.isExpanded)
                 {
-                    isExpanded = value;
+                    this.isExpanded = value;
                     this.RaisePropertyChanged(nameof(this.IsExpanded));
                 }
 
                 // Expand all the way up to the root.
-                if (isExpanded && parent != null)
+                if (this.isExpanded && this.parent != null)
                 {
-                    parent.IsExpanded = true;
+                    this.parent.IsExpanded = true;
                 }
 
                 // Lazy load the child items, if necessary.
                 if (this.HasDummyChild)
                 {
-                    this.Children.Remove(DummyChild);
+                    this.Children.Remove(TreeViewItemViewModel.DummyChild);
                     this.LoadChildren();
                 }
             }
         }
 
         /// <summary>
-        /// Gets/sets whether the TreeViewItem 
-        /// associated with this object is selected.
+        /// Gets or sets a value indicating whether the TreeViewItem associated with this object is selected.
         /// </summary>
         public Boolean IsSelected
         {
             get
             {
-                return isSelected;
+                return this.isSelected;
             }
 
             set
             {
-                if (value != isSelected)
+                if (value != this.isSelected)
                 {
-                    isSelected = value;
+                    this.isSelected = value;
                     this.RaisePropertyChanged(nameof(this.IsSelected));
                 }
             }
         }
 
         /// <summary>
-        /// Invoked when the child items need to be loaded on demand.
-        /// Subclasses can override this to populate the Children collection.
+        /// Invoked when the child items need to be loaded on demand
+        /// Subclasses can override this to populate the Children collection
         /// </summary>
         protected virtual void LoadChildren()
         {
-        }
-
-        public TreeViewItemViewModel Parent
-        {
-            get { return parent; }
         }
     }
     //// End class

@@ -1,24 +1,27 @@
 ﻿using Ana.Source.Snapshots;
 using Ana.Source.Utils;
 using System;
-using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Threading.Tasks;
-
 namespace Ana.Source.Scanners.LabelThresholder
 {
-    class LabelThresholder
+    using System.Collections.Concurrent;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Reflection;
+    using System.Threading.Tasks;
+
+    internal class LabelThresholder
     {
         private Snapshot Snapshot;
 
         private SortedDictionary<dynamic, Int64> SortedDictionary;
+
         private Boolean Inverted;
+
         private Object ItemLock;
 
         [Obfuscation(Exclude = true)]
         private dynamic MinValue;
+
         [Obfuscation(Exclude = true)]
         private dynamic MaxValue;
 

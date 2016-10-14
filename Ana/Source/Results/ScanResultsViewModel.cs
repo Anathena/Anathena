@@ -32,8 +32,19 @@
                 () => { return new ScanResultsViewModel(); },
                 LazyThreadSafetyMode.PublicationOnly);
 
+        /// <summary>
+        /// The current page of scan results
+        /// </summary>
         private UInt64 currentPage;
+
+        /// <summary>
+        /// The total number of addresses
+        /// </summary>
         private UInt64 addressCount;
+
+        /// <summary>
+        /// The addresses on the current page
+        /// </summary>
         private IEnumerable<ScanResult> addresses;
 
         /// <summary>
@@ -46,7 +57,7 @@
             this.LastPageCommand = new RelayCommand(() => this.LastPage(), () => true);
             this.PreviousPageCommand = new RelayCommand(() => this.PreviousPage(), () => true);
             this.NextPageCommand = new RelayCommand(() => this.NextPage(), () => true);
-            this.AddAddressCommand = new RelayCommand<Object>((address) => this.AddAddress(address), (address) => true);
+            this.AddAddressCommand = new RelayCommand<ScanResult>((address) => this.AddAddress(address), (address) => true);
             this.IsVisible = true;
             this.addresses = new List<ScanResult>();
 
@@ -80,7 +91,7 @@
         public ICommand AddAddressCommand { get; private set; }
 
         /// <summary>
-        /// The total number of addresses found
+        /// Gets or sets the total number of addresses found
         /// </summary>
         public UInt64 CurrentPage
         {
@@ -98,7 +109,7 @@
         }
 
         /// <summary>
-        /// The total number of addresses found
+        /// Gets the total number of addresses found
         /// </summary>
         public UInt64 PageCount
         {
@@ -109,7 +120,7 @@
         }
 
         /// <summary>
-        /// The the size (in B, KB, MB, GB, TB, etc) of the results found
+        /// Gets the size (in B, KB, MB, GB, TB, etc) of the results found
         /// </summary>
         public String ResultSize
         {
@@ -120,7 +131,7 @@
         }
 
         /// <summary>
-        /// The total number of addresses found
+        /// Gets or sets the total number of addresses found
         /// </summary>
         public UInt64 ResultCount
         {
@@ -128,6 +139,7 @@
             {
                 return this.addressCount;
             }
+
             set
             {
                 this.addressCount = value;
@@ -160,13 +172,16 @@
         /// <summary>
         /// Recieves an update of the active snapshot
         /// </summary>
-        /// <param name="process">The active snapshot</param>
+        /// <param name="snapshot">The active snapshot</param>
         public void Update(Snapshot snapshot)
         {
             this.ResultCount = snapshot == null ? 0 : snapshot.GetElementCount();
             this.CurrentPage = 0;
         }
 
+        /// <summary>
+        /// Loads the results for the current page
+        /// </summary>
         private void LoadResults()
         {
             Snapshot snapshot = SnapshotManager.GetInstance().GetActiveSnapshot();
@@ -177,8 +192,10 @@
             }
 
             List<ScanResult> newAddresses = new List<ScanResult>();
-            UInt64 startIndex = Math.Min(ScanResultsViewModel.PageSize * CurrentPage, snapshot.GetElementCount());
-            UInt64 endIndex = Math.Min(ScanResultsViewModel.PageSize * CurrentPage + ScanResultsViewModel.PageSize, snapshot.GetElementCount());
+
+            UInt64 startIndex = Math.Min(ScanResultsViewModel.PageSize * this.CurrentPage, snapshot.GetElementCount());
+
+            UInt64 endIndex = Math.Min((ScanResultsViewModel.PageSize * this.CurrentPage) + ScanResultsViewModel.PageSize, snapshot.GetElementCount());
 
             for (UInt64 index = startIndex; index < endIndex; index++)
             {
@@ -186,14 +203,13 @@
 
                 dynamic label = String.Empty;
                 if (((dynamic)snapshot)[(Int32)index].ElementLabel != null)
+                {
                     label = ((dynamic)snapshot)[(Int32)index].ElementLabel;
+                }
 
                 newAddresses.Add(new ScanResult(element.BaseAddress, element.GetValue().ToString(), element.GetPreviousValue().ToString(), label));
-
-
             }
 
-            // Temp debug
             this.addresses = newAddresses;
             this.RaisePropertyChanged(nameof(this.Addresses));
         }
@@ -203,7 +219,7 @@
         /// </summary>
         private void FirstPage()
         {
-            CurrentPage = 0;
+            this.CurrentPage = 0;
         }
 
         /// <summary>
@@ -211,7 +227,7 @@
         /// </summary>
         private void LastPage()
         {
-            CurrentPage = PageCount;
+            this.CurrentPage = this.PageCount;
         }
 
         /// <summary>
@@ -219,7 +235,7 @@
         /// </summary>
         private void PreviousPage()
         {
-            CurrentPage = CurrentPage == 0 ? CurrentPage : CurrentPage - 1;
+            this.CurrentPage = this.CurrentPage == 0 ? this.CurrentPage : this.CurrentPage - 1;
         }
 
         /// <summary>
@@ -227,13 +243,14 @@
         /// </summary>
         private void NextPage()
         {
-            CurrentPage = CurrentPage >= PageCount ? CurrentPage : CurrentPage + 1;
+            this.CurrentPage = this.CurrentPage >= this.PageCount ? this.CurrentPage : this.CurrentPage + 1;
         }
 
         /// <summary>
-        /// Adds the given address to the table
+        /// Adds the given scan result address to the project explorer
         /// </summary>
-        private void AddAddress(Object address)
+        /// <param name="scanResult">The scan result to add to the project explorer</param>
+        private void AddAddress(ScanResult scanResult)
         {
         }
     }

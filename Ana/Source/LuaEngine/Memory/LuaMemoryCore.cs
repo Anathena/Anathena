@@ -12,8 +12,6 @@ namespace Ana.Source.LuaEngine.Memory
 {
     internal class LuaMemoryCore : IMemoryCore
     {
-        private EngineCore EngineCore;
-
         private static ConcurrentDictionary<String, String> GlobalKeywords;
         private ConcurrentDictionary<String, String> Keywords;
         private List<UInt64> RemoteAllocations;

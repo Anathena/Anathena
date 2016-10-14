@@ -1,24 +1,26 @@
-﻿using Ana.Source.Scanners.ScanConstraints;
-using Ana.Source.Snapshots;
-using Ana.Source.UserSettings;
-using Ana.Source.Utils;
-using System;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace Ana.Source.Scanners.ManualScanner
+﻿namespace Ana.Source.Scanners.ManualScanner
 {
-    class ManualScanner : ScannerBase
-    {
-        private Snapshot<Null> Snapshot;
+    using ScanConstraints;
+    using Snapshots;
+    using System;
+    using System.Linq;
+    using System.Threading.Tasks;
+    using UserSettings;
+    using Utils;
 
-        private ScanConstraintManager ScanConstraintManager;
-        private Object ProgressLock;
+    internal class ManualScanner : ScannerBase
+    {
 
         public ManualScanner() : base("Manual Scan")
         {
             ProgressLock = new Object();
         }
+
+        private Snapshot<Null> Snapshot { get; set; }
+
+        private ScanConstraintManager ScanConstraintManager { get; set; }
+
+        private Object ProgressLock { get; set; }
 
         public void SetScanConstraintManager(ScanConstraintManager ScanConstraintManager)
         {
@@ -28,17 +30,17 @@ namespace Ana.Source.Scanners.ManualScanner
         public override void Begin()
         {
             // Initialize snapshot
-            Snapshot = new Snapshot<Null>(SnapshotManager.GetInstance().GetActiveSnapshot());
+            this.Snapshot = new Snapshot<Null>(SnapshotManager.GetInstance().GetActiveSnapshot());
 
-            if (Snapshot == null || ScanConstraintManager == null || ScanConstraintManager.GetCount() <= 0)
+            if (this.Snapshot == null || this.ScanConstraintManager == null || this.ScanConstraintManager.GetCount() <= 0)
             {
-                TriggerEnd();
+                this.TriggerEnd();
                 return;
             }
 
-            Snapshot.MarkAllValid();
-            Snapshot.SetElementType(ScanConstraintManager.GetElementType());
-            Snapshot.SetAlignment(Settings.GetInstance().GetAlignmentSettings());
+            this.Snapshot.MarkAllValid();
+            this.Snapshot.SetElementType(this.ScanConstraintManager.GetElementType());
+            this.Snapshot.SetAlignment(Settings.GetInstance().GetAlignmentSettings());
 
             base.Begin();
         }
@@ -47,121 +49,158 @@ namespace Ana.Source.Scanners.ManualScanner
         {
             base.Update();
 
-            Int32 ProcessedPages = 0;
+            Int32 processedPages = 0;
 
             // Read memory to get current values
-            Parallel.ForEach(Snapshot.Cast<Object>(), (RegionObject) =>
+            Parallel.ForEach(this.Snapshot.Cast<Object>(), (regionObject) =>
             {
-                SnapshotRegion Region = (SnapshotRegion)RegionObject;
-                Boolean Success;
+                SnapshotRegion region = (SnapshotRegion)regionObject;
+                Boolean readSuccess;
 
+                region.ReadAllRegionMemory(out readSuccess, true);
 
-                Region.ReadAllRegionMemory(out Success, true);
-
-                if (!Success)
+                if (!readSuccess)
                 {
-                    Region.MarkAllInvalid();
+                    region.MarkAllInvalid();
                     return;
                 }
 
-                if (ScanConstraintManager.HasRelativeConstraint() && !Region.CanCompare())
+                if (this.ScanConstraintManager.HasRelativeConstraint() && !region.CanCompare())
                 {
-                    Region.MarkAllInvalid();
+                    region.MarkAllInvalid();
                     return;
                 }
 
-                foreach (SnapshotElement Element in Region)
+                foreach (SnapshotElement element in region)
                 {
                     // Enforce each value constraint on the element
-                    foreach (ScanConstraint ScanConstraint in ScanConstraintManager)
+                    foreach (ScanConstraint scanConstraint in this.ScanConstraintManager)
                     {
-                        switch (ScanConstraint.Constraint)
+                        switch (scanConstraint.Constraint)
                         {
                             case ConstraintsEnum.Unchanged:
-                                if (!Element.Unchanged())
-                                    Element.Valid = false;
+                                if (!element.Unchanged())
+                                {
+                                    element.Valid = false;
+                                }
+
                                 break;
                             case ConstraintsEnum.Changed:
-                                if (!Element.Changed())
-                                    Element.Valid = false;
+                                if (!element.Changed())
+                                {
+                                    element.Valid = false;
+                                }
+
                                 break;
                             case ConstraintsEnum.Increased:
-                                if (!Element.Increased())
-                                    Element.Valid = false;
+                                if (!element.Increased())
+                                {
+                                    element.Valid = false;
+                                }
+
                                 break;
                             case ConstraintsEnum.Decreased:
-                                if (!Element.Decreased())
-                                    Element.Valid = false;
+                                if (!element.Decreased())
+                                {
+                                    element.Valid = false;
+                                }
+
                                 break;
                             case ConstraintsEnum.IncreasedByX:
-                                if (!Element.IncreasedByValue(ScanConstraint.Value))
-                                    Element.Valid = false;
+                                if (!element.IncreasedByValue(scanConstraint.Value))
+                                {
+                                    element.Valid = false;
+                                }
+
                                 break;
                             case ConstraintsEnum.DecreasedByX:
-                                if (!Element.DecreasedByValue(ScanConstraint.Value))
-                                    Element.Valid = false;
+                                if (!element.DecreasedByValue(scanConstraint.Value))
+                                {
+                                    element.Valid = false;
+                                }
+
                                 break;
                             case ConstraintsEnum.Equal:
-                                if (!Element.EqualToValue(ScanConstraint.Value))
-                                    Element.Valid = false;
+                                if (!element.EqualToValue(scanConstraint.Value))
+                                {
+                                    element.Valid = false;
+                                }
+
                                 break;
                             case ConstraintsEnum.NotEqual:
-                                if (!Element.NotEqualToValue(ScanConstraint.Value))
-                                    Element.Valid = false;
+                                if (!element.NotEqualToValue(scanConstraint.Value))
+                                {
+                                    element.Valid = false;
+                                }
+
                                 break;
                             case ConstraintsEnum.GreaterThan:
-                                if (!Element.GreaterThanValue(ScanConstraint.Value))
-                                    Element.Valid = false;
+                                if (!element.GreaterThanValue(scanConstraint.Value))
+                                {
+                                    element.Valid = false;
+                                }
+
                                 break;
                             case ConstraintsEnum.GreaterThanOrEqual:
-                                if (!Element.GreaterThanOrEqualToValue(ScanConstraint.Value))
-                                    Element.Valid = false;
+                                if (!element.GreaterThanOrEqualToValue(scanConstraint.Value))
+                                {
+                                    element.Valid = false;
+                                }
+
                                 break;
                             case ConstraintsEnum.LessThan:
-                                if (!Element.LessThanValue(ScanConstraint.Value))
-                                    Element.Valid = false;
+                                if (!element.LessThanValue(scanConstraint.Value))
+                                {
+                                    element.Valid = false;
+                                }
+
                                 break;
                             case ConstraintsEnum.LessThanOrEqual:
-                                if (!Element.LessThanOrEqualToValue(ScanConstraint.Value))
-                                    Element.Valid = false;
+                                if (!element.LessThanOrEqualToValue(scanConstraint.Value))
+                                {
+                                    element.Valid = false;
+                                }
+
                                 break;
                             case ConstraintsEnum.NotScientificNotation:
-                                if (Element.IsScientificNotation())
-                                    Element.Valid = false;
+                                if (element.IsScientificNotation())
+                                {
+                                    element.Valid = false;
+                                }
+
                                 break;
                         }
-
-                    } // End foreach Constraint
-
-                } // End foreach Element
-
-                using (TimedLock.Lock(ProgressLock))
-                {
-                    ProcessedPages++;
+                    }
+                    //// End foreach Constraint
                 }
+                //// End foreach Element
+                using (TimedLock.Lock(this.ProgressLock))
+                {
+                    processedPages++;
+                }
+            });
+            //// End foreach Region
 
-            }); // End foreach Region
-
-            CancelFlag = true;
+            this.CancelFlag = true;
         }
 
         protected override void End()
         {
             base.End();
 
-            Snapshot.DiscardInvalidRegions();
-            Snapshot.SetScanMethod(this.ScannerName);
+            this.Snapshot.DiscardInvalidRegions();
+            this.Snapshot.SetScanMethod(this.ScannerName);
 
-            SnapshotManager.GetInstance().SaveSnapshot(Snapshot);
+            SnapshotManager.GetInstance().SaveSnapshot(this.Snapshot);
 
-            CleanUp();
+            this.CleanUp();
         }
 
         private void CleanUp()
         {
             Snapshot = null;
         }
-
-    } // End class
-
-} // End namespace
+    }
+    //// End class
+}
+//// End namespace

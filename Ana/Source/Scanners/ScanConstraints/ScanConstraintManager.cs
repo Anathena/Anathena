@@ -1,17 +1,18 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-
-namespace Ana.Source.Scanners.ScanConstraints
+﻿namespace Ana.Source.Scanners.ScanConstraints
 {
+    using System;
+    using System.Collections;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Reflection;
+
     /// <summary>
     /// Class for storing a collection of constraints to be used in a scan that applies more than one constraint per update
     /// </summary>
     public class ScanConstraintManager : IEnumerable
     {
         protected List<ScanConstraint> ValueConstraints;
+
         protected Type ElementType;
 
         public ScanConstraintManager()
@@ -20,7 +21,13 @@ namespace Ana.Source.Scanners.ScanConstraints
         }
 
         [Obfuscation(Exclude = true)]
-        public ScanConstraint this[Int32 Index] { get { return ValueConstraints[Index]; } }
+        public ScanConstraint this[Int32 Index]
+        {
+            get
+            {
+                return ValueConstraints[Index];
+            }
+        }
 
         public Type GetElementType()
         {
@@ -48,7 +55,9 @@ namespace Ana.Source.Scanners.ScanConstraints
                 }
 
                 if (ScanConstraint.Value == null)
+                {
                     continue;
+                }
 
                 try
                 {
@@ -77,16 +86,22 @@ namespace Ana.Source.Scanners.ScanConstraints
         public void AddConstraint(ScanConstraint ScanConstraint)
         {
             if (ScanConstraint.Constraint == ConstraintsEnum.NotScientificNotation)
+            {
                 if (ElementType != typeof(Single) && ElementType != typeof(Double))
+                {
                     return;
+                }
+            }
 
             this.ValueConstraints.Add(ScanConstraint);
         }
 
         public void RemoveConstraints(IEnumerable<Int32> ConstraintIndicies)
         {
-            foreach (Int32 Index in ConstraintIndicies.OrderByDescending(X => X))
+            foreach (Int32 Index in ConstraintIndicies.OrderByDescending(x => x))
+            {
                 this.ValueConstraints.RemoveAt(Index);
+            }
         }
 
         public void ClearConstraints()
@@ -98,7 +113,7 @@ namespace Ana.Source.Scanners.ScanConstraints
         {
             return ((IEnumerable)ValueConstraints).GetEnumerator();
         }
-
-    } // End class
-
-} // End namespace
+    }
+    //// End class
+}
+//// End namespace

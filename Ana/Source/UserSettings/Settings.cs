@@ -1,10 +1,10 @@
-﻿using Ana.Source.Engine.OperatingSystems;
-using System;
-using System.Reflection;
-using System.Threading;
-
-namespace Ana.Source.UserSettings
+﻿namespace Ana.Source.UserSettings
 {
+    using Engine.OperatingSystems;
+    using System;
+    using System.Reflection;
+    using System.Threading;
+
     [Obfuscation(ApplyToMembers = true, Exclude = true)]
     class Settings
     {

@@ -90,7 +90,7 @@
         private void RefreshProcessList()
         {
             // Raise event to update the process list
-            RaisePropertyChanged(nameof(this.ProcessList));
+            this.RaisePropertyChanged(nameof(this.ProcessList));
         }
 
         /// <summary>
@@ -107,7 +107,7 @@
             EngineCore.GetInstance().Processes.OpenProcess(process);
 
             // Raise event to update process name in the view
-            RaisePropertyChanged(nameof(this.ProcessName));
+            this.RaisePropertyChanged(nameof(this.ProcessName));
 
             this.IsVisible = false;
         }

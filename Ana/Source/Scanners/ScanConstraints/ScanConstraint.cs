@@ -1,8 +1,8 @@
-﻿using System;
-using System.Reflection;
-
-namespace Ana.Source.Scanners.ScanConstraints
+﻿namespace Ana.Source.Scanners.ScanConstraints
 {
+    using System;
+    using System.Reflection;
+
     public enum ConstraintsEnum
     {
         Invalid,
@@ -27,25 +27,26 @@ namespace Ana.Source.Scanners.ScanConstraints
     /// </summary>
     public class ScanConstraint
     {
+        public ScanConstraint()
+        {
+            this.Constraint = ConstraintsEnum.Changed;
+            this.Value = null;
+        }
+
+        public ScanConstraint(ConstraintsEnum valueConstraint, dynamic addressValue = null)
+        {
+            this.Constraint = valueConstraint;
+            this.Value = addressValue;
+        }
+
         public ConstraintsEnum Constraint { get; set; }
+
         [Obfuscation(Exclude = true)]
         public dynamic Value { get; set; }
 
-        public ScanConstraint()
-        {
-            Constraint = ConstraintsEnum.Changed;
-            Value = null;
-        }
-
-        public ScanConstraint(ConstraintsEnum ValueConstraint, dynamic Value = null)
-        {
-            this.Constraint = ValueConstraint;
-            this.Value = Value;
-        }
-
         public Boolean IsRelativeConstraint()
         {
-            switch (Constraint)
+            switch (this.Constraint)
             {
                 case ConstraintsEnum.Equal:
                 case ConstraintsEnum.NotEqual:
@@ -67,7 +68,7 @@ namespace Ana.Source.Scanners.ScanConstraints
                     throw new Exception("Unrecognized Constraint");
             }
         }
-
-    } // End class
-
-} // End namespace
+    }
+    //// End class
+}
+//// End namespace

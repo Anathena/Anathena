@@ -1,14 +1,14 @@
-﻿using Ana.Source.Utils;
-using Ana.Source.Utils.Extensions;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Threading.Tasks;
-
-namespace Ana.Source.Snapshots
+﻿namespace Ana.Source.Snapshots
 {
+    using System;
+    using System.Collections;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Reflection;
+    using System.Threading.Tasks;
+    using Utils;
+    using Utils.Extensions;
+
     /// <summary>
     /// Defines data contained in a single snapshot
     /// </summary>

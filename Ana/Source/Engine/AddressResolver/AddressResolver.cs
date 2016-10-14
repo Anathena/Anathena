@@ -1,42 +1,50 @@
-﻿using Ana.Source.Engine.AddressResolver.DotNet;
-using Ana.Source.Engine.OperatingSystems;
-using Ana.Source.Utils;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
-
-namespace Ana.Source.Engine.AddressResolver
+﻿namespace Ana.Source.Engine.AddressResolver
 {
+    using DotNet;
+    using OperatingSystems;
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Threading;
+    using Utils;
+
+    /// <summary>
+    /// Singleton class to resolve the address of managed objects in an external process
+    /// </summary>
     internal class AddressResolver : RepeatedTask
     {
-        // Singleton instance of Address Resolver
-        private static Lazy<AddressResolver> addressResolverInstance = new Lazy<AddressResolver>(() => { return new AddressResolver(); }, LazyThreadSafetyMode.PublicationOnly);
+        /// <summary>
+        /// Singleton instance of the <see cref="AddressResolver" /> class
+        /// </summary>
+        private static Lazy<AddressResolver> addressResolverInstance = new Lazy<AddressResolver>(
+            () => { return new AddressResolver(); },
+            LazyThreadSafetyMode.PublicationOnly);
 
-        private const Int32 resolveIntervalInitial = 200;
-        private const Int32 resolveInterval = 5000;
+        private const Int32 ResolveIntervalInitial = 200;
+
+        private const Int32 ResolveInterval = 5000;
 
         private Dictionary<String, DotNetObject> dotNetNameMap;
+
         private IEnumerable<NormalizedModule> modules;
 
         public enum ResolveTypeEnum
         {
             Module,
             DotNet,
-            // Java
+            //// Java
         }
 
         private AddressResolver()
         {
-            dotNetNameMap = new Dictionary<String, DotNetObject>();
-            modules = new List<NormalizedModule>();
-
+            this.dotNetNameMap = new Dictionary<String, DotNetObject>();
+            this.modules = new List<NormalizedModule>();
             this.Begin();
         }
 
         public static AddressResolver GetInstance()
         {
-            return addressResolverInstance.Value;
+            return AddressResolver.addressResolverInstance.Value;
         }
 
         public IntPtr ResolveDotNetObject(String identifier)
@@ -45,7 +53,9 @@ namespace Ana.Source.Engine.AddressResolver
             DotNetObject dotNetObject;
 
             if (dotNetNameMap.TryGetValue(identifier, out dotNetObject))
+            {
                 result = dotNetObject.GetAddress();
+            }
 
             return result;
         }
@@ -54,13 +64,13 @@ namespace Ana.Source.Engine.AddressResolver
         {
             base.Begin();
 
-            this.UpdateInterval = resolveIntervalInitial;
+            this.UpdateInterval = AddressResolver.ResolveIntervalInitial;
         }
 
         protected override void Update()
         {
             Dictionary<String, DotNetObject> nameMap = new Dictionary<String, DotNetObject>();
-            List<DotNetObject> objectTrees = new List<DotNetObject>();// DotNetObjectCollector.GetInstance().GetObjectTrees();
+            List<DotNetObject> objectTrees = new List<DotNetObject>(); // DotNetObjectCollector.GetInstance().GetObjectTrees();
 
             // Build module list
             modules = EngineCore.GetInstance().OperatingSystemAdapter.GetModules();
@@ -71,13 +81,17 @@ namespace Ana.Source.Engine.AddressResolver
 
             // After we have successfully grabbed information from the process, slow the update interval
             if ((modules != null && modules.Count() != 0) || objectTrees != null)
-                this.UpdateInterval = resolveInterval;
+            {
+                this.UpdateInterval = ResolveInterval;
+            }
         }
 
         private void BuildNameMap(Dictionary<String, DotNetObject> nameMap, DotNetObject currentObject)
         {
             if (currentObject == null || currentObject.GetFullName() == null)
+            {
                 return;
+            }
 
             nameMap[currentObject.GetFullName()] = currentObject;
             currentObject?.GetChildren()?.ForEach(x => BuildNameMap(nameMap, x));

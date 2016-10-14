@@ -1,11 +1,11 @@
-﻿using Ana.Source.Utils.Extensions;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.ComponentModel;
-
-namespace Ana.Source.Engine.AddressResolver.DotNet
+﻿namespace Ana.Source.Engine.AddressResolver.DotNet
 {
+    using System;
+    using System.Collections;
+    using System.Collections.Generic;
+    using System.ComponentModel;
+    using Utils.Extensions;
+
     public class DotNetObject : IEnumerable, IComparable<DotNetObject>
     {
         [ReadOnly(true)]
@@ -21,6 +21,7 @@ namespace Ana.Source.Engine.AddressResolver.DotNet
         public Type ElementType { get; set; }
 
         private DotNetObject parent { get; set; }
+
         private List<DotNetObject> children { get; set; }
 
         public DotNetObject(DotNetObject parent, UInt64 objectReference, Type elementType, String name)
@@ -31,8 +32,11 @@ namespace Ana.Source.Engine.AddressResolver.DotNet
 
             // Trim root name from all objects if applicable
             String rootName = GetRootName();
+
             if (name.StartsWith(rootName))
+            {
                 name = name.Remove(0, rootName.Length);
+            }
 
             this.Name = name;
 
@@ -42,7 +46,9 @@ namespace Ana.Source.Engine.AddressResolver.DotNet
         public void AddChild(DotNetObject objectNode)
         {
             if (!children.Contains(objectNode))
+            {
                 children.Add(objectNode);
+            }
         }
 
         public List<DotNetObject> GetChildren()
@@ -85,7 +91,9 @@ namespace Ana.Source.Engine.AddressResolver.DotNet
         private String GetRootName()
         {
             if (parent == null)
+            {
                 return GetName();
+            }
 
             return parent.GetRootName();
         }
@@ -93,7 +101,9 @@ namespace Ana.Source.Engine.AddressResolver.DotNet
         private String GetFullNamespace(String CurrentNamespace)
         {
             if (parent == null)
+            {
                 return GetRootName();
+            }
 
             return parent.GetFullNamespace(CurrentNamespace) + "." + Name;
         }
@@ -101,10 +111,14 @@ namespace Ana.Source.Engine.AddressResolver.DotNet
         public Int32 CompareTo(DotNetObject other)
         {
             if (this.ObjectReference > other.ObjectReference)
+            {
                 return 1;
+            }
 
             if (this.ObjectReference == other.ObjectReference)
+            {
                 return 0;
+            }
 
             return -1;
         }
@@ -113,7 +127,7 @@ namespace Ana.Source.Engine.AddressResolver.DotNet
         {
             return ((IEnumerable)children).GetEnumerator();
         }
-
-    } // End class
-
-} // End namespace
+    }
+    //// End class
+}
+//// End namespace
