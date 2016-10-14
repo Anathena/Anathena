@@ -24,6 +24,8 @@
 
         private const String HomeUrl = "http://www.anathena.com/browser/browser.php";
 
+        private const String ExtensionFilter = "Cheat File(*.Hax)|*.hax|All files(*.*)|*.*";
+
         /// <summary>
         /// Singleton instance of the <see cref="CheatBrowserViewModel" /> class
         /// </summary>
@@ -96,7 +98,7 @@
 
             // Allow user to select the save location
             SaveFileDialog saveFileDialog = new SaveFileDialog();
-            saveFileDialog.Filter = "Cheat File (*.Hax)|*.hax|All files (*.*)|*.*";
+            saveFileDialog.Filter = ExtensionFilter;
             saveFileDialog.FilterIndex = 2;
             saveFileDialog.RestoreDirectory = true;
             saveFileDialog.FileName = E.Filename;

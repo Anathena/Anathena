@@ -36,6 +36,7 @@ namespace Gecko
         void GeckoWebBrowser_Loaded(object sender, System.Windows.RoutedEventArgs e)
         {
             Xpcom.Initialize();
+            LauncherDialogFactory.Register();
             _webBrowser = Xpcom.CreateInstance2<nsIWebBrowser>(Contracts.WebBrowser);
             _webBrowserFocus = (nsIWebBrowserFocus)_webBrowser.Instance;
             _baseWindow = (nsIBaseWindow)_webBrowser.Instance;
