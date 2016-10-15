@@ -11,6 +11,7 @@
     using System.Threading;
     using System.Threading.Tasks;
     using System.Windows.Input;
+    using UserSettings;
     using Utils.Extensions;
     using Utils.Validation;
 
@@ -244,7 +245,7 @@
                     Boolean readSuccess;
                     this.Addresses.ForEach(x => x.Value = EngineCore.GetInstance().OperatingSystemAdapter.Read(typeof(Int32), x.Address, out readSuccess).ToString());
                     this.RaisePropertyChanged(nameof(this.Addresses));
-                    Thread.Sleep(400);
+                    Thread.Sleep(Settings.GetInstance().GetResultReadInterval());
                 }
             });
         }

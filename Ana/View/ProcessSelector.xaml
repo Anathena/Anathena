@@ -14,6 +14,9 @@
 	mc:Ignorable="d"
 	d:DesignHeight="300" d:DesignWidth="300">
 	<Grid>
+        <Grid.Resources>
+            <converters:IconConverter x:Key="IconConverter"/>
+        </Grid.Resources>
 		<Grid.RowDefinitions>
 			<RowDefinition Height="Auto"/>
 			<RowDefinition/>
@@ -39,7 +42,6 @@
 				  Background="{StaticResource AvalonDock_Expression_BaseColor3}"
 				  BorderThickness="0">
 			<ListView.Resources>
-				<converters:IconConverter x:Key="IconConverter"/>
 				<DataTemplate x:Key="Template">
 					<Image Source="{Binding Path=Icon, Converter={StaticResource IconConverter}}"
 						   Width="16"

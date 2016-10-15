@@ -88,6 +88,7 @@
     <Compile Include="Source\ActionScheduler\ActionChannels.cs" />
     <Compile Include="Source\ActionScheduler\IAction.cs" />
     <Compile Include="Source\CheatBrowser\CheatBrowserViewModel.cs" />
+    <Compile Include="Source\Content\Images.cs" />
     <Compile Include="Source\Controls\TreeViewItemViewModel.cs" />
     <Compile Include="Source\DotNetExplorer\DotNetExplorerViewModel.cs" />
     <Compile Include="Source\Engine\AddressResolver\AddressResolver.cs" />
@@ -550,8 +551,8 @@
     <Resource Include="Content\Icons\LeftArrow.png" />
     <Resource Include="Content\Icons\LessThan.png" />
     <Resource Include="Content\Icons\LessThanOrEqual.png" />
-    <Resource Include="Content\Icons\LogicalAND.png" />
-    <Resource Include="Content\Icons\LogicalOR.png" />
+    <Resource Include="Content\Icons\LogicalAnd.png" />
+    <Resource Include="Content\Icons\LogicalOr.png" />
     <Resource Include="Content\Icons\MainIcon.ico" />
     <Resource Include="Content\Icons\MainIconSmall.ico" />
     <Resource Include="Content\Icons\Merge.png" />

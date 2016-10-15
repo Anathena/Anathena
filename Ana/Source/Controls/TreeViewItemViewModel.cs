@@ -43,7 +43,6 @@
         protected TreeViewItemViewModel(TreeViewItemViewModel parent, Boolean lazyLoadChildren = false)
         {
             this.parent = parent;
-
             this.children = new ObservableCollection<TreeViewItemViewModel>();
 
             if (lazyLoadChildren)

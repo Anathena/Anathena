@@ -30,7 +30,7 @@
         /// <summary>
         /// Gets or sets the command to collect values
         /// </summary>
-        public ICommand CollectValuesCommand { get; set; }
+        public ICommand CollectValuesCommand { get; private set; }
 
         /// <summary>
         /// Gets or sets the model for the value collector scan

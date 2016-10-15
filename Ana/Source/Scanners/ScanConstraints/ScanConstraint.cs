@@ -1,7 +1,9 @@
 ﻿namespace Ana.Source.Scanners.ScanConstraints
 {
+    using Content;
     using System;
     using System.Reflection;
+    using System.Windows.Media.Imaging;
 
     public enum ConstraintsEnum
     {
@@ -18,7 +20,6 @@
         GreaterThanOrEqual,
         LessThan,
         LessThanOrEqual,
-
         NotScientificNotation,
     }
 
@@ -66,6 +67,46 @@
                 case ConstraintsEnum.Invalid:
                 default:
                     throw new Exception("Unrecognized Constraint");
+            }
+        }
+
+        public BitmapImage ConstraintImage
+        {
+            get
+            {
+                switch (this.Constraint)
+                {
+                    case ConstraintsEnum.Equal:
+                        return Images.Equal;
+                    case ConstraintsEnum.NotEqual:
+                        return Images.NotEqual;
+                    case ConstraintsEnum.GreaterThan:
+                        return Images.GreaterThan;
+                    case ConstraintsEnum.GreaterThanOrEqual:
+                        return Images.GreaterThanOrEqual;
+                    case ConstraintsEnum.LessThan:
+                        return Images.LessThan;
+                    case ConstraintsEnum.LessThanOrEqual:
+                        return Images.LessThanOrEqual;
+                    case ConstraintsEnum.NotScientificNotation:
+                        return Images.ENotation;
+                    case ConstraintsEnum.Changed:
+                        return Images.Changed;
+                    case ConstraintsEnum.Unchanged:
+                        return Images.Unchanged;
+                    case ConstraintsEnum.Increased:
+                        return Images.Increased;
+                    case ConstraintsEnum.Decreased:
+                        return Images.Decreased;
+                    case ConstraintsEnum.IncreasedByX:
+                        return Images.PlusX;
+                    case ConstraintsEnum.DecreasedByX:
+                        return Images.MinusX;
+                    case ConstraintsEnum.Invalid:
+                        return Images.Cancel;
+                    default:
+                        throw new Exception("Unrecognized Constraint");
+                }
             }
         }
     }

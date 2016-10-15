@@ -1,258 +1,271 @@
 ﻿<UserControl x:Class="Ana.View.ManualScanner"
-    x:Name="AnaManualScanner"
-    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             
-    DataContext="{Binding ManualScannerViewModel, Source={StaticResource ViewModelLocator}}"
-    xmlns:sys="clr-namespace:System;assembly=mscorlib"
-    xmlns:sysWindows="clr-namespace:System.Windows;assembly=PresentationCore"
-    xmlns:local="clr-namespace:Ana"
-    xmlns:converters="clr-namespace:Ana.Source.Mvvm.Converters"
-    xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
-    mc:Ignorable="d"
-    d:DesignHeight="300" d:DesignWidth="300">
+	x:Name="AnaManualScanner"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+			 
+	DataContext="{Binding ManualScannerViewModel, Source={StaticResource ViewModelLocator}}"
+	xmlns:sys="clr-namespace:System;assembly=mscorlib"
+	xmlns:sysWindows="clr-namespace:System.Windows;assembly=PresentationCore"
+	xmlns:local="clr-namespace:Ana"
+	xmlns:converters="clr-namespace:Ana.Source.Mvvm.Converters"
+	xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+	mc:Ignorable="d"
+	d:DesignHeight="300" d:DesignWidth="300">
     <Grid Background="{StaticResource AvalonDock_Expression_BaseColor3}">
+        <Grid.Resources>
+            <converters:IconConverter x:Key="IconConverter"/>
+        </Grid.Resources>
         <Grid>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition/>
-            </Grid.RowDefinitions>
-        <WrapPanel Grid.Row="0"
-                   Background="{StaticResource AvalonDock_Expression_BaseColor4}">
-            <Menu Background="Transparent"
-                  Padding="4"
-                  DataContext="{Binding Source={StaticResource ViewModelLocator}}">
-                <MenuItem ToolTip="Start Scan">
-                    <MenuItem.Header>
-                        <Image Source="pack://application:,,,/Ana;component/Content/Icons/RightArrow.png"
+			<Grid.RowDefinitions>
+				<RowDefinition Height="Auto"/>
+				<RowDefinition/>
+			</Grid.RowDefinitions>
+		<WrapPanel Grid.Row="0"
+				   Background="{StaticResource AvalonDock_Expression_BaseColor4}">
+			<Menu Background="Transparent"
+				  Padding="4"
+				  DataContext="{Binding Source={StaticResource ViewModelLocator}}">
+				<MenuItem ToolTip="Start Scan">
+					<MenuItem.Header>
+						<Image Source="pack://application:,,,/Ana;component/Content/Icons/RightArrow.png"
 							   Width="16"
 							   Height="16"/>
-                    </MenuItem.Header>
-                </MenuItem>
-                <Separator Style="{DynamicResource VerticalSeparator}" />
-                    <MenuItem ToolTip="Scan Constraints"
-                              Style="{StaticResource DropDownAutoClose}"
-                              BorderThickness="0">
-                        <MenuItem.Header>
-                            <StackPanel Orientation="Horizontal">
-                                <Image Width="16"
-                                       Height="16"
-                                       Source="pack://application:,,,/Ana;component/Content/Icons/DownArrows.png"/>
-                                <Grid x:Name="arrowGlyph"
-								      IsHitTestVisible="False"
-								      Margin="4,3,4,3"
-								      Grid.Column="1">
-                                    <Path x:Name="Arrow"
-									      Width="7"
-									      Height="4"
-									      Data="M 0,1 C0,1 0,0 0,0 0,0 3,0 3,0 3,0 3,1 3,1 3,1 4,1 4,1 4,1 4,0 4,0 4,0 7,0 7,0 7,0 7,1 7,1 7,1 6,1 6,1 6,1 6,2 6,2 6,2 5,2 5,2 5,2 5,3 5,3 5,3 4,3 4,3 4,3 4,4 4,4 4,4 3,4 3,4 3,4 3,3 3,3 3,3 2,3 2,3 2,3 2,2 2,2 2,2 1,2 1,2 1,2 1,1 1,1 1,1 0,1 0,1 z"
-									      Fill="White" />
-                                </Grid>
-                            </StackPanel>
-                        </MenuItem.Header>
-                        <MenuItem ToolTip="Changed Value"
-                                  BorderBrush="{StaticResource AvalonDock_Expression_BaseColor1}"
-							      Background="{StaticResource AvalonDock_Expression_BaseColor1}"
-							      Command="{Binding AddNewFolderItem}">
-                            <MenuItem.Header>
-                                <WrapPanel Width="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=ActualWidth}">
-                                    <Image Width="16"
-                                           Height="16"
-                                           Source="pack://application:,,,/Ana;component/Content/Icons/Changed.png"/>
-                                    <TextBlock Text="Changed"
-                                               Background="Transparent"
-                                               Foreground="{StaticResource AvalonDock_Expression_BaseColor2}"/>
-                                </WrapPanel>
-                            </MenuItem.Header>
-                        </MenuItem>
-                        <MenuItem ToolTip="Unchanged Value"
-                                  BorderBrush="{StaticResource AvalonDock_Expression_BaseColor1}"
-							      Background="{StaticResource AvalonDock_Expression_BaseColor1}"
-							      Command="{Binding AddNewAddressItem}">
-                            <MenuItem.Header>
-                                <WrapPanel Width="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=ActualWidth}">
-                                    <Image Width="16"
-                                           Height="16"
-                                           Source="pack://application:,,,/Ana;component/Content/Icons/Unchanged.png"/>
-                                    <TextBlock Text="Unchanged"
-                                               Foreground="{StaticResource AvalonDock_Expression_BaseColor2}"/>
-                                </WrapPanel>
-                            </MenuItem.Header>
-                        </MenuItem>
-                        <MenuItem ToolTip="Increased Value"
-                                  BorderBrush="{StaticResource AvalonDock_Expression_BaseColor1}"
-							      Background="{StaticResource AvalonDock_Expression_BaseColor1}"
-							      Command="{Binding AddNewScriptItem}">
-                            <MenuItem.Header>
-                                <WrapPanel Width="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=ActualWidth}">
-                                    <Image Width="16"
-                                           Height="16"
-                                           Source="pack://application:,,,/Ana;component/Content/Icons/Increased.png"/>
-                                    <TextBlock Text="Increased"
-                                               Foreground="{StaticResource AvalonDock_Expression_BaseColor2}"/>
-                                </WrapPanel>
-                            </MenuItem.Header>
-                        </MenuItem>
-                        <MenuItem ToolTip="Decreased Value"
-                                  BorderBrush="{StaticResource AvalonDock_Expression_BaseColor1}"
-							      Background="{StaticResource AvalonDock_Expression_BaseColor1}"
-							      Command="{Binding AddNewScriptItem}">
-                            <MenuItem.Header>
-                                <WrapPanel Width="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=ActualWidth}">
-                                    <Image Width="16"
-                                           Height="16"
-                                           Source="pack://application:,,,/Ana;component/Content/Icons/Decreased.png"/>
-                                    <TextBlock Text="Decreased"
-                                               Foreground="{StaticResource AvalonDock_Expression_BaseColor2}"/>
-                                </WrapPanel>
-                            </MenuItem.Header>
-                        </MenuItem>
-                        <MenuItem ToolTip="Equal to Value"
-                                  BorderBrush="{StaticResource AvalonDock_Expression_BaseColor1}"
-							      Background="{StaticResource AvalonDock_Expression_BaseColor1}"
-							      Command="{Binding AddNewScriptItem}">
-                            <MenuItem.Header>
-                                <WrapPanel Width="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=ActualWidth}">
-                                    <Image Width="16"
-                                           Height="16"
-                                           Source="pack://application:,,,/Ana;component/Content/Icons/Equal.png"/>
-                                    <TextBlock Text="Equals"
-                                               Foreground="{StaticResource AvalonDock_Expression_BaseColor2}"/>
-                                </WrapPanel>
-                            </MenuItem.Header>
-                        </MenuItem>
-                        <MenuItem ToolTip="Not Equal to Value"
-                                  BorderBrush="{StaticResource AvalonDock_Expression_BaseColor1}"
-							      Background="{StaticResource AvalonDock_Expression_BaseColor1}"
-							      Command="{Binding AddNewScriptItem}">
-                            <MenuItem.Header>
-                                <WrapPanel Width="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=ActualWidth}">
-                                    <Image Width="16"
-                                           Height="16"
-                                           Source="pack://application:,,,/Ana;component/Content/Icons/NotEqual.png"/>
-                                    <TextBlock Text="Not Equal To"
-                                               Foreground="{StaticResource AvalonDock_Expression_BaseColor2}"/>
-                                </WrapPanel>
-                            </MenuItem.Header>
-                        </MenuItem>
-                        <MenuItem ToolTip="Increased by Value"
-                                  BorderBrush="{StaticResource AvalonDock_Expression_BaseColor1}"
-							      Background="{StaticResource AvalonDock_Expression_BaseColor1}"
-							      Command="{Binding AddNewScriptItem}">
-                            <MenuItem.Header>
-                                <WrapPanel Width="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=ActualWidth}">
-                                    <Image Width="16"
-                                           Height="16"
-                                           Source="pack://application:,,,/Ana;component/Content/Icons/PlusX.png"/>
-                                    <TextBlock Text="Increased By"
-                                               Foreground="{StaticResource AvalonDock_Expression_BaseColor2}"/>
-                                </WrapPanel>
-                            </MenuItem.Header>
-                        </MenuItem>
-                        <MenuItem ToolTip="Decreased by Value"
-                                  BorderBrush="{StaticResource AvalonDock_Expression_BaseColor1}"
-							      Background="{StaticResource AvalonDock_Expression_BaseColor1}"
-							      Command="{Binding AddNewScriptItem}">
-                            <MenuItem.Header>
-                                <WrapPanel Width="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=ActualWidth}">
-                                    <Image Width="16"
-                                           Height="16"
-                                           Source="pack://application:,,,/Ana;component/Content/Icons/MinusX.png"/>
-                                    <TextBlock Text="Decreased By"
-                                               Foreground="{StaticResource AvalonDock_Expression_BaseColor2}"/>
-                                </WrapPanel>
-                            </MenuItem.Header>
-                        </MenuItem>
-                        <MenuItem ToolTip="Greater Than Value"
-                                  BorderBrush="{StaticResource AvalonDock_Expression_BaseColor1}"
-							      Background="{StaticResource AvalonDock_Expression_BaseColor1}"
-							      Command="{Binding AddNewScriptItem}">
-                            <MenuItem.Header>
-                                <WrapPanel Width="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=ActualWidth}">
-                                    <Image Width="16"
-                                           Height="16"
-                                           Source="pack://application:,,,/Ana;component/Content/Icons/GreaterThan.png"/>
-                                    <TextBlock Text="Greater Than"
-                                               Foreground="{StaticResource AvalonDock_Expression_BaseColor2}"/>
-                                </WrapPanel>
-                            </MenuItem.Header>
-                        </MenuItem>
-                        <MenuItem ToolTip="Greater Than or Equal to Value"
-                                  BorderBrush="{StaticResource AvalonDock_Expression_BaseColor1}"
-							      Background="{StaticResource AvalonDock_Expression_BaseColor1}"
-							      Command="{Binding AddNewScriptItem}">
-                            <MenuItem.Header>
-                                <WrapPanel Width="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=ActualWidth}">
-                                    <Image Width="16"
-                                           Height="16"
-                                           Source="pack://application:,,,/Ana;component/Content/Icons/GreaterThanOrEqual.png"/>
-                                    <TextBlock Text="Greater Than Or Equal To"
-                                               Foreground="{StaticResource AvalonDock_Expression_BaseColor2}"/>
-                                </WrapPanel>
-                            </MenuItem.Header>
-                        </MenuItem>
-                        <MenuItem ToolTip="Less Than Value"
-                                  BorderBrush="{StaticResource AvalonDock_Expression_BaseColor1}"
-							      Background="{StaticResource AvalonDock_Expression_BaseColor1}"
-							      Command="{Binding AddNewScriptItem}">
-                            <MenuItem.Header>
-                                <WrapPanel Width="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=ActualWidth}">
-                                    <Image Width="16"
-                                           Height="16"
-                                           Source="pack://application:,,,/Ana;component/Content/Icons/LessThan.png"/>
-                                    <TextBlock Text="Less Than"
-                                               Foreground="{StaticResource AvalonDock_Expression_BaseColor2}"/>
-                                </WrapPanel>
-                            </MenuItem.Header>
-                        </MenuItem>
-                        <MenuItem ToolTip="Less Than or Equal to Value"
-                                  BorderBrush="{StaticResource AvalonDock_Expression_BaseColor1}"
-							      Background="{StaticResource AvalonDock_Expression_BaseColor1}"
-							      Command="{Binding AddNewScriptItem}">
-                            <MenuItem.Header>
-                                <WrapPanel Width="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=ActualWidth}">
-                                    <Image Width="16"
-                                           Height="16"
-                                           Source="pack://application:,,,/Ana;component/Content/Icons/LessThanOrEqual.png"/>
-                                    <TextBlock Text="Less Than Or Equal To"
-                                               Foreground="{StaticResource AvalonDock_Expression_BaseColor2}"/>
-                                </WrapPanel>
-                            </MenuItem.Header>
-                        </MenuItem>
-                        <MenuItem ToolTip="Exclude Scientific Notation Values"
-                                  BorderBrush="{StaticResource AvalonDock_Expression_BaseColor1}"
-							      Background="{StaticResource AvalonDock_Expression_BaseColor1}"
-							      Command="{Binding AddNewScriptItem}">
-                            <MenuItem.Header>
-                                <WrapPanel Width="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=ActualWidth}">
-                                    <Image Width="16"
-                                           Height="16"
-                                           Source="pack://application:,,,/Ana;component/Content/Icons/ENotation.png"/>
-                                    <TextBlock Text="Not Scientific Notation"
-                                               Foreground="{StaticResource AvalonDock_Expression_BaseColor2}"/>
-                                </WrapPanel>
-                            </MenuItem.Header>
-                        </MenuItem>
-                    </MenuItem>
-                    <Separator Style="{DynamicResource VerticalSeparator}" />
-                <MenuItem ToolTip="Clear Constraints">
-                    <MenuItem.Header>
-                        <Image Source="pack://application:,,,/Ana;component/Content/Icons/Cancel.png"
+					</MenuItem.Header>
+				</MenuItem>
+				<Separator Style="{DynamicResource VerticalSeparator}" />
+				<MenuItem ToolTip="Scan Constraints"
+						  Style="{StaticResource DropDownAutoClose}"
+						  BorderThickness="0">
+					<MenuItem.Header>
+						<StackPanel Orientation="Horizontal">
+							<Image Width="16"
+								   Height="16"
+							       Source="{Binding ManualScannerViewModel.ScanConstraintImage}"/>
+							<Grid x:Name="arrowGlyph"
+								  IsHitTestVisible="False"
+								  Margin="4,3,4,3"
+								  Grid.Column="1">
+								<Path x:Name="Arrow"
+									  Width="7"
+									  Height="4"
+									  Data="M 0,1 C0,1 0,0 0,0 0,0 3,0 3,0 3,0 3,1 3,1 3,1 4,1 4,1 4,1 4,0 4,0 4,0 7,0 7,0 7,0 7,1 7,1 7,1 6,1 6,1 6,1 6,2 6,2 6,2 5,2 5,2 5,2 5,3 5,3 5,3 4,3 4,3 4,3 4,4 4,4 4,4 3,4 3,4 3,4 3,3 3,3 3,3 2,3 2,3 2,3 2,2 2,2 2,2 1,2 1,2 1,2 1,1 1,1 1,1 0,1 0,1 z"
+									  Fill="White" />
+							</Grid>
+						</StackPanel>
+					</MenuItem.Header>
+					<MenuItem ToolTip="Changed Value"
+							  BorderBrush="{StaticResource AvalonDock_Expression_BaseColor1}"
+							  Background="{StaticResource AvalonDock_Expression_BaseColor1}"
+							  Command="{Binding ManualScannerViewModel.SelectChangedCommand}">
+						<MenuItem.Header>
+							<WrapPanel Width="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=ActualWidth}">
+								<Image Width="16"
+									   Height="16"
+									   Source="pack://application:,,,/Ana;component/Content/Icons/Changed.png"/>
+								<TextBlock Text="Changed"
+										   Background="Transparent"
+										   Foreground="{StaticResource AvalonDock_Expression_BaseColor2}"/>
+							</WrapPanel>
+						</MenuItem.Header>
+					</MenuItem>
+					<MenuItem ToolTip="Unchanged Value"
+							  BorderBrush="{StaticResource AvalonDock_Expression_BaseColor1}"
+							  Background="{StaticResource AvalonDock_Expression_BaseColor1}"
+							  Command="{Binding ManualScannerViewModel.SelectUnchangedCommand}">
+						<MenuItem.Header>
+							<WrapPanel Width="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=ActualWidth}">
+								<Image Width="16"
+									   Height="16"
+									   Source="pack://application:,,,/Ana;component/Content/Icons/Unchanged.png"/>
+								<TextBlock Text="Unchanged"
+										   Foreground="{StaticResource AvalonDock_Expression_BaseColor2}"/>
+							</WrapPanel>
+						</MenuItem.Header>
+					</MenuItem>
+					<MenuItem ToolTip="Increased Value"
+							  BorderBrush="{StaticResource AvalonDock_Expression_BaseColor1}"
+							  Background="{StaticResource AvalonDock_Expression_BaseColor1}"
+							  Command="{Binding ManualScannerViewModel.SelectIncreasedCommand}">
+						<MenuItem.Header>
+							<WrapPanel Width="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=ActualWidth}">
+								<Image Width="16"
+									   Height="16"
+									   Source="pack://application:,,,/Ana;component/Content/Icons/Increased.png"/>
+								<TextBlock Text="Increased"
+										   Foreground="{StaticResource AvalonDock_Expression_BaseColor2}"/>
+							</WrapPanel>
+						</MenuItem.Header>
+					</MenuItem>
+					<MenuItem ToolTip="Decreased Value"
+							  BorderBrush="{StaticResource AvalonDock_Expression_BaseColor1}"
+							  Background="{StaticResource AvalonDock_Expression_BaseColor1}"
+							  Command="{Binding ManualScannerViewModel.SelectDecreasedCommand}">
+						<MenuItem.Header>
+							<WrapPanel Width="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=ActualWidth}">
+								<Image Width="16"
+									   Height="16"
+									   Source="pack://application:,,,/Ana;component/Content/Icons/Decreased.png"/>
+								<TextBlock Text="Decreased"
+										   Foreground="{StaticResource AvalonDock_Expression_BaseColor2}"/>
+							</WrapPanel>
+						</MenuItem.Header>
+					</MenuItem>
+					<MenuItem ToolTip="Equal to Value"
+							  BorderBrush="{StaticResource AvalonDock_Expression_BaseColor1}"
+							  Background="{StaticResource AvalonDock_Expression_BaseColor1}"
+							  Command="{Binding ManualScannerViewModel.SelectEqualCommand}">
+						<MenuItem.Header>
+							<WrapPanel Width="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=ActualWidth}">
+								<Image Width="16"
+									   Height="16"
+									   Source="pack://application:,,,/Ana;component/Content/Icons/Equal.png"/>
+								<TextBlock Text="Equal"
+										   Foreground="{StaticResource AvalonDock_Expression_BaseColor2}"/>
+							</WrapPanel>
+						</MenuItem.Header>
+					</MenuItem>
+					<MenuItem ToolTip="Not Equal to Value"
+							  BorderBrush="{StaticResource AvalonDock_Expression_BaseColor1}"
+							  Background="{StaticResource AvalonDock_Expression_BaseColor1}"
+							  Command="{Binding ManualScannerViewModel.SelectNotEqualCommand}">
+						<MenuItem.Header>
+							<WrapPanel Width="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=ActualWidth}">
+								<Image Width="16"
+									   Height="16"
+									   Source="pack://application:,,,/Ana;component/Content/Icons/NotEqual.png"/>
+								<TextBlock Text="Not Equal To"
+										   Foreground="{StaticResource AvalonDock_Expression_BaseColor2}"/>
+							</WrapPanel>
+						</MenuItem.Header>
+					</MenuItem>
+					<MenuItem ToolTip="Increased by Value"
+								BorderBrush="{StaticResource AvalonDock_Expression_BaseColor1}"
+								Background="{StaticResource AvalonDock_Expression_BaseColor1}"
+								Command="{Binding ManualScannerViewModel.SelectIncreasedByXCommand}">
+						<MenuItem.Header>
+							<WrapPanel Width="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=ActualWidth}">
+								<Image Width="16"
+									   Height="16"
+									   Source="pack://application:,,,/Ana;component/Content/Icons/PlusX.png"/>
+								<TextBlock Text="Increased By"
+										   Foreground="{StaticResource AvalonDock_Expression_BaseColor2}"/>
+							</WrapPanel>
+						</MenuItem.Header>
+					</MenuItem>
+					<MenuItem ToolTip="Decreased by Value"
+							  BorderBrush="{StaticResource AvalonDock_Expression_BaseColor1}"
+							  Background="{StaticResource AvalonDock_Expression_BaseColor1}"
+							  Command="{Binding ManualScannerViewModel.SelectDecreasedByXCommand}">
+						<MenuItem.Header>
+							<WrapPanel Width="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=ActualWidth}">
+								<Image Width="16"
+									   Height="16"
+									   Source="pack://application:,,,/Ana;component/Content/Icons/MinusX.png"/>
+								<TextBlock Text="Decreased By"
+										   Foreground="{StaticResource AvalonDock_Expression_BaseColor2}"/>
+							</WrapPanel>
+						</MenuItem.Header>
+					</MenuItem>
+					<MenuItem ToolTip="Greater Than Value"
+							  BorderBrush="{StaticResource AvalonDock_Expression_BaseColor1}"
+							  Background="{StaticResource AvalonDock_Expression_BaseColor1}"
+							  Command="{Binding ManualScannerViewModel.SelectGreaterThanCommand}">
+						<MenuItem.Header>
+							<WrapPanel Width="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=ActualWidth}">
+								<Image Width="16"
+									   Height="16"
+									   Source="pack://application:,,,/Ana;component/Content/Icons/GreaterThan.png"/>
+								<TextBlock Text="Greater Than"
+										   Foreground="{StaticResource AvalonDock_Expression_BaseColor2}"/>
+							</WrapPanel>
+						</MenuItem.Header>
+					</MenuItem>
+					<MenuItem ToolTip="Greater Than or Equal to Value"
+							  BorderBrush="{StaticResource AvalonDock_Expression_BaseColor1}"
+							  Background="{StaticResource AvalonDock_Expression_BaseColor1}"
+							  Command="{Binding ManualScannerViewModel.SelectGreaterThanOrEqualCommand}">
+						<MenuItem.Header>
+							<WrapPanel Width="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=ActualWidth}">
+								<Image Width="16"
+									   Height="16"
+									   Source="pack://application:,,,/Ana;component/Content/Icons/GreaterThanOrEqual.png"/>
+								<TextBlock Text="Greater Than Or Equal To"
+										   Foreground="{StaticResource AvalonDock_Expression_BaseColor2}"/>
+							</WrapPanel>
+						</MenuItem.Header>
+					</MenuItem>
+					<MenuItem ToolTip="Less Than Value"
+							  BorderBrush="{StaticResource AvalonDock_Expression_BaseColor1}"
+							  Background="{StaticResource AvalonDock_Expression_BaseColor1}"
+							  Command="{Binding ManualScannerViewModel.SelectLessThanCommand}">
+						<MenuItem.Header>
+							<WrapPanel Width="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=ActualWidth}">
+								<Image Width="16"
+									   Height="16"
+									   Source="pack://application:,,,/Ana;component/Content/Icons/LessThan.png"/>
+								<TextBlock Text="Less Than"
+										   Foreground="{StaticResource AvalonDock_Expression_BaseColor2}"/>
+							</WrapPanel>
+						</MenuItem.Header>
+					</MenuItem>
+					<MenuItem ToolTip="Less Than or Equal to Value"
+							  BorderBrush="{StaticResource AvalonDock_Expression_BaseColor1}"
+							  Background="{StaticResource AvalonDock_Expression_BaseColor1}"
+							  Command="{Binding ManualScannerViewModel.SelectLessThanOrEqualCommand}">
+						<MenuItem.Header>
+							<WrapPanel Width="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=ActualWidth}">
+								<Image Width="16"
+									   Height="16"
+									   Source="pack://application:,,,/Ana;component/Content/Icons/LessThanOrEqual.png"/>
+								<TextBlock Text="Less Than Or Equal To"
+										   Foreground="{StaticResource AvalonDock_Expression_BaseColor2}"/>
+							</WrapPanel>
+						</MenuItem.Header>
+					</MenuItem>
+					<MenuItem ToolTip="Exclude Scientific Notation Values"
+							  BorderBrush="{StaticResource AvalonDock_Expression_BaseColor1}"
+							  Background="{StaticResource AvalonDock_Expression_BaseColor1}"
+							  Command="{Binding ManualScannerViewModel.SelectNotScientificNotationCommand}">
+						<MenuItem.Header>
+							<WrapPanel Width="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=ActualWidth}">
+								<Image Width="16"
+									   Height="16"
+									   Source="pack://application:,,,/Ana;component/Content/Icons/ENotation.png"/>
+								<TextBlock Text="Not Scientific Notation"
+										   Foreground="{StaticResource AvalonDock_Expression_BaseColor2}"/>
+							</WrapPanel>
+						</MenuItem.Header>
+					</MenuItem>
+				</MenuItem>
+				<MenuItem ToolTip="Add Constraint"
+                          Command="{Binding ManualScannerViewModel.AddSelectedConstraintCommand}">
+					<MenuItem.Header>
+						<Image Source="pack://application:,,,/Ana;component/Content/Icons/DownArrows.png"
 							   Width="16"
 							   Height="16"/>
-                    </MenuItem.Header>
-                </MenuItem>
-                <MenuItem ToolTip="Remove Constraint">
-                    <MenuItem.Header>
-                        <Image Source="pack://application:,,,/Ana;component/Content/Icons/X.png"
+					</MenuItem.Header>
+				</MenuItem>
+				<Separator Style="{DynamicResource VerticalSeparator}" />
+				<MenuItem ToolTip="Clear Constraints"
+                          Command="{Binding ManualScannerViewModel.ClearConstraintsCommand}">
+					<MenuItem.Header>
+						<Image Source="pack://application:,,,/Ana;component/Content/Icons/Cancel.png"
 							   Width="16"
 							   Height="16"/>
-                    </MenuItem.Header>
-                </MenuItem>
-            </Menu>
-        </WrapPanel>
-        </Grid>
-    </Grid>
+					</MenuItem.Header>
+				</MenuItem>
+				<MenuItem ToolTip="Remove Constraint"
+                          Command="{Binding ManualScannerViewModel.RemoveSelectedConstraintCommand}">
+					<MenuItem.Header>
+						<Image Source="pack://application:,,,/Ana;component/Content/Icons/X.png"
+							   Width="16"
+							   Height="16"/>
+					</MenuItem.Header>
+				</MenuItem>
+			</Menu>
+		</WrapPanel>
+		</Grid>
+	</Grid>
 </UserControl>
