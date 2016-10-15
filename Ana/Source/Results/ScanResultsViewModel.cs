@@ -4,6 +4,7 @@
     using Engine;
     using Main;
     using Mvvm.Command;
+    using Project;
     using Snapshots;
     using System;
     using System.Collections.Generic;
@@ -286,6 +287,7 @@
         /// <param name="scanResult">The scan result to add to the project explorer</param>
         private void AddAddress(ScanResult scanResult)
         {
+            ProjectExplorerViewModel.GetInstance().AddSpecificAddressItem(scanResult.Address, typeof(Int32));
         }
     }
     //// End class

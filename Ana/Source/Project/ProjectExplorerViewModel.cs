@@ -111,6 +111,16 @@
         }
 
         /// <summary>
+        /// Adds a specific address to the project explorer
+        /// </summary>
+        /// <param name="baseAddress">The address</param>
+        /// <param name="elementType">The value type</param>
+        public void AddSpecificAddressItem(IntPtr baseAddress, Type elementType)
+        {
+            this.AddNewProjectItem(new AddressItem(baseAddress, elementType));
+        }
+
+        /// <summary>
         /// Adds a new folder to the project items
         /// </summary>
         private void AddNewFolderItem()

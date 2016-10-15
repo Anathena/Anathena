@@ -64,7 +64,7 @@
         public AddressItem(
             IntPtr baseAddress,
             Type elementType,
-            String description = null,
+            String description = "New Address",
             AddressResolver.ResolveTypeEnum resolveType = AddressResolver.ResolveTypeEnum.Module,
             String baseIdentifier = null,
             IEnumerable<Int32> offsets = null,

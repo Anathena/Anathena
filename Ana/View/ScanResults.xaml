@@ -16,7 +16,7 @@
 	<Grid Background="{StaticResource AvalonDock_Expression_BaseColor3}">
 		<Grid.RowDefinitions>
 			<RowDefinition Height="Auto"/>
-			<RowDefinition/>
+			<RowDefinition Height="*"/>
 			<RowDefinition Height="Auto"/>
 		</Grid.RowDefinitions>
 		<Border Grid.Row="0"
@@ -24,7 +24,7 @@
 				Background="{StaticResource AvalonDock_Expression_BaseColor4}">
 			<WrapPanel>
 				<Menu Background="Transparent">
-                    <MenuItem>
+					<MenuItem>
 						<MenuItem.Header>
 							<Image Source="pack://application:,,,/Ana;component/Content/Icons/DownArrows.png"
 								   ToolTip="Add Selected Items"
@@ -47,92 +47,90 @@
 				</TextBlock>
 			</WrapPanel>
 		</Border>
-		<Border Grid.Row="1">
+        <ScrollViewer  Grid.Row="1">
 			<ListView ItemsSource="{Binding Addresses}"
 					  Background="{StaticResource AvalonDock_Expression_BaseColor3}"
+					  ScrollViewer.CanContentScroll="True" 
+					  ScrollViewer.VerticalScrollBarVisibility="Visible"
 					  BorderThickness="0">
-                <ListView.Resources>
-                    <converters:IntPtrToAddressConverter x:Key="IntPtrToAddressConverter"/>
-                </ListView.Resources>
+				<ListView.Resources>
+					<converters:IntPtrToAddressConverter x:Key="IntPtrToAddressConverter"/>
+				</ListView.Resources>
 				<ListView.ItemTemplate>
 					<DataTemplate>
 						<Grid Width="{Binding Path=ActualWidth, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListView}}}">
 							<Grid.ColumnDefinitions>
-                                <ColumnDefinition/>
-                                <ColumnDefinition/>
-                                <ColumnDefinition/>
-                                <ColumnDefinition/>
-                            </Grid.ColumnDefinitions>
+								<ColumnDefinition/>
+								<ColumnDefinition/>
+								<ColumnDefinition/>
+								<ColumnDefinition/>
+							</Grid.ColumnDefinitions>
 							<Grid.InputBindings>
 								<MouseBinding Gesture="LeftDoubleClick"
 											  Command="{Binding DataContext.AddAddressCommand, ElementName=AnaScanResults}"
 											  CommandParameter="{Binding .}"/>
 							</Grid.InputBindings>
-                            <TextBlock Grid.Column="0"
+							<TextBlock Grid.Column="0"
 									   Text="{Binding Path=Address, Converter={StaticResource IntPtrToAddressConverter}}"
 									   Foreground="{StaticResource AvalonDock_Expression_BaseColor2}"/>
 							<TextBlock Grid.Column="1"
 									   Text="{Binding Path=Value}"
 									   Foreground="{StaticResource AvalonDock_Expression_BaseColor2}"/>
-                            <TextBlock Grid.Column="2"
+							<TextBlock Grid.Column="2"
 									   Text="{Binding Path=PreviousValue}"
 									   Foreground="{StaticResource AvalonDock_Expression_BaseColor2}"/>
-                            <TextBlock Grid.Column="3"
+							<TextBlock Grid.Column="3"
 									   Text="{Binding Path=Label}"
 									   Foreground="{StaticResource AvalonDock_Expression_BaseColor2}"/>
-                        </Grid>
+						</Grid>
 					</DataTemplate>
 				</ListView.ItemTemplate>
 				<ListView.Template>
 					<ControlTemplate>
-						<ScrollViewer VerticalScrollBarVisibility="Visible"
-									  HorizontalScrollBarVisibility="Hidden"
-									  Style="{StaticResource ScrollViewer}">
-							<Grid HorizontalAlignment="Left">
-								<Grid.RowDefinitions>
-									<RowDefinition Height="Auto"/>
-									<RowDefinition Height="Auto"/>
-								</Grid.RowDefinitions>
-								<Grid Grid.Row="0"
-                                      Width="{Binding Path=ActualWidth, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListView}}}"
+						<Grid HorizontalAlignment="Left">
+							<Grid.RowDefinitions>
+								<RowDefinition Height="Auto"/>
+								<RowDefinition Height="Auto"/>
+							</Grid.RowDefinitions>
+							<Grid Grid.Row="0"
+									  Width="{Binding Path=ActualWidth, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListView}}}"
 									  VerticalAlignment="Center">
-									<Grid.ColumnDefinitions>
-                                        <ColumnDefinition/>
-                                        <ColumnDefinition/>
-                                        <ColumnDefinition/>
-                                        <ColumnDefinition/>
-                                    </Grid.ColumnDefinitions>
-									<Grid.Resources>
-										<Style TargetType="TextBlock">
-											<Setter Property="Margin" Value="5,0" />
-											<Setter Property="Foreground" Value="{StaticResource AvalonDock_Expression_BaseColor2}" />
-											<Setter Property="FontWeight" Value="Bold" />
-										</Style>
-										<Style TargetType="Border">
-											<Setter Property="BorderThickness" Value="0" />
-											<Setter Property="Background" Value="{StaticResource AvalonDock_Expression_BaseColor5}" />
-										</Style>
-									</Grid.Resources>
-									<Border Grid.Column="0">
-										<TextBlock >Address</TextBlock>
-									</Border>
-									<Border Grid.Column="1">
-										<TextBlock >Value</TextBlock>
-                                    </Border>
-                                    <Border Grid.Column="2">
-                                        <TextBlock >Previous</TextBlock>
-                                    </Border>
-                                    <Border Grid.Column="3">
-                                        <TextBlock >Label</TextBlock>
-                                    </Border>
-                                </Grid>
-								<ItemsPresenter Grid.Row="1"></ItemsPresenter>
+								<Grid.ColumnDefinitions>
+									<ColumnDefinition/>
+									<ColumnDefinition/>
+									<ColumnDefinition/>
+									<ColumnDefinition/>
+								</Grid.ColumnDefinitions>
+								<Grid.Resources>
+									<Style TargetType="TextBlock">
+										<Setter Property="Margin" Value="5,0" />
+										<Setter Property="Foreground" Value="{StaticResource AvalonDock_Expression_BaseColor2}" />
+										<Setter Property="FontWeight" Value="Bold" />
+									</Style>
+									<Style TargetType="Border">
+										<Setter Property="BorderThickness" Value="0" />
+										<Setter Property="Background" Value="{StaticResource AvalonDock_Expression_BaseColor5}" />
+									</Style>
+								</Grid.Resources>
+								<Border Grid.Column="0">
+									<TextBlock >Address</TextBlock>
+								</Border>
+								<Border Grid.Column="1">
+									<TextBlock >Value</TextBlock>
+								</Border>
+								<Border Grid.Column="2">
+									<TextBlock >Previous</TextBlock>
+								</Border>
+								<Border Grid.Column="3">
+									<TextBlock >Label</TextBlock>
+								</Border>
 							</Grid>
-						</ScrollViewer>
+							<ItemsPresenter Grid.Row="1"></ItemsPresenter>
+						</Grid>
 					</ControlTemplate>
 				</ListView.Template>
 			</ListView>
-		</Border>
+		</ScrollViewer>
 		<Border Grid.Row="2"
 				Padding="8 4 8 4"
 				Background="{StaticResource AvalonDock_Expression_BaseColor4}">
@@ -145,7 +143,7 @@
 				<Menu Grid.Column="0"
 					  Background="Transparent"
 					  DataContext="{Binding Source={StaticResource ViewModelLocator}}">
-                    <MenuItem Command="{Binding ScanResultsViewModel.FirstPageCommand}">
+					<MenuItem Command="{Binding ScanResultsViewModel.FirstPageCommand}">
 						<MenuItem.Header>
 							<Image Source="pack://application:,,,/Ana;component/Content/Icons/LeftArrows.png"
 								   ToolTip="First Page"
@@ -153,7 +151,7 @@
 								   Height="16"/>
 						</MenuItem.Header>
 					</MenuItem>
-                    <MenuItem Command="{Binding ScanResultsViewModel.PreviousPageCommand}">
+					<MenuItem Command="{Binding ScanResultsViewModel.PreviousPageCommand}">
 						<MenuItem.Header>
 							<Image Source="pack://application:,,,/Ana;component/Content/Icons/LeftArrow.png"
 								   ToolTip="Previous Page"
@@ -181,7 +179,7 @@
 					  HorizontalAlignment="Right"
 					  Background="Transparent"
 					  DataContext="{Binding Source={StaticResource ViewModelLocator}}">
-                    <MenuItem Command="{Binding ScanResultsViewModel.NextPageCommand}">
+					<MenuItem Command="{Binding ScanResultsViewModel.NextPageCommand}">
 						<MenuItem.Header>
 							<Image Source="pack://application:,,,/Ana;component/Content/Icons/RightArrow.png"
 								   ToolTip="Next Page"
@@ -189,7 +187,7 @@
 								   Height="16"/>
 						</MenuItem.Header>
 					</MenuItem>
-                    <MenuItem Command="{Binding ScanResultsViewModel.LastPageCommand}">
+					<MenuItem Command="{Binding ScanResultsViewModel.LastPageCommand}">
 						<MenuItem.Header>
 							<Image Source="pack://application:,,,/Ana;component/Content/Icons/RightArrows.png"
 								   ToolTip="Last Page"
