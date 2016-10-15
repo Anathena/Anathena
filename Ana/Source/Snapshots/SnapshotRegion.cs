@@ -1,36 +1,76 @@
-﻿using Ana.Source.Engine;
-using Ana.Source.Engine.OperatingSystems;
-using Ana.Source.Utils.Extensions;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Runtime.InteropServices;
-
-namespace Ana.Source.Snapshots
+﻿namespace Ana.Source.Snapshots
 {
+    using Engine;
+    using Engine.OperatingSystems;
+    using System;
+    using System.Collections;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Reflection;
+    using System.Runtime.InteropServices;
+    using Utils.Extensions;
+
     /// <summary>
     /// Defines a snapshot of memory in an external process.
     /// </summary>
     internal abstract class SnapshotRegion : NormalizedRegion, IEnumerable
     {
-        protected Int32 RegionExtension;        // Variable to indicate a safe number of read-over bytes
-        protected unsafe Byte[] CurrentValues;  // Most recently read values
-        protected unsafe Byte[] PreviousValues; // Previously read values
+        /// <summary>
+        /// Variable to indicate a safe number of read-over bytes
+        /// </summary>
+        protected Int32 RegionExtension { get; set; }
 
-        protected Int32 Alignment;  // Memory alignment, typically aligned with native platform bit size
+        /// <summary>
+        /// Most recently read values
+        /// </summary>
+        protected unsafe Byte[] CurrentValues { get; set; }
+
+        /// <summary>
+        /// Previously read values
+        /// </summary>
+        protected unsafe Byte[] PreviousValues { get; set; }
+
+        /// <summary>
+        /// Memory alignment, typically aligned with native platform bit size
+        /// </summary>
+        protected Int32 Alignment { get; set; }
 
         // These fields are public as an access optimization from SnapshotElement, and otherwise should be accessed via get/set functions
-        public Type ElementType;                        // Element type for this
-        public BitArray Valid;                          // Valid bits for use in filtering scans
-        public SnapshotElement CurrentSnapshotElement;  // Regions only access one element at a time, so it is held here to avoid uneccessary memory usage
+        /// <summary>
+        /// [Public as an access optimization, otherwise use getters and setters] element type of this region
+        /// </summary>
+        public Type ElementType { get; set; }
 
+        /// <summary>
+        /// [Public as an access optimization, otherwise use getters and setters] Valid bits for use in filtering scans
+        /// </summary>
+        public BitArray Valid;
+
+        /// <summary>
+        /// [Public as an access optimization, otherwise use getters and setters]
+        /// Regions only access one element at a time, so it is held here to avoid uneccessary memory usage
+        /// </summary>
+        public SnapshotElement CurrentSnapshotElement;
+
+        /// <summary>
+        /// Gets the time since the last read was performed on this region
+        /// </summary>
         public DateTime TimeSinceLastRead { get; private set; }
 
-        public SnapshotRegion(IntPtr BaseAddress, Int32 RegionSize) : base(BaseAddress, RegionSize) { Alignment = 1; RegionExtension = 0; }
-        public SnapshotRegion(NormalizedRegion RemoteRegion) : base(RemoteRegion.BaseAddress, RemoteRegion.RegionSize) { Alignment = 1; RegionExtension = 0; }
-        public SnapshotRegion(SnapshotRegion SnapshotRegion) : base(SnapshotRegion.BaseAddress, SnapshotRegion.RegionSize) { Alignment = 1; this.RegionExtension = SnapshotRegion.RegionExtension; }
+        public SnapshotRegion(IntPtr BaseAddress, Int32 RegionSize) : base(BaseAddress, RegionSize)
+        {
+            RegionExtension = 0;
+        }
+
+        public SnapshotRegion(NormalizedRegion RemoteRegion) : base(RemoteRegion.BaseAddress, RemoteRegion.RegionSize)
+        {
+            RegionExtension = 0;
+        }
+
+        public SnapshotRegion(SnapshotRegion SnapshotRegion) : base(SnapshotRegion.BaseAddress, SnapshotRegion.RegionSize)
+        {
+            this.RegionExtension = SnapshotRegion.RegionExtension;
+        }
 
         [Obfuscation(Exclude = true)]
         public unsafe abstract SnapshotElement this[Int32 Index] { get; }
@@ -38,14 +78,22 @@ namespace Ana.Source.Snapshots
         /// <summary>
         /// Expands a region by a given size in both directions (default is element type size) unconditionally
         /// </summary>
-        public void ExpandRegion() { ExpandRegion(GetElementReadOverSize()); }
+        public void ExpandRegion()
+        {
+            ExpandRegion(GetElementReadOverSize());
+        }
+
         public void ExpandRegion(Int32 ExpandSize)
         {
             // Expand with negative overflow protection
             if (BaseAddress.ToUInt64() > checked((UInt32)ExpandSize))
+            {
                 this.BaseAddress = this.BaseAddress.Subtract(ExpandSize);
+            }
             else
+            {
                 this.BaseAddress = IntPtr.Zero;
+            }
 
             // Expand with overflow protection
             Int32 NewRegionSize = unchecked(RegionSize + ExpandSize * 2);
@@ -111,6 +159,11 @@ namespace Ana.Source.Snapshots
         public void SetAlignment(Int32 Alignment)
         {
             this.Alignment = Alignment;
+
+            if (Alignment == 0)
+            {
+                return;
+            }
 
             // Enforce alignment constraint on base address
             if (BaseAddress.Mod(Alignment).ToUInt64() != 0)
@@ -194,20 +247,24 @@ namespace Ana.Source.Snapshots
             return true;
         }
 
-        public Byte[] ReadAllRegionMemory(out Boolean Success, Boolean KeepValues = true)
+        public Byte[] ReadAllRegionMemory(out Boolean readSuccess, Boolean keepValues = true)
         {
             TimeSinceLastRead = DateTime.Now;
 
-            Success = false;
-            Byte[] CurrentValues = EngineCore.GetInstance().OperatingSystemAdapter.ReadBytes(this.BaseAddress, this.RegionSize + RegionExtension, out Success);
+            readSuccess = false;
+            Byte[] currentValues = EngineCore.GetInstance().OperatingSystemAdapter.ReadBytes(this.BaseAddress, this.RegionSize + this.RegionExtension, out readSuccess);
 
-            if (!Success)
+            if (!readSuccess)
+            {
                 return null;
+            }
 
-            if (KeepValues)
-                SetCurrentValues(CurrentValues);
+            if (keepValues)
+            {
+                SetCurrentValues(currentValues);
+            }
 
-            return CurrentValues;
+            return currentValues;
         }
 
         public IEnumerator GetEnumerator()

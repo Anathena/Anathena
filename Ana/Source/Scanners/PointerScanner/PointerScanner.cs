@@ -343,7 +343,7 @@
             // Read the memory (collecting values)
             pointerSnapshot.ReadAllSnapshotMemory();
             pointerSnapshot.SetElementType(this.ScanConstraintManager.GetElementType());
-            this.Snapshot.SetAlignment(sizeof(Int32));
+            this.Snapshot.Alignment = sizeof(Int32);
             pointerSnapshot.MarkAllValid();
 
             if (pointerSnapshot.GetRegionCount() <= 0)
@@ -497,7 +497,7 @@
             dynamic invalidPointerMax = EngineCore.GetInstance().Processes.IsOpenedProcess32Bit() ? Int32.MaxValue : Int64.MaxValue;
 
             // Enforce 4-byte alignment of pointers
-            this.Snapshot.SetAlignment(sizeof(Int32));
+            this.Snapshot.Alignment = sizeof(Int32);
 
             Parallel.ForEach(
                 this.Snapshot.Cast<Object>(),

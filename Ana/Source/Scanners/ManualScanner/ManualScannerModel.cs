@@ -8,10 +8,9 @@
     using UserSettings;
     using Utils;
 
-    internal class ManualScanner : ScannerBase
+    internal class ManualScannerModel : ScannerBase
     {
-
-        public ManualScanner() : base("Manual Scan")
+        public ManualScannerModel() : base("Manual Scan")
         {
             ProgressLock = new Object();
         }
@@ -30,7 +29,7 @@
         public override void Begin()
         {
             // Initialize snapshot
-            this.Snapshot = new Snapshot<Null>(SnapshotManager.GetInstance().GetActiveSnapshot());
+            this.Snapshot = new Snapshot<Null>(SnapshotManager.GetInstance().GetActiveSnapshot(createIfNone: true));
 
             if (this.Snapshot == null || this.ScanConstraintManager == null || this.ScanConstraintManager.GetCount() <= 0)
             {
@@ -40,7 +39,7 @@
 
             this.Snapshot.MarkAllValid();
             this.Snapshot.SetElementType(this.ScanConstraintManager.GetElementType());
-            this.Snapshot.SetAlignment(Settings.GetInstance().GetAlignmentSettings());
+            this.Snapshot.Alignment = Settings.GetInstance().GetAlignmentSettings();
 
             base.Begin();
         }
@@ -57,7 +56,7 @@
                 SnapshotRegion region = (SnapshotRegion)regionObject;
                 Boolean readSuccess;
 
-                region.ReadAllRegionMemory(out readSuccess, true);
+                region.ReadAllRegionMemory(out readSuccess, keepValues: true);
 
                 if (!readSuccess)
                 {
@@ -189,7 +188,7 @@
             base.End();
 
             this.Snapshot.DiscardInvalidRegions();
-            this.Snapshot.SetScanMethod(this.ScannerName);
+            this.Snapshot.ScanMethod = this.ScannerName;
 
             SnapshotManager.GetInstance().SaveSnapshot(this.Snapshot);
 

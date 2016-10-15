@@ -192,7 +192,7 @@
     <Compile Include="Source\Scanners\LabelThresholder\LabelThresholderViewModel.cs" />
     <Compile Include="Source\Scanners\LabelThresholder\LabelThresholder.cs" />
     <Compile Include="Source\Scanners\ManualScanner\ManualScannerViewModel.cs" />
-    <Compile Include="Source\Scanners\ManualScanner\ManualScanner.cs" />
+    <Compile Include="Source\Scanners\ManualScanner\ManualScannerModel.cs" />
     <Compile Include="Source\Scanners\PointerScanner\PointerScanner.cs" />
     <Compile Include="Source\Scanners\ScanConstraints\ScanConstraint.cs" />
     <Compile Include="Source\Scanners\ScanConstraints\ScanConstraintEditor.cs" />
@@ -205,7 +205,9 @@
     <Compile Include="Source\Snapshots\Prefilters\ISnapshotPrefilter.cs" />
     <Compile Include="Source\Snapshots\Prefilters\ShallowPointerPrefilter.cs" />
     <Compile Include="Source\Snapshots\Prefilters\SnapshotPrefilterFactory.cs" />
-    <Compile Include="Source\Snapshots\Snapshot.cs" />
+    <Compile Include="Source\Snapshots\Snapshot.cs">
+      <ExcludeFromStyleCop>False</ExcludeFromStyleCop>
+    </Compile>
     <Compile Include="Source\Snapshots\SnapshotElement.cs" />
     <Compile Include="Source\Snapshots\SnapshotManager.cs" />
     <Compile Include="Source\Snapshots\ISnapshotObserver.cs" />

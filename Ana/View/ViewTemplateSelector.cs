@@ -4,11 +4,11 @@
     using Source.CheatBrowser;
     using Source.DotNetExplorer;
     using Source.LabelThresholder;
-    using Source.ManualScanner;
     using Source.ProcessSelector;
     using Source.Project;
     using Source.PropertyViewer;
     using Source.Results;
+    using Source.Scanners.ManualScanner;
     using Source.Snapshots;
     using Source.UserSettings;
     using System;

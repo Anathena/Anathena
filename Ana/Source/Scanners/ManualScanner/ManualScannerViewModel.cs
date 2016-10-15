@@ -1,4 +1,4 @@
-﻿namespace Ana.Source.ManualScanner
+﻿namespace Ana.Source.Scanners.ManualScanner
 {
     using Docking;
     using Main;
@@ -62,6 +62,7 @@
             this.SelectUnchangedCommand = new RelayCommand(() => this.ChangeScanConstraintSelection(ConstraintsEnum.Unchanged), () => true);
             this.scanConstraintManager = new ScanConstraintManager();
             this.SelectedScanConstraint = new ScanConstraint(ConstraintsEnum.Equal);
+            this.ManualScannerModel = new ManualScannerModel();
             MainViewModel.GetInstance().Subscribe(this);
         }
 
@@ -184,6 +185,8 @@
             }
         }
 
+        private ManualScannerModel ManualScannerModel { get; set; }
+
         /// <summary>
         /// Gets a singleton instance of the <see cref="ManualScannerViewModel"/> class
         /// </summary>
@@ -198,6 +201,8 @@
         /// </summary>
         private void StartScan()
         {
+            ManualScannerModel.SetScanConstraintManager(scanConstraintManager);
+            ManualScannerModel.Begin();
         }
 
         /// <summary>

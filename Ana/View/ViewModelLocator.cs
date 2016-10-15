@@ -5,11 +5,11 @@
     using Source.DotNetExplorer;
     using Source.LabelThresholder;
     using Source.Main;
-    using Source.ManualScanner;
     using Source.ProcessSelector;
     using Source.Project;
     using Source.PropertyViewer;
     using Source.Results;
+    using Source.Scanners.ManualScanner;
     using Source.Scanners.ValueCollector;
     using Source.Snapshots;
     using Source.UserSettings;

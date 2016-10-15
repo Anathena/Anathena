@@ -283,11 +283,6 @@
         {
             using (TimedLock.Lock(this.AccessLock))
             {
-                if (snapshot != null)
-                {
-                    snapshot.SetTimeStampToNow();
-                }
-
                 if (this.Snapshots.Count != 0 && this.Snapshots.Peek() == null)
                 {
                     this.Snapshots.Pop();
@@ -306,7 +301,7 @@
         {
             lock (this.ObserverLock)
             {
-                Snapshot activeSnapshot = this.GetActiveSnapshot();
+                Snapshot activeSnapshot = this.GetActiveSnapshot(createIfNone: false);
                 foreach (ISnapshotObserver observer in this.SnapshotObservers)
                 {
                     observer.Update(activeSnapshot);

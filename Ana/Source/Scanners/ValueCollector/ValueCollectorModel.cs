@@ -21,11 +21,11 @@
         /// </summary>
         public override void Begin()
         {
-            Snapshot<Null> snapshot = new Snapshot<Null>(SnapshotManager.GetInstance().GetActiveSnapshot());
+            Snapshot<Null> snapshot = new Snapshot<Null>(SnapshotManager.GetInstance().GetActiveSnapshot(createIfNone: true));
             snapshot.SetElementType(typeof(Int32));
-            snapshot.SetAlignment(Settings.GetInstance().GetAlignmentSettings());
+            snapshot.Alignment = Settings.GetInstance().GetAlignmentSettings();
             snapshot.ReadAllSnapshotMemory();
-            snapshot.SetScanMethod(this.ScannerName);
+            snapshot.ScanMethod = this.ScannerName;
             SnapshotManager.GetInstance().SaveSnapshot(snapshot);
         }
     }

@@ -40,7 +40,7 @@ namespace Ana.Source.Snapshots.Prefilter
             this.RegionLock = new Object();
             this.ProcessedCount = 0;
 
-            this.FilteredSnapshot.SetAlignment(Settings.GetInstance().GetAlignmentSettings());
+            this.FilteredSnapshot.Alignment = Settings.GetInstance().GetAlignmentSettings();
         }
 
         /// <summary>

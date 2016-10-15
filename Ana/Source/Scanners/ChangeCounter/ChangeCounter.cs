@@ -53,7 +53,7 @@
             }
 
             this.Snapshot.SetVariableSize(this.VariableSize);
-            this.Snapshot.SetAlignment(Settings.GetInstance().GetAlignmentSettings());
+            this.Snapshot.Alignment = Settings.GetInstance().GetAlignmentSettings();
 
             // Initialize change counts to zero
             this.Snapshot.SetElementLabels(0);
@@ -117,7 +117,7 @@
 
             // Create a snapshot from the valid regions
             this.Snapshot.DiscardInvalidRegions();
-            this.Snapshot.SetScanMethod(this.ScannerName);
+            this.Snapshot.ScanMethod = this.ScannerName;
 
             SnapshotManager.GetInstance().SaveSnapshot(this.Snapshot);
             //// Main.GetInstance().OpenLabelThresholder();
