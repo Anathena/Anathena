@@ -532,12 +532,12 @@
                     }
 
                     // Enforce 4-byte alignment of destination
-                    if (element.GetValue() % 4 != 0)
+                    if (element.GetCurrentValue() % 4 != 0)
                     {
                         continue;
                     }
 
-                    IntPtr addressValue = new IntPtr(element.GetValue());
+                    IntPtr addressValue = new IntPtr(element.GetCurrentValue());
 
                     // Check if it is possible that this pointer is valid, if so keep it
                     if (Snapshot.ContainsAddress(addressValue))

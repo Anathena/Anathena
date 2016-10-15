@@ -51,6 +51,9 @@
 			<ListView ItemsSource="{Binding Addresses}"
 					  Background="{StaticResource AvalonDock_Expression_BaseColor3}"
 					  BorderThickness="0">
+                <ListView.Resources>
+                    <converters:IntPtrToAddressConverter x:Key="IntPtrToAddressConverter"/>
+                </ListView.Resources>
 				<ListView.ItemTemplate>
 					<DataTemplate>
 						<Grid Width="{Binding Path=ActualWidth, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListView}}}">
@@ -65,8 +68,8 @@
 											  Command="{Binding DataContext.AddAddressCommand, ElementName=AnaScanResults}"
 											  CommandParameter="{Binding .}"/>
 							</Grid.InputBindings>
-							<TextBlock Grid.Column="0"
-									   Text="{Binding Path=Address}"
+                            <TextBlock Grid.Column="0"
+									   Text="{Binding Path=Address, Converter={StaticResource IntPtrToAddressConverter}}"
 									   Foreground="{StaticResource AvalonDock_Expression_BaseColor2}"/>
 							<TextBlock Grid.Column="1"
 									   Text="{Binding Path=Value}"

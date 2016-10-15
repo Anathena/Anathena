@@ -1,13 +1,16 @@
 ﻿namespace Ana.Source.Results
 {
     using Docking;
+    using Engine;
     using Main;
     using Mvvm.Command;
     using Snapshots;
     using System;
     using System.Collections.Generic;
     using System.Threading;
+    using System.Threading.Tasks;
     using System.Windows.Input;
+    using Utils.Extensions;
     using Utils.Validation;
 
     /// <summary>
@@ -23,7 +26,7 @@
         /// <summary>
         /// The number of elements to display on each page
         /// </summary>
-        private const Int32 PageSize = 128;
+        private const Int32 PageSize = 64;
 
         /// <summary>
         /// Singleton instance of the <see cref="ScanResultsViewModel" /> class
@@ -63,6 +66,8 @@
 
             SnapshotManager.GetInstance().Subscribe(this);
             MainViewModel.GetInstance().Subscribe(this);
+
+            this.UpdateScanResults();
         }
 
         /// <summary>
@@ -103,7 +108,7 @@
             set
             {
                 this.currentPage = value;
-                this.LoadResults();
+                this.LoadScanResults();
                 this.RaisePropertyChanged(nameof(this.CurrentPage));
             }
         }
@@ -182,7 +187,7 @@
         /// <summary>
         /// Loads the results for the current page
         /// </summary>
-        private void LoadResults()
+        private void LoadScanResults()
         {
             Snapshot snapshot = SnapshotManager.GetInstance().GetActiveSnapshot();
 
@@ -201,17 +206,46 @@
             {
                 SnapshotElement element = snapshot[(Int32)index];
 
-                dynamic label = String.Empty;
+                String label = String.Empty;
                 if (((dynamic)snapshot)[(Int32)index].ElementLabel != null)
                 {
-                    label = ((dynamic)snapshot)[(Int32)index].ElementLabel;
+                    label = ((dynamic)snapshot)[(Int32)index].ElementLabel.ToString();
                 }
 
-                newAddresses.Add(new ScanResult(element.BaseAddress, element.GetValue().ToString(), element.GetPreviousValue().ToString(), label));
+                String currentValue = String.Empty;
+                if (element.HasCurrentValue())
+                {
+                    currentValue = element.GetCurrentValue().ToString();
+                }
+
+                String previousValue = String.Empty;
+                if (element.HasPreviousValue())
+                {
+                    previousValue = element.GetPreviousValue().ToString();
+                }
+
+                newAddresses.Add(new ScanResult(element.BaseAddress, currentValue, previousValue, label));
             }
 
             this.addresses = newAddresses;
             this.RaisePropertyChanged(nameof(this.Addresses));
+        }
+
+        /// <summary>
+        /// Updates the values for the current scan results
+        /// </summary>
+        private void UpdateScanResults()
+        {
+            Task.Run(() =>
+            {
+                while (true)
+                {
+                    Boolean readSuccess;
+                    this.Addresses.ForEach(x => x.Value = EngineCore.GetInstance().OperatingSystemAdapter.Read(typeof(Int32), x.Address, out readSuccess).ToString());
+                    this.RaisePropertyChanged(nameof(this.Addresses));
+                    Thread.Sleep(400);
+                }
+            });
         }
 
         /// <summary>

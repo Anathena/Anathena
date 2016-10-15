@@ -169,6 +169,7 @@
     <Compile Include="Source\LuaEngine\LuaScript.cs" />
     <Compile Include="Source\LuaEngine\Memory\IMemoryCore.cs" />
     <Compile Include="Source\LuaEngine\Memory\LuaMemoryCore.cs" />
+    <Compile Include="Source\Mvvm\Converters\IntPtrToAddressConverter.cs" />
     <Compile Include="Source\Mvvm\Converters\IconConverter.cs" />
     <Compile Include="Source\Project\ProjectExplorerViewModel.cs" />
     <Compile Include="Source\Project\ProjectExplorer.cs" />

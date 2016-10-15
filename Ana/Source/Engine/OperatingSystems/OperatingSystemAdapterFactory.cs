@@ -1,5 +1,7 @@
 ﻿namespace Ana.Source.Engine.OperatingSystems
 {
+    using System;
+    using System.Threading;
     using Windows;
 
     /// <summary>
@@ -8,12 +10,19 @@
     internal class OperatingSystemAdapterFactory
     {
         /// <summary>
+        /// Singleton instance of the <see cref="WindowsAdapter"/> class
+        /// </summary>
+        private static Lazy<WindowsAdapter> windowsAdapterInstance = new Lazy<WindowsAdapter>(
+            () => { return new WindowsAdapter(); },
+            LazyThreadSafetyMode.PublicationOnly);
+
+        /// <summary>
         /// Gets an adapter to the operating system
         /// </summary>
         /// <returns>An adapter that provides access to the operating system</returns>
         public static IOperatingSystemAdapter GetOperatingSystemAdapter()
         {
-            return new WindowsAdapter();
+            return windowsAdapterInstance.Value;
         }
     }
     //// End class

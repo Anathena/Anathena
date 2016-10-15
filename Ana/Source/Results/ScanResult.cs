@@ -1,7 +1,6 @@
 ﻿namespace Ana.Source.Results
 {
     using System;
-    using Utils.Validation;
 
     /// <summary>
     /// A scan result object that can be displayed to the user and added to the project explorer
@@ -17,7 +16,7 @@
         /// <param name="label">The label of this result</param>
         public ScanResult(IntPtr address, String value, String previousValue, String label)
         {
-            this.Address = Conversions.ToAddress(address);
+            this.Address = address;
             this.PreviousValue = previousValue;
             this.Value = value;
             this.Label = label;
@@ -26,7 +25,7 @@
         /// <summary>
         /// Gets or sets the address of the scan result
         /// </summary>
-        public String Address
+        public IntPtr Address
         {
             get;
             set;

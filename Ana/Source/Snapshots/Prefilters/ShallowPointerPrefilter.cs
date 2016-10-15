@@ -145,12 +145,12 @@ namespace Ana.Source.Snapshots.Prefilter
                         }
 
                         // Enforce 4-byte alignment of destination
-                        if (element.GetValue() % 4 != 0)
+                        if (element.GetCurrentValue() % 4 != 0)
                         {
                             continue;
                         }
 
-                        IntPtr Value = new IntPtr(element.GetValue());
+                        IntPtr Value = new IntPtr(element.GetCurrentValue());
 
                         // Check if it is possible that this pointer is valid, if so keep it
                         if (snapshot.ContainsAddress(Value))

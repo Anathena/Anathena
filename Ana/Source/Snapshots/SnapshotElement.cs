@@ -172,7 +172,7 @@ namespace Ana.Source.Snapshots
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public unsafe dynamic GetValue()
+        public unsafe dynamic GetCurrentValue()
         {
             return (GetValue(currentValuePointer));
         }
@@ -183,11 +183,31 @@ namespace Ana.Source.Snapshots
             return (GetValue(previousValuePointer));
         }
 
+        public unsafe Boolean HasCurrentValue()
+        {
+            if (currentValuePointer == (byte*)0)
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+        public unsafe Boolean HasPreviousValue()
+        {
+            if (previousValuePointer == (byte*)0)
+            {
+                return false;
+            }
+
+            return true;
+        }
+
         public dynamic Value
         {
             get
             {
-                return GetValue();
+                return GetCurrentValue();
             }
         }
 
@@ -195,9 +215,7 @@ namespace Ana.Source.Snapshots
         {
             get
             {
-                return 0;
-                // TODO: This is pretty problematic for ScanResults since it may not be set (and thus crash)
-                // return GetPreviousValue();
+                return GetPreviousValue();
             }
         }
 
