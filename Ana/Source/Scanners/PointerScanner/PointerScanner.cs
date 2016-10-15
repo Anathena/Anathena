@@ -52,7 +52,7 @@
             Rescan
         }
 
-        private Snapshot<Null> Snapshot { get; set; }
+        private Snapshot Snapshot { get; set; }
 
         private ScanModeEnum ScanMode { get; set; }
 
@@ -342,7 +342,7 @@
 
             // Read the memory (collecting values)
             pointerSnapshot.ReadAllSnapshotMemory();
-            pointerSnapshot.SetElementType(this.ScanConstraintManager.GetElementType());
+            pointerSnapshot.ElementType = this.ScanConstraintManager.GetElementType();
             this.Snapshot.Alignment = sizeof(Int32);
             pointerSnapshot.MarkAllValid();
 
@@ -462,7 +462,6 @@
             this.PrintDebugTag();
 
             IEnumerable<NormalizedModule> modules = EngineCore.GetInstance().OperatingSystemAdapter.GetModules();
-
             List<SnapshotRegion> acceptedBaseRegions = new List<SnapshotRegion>();
 
             // Gather regions from every module as valid base addresses
@@ -480,16 +479,16 @@
             this.PointerPool.Clear();
 
             // Collect memory regions
-            this.Snapshot = new Snapshot<Null>(SnapshotManager.GetInstance().CollectSnapshot(useSettings: false, usePrefilter: false));
+            this.Snapshot = SnapshotManager.GetInstance().CollectSnapshot(useSettings: false, usePrefilter: false).Clone();
 
             // Set to type of a pointer
             if (EngineCore.GetInstance().Processes.IsOpenedProcess32Bit())
             {
-                this.Snapshot.SetElementType(typeof(UInt32));
+                this.Snapshot.ElementType = typeof(UInt32);
             }
             else
             {
-                this.Snapshot.SetElementType(typeof(UInt64));
+                this.Snapshot.ElementType = typeof(UInt64);
             }
 
             // As far as I can tell, no valid pointers will end up being less than 0x10000 (UInt16.MaxValue), nor higher than usermode space.

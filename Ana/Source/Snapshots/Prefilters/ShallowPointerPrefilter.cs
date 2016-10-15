@@ -68,7 +68,7 @@ namespace Ana.Source.Snapshots.Prefilter
         {
             lock (this.RegionLock)
             {
-                return new Snapshot<Null>(this.FilteredSnapshot);
+                return this.FilteredSnapshot.Clone();
             }
         }
 
@@ -89,7 +89,7 @@ namespace Ana.Source.Snapshots.Prefilter
         /// </summary>
         private void ProcessPages()
         {
-            Snapshot<Null> snapshot = new Snapshot<Null>(SnapshotManager.GetInstance().CollectSnapshot(useSettings: false, usePrefilter: false));
+            Snapshot snapshot = SnapshotManager.GetInstance().CollectSnapshot(useSettings: false, usePrefilter: false).Clone();
             Boolean isOpenedProcess32Bit = EngineCore.GetInstance().Processes.IsOpenedProcess32Bit();
             dynamic invalidPointerMin = isOpenedProcess32Bit ? (UInt32)UInt16.MaxValue : (UInt64)UInt16.MaxValue;
             dynamic invalidPointerMax = isOpenedProcess32Bit ? Int32.MaxValue : Int64.MaxValue;

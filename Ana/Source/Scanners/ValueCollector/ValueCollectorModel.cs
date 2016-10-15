@@ -21,8 +21,8 @@
         /// </summary>
         public override void Begin()
         {
-            Snapshot<Null> snapshot = new Snapshot<Null>(SnapshotManager.GetInstance().GetActiveSnapshot(createIfNone: true));
-            snapshot.SetElementType(typeof(Int32));
+            Snapshot snapshot = SnapshotManager.GetInstance().GetActiveSnapshot(createIfNone: true).Clone();
+            snapshot.ElementType = typeof(Int32);
             snapshot.Alignment = Settings.GetInstance().GetAlignmentSettings();
             snapshot.ReadAllSnapshotMemory();
             snapshot.ScanMethod = this.ScannerName;

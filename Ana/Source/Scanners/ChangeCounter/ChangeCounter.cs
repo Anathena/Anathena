@@ -45,7 +45,7 @@
         public override void Begin()
         {
             // Initialize labeled snapshot
-            this.Snapshot = new Snapshot<UInt16>(SnapshotManager.GetInstance().GetActiveSnapshot());
+            this.Snapshot = SnapshotManager.GetInstance().GetActiveSnapshot().CloneAs<UInt16>();
 
             if (this.Snapshot == null)
             {

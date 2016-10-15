@@ -15,7 +15,7 @@
             ProgressLock = new Object();
         }
 
-        private Snapshot<Null> Snapshot { get; set; }
+        private Snapshot Snapshot { get; set; }
 
         private ScanConstraintManager ScanConstraintManager { get; set; }
 
@@ -29,7 +29,7 @@
         public override void Begin()
         {
             // Initialize snapshot
-            this.Snapshot = new Snapshot<Null>(SnapshotManager.GetInstance().GetActiveSnapshot(createIfNone: true));
+            this.Snapshot = SnapshotManager.GetInstance().GetActiveSnapshot(createIfNone: true).Clone();
 
             if (this.Snapshot == null || this.ScanConstraintManager == null || this.ScanConstraintManager.GetCount() <= 0)
             {
@@ -38,7 +38,7 @@
             }
 
             this.Snapshot.MarkAllValid();
-            this.Snapshot.SetElementType(this.ScanConstraintManager.GetElementType());
+            this.Snapshot.ElementType = this.ScanConstraintManager.GetElementType();
             this.Snapshot.Alignment = Settings.GetInstance().GetAlignmentSettings();
 
             base.Begin();

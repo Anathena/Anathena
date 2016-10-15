@@ -22,6 +22,11 @@
     internal abstract class Snapshot : IEnumerable
     {
         /// <summary>
+        /// 
+        /// </summary>
+        private Type elementType;
+
+        /// <summary>
         /// Memory alignment of the regions contained in the snapshot
         /// </summary>
         private Int32 alignment;
@@ -62,6 +67,32 @@
         }
 
         /// <summary>
+        /// Gets or sets the value type of each element in this snapshot
+        /// </summary>
+        public Type ElementType
+        {
+            get
+            {
+                return this.elementType;
+            }
+
+            set
+            {
+                this.elementType = value;
+
+                if (this.SnapshotRegions == null || this.SnapshotRegions.Count() <= 0)
+                {
+                    return;
+                }
+
+                foreach (SnapshotRegion region in this)
+                {
+                    region.SetElementType(elementType);
+                }
+            }
+        }
+
+        /// <summary>
         /// Gets or sets the snapshot regions contained in this snapshot
         /// </summary>
         protected IEnumerable<SnapshotRegion> SnapshotRegions { get; set; }
@@ -75,11 +106,6 @@
         /// Gets or sets the lock for accessing deallocated regions
         /// </summary>
         protected Object DeallocatedRegionLock { get; set; }
-
-        /// <summary>
-        /// Gets or sets the value type of each element in this snapshot
-        /// </summary>
-        protected Type ElementType { get; set; }
 
         /// <summary>
         /// Indexer to allow the retrieval of the element at the specified index. Note that this does NOT index into a region
@@ -108,6 +134,16 @@
         }
 
         /// <summary>
+        /// 
+        /// </summary>
+        public abstract Snapshot Clone();
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public abstract Snapshot<NewLabelType> CloneAs<NewLabelType>() where NewLabelType : struct;
+
+        /// <summary>
         /// Reads all memory for every region contained in this snapshot
         /// </summary>
         public abstract void ReadAllSnapshotMemory();
@@ -134,15 +170,6 @@
         public IEnumerable<SnapshotRegion> GetSnapshotRegions()
         {
             return this.SnapshotRegions;
-        }
-
-        /// <summary>
-        /// Gets the data type of the elements contained in this snapshot
-        /// </summary>
-        /// <returns>The data type of the elements contained in this snapshot</returns>
-        public Type GetElementType()
-        {
-            return this.ElementType;
         }
 
         /// <summary>
@@ -181,38 +208,19 @@
             switch (variableSize)
             {
                 case sizeof(SByte):
-                    this.SetElementType(typeof(SByte));
+                    this.ElementType = typeof(SByte);
                     break;
                 case sizeof(Int16):
-                    this.SetElementType(typeof(Int16));
+                    this.ElementType = typeof(Int16);
                     break;
                 case sizeof(Int32):
-                    this.SetElementType(typeof(Int32));
+                    this.ElementType = typeof(Int32);
                     break;
                 case sizeof(Int64):
-                    this.SetElementType(typeof(Int64));
+                    this.ElementType = typeof(Int64);
                     break;
                 default:
                     throw new Exception("Unsupported variable size");
-            }
-        }
-
-        /// <summary>
-        /// Updates type of every element with the specified type
-        /// </summary>
-        /// <param name="elementType">The type of the element in this snapshot</param>
-        public void SetElementType(Type elementType)
-        {
-            this.ElementType = elementType;
-
-            if (this.SnapshotRegions == null || this.SnapshotRegions.Count() <= 0)
-            {
-                return;
-            }
-
-            foreach (SnapshotRegion region in this)
-            {
-                region.SetElementType(elementType);
             }
         }
 
@@ -272,39 +280,39 @@
         /// <summary>
         /// Initializes a new instance of the <see cref="Snapshot{LabelType}"/> class
         /// </summary>
-        /// <param name="baseSnapshot">The snapshot from which to create a shallow clone</param>
-        public Snapshot(Snapshot baseSnapshot)
+        /// <param name="snapshotRegions">The regions with which to initialize this snapshot</param>
+        public Snapshot(IEnumerable<SnapshotRegion> snapshotRegions)
+        {
+            this.SnapshotRegions = snapshotRegions == null ? null : snapshotRegions.Select(x => (SnapshotRegion<LabelType>)x);
+            this.Initialize();
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public override Snapshot Clone()
         {
             List<SnapshotRegion<LabelType>> regions = new List<SnapshotRegion<LabelType>>();
 
-            if (baseSnapshot != null && baseSnapshot.GetRegionCount() > 0)
+            if (this.GetRegionCount() > 0)
             {
-                foreach (SnapshotRegion region in baseSnapshot.GetSnapshotRegions())
+                foreach (SnapshotRegion region in this.GetSnapshotRegions())
                 {
                     regions.Add(new SnapshotRegion<LabelType>(region));
                     regions.Last().SetCurrentValues(region.GetCurrentValues());
                 }
             }
 
-            this.SnapshotRegions = regions;
+            Snapshot<LabelType> clonedSnapshot = new Snapshot<LabelType>(regions);
+            clonedSnapshot.Alignment = this.Alignment;
+            clonedSnapshot.ElementType = this.GetElementType();
 
-            if (baseSnapshot != null)
-            {
-                this.SetElementType(baseSnapshot.GetElementType());
-            }
-
-            this.Alignment = baseSnapshot.Alignment;
-            this.Initialize();
+            return clonedSnapshot;
         }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="Snapshot{LabelType}"/> class
-        /// </summary>
-        /// <param name="snapshotRegions">The regions with which to initialize this snapshot</param>
-        public Snapshot(IEnumerable<SnapshotRegion> snapshotRegions)
+        public override Snapshot<NewLabelType> CloneAs<NewLabelType>()
         {
-            this.SnapshotRegions = snapshotRegions == null ? null : snapshotRegions.Select(x => (SnapshotRegion<LabelType>)x);
-            this.Initialize();
+            return new Snapshot<NewLabelType>(this.Clone().GetSnapshotRegions());
         }
 
         public void Initialize()
@@ -615,7 +623,7 @@
             }
 
             // Get current memory regions
-            Snapshot<LabelType> mask = new Snapshot<LabelType>(SnapshotManager.GetInstance().CollectSnapshot(useSettings: false, usePrefilter: false));
+            Snapshot<LabelType> mask = SnapshotManager.GetInstance().CollectSnapshot(useSettings: false, usePrefilter: false).CloneAs<LabelType>();
 
             // Mask each region against the current virtual memory regions
             IEnumerable<SnapshotRegion<LabelType>> maskedRegions = this.MaskRegions(mask, this.DeallocatedRegions);

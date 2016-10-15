@@ -1,29 +1,29 @@
-﻿using Ana.Source.Snapshots;
-using Ana.Source.Utils;
-using System;
-namespace Ana.Source.Scanners.LabelThresholder
+﻿namespace Ana.Source.Scanners.LabelThresholder
 {
+    using Snapshots;
+    using System;
     using System.Collections.Concurrent;
     using System.Collections.Generic;
     using System.Linq;
     using System.Reflection;
     using System.Threading.Tasks;
+    using Utils;
 
     internal class LabelThresholder
     {
-        private Snapshot Snapshot;
+        private Snapshot Snapshot { get; set; }
 
-        private SortedDictionary<dynamic, Int64> SortedDictionary;
+        private SortedDictionary<dynamic, Int64> SortedDictionary { get; set; }
 
-        private Boolean Inverted;
+        private Boolean Inverted { get; set; }
 
-        private Object ItemLock;
-
-        [Obfuscation(Exclude = true)]
-        private dynamic MinValue;
+        private Object ItemLock { get; set; }
 
         [Obfuscation(Exclude = true)]
-        private dynamic MaxValue;
+        private dynamic MinValue { get; set; }
+
+        [Obfuscation(Exclude = true)]
+        private dynamic MaxValue { get; set; }
 
         public LabelThresholder()
         {
@@ -35,21 +35,25 @@ namespace Ana.Source.Scanners.LabelThresholder
             this.Inverted = Inverted;
         }
 
-        public void UpdateThreshold(Int32 MinimumIndex, Int32 MaximumIndex)
+        public void UpdateThreshold(Int32 minimumIndex, Int32 maximumIndex)
         {
             if (SortedDictionary == null)
+            {
                 return;
+            }
 
-            this.MinValue = SortedDictionary.ElementAt(MinimumIndex).Key;
-            this.MaxValue = SortedDictionary.ElementAt(MaximumIndex).Key;
+            this.MinValue = SortedDictionary.ElementAt(minimumIndex).Key;
+            this.MaxValue = SortedDictionary.ElementAt(maximumIndex).Key;
         }
 
         public Type GetElementType()
         {
             if (Snapshot == null)
+            {
                 return null;
+            }
 
-            return Snapshot.GetElementType();
+            return Snapshot.ElementType;
         }
 
         public void Begin()
@@ -57,42 +61,44 @@ namespace Ana.Source.Scanners.LabelThresholder
             Snapshot = SnapshotManager.GetInstance().GetActiveSnapshot(false);
 
             if (Snapshot == null)
+            {
                 return;
-
+            }
         }
 
         protected void Update()
         {
+            ConcurrentDictionary<dynamic, Int64> histogram = new ConcurrentDictionary<dynamic, Int64>();
 
-            ConcurrentDictionary<dynamic, Int64> Histogram = new ConcurrentDictionary<dynamic, Int64>();
-
-            Parallel.ForEach(Snapshot.Cast<Object>(), (RegionObject) =>
+            Parallel.ForEach(Snapshot.Cast<Object>(), (regionObject) =>
             {
-                SnapshotRegion Region = (SnapshotRegion)RegionObject;
+                SnapshotRegion Region = (SnapshotRegion)regionObject;
                 foreach (dynamic Element in Region)
                 {
                     if (Element.ElementLabel == null)
+                    {
                         return;
+                    }
 
                     using (TimedLock.Lock(ItemLock))
                     {
-                        if (Histogram.ContainsKey(Element.ElementLabel))
-                            Histogram[((dynamic)Element.ElementLabel)]++;
+                        if (histogram.ContainsKey(Element.ElementLabel))
+                            histogram[((dynamic)Element.ElementLabel)]++;
                         else
-                            Histogram.TryAdd(Element.ElementLabel, 1);
+                            histogram.TryAdd(Element.ElementLabel, 1);
                     }
+                }
+                //// End foreach element
+            });
+            //// End foreach region
 
-                } // End foreach element
+            this.SortedDictionary = new SortedDictionary<dynamic, Int64>(histogram);
 
-            }); // End foreach region
+            //// LabelThresholderEventArgs Args = new LabelThresholderEventArgs();
+            //// Args.SortedDictionary = SortedDictionary;
+            //// OnEventUpdateHistogram(Args);
 
-            this.SortedDictionary = new SortedDictionary<dynamic, Int64>(Histogram);
-
-            //LabelThresholderEventArgs Args = new LabelThresholderEventArgs();
-            //Args.SortedDictionary = SortedDictionary;
-            //OnEventUpdateHistogram(Args);
-
-            //CancelFlag = true;
+            //// CancelFlag = true;
         }
 
         protected void End()
@@ -103,30 +109,44 @@ namespace Ana.Source.Scanners.LabelThresholder
         public void ApplyThreshold()
         {
             if (Snapshot == null)
+            {
                 return;
+            }
 
             if (!Inverted)
             {
                 Snapshot.MarkAllInvalid();
-                foreach (SnapshotRegion Region in Snapshot)
-                    foreach (dynamic Element in Region)
-                        if (Element.ElementLabel >= MinValue && Element.ElementLabel <= MaxValue)
-                            Element.Valid = true;
+                foreach (SnapshotRegion region in Snapshot)
+                {
+                    foreach (dynamic element in region)
+                    {
+                        if (element.ElementLabel >= MinValue && element.ElementLabel <= MaxValue)
+                        {
+                            element.Valid = true;
+                        }
+                    }
+                }
             }
             else
             {
                 Snapshot.MarkAllValid();
-                foreach (SnapshotRegion Region in Snapshot)
-                    foreach (dynamic Element in Region)
-                        if (Element.ElementLabel >= MinValue && Element.ElementLabel <= MaxValue)
-                            Element.Valid = false;
+                foreach (SnapshotRegion region in Snapshot)
+                {
+                    foreach (dynamic element in region)
+                    {
+                        if (element.ElementLabel >= MinValue && element.ElementLabel <= MaxValue)
+                        {
+                            element.Valid = false;
+                        }
+                    }
+                }
             }
 
             Snapshot.DiscardInvalidRegions();
-            // Snapshot.SetScanMethod("Label Thresholder");
-            // SnapshotManager.GetInstance().SaveSnapshot(Snapshot);
+            //// Snapshot.SetScanMethod("Label Thresholder");
+            //// SnapshotManager.GetInstance().SaveSnapshot(Snapshot);
         }
-
-    } // End class
-
-} // End namespace
+    }
+    //// End class
+}
+//// End namespace
