@@ -1,12 +1,33 @@
 ﻿namespace Ana.Source.Results
 {
     using System;
+    using System.ComponentModel;
 
     /// <summary>
     /// A scan result object that can be displayed to the user and added to the project explorer
     /// </summary>
-    internal class ScanResult
+    internal class ScanResult : INotifyPropertyChanged
     {
+        /// <summary>
+        /// The address of the scan result
+        /// </summary>
+        private IntPtr address;
+
+        /// <summary>
+        /// The value of the scan result
+        /// </summary>
+        private String elementValue;
+
+        /// <summary>
+        /// The previous value of the scan result
+        /// </summary>
+        private String previousValue;
+
+        /// <summary>
+        /// The label of the scan result
+        /// </summary>
+        private String label;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="ScanResult" /> class
         /// </summary>
@@ -18,17 +39,47 @@
         {
             this.Address = address;
             this.PreviousValue = previousValue;
-            this.Value = value;
+            this.ElementValue = value;
             this.Label = label;
         }
+
+        /// <summary>
+        /// Event notifying that a property of this object has changed
+        /// </summary>
+        public event PropertyChangedEventHandler PropertyChanged;
 
         /// <summary>
         /// Gets or sets the address of the scan result
         /// </summary>
         public IntPtr Address
         {
-            get;
-            set;
+            get
+            {
+                return this.address;
+            }
+
+            set
+            {
+                this.address = value;
+                this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(this.Address)));
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the value of the scan result
+        /// </summary>
+        public String ElementValue
+        {
+            get
+            {
+                return this.elementValue;
+            }
+
+            set
+            {
+                this.elementValue = value;
+                this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(this.ElementValue)));
+            }
         }
 
         /// <summary>
@@ -36,17 +87,16 @@
         /// </summary>
         public String PreviousValue
         {
-            get;
-            set;
-        }
+            get
+            {
+                return this.previousValue;
+            }
 
-        /// <summary>
-        /// Gets or sets the value of the scan result
-        /// </summary>
-        public String Value
-        {
-            get;
-            set;
+            set
+            {
+                this.previousValue = value;
+                this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(this.PreviousValue)));
+            }
         }
 
         /// <summary>
@@ -54,8 +104,16 @@
         /// </summary>
         public String Label
         {
-            get;
-            set;
+            get
+            {
+                return this.label;
+            }
+
+            set
+            {
+                this.label = value;
+                this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(this.Label)));
+            }
         }
     }
     //// End class

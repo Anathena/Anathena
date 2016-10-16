@@ -7,7 +7,7 @@
     using Project;
     using Snapshots;
     using System;
-    using System.Collections.Generic;
+    using System.Collections.ObjectModel;
     using System.Threading;
     using System.Threading.Tasks;
     using System.Windows.Input;
@@ -50,7 +50,7 @@
         /// <summary>
         /// The addresses on the current page
         /// </summary>
-        private IEnumerable<ScanResult> addresses;
+        private ObservableCollection<ScanResult> addresses;
 
         /// <summary>
         /// Prevents a default instance of the <see cref="ScanResultsViewModel" /> class from being created
@@ -64,7 +64,7 @@
             this.NextPageCommand = new RelayCommand(() => this.NextPage(), () => true);
             this.AddAddressCommand = new RelayCommand<ScanResult>((address) => this.AddAddress(address), (address) => true);
             this.IsVisible = true;
-            this.addresses = new List<ScanResult>();
+            this.addresses = new ObservableCollection<ScanResult>();
 
             SnapshotManager.GetInstance().Subscribe(this);
             MainViewModel.GetInstance().Subscribe(this);
@@ -159,7 +159,7 @@
         /// <summary>
         /// Gets the address elements
         /// </summary>
-        public IEnumerable<ScanResult> Addresses
+        public ObservableCollection<ScanResult> Addresses
         {
             get
             {
@@ -198,7 +198,7 @@
                 return;
             }
 
-            List<ScanResult> newAddresses = new List<ScanResult>();
+            ObservableCollection<ScanResult> newAddresses = new ObservableCollection<ScanResult>();
 
             UInt64 startIndex = Math.Min(ScanResultsViewModel.PageSize * this.CurrentPage, snapshot.GetElementCount());
 
@@ -243,7 +243,7 @@
                 while (true)
                 {
                     Boolean readSuccess;
-                    this.Addresses.ForEach(x => x.Value = EngineCore.GetInstance().OperatingSystemAdapter.Read(typeof(Int32), x.Address, out readSuccess).ToString());
+                    this.Addresses.ForEach(x => x.ElementValue = EngineCore.GetInstance().OperatingSystemAdapter.Read(typeof(Int32), x.Address, out readSuccess).ToString());
                     this.RaisePropertyChanged(nameof(this.Addresses));
                     Thread.Sleep(Settings.GetInstance().GetResultReadInterval());
                 }
