@@ -120,13 +120,17 @@
 						  Style="{StaticResource DropDown}"
 						  DataContext="{Binding Source={StaticResource ViewModelLocator}}">
 					<MenuItem Header="Open"
-							  Style="{StaticResource menuItemStyle}"/>
+							  Style="{StaticResource menuItemStyle}"
+                              Command="{Binding ProjectExplorerViewModel.OpenProjectCommand}"/>
 					<MenuItem Header="Import Project"
-							  Style="{StaticResource menuItemStyle}"/>
+							  Style="{StaticResource menuItemStyle}"
+                              Command="{Binding ProjectExplorerViewModel.ImportProjectCommand}"/>
 					<MenuItem Header="Save"
-							  Style="{StaticResource menuItemStyle}"/>
+							  Style="{StaticResource menuItemStyle}"
+                              Command="{Binding ProjectExplorerViewModel.SaveProjectCommand}"/>
 					<MenuItem Header="Save As"
-							  Style="{StaticResource menuItemStyle}"/>
+							  Style="{StaticResource menuItemStyle}"
+                              Command="{Binding ProjectExplorerViewModel.SaveAsProjectCommand}"/>
 					<MenuItem Header="Exit"
 							  Style="{StaticResource menuItemStyle}"/>
 				</MenuItem>
@@ -212,15 +216,17 @@
 					</MenuItem.Header>
 				</MenuItem>
 				<Separator Style="{DynamicResource VerticalSeparator}" />
-				<MenuItem ToolTip="Open Cheat File">
+				<MenuItem ToolTip="Open Project"
+                          Command="{Binding ProjectExplorerViewModel.OpenProjectCommand}">
 					<MenuItem.Header>
 						<Image Source="pack://application:,,,/Ana;component/Content/Icons/Open.png"
 							   Width="16"
 							   Height="16"/>
 					</MenuItem.Header>
 				</MenuItem>
-				<MenuItem ToolTip="Save Cheat File">
-					<MenuItem.Header>
+                <MenuItem ToolTip="Save Project"
+                          Command="{Binding ProjectExplorerViewModel.SaveProjectCommand}">
+                    <MenuItem.Header>
 						<Image Source="pack://application:,,,/Ana;component/Content/Icons/Save.png"
 							   Width="16"
 							   Height="16"/>

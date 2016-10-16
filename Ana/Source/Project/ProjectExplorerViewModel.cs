@@ -47,12 +47,51 @@
             this.AddNewFolderItemCommand = new RelayCommand(() => Task.Run(() => this.AddNewFolderItem()), () => true);
             this.AddNewAddressItemCommand = new RelayCommand(() => Task.Run(() => this.AddNewAddressItem()), () => true);
             this.AddNewScriptItemCommand = new RelayCommand(() => Task.Run(() => this.AddNewScriptItem()), () => true);
+            this.OpenProjectCommand = new RelayCommand(() => Task.Run(() => this.OpenProject()), () => true);
+            this.ImportProjectCommand = new RelayCommand(() => Task.Run(() => this.ImportProject()), () => true);
+            this.SaveProjectCommand = new RelayCommand(() => Task.Run(() => this.SaveProject()), () => true);
+            this.SaveAsProjectCommand = new RelayCommand(() => Task.Run(() => this.SaveAsProject()), () => true);
             this.IsVisible = true;
 
             this.projectItems = new ReadOnlyCollection<ProjectItemViewModel>(new List<ProjectItemViewModel>());
 
             MainViewModel.GetInstance().Subscribe(this);
         }
+
+        /// <summary>
+        /// Gets the command to open a project from disk
+        /// </summary>
+        public ICommand OpenProjectCommand { get; private set; }
+
+        /// <summary>
+        /// Gets the command to open a project from disk
+        /// </summary>
+        public ICommand ImportProjectCommand { get; private set; }
+
+        /// <summary>
+        /// Gets the command to open a project from disk
+        /// </summary>
+        public ICommand SaveProjectCommand { get; private set; }
+
+        /// <summary>
+        /// Gets the command to open a project from disk
+        /// </summary>
+        public ICommand SaveAsProjectCommand { get; private set; }
+
+        /// <summary>
+        /// Gets the command to add a new folder
+        /// </summary>
+        public ICommand AddNewFolderItemCommand { get; private set; }
+
+        /// <summary>
+        /// Gets the command to add a new address
+        /// </summary>
+        public ICommand AddNewAddressItemCommand { get; private set; }
+
+        /// <summary>
+        /// Gets the command to add a new script
+        /// </summary>
+        public ICommand AddNewScriptItemCommand { get; private set; }
 
         /// <summary>
         /// Gets or sets the collection of project items
@@ -86,21 +125,6 @@
                 this.selectedProjectItem = value;
             }
         }
-
-        /// <summary>
-        /// Gets the command to add a new folder
-        /// </summary>
-        public ICommand AddNewFolderItemCommand { get; private set; }
-
-        /// <summary>
-        /// Gets the command to add a new address
-        /// </summary>
-        public ICommand AddNewAddressItemCommand { get; private set; }
-
-        /// <summary>
-        /// Gets the command to add a new script
-        /// </summary>
-        public ICommand AddNewScriptItemCommand { get; private set; }
 
         /// <summary>
         /// Gets a singleton instance of the <see cref="ProjectExplorerViewModel"/> class
@@ -205,6 +229,34 @@
             }
 
             return null;
+        }
+
+        /// <summary>
+        /// Opens a project from disk
+        /// </summary>
+        private void OpenProject()
+        {
+        }
+
+        /// <summary>
+        /// Imports a project from disk
+        /// </summary>
+        private void ImportProject()
+        {
+        }
+
+        /// <summary>
+        /// Save a project to disk
+        /// </summary>
+        private void SaveProject()
+        {
+        }
+
+        /// <summary>
+        /// Save a project to disk under a new specified project name
+        /// </summary>
+        private void SaveAsProject()
+        {
         }
     }
     //// End class

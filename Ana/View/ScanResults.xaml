@@ -16,38 +16,64 @@
 	<Grid Background="{StaticResource AvalonDock_Expression_BaseColor3}">
 		<Grid.RowDefinitions>
 			<RowDefinition Height="Auto"/>
-			<RowDefinition Height="*"/>
-			<RowDefinition Height="Auto"/>
-		</Grid.RowDefinitions>
-		<Border Grid.Row="0"
-				Padding="8 4 8 4"
-				Background="{StaticResource AvalonDock_Expression_BaseColor4}">
-			<WrapPanel>
-				<Menu Background="Transparent">
-					<MenuItem>
-						<MenuItem.Header>
-							<Image Source="pack://application:,,,/Ana;component/Content/Icons/DownArrows.png"
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Border Grid.Row="0"
+				Background="{StaticResource AvalonDock_Expression_BaseColor1}">
+            <Menu Foreground="{StaticResource AvalonDock_Expression_BaseColor2}"
+                  Background="{StaticResource AvalonDock_Expression_BaseColor1}"
+                  BorderBrush="{StaticResource AvalonDock_Expression_BaseColor2}"
+                  Padding="4">
+                <MenuItem VerticalAlignment="Center">
+                    <MenuItem.Header>
+                        <Image Source="pack://application:,,,/Ana;component/Content/Icons/Increased.png"
 								   ToolTip="Add Selected Items"
 								   Width="16"
 								   Height="16"/>
-						</MenuItem.Header>
-					</MenuItem>
-				</Menu>
-				<TextBlock Foreground="{StaticResource AvalonDock_Expression_BaseColor2}"
-						   Text="{Binding ResultSize}">
-				</TextBlock>
-				<TextBlock Foreground="{StaticResource AvalonDock_Expression_BaseColor2}"
-						   Text=" - (Count: ">
-				</TextBlock>
-				<TextBlock Foreground="{StaticResource AvalonDock_Expression_BaseColor2}"
-						   Text="{Binding ResultCount}">
-				</TextBlock>
-				<TextBlock Foreground="{StaticResource AvalonDock_Expression_BaseColor2}"
-						   Text=")">
-				</TextBlock>
-			</WrapPanel>
-		</Border>
-        <ScrollViewer  Grid.Row="1">
+                    </MenuItem.Header>
+                </MenuItem>
+                <MenuItem ToolTip="Data Types"
+                          Style="{StaticResource DropDownAutoClose}"
+                          BorderThickness="0">
+                    <MenuItem.Header>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Foreground="{StaticResource AvalonDock_Expression_BaseColor2}"
+                                           VerticalAlignment="Center">
+                                    Data Type
+                            </TextBlock>
+                            <Grid x:Name="arrowGlyph"
+									  IsHitTestVisible="False"
+									  Margin="4,3,4,3"
+									  Grid.Column="1">
+                                <Path x:Name="Arrow"
+										  Width="7"
+										  Height="4"
+										  Data="M 0,1 C0,1 0,0 0,0 0,0 3,0 3,0 3,0 3,1 3,1 3,1 4,1 4,1 4,1 4,0 4,0 4,0 7,0 7,0 7,0 7,1 7,1 7,1 6,1 6,1 6,1 6,2 6,2 6,2 5,2 5,2 5,2 5,3 5,3 5,3 4,3 4,3 4,3 4,4 4,4 4,4 3,4 3,4 3,4 3,3 3,3 3,3 2,3 2,3 2,3 2,2 2,2 2,2 1,2 1,2 1,2 1,1 1,1 1,1 0,1 0,1 z"
+										  Fill="White" />
+                            </Grid>
+                        </StackPanel>
+                    </MenuItem.Header>
+                    <MenuItem ToolTip="Changed Value"
+                                  BorderBrush="{StaticResource AvalonDock_Expression_BaseColor1}"
+                                  Background="{StaticResource AvalonDock_Expression_BaseColor1}"
+                                  Command="{Binding ManualScannerViewModel.SelectChangedCommand}">
+                        <MenuItem.Header>
+                            <WrapPanel Width="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=ActualWidth}">
+                                <Image Width="16"
+                                           Height="16"
+                                           Source="pack://application:,,,/Ana;component/Content/Icons/Changed.png"/>
+                                <TextBlock Text="Changed"
+                                               Background="Transparent"
+                                               Foreground="{StaticResource AvalonDock_Expression_BaseColor2}"/>
+                            </WrapPanel>
+                        </MenuItem.Header>
+                    </MenuItem>
+                </MenuItem>
+            </Menu>
+        </Border>
+        <ScrollViewer Grid.Row="1">
 			<ListView ItemsSource="{Binding Addresses}"
 					  Background="{StaticResource AvalonDock_Expression_BaseColor3}"
 					  ScrollViewer.CanContentScroll="True" 
@@ -103,13 +129,15 @@
 								</Grid.ColumnDefinitions>
 								<Grid.Resources>
 									<Style TargetType="TextBlock">
-										<Setter Property="Margin" Value="5,0" />
-										<Setter Property="Foreground" Value="{StaticResource AvalonDock_Expression_BaseColor2}" />
-										<Setter Property="FontWeight" Value="Bold" />
+										<Setter Property="Margin" Value="5,0"/>
+										<Setter Property="Foreground" Value="{StaticResource AvalonDock_Expression_BaseColor2}"/>
+										<Setter Property="FontWeight" Value="Bold"/>
 									</Style>
 									<Style TargetType="Border">
-										<Setter Property="BorderThickness" Value="0" />
-										<Setter Property="Background" Value="{StaticResource AvalonDock_Expression_BaseColor5}" />
+										<Setter Property="BorderThickness" Value="0 0 0 1"/>
+                                        <Setter Property="Padding" Value="8 4 8 4"/>
+                                        <Setter Property="BorderBrush" Value="{StaticResource AvalonDock_Expression_BaseColor2}"/>
+                                        <Setter Property="Background" Value="{StaticResource AvalonDock_Expression_BaseColor4}"/>
 									</Style>
 								</Grid.Resources>
 								<Border Grid.Column="0">
@@ -133,7 +161,7 @@
 		</ScrollViewer>
 		<Border Grid.Row="2"
 				Padding="8 4 8 4"
-				Background="{StaticResource AvalonDock_Expression_BaseColor4}">
+				Background="{StaticResource AvalonDock_Expression_BaseColor1}">
 			<Grid>
 				<Grid.ColumnDefinitions>
 					<ColumnDefinition Width="Auto"/>
@@ -197,6 +225,25 @@
 					</MenuItem>
 				</Menu>
 			</Grid>
-		</Border>
-	</Grid>
+        </Border>
+        <Border Grid.Row="3"
+				Padding="8 4 8 4"
+				Background="{StaticResource AvalonDock_Expression_BaseColor1}">
+            <WrapPanel 
+                   HorizontalAlignment="Center">
+                <TextBlock Foreground="{StaticResource AvalonDock_Expression_BaseColor2}"
+						   Text="{Binding ResultSize}">
+                </TextBlock>
+                <TextBlock Foreground="{StaticResource AvalonDock_Expression_BaseColor2}"
+						   Text=" - (Count: ">
+                </TextBlock>
+                <TextBlock Foreground="{StaticResource AvalonDock_Expression_BaseColor2}"
+						   Text="{Binding ResultCount}">
+                </TextBlock>
+                <TextBlock Foreground="{StaticResource AvalonDock_Expression_BaseColor2}"
+						   Text=")">
+                </TextBlock>
+            </WrapPanel>
+        </Border>
+    </Grid>
 </UserControl>
