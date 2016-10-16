@@ -1,116 +1,93 @@
-﻿using Ana.Source.Engine;
-using Ana.Source.Engine.Architecture.Disassembler.SharpDisasm;
-using Ana.Source.Engine.OperatingSystems;
-using Ana.Source.Utils.Extensions;
-using Ana.Source.Utils.Validation;
-using System;
-using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.Linq;
-
-namespace Ana.Source.LuaEngine.Memory
+﻿namespace Ana.Source.LuaEngine.Memory
 {
+    using Engine;
+    using Engine.Architecture.Disassembler.SharpDisasm;
+    using Engine.OperatingSystems;
+    using System;
+    using System.Collections.Concurrent;
+    using System.Collections.Generic;
+    using System.Linq;
+    using Utils.Extensions;
+    using Utils.Validation;
+
     internal class LuaMemoryCore : IMemoryCore
     {
-        private static ConcurrentDictionary<String, String> GlobalKeywords;
-        private ConcurrentDictionary<String, String> Keywords;
-        private List<UInt64> RemoteAllocations;
-        private List<CodeCave> CodeCaves;
-
         private const Int32 JumpSize = 5;
-
-        private struct CodeCave
-        {
-            public Byte[] OriginalBytes;
-            public UInt64 RemoteAllocation;
-            public UInt64 Entry;
-
-            public CodeCave(UInt64 RemoteAllocation, Byte[] OriginalBytes, UInt64 Entry)
-            {
-                this.RemoteAllocation = RemoteAllocation;
-                this.OriginalBytes = OriginalBytes;
-                this.Entry = Entry;
-            }
-        }
+        private const Int32 Largestx86InstructionSize = 15;
 
         public LuaMemoryCore()
         {
-            GlobalKeywords = new ConcurrentDictionary<String, String>();
-            RemoteAllocations = new List<UInt64>();
-            Keywords = new ConcurrentDictionary<String, String>();
-            CodeCaves = new List<CodeCave>();
+            LuaMemoryCore.GlobalKeywords = new ConcurrentDictionary<String, String>();
+            this.RemoteAllocations = new List<UInt64>();
+            this.Keywords = new ConcurrentDictionary<String, String>();
+            this.CodeCaves = new List<CodeCave>();
         }
 
-        private String ResolveKeywords(String Assembly)
-        {
-            if (Assembly == null)
-                return String.Empty;
+        private static ConcurrentDictionary<String, String> GlobalKeywords { get; set; }
 
-            Assembly = Assembly.Replace("\t", "");
+        private ConcurrentDictionary<String, String> Keywords { get; set; }
 
-            // Resolve keywords
-            foreach (KeyValuePair<String, String> Keyword in Keywords)
-                Assembly = Assembly.Replace(Keyword.Key, Keyword.Value);
+        private List<UInt64> RemoteAllocations { get; set; }
 
-            foreach (KeyValuePair<String, String> GlobalKeyword in GlobalKeywords)
-                Assembly = Assembly.Replace(GlobalKeyword.Key, GlobalKeyword.Value);
+        private List<CodeCave> CodeCaves { get; set; }
 
-            return Assembly;
-        }
-
-        public Byte[] GetInstructionBytes(UInt64 Address, Int32 MinimumInstructionBytes)
+        public Byte[] GetInstructionBytes(UInt64 address, Int32 minimumInstructionBytes)
         {
             this.PrintDebugTag();
-
-            const Int32 Largestx86InstructionSize = 15;
 
             // Read original bytes at code cave jump
-            Boolean ReadSuccess;
+            Boolean readSuccess;
 
-            Byte[] OriginalBytes = EngineCore.GetInstance().OperatingSystemAdapter.ReadBytes(Address.ToIntPtr(), Largestx86InstructionSize, out ReadSuccess);
+            Byte[] originalBytes = EngineCore.GetInstance().OperatingSystemAdapter.ReadBytes(address.ToIntPtr(), LuaMemoryCore.Largestx86InstructionSize, out readSuccess);
 
-            if (!ReadSuccess || OriginalBytes == null || OriginalBytes.Length <= 0)
-                return null;
-
-            // Grab instructions at code entry point
-            List<Instruction> Instructions = EngineCore.GetInstance().Architecture.GetDisassembler().Disassemble(OriginalBytes, EngineCore.GetInstance().Processes.IsOpenedProcess32Bit(), Address.ToIntPtr());
-
-            // Determine size of instructions we need to overwrite
-            Int32 ReplacedInstructionSize = 0;
-            foreach (Instruction Instruction in Instructions)
+            if (!readSuccess || originalBytes == null || originalBytes.Length <= 0)
             {
-                ReplacedInstructionSize += Instruction.Length;
-                if (ReplacedInstructionSize >= MinimumInstructionBytes)
-                    break;
+                return null;
             }
 
-            if (ReplacedInstructionSize < MinimumInstructionBytes)
+            // Grab instructions at code entry point
+            List<Instruction> instructions = EngineCore.GetInstance().Architecture.GetDisassembler().Disassemble(originalBytes, EngineCore.GetInstance().Processes.IsOpenedProcess32Bit(), address.ToIntPtr());
+
+            // Determine size of instructions we need to overwrite
+            Int32 replacedInstructionSize = 0;
+            foreach (Instruction instruction in instructions)
+            {
+                replacedInstructionSize += instruction.Length;
+                if (replacedInstructionSize >= minimumInstructionBytes)
+                {
+                    break;
+                }
+            }
+
+            if (replacedInstructionSize < minimumInstructionBytes)
+            {
                 return null;
+            }
 
             // Truncate to only the bytes we will need to save
-            OriginalBytes = OriginalBytes.LargestSubArray(0, ReplacedInstructionSize);
+            originalBytes = originalBytes.LargestSubArray(0, replacedInstructionSize);
 
-            return OriginalBytes;
+            return originalBytes;
         }
 
-        public Int32 GetAssemblySize(String Assembly, UInt64 Address)
+        public Int32 GetAssemblySize(String assembly, UInt64 address)
         {
             this.PrintDebugTag();
 
-            Assembly = ResolveKeywords(Assembly);
+            assembly = this.ResolveKeywords(assembly);
 
-            Byte[] Bytes = EngineCore.GetInstance().Architecture.GetAssembler().Assemble(EngineCore.GetInstance().Processes.IsOpenedProcess32Bit(), Assembly, Address.ToIntPtr());
+            Byte[] bytes = EngineCore.GetInstance().Architecture.GetAssembler().Assemble(EngineCore.GetInstance().Processes.IsOpenedProcess32Bit(), assembly, address.ToIntPtr());
 
-            return (Bytes == null ? 0 : Bytes.Length);
+            return bytes == null ? 0 : bytes.Length;
         }
 
-        public Byte[] GetAssemblyBytes(String Assembly, UInt64 Address)
+        public Byte[] GetAssemblyBytes(String assembly, UInt64 address)
         {
             this.PrintDebugTag();
 
-            Assembly = ResolveKeywords(Assembly);
+            assembly = this.ResolveKeywords(assembly);
 
-            return EngineCore.GetInstance().Architecture.GetAssembler().Assemble(EngineCore.GetInstance().Processes.IsOpenedProcess32Bit(), Assembly, Address.ToIntPtr());
+            return EngineCore.GetInstance().Architecture.GetAssembler().Assemble(EngineCore.GetInstance().Processes.IsOpenedProcess32Bit(), assembly, address.ToIntPtr());
         }
 
         public UInt64 GetModuleAddress(String moduleName)
@@ -119,40 +96,40 @@ namespace Ana.Source.LuaEngine.Memory
 
             moduleName = moduleName?.Split('.')?.First();
 
-            UInt64 Address = 0;
+            UInt64 address = 0;
             foreach (NormalizedModule module in EngineCore.GetInstance().OperatingSystemAdapter.GetModules())
             {
                 String targetModuleName = module?.Name?.Split('.')?.First();
                 if (targetModuleName.Equals(moduleName, StringComparison.OrdinalIgnoreCase))
                 {
-                    Address = module.BaseAddress.ToUInt64();
+                    address = module.BaseAddress.ToUInt64();
                     break;
                 }
             }
 
-            return Address;
+            return address;
         }
 
-        public UInt64 AllocateMemory(Int32 Size)
+        public UInt64 AllocateMemory(Int32 size)
         {
             this.PrintDebugTag();
 
-            UInt64 Address = EngineCore.GetInstance().OperatingSystemAdapter.AllocateMemory(Size).ToUInt64();
-            RemoteAllocations.Add(Address);
+            UInt64 address = EngineCore.GetInstance().OperatingSystemAdapter.AllocateMemory(size).ToUInt64();
+            this.RemoteAllocations.Add(address);
 
-            return Address;
+            return address;
         }
 
-        public void DeallocateMemory(UInt64 Address)
+        public void DeallocateMemory(UInt64 address)
         {
             this.PrintDebugTag();
 
-            foreach (UInt64 AllocationAddress in RemoteAllocations)
+            foreach (UInt64 allocationAddress in this.RemoteAllocations)
             {
-                if (AllocationAddress == Address)
+                if (allocationAddress == address)
                 {
-                    EngineCore.GetInstance().OperatingSystemAdapter.DeallocateMemory(AllocationAddress.ToIntPtr());
-                    RemoteAllocations.Remove(AllocationAddress);
+                    EngineCore.GetInstance().OperatingSystemAdapter.DeallocateMemory(allocationAddress.ToIntPtr());
+                    this.RemoteAllocations.Remove(allocationAddress);
                     break;
                 }
             }
@@ -164,114 +141,125 @@ namespace Ana.Source.LuaEngine.Memory
         {
             this.PrintDebugTag();
 
-            foreach (UInt64 Address in RemoteAllocations)
-                EngineCore.GetInstance().OperatingSystemAdapter.DeallocateMemory(Address.ToIntPtr());
+            foreach (UInt64 address in this.RemoteAllocations)
+            {
+                EngineCore.GetInstance().OperatingSystemAdapter.DeallocateMemory(address.ToIntPtr());
+            }
 
-            RemoteAllocations.Clear();
+            this.RemoteAllocations.Clear();
         }
 
-        public UInt64 CreateCodeCave(UInt64 Entry, String Assembly)
+        public UInt64 CreateCodeCave(UInt64 entry, String assembly)
         {
             this.PrintDebugTag();
 
-            Assembly = ResolveKeywords(Assembly);
+            assembly = this.ResolveKeywords(assembly);
 
-            Int32 AssemblySize = GetAssemblySize(Assembly, Entry);
+            Int32 assemblySize = this.GetAssemblySize(assembly, entry);
 
             // Handle case where allocation is not needed
-            if (AssemblySize < JumpSize)
+            if (assemblySize < LuaMemoryCore.JumpSize)
             {
-                Byte[] OriginalBytes = GetInstructionBytes(Entry, AssemblySize);
+                Byte[] originalBytes = this.GetInstructionBytes(entry, assemblySize);
 
-                if (OriginalBytes == null)
+                if (originalBytes == null)
+                {
                     throw new Exception("Could not gather original bytes");
+                }
 
                 // Determine number of no-ops to fill dangling bytes
-                String NoOps = (OriginalBytes.Length - AssemblySize > 0 ? "db " : String.Empty) + String.Join(" ", Enumerable.Repeat("0x90,", OriginalBytes.Length - AssemblySize)).TrimEnd(',');
+                String noOps = (originalBytes.Length - assemblySize > 0 ? "db " : String.Empty) + String.Join(" ", Enumerable.Repeat("0x90,", originalBytes.Length - assemblySize)).TrimEnd(',');
 
-                Byte[] InjectionBytes = EngineCore.GetInstance().Architecture.GetAssembler().Assemble(EngineCore.GetInstance().Processes.IsOpenedProcess32Bit(), Assembly + "\n" + NoOps, Entry.ToIntPtr());
-                EngineCore.GetInstance().OperatingSystemAdapter.WriteBytes(Entry.ToIntPtr(), InjectionBytes);
+                Byte[] injectionBytes = EngineCore.GetInstance().Architecture.GetAssembler().Assemble(EngineCore.GetInstance().Processes.IsOpenedProcess32Bit(), assembly + "\n" + noOps, entry.ToIntPtr());
+                EngineCore.GetInstance().OperatingSystemAdapter.WriteBytes(entry.ToIntPtr(), injectionBytes);
 
-                CodeCave CodeCave = new CodeCave(Entry, OriginalBytes, Entry);
-                CodeCaves.Add(CodeCave);
+                CodeCave codeCave = new CodeCave(entry, originalBytes, entry);
+                this.CodeCaves.Add(codeCave);
 
-                return Entry;
+                return entry;
             }
             else
             {
-                Byte[] OriginalBytes = GetInstructionBytes(Entry, JumpSize);
+                Byte[] originalBytes = this.GetInstructionBytes(entry, LuaMemoryCore.JumpSize);
 
-                if (OriginalBytes == null)
+                if (originalBytes == null)
+                {
                     throw new Exception("Could not gather original bytes");
+                }
 
                 // Not able to collect enough bytes to even place a jump!
-                if (OriginalBytes.Length < JumpSize)
+                if (originalBytes.Length < LuaMemoryCore.JumpSize)
+                {
                     throw new Exception("Not enough bytes at address to jump");
+                }
 
                 // Determine number of no-ops to fill dangling bytes
-                String NoOps = (OriginalBytes.Length - JumpSize > 0 ? "db " : String.Empty) + String.Join(" ", Enumerable.Repeat("0x90,", OriginalBytes.Length - JumpSize)).TrimEnd(',');
+                String noOps = (originalBytes.Length - LuaMemoryCore.JumpSize > 0 ? "db " : String.Empty) + String.Join(" ", Enumerable.Repeat("0x90,", originalBytes.Length - JumpSize)).TrimEnd(',');
 
                 // Allocate memory
-                UInt64 RemoteAllocation = EngineCore.GetInstance().OperatingSystemAdapter.AllocateMemory(AssemblySize).ToUInt64();
-                RemoteAllocations.Add(RemoteAllocation);
+                UInt64 remoteAllocation = EngineCore.GetInstance().OperatingSystemAdapter.AllocateMemory(assemblySize).ToUInt64();
+                this.RemoteAllocations.Add(remoteAllocation);
 
                 // Write injected code to new page
-                Byte[] InjectionBytes = EngineCore.GetInstance().Architecture.GetAssembler().Assemble(EngineCore.GetInstance().Processes.IsOpenedProcess32Bit(), Assembly, RemoteAllocation.ToIntPtr());
-                EngineCore.GetInstance().OperatingSystemAdapter.WriteBytes(RemoteAllocation.ToIntPtr(), InjectionBytes);
+                Byte[] injectionBytes = EngineCore.GetInstance().Architecture.GetAssembler().Assemble(EngineCore.GetInstance().Processes.IsOpenedProcess32Bit(), assembly, remoteAllocation.ToIntPtr());
+                EngineCore.GetInstance().OperatingSystemAdapter.WriteBytes(remoteAllocation.ToIntPtr(), injectionBytes);
 
                 // Write in the jump to the code cave
-                String CodeCaveJump = "jmp " + "0x" + Conversions.ToAddress(RemoteAllocation) + "\n" + NoOps;
-                Byte[] JumpBytes = EngineCore.GetInstance().Architecture.GetAssembler().Assemble(EngineCore.GetInstance().Processes.IsOpenedProcess32Bit(), CodeCaveJump, Entry.ToIntPtr());
-                EngineCore.GetInstance().OperatingSystemAdapter.WriteBytes(Entry.ToIntPtr(), JumpBytes);
+                String codeCaveJump = "jmp " + "0x" + Conversions.ToAddress(remoteAllocation) + "\n" + noOps;
+                Byte[] jumpBytes = EngineCore.GetInstance().Architecture.GetAssembler().Assemble(EngineCore.GetInstance().Processes.IsOpenedProcess32Bit(), codeCaveJump, entry.ToIntPtr());
+                EngineCore.GetInstance().OperatingSystemAdapter.WriteBytes(entry.ToIntPtr(), jumpBytes);
 
                 // Save this code cave for later deallocation
-                CodeCave CodeCave = new CodeCave(RemoteAllocation, OriginalBytes, Entry);
-                CodeCaves.Add(CodeCave);
+                CodeCave codeCave = new CodeCave(remoteAllocation, originalBytes, entry);
+                this.CodeCaves.Add(codeCave);
 
-                return RemoteAllocation;
+                return remoteAllocation;
             }
         }
 
-        public UInt64 GetCaveExitAddress(UInt64 Address)
+        public UInt64 GetCaveExitAddress(UInt64 address)
         {
             this.PrintDebugTag();
 
-            Byte[] OriginalBytes = GetInstructionBytes(Address, JumpSize);
-            Int32 OriginalByteSize;
+            Byte[] originalBytes = this.GetInstructionBytes(address, LuaMemoryCore.JumpSize);
+            Int32 originalByteSize;
 
-            if (OriginalBytes != null && OriginalBytes.Length < JumpSize)
+            if (originalBytes != null && originalBytes.Length < LuaMemoryCore.JumpSize)
             {
                 // Determine the size of the minimum number of instructions we will be overwriting
-                OriginalByteSize = OriginalBytes.Length;
+                originalByteSize = originalBytes.Length;
             }
             else
             {
                 // Fall back if something goes wrong
-                OriginalByteSize = JumpSize;
+                originalByteSize = LuaMemoryCore.JumpSize;
             }
 
-            Address = Address.ToIntPtr().Add(OriginalByteSize).ToUInt64();
+            address = address.ToIntPtr().Add(originalByteSize).ToUInt64();
 
-            return Address;
+            return address;
         }
 
-        public void RemoveCodeCave(UInt64 Address)
+        public void RemoveCodeCave(UInt64 address)
         {
             this.PrintDebugTag();
 
-            foreach (CodeCave CodeCave in CodeCaves)
+            foreach (CodeCave codeCave in this.CodeCaves)
             {
-                if (CodeCave.Entry != Address)
+                if (codeCave.Entry != address)
+                {
                     continue;
+                }
 
-                EngineCore.GetInstance().OperatingSystemAdapter.WriteBytes(CodeCave.Entry.ToIntPtr(), CodeCave.OriginalBytes);
+                EngineCore.GetInstance().OperatingSystemAdapter.WriteBytes(codeCave.Entry.ToIntPtr(), codeCave.OriginalBytes);
 
                 // If these are equal, the cave is an in-place edit and not an allocation
-                if (CodeCave.Entry == CodeCave.RemoteAllocation)
+                if (codeCave.Entry == codeCave.RemoteAllocation)
+                {
                     continue;
+                }
 
-                EngineCore.GetInstance().OperatingSystemAdapter.DeallocateMemory(CodeCave.RemoteAllocation.ToIntPtr());
-
+                EngineCore.GetInstance().OperatingSystemAdapter.DeallocateMemory(codeCave.RemoteAllocation.ToIntPtr());
             }
         }
 
@@ -279,255 +267,301 @@ namespace Ana.Source.LuaEngine.Memory
         {
             this.PrintDebugTag();
 
-            foreach (CodeCave CodeCave in CodeCaves)
+            foreach (CodeCave codeCave in this.CodeCaves)
             {
-                EngineCore.GetInstance().OperatingSystemAdapter.WriteBytes(CodeCave.Entry.ToIntPtr(), CodeCave.OriginalBytes);
+                EngineCore.GetInstance().OperatingSystemAdapter.WriteBytes(codeCave.Entry.ToIntPtr(), codeCave.OriginalBytes);
 
                 // If these are equal, the cave is an in-place edit and not an allocation
-                if (CodeCave.Entry == CodeCave.RemoteAllocation)
+                if (codeCave.Entry == codeCave.RemoteAllocation)
+                {
                     continue;
+                }
 
-                EngineCore.GetInstance().OperatingSystemAdapter.DeallocateMemory(CodeCave.RemoteAllocation.ToIntPtr());
+                EngineCore.GetInstance().OperatingSystemAdapter.DeallocateMemory(codeCave.RemoteAllocation.ToIntPtr());
             }
-            CodeCaves.Clear();
+
+            this.CodeCaves.Clear();
         }
 
-        public void SetKeyword(String Keyword, UInt64 Address)
+        public void SetKeyword(String keyword, UInt64 address)
         {
-            this.PrintDebugTag(Keyword, Address.ToString("x"));
-            String Mapping = "0x" + Conversions.ToAddress(Address);
-            Keywords[Keyword] = Mapping;
+            this.PrintDebugTag(keyword, address.ToString("x"));
+
+            String mapping = "0x" + Conversions.ToAddress(address);
+            this.Keywords[keyword] = mapping;
         }
 
-        public void SetGlobalKeyword(String GlobalKeyword, UInt64 Address)
+        public void SetGlobalKeyword(String globalKeyword, UInt64 address)
         {
-            this.PrintDebugTag(GlobalKeyword, Address.ToString("x"));
+            this.PrintDebugTag(globalKeyword, address.ToString("x"));
 
-            GlobalKeywords[GlobalKeyword] = "0x" + Conversions.ToAddress(Address);
+            LuaMemoryCore.GlobalKeywords[globalKeyword] = "0x" + Conversions.ToAddress(address);
         }
 
-        public void ClearKeyword(String Keyword)
+        public void ClearKeyword(String keyword)
         {
-            this.PrintDebugTag(Keyword);
+            this.PrintDebugTag(keyword);
 
-            String Result;
-            if (Keywords.ContainsKey(Keyword))
-                Keywords.TryRemove(Keyword, out Result);
+            String result;
+            if (this.Keywords.ContainsKey(keyword))
+            {
+                this.Keywords.TryRemove(keyword, out result);
+            }
         }
 
-        public void ClearGlobalKeyword(String GlobalKeyword)
+        public void ClearGlobalKeyword(String globalKeyword)
         {
-            this.PrintDebugTag(GlobalKeyword);
+            this.PrintDebugTag(globalKeyword);
 
-            String ValueRemoved;
-            if (GlobalKeywords.ContainsKey(GlobalKeyword))
-                GlobalKeywords.TryRemove(GlobalKeyword, out ValueRemoved);
+            String valueRemoved;
+            if (LuaMemoryCore.GlobalKeywords.ContainsKey(globalKeyword))
+            {
+                LuaMemoryCore.GlobalKeywords.TryRemove(globalKeyword, out valueRemoved);
+            }
         }
 
         public void ClearAllKeywords()
         {
             this.PrintDebugTag();
 
-            Keywords.Clear();
+            this.Keywords.Clear();
         }
 
         public void ClearAllGlobalKeywords()
         {
             this.PrintDebugTag();
 
-            GlobalKeywords.Clear();
+            LuaMemoryCore.GlobalKeywords.Clear();
         }
 
-        public UInt64 SearchAOB(Byte[] Bytes)
+        public UInt64 SearchAOB(Byte[] bytes)
         {
             this.PrintDebugTag();
 
-            UInt64 Address = EngineCore.GetInstance().OperatingSystemAdapter.SearchAob(Bytes).ToUInt64();
-            return Address;
+            UInt64 address = EngineCore.GetInstance().OperatingSystemAdapter.SearchAob(bytes).ToUInt64();
+            return address;
         }
 
-        public UInt64 SearchAOB(String Pattern)
+        public UInt64 SearchAOB(String pattern)
         {
-            this.PrintDebugTag(Pattern);
+            this.PrintDebugTag(pattern);
 
-            return EngineCore.GetInstance().OperatingSystemAdapter.SearchAob(Pattern).ToUInt64();
+            return EngineCore.GetInstance().OperatingSystemAdapter.SearchAob(pattern).ToUInt64();
         }
 
-        public UInt64[] SearchAllAOB(String Pattern)
+        public UInt64[] SearchAllAob(String pattern)
         {
-            this.PrintDebugTag(Pattern);
-            List<IntPtr> Aobs = new List<IntPtr>(EngineCore.GetInstance().OperatingSystemAdapter.SearchllAob(Pattern));
-            List<UInt64> ConvertedAOBs = new List<UInt64>();
-            Aobs.ForEach(x => ConvertedAOBs.Add(x.ToUInt64()));
-            return ConvertedAOBs.ToArray();
+            this.PrintDebugTag(pattern);
+            List<IntPtr> aobResults = new List<IntPtr>(EngineCore.GetInstance().OperatingSystemAdapter.SearchllAob(pattern));
+            List<UInt64> convertedAobs = new List<UInt64>();
+            aobResults.ForEach(x => convertedAobs.Add(x.ToUInt64()));
+            return convertedAobs.ToArray();
         }
 
-        public SByte ReadSByte(UInt64 Address)
+        public SByte ReadSByte(UInt64 address)
         {
-            this.PrintDebugTag(Address.ToString("x"));
+            this.PrintDebugTag(address.ToString("x"));
 
-            Boolean Success;
-            return EngineCore.GetInstance().OperatingSystemAdapter.Read<SByte>(Address.ToIntPtr(), out Success);
+            Boolean readSuccess;
+            return EngineCore.GetInstance().OperatingSystemAdapter.Read<SByte>(address.ToIntPtr(), out readSuccess);
         }
 
-        public Byte ReadByte(UInt64 Address)
+        public Byte ReadByte(UInt64 address)
         {
-            this.PrintDebugTag(Address.ToString("x"));
+            this.PrintDebugTag(address.ToString("x"));
 
-            Boolean Success;
-            return EngineCore.GetInstance().OperatingSystemAdapter.Read<Byte>(Address.ToIntPtr(), out Success);
+            Boolean readSuccess;
+            return EngineCore.GetInstance().OperatingSystemAdapter.Read<Byte>(address.ToIntPtr(), out readSuccess);
         }
 
-        public Int16 ReadInt16(UInt64 Address)
+        public Int16 ReadInt16(UInt64 address)
         {
-            this.PrintDebugTag(Address.ToString("x"));
+            this.PrintDebugTag(address.ToString("x"));
 
-            Boolean Success;
-            return EngineCore.GetInstance().OperatingSystemAdapter.Read<Int16>(Address.ToIntPtr(), out Success);
+            Boolean readSuccess;
+            return EngineCore.GetInstance().OperatingSystemAdapter.Read<Int16>(address.ToIntPtr(), out readSuccess);
         }
 
-        public Int32 ReadInt32(UInt64 Address)
+        public Int32 ReadInt32(UInt64 address)
         {
-            this.PrintDebugTag(Address.ToString("x"));
+            this.PrintDebugTag(address.ToString("x"));
 
-            Boolean Success;
-            return EngineCore.GetInstance().OperatingSystemAdapter.Read<Int32>(Address.ToIntPtr(), out Success);
+            Boolean readSuccess;
+            return EngineCore.GetInstance().OperatingSystemAdapter.Read<Int32>(address.ToIntPtr(), out readSuccess);
         }
 
-        public Int64 ReadInt64(UInt64 Address)
+        public Int64 ReadInt64(UInt64 address)
         {
-            this.PrintDebugTag(Address.ToString("x"));
+            this.PrintDebugTag(address.ToString("x"));
 
-            Boolean Success;
-            return EngineCore.GetInstance().OperatingSystemAdapter.Read<Int64>(Address.ToIntPtr(), out Success);
+            Boolean readSuccess;
+            return EngineCore.GetInstance().OperatingSystemAdapter.Read<Int64>(address.ToIntPtr(), out readSuccess);
         }
 
-        public UInt16 ReadUInt16(UInt64 Address)
+        public UInt16 ReadUInt16(UInt64 address)
         {
-            this.PrintDebugTag(Address.ToString("x"));
+            this.PrintDebugTag(address.ToString("x"));
 
-            Boolean Success;
-            return EngineCore.GetInstance().OperatingSystemAdapter.Read<UInt16>(Address.ToIntPtr(), out Success);
+            Boolean readSuccess;
+            return EngineCore.GetInstance().OperatingSystemAdapter.Read<UInt16>(address.ToIntPtr(), out readSuccess);
         }
 
-        public UInt32 ReadUInt32(UInt64 Address)
+        public UInt32 ReadUInt32(UInt64 address)
         {
-            this.PrintDebugTag(Address.ToString("x"));
+            this.PrintDebugTag(address.ToString("x"));
 
-            Boolean Success;
-            return EngineCore.GetInstance().OperatingSystemAdapter.Read<UInt32>(Address.ToIntPtr(), out Success);
+            Boolean readSuccess;
+            return EngineCore.GetInstance().OperatingSystemAdapter.Read<UInt32>(address.ToIntPtr(), out readSuccess);
         }
 
-        public UInt64 ReadUInt64(UInt64 Address)
+        public UInt64 ReadUInt64(UInt64 address)
         {
-            this.PrintDebugTag(Address.ToString("x"));
+            this.PrintDebugTag(address.ToString("x"));
 
-            Boolean Success;
-            return EngineCore.GetInstance().OperatingSystemAdapter.Read<UInt64>(Address.ToIntPtr(), out Success);
+            Boolean readSuccess;
+            return EngineCore.GetInstance().OperatingSystemAdapter.Read<UInt64>(address.ToIntPtr(), out readSuccess);
         }
 
-        public Single ReadSingle(UInt64 Address)
+        public Single ReadSingle(UInt64 address)
         {
-            this.PrintDebugTag(Address.ToString("x"));
+            this.PrintDebugTag(address.ToString("x"));
 
-            Boolean Success;
-            return EngineCore.GetInstance().OperatingSystemAdapter.Read<Single>(Address.ToIntPtr(), out Success);
+            Boolean readSuccess;
+            return EngineCore.GetInstance().OperatingSystemAdapter.Read<Single>(address.ToIntPtr(), out readSuccess);
         }
 
-        public Double ReadDouble(UInt64 Address)
+        public Double ReadDouble(UInt64 address)
         {
-            this.PrintDebugTag(Address.ToString("x"));
+            this.PrintDebugTag(address.ToString("x"));
 
-            Boolean Success;
-            return EngineCore.GetInstance().OperatingSystemAdapter.Read<Double>(Address.ToIntPtr(), out Success);
+            Boolean readSuccess;
+            return EngineCore.GetInstance().OperatingSystemAdapter.Read<Double>(address.ToIntPtr(), out readSuccess);
         }
 
-        public Byte[] ReadBytes(UInt64 Address, Int32 Count)
+        public Byte[] ReadBytes(UInt64 address, Int32 count)
         {
-            this.PrintDebugTag(Address.ToString("x"), Count.ToString());
+            this.PrintDebugTag(address.ToString("x"), count.ToString());
 
-            Boolean Success;
-            return EngineCore.GetInstance().OperatingSystemAdapter.ReadBytes(Address.ToIntPtr(), Count, out Success);
+            Boolean readSuccess;
+            return EngineCore.GetInstance().OperatingSystemAdapter.ReadBytes(address.ToIntPtr(), count, out readSuccess);
         }
 
-        // Writing
-        public void WriteSByte(UInt64 Address, SByte Value)
+        public void WriteSByte(UInt64 address, SByte value)
         {
-            this.PrintDebugTag(Address.ToString("x"), Value.ToString());
+            this.PrintDebugTag(address.ToString("x"), value.ToString());
 
-            EngineCore.GetInstance().OperatingSystemAdapter.Write<SByte>(Address.ToIntPtr(), Value);
+            EngineCore.GetInstance().OperatingSystemAdapter.Write<SByte>(address.ToIntPtr(), value);
         }
 
-        public void WriteByte(UInt64 Address, Byte Value)
+        public void WriteByte(UInt64 address, Byte value)
         {
-            this.PrintDebugTag(Address.ToString("x"), Value.ToString());
+            this.PrintDebugTag(address.ToString("x"), value.ToString());
 
-            EngineCore.GetInstance().OperatingSystemAdapter.Write<Byte>(Address.ToIntPtr(), Value);
+            EngineCore.GetInstance().OperatingSystemAdapter.Write<Byte>(address.ToIntPtr(), value);
         }
 
-        public void WriteInt16(UInt64 Address, Int16 Value)
+        public void WriteInt16(UInt64 address, Int16 value)
         {
-            this.PrintDebugTag(Address.ToString("x"), Value.ToString());
+            this.PrintDebugTag(address.ToString("x"), value.ToString());
 
-            EngineCore.GetInstance().OperatingSystemAdapter.Write<Int16>(Address.ToIntPtr(), Value);
+            EngineCore.GetInstance().OperatingSystemAdapter.Write<Int16>(address.ToIntPtr(), value);
         }
 
-        public void WriteInt32(UInt64 Address, Int32 Value)
+        public void WriteInt32(UInt64 address, Int32 value)
         {
-            this.PrintDebugTag(Address.ToString("x"), Value.ToString());
+            this.PrintDebugTag(address.ToString("x"), value.ToString());
 
-            EngineCore.GetInstance().OperatingSystemAdapter.Write<Int32>(Address.ToIntPtr(), Value);
+            EngineCore.GetInstance().OperatingSystemAdapter.Write<Int32>(address.ToIntPtr(), value);
         }
 
-        public void WriteInt64(UInt64 Address, Int64 Value)
+        public void WriteInt64(UInt64 address, Int64 value)
         {
-            this.PrintDebugTag(Address.ToString("x"), Value.ToString());
+            this.PrintDebugTag(address.ToString("x"), value.ToString());
 
-            EngineCore.GetInstance().OperatingSystemAdapter.Write<Int64>(Address.ToIntPtr(), Value);
+            EngineCore.GetInstance().OperatingSystemAdapter.Write<Int64>(address.ToIntPtr(), value);
         }
 
-        public void WriteUInt16(UInt64 Address, UInt16 Value)
+        public void WriteUInt16(UInt64 address, UInt16 value)
         {
-            this.PrintDebugTag(Address.ToString("x"), Value.ToString());
+            this.PrintDebugTag(address.ToString("x"), value.ToString());
 
-            EngineCore.GetInstance().OperatingSystemAdapter.Write<UInt16>(Address.ToIntPtr(), Value);
+            EngineCore.GetInstance().OperatingSystemAdapter.Write<UInt16>(address.ToIntPtr(), value);
         }
 
-        public void WriteUInt32(UInt64 Address, UInt32 Value)
+        public void WriteUInt32(UInt64 address, UInt32 value)
         {
-            this.PrintDebugTag(Address.ToString("x"), Value.ToString());
+            this.PrintDebugTag(address.ToString("x"), value.ToString());
 
-            EngineCore.GetInstance().OperatingSystemAdapter.Write<UInt32>(Address.ToIntPtr(), Value);
+            EngineCore.GetInstance().OperatingSystemAdapter.Write<UInt32>(address.ToIntPtr(), value);
         }
 
-        public void WriteUInt64(UInt64 Address, UInt64 Value)
+        public void WriteUInt64(UInt64 address, UInt64 value)
         {
-            this.PrintDebugTag(Address.ToString("x"), Value.ToString());
+            this.PrintDebugTag(address.ToString("x"), value.ToString());
 
-            EngineCore.GetInstance().OperatingSystemAdapter.Write<UInt64>(Address.ToIntPtr(), Value);
+            EngineCore.GetInstance().OperatingSystemAdapter.Write<UInt64>(address.ToIntPtr(), value);
         }
 
-        public void WriteSingle(UInt64 Address, Single Value)
+        public void WriteSingle(UInt64 address, Single value)
         {
-            this.PrintDebugTag(Address.ToString("x"), Value.ToString());
+            this.PrintDebugTag(address.ToString("x"), value.ToString());
 
-            EngineCore.GetInstance().OperatingSystemAdapter.Write<Single>(Address.ToIntPtr(), Value);
+            EngineCore.GetInstance().OperatingSystemAdapter.Write<Single>(address.ToIntPtr(), value);
         }
 
-        public void WriteDouble(UInt64 Address, Double Value)
+        public void WriteDouble(UInt64 address, Double value)
         {
-            this.PrintDebugTag(Address.ToString("x"), Value.ToString());
+            this.PrintDebugTag(address.ToString("x"), value.ToString());
 
-            EngineCore.GetInstance().OperatingSystemAdapter.Write<Double>(Address.ToIntPtr(), Value);
+            EngineCore.GetInstance().OperatingSystemAdapter.Write<Double>(address.ToIntPtr(), value);
         }
 
-        public void WriteBytes(UInt64 Address, Byte[] Values)
+        public void WriteBytes(UInt64 address, Byte[] values)
         {
-            this.PrintDebugTag(Address.ToString("x"));
+            this.PrintDebugTag(address.ToString("x"));
 
-            EngineCore.GetInstance().OperatingSystemAdapter.WriteBytes(Address.ToIntPtr(), Values);
+            EngineCore.GetInstance().OperatingSystemAdapter.WriteBytes(address.ToIntPtr(), values);
         }
 
-    } // End interface
+        private String ResolveKeywords(String assembly)
+        {
+            if (assembly == null)
+            {
+                return String.Empty;
+            }
 
-} // End namespace
+            assembly = assembly.Replace("\t", String.Empty);
+
+            // Resolve keywords
+            foreach (KeyValuePair<String, String> keyword in this.Keywords)
+            {
+                assembly = assembly.Replace(keyword.Key, keyword.Value);
+            }
+
+            foreach (KeyValuePair<String, String> globalKeyword in LuaMemoryCore.GlobalKeywords)
+            {
+                assembly = assembly.Replace(globalKeyword.Key, globalKeyword.Value);
+            }
+
+            return assembly;
+        }
+
+        private struct CodeCave
+        {
+            public CodeCave(UInt64 remoteAllocation, Byte[] originalBytes, UInt64 entry)
+            {
+                this.RemoteAllocation = remoteAllocation;
+                this.OriginalBytes = originalBytes;
+                this.Entry = entry;
+            }
+
+            public Byte[] OriginalBytes { get; set; }
+
+            public UInt64 RemoteAllocation { get; set; }
+
+            public UInt64 Entry { get; set; }
+        }
+    }
+    //// End interface
+}
+//// End namespace

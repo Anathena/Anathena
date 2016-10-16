@@ -1,15 +1,19 @@
-﻿using System;
-
-namespace Ana.Source.LuaEngine.Graphics
+﻿namespace Ana.Source.LuaEngine.Graphics
 {
+    using System;
+
     internal interface IGraphicsCore
     {
-        Guid CreateText(String Text, Int32 LocationX, Int32 LocationY);
-        Guid CreateImage(String Path, Int32 LocationX, Int32 LocationY);
-        void DestroyObject(Guid Guid);
-        void ShowObject(Guid Guid);
-        void HideObject(Guid Guid);
+        Guid CreateText(String text, Int32 locationX, Int32 locationY);
 
-    } // End interface
+        Guid CreateImage(String path, Int32 locationX, Int32 locationY);
 
-} // End namespace
+        void DestroyObject(Guid guid);
+
+        void ShowObject(Guid guid);
+
+        void HideObject(Guid guid);
+    }
+    //// End interface
+}
+//// End namespace

@@ -201,7 +201,7 @@
         /// </summary>
         private void StartScan()
         {
-            ManualScannerModel.SetScanConstraintManager(scanConstraintManager);
+            ManualScannerModel.SetScanConstraintManager(this.scanConstraintManager);
             ManualScannerModel.Begin();
         }
 

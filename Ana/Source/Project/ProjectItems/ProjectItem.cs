@@ -1,24 +1,24 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Linq;
-using System.Reflection;
-using System.Runtime.Serialization;
-
-namespace Ana.Source.Project.ProjectItems
+﻿namespace Ana.Source.Project.ProjectItems
 {
+    using System;
+    using System.Collections.Generic;
+    using System.ComponentModel;
+    using System.Drawing;
+    using System.Linq;
+    using System.Reflection;
+    using System.Runtime.Serialization;
+
     [Obfuscation(ApplyToMembers = true, Exclude = true)]
     [KnownType(typeof(ProjectItem))]
     [KnownType(typeof(FolderItem))]
     [KnownType(typeof(ScriptItem))]
     [KnownType(typeof(AddressItem))]
-    //[KnownType(typeof(IHotKey))]
-    //[KnownType(typeof(KeyboardHotKey))]
-    //[KnownType(typeof(ControllerHotKey))]
-    //[KnownType(typeof(MouseHotKey))]
-    [DataContract()]
-    public abstract class ProjectItem // : IKeyboardObserver, IControllerObserver, IMouseObserver
+    //// [KnownType(typeof(IHotKey))]
+    //// [KnownType(typeof(KeyboardHotKey))]
+    //// [KnownType(typeof(ControllerHotKey))]
+    //// [KnownType(typeof(MouseHotKey))]
+    [DataContract]
+    public abstract class ProjectItem //// : IKeyboardObserver, IControllerObserver, IMouseObserver
     {
         [Browsable(false)]
         private const Int32 HotKeyDelay = 400;
@@ -27,65 +27,90 @@ namespace Ana.Source.Project.ProjectItems
         private ProjectItem parent;
 
         [Browsable(false)]
+        private List<ProjectItem> children;
+
+        [Browsable(false)]
+        private String description;
+
+        [DataMember]
+        [Browsable(false)]
+        private UInt32 textColorArgb;
+
+        /*
+        [Browsable(false)]
+        private IEnumerable<IHotKey> _HotKeys;
+        */
+
+        public ProjectItem() : this(String.Empty)
+        {
+        }
+
+        public ProjectItem(String description)
+        {
+            // Bypass setters/getters to avoid triggering any GUI updates in constructor
+            this.description = description == null ? String.Empty : description;
+            this.parent = null;
+            this.children = new List<ProjectItem>();
+            this.textColorArgb = unchecked((UInt32)SystemColors.ControlText.ToArgb());
+            this.Activated = false;
+        }
+
+        [Browsable(false)]
         public ProjectItem Parent
         {
             get
             {
-                return parent;
+                return this.parent;
             }
 
             set
             {
-                parent = value;
-
+                this.parent = value;
                 ProjectExplorer.GetInstance().ProjectChanged();
             }
         }
 
-        [Browsable(false)]
-        private List<ProjectItem> children;
-
-        [DataMember()]
+        [DataMember]
         [Browsable(false)]
         public List<ProjectItem> Children
         {
             get
             {
-                if (children == null)
+                if (this.children == null)
                 {
-                    children = new List<ProjectItem>();
+                    this.children = new List<ProjectItem>();
                 }
 
-                return children;
+                return this.children;
             }
+
             set
             {
-                children = value;
+                this.children = value;
 
                 ProjectExplorer.GetInstance().ProjectChanged();
             }
         }
 
-        [Browsable(false)]
-        private String description;
-
-        [DataMember()]
+        [DataMember]
         [Category("Properties"), DisplayName("Description"), Description("Description to be shown for the Project Items")]
         public String Description
         {
-            get { return description; }
+            get
+            {
+                return this.description;
+            }
+
             set
             {
-                description = value; UpdateEntryVisual();
+                this.description = value;
+                this.UpdateEntryVisual();
 
                 ProjectExplorer.GetInstance().ProjectChanged();
             }
         }
 
         /*
-        [Browsable(false)]
-        private IEnumerable<IHotKey> _HotKeys;
-
         [DataMember()]
         [Category("Properties"), DisplayName("HotKeys"), Description("Hot key to activate item")]
         public IEnumerable<IHotKey> HotKeys
@@ -99,17 +124,18 @@ namespace Ana.Source.Project.ProjectItems
             }
         }*/
 
-        [DataMember()]
-        [Browsable(false)]
-        private UInt32 textColorARGB;
-
         [Category("Properties"), DisplayName("Text Color"), Description("Display Color")]
         public Color TextColor
         {
-            get { return Color.FromArgb(unchecked((Int32)(textColorARGB))); }
+            get
+            {
+                return Color.FromArgb(unchecked((Int32)this.textColorArgb));
+            }
+
             set
             {
-                textColorARGB = value == null ? 0 : unchecked((UInt32)(value.ToArgb())); UpdateEntryVisual();
+                this.textColorArgb = value == null ? 0 : unchecked((UInt32)value.ToArgb());
+                this.UpdateEntryVisual();
 
                 ProjectExplorer.GetInstance().ProjectChanged();
             }
@@ -118,22 +144,12 @@ namespace Ana.Source.Project.ProjectItems
         [Browsable(false)]
         protected Boolean Activated { get; set; }
 
-        public ProjectItem() : this(String.Empty) { }
-        public ProjectItem(String Description)
-        {
-            // Bypass setters/getters to avoid triggering any GUI updates in constructor
-            this.description = Description == null ? String.Empty : Description;
-            this.parent = null;
-            this.children = new List<ProjectItem>();
-            this.textColorARGB = unchecked((UInt32)SystemColors.ControlText.ToArgb());
-            this.Activated = false;
-        }
-
         [OnDeserialized]
         public void OnDeserialized(StreamingContext streamingContext)
         {
-
         }
+
+        public abstract void Update();
 
         public virtual void SetActivationState(Boolean activated)
         {
@@ -142,17 +158,19 @@ namespace Ana.Source.Project.ProjectItems
 
         public Boolean GetActivationState()
         {
-            return Activated;
+            return this.Activated;
         }
 
         public void AddChild(ProjectItem projectItem)
         {
             projectItem.Parent = this;
 
-            if (Children == null)
-                Children = new List<ProjectItem>();
+            if (this.Children == null)
+            {
+                this.Children = new List<ProjectItem>();
+            }
 
-            Children.Add(projectItem);
+            this.Children.Add(projectItem);
         }
 
         public void AddSibling(ProjectItem projectItem, Boolean after)
@@ -160,9 +178,13 @@ namespace Ana.Source.Project.ProjectItems
             projectItem.Parent = this.Parent;
 
             if (after)
-                Parent?.Children?.Insert(Parent.Children.IndexOf(this) + 1, projectItem);
+            {
+                this.Parent?.Children?.Insert(this.Parent.Children.IndexOf(this) + 1, projectItem);
+            }
             else
-                Parent?.Children?.Insert(Parent.Children.IndexOf(this), projectItem);
+            {
+                this.Parent?.Children?.Insert(this.Parent.Children.IndexOf(this), projectItem);
+            }
         }
 
         public void Delete(IEnumerable<ProjectItem> toDelete)
@@ -173,11 +195,13 @@ namespace Ana.Source.Project.ProjectItems
             }
 
             // Sort children and nodes to delete (Makes the algorithm O(nlogn) rather than O(n^2))
-            IEnumerable<ProjectItem> childrenSorted = Children.ToList().OrderBy(X => X.GetHashCode());
-            toDelete = toDelete.OrderBy(X => X.GetHashCode());
+            IEnumerable<ProjectItem> childrenSorted = this.Children.ToList().OrderBy(x => x.GetHashCode());
+            toDelete = toDelete.OrderBy(x => x.GetHashCode());
 
             if (toDelete.Count() <= 0 || childrenSorted.Count() <= 0)
+            {
                 return;
+            }
 
             ProjectItem nextDelete = toDelete.First();
             ProjectItem nextNode = childrenSorted.First();
@@ -198,7 +222,7 @@ namespace Ana.Source.Project.ProjectItems
                 }
                 else if (nextNode.GetHashCode() == nextDelete.GetHashCode())
                 {
-                    Children.Remove(nextNode);
+                    this.Children.Remove(nextNode);
 
                     nextDelete = null;
                     nextNode = null;
@@ -207,7 +231,9 @@ namespace Ana.Source.Project.ProjectItems
                 if (nextDelete == null)
                 {
                     if (toDelete.Count() <= 0)
+                    {
                         break;
+                    }
 
                     nextDelete = toDelete.First();
                     toDelete = toDelete.Skip(1);
@@ -216,7 +242,9 @@ namespace Ana.Source.Project.ProjectItems
                 if (nextNode == null)
                 {
                     if (childrenSorted.Count() <= 0)
+                    {
                         break;
+                    }
 
                     nextNode = childrenSorted.First();
                     childrenSorted = childrenSorted.Skip(1);
@@ -228,22 +256,22 @@ namespace Ana.Source.Project.ProjectItems
         {
             this.Parent = parent;
 
-            foreach (ProjectItem child in Children)
+            foreach (ProjectItem child in this.Children)
             {
                 child.BuildParents(this);
             }
         }
 
-        public Boolean HasNode(ProjectItem ProjectItem)
+        public Boolean HasNode(ProjectItem projectItem)
         {
-            if (Children.Contains(ProjectItem))
+            if (this.Children.Contains(projectItem))
             {
                 return true;
             }
 
-            foreach (ProjectItem Child in Children)
+            foreach (ProjectItem child in this.Children)
             {
-                if (Child.HasNode(ProjectItem))
+                if (child.HasNode(projectItem))
                 {
                     return true;
                 }
@@ -259,17 +287,17 @@ namespace Ana.Source.Project.ProjectItems
                 return false;
             }
 
-            if (Children.Contains(projectItem))
+            if (this.Children.Contains(projectItem))
             {
                 projectItem.Parent = null;
-                Children.Remove(projectItem);
+                this.Children.Remove(projectItem);
                 return true;
             }
             else
             {
-                foreach (ProjectItem Child in Children)
+                foreach (ProjectItem child in this.Children)
                 {
-                    if (Child.RemoveNode(projectItem))
+                    if (child.RemoveNode(projectItem))
                     {
                         return true;
                     }
@@ -283,8 +311,6 @@ namespace Ana.Source.Project.ProjectItems
         {
             ProjectExplorer.GetInstance().RefreshProjectStructure();
         }
-
-        public abstract void Update();
 
         /*
         private void UpdateHotKeyListeners()
@@ -334,6 +360,7 @@ namespace Ana.Source.Project.ProjectItems
             }
         }
          */
-    } // End class
-
-} // End namespace
+    }
+    //// End class
+}
+//// End namespace

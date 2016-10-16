@@ -5,47 +5,375 @@
 
     internal class Images
     {
-        public static BitmapImage Cancel = ImageLoader.LoadImage("pack://application:,,,/Ana;component/Content/Icons/Cancel.png");
-        public static BitmapImage Changed = ImageLoader.LoadImage("pack://application:,,,/Ana;component/Content/Icons/Changed.png");
-        public static BitmapImage CollectValues = ImageLoader.LoadImage("pack://application:,,,/Ana;component/Content/Icons/CollectValues.png");
-        public static BitmapImage Decreased = ImageLoader.LoadImage("pack://application:,,,/Ana;component/Content/Icons/Decreased.png");
-        public static BitmapImage DownArrows = ImageLoader.LoadImage("pack://application:,,,/Ana;component/Content/Icons/ENotation.png");
-        public static BitmapImage ENotation = ImageLoader.LoadImage("pack://application:,,,/Ana;component/Content/Icons/ENotation.png");
-        public static BitmapImage Equal = ImageLoader.LoadImage("pack://application:,,,/Ana;component/Content/Icons/Equal.png");
-        public static BitmapImage GreaterThan = ImageLoader.LoadImage("pack://application:,,,/Ana;component/Content/Icons/GreaterThan.png");
-        public static BitmapImage GreaterThanOrEqual = ImageLoader.LoadImage("pack://application:,,,/Ana;component/Content/Icons/GreaterThanOrEqual.png");
-        public static BitmapImage Home = ImageLoader.LoadImage("pack://application:,,,/Ana;component/Content/Icons/Home.png");
-        public static BitmapImage Increased = ImageLoader.LoadImage("pack://application:,,,/Ana;component/Content/Icons/Increased.png");
-        public static BitmapImage Intersection = ImageLoader.LoadImage("pack://application:,,,/Ana;component/Content/Icons/Intersection.png");
-        public static BitmapImage Invert = ImageLoader.LoadImage("pack://application:,,,/Ana;component/Content/Icons/Invert.png");
-        public static BitmapImage LeftArrow = ImageLoader.LoadImage("pack://application:,,,/Ana;component/Content/Icons/LeftArrow.png");
-        public static BitmapImage LeftArrows = ImageLoader.LoadImage("pack://application:,,,/Ana;component/Content/Icons/LeftArrows.png");
-        public static BitmapImage LessThan = ImageLoader.LoadImage("pack://application:,,,/Ana;component/Content/Icons/LessThan.png");
-        public static BitmapImage LessThanOrEqual = ImageLoader.LoadImage("pack://application:,,,/Ana;component/Content/Icons/LessThanOrEqual.png");
-        public static BitmapImage LogicalAnd = ImageLoader.LoadImage("pack://application:,,,/Ana;component/Content/Icons/LogicalAnd.png");
-        public static BitmapImage LogicalOr = ImageLoader.LoadImage("pack://application:,,,/Ana;component/Content/Icons/LogicalOr.png");
-        public static BitmapImage Maximize = ImageLoader.LoadImage("pack://application:,,,/Ana;component/Content/Icons/Maximize.png");
-        public static BitmapImage Merge = ImageLoader.LoadImage("pack://application:,,,/Ana;component/Content/Icons/Merge.png");
-        public static BitmapImage MinusX = ImageLoader.LoadImage("pack://application:,,,/Ana;component/Content/Icons/MinusX.png");
-        public static BitmapImage MoveDown = ImageLoader.LoadImage("pack://application:,,,/Ana;component/Content/Icons/MoveDown.png");
-        public static BitmapImage MoveLeft = ImageLoader.LoadImage("pack://application:,,,/Ana;component/Content/Icons/MoveLeft.png");
-        public static BitmapImage MoveRight = ImageLoader.LoadImage("pack://application:,,,/Ana;component/Content/Icons/MoveRight.png");
-        public static BitmapImage MoveUp = ImageLoader.LoadImage("pack://application:,,,/Ana;component/Content/Icons/MoveUp.png");
-        public static BitmapImage Negation = ImageLoader.LoadImage("pack://application:,,,/Ana;component/Content/Icons/Negation.png");
-        public static BitmapImage New = ImageLoader.LoadImage("pack://application:,,,/Ana;component/Content/Icons/New.png");
-        public static BitmapImage NextScan = ImageLoader.LoadImage("pack://application:,,,/Ana;component/Content/Icons/NextScan.png");
-        public static BitmapImage NotEqual = ImageLoader.LoadImage("pack://application:,,,/Ana;component/Content/Icons/NotEqual.png");
-        public static BitmapImage Open = ImageLoader.LoadImage("pack://application:,,,/Ana;component/Content/Icons/Open.png");
-        public static BitmapImage PlusX = ImageLoader.LoadImage("pack://application:,,,/Ana;component/Content/Icons/PlusX.png");
-        public static BitmapImage RightArrow = ImageLoader.LoadImage("pack://application:,,,/Ana;component/Content/Icons/RightArrow.png");
-        public static BitmapImage RightArrows = ImageLoader.LoadImage("pack://application:,,,/Ana;component/Content/Icons/RightArrows.png");
-        public static BitmapImage Save = ImageLoader.LoadImage("pack://application:,,,/Ana;component/Content/Icons/Save.png");
-        public static BitmapImage SelectProcess = ImageLoader.LoadImage("pack://application:,,,/Ana;component/Content/Icons/SelectProcess.png");
-        public static BitmapImage Stop = ImageLoader.LoadImage("pack://application:,,,/Ana;component/Content/Icons/Stop.png");
-        public static BitmapImage Unchanged = ImageLoader.LoadImage("pack://application:,,,/Ana;component/Content/Icons/Unchanged.png");
-        public static BitmapImage Undo = ImageLoader.LoadImage("pack://application:,,,/Ana;component/Content/Icons/Undo.png");
-        public static BitmapImage Union = ImageLoader.LoadImage("pack://application:,,,/Ana;component/Content/Icons/Union.png");
-        public static BitmapImage UnknownValue = ImageLoader.LoadImage("pack://application:,,,/Ana;component/Content/Icons/UnknownValue.png");
+        private static BitmapImage cancel = ImageLoader.LoadImage("pack://application:,,,/Ana;component/Content/Icons/Cancel.png");
+        private static BitmapImage changed = ImageLoader.LoadImage("pack://application:,,,/Ana;component/Content/Icons/Changed.png");
+        private static BitmapImage collectValues = ImageLoader.LoadImage("pack://application:,,,/Ana;component/Content/Icons/CollectValues.png");
+        private static BitmapImage decreased = ImageLoader.LoadImage("pack://application:,,,/Ana;component/Content/Icons/Decreased.png");
+        private static BitmapImage downArrows = ImageLoader.LoadImage("pack://application:,,,/Ana;component/Content/Icons/ENotation.png");
+        private static BitmapImage exponentialNotation = ImageLoader.LoadImage("pack://application:,,,/Ana;component/Content/Icons/ENotation.png");
+        private static BitmapImage equal = ImageLoader.LoadImage("pack://application:,,,/Ana;component/Content/Icons/Equal.png");
+        private static BitmapImage greaterThan = ImageLoader.LoadImage("pack://application:,,,/Ana;component/Content/Icons/GreaterThan.png");
+        private static BitmapImage greaterThanOrEqual = ImageLoader.LoadImage("pack://application:,,,/Ana;component/Content/Icons/GreaterThanOrEqual.png");
+        private static BitmapImage home = ImageLoader.LoadImage("pack://application:,,,/Ana;component/Content/Icons/Home.png");
+        private static BitmapImage increased = ImageLoader.LoadImage("pack://application:,,,/Ana;component/Content/Icons/Increased.png");
+        private static BitmapImage intersection = ImageLoader.LoadImage("pack://application:,,,/Ana;component/Content/Icons/Intersection.png");
+        private static BitmapImage invert = ImageLoader.LoadImage("pack://application:,,,/Ana;component/Content/Icons/Invert.png");
+        private static BitmapImage leftArrow = ImageLoader.LoadImage("pack://application:,,,/Ana;component/Content/Icons/LeftArrow.png");
+        private static BitmapImage leftArrows = ImageLoader.LoadImage("pack://application:,,,/Ana;component/Content/Icons/LeftArrows.png");
+        private static BitmapImage lessThan = ImageLoader.LoadImage("pack://application:,,,/Ana;component/Content/Icons/LessThan.png");
+        private static BitmapImage lessThanOrEqual = ImageLoader.LoadImage("pack://application:,,,/Ana;component/Content/Icons/LessThanOrEqual.png");
+        private static BitmapImage logicalAnd = ImageLoader.LoadImage("pack://application:,,,/Ana;component/Content/Icons/LogicalAnd.png");
+        private static BitmapImage logicalOr = ImageLoader.LoadImage("pack://application:,,,/Ana;component/Content/Icons/LogicalOr.png");
+        private static BitmapImage maximize = ImageLoader.LoadImage("pack://application:,,,/Ana;component/Content/Icons/Maximize.png");
+        private static BitmapImage merge = ImageLoader.LoadImage("pack://application:,,,/Ana;component/Content/Icons/Merge.png");
+        private static BitmapImage minusX = ImageLoader.LoadImage("pack://application:,,,/Ana;component/Content/Icons/MinusX.png");
+        private static BitmapImage moveDown = ImageLoader.LoadImage("pack://application:,,,/Ana;component/Content/Icons/MoveDown.png");
+        private static BitmapImage moveLeft = ImageLoader.LoadImage("pack://application:,,,/Ana;component/Content/Icons/MoveLeft.png");
+        private static BitmapImage moveRight = ImageLoader.LoadImage("pack://application:,,,/Ana;component/Content/Icons/MoveRight.png");
+        private static BitmapImage moveUp = ImageLoader.LoadImage("pack://application:,,,/Ana;component/Content/Icons/MoveUp.png");
+        private static BitmapImage negation = ImageLoader.LoadImage("pack://application:,,,/Ana;component/Content/Icons/Negation.png");
+        private static BitmapImage newScan = ImageLoader.LoadImage("pack://application:,,,/Ana;component/Content/Icons/New.png");
+        private static BitmapImage nextScan = ImageLoader.LoadImage("pack://application:,,,/Ana;component/Content/Icons/NextScan.png");
+        private static BitmapImage notEqual = ImageLoader.LoadImage("pack://application:,,,/Ana;component/Content/Icons/NotEqual.png");
+        private static BitmapImage open = ImageLoader.LoadImage("pack://application:,,,/Ana;component/Content/Icons/Open.png");
+        private static BitmapImage plusX = ImageLoader.LoadImage("pack://application:,,,/Ana;component/Content/Icons/PlusX.png");
+        private static BitmapImage rightArrow = ImageLoader.LoadImage("pack://application:,,,/Ana;component/Content/Icons/RightArrow.png");
+        private static BitmapImage rightArrows = ImageLoader.LoadImage("pack://application:,,,/Ana;component/Content/Icons/RightArrows.png");
+        private static BitmapImage save = ImageLoader.LoadImage("pack://application:,,,/Ana;component/Content/Icons/Save.png");
+        private static BitmapImage selectProcess = ImageLoader.LoadImage("pack://application:,,,/Ana;component/Content/Icons/SelectProcess.png");
+        private static BitmapImage stop = ImageLoader.LoadImage("pack://application:,,,/Ana;component/Content/Icons/Stop.png");
+        private static BitmapImage unchanged = ImageLoader.LoadImage("pack://application:,,,/Ana;component/Content/Icons/Unchanged.png");
+        private static BitmapImage undo = ImageLoader.LoadImage("pack://application:,,,/Ana;component/Content/Icons/Undo.png");
+        private static BitmapImage union = ImageLoader.LoadImage("pack://application:,,,/Ana;component/Content/Icons/Union.png");
+        private static BitmapImage unknownValue = ImageLoader.LoadImage("pack://application:,,,/Ana;component/Content/Icons/UnknownValue.png");
+
+        public static BitmapImage Cancel
+        {
+            get
+            {
+                return cancel;
+            }
+        }
+
+        public static BitmapImage Changed
+        {
+            get
+            {
+                return changed;
+            }
+        }
+
+        public static BitmapImage CollectValues
+        {
+            get
+            {
+                return collectValues;
+            }
+        }
+
+        public static BitmapImage Decreased
+        {
+            get
+            {
+                return decreased;
+            }
+        }
+
+        public static BitmapImage DownArrows
+        {
+            get
+            {
+                return downArrows;
+            }
+        }
+
+        public static BitmapImage ExponentialNotation
+        {
+            get
+            {
+                return exponentialNotation;
+            }
+        }
+
+        public static BitmapImage Equal
+        {
+            get
+            {
+                return equal;
+            }
+        }
+
+        public static BitmapImage GreaterThan
+        {
+            get
+            {
+                return greaterThan;
+            }
+        }
+
+        public static BitmapImage GreaterThanOrEqual
+        {
+            get
+            {
+                return greaterThanOrEqual;
+            }
+        }
+
+        public static BitmapImage Home
+        {
+            get
+            {
+                return home;
+            }
+        }
+
+        public static BitmapImage Increased
+        {
+            get
+            {
+                return increased;
+            }
+        }
+
+        public static BitmapImage Intersection
+        {
+            get
+            {
+                return intersection;
+            }
+        }
+
+        public static BitmapImage Invert
+        {
+            get
+            {
+                return invert;
+            }
+        }
+
+        public static BitmapImage LeftArrow
+        {
+            get
+            {
+                return leftArrow;
+            }
+        }
+
+        public static BitmapImage LeftArrows
+        {
+            get
+            {
+                return equal;
+            }
+        }
+
+        public static BitmapImage LessThan
+        {
+            get
+            {
+                return lessThan;
+            }
+        }
+
+        public static BitmapImage LessThanOrEqual
+        {
+            get
+            {
+                return lessThanOrEqual;
+            }
+        }
+
+        public static BitmapImage LogicalAnd
+        {
+            get
+            {
+                return logicalAnd;
+            }
+        }
+
+        public static BitmapImage LogicalOr
+        {
+            get
+            {
+                return logicalOr;
+            }
+        }
+
+        public static BitmapImage Maximize
+        {
+            get
+            {
+                return equal;
+            }
+        }
+
+        public static BitmapImage Merge
+        {
+            get
+            {
+                return merge;
+            }
+        }
+
+        public static BitmapImage MinusX
+        {
+            get
+            {
+                return minusX;
+            }
+        }
+
+        public static BitmapImage MoveDown
+        {
+            get
+            {
+                return moveDown;
+            }
+        }
+
+        public static BitmapImage MoveLeft
+        {
+            get
+            {
+                return moveLeft;
+            }
+        }
+
+        public static BitmapImage MoveRight
+        {
+            get
+            {
+                return moveRight;
+            }
+        }
+
+        public static BitmapImage MoveUp
+        {
+            get
+            {
+                return moveUp;
+            }
+        }
+
+        public static BitmapImage Negation
+        {
+            get
+            {
+                return negation;
+            }
+        }
+
+        public static BitmapImage NewScan
+        {
+            get
+            {
+                return newScan;
+            }
+        }
+
+        public static BitmapImage NextScan
+        {
+            get
+            {
+                return nextScan;
+            }
+        }
+
+        public static BitmapImage NotEqual
+        {
+            get
+            {
+                return notEqual;
+            }
+        }
+
+        public static BitmapImage Open
+        {
+            get
+            {
+                return open;
+            }
+        }
+
+        public static BitmapImage PlusX
+        {
+            get
+            {
+                return plusX;
+            }
+        }
+
+        public static BitmapImage RightArrow
+        {
+            get
+            {
+                return rightArrow;
+            }
+        }
+
+        public static BitmapImage RightArrows
+        {
+            get
+            {
+                return rightArrows;
+            }
+        }
+
+        public static BitmapImage Save
+        {
+            get
+            {
+                return save;
+            }
+        }
+
+        public static BitmapImage SelectProcess
+        {
+            get
+            {
+                return selectProcess;
+            }
+        }
+
+        public static BitmapImage Stop
+        {
+            get
+            {
+                return stop;
+            }
+        }
+
+        public static BitmapImage Unchanged
+        {
+            get
+            {
+                return unchanged;
+            }
+        }
+
+        public static BitmapImage Undo
+        {
+            get
+            {
+                return undo;
+            }
+        }
+
+        public static BitmapImage Union
+        {
+            get
+            {
+                return union;
+            }
+        }
+
+        public static BitmapImage UnknownValue
+        {
+            get
+            {
+                return unknownValue;
+            }
+        }
     }
     //// End class
 }

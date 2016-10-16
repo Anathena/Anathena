@@ -1,34 +1,42 @@
-﻿using System;
-using System.ComponentModel;
-using System.Reflection;
-using System.Runtime.Serialization;
-
-namespace Ana.Source.LuaEngine
+﻿namespace Ana.Source.LuaEngine
 {
+    using System;
+    using System.ComponentModel;
+    using System.Reflection;
+    using System.Runtime.Serialization;
+
     [Obfuscation(ApplyToMembers = true, Exclude = true)]
-    [DataContract()]
-    public class LuaScript
+    [DataContract]
+    internal class LuaScript
     {
         [Browsable(false)]
-        private String _Script;
-        [DataMember()]
-        [Browsable(false)]
-        public String Script
-        {
-            get { return _Script; }
-            set { if (value == null) value = String.Empty; _Script = value; }
-        }
+        private String script;
 
         public LuaScript()
         {
-            Script = String.Empty;
+            this.Script = String.Empty;
         }
 
-        public LuaScript(String Script)
+        public LuaScript(String script)
         {
-            this.Script = Script;
+            this.Script = script;
         }
 
-    } // End class
+        [DataMember]
+        [Browsable(false)]
+        public String Script
+        {
+            get
+            {
+                return this.script;
+            }
 
-} // End namespace
+            set
+            {
+                this.script = value == null ? String.Empty : value;
+            }
+        }
+    }
+    //// End class
+}
+//// End namespace

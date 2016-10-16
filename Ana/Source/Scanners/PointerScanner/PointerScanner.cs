@@ -263,10 +263,10 @@
 
             Boolean successReading = true;
 
-            foreach (Int32 Offset in offsets)
+            foreach (Int32 offset in offsets)
             {
                 pointer = EngineCore.GetInstance().OperatingSystemAdapter.Read<IntPtr>(pointer, out successReading);
-                pointer = pointer.Add(Offset);
+                pointer = pointer.Add(offset);
 
                 if (!successReading)
                 {
@@ -575,7 +575,9 @@
                 Snapshot previousLevel = new Snapshot<Null>(previousLevelRegions);
                 ConcurrentDictionary<IntPtr, IntPtr> levelPointers = new ConcurrentDictionary<IntPtr, IntPtr>();
 
-                Parallel.ForEach(this.PointerPool, (pointer) =>
+                Parallel.ForEach(
+                    this.PointerPool,
+                    (pointer) =>
                 {
                     // Ensure if this is a max level pointer that it is from an acceptable base address (ie static)
                     if (level == MaxPointerLevel && !AcceptedBases.ContainsAddress(pointer.Key))
@@ -596,7 +598,9 @@
                 previousLevelRegions = new ConcurrentBag<SnapshotRegion>();
 
                 // Construct new target region list from this level of pointers
-                Parallel.ForEach(levelPointers, (pointer) =>
+                Parallel.ForEach(
+                    levelPointers,
+                    (pointer) =>
                 {
                     previousLevelRegions.Add(AddressToRegion(pointer.Key));
                 });
@@ -614,7 +618,9 @@
             // Iterate incrementally towards the maximum, allowing for the discovery of all pointer levels
             for (Int32 currentMaximum = 0; currentMaximum <= this.MaxPointerLevel; currentMaximum++)
             {
-                Parallel.ForEach(this.ConnectedPointers[currentMaximum], (baseAddress) =>
+                Parallel.ForEach(
+                    this.ConnectedPointers[currentMaximum],
+                    (baseAddress) =>
                 {
                     // Enforce static base constraint. Maxlevel pointers were already prefitlered, but not other levels.
                     if (!this.AcceptedBases.ContainsAddress(baseAddress.Key))

@@ -22,7 +22,7 @@
     internal abstract class Snapshot : IEnumerable
     {
         /// <summary>
-        /// 
+        /// The data type of values contained in this snapshot
         /// </summary>
         private Type elementType;
 
@@ -67,7 +67,7 @@
         }
 
         /// <summary>
-        /// Gets or sets the value type of each element in this snapshot
+        /// Gets or sets the data type of values contained in this snapshot
         /// </summary>
         public Type ElementType
         {
@@ -87,7 +87,7 @@
 
                 foreach (SnapshotRegion region in this)
                 {
-                    region.SetElementType(elementType);
+                    region.SetElementType(this.elementType);
                 }
             }
         }
@@ -134,13 +134,16 @@
         }
 
         /// <summary>
-        /// 
+        /// Creates a shallow clone of this snapshot
         /// </summary>
+        /// <returns>A shallow clone of this snapshot</returns>
         public abstract Snapshot Clone();
 
         /// <summary>
-        /// 
+        /// Creates a shallow clone of this snapshot with a new specified label type
         /// </summary>
+        /// <typeparam name="NewLabelType">The label type of the snapshot clone</typeparam>
+        /// <returns>A shallow clone of this snapshot with the new label type</returns>
         public abstract Snapshot<NewLabelType> CloneAs<NewLabelType>() where NewLabelType : struct;
 
         /// <summary>
@@ -224,11 +227,20 @@
             }
         }
 
+        /// <summary>
+        /// Gets the enumerator for the regions in this snapshot
+        /// </summary>
+        /// <returns>The enumerator for the regions in this snapshot</returns>
         public IEnumerator GetEnumerator()
         {
             return this.SnapshotRegions.GetEnumerator();
         }
 
+        /// <summary>
+        /// Determines if an address is contained in this snapshot
+        /// </summary>
+        /// <param name="address">The address to search for</param>
+        /// <returns>Returns true if the address is contained</returns>
         public Boolean ContainsAddress(IntPtr address)
         {
             if (this.SnapshotRegions == null || this.SnapshotRegions.Count() == 0)
@@ -239,6 +251,14 @@
             return this.ContainsAddress(address, this.SnapshotRegions.Count() / 2, 0, this.SnapshotRegions.Count());
         }
 
+        /// <summary>
+        /// Helper function for searching for an address in this snapshot. Binary search that assumes this snapshot has sorted regions
+        /// </summary>
+        /// <param name="address">The address to search for</param>
+        /// <param name="middle">The middle region index</param>
+        /// <param name="min">The lower region index</param>
+        /// <param name="max">The upper region index</param>
+        /// <returns>Returns true if the address was found</returns>
         private Boolean ContainsAddress(IntPtr address, Int32 middle, Int32 min, Int32 max)
         {
             if (middle < 0 || middle == this.SnapshotRegions.Count() || max < min)
@@ -274,7 +294,8 @@
         public Snapshot()
         {
             this.SnapshotRegions = null;
-            this.Initialize();
+            this.DeallocatedRegions = new List<SnapshotRegion>();
+            this.DeallocatedRegionLock = new Object();
         }
 
         /// <summary>
@@ -284,12 +305,15 @@
         public Snapshot(IEnumerable<SnapshotRegion> snapshotRegions)
         {
             this.SnapshotRegions = snapshotRegions == null ? null : snapshotRegions.Select(x => (SnapshotRegion<LabelType>)x);
-            this.Initialize();
+            this.DeallocatedRegions = new List<SnapshotRegion>();
+            this.DeallocatedRegionLock = new Object();
+            this.MergeRegions();
         }
 
         /// <summary>
-        /// 
+        /// Creates a shallow clone of this snapshot
         /// </summary>
+        /// <returns>A shallow clone of this snapshot</returns>
         public override Snapshot Clone()
         {
             List<SnapshotRegion<LabelType>> regions = new List<SnapshotRegion<LabelType>>();
@@ -310,19 +334,19 @@
             return clonedSnapshot;
         }
 
+        /// <summary>
+        /// Creates a shallow clone of this snapshot with a new specified label type
+        /// </summary>
+        /// <typeparam name="NewLabelType">The label type of the snapshot clone</typeparam>
+        /// <returns>A shallow clone of this snapshot with the new label type</returns>
         public override Snapshot<NewLabelType> CloneAs<NewLabelType>()
         {
             return new Snapshot<NewLabelType>(this.Clone().GetSnapshotRegions());
         }
 
-        public void Initialize()
-        {
-            this.DeallocatedRegions = new List<SnapshotRegion>();
-            this.DeallocatedRegionLock = new Object();
-
-            this.MergeRegions();
-        }
-
+        /// <summary>
+        /// Sets a valid bit for each element in this snapshot
+        /// </summary>
         public override void MarkAllValid()
         {
             foreach (SnapshotRegion snapshotRegion in this)
@@ -331,6 +355,9 @@
             }
         }
 
+        /// <summary>
+        /// Sets an invalid bit for each element in this snapshot
+        /// </summary>
         public override void MarkAllInvalid()
         {
             foreach (SnapshotRegion snapshotRegion in this)
@@ -528,11 +555,18 @@
             return resultRegions.Count == 0 ? null : resultRegions;
         }
 
+        /// <summary>
+        /// Removes all snapshot regions contained in this snapshot
+        /// </summary>
         public void ClearSnapshotRegions()
         {
             this.SnapshotRegions = null;
         }
 
+        /// <summary>
+        /// Adds snapshot regions to the regions contained in this snapshot. Will automatically merge and sort regions
+        /// </summary>
+        /// <param name="snapshotRegions">The snapshot regions to add</param>
         public void AddSnapshotRegions(IEnumerable<SnapshotRegion<LabelType>> snapshotRegions)
         {
             List<SnapshotRegion<LabelType>> newRegions = this.SnapshotRegions == null ? new List<SnapshotRegion<LabelType>>() : ((IEnumerable<SnapshotRegion<LabelType>>)this.SnapshotRegions).ToList();
@@ -543,6 +577,10 @@
             this.MergeRegions();
         }
 
+        /// <summary>
+        /// Sets the label of every element in this snapshot to the same value
+        /// </summary>
+        /// <param name="label">The new snapshot label value</param>
         public void SetElementLabels(LabelType label)
         {
             foreach (SnapshotRegion<LabelType> region in this)

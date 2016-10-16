@@ -1,17 +1,27 @@
-﻿using System;
-
-namespace Ana.Source.Snapshots.Prefilter
+﻿namespace Ana.Source.Snapshots.Prefilter
 {
-    static class SnapshotPrefilterFactory
+    using System;
+
+    /// <summary>
+    /// Factory for obtaining a memory prefilter
+    /// </summary>
+    internal static class SnapshotPrefilterFactory
     {
-        public static ISnapshotPrefilter GetSnapshotPrefilter(Type PrefilterClass)
+        /// <summary>
+        /// Gets a prefilter based on the provided class type
+        /// </summary>
+        /// <param name="prefilterClass">The class type of the prefilter</param>
+        /// <returns>A prefilter of the specified type</returns>
+        public static ISnapshotPrefilter GetSnapshotPrefilter(Type prefilterClass)
         {
-            if (PrefilterClass == typeof(ShallowPointerPrefilter))
+            if (prefilterClass == typeof(ShallowPointerPrefilter))
+            {
                 return ShallowPointerPrefilter.GetInstance();
+            }
 
-            throw new Exception(PrefilterClass?.ToString() + " - Type is not a valid prefilter");
+            throw new Exception(prefilterClass?.ToString() + " - Type is not a valid prefilter");
         }
-
-    } // End class
-
-} // End namespace
+    }
+    //// End class
+}
+//// End namespace

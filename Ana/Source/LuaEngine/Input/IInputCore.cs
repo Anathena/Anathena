@@ -2,8 +2,7 @@
 {
     internal interface IInputCore
     {
-
-
-    } // End interface
-
-} // End namespace
+    }
+    //// End interface
+}
+//// End namespace

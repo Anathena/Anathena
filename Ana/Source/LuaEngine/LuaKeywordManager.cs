@@ -1,16 +1,18 @@
-﻿using Ana.Source.LuaEngine.Graphics;
-using Ana.Source.LuaEngine.Hook;
-using Ana.Source.LuaEngine.Memory;
-using Ana.Source.Utils.Extensions;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-
-namespace Ana.Source.LuaEngine
+﻿namespace Ana.Source.LuaEngine
 {
-    class LuaKeywordManager
+    using Graphics;
+    using Hook;
+    using Memory;
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using Utils.Extensions;
+
+    internal class LuaKeywordManager
     {
-        private static String _LuaKeywords = "and break do else elseif end false for function if" +
+        private static Boolean sorted = false;
+
+        private static String luaKeywords = "and break do else elseif end false for function if" +
                 " in local nil not or repeat return then true until while" +
                 " _VERSION assert collectgarbage dofile error gcinfo loadfile loadstring" +
                 " print rawget rawset require tonumber tostring type unpack" +
@@ -19,18 +21,16 @@ namespace Ana.Source.LuaEngine
                 " floor format frexp gsub ldexp log log10 max min mod rad random randomseed" +
                 " sin sqrt strbyte strchar strfind strlen strlower strrep strsub strupper tan" +
                 " string.byte string.char string.dump string.find string.len";
-        public static String LuaKeywords { get { SortKeywords(); return _LuaKeywords; } private set { _LuaKeywords = value; } }
 
-        private static String _AsmRegisterKeywords = "rax rbx rcx rdx rbp rsi rdi rsp r8 r9 r10 r11 r12 r13 r14 r15 rip" +
+        private static String asmRegisterKeywords = "rax rbx rcx rdx rbp rsi rdi rsp r8 r9 r10 r11 r12 r13 r14 r15 rip" +
                 " eax ebx ecx edx ebp esi edi esp r8d r9d r10d r11d r12d r13d r14d r15d eip" +
                 " ax bx cx dx bp si di sp r8w r9w r10w r11w r12w r13w r14w r15w" +
                 " al bl cl dl bpl sil dil spl r8b r9b r10b r11b r12b r13b r14b r15b" +
                 " ah bh ch dh" +
                 " fpr0 fpr1 fpr2 fpr3 fpr4 fpr5 fpr6 fpr7 mmx0 mmx1 mmx2 mmx3 mmx4 mmx5 mmx6 mmx7" +
                 " xmm0 xmm1 xmm2 xmm3 xmm4 xmm5 xmm6 xmm7 xmm8 xmm9 xmm10 xmm11 xmm12 xmm13 xmm14 xmm15";
-        public static String AsmRegisterKeywords { get { SortKeywords(); return _AsmRegisterKeywords; } private set { _AsmRegisterKeywords = value; } }
 
-        private static string _AsmInstructionKeywords = "AAA AAD AAM AAS ADC ADCX ADD ADDPD ADDPS ADDSD ADDSS ADDSUBPD" +
+        private static string asmInstructionKeywords = "AAA AAD AAM AAS ADC ADCX ADD ADDPD ADDPS ADDSD ADDSS ADDSUBPD" +
             " ADDSUBPS ADOX AESDEC AESDECLAST AESENC AESENCLAST AESIMC AESKEYGENASSIST AND ANDN ANDNPD ANDNPS ANDPD ANDPS" +
             " ARPL BEXTR BLENDPD BLENDPS BLENDVPD BLENDVPS BLSI BLSMSK BLSR BOUND BSF BSR BSWAP BT BTC BTR BTS BZHI CALL" +
             " CBW CDQ CDQE CLAC CLC CLD CLFLUSH CLI CLTS CMC CMOVcc CMP CMPPD CMPPS CMPS CMPSB CMPSD CMPSD CMPSQ CMPSS CMPSW" +
@@ -75,77 +75,156 @@ namespace Ana.Source.LuaEngine
             " WAIT WBINVD WRFSBASE WRGSBASE WRMSR XABORT XACQUIRE XADD XBEGIN XCHG XEND XGETBV XLAT XLATB XOR XORPD XORPS XRELEASE" +
             " XRSTOR XRSTORS XSAVE XSAVEC XSAVEOPT XSAVES XSETBV XTEST";
 
-        public static String AsmInstructionKeywords { get { SortKeywords(); return _AsmInstructionKeywords; } private set { _AsmInstructionKeywords = value; } }
+        private static String allLuaKeywords = String.Empty;
 
-        private static String _AnathenaKeywords = "Memory Graphics Hook fasm nasm masm";
-        public static String AnathenaKeywords { get { SortKeywords(); return _AnathenaKeywords; } private set { _AnathenaKeywords = value; } }
+        private static String allAsmKeywords = String.Empty;
 
-        private static String _AllLuaKeywords = String.Empty;
-        public static String AllLuaKeywords { get { SortKeywords(); return _AllLuaKeywords; } private set { _AllLuaKeywords = value; } }
+        private static String anathenaKeywords = "Memory Graphics Hook fasm nasm masm";
 
-        private static String _AllAsmKeywords = String.Empty;
-        public static String AllAsmKeywords { get { SortKeywords(); return _AllAsmKeywords; } private set { _AllAsmKeywords = value; } }
+        public static String LuaKeywords
+        {
+            get
+            {
+                LuaKeywordManager.SortKeywords();
+                return LuaKeywordManager.luaKeywords;
+            }
 
-        private static Boolean Sorted = false;
+            private set
+            {
+                LuaKeywordManager.luaKeywords = value;
+            }
+        }
+
+        public static String AsmRegisterKeywords
+        {
+            get
+            {
+                LuaKeywordManager.SortKeywords();
+                return LuaKeywordManager.asmRegisterKeywords;
+            }
+
+            private set
+            {
+                LuaKeywordManager.asmRegisterKeywords = value;
+            }
+        }
+
+        public static String AsmInstructionKeywords
+        {
+            get
+            {
+                LuaKeywordManager.SortKeywords();
+                return LuaKeywordManager.asmInstructionKeywords;
+            }
+
+            private set
+            {
+                LuaKeywordManager.asmInstructionKeywords = value;
+            }
+        }
+
+        public static String AnathenaKeywords
+        {
+            get
+            {
+                LuaKeywordManager.SortKeywords();
+                return LuaKeywordManager.anathenaKeywords;
+            }
+
+            private set
+            {
+                LuaKeywordManager.anathenaKeywords = value;
+            }
+        }
+
+        public static String AllLuaKeywords
+        {
+            get
+            {
+                LuaKeywordManager.SortKeywords();
+                return allLuaKeywords;
+            }
+
+            private set
+            {
+                LuaKeywordManager.allLuaKeywords = value;
+            }
+        }
+
+        public static String AllAsmKeywords
+        {
+            get
+            {
+                LuaKeywordManager.SortKeywords();
+                return LuaKeywordManager.allAsmKeywords;
+            }
+
+            private set
+            {
+                LuaKeywordManager.allAsmKeywords = value;
+            }
+        }
 
         private static void SortKeywords()
         {
-            if (Sorted)
+            if (LuaKeywordManager.sorted)
+            {
                 return;
+            }
 
-            List<String> Keywords;
-            String SortedKeywords;
+            List<String> keywords;
+            String sortedKeywords;
 
             // Sort Lua keywords
-            SortedKeywords = String.Empty;
-            Keywords = new List<String>(_LuaKeywords.Split(' '));
-            Keywords.Sort();
-            Keywords.ForEach(x => SortedKeywords += x + " ");
-            _LuaKeywords = SortedKeywords;
+            sortedKeywords = String.Empty;
+            keywords = new List<String>(luaKeywords.Split(' '));
+            keywords.Sort();
+            keywords.ForEach(x => sortedKeywords += x + " ");
+            luaKeywords = sortedKeywords;
 
             // Sort Asm register keywords
-            SortedKeywords = String.Empty;
-            Keywords = new List<String>(_AsmRegisterKeywords.Split(' '));
-            Keywords.Sort();
-            Keywords.ForEach(x => SortedKeywords += x.ToLower() + " ");
-            _AsmRegisterKeywords = SortedKeywords;
+            sortedKeywords = String.Empty;
+            keywords = new List<String>(asmRegisterKeywords.Split(' '));
+            keywords.Sort();
+            keywords.ForEach(x => sortedKeywords += x.ToLower() + " ");
+            asmRegisterKeywords = sortedKeywords;
 
             // Sort Asm instruction keywords
-            SortedKeywords = String.Empty;
-            Keywords = new List<String>(_AsmInstructionKeywords.Split(' '));
-            Keywords.Sort();
-            Keywords.ForEach(x => SortedKeywords += x.ToLower() + " ");
-            _AsmInstructionKeywords = SortedKeywords;
+            sortedKeywords = String.Empty;
+            keywords = new List<String>(asmInstructionKeywords.Split(' '));
+            keywords.Sort();
+            keywords.ForEach(x => sortedKeywords += x.ToLower() + " ");
+            asmInstructionKeywords = sortedKeywords;
 
             // Sort Anathena keywords
-            List<String> FunctionKeywords = new List<String>();
-            typeof(IMemoryCore).GetMethods().ForEach(X => FunctionKeywords.Add(X.Name));
-            typeof(IGraphicsCore).GetMethods().ForEach(X => FunctionKeywords.Add(X.Name));
-            typeof(IHookCore).GetMethods().ForEach(X => FunctionKeywords.Add(X.Name));
-            _AnathenaKeywords = String.Join(" ", _AnathenaKeywords.Split(' ').Concat(FunctionKeywords));
-            SortedKeywords = String.Empty;
-            Keywords = new List<String>(_AnathenaKeywords.Split(' '));
-            Keywords.Sort();
-            Keywords.ForEach(x => SortedKeywords += x + " ");
-            _AnathenaKeywords = SortedKeywords;
+            List<String> functionKeywords = new List<String>();
+            typeof(IMemoryCore).GetMethods().ForEach(X => functionKeywords.Add(X.Name));
+            typeof(IGraphicsCore).GetMethods().ForEach(X => functionKeywords.Add(X.Name));
+            typeof(IHookCore).GetMethods().ForEach(X => functionKeywords.Add(X.Name));
+            anathenaKeywords = String.Join(" ", anathenaKeywords.Split(' ').Concat(functionKeywords));
+            sortedKeywords = String.Empty;
+            keywords = new List<String>(anathenaKeywords.Split(' '));
+            keywords.Sort();
+            keywords.ForEach(x => sortedKeywords += x + " ");
+            anathenaKeywords = sortedKeywords;
 
             // Sort all Lua keywords
-            SortedKeywords = String.Empty;
-            Keywords = new List<String>(_LuaKeywords.Split(' ').Concat(_AnathenaKeywords.Split(' ')));
-            Keywords.Sort();
-            Keywords.ForEach(x => SortedKeywords += x + " ");
-            _AllLuaKeywords = SortedKeywords;
+            sortedKeywords = String.Empty;
+            keywords = new List<String>(luaKeywords.Split(' ').Concat(anathenaKeywords.Split(' ')));
+            keywords.Sort();
+            keywords.ForEach(x => sortedKeywords += x + " ");
+            allLuaKeywords = sortedKeywords;
 
             // Sort all Asm keywords
-            SortedKeywords = String.Empty;
-            Keywords = new List<String>(_AsmRegisterKeywords.Split(' ').Concat(_AsmInstructionKeywords.Split(' ')));
-            Keywords.Sort();
-            Keywords.ForEach(x => SortedKeywords += x + " ");
-            _AllAsmKeywords = SortedKeywords;
+            sortedKeywords = String.Empty;
+            keywords = new List<String>(asmRegisterKeywords.Split(' ').Concat(asmInstructionKeywords.Split(' ')));
+            keywords.Sort();
+            keywords.ForEach(x => sortedKeywords += x + " ");
+            allAsmKeywords = sortedKeywords;
 
-            Sorted = true;
+            sorted = true;
         }
-
-    } // End class
-
-} // End namespace
+    }
+    //// End class
+}
+//// End namespace

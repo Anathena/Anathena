@@ -28,7 +28,7 @@
         }
 
         /// <summary>
-        /// Gets or sets the command to collect values
+        /// Gets the command to collect values
         /// </summary>
         public ICommand CollectValuesCommand { get; private set; }
 

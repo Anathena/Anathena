@@ -1,78 +1,84 @@
-﻿using Ana.Source.Project.ProjectItems;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Reflection;
-using System.Runtime.Serialization.Json;
-using System.Threading;
-
-namespace Ana.Source.Project
+﻿namespace Ana.Source.Project
 {
+    using ProjectItems;
+    using System;
+    using System.Collections.Generic;
+    using System.IO;
+    using System.Reflection;
+    using System.Runtime.Serialization.Json;
+    using System.Threading;
+
     /// <summary>
     /// Handles the displaying of results
     /// </summary>
     [Obfuscation(ApplyToMembers = true, Exclude = true)]
     internal class ProjectExplorer
     {
-        // Singleton instance of Project Explorer
-        private static Lazy<ProjectExplorer> ProjectExplorerInstance = new Lazy<ProjectExplorer>(() => { return new ProjectExplorer(); }, LazyThreadSafetyMode.PublicationOnly);
-
-        private FolderItem ProjectRoot;
-        private IEnumerable<ProjectItem> UpdateSet;
-        private Boolean Changed;
+        /// <summary>
+        /// Singleton instance of the <see cref="ProjectExplorer"/> class
+        /// </summary>
+        private static Lazy<ProjectExplorer> projectExplorerInstance = new Lazy<ProjectExplorer>(
+                () => { return new ProjectExplorer(); },
+                LazyThreadSafetyMode.PublicationOnly);
 
         private ProjectExplorer()
         {
-            ProjectRoot = new FolderItem(String.Empty);
-
-            Begin();
-        }
-
-        public void OnGUIOpen()
-        {
-            RefreshProjectStructure();
-        }
-
-        public static ProjectExplorer GetInstance()
-        {
-            return ProjectExplorerInstance.Value;
+            this.ProjectRoot = new FolderItem(String.Empty);
+            this.Begin();
         }
 
         ~ProjectExplorer()
         {
-            // TriggerEnd();
+            //// TriggerEnd();
         }
 
-        public void UpdateSelection(IEnumerable<ProjectItem> ProjectItems)
+        private FolderItem ProjectRoot { get; set; }
+
+        private IEnumerable<ProjectItem> UpdateSet { get; set; }
+
+        private Boolean Changed { get; set; }
+
+        public static ProjectExplorer GetInstance()
         {
-            // PropertyViewer.GetInstance().SetTargetObjects(ProjectItems.ToArray());
+            return ProjectExplorer.projectExplorerInstance.Value;
         }
 
-        public void SetUpdateSet(IEnumerable<ProjectItem> UpdateSet)
+        public void OnGUIOpen()
         {
-            this.UpdateSet = UpdateSet;
+            this.RefreshProjectStructure();
         }
 
-        public void ActivateProjectItems(IEnumerable<ProjectItem> ProjectItems, Boolean ActivationState)
+        public void UpdateSelection(IEnumerable<ProjectItem> projectItems)
         {
-            foreach (ProjectItem ProjectItem in ProjectItems)
-                ProjectItem.SetActivationState(ActivationState);
+            //// PropertyViewer.GetInstance().SetTargetObjects(projectItems.ToArray());
+        }
+
+        public void SetUpdateSet(IEnumerable<ProjectItem> updateSet)
+        {
+            this.UpdateSet = updateSet;
+        }
+
+        public void ActivateProjectItems(IEnumerable<ProjectItem> projectItems, Boolean activationState)
+        {
+            foreach (ProjectItem projectItem in projectItems)
+            {
+                projectItem.SetActivationState(activationState);
+            }
         }
 
         public void PerformDefaultAction(ProjectItem projectItem)
         {
             if (projectItem is ScriptItem)
             {
-                // ScriptEditor ScriptEditor = new ScriptEditor();
-                // ScriptEditor.EditValue(null, (projectItem as ScriptItem).LuaScript);
+                //// ScriptEditor ScriptEditor = new ScriptEditor();
+                //// ScriptEditor.EditValue(null, (projectItem as ScriptItem).LuaScript);
             }
         }
 
         public void DeleteItems(IEnumerable<ProjectItem> projectItems)
         {
-            ProjectRoot.Delete(projectItems);
-
-            RefreshProjectStructure();
+            this.ProjectRoot.Delete(projectItems);
+            this.RefreshProjectStructure();
         }
 
         public void AddProjectItem(ProjectItem projectItem, ProjectItem parent = null)
@@ -84,56 +90,159 @@ namespace Ana.Source.Project
 
             if (parent == null)
             {
-                parent = ProjectRoot;
+                parent = this.ProjectRoot;
             }
 
             projectItem.Parent = parent;
             parent.AddChild(projectItem);
 
-            RefreshProjectStructure();
+            this.RefreshProjectStructure();
 
             ProjectExplorer.GetInstance().ProjectChanged();
         }
 
-        public void UpdateSelectedIndicies(IEnumerable<Int32> Indicies)
+        public void UpdateSelectedIndicies(IEnumerable<Int32> indicies)
         {
-            // PropertyViewer.GetInstance().SetTargetObjects(null);
+            //// PropertyViewer.GetInstance().SetTargetObjects(null);
         }
 
         public ProjectItem GetProjectRoot()
         {
-            return ProjectRoot;
+            return this.ProjectRoot;
         }
 
-        public void SetProjectItems(FolderItem ProjectRoot)
+        public void SetProjectItems(FolderItem projectRoot)
         {
-            this.ProjectRoot = ProjectRoot;
-
-            RefreshProjectStructure();
-
-            ProjectExplorer.GetInstance().ProjectChanged();
-        }
-
-        private void ImportProjectItems(FolderItem ImportedProjectRoot)
-        {
-            foreach (ProjectItem Item in ImportedProjectRoot.Children)
-            {
-                ProjectRoot.AddChild(Item);
-            }
-
-            RefreshProjectStructure();
-
+            this.ProjectRoot = projectRoot;
+            this.RefreshProjectStructure();
             ProjectExplorer.GetInstance().ProjectChanged();
         }
 
         public void RefreshProjectStructure()
         {
-            ProjectRoot.BuildParents();
+            this.ProjectRoot.BuildParents();
         }
 
         public void Begin()
         {
+        }
 
+        public void ProjectChanged()
+        {
+            this.Changed = true;
+            //// Main.GetInstance().UpdateHasChanges(this.Changed);
+        }
+
+        public void ProjectSaved()
+        {
+            this.Changed = false;
+            //// Main.GetInstance().UpdateHasChanges(this.Changed);
+        }
+
+        public Boolean HasChanges()
+        {
+            return this.Changed;
+        }
+
+        public Boolean SaveProject(String path)
+        {
+            try
+            {
+                using (FileStream fileStream = new FileStream(path, FileMode.Create, FileAccess.Write))
+                {
+                    DataContractJsonSerializer serializer = new DataContractJsonSerializer(typeof(FolderItem));
+                    serializer.WriteObject(fileStream, ProjectExplorer.GetInstance().GetProjectRoot());
+                }
+            }
+            catch
+            {
+                return false;
+            }
+
+            this.ProjectSaved();
+            return true;
+        }
+
+        public Boolean OpenProject(String path)
+        {
+            if (path == null || path == String.Empty)
+            {
+                return false;
+            }
+
+            try
+            {
+                using (FileStream fileStream = new FileStream(path, FileMode.Open, FileAccess.Read))
+                {
+                    DataContractJsonSerializer serializer = new DataContractJsonSerializer(typeof(FolderItem));
+                    FolderItem projectRoot = serializer.ReadObject(fileStream) as FolderItem;
+                    this.SetProjectItems(projectRoot);
+                }
+            }
+            catch
+            {
+                return false;
+            }
+
+            this.ProjectSaved();
+            return true;
+        }
+
+        public Boolean ImportProject(String path)
+        {
+            if (path == null || path == String.Empty)
+            {
+                return false;
+            }
+
+            try
+            {
+                using (FileStream fileStream = new FileStream(path, FileMode.Open, FileAccess.Read))
+                {
+                    DataContractJsonSerializer serializer = new DataContractJsonSerializer(typeof(FolderItem));
+                    FolderItem importedProjectRoot = serializer.ReadObject(fileStream) as FolderItem;
+
+                    this.ImportProjectItems(importedProjectRoot);
+                }
+            }
+            catch
+            {
+                return false;
+            }
+
+            this.ProjectChanged();
+            return true;
+        }
+
+        protected void Update()
+        {
+            this.UpdateSet = this.CreateUpdateSet_TODO_REPLACE_ME(this.ProjectRoot);
+
+            if (this.UpdateSet == null)
+            {
+                return;
+            }
+
+            foreach (ProjectItem projectItem in this.UpdateSet)
+            {
+                projectItem.Update();
+            }
+        }
+
+        protected void End()
+        {
+        }
+
+        private void ImportProjectItems(FolderItem importedProjectRoot)
+        {
+            foreach (ProjectItem item in importedProjectRoot.Children)
+            {
+                this.ProjectRoot.AddChild(item);
+            }
+
+            this.RefreshProjectStructure();
+
+            ProjectExplorer.GetInstance().ProjectChanged();
         }
 
         /// <summary>
@@ -154,120 +263,15 @@ namespace Ana.Source.Project
                 currentSet = new List<ProjectItem>();
             }
 
-            foreach (ProjectItem Child in projectItem.Children)
+            foreach (ProjectItem child in projectItem.Children)
             {
-                currentSet.Add(Child);
-                CreateUpdateSet_TODO_REPLACE_ME(Child, currentSet);
+                currentSet.Add(child);
+                this.CreateUpdateSet_TODO_REPLACE_ME(child, currentSet);
             }
 
             return currentSet;
         }
-
-        protected void Update()
-        {
-            UpdateSet = CreateUpdateSet_TODO_REPLACE_ME(ProjectRoot);
-
-            if (UpdateSet == null)
-            {
-                return;
-            }
-
-            foreach (ProjectItem ProjectItem in UpdateSet)
-            {
-                ProjectItem.Update();
-            }
-        }
-
-        protected void End()
-        {
-
-        }
-
-        public void ProjectChanged()
-        {
-            Changed = true;
-            // Main.GetInstance().UpdateHasChanges(Changed);
-        }
-
-        public void ProjectSaved()
-        {
-            Changed = false;
-            // Main.GetInstance().UpdateHasChanges(Changed);
-        }
-
-        public Boolean HasChanges()
-        {
-            return Changed;
-        }
-
-        public Boolean SaveProject(String Path)
-        {
-            try
-            {
-                using (FileStream FileStream = new FileStream(Path, FileMode.Create, FileAccess.Write))
-                {
-                    DataContractJsonSerializer Serializer = new DataContractJsonSerializer(typeof(FolderItem));
-
-                    Serializer.WriteObject(FileStream, ProjectExplorer.GetInstance().GetProjectRoot());
-                }
-            }
-            catch
-            {
-                return false;
-            }
-
-            ProjectSaved();
-            return true;
-        }
-
-        public Boolean OpenProject(String Path)
-        {
-            if (Path == null || Path == String.Empty)
-                return false;
-
-            try
-            {
-                using (FileStream FileStream = new FileStream(Path, FileMode.Open, FileAccess.Read))
-                {
-                    DataContractJsonSerializer Serializer = new DataContractJsonSerializer(typeof(FolderItem));
-                    FolderItem ProjectRoot = Serializer.ReadObject(FileStream) as FolderItem;
-
-                    SetProjectItems(ProjectRoot);
-                }
-            }
-            catch
-            {
-                return false;
-            }
-
-            ProjectSaved();
-            return true;
-        }
-
-        public Boolean ImportProject(String Path)
-        {
-            if (Path == null || Path == String.Empty)
-                return false;
-
-            try
-            {
-                using (FileStream FileStream = new FileStream(Path, FileMode.Open, FileAccess.Read))
-                {
-                    DataContractJsonSerializer Serializer = new DataContractJsonSerializer(typeof(FolderItem));
-                    FolderItem ImportedProjectRoot = Serializer.ReadObject(FileStream) as FolderItem;
-
-                    ImportProjectItems(ImportedProjectRoot);
-                }
-            }
-            catch
-            {
-                return false;
-            }
-
-            ProjectChanged();
-            return true;
-        }
-
-    } // End class
-
-} // End namespace
+    }
+    //// End class
+}
+//// End namespace

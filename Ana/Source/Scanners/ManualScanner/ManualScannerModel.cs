@@ -12,7 +12,7 @@
     {
         public ManualScannerModel() : base("Manual Scan")
         {
-            ProgressLock = new Object();
+            this.ProgressLock = new Object();
         }
 
         private Snapshot Snapshot { get; set; }
@@ -21,9 +21,9 @@
 
         private Object ProgressLock { get; set; }
 
-        public void SetScanConstraintManager(ScanConstraintManager ScanConstraintManager)
+        public void SetScanConstraintManager(ScanConstraintManager scanConstraintManager)
         {
-            this.ScanConstraintManager = ScanConstraintManager;
+            this.ScanConstraintManager = scanConstraintManager;
         }
 
         public override void Begin()
@@ -51,7 +51,9 @@
             Int32 processedPages = 0;
 
             // Read memory to get current values
-            Parallel.ForEach(this.Snapshot.Cast<Object>(), (regionObject) =>
+            Parallel.ForEach(
+                this.Snapshot.Cast<Object>(),
+                (regionObject) =>
             {
                 SnapshotRegion region = (SnapshotRegion)regionObject;
                 Boolean readSuccess;

@@ -1,52 +1,63 @@
-﻿using Ana.Source.LuaEngine;
-using System;
-using System.ComponentModel;
-using System.Reflection;
-using System.Runtime.Serialization;
-
-namespace Ana.Source.Project.ProjectItems
+﻿namespace Ana.Source.Project.ProjectItems
 {
+    using LuaEngine;
+    using System;
+    using System.ComponentModel;
+    using System.Reflection;
+    using System.Runtime.Serialization;
+
     [Obfuscation(ApplyToMembers = true, Exclude = true)]
-    [DataContract()]
-    public class ScriptItem : ProjectItem
+    [DataContract]
+    internal class ScriptItem : ProjectItem
     {
         [Browsable(false)]
-        private LuaScript _LuaScript;
+        private LuaScript luaScript;
 
-        [DataMember()]
+        public ScriptItem() : this("New Script", null)
+        {
+        }
+
+        public ScriptItem(String description, LuaScript luaScript) : base(description)
+        {
+            this.LuaScript = luaScript;
+
+            LuaCore = null;
+        }
+
+        [DataMember]
         [Category("Properties"), DisplayName("Script"), Description("Lua script to interface with engine")]
         public LuaScript LuaScript
         {
-            get { return _LuaScript; }
+            get
+            {
+                return this.luaScript;
+            }
+
             set
             {
-                _LuaScript = value;
+                this.luaScript = value;
 
                 ProjectExplorer.GetInstance().ProjectChanged();
             }
         }
 
         [Browsable(false)]
-        private LuaCore LuaCore;
+        private LuaCore LuaCore { get; set; }
 
-        public ScriptItem() : this("New Script", null) { }
-        public ScriptItem(String Description, LuaScript LuaScript) : base(Description)
-        {
-            this.LuaScript = LuaScript;
-
-            LuaCore = null;
-        }
-
-        public override void SetActivationState(Boolean Activated)
+        public override void SetActivationState(Boolean activated)
         {
             if (LuaCore == null)
+            {
                 LuaCore = new LuaCore(LuaScript);
+            }
 
-            if (Activated)
+            if (activated)
             {
                 // Try to run script. Will not activate on failure.
                 if (!LuaCore.RunActivationFunction())
+                {
                     return;
+                }
 
                 LuaCore.RunUpdateFunction();
             }
@@ -56,11 +67,13 @@ namespace Ana.Source.Project.ProjectItems
                 LuaCore.RunDeactivationFunction();
             }
 
-            base.SetActivationState(Activated);
+            base.SetActivationState(activated);
         }
 
-        public override void Update() { }
-
-    } // End class
-
-} // End namespace
+        public override void Update()
+        {
+        }
+    }
+    //// End class
+}
+//// End namespace

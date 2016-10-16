@@ -1,18 +1,18 @@
-﻿using System;
-
-namespace Ana.Source.Project.ProjectItems.ScriptTemplates
+﻿namespace Ana.Source.Project.ProjectItems.ScriptTemplates
 {
-    class LuaTemplates
+    using System;
+
+    internal class LuaTemplates
     {
-        public static String AddCodeInjectionTemplate(String CurrentScript, String ModuleName, IntPtr ModuleOffset)
+        public static String AddCodeInjectionTemplate(String currentScript, String moduleName, IntPtr moduleOffset)
         {
-            String TemplateCode =
+            String templateCode =
                 "function OnActivate()" + "\n\t\n" +
                 "\t" + "MyCheat()" + "\n\t\n" +
                 "end" + "\n\t\n" +
 
                 "function MyCheat()" + "\n\t\n" +
-                "\t" + "local entry = Memory:GetModuleAddress(\"" + ModuleName + "\") + 0x" + ModuleOffset.ToString("x") + "\n" +
+                "\t" + "local entry = Memory:GetModuleAddress(\"" + moduleName + "\") + 0x" + moduleOffset.ToString("x") + "\n" +
                 "\t" + "Memory:SetKeyword(\"exit\", Memory:GetCaveExitAddress(entry))" + "\n\t\n" +
 
                 "\t" + "local assembly = (" + "\n" +
@@ -29,12 +29,12 @@ namespace Ana.Source.Project.ProjectItems.ScriptTemplates
                 "\t" + "Memory:RemoveAllCodeCaves()" + "\n\t\n" +
                 "end";
 
-            return CurrentScript + TemplateCode;
+            return currentScript + templateCode;
         }
 
-        public static String AddGraphicsOverlayTemplate(String CurrentScript)
+        public static String AddGraphicsOverlayTemplate(String currentScript)
         {
-            String TemplateCode =
+            String templateCode =
                 "function OnActivate()" + "\n\t\n" +
                 "\t" + "MyOverlay()" + "\n\t\n" +
                 "end" + "\n\t\n" +
@@ -46,9 +46,9 @@ namespace Ana.Source.Project.ProjectItems.ScriptTemplates
                 "function OnDeactivate()" + "\n\t\n" +
                 "end";
 
-            return CurrentScript + TemplateCode;
+            return currentScript + templateCode;
         }
-
-    } // End class
-
-} // End namespace
+    }
+    //// End class
+}
+//// End namespace

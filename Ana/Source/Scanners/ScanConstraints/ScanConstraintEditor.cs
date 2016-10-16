@@ -4,55 +4,55 @@
     using System.Collections.Generic;
     using System.Reflection;
 
-    class ScanConstraintEditor
+    internal class ScanConstraintEditor
     {
-        private ScanConstraintManager ScanConstraints;
+        private ScanConstraintManager scanConstraints;
 
         public ScanConstraintEditor()
         {
-            ScanConstraints = new ScanConstraintManager();
+            this.scanConstraints = new ScanConstraintManager();
         }
 
         public ScanConstraintManager GetScanConstraintManager()
         {
-            return ScanConstraints;
+            return this.scanConstraints;
         }
 
         public Type GetElementType()
         {
-            return ScanConstraints.GetElementType();
+            return this.scanConstraints.GetElementType();
         }
 
-        public void SetElementType(Type ElementType)
+        public void SetElementType(Type elementType)
         {
-            ScanConstraints.SetElementType(ElementType);
+            this.scanConstraints.SetElementType(elementType);
         }
 
-        public ScanConstraint GetConstraintAt(Int32 Index)
+        public ScanConstraint GetConstraintAt(Int32 index)
         {
-            return ScanConstraints[Index];
-        }
-
-        [Obfuscation(Exclude = true)]
-        public void AddConstraint(ConstraintsEnum ValueConstraint, dynamic Value)
-        {
-            ScanConstraints.AddConstraint(new ScanConstraint(ValueConstraint, Value));
+            return this.scanConstraints[index];
         }
 
         [Obfuscation(Exclude = true)]
-        public void UpdateConstraint(Int32 Index, dynamic Value)
+        public void AddConstraint(ConstraintsEnum valueConstraint, dynamic value)
         {
-            ScanConstraints[Index].Value = Value;
+            this.scanConstraints.AddConstraint(new ScanConstraint(valueConstraint, value));
         }
 
-        public void RemoveConstraints(IEnumerable<Int32> ConstraintIndicies)
+        [Obfuscation(Exclude = true)]
+        public void UpdateConstraint(Int32 index, dynamic value)
         {
-            ScanConstraints.RemoveConstraints(ConstraintIndicies);
+            this.scanConstraints[index].Value = value;
+        }
+
+        public void RemoveConstraints(IEnumerable<Int32> constraintIndicies)
+        {
+            this.scanConstraints.RemoveConstraints(constraintIndicies);
         }
 
         public void ClearConstraints()
         {
-            ScanConstraints.ClearConstraints();
+            this.scanConstraints.ClearConstraints();
         }
     }
     //// End class

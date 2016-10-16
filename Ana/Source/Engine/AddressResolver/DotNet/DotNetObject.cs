@@ -8,6 +8,25 @@
 
     public class DotNetObject : IEnumerable, IComparable<DotNetObject>
     {
+        public DotNetObject(DotNetObject parent, UInt64 objectReference, Type elementType, String name)
+        {
+            this.Parent = parent;
+            this.ObjectReference = unchecked(objectReference);
+            this.ElementType = elementType;
+
+            // Trim root name from all objects if applicable
+            String rootName = this.GetRootName();
+
+            if (name.StartsWith(rootName))
+            {
+                name = name.Remove(0, rootName.Length);
+            }
+
+            this.Name = name;
+
+            this.Children = new List<DotNetObject>();
+        }
+
         [ReadOnly(true)]
         [Category("Properties"), DisplayName("Address"), Description("Address of the object. The CLR can change this at any time")]
         public UInt64 ObjectReference { get; set; }
@@ -20,52 +39,33 @@
         [Category("Properties"), DisplayName("Value Type"), Description("Data type of the address")]
         public Type ElementType { get; set; }
 
-        private DotNetObject parent { get; set; }
+        private DotNetObject Parent { get; set; }
 
-        private List<DotNetObject> children { get; set; }
-
-        public DotNetObject(DotNetObject parent, UInt64 objectReference, Type elementType, String name)
-        {
-            this.parent = parent;
-            this.ObjectReference = unchecked(objectReference);
-            this.ElementType = elementType;
-
-            // Trim root name from all objects if applicable
-            String rootName = GetRootName();
-
-            if (name.StartsWith(rootName))
-            {
-                name = name.Remove(0, rootName.Length);
-            }
-
-            this.Name = name;
-
-            children = new List<DotNetObject>();
-        }
+        private List<DotNetObject> Children { get; set; }
 
         public void AddChild(DotNetObject objectNode)
         {
-            if (!children.Contains(objectNode))
+            if (!this.Children.Contains(objectNode))
             {
-                children.Add(objectNode);
+                this.Children.Add(objectNode);
             }
         }
 
         public List<DotNetObject> GetChildren()
         {
-            return children;
+            return this.Children;
         }
 
         public void SortChildren()
         {
-            children.Sort();
+            this.Children.Sort();
         }
 
         public IntPtr GetAddress()
         {
             try
             {
-                return ObjectReference.ToIntPtr();
+                return this.ObjectReference.ToIntPtr();
             }
             catch
             {
@@ -75,37 +75,17 @@
 
         public Type GetElementType()
         {
-            return ElementType == null ? typeof(Int32) : ElementType;
+            return this.ElementType == null ? typeof(Int32) : this.ElementType;
         }
 
         public String GetName()
         {
-            return Name == null ? String.Empty : Name;
+            return this.Name == null ? String.Empty : this.Name;
         }
 
         public String GetFullName()
         {
-            return GetFullNamespace(String.Empty);
-        }
-
-        private String GetRootName()
-        {
-            if (parent == null)
-            {
-                return GetName();
-            }
-
-            return parent.GetRootName();
-        }
-
-        private String GetFullNamespace(String CurrentNamespace)
-        {
-            if (parent == null)
-            {
-                return GetRootName();
-            }
-
-            return parent.GetFullNamespace(CurrentNamespace) + "." + Name;
+            return this.GetFullNamespace(String.Empty);
         }
 
         public Int32 CompareTo(DotNetObject other)
@@ -125,7 +105,27 @@
 
         public IEnumerator GetEnumerator()
         {
-            return ((IEnumerable)children).GetEnumerator();
+            return ((IEnumerable)this.Children).GetEnumerator();
+        }
+
+        private String GetRootName()
+        {
+            if (this.Parent == null)
+            {
+                return this.GetName();
+            }
+
+            return this.Parent.GetRootName();
+        }
+
+        private String GetFullNamespace(String currentNamespace)
+        {
+            if (this.Parent == null)
+            {
+                return this.GetRootName();
+            }
+
+            return this.Parent.GetFullNamespace(currentNamespace) + "." + this.Name;
         }
     }
     //// End class

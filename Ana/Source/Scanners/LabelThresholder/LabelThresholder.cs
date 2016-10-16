@@ -11,6 +11,11 @@
 
     internal class LabelThresholder
     {
+        public LabelThresholder()
+        {
+            this.ItemLock = new Object();
+        }
+
         private Snapshot Snapshot { get; set; }
 
         private SortedDictionary<dynamic, Int64> SortedDictionary { get; set; }
@@ -25,25 +30,20 @@
         [Obfuscation(Exclude = true)]
         private dynamic MaxValue { get; set; }
 
-        public LabelThresholder()
+        public void SetInverted(Boolean inverted)
         {
-            ItemLock = new Object();
-        }
-
-        public void SetInverted(Boolean Inverted)
-        {
-            this.Inverted = Inverted;
+            this.Inverted = inverted;
         }
 
         public void UpdateThreshold(Int32 minimumIndex, Int32 maximumIndex)
         {
-            if (SortedDictionary == null)
+            if (this.SortedDictionary == null)
             {
                 return;
             }
 
-            this.MinValue = SortedDictionary.ElementAt(minimumIndex).Key;
-            this.MaxValue = SortedDictionary.ElementAt(maximumIndex).Key;
+            this.MinValue = this.SortedDictionary.ElementAt(minimumIndex).Key;
+            this.MaxValue = this.SortedDictionary.ElementAt(maximumIndex).Key;
         }
 
         public Type GetElementType()
@@ -56,11 +56,50 @@
             return Snapshot.ElementType;
         }
 
+        public void ApplyThreshold()
+        {
+            if (this.Snapshot == null)
+            {
+                return;
+            }
+
+            if (!this.Inverted)
+            {
+                this.Snapshot.MarkAllInvalid();
+                foreach (SnapshotRegion region in this.Snapshot)
+                {
+                    foreach (dynamic element in region)
+                    {
+                        if (element.ElementLabel >= this.MinValue && element.ElementLabel <= this.MaxValue)
+                        {
+                            element.Valid = true;
+                        }
+                    }
+                }
+            }
+            else
+            {
+                this.Snapshot.MarkAllValid();
+                foreach (SnapshotRegion region in this.Snapshot)
+                {
+                    foreach (dynamic element in region)
+                    {
+                        if (element.ElementLabel >= this.MinValue && element.ElementLabel <= this.MaxValue)
+                        {
+                            element.Valid = false;
+                        }
+                    }
+                }
+            }
+
+            this.Snapshot.DiscardInvalidRegions();
+        }
+
         public void Begin()
         {
-            Snapshot = SnapshotManager.GetInstance().GetActiveSnapshot(false);
+            this.Snapshot = SnapshotManager.GetInstance().GetActiveSnapshot(false);
 
-            if (Snapshot == null)
+            if (this.Snapshot == null)
             {
                 return;
             }
@@ -70,7 +109,9 @@
         {
             ConcurrentDictionary<dynamic, Int64> histogram = new ConcurrentDictionary<dynamic, Int64>();
 
-            Parallel.ForEach(Snapshot.Cast<Object>(), (regionObject) =>
+            Parallel.ForEach(
+                this.Snapshot.Cast<Object>(),
+                (regionObject) =>
             {
                 SnapshotRegion Region = (SnapshotRegion)regionObject;
                 foreach (dynamic Element in Region)
@@ -80,12 +121,16 @@
                         return;
                     }
 
-                    using (TimedLock.Lock(ItemLock))
+                    using (TimedLock.Lock(this.ItemLock))
                     {
                         if (histogram.ContainsKey(Element.ElementLabel))
+                        {
                             histogram[((dynamic)Element.ElementLabel)]++;
+                        }
                         else
+                        {
                             histogram.TryAdd(Element.ElementLabel, 1);
+                        }
                     }
                 }
                 //// End foreach element
@@ -93,58 +138,14 @@
             //// End foreach region
 
             this.SortedDictionary = new SortedDictionary<dynamic, Int64>(histogram);
-
             //// LabelThresholderEventArgs Args = new LabelThresholderEventArgs();
             //// Args.SortedDictionary = SortedDictionary;
             //// OnEventUpdateHistogram(Args);
-
             //// CancelFlag = true;
         }
 
         protected void End()
         {
-
-        }
-
-        public void ApplyThreshold()
-        {
-            if (Snapshot == null)
-            {
-                return;
-            }
-
-            if (!Inverted)
-            {
-                Snapshot.MarkAllInvalid();
-                foreach (SnapshotRegion region in Snapshot)
-                {
-                    foreach (dynamic element in region)
-                    {
-                        if (element.ElementLabel >= MinValue && element.ElementLabel <= MaxValue)
-                        {
-                            element.Valid = true;
-                        }
-                    }
-                }
-            }
-            else
-            {
-                Snapshot.MarkAllValid();
-                foreach (SnapshotRegion region in Snapshot)
-                {
-                    foreach (dynamic element in region)
-                    {
-                        if (element.ElementLabel >= MinValue && element.ElementLabel <= MaxValue)
-                        {
-                            element.Valid = false;
-                        }
-                    }
-                }
-            }
-
-            Snapshot.DiscardInvalidRegions();
-            //// Snapshot.SetScanMethod("Label Thresholder");
-            //// SnapshotManager.GetInstance().SaveSnapshot(Snapshot);
         }
     }
     //// End class

@@ -1,61 +1,57 @@
-﻿using Ana.Source.LuaEngine.Graphics;
-using Ana.Source.LuaEngine.Hook;
-using Ana.Source.LuaEngine.Input;
-using Ana.Source.LuaEngine.Memory;
-using NLua;
-using System;
-using System.Threading;
-using System.Threading.Tasks;
-
-namespace Ana.Source.LuaEngine
+﻿namespace Ana.Source.LuaEngine
 {
+    using Graphics;
+    using Hook;
+    using Input;
+    using Memory;
+    using NLua;
+    using System;
+    using System.Threading;
+    using System.Threading.Tasks;
+
     internal class LuaCore
     {
-        private const Int32 AbortTime = 500;    // Time to wait for the update loop to finish on deactivation
-        private const Int32 UpdateTime = 65;    // Update called ~15 times per second
+        /// <summary>
+        /// Time to wait for the update loop to finish on deactivation
+        /// </summary>
+        private const Int32 AbortTime = 500;
 
-        private Lua ScriptEngine;
-        private IMemoryCore LuaMemoryCore;
-        private IGraphicsCore LuaGraphicsCore;
-        private IHookCore LuaHookCore;
-        private IInputCore LuaInputCore;
-
-        private CancellationTokenSource CancelRequest;  // Tells the task to finish
-        private Task Task;                              // Event that constantly checks the target process for changes
-
-        private String LuaScriptRaw;
+        /// <summary>
+        /// Update time in milliseconds
+        /// </summary>
+        private const Int32 UpdateTime = 1000 / 15;
 
         public LuaCore()
         {
-            InitializeLuaEngine();
+            this.InitializeLuaEngine();
         }
 
-        public LuaCore(LuaScript LuaScript) : base()
+        public LuaCore(LuaScript luaScript) : base()
         {
-            this.LuaScriptRaw = ReplaceTags(LuaScript?.Script);
+            this.LuaScriptRaw = this.ReplaceTags(luaScript?.Script);
         }
 
-        private void InitializeLuaEngine()
-        {
-            ScriptEngine = new Lua();
-            LuaMemoryCore = new LuaMemoryCore();
-            LuaGraphicsCore = new LuaGraphicsCore();
-            LuaHookCore = new LuaHookCore();
-            LuaInputCore = new LuaInputCore();
+        private Lua ScriptEngine { get; set; }
 
-            BindFunctions();
-        }
+        private IMemoryCore LuaMemoryCore { get; set; }
 
-        private void BindFunctions()
-        {
-            // Disallow users to import libraries
-            ScriptEngine.DoString(@" import = function () end ");
+        private IGraphicsCore LuaGraphicsCore { get; set; }
 
-            // Bind the lua functions to a user accessible object
-            ScriptEngine["Memory"] = LuaMemoryCore;
-            ScriptEngine["Graphics"] = LuaGraphicsCore;
-            ScriptEngine["Hook"] = LuaHookCore;
-        }
+        private IHookCore LuaHookCore { get; set; }
+
+        private IInputCore LuaInputCore { get; set; }
+
+        /// <summary>
+        /// Gets or sets a cancelation request for the update loop
+        /// </summary>
+        private CancellationTokenSource CancelRequest { get; set; }
+
+        /// <summary>
+        /// Gets or sets the task for the update loop
+        /// </summary>
+        private Task Task { get; set; }
+
+        private String LuaScriptRaw { get; set; }
 
         /// <summary>
         /// Runs the activation function in the Lua script
@@ -64,17 +60,19 @@ namespace Ana.Source.LuaEngine
         public Boolean RunActivationFunction()
         {
             // Prevent issues that may come from internal LUA crashes (caused by malformed scripts) by reinitializing engine
-            InitializeLuaEngine();
+            this.InitializeLuaEngine();
 
             try
             {
-                ScriptEngine.DoString(LuaScriptRaw);
-                LuaFunction Function = ScriptEngine["OnActivate"] as LuaFunction;
+                this.ScriptEngine.DoString(this.LuaScriptRaw);
+                LuaFunction function = this.ScriptEngine["OnActivate"] as LuaFunction;
 
-                if (Function == null)
+                if (function == null)
+                {
                     return false;
+                }
 
-                Function.Call();
+                function.Call();
 
                 // Indicate successful activation
                 return true;
@@ -93,37 +91,42 @@ namespace Ana.Source.LuaEngine
         {
             try
             {
-                if (ScriptEngine["OnUpdate"] as LuaFunction == null)
+                if (this.ScriptEngine["OnUpdate"] as LuaFunction == null)
+                {
                     return;
+                }
             }
-            catch { }
+            catch
+            {
+            }
 
-            DateTime PreviousTime = DateTime.Now;
-            TimeSpan ElapsedTime;
+            DateTime previousTime = DateTime.Now;
+            TimeSpan elapsedTime;
 
-            CancelRequest = new CancellationTokenSource();
+            this.CancelRequest = new CancellationTokenSource();
 
             try
             {
-                Task = Task.Run(async () =>
+                this.Task = Task.Run(
+                    async () =>
                 {
                     LuaFunction Function = ScriptEngine["OnUpdate"] as LuaFunction;
 
                     while (true)
                     {
-                        DateTime CurrentTime = DateTime.Now;
-                        ElapsedTime = CurrentTime - PreviousTime;
+                        DateTime currentTime = DateTime.Now;
+                        elapsedTime = currentTime - previousTime;
 
                         // Call the update function, giving the elapsed milliseconds since the previous call
-                        Function.Call(ElapsedTime.TotalMilliseconds);
+                        Function.Call(elapsedTime.TotalMilliseconds);
 
-                        PreviousTime = CurrentTime;
+                        previousTime = currentTime;
 
                         // Await with cancellation
-                        await Task.Delay(UpdateTime, CancelRequest.Token);
+                        await Task.Delay(LuaCore.UpdateTime, this.CancelRequest.Token);
                     }
-
-                }, CancelRequest.Token);
+                },
+                    this.CancelRequest.Token);
 
                 return;
             }
@@ -136,8 +139,6 @@ namespace Ana.Source.LuaEngine
         /// <summary>
         /// Runs the deactivation function in the Lua script
         /// </summary>
-        /// <param name="Script"></param>
-        /// <returns></returns>
         public void RunDeactivationFunction()
         {
             try
@@ -145,13 +146,15 @@ namespace Ana.Source.LuaEngine
                 // Abort the update loop
                 try
                 {
-                    CancelRequest?.Cancel();
-                    Task?.Wait(AbortTime);
+                    this.CancelRequest?.Cancel();
+                    this.Task?.Wait(LuaCore.AbortTime);
                 }
-                catch (Exception) { }
+                catch (Exception)
+                {
+                }
 
-                LuaFunction Function = ScriptEngine["OnDeactivate"] as LuaFunction;
-                Function.Call();
+                LuaFunction function = this.ScriptEngine["OnDeactivate"] as LuaFunction;
+                function.Call();
                 return;
             }
             catch
@@ -160,22 +163,46 @@ namespace Ana.Source.LuaEngine
             }
         }
 
-        private String ReplaceTags(String Script)
+        private void InitializeLuaEngine()
         {
-            if (Script == null)
-                return String.Empty;
+            this.ScriptEngine = new Lua();
+            this.LuaMemoryCore = new LuaMemoryCore();
+            this.LuaGraphicsCore = new LuaGraphicsCore();
+            this.LuaHookCore = new LuaHookCore();
+            this.LuaInputCore = new LuaInputCore();
 
-            // Removes the assembly tags and instead places a string body.
-            // This is done such that the LUA frontend can do its syntax highlighting with minmal effort
-            // Script = Regex.Replace(Script, "\\[fasm\\]", "[[", RegexOptions.IgnoreCase);
-            // Script = Regex.Replace(Script, "\\[/fasm\\]", "]]", RegexOptions.IgnoreCase);
-
-            Script = Script.Replace("[fasm]", "[[");
-            Script = Script.Replace("[/fasm]", "]]");
-
-            return Script;
+            this.BindFunctions();
         }
 
-    } // End class
+        private void BindFunctions()
+        {
+            // Disallow users to import libraries
+            this.ScriptEngine.DoString(@" import = function () end ");
 
-} // End namespace
+            // Bind the lua functions to a user accessible object
+            this.ScriptEngine["Memory"] = this.LuaMemoryCore;
+            this.ScriptEngine["Graphics"] = this.LuaGraphicsCore;
+            this.ScriptEngine["Hook"] = this.LuaHookCore;
+        }
+
+        private String ReplaceTags(String script)
+        {
+            if (script == null)
+            {
+                return String.Empty;
+            }
+
+            //// Removes the assembly tags and instead places a string body.
+            //// This is done such that the LUA frontend can do its syntax highlighting with minmal effort
+            //// script = Regex.Replace(script, "\\[fasm\\]", "[[", RegexOptions.IgnoreCase);
+            //// script = Regex.Replace(script, "\\[/fasm\\]", "]]", RegexOptions.IgnoreCase);
+
+            script = script.Replace("[fasm]", "[[");
+            script = script.Replace("[/fasm]", "]]");
+
+            return script;
+        }
+    }
+    //// End class
+}
+//// End namespace

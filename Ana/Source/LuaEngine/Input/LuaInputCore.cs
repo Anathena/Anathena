@@ -4,9 +4,8 @@
     {
         public LuaInputCore()
         {
-
         }
-
-    } // End class
-
-} // End namespace
+    }
+    //// End class
+}
+//// End namespace

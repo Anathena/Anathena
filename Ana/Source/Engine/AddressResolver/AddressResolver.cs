@@ -13,6 +13,10 @@
     /// </summary>
     internal class AddressResolver : RepeatedTask
     {
+        private const Int32 ResolveIntervalInitial = 200;
+
+        private const Int32 ResolveInterval = 5000;
+
         /// <summary>
         /// Singleton instance of the <see cref="AddressResolver" /> class
         /// </summary>
@@ -20,13 +24,12 @@
             () => { return new AddressResolver(); },
             LazyThreadSafetyMode.PublicationOnly);
 
-        private const Int32 ResolveIntervalInitial = 200;
-
-        private const Int32 ResolveInterval = 5000;
-
-        private Dictionary<String, DotNetObject> dotNetNameMap;
-
-        private IEnumerable<NormalizedModule> modules;
+        private AddressResolver()
+        {
+            this.DotNetNameMap = new Dictionary<String, DotNetObject>();
+            this.Modules = new List<NormalizedModule>();
+            this.Begin();
+        }
 
         public enum ResolveTypeEnum
         {
@@ -35,12 +38,9 @@
             //// Java
         }
 
-        private AddressResolver()
-        {
-            this.dotNetNameMap = new Dictionary<String, DotNetObject>();
-            this.modules = new List<NormalizedModule>();
-            this.Begin();
-        }
+        private Dictionary<String, DotNetObject> DotNetNameMap { get; set; }
+
+        private IEnumerable<NormalizedModule> Modules { get; set; }
 
         public static AddressResolver GetInstance()
         {
@@ -52,7 +52,7 @@
             IntPtr result = IntPtr.Zero;
             DotNetObject dotNetObject;
 
-            if (dotNetNameMap.TryGetValue(identifier, out dotNetObject))
+            if (this.DotNetNameMap.TryGetValue(identifier, out dotNetObject))
             {
                 result = dotNetObject.GetAddress();
             }
@@ -73,17 +73,22 @@
             List<DotNetObject> objectTrees = new List<DotNetObject>(); // DotNetObjectCollector.GetInstance().GetObjectTrees();
 
             // Build module list
-            modules = EngineCore.GetInstance().OperatingSystemAdapter.GetModules();
+            this.Modules = EngineCore.GetInstance().OperatingSystemAdapter.GetModules();
 
             // Build .NET object list
-            objectTrees?.ForEach(x => BuildNameMap(nameMap, x));
-            this.dotNetNameMap = nameMap;
+            objectTrees?.ForEach(x => this.BuildNameMap(nameMap, x));
+            this.DotNetNameMap = nameMap;
 
             // After we have successfully grabbed information from the process, slow the update interval
-            if ((modules != null && modules.Count() != 0) || objectTrees != null)
+            if ((this.Modules != null && this.Modules.Count() != 0) || objectTrees != null)
             {
                 this.UpdateInterval = ResolveInterval;
             }
+        }
+
+        protected override void End()
+        {
+            base.End();
         }
 
         private void BuildNameMap(Dictionary<String, DotNetObject> nameMap, DotNetObject currentObject)
@@ -94,12 +99,7 @@
             }
 
             nameMap[currentObject.GetFullName()] = currentObject;
-            currentObject?.GetChildren()?.ForEach(x => BuildNameMap(nameMap, x));
-        }
-
-        protected override void End()
-        {
-            base.End();
+            currentObject?.GetChildren()?.ForEach(x => this.BuildNameMap(nameMap, x));
         }
     }
     //// End class

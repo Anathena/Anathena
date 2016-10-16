@@ -1,15 +1,24 @@
-﻿using Ana.Source.Engine.SpeedManipulator;
-using System;
-
-namespace Ana.Source.LuaEngine.Hook
+﻿namespace Ana.Source.LuaEngine.Hook
 {
+    using Engine.SpeedManipulator;
+    using System;
+
     internal class LuaHookCore : IHookCore
     {
-        private Object AccessLock;
-
         public LuaHookCore()
         {
-            AccessLock = new Object();
+            this.AccessLock = new Object();
+        }
+
+        private Object AccessLock { get; set; }
+
+        public void SetSpeed(Double speed)
+        {
+        }
+
+        public void SetRandomSeed(UInt32 seed)
+        {
+            throw new NotImplementedException();
         }
 
         /// <summary>
@@ -20,17 +29,7 @@ namespace Ana.Source.LuaEngine.Hook
         {
             return null;
         }
-
-        public void SetSpeed(Double Speed)
-        {
-
-        }
-
-        public void SetRandomSeed(UInt32 Seed)
-        {
-            throw new NotImplementedException();
-        }
-
-    } // End class
-
-} // End namespace
+    }
+    //// End class
+}
+//// End namespace

@@ -1,19 +1,25 @@
-﻿using System;
-using System.Reflection;
-using System.Runtime.Serialization;
-
-namespace Ana.Source.Project.ProjectItems
+﻿namespace Ana.Source.Project.ProjectItems
 {
+    using System;
+    using System.Reflection;
+    using System.Runtime.Serialization;
+
     [Obfuscation(ApplyToMembers = true, Exclude = true)]
-    [DataContract()]
+    [DataContract]
     public class FolderItem : ProjectItem
     {
-        public FolderItem() : this("New Folder") { }
+        public FolderItem() : this("New Folder")
+        {
+        }
 
-        public FolderItem(String Description) : base(Description) { }
+        public FolderItem(String description) : base(description)
+        {
+        }
 
-        public override void Update() { }
-
-    } // End class
-
-} // End namespace
+        public override void Update()
+        {
+        }
+    }
+    //// End class
+}
+//// End namespace

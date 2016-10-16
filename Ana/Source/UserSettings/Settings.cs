@@ -6,129 +6,161 @@
     using System.Threading;
 
     [Obfuscation(ApplyToMembers = true, Exclude = true)]
-    class Settings
+    internal class Settings
     {
-        // Singleton instance of Settings
-        private static Lazy<Settings> SettingsInstance = new Lazy<Settings>(() => { return new Settings(); }, LazyThreadSafetyMode.PublicationOnly);
+        private static Lazy<Settings> settingsInstance = new Lazy<Settings>(
+            () => { return new Settings(); },
+            LazyThreadSafetyMode.PublicationOnly);
 
-        private Settings() { }
-
-        public void OnGUIOpen() { }
+        private Settings()
+        {
+        }
 
         public static Settings GetInstance()
         {
-            return SettingsInstance.Value;
+            return settingsInstance.Value;
         }
 
-        public void UpdateTypeSettings(Boolean None, Boolean Private, Boolean Mapped, Boolean Image)
+        public void OnGUIOpen()
         {
-            Properties.Settings.Default.MemoryTypeNone = None;
-            Properties.Settings.Default.MemoryTypePrivate = Private;
-            Properties.Settings.Default.MemoryTypeMapped = Mapped;
-            Properties.Settings.Default.MemoryTypeImage = Image;
         }
 
-        public void UpdateRequiredProtectionSettings(Boolean RequiredWrite, Boolean RequiredExecute, Boolean RequiredCopyOnWrite)
+        public void UpdateTypeSettings(Boolean noneMemory, Boolean privateMemory, Boolean mappedMemory, Boolean imageMemory)
         {
-            Properties.Settings.Default.RequiredWrite = RequiredWrite;
-            Properties.Settings.Default.RequiredExecute = RequiredExecute;
-            Properties.Settings.Default.RequiredCopyOnWrite = RequiredCopyOnWrite;
+            Properties.Settings.Default.MemoryTypeNone = noneMemory;
+            Properties.Settings.Default.MemoryTypePrivate = privateMemory;
+            Properties.Settings.Default.MemoryTypeMapped = mappedMemory;
+            Properties.Settings.Default.MemoryTypeImage = imageMemory;
         }
 
-        public void UpdateIgnoredProtectionSettings(Boolean ExcludedWrite, Boolean ExcludedExecute, Boolean ExcludedCopyOnWrite)
+        public void UpdateRequiredProtectionSettings(Boolean requiredWrite, Boolean requiredExecute, Boolean requiredCopyOnWrite)
         {
-            Properties.Settings.Default.ExcludedWrite = ExcludedWrite;
-            Properties.Settings.Default.ExcludedExecute = ExcludedExecute;
-            Properties.Settings.Default.ExcludedCopyOnWrite = ExcludedCopyOnWrite;
+            Properties.Settings.Default.RequiredWrite = requiredWrite;
+            Properties.Settings.Default.RequiredExecute = requiredExecute;
+            Properties.Settings.Default.RequiredCopyOnWrite = requiredCopyOnWrite;
         }
 
-        public void UpdateFreezeInterval(Int32 FreezeInterval)
+        public void UpdateIgnoredProtectionSettings(Boolean excludedWrite, Boolean excludedExecute, Boolean excludedCopyOnWrite)
         {
-            Properties.Settings.Default.FreezeInterval = FreezeInterval;
+            Properties.Settings.Default.ExcludedWrite = excludedWrite;
+            Properties.Settings.Default.ExcludedExecute = excludedExecute;
+            Properties.Settings.Default.ExcludedCopyOnWrite = excludedCopyOnWrite;
         }
 
-        public void UpdateRescanInterval(Int32 RescanInterval)
+        public void UpdateFreezeInterval(Int32 freezeInterval)
         {
-            Properties.Settings.Default.RescanInterval = RescanInterval;
+            Properties.Settings.Default.FreezeInterval = freezeInterval;
         }
 
-        public void UpdateResultReadInterval(Int32 ResultReadInterval)
+        public void UpdateRescanInterval(Int32 rescanInterval)
         {
-            Properties.Settings.Default.ResultReadInterval = ResultReadInterval;
+            Properties.Settings.Default.RescanInterval = rescanInterval;
         }
 
-        public void UpdateTableReadInterval(Int32 TableReadInterval)
+        public void UpdateResultReadInterval(Int32 resultReadInterval)
         {
-            Properties.Settings.Default.TableReadInterval = TableReadInterval;
+            Properties.Settings.Default.ResultReadInterval = resultReadInterval;
         }
 
-        public void UpdateInputCorrelatorTimeOutInterval(Int32 InputCorrelatorTimeOutInterval)
+        public void UpdateTableReadInterval(Int32 tableReadInterval)
         {
-            Properties.Settings.Default.InputCorrelatorTimeOutInterval = InputCorrelatorTimeOutInterval;
+            Properties.Settings.Default.TableReadInterval = tableReadInterval;
         }
 
-        public void UpdateAlignmentSettings(Int32 Alignment)
+        public void UpdateInputCorrelatorTimeOutInterval(Int32 inputCorrelatorTimeOutInterval)
         {
-            Properties.Settings.Default.Alignment = Alignment;
+            Properties.Settings.Default.InputCorrelatorTimeOutInterval = inputCorrelatorTimeOutInterval;
         }
 
-        public void UpdateIsUserMode(Boolean IsUserMode)
+        public void UpdateAlignmentSettings(Int32 alignment)
         {
-            Properties.Settings.Default.IsUserMode = IsUserMode;
+            Properties.Settings.Default.Alignment = alignment;
         }
 
-        public void UpdateStartAddress(UInt64 StartAddress)
+        public void UpdateIsUserMode(Boolean isUserMode)
         {
-            Properties.Settings.Default.StartAddress = StartAddress;
+            Properties.Settings.Default.IsUserMode = isUserMode;
         }
 
-        public void UpdateEndAddress(UInt64 EndAddress)
+        public void UpdateStartAddress(UInt64 startAddress)
         {
-            Properties.Settings.Default.EndAddress = EndAddress;
+            Properties.Settings.Default.StartAddress = startAddress;
+        }
+
+        public void UpdateEndAddress(UInt64 endAddress)
+        {
+            Properties.Settings.Default.EndAddress = endAddress;
         }
 
         public MemoryTypeEnum GetAllowedTypeSettings()
         {
-            MemoryTypeEnum Result = 0;
+            MemoryTypeEnum result = 0;
 
             if (Properties.Settings.Default.MemoryTypeNone)
-                Result |= MemoryTypeEnum.None;
-            if (Properties.Settings.Default.MemoryTypePrivate)
-                Result |= MemoryTypeEnum.Private;
-            if (Properties.Settings.Default.MemoryTypeImage)
-                Result |= MemoryTypeEnum.Image;
-            if (Properties.Settings.Default.MemoryTypeMapped)
-                Result |= MemoryTypeEnum.Mapped;
+            {
+                result |= MemoryTypeEnum.None;
+            }
 
-            return Result;
+            if (Properties.Settings.Default.MemoryTypePrivate)
+            {
+                result |= MemoryTypeEnum.Private;
+            }
+
+            if (Properties.Settings.Default.MemoryTypeImage)
+            {
+                result |= MemoryTypeEnum.Image;
+            }
+
+            if (Properties.Settings.Default.MemoryTypeMapped)
+            {
+                result |= MemoryTypeEnum.Mapped;
+            }
+
+            return result;
         }
 
         public MemoryProtectionEnum GetRequiredProtectionSettings()
         {
-            MemoryProtectionEnum Result = 0;
+            MemoryProtectionEnum result = 0;
 
             if (Properties.Settings.Default.RequiredWrite)
-                Result |= MemoryProtectionEnum.Write;
-            if (Properties.Settings.Default.RequiredExecute)
-                Result |= MemoryProtectionEnum.Execute;
-            if (Properties.Settings.Default.RequiredCopyOnWrite)
-                Result |= MemoryProtectionEnum.CopyOnWrite;
+            {
+                result |= MemoryProtectionEnum.Write;
+            }
 
-            return Result;
+            if (Properties.Settings.Default.RequiredExecute)
+            {
+                result |= MemoryProtectionEnum.Execute;
+            }
+
+            if (Properties.Settings.Default.RequiredCopyOnWrite)
+            {
+                result |= MemoryProtectionEnum.CopyOnWrite;
+            }
+
+            return result;
         }
 
         public MemoryProtectionEnum GetExcludedProtectionSettings()
         {
-            MemoryProtectionEnum Result = 0;
+            MemoryProtectionEnum result = 0;
 
             if (Properties.Settings.Default.ExcludedWrite)
-                Result |= MemoryProtectionEnum.Write;
-            if (Properties.Settings.Default.ExcludedExecute)
-                Result |= MemoryProtectionEnum.Execute;
-            if (Properties.Settings.Default.ExcludedCopyOnWrite)
-                Result |= MemoryProtectionEnum.CopyOnWrite;
+            {
+                result |= MemoryProtectionEnum.Write;
+            }
 
-            return Result;
+            if (Properties.Settings.Default.ExcludedExecute)
+            {
+                result |= MemoryProtectionEnum.Execute;
+            }
+
+            if (Properties.Settings.Default.ExcludedCopyOnWrite)
+            {
+                result |= MemoryProtectionEnum.CopyOnWrite;
+            }
+
+            return result;
         }
 
         public Int32 GetFreezeInterval()
@@ -175,7 +207,7 @@
         {
             return Properties.Settings.Default.EndAddress;
         }
-
-    } // End class
-
-} // End namespace
+    }
+    //// End class
+}
+//// End namespace

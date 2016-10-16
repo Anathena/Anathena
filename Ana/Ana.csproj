@@ -166,7 +166,9 @@
     <Compile Include="Source\LuaEngine\Input\IInputCore.cs" />
     <Compile Include="Source\LuaEngine\Input\LuaInputCore.cs" />
     <Compile Include="Source\LuaEngine\LuaCore.cs" />
-    <Compile Include="Source\LuaEngine\LuaKeywordManager.cs" />
+    <Compile Include="Source\LuaEngine\LuaKeywordManager.cs">
+      <ExcludeFromStyleCop>False</ExcludeFromStyleCop>
+    </Compile>
     <Compile Include="Source\LuaEngine\LuaScript.cs" />
     <Compile Include="Source\LuaEngine\Memory\IMemoryCore.cs" />
     <Compile Include="Source\LuaEngine\Memory\LuaMemoryCore.cs" />

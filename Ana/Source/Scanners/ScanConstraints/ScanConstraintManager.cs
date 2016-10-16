@@ -11,50 +11,50 @@
     /// </summary>
     public class ScanConstraintManager : IEnumerable
     {
-        protected List<ScanConstraint> ValueConstraints;
-
-        protected Type ElementType;
-
         public ScanConstraintManager()
         {
-            ValueConstraints = new List<ScanConstraint>();
+            this.ValueConstraints = new List<ScanConstraint>();
         }
 
+        protected List<ScanConstraint> ValueConstraints { get; set; }
+
+        protected Type ElementType { get; set; }
+
         [Obfuscation(Exclude = true)]
-        public ScanConstraint this[Int32 Index]
+        public ScanConstraint this[Int32 index]
         {
             get
             {
-                return ValueConstraints[Index];
+                return this.ValueConstraints[index];
             }
         }
 
         public Type GetElementType()
         {
-            return ElementType;
+            return this.ElementType;
         }
 
         public Int32 GetCount()
         {
-            return ValueConstraints.Count;
+            return this.ValueConstraints.Count;
         }
 
-        public void SetElementType(Type ElementType)
+        public void SetElementType(Type elementType)
         {
-            this.ElementType = ElementType;
+            this.ElementType = elementType;
 
-            foreach (ScanConstraint ScanConstraint in ValueConstraints.Select(x => x).Reverse())
+            foreach (ScanConstraint scanConstraint in this.ValueConstraints.Select(x => x).Reverse())
             {
-                if (ScanConstraint.Constraint == ConstraintsEnum.NotScientificNotation)
+                if (scanConstraint.Constraint == ConstraintsEnum.NotScientificNotation)
                 {
-                    if (ElementType != typeof(Single) && ElementType != typeof(Double))
+                    if (elementType != typeof(Single) && elementType != typeof(Double))
                     {
-                        ValueConstraints.Remove(ScanConstraint);
+                        this.ValueConstraints.Remove(scanConstraint);
                         continue;
                     }
                 }
 
-                if (ScanConstraint.Value == null)
+                if (scanConstraint.Value == null)
                 {
                     continue;
                 }
@@ -62,45 +62,47 @@
                 try
                 {
                     // Attempt to cast the value to the new type
-                    ScanConstraint.Value = Convert.ChangeType(ScanConstraint.Value, ElementType);
+                    scanConstraint.Value = Convert.ChangeType(scanConstraint.Value, elementType);
                 }
                 catch
                 {
                     // Could not convert the data type, just remove it
-                    ValueConstraints.Remove(ScanConstraint);
+                    this.ValueConstraints.Remove(scanConstraint);
                 }
             }
         }
 
         public Boolean HasRelativeConstraint()
         {
-            foreach (ScanConstraint ValueConstraint in this)
+            foreach (ScanConstraint valueConstraint in this)
             {
-                if (ValueConstraint.IsRelativeConstraint())
+                if (valueConstraint.IsRelativeConstraint())
+                {
                     return true;
+                }
             }
 
             return false;
         }
 
-        public void AddConstraint(ScanConstraint ScanConstraint)
+        public void AddConstraint(ScanConstraint scanConstraint)
         {
-            if (ScanConstraint.Constraint == ConstraintsEnum.NotScientificNotation)
+            if (scanConstraint.Constraint == ConstraintsEnum.NotScientificNotation)
             {
-                if (ElementType != typeof(Single) && ElementType != typeof(Double))
+                if (this.ElementType != typeof(Single) && this.ElementType != typeof(Double))
                 {
                     return;
                 }
             }
 
-            this.ValueConstraints.Add(ScanConstraint);
+            this.ValueConstraints.Add(scanConstraint);
         }
 
-        public void RemoveConstraints(IEnumerable<Int32> ConstraintIndicies)
+        public void RemoveConstraints(IEnumerable<Int32> constraintIndicies)
         {
-            foreach (Int32 Index in ConstraintIndicies.OrderByDescending(x => x))
+            foreach (Int32 index in constraintIndicies.OrderByDescending(x => x))
             {
-                this.ValueConstraints.RemoveAt(Index);
+                this.ValueConstraints.RemoveAt(index);
             }
         }
 
@@ -111,7 +113,7 @@
 
         public IEnumerator GetEnumerator()
         {
-            return ((IEnumerable)ValueConstraints).GetEnumerator();
+            return ((IEnumerable)this.ValueConstraints).GetEnumerator();
         }
     }
     //// End class

@@ -16,7 +16,7 @@
         {
             get
             {
-                return projectItem.Description;
+                return this.ProjectItem.Description;
             }
         }
 
@@ -24,20 +24,20 @@
         {
             get
             {
-                return projectItem;
+                return this.projectItem;
             }
         }
 
         public void AddChild(ProjectItem child)
         {
-            projectItem.AddChild(child);
+            this.ProjectItem.AddChild(child);
         }
 
         protected override void LoadChildren()
         {
-            foreach (ProjectItem child in projectItem.Children)
+            foreach (ProjectItem child in this.ProjectItem.Children)
             {
-                base.Children.Add(new ProjectItemViewModel(child, this));
+                this.Children.Add(new ProjectItemViewModel(child, this));
             }
         }
     }

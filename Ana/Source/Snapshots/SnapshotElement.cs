@@ -1,191 +1,220 @@
-﻿using System;
-using System.Linq;
-using System.Reflection;
-using System.Runtime.CompilerServices;
-
-namespace Ana.Source.Snapshots
+﻿namespace Ana.Source.Snapshots
 {
+    using System;
+    using System.Linq;
+    using System.Reflection;
+    using System.Runtime.CompilerServices;
+
     /// <summary>
     /// Class used by SnapshotRegion as a wrapper for indexing into the raw collection of data
     /// </summary>
     [Obfuscation(ApplyToMembers = true, Exclude = true)]
     internal abstract class SnapshotElement
     {
-        // Variables required for committing changes back to the region from which this element comes
-        protected SnapshotRegion parent;
-        protected unsafe Byte* currentValuePointer;
-        protected unsafe Byte* previousValuePointer;
-        protected Int32 currentElementIndex;
-        protected TypeCode currentType;
-
-        public Type ElementType { get { return parent.ElementType; } set { } }
-        public IntPtr BaseAddress { get { return parent.BaseAddress + currentElementIndex; } }
-        public Boolean Valid { set { parent.Valid[currentElementIndex] = value; } }
-
-        public SnapshotElement(SnapshotRegion Parent)
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SnapshotElement" /> class
+        /// </summary>
+        /// <param name="parent">The parent region that contains this element</param>
+        public SnapshotElement(SnapshotRegion parent)
         {
-            this.parent = Parent;
+            this.Parent = parent;
         }
+
+        public Type ElementType
+        {
+            get
+            {
+                return this.Parent.ElementType;
+            }
+
+            set
+            {
+            }
+        }
+
+        public IntPtr BaseAddress
+        {
+            get
+            {
+                return this.Parent.BaseAddress + this.CurrentElementIndex;
+            }
+        }
+
+        public Boolean Valid
+        {
+            set
+            {
+                this.Parent.Valid[this.CurrentElementIndex] = value;
+            }
+        }
+
+        public dynamic Value
+        {
+            get
+            {
+                return this.GetCurrentValue();
+            }
+        }
+
+        public dynamic PreviousValue
+        {
+            get
+            {
+                return this.GetPreviousValue();
+            }
+        }
+
+        protected SnapshotRegion Parent { get; set; }
+
+        protected unsafe Byte* CurrentValuePointer { get; set; }
+
+        protected unsafe Byte* PreviousValuePointer { get; set; }
+
+        protected Int32 CurrentElementIndex { get; set; }
+
+        protected TypeCode CurrentType { get; set; }
 
         public unsafe void InitializePointers(Int32 index = 0)
         {
-            currentElementIndex = index;
-            currentType = Type.GetTypeCode(parent.ElementType);
+            this.CurrentElementIndex = index;
+            this.CurrentType = Type.GetTypeCode(this.Parent.ElementType);
+            Byte[] currentValues = this.Parent.GetCurrentValues();
+            Byte[] previousValues = this.Parent.GetPreviousValues();
 
-            Byte[] currentValues = parent.GetCurrentValues();
             if (currentValues != null && currentValues.Count() > 0)
             {
-                fixed (Byte* Base = &currentValues[index])
+                fixed (Byte* pointerBase = &currentValues[index])
                 {
-                    currentValuePointer = Base;
+                    this.CurrentValuePointer = pointerBase;
                 }
             }
             else
             {
-                currentValuePointer = null;
+                this.CurrentValuePointer = null;
             }
 
-            Byte[] previousValues = parent.GetPreviousValues();
             if (previousValues != null && previousValues.Count() > 0)
             {
-                fixed (Byte* Base = &previousValues[index])
+                fixed (Byte* pointerBase = &previousValues[index])
                 {
-                    previousValuePointer = Base;
+                    this.PreviousValuePointer = pointerBase;
                 }
             }
             else
             {
-                previousValuePointer = null;
+                this.PreviousValuePointer = null;
             }
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public unsafe void IncrementPointers()
         {
-            currentElementIndex++;
-            currentValuePointer++;
-            previousValuePointer++;
+            this.CurrentElementIndex++;
+            this.CurrentValuePointer++;
+            this.PreviousValuePointer++;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public unsafe void AddPointers(Int32 Alignment)
+        public unsafe void AddPointers(Int32 alignment)
         {
-            currentElementIndex += Alignment;
-            currentValuePointer += Alignment;
-            previousValuePointer += Alignment;
-        }
-
-        private unsafe dynamic GetValue(Byte* array)
-        {
-            switch (currentType)
-            {
-                case TypeCode.Byte: return *array;
-                case TypeCode.SByte: return *(SByte*)array;
-                case TypeCode.Int16: return *(Int16*)array;
-                case TypeCode.Int32: return *(Int32*)array;
-                case TypeCode.Int64: return *(Int64*)array;
-                case TypeCode.UInt16: return *(UInt16*)array;
-                case TypeCode.UInt32: return *(UInt32*)array;
-                case TypeCode.UInt64: return *(UInt64*)array;
-                case TypeCode.Single: return *(Single*)array;
-                case TypeCode.Double: return *(Double*)array;
-                default: return 0;
-            }
+            this.CurrentElementIndex += alignment;
+            this.CurrentValuePointer += alignment;
+            this.PreviousValuePointer += alignment;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public unsafe Boolean Changed()
         {
-            return (GetValue(currentValuePointer) != GetValue(previousValuePointer));
+            return this.GetValue(this.CurrentValuePointer) != this.GetValue(this.PreviousValuePointer);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public unsafe Boolean Unchanged()
         {
-            return (GetValue(currentValuePointer) == GetValue(previousValuePointer));
+            return this.GetValue(this.CurrentValuePointer) == this.GetValue(this.PreviousValuePointer);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public unsafe Boolean Increased()
         {
-            return (GetValue(currentValuePointer) > GetValue(previousValuePointer));
+            return this.GetValue(this.CurrentValuePointer) > this.GetValue(this.PreviousValuePointer);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public unsafe Boolean Decreased()
         {
-            return (GetValue(currentValuePointer) < GetValue(previousValuePointer));
+            return this.GetValue(this.CurrentValuePointer) < this.GetValue(this.PreviousValuePointer);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public unsafe Boolean EqualToValue(dynamic value)
         {
-            return (GetValue(currentValuePointer) == value);
+            return this.GetValue(this.CurrentValuePointer) == value;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public unsafe Boolean NotEqualToValue(dynamic value)
         {
-            return (GetValue(currentValuePointer) != value);
+            return this.GetValue(this.CurrentValuePointer) != value;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public unsafe Boolean GreaterThanValue(dynamic value)
         {
-            return (GetValue(currentValuePointer) > value);
+            return this.GetValue(this.CurrentValuePointer) > value;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public unsafe Boolean GreaterThanOrEqualToValue(dynamic value)
         {
-            return (GetValue(currentValuePointer) >= value);
+            return this.GetValue(this.CurrentValuePointer) >= value;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public unsafe Boolean LessThanValue(dynamic value)
         {
-            return (GetValue(currentValuePointer) < value);
+            return this.GetValue(this.CurrentValuePointer) < value;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public unsafe Boolean LessThanOrEqualToValue(dynamic value)
         {
-            return (GetValue(currentValuePointer) <= value);
+            return this.GetValue(this.CurrentValuePointer) <= value;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public unsafe Boolean IncreasedByValue(dynamic value)
         {
-            return (GetValue(currentValuePointer) == unchecked(GetValue(previousValuePointer) + value));
+            return this.GetValue(this.CurrentValuePointer) == unchecked(this.GetValue(this.PreviousValuePointer) + value);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public unsafe Boolean DecreasedByValue(dynamic value)
         {
-            return (GetValue(currentValuePointer) == unchecked(GetValue(previousValuePointer) - value));
+            return this.GetValue(this.CurrentValuePointer) == unchecked(this.GetValue(this.PreviousValuePointer) - value);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public unsafe Boolean IsScientificNotation()
         {
-            return ((String)GetValue(currentValuePointer).ToString()).ToLower().Contains('e');
+            return ((String)this.GetValue(this.CurrentValuePointer).ToString()).ToLower().Contains('e');
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public unsafe dynamic GetCurrentValue()
         {
-            return (GetValue(currentValuePointer));
+            return this.GetValue(this.CurrentValuePointer);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public unsafe dynamic GetPreviousValue()
         {
-            return (GetValue(previousValuePointer));
+            return this.GetValue(this.PreviousValuePointer);
         }
 
         public unsafe Boolean HasCurrentValue()
         {
-            if (currentValuePointer == (byte*)0)
+            if (this.CurrentValuePointer == (Byte*)0)
             {
                 return false;
             }
@@ -195,7 +224,7 @@ namespace Ana.Source.Snapshots
 
         public unsafe Boolean HasPreviousValue()
         {
-            if (previousValuePointer == (byte*)0)
+            if (this.PreviousValuePointer == (Byte*)0)
             {
                 return false;
             }
@@ -203,49 +232,67 @@ namespace Ana.Source.Snapshots
             return true;
         }
 
-        public dynamic Value
+        private unsafe dynamic GetValue(Byte* array)
         {
-            get
+            switch (this.CurrentType)
             {
-                return GetCurrentValue();
+                case TypeCode.Byte:
+                    return *array;
+                case TypeCode.SByte:
+                    return *(SByte*)array;
+                case TypeCode.Int16:
+                    return *(Int16*)array;
+                case TypeCode.Int32:
+                    return *(Int32*)array;
+                case TypeCode.Int64:
+                    return *(Int64*)array;
+                case TypeCode.UInt16:
+                    return *(UInt16*)array;
+                case TypeCode.UInt32:
+                    return *(UInt32*)array;
+                case TypeCode.UInt64:
+                    return *(UInt64*)array;
+                case TypeCode.Single:
+                    return *(Single*)array;
+                case TypeCode.Double:
+                    return *(Double*)array;
+                default:
+                    return 0;
             }
         }
-
-        public dynamic PreviousValue
-        {
-            get
-            {
-                return GetPreviousValue();
-            }
-        }
-
-    } // End class
+    }
+    //// End class
 
     /// <summary>
     /// Class used by SnapshotRegion as a wrapper for indexing into the raw collection of data
     /// </summary>
+    /// <typeparam name="LabelType">The label type of the snapshot element</typeparam>
     internal class SnapshotElement<LabelType> : SnapshotElement where LabelType : struct
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SnapshotElement{LabelType}" /> class
+        /// </summary>
+        /// <param name="parent">The parent region that contains this element</param>
+        public SnapshotElement(SnapshotRegion<LabelType> parent) : base(parent)
+        {
+            this.Parent = parent;
+        }
+
         public unsafe LabelType? ElementLabel
         {
             get
             {
-                return Parent.ElementLabels == null ? null : Parent.ElementLabels[currentElementIndex];
+                return this.Parent.ElementLabels == null ? null : this.Parent.ElementLabels[this.CurrentElementIndex];
             }
 
             set
             {
-                Parent.ElementLabels[currentElementIndex] = value;
+                this.Parent.ElementLabels[this.CurrentElementIndex] = value;
             }
         }
 
-        private SnapshotRegion<LabelType> Parent { get; set; }
-
-        public SnapshotElement(SnapshotRegion<LabelType> Parent) : base(Parent)
-        {
-            this.Parent = Parent;
-        }
-
-    } // End class
-
-} // End namespace
+        private new SnapshotRegion<LabelType> Parent { get; set; }
+    }
+    //// End class
+}
+//// End namespace
