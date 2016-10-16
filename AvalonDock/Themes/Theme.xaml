@@ -285,7 +285,7 @@
 								<Grid SnapsToDevicePixels="true">
 									<Grid.ColumnDefinitions>
 										<ColumnDefinition Width="*"/>
-										<ColumnDefinition Width="22"/>
+										<ColumnDefinition Width="16"/>
 									</Grid.ColumnDefinitions>
 									<Border x:Name="Bd" 
 										  BorderBrush="{TemplateBinding BorderBrush}"
@@ -299,13 +299,14 @@
 											VerticalAlignment="{Binding VerticalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}"
 											RecognizesAccessKey="True" 
 											SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
-									</Border>
-
-									<localControls:SplineBorder
-										Stroke="{TemplateBinding Background}"
-										Fill="{TemplateBinding Background}" 
-										Grid.Column="1"/>
-								</Grid>
+                                    </Border>
+                                    <Border Grid.Column="1"
+										  BorderBrush="{TemplateBinding BorderBrush}"
+										  CornerRadius="0,3,0,0"
+										  Background="{TemplateBinding Background}" 
+										  Padding="{TemplateBinding Padding}">
+                                    </Border>
+                                </Grid>
 								<ControlTemplate.Triggers>
 									<Trigger Property="Selector.IsSelected"
 										Value="true">

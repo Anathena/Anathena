@@ -39,6 +39,8 @@
 			<RowDefinition Height="Auto"/>
 			<!-- Docking Panel Row -->
 			<RowDefinition Height="*"/>
+			<!-- Status Bar Row -->
+			<RowDefinition Height="Auto"/>
 		</Grid.RowDefinitions>
 		
 		<!-- Title Bar -->
@@ -121,16 +123,16 @@
 						  DataContext="{Binding Source={StaticResource ViewModelLocator}}">
 					<MenuItem Header="Open"
 							  Style="{StaticResource menuItemStyle}"
-                              Command="{Binding ProjectExplorerViewModel.OpenProjectCommand}"/>
+							  Command="{Binding ProjectExplorerViewModel.OpenProjectCommand}"/>
 					<MenuItem Header="Import Project"
 							  Style="{StaticResource menuItemStyle}"
-                              Command="{Binding ProjectExplorerViewModel.ImportProjectCommand}"/>
+							  Command="{Binding ProjectExplorerViewModel.ImportProjectCommand}"/>
 					<MenuItem Header="Save"
 							  Style="{StaticResource menuItemStyle}"
-                              Command="{Binding ProjectExplorerViewModel.SaveProjectCommand}"/>
+							  Command="{Binding ProjectExplorerViewModel.SaveProjectCommand}"/>
 					<MenuItem Header="Save As"
 							  Style="{StaticResource menuItemStyle}"
-                              Command="{Binding ProjectExplorerViewModel.SaveAsProjectCommand}"/>
+							  Command="{Binding ProjectExplorerViewModel.SaveAsProjectCommand}"/>
 					<MenuItem Header="Exit"
 							  Style="{StaticResource menuItemStyle}"/>
 				</MenuItem>
@@ -217,33 +219,33 @@
 				</MenuItem>
 				<Separator Style="{DynamicResource VerticalSeparator}" />
 				<MenuItem ToolTip="Open Project"
-                          Command="{Binding ProjectExplorerViewModel.OpenProjectCommand}">
+						  Command="{Binding ProjectExplorerViewModel.OpenProjectCommand}">
 					<MenuItem.Header>
 						<Image Source="pack://application:,,,/Ana;component/Content/Icons/Open.png"
 							   Width="16"
 							   Height="16"/>
 					</MenuItem.Header>
 				</MenuItem>
-                <MenuItem ToolTip="Save Project"
-                          Command="{Binding ProjectExplorerViewModel.SaveProjectCommand}">
-                    <MenuItem.Header>
+				<MenuItem ToolTip="Save Project"
+						  Command="{Binding ProjectExplorerViewModel.SaveProjectCommand}">
+					<MenuItem.Header>
 						<Image Source="pack://application:,,,/Ana;component/Content/Icons/Save.png"
 							   Width="16"
 							   Height="16"/>
 					</MenuItem.Header>
 				</MenuItem>
 				<Separator Style="{DynamicResource VerticalSeparator}" />
-                <MenuItem ToolTip="New Scan"
+				<MenuItem ToolTip="New Scan"
 						  Command="{Binding SnapshotManagerViewModel.NewScanCommand}">
-                    <MenuItem.Header>
+					<MenuItem.Header>
 						<Image Source="pack://application:,,,/Ana;component/Content/Icons/New.png"
 							   Width="16"
 							   Height="16"/>
 					</MenuItem.Header>
 				</MenuItem>
-                <MenuItem ToolTip="Undo Scan"
+				<MenuItem ToolTip="Undo Scan"
 						  Command="{Binding SnapshotManagerViewModel.UndoScanCommand}">
-                    <MenuItem.Header>
+					<MenuItem.Header>
 						<Image Source="pack://application:,,,/Ana;component/Content/Icons/Undo.png"
 							   Width="16"
 							   Height="16"/>
@@ -378,5 +380,12 @@
 				<avalonDock:LayoutPanel/>
 			</avalonDock:LayoutRoot>
 		</avalonDock:DockingManager>
+		<Border Grid.Row="4"
+				Padding="4"
+				Background="{StaticResource AvalonDock_Expression_BaseColor15}">
+			<TextBlock Foreground="{StaticResource AvalonDock_Expression_BaseColor2}">
+				Status: Ready
+			</TextBlock>
+		</Border>
 	</Grid>
 </Window>
