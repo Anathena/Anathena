@@ -10,6 +10,7 @@
     using System.IO;
     using System.Reflection;
     using System.Threading;
+    using System.Threading.Tasks;
     using System.Windows.Input;
 
     /// <summary>
@@ -45,7 +46,7 @@
         private CheatBrowserViewModel() : base("Cheat Browser")
         {
             this.ContentId = CheatBrowserViewModel.ToolContentId;
-            this.NavigateHomeCommand = new RelayCommand<GeckoWebBrowser>((browser) => this.NavigateHome(browser), (browser) => true);
+            this.NavigateHomeCommand = new RelayCommand<GeckoWebBrowser>((browser) => Task.Run(() => this.NavigateHome(browser)), (browser) => true);
 
             // Initialize engine for Gecko Fx web browser
             if (EngineCore.GetInstance().OperatingSystemAdapter.IsAnathena32Bit())

@@ -324,6 +324,7 @@
                 {
                     regions.Add(new SnapshotRegion<LabelType>(region));
                     regions.Last().SetCurrentValues(region.GetCurrentValues());
+                    regions.Last().SetPreviousValues(region.GetPreviousValues());
                 }
             }
 

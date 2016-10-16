@@ -4,6 +4,7 @@
     using Mvvm.Command;
     using System;
     using System.Threading;
+    using System.Threading.Tasks;
     using System.Windows.Input;
 
     /// <summary>
@@ -24,7 +25,7 @@
         public ValueCollectorViewModel()
         {
             this.ValueCollectorModel = new ValueCollectorModel();
-            this.CollectValuesCommand = new RelayCommand(() => this.CollectValues(), () => true);
+            this.CollectValuesCommand = new RelayCommand(() => Task.Run(() => this.CollectValues()), () => true);
         }
 
         /// <summary>

@@ -11,7 +11,7 @@
         /// <summary>
         /// The address of the scan result
         /// </summary>
-        private IntPtr address;
+        private IntPtr elementAddress;
 
         /// <summary>
         /// The value of the scan result
@@ -21,26 +21,26 @@
         /// <summary>
         /// The previous value of the scan result
         /// </summary>
-        private String previousValue;
+        private String previousElementValue;
 
         /// <summary>
         /// The label of the scan result
         /// </summary>
-        private String label;
+        private String elementLabel;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ScanResult" /> class
         /// </summary>
-        /// <param name="address">The memory address</param>
-        /// <param name="value">The current scan value</param>
-        /// <param name="previousValue">The previous scan value</param>
-        /// <param name="label">The label of this result</param>
-        public ScanResult(IntPtr address, String value, String previousValue, String label)
+        /// <param name="elementAddress">The memory address</param>
+        /// <param name="elementValue">The current scan value</param>
+        /// <param name="elementPreviousValue">The previous scan value</param>
+        /// <param name="elementLabel">The label of this result</param>
+        public ScanResult(IntPtr elementAddress, String elementValue, String elementPreviousValue, String elementLabel)
         {
-            this.Address = address;
-            this.PreviousValue = previousValue;
-            this.ElementValue = value;
-            this.Label = label;
+            this.ElementAddress = elementAddress;
+            this.ElementPreviousValue = elementPreviousValue;
+            this.ElementValue = elementValue;
+            this.ElementLabel = elementLabel;
         }
 
         /// <summary>
@@ -51,17 +51,17 @@
         /// <summary>
         /// Gets or sets the address of the scan result
         /// </summary>
-        public IntPtr Address
+        public IntPtr ElementAddress
         {
             get
             {
-                return this.address;
+                return this.elementAddress;
             }
 
             set
             {
-                this.address = value;
-                this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(this.Address)));
+                this.elementAddress = value;
+                this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(this.ElementAddress)));
             }
         }
 
@@ -85,34 +85,34 @@
         /// <summary>
         /// Gets or sets the previous value of the scan result
         /// </summary>
-        public String PreviousValue
+        public String ElementPreviousValue
         {
             get
             {
-                return this.previousValue;
+                return this.previousElementValue;
             }
 
             set
             {
-                this.previousValue = value;
-                this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(this.PreviousValue)));
+                this.previousElementValue = value;
+                this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(this.ElementPreviousValue)));
             }
         }
 
         /// <summary>
         /// Gets or sets the label of the scan result
         /// </summary>
-        public String Label
+        public String ElementLabel
         {
             get
             {
-                return this.label;
+                return this.elementLabel;
             }
 
             set
             {
-                this.label = value;
-                this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(this.Label)));
+                this.elementLabel = value;
+                this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(this.ElementLabel)));
             }
         }
     }

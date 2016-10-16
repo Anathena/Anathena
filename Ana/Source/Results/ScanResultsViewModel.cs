@@ -58,11 +58,11 @@
         private ScanResultsViewModel() : base("Scan Results")
         {
             this.ContentId = ToolContentId;
-            this.FirstPageCommand = new RelayCommand(() => this.FirstPage(), () => true);
-            this.LastPageCommand = new RelayCommand(() => this.LastPage(), () => true);
-            this.PreviousPageCommand = new RelayCommand(() => this.PreviousPage(), () => true);
-            this.NextPageCommand = new RelayCommand(() => this.NextPage(), () => true);
-            this.AddAddressCommand = new RelayCommand<ScanResult>((address) => this.AddAddress(address), (address) => true);
+            this.FirstPageCommand = new RelayCommand(() => Task.Run(() => this.FirstPage()), () => true);
+            this.LastPageCommand = new RelayCommand(() => Task.Run(() => this.LastPage()), () => true);
+            this.PreviousPageCommand = new RelayCommand(() => Task.Run(() => this.PreviousPage()), () => true);
+            this.NextPageCommand = new RelayCommand(() => Task.Run(() => this.NextPage()), () => true);
+            this.AddAddressCommand = new RelayCommand<ScanResult>((address) => Task.Run(() => this.AddAddress(address)), (address) => true);
             this.IsVisible = true;
             this.addresses = new ObservableCollection<ScanResult>();
 
@@ -191,17 +191,17 @@
         /// </summary>
         private void LoadScanResults()
         {
-            Snapshot snapshot = SnapshotManager.GetInstance().GetActiveSnapshot();
+            Snapshot snapshot = SnapshotManager.GetInstance().GetActiveSnapshot(createIfNone: false);
+            ObservableCollection<ScanResult> newAddresses = new ObservableCollection<ScanResult>();
 
             if (snapshot == null)
             {
+                this.addresses = newAddresses;
+                this.RaisePropertyChanged(nameof(this.Addresses));
                 return;
             }
 
-            ObservableCollection<ScanResult> newAddresses = new ObservableCollection<ScanResult>();
-
             UInt64 startIndex = Math.Min(ScanResultsViewModel.PageSize * this.CurrentPage, snapshot.GetElementCount());
-
             UInt64 endIndex = Math.Min((ScanResultsViewModel.PageSize * this.CurrentPage) + ScanResultsViewModel.PageSize, snapshot.GetElementCount());
 
             for (UInt64 index = startIndex; index < endIndex; index++)
@@ -243,7 +243,7 @@
                 while (true)
                 {
                     Boolean readSuccess;
-                    this.Addresses.ForEach(x => x.ElementValue = EngineCore.GetInstance().OperatingSystemAdapter.Read(typeof(Int32), x.Address, out readSuccess).ToString());
+                    this.Addresses.ForEach(x => x.ElementValue = EngineCore.GetInstance().OperatingSystemAdapter.Read(typeof(Int32), x.ElementAddress, out readSuccess).ToString());
                     this.RaisePropertyChanged(nameof(this.Addresses));
                     Thread.Sleep(Settings.GetInstance().GetResultReadInterval());
                 }
@@ -288,7 +288,7 @@
         /// <param name="scanResult">The scan result to add to the project explorer</param>
         private void AddAddress(ScanResult scanResult)
         {
-            ProjectExplorerViewModel.GetInstance().AddSpecificAddressItem(scanResult.Address, typeof(Int32));
+            ProjectExplorerViewModel.GetInstance().AddSpecificAddressItem(scanResult.ElementAddress, typeof(Int32));
         }
     }
     //// End class

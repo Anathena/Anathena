@@ -71,16 +71,16 @@
 											  CommandParameter="{Binding .}"/>
 							</Grid.InputBindings>
 							<TextBlock Grid.Column="0"
-									   Text="{Binding Path=Address, Converter={StaticResource IntPtrToAddressConverter}}"
+									   Text="{Binding Path=ElementAddress, Converter={StaticResource IntPtrToAddressConverter}}"
 									   Foreground="{StaticResource AvalonDock_Expression_BaseColor2}"/>
 							<TextBlock Grid.Column="1"
 									   Text="{Binding Path=ElementValue}"
 									   Foreground="{StaticResource AvalonDock_Expression_BaseColor2}"/>
 							<TextBlock Grid.Column="2"
-									   Text="{Binding Path=PreviousValue}"
+									   Text="{Binding Path=ElementPreviousValue}"
 									   Foreground="{StaticResource AvalonDock_Expression_BaseColor2}"/>
 							<TextBlock Grid.Column="3"
-									   Text="{Binding Path=Label}"
+									   Text="{Binding Path=ElementLabel}"
 									   Foreground="{StaticResource AvalonDock_Expression_BaseColor2}"/>
 						</Grid>
 					</DataTemplate>

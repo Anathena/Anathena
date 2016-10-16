@@ -13,7 +13,7 @@
 		xmlns:view="clr-namespace:Ana.View"
 		WindowStyle="None"
 		AllowsTransparency="False"
-		Title="Anathena" Height="640" Width="512">
+		Title="Anathena" Height="640" Width="720">
 	<Window.Resources>
 		<avalonDock:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
 	</Window.Resources>
@@ -161,7 +161,7 @@
 							  IsChecked="{Binding PropertyViewerViewModel.IsVisible, Mode=TwoWay}"
 							  IsCheckable="True"
 							  Style="{StaticResource menuItemStyle}"/>
-					<MenuItem Header="Results"
+					<MenuItem Header="Scan Results"
 							  IsChecked="{Binding ScanResultsViewModel.IsVisible, Mode=TwoWay}"
 							  IsCheckable="True"
 							  Style="{StaticResource menuItemStyle}"/>
@@ -227,15 +227,17 @@
 					</MenuItem.Header>
 				</MenuItem>
 				<Separator Style="{DynamicResource VerticalSeparator}" />
-				<MenuItem ToolTip="New Scan">
-					<MenuItem.Header>
+                <MenuItem ToolTip="New Scan"
+						  Command="{Binding SnapshotManagerViewModel.NewScanCommand}">
+                    <MenuItem.Header>
 						<Image Source="pack://application:,,,/Ana;component/Content/Icons/New.png"
 							   Width="16"
 							   Height="16"/>
 					</MenuItem.Header>
 				</MenuItem>
-				<MenuItem ToolTip="Undo Scan">
-					<MenuItem.Header>
+                <MenuItem ToolTip="Undo Scan"
+						  Command="{Binding SnapshotManagerViewModel.UndoScanCommand}">
+                    <MenuItem.Header>
 						<Image Source="pack://application:,,,/Ana;component/Content/Icons/Undo.png"
 							   Width="16"
 							   Height="16"/>

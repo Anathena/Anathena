@@ -8,6 +8,7 @@
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.Threading;
+    using System.Threading.Tasks;
     using System.Windows.Input;
 
     /// <summary>
@@ -43,9 +44,9 @@
         private ProjectExplorerViewModel() : base("Project Explorer")
         {
             this.ContentId = ToolContentId;
-            this.AddNewFolderItemCommand = new RelayCommand(() => this.AddNewFolderItem(), () => true);
-            this.AddNewAddressItemCommand = new RelayCommand(() => this.AddNewAddressItem(), () => true);
-            this.AddNewScriptItemCommand = new RelayCommand(() => this.AddNewScriptItem(), () => true);
+            this.AddNewFolderItemCommand = new RelayCommand(() => Task.Run(() => this.AddNewFolderItem()), () => true);
+            this.AddNewAddressItemCommand = new RelayCommand(() => Task.Run(() => this.AddNewAddressItem()), () => true);
+            this.AddNewScriptItemCommand = new RelayCommand(() => Task.Run(() => this.AddNewScriptItem()), () => true);
             this.IsVisible = true;
 
             this.projectItems = new ReadOnlyCollection<ProjectItemViewModel>(new List<ProjectItemViewModel>());

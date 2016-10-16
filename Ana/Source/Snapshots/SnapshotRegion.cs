@@ -405,6 +405,7 @@
 
                 // Collect the current values. Attempts to collect out of bounds into extended space.
                 subRegion.SetCurrentValues(this.CurrentValues.LargestSubArray(startIndex, validRegionSize + this.GetElementReadOverSize()));
+                subRegion.SetPreviousValues(this.PreviousValues.LargestSubArray(startIndex, validRegionSize + this.GetElementReadOverSize()));
 
                 // Collect the element labels. Attempts to collect out of bounds into extended space.
                 subRegion.SetElementLabels(this.ElementLabels.LargestSubArray(startIndex, validRegionSize + this.GetElementReadOverSize()));
