@@ -637,8 +637,9 @@
             }
 
             // Replace memory regions with merged memory regions
-            this.SnapshotRegions = combinedRegions.ToArray();
-            Array.Sort((SnapshotRegion<LabelType>[])this.SnapshotRegions, (x, y) => x.BaseAddress.ToUInt64().CompareTo(y.BaseAddress.ToUInt64()));
+            SnapshotRegion<LabelType>[] combinedRegionsArray = combinedRegions.ToArray();
+            Array.Sort(combinedRegionsArray, (x, y) => x.BaseAddress.ToUInt64().CompareTo(y.BaseAddress.ToUInt64()));
+            this.SnapshotRegions = combinedRegionsArray;
         }
 
         /// <summary>

@@ -60,9 +60,10 @@
             this.SelectNotEqualCommand = new RelayCommand(() => this.ChangeScanConstraintSelection(ConstraintsEnum.NotEqual), () => true);
             this.SelectNotScientificNotationCommand = new RelayCommand(() => this.ChangeScanConstraintSelection(ConstraintsEnum.NotScientificNotation), () => true);
             this.SelectUnchangedCommand = new RelayCommand(() => this.ChangeScanConstraintSelection(ConstraintsEnum.Unchanged), () => true);
-            this.scanConstraintManager = new ScanConstraintManager();
             this.SelectedScanConstraint = new ScanConstraint(ConstraintsEnum.Equal);
             this.ManualScannerModel = new ManualScannerModel();
+            this.scanConstraintManager = new ScanConstraintManager();
+            this.scanConstraintManager.SetElementType(typeof(Int32));
             MainViewModel.GetInstance().Subscribe(this);
         }
 

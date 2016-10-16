@@ -257,7 +257,7 @@
                 case TypeCode.Double:
                     return *(Double*)array;
                 default:
-                    return 0;
+                    throw new Exception("Invalid element type");
             }
         }
     }
