@@ -34,6 +34,7 @@
       <ResourceDictionary Source="../../WatermarkTextBox/Themes/Aero2.NormalColor.xaml" />
       <ResourceDictionary Source="../../ColorPicker/Themes/Aero2.NormalColor.xaml" />
       <ResourceDictionary Source="../../CollectionControl/Themes/Aero2.NormalColor.xaml" />
+      <ResourceDictionary Source="../../DarkBrushes.xaml" />
    </ResourceDictionary.MergedDictionaries>
 
    <!-- =============================================================================== -->
@@ -1042,40 +1043,6 @@
                         <RowDefinition Height="Auto" />
                      </Grid.RowDefinitions>
 
-                     <StackPanel x:Name="selectObjectNamePanel"
-                                    Orientation="Horizontal">
-                           <Border Background="White"
-                                   BorderBrush="Black"
-                                   Visibility="{Binding ShowPreview, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource BooleanToVisibilityConverter}}"
-                                   BorderThickness="1"
-                                   Width="44"
-                                   Height="44"
-                                   Margin="6,4,0,4"
-                                   Padding="2">
-                              <Rectangle>
-                                 <Rectangle.Fill>
-                                    <VisualBrush Stretch="Uniform"
-                                                 Visual="{Binding RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource ObjectToUIElementConverter}, Path=SelectedObject}" />
-                                 </Rectangle.Fill>
-                              </Rectangle>
-                           </Border>
-                           <StackPanel Orientation="Horizontal"
-                                       VerticalAlignment="Center"
-                                       Margin="6,2,6,4"
-                                       Visibility="{Binding ShowTitle, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource BooleanToVisibilityConverter}}">
-                              <Grid MaxWidth="{Binding ActualWidth, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource HalfConverter}, ConverterParameter=17}">
-                                 <pg:TrimmedTextBlock Text="{TemplateBinding SelectedObjectTypeName}"
-                                                      TextTrimming="CharacterEllipsis"
-                                                      FontWeight="Bold" />
-                              </Grid>
-                              <Grid MaxWidth="{Binding ActualWidth, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource HalfConverter}, ConverterParameter=17}"
-                                    Margin="5,0,0,0">
-                                 <pg:TrimmedTextBlock Text="{TemplateBinding SelectedObjectName}"
-                                                      TextTrimming="CharacterEllipsis" />
-                              </Grid>
-                           </StackPanel>
-                     </StackPanel>
-
 
                      <Grid x:Name="toolsContainer"
                            Grid.Row="1"
@@ -1106,13 +1073,49 @@
                                         Height="16" />
                               </RadioButton>
                            </StackPanel>
-                        </Grid>
+                                </Grid>
 
+                                <StackPanel x:Name="selectObjectNamePanel"
+                                Grid.Column="1"
+                                Orientation="Horizontal">
+                                <Border Background="White"
+                                BorderBrush="Black"
+                                Visibility="{Binding ShowPreview, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource BooleanToVisibilityConverter}}"
+                                BorderThickness="1"
+                                Width="44"
+                                Height="44"
+                                Margin="6,4,0,4"
+                                Padding="2">
+                                    <Rectangle>
+                                        <Rectangle.Fill>
+                                            <VisualBrush Stretch="Uniform"
+                                                Visual="{Binding RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource ObjectToUIElementConverter}, Path=SelectedObject}" />
+                                        </Rectangle.Fill>
+                                    </Rectangle>
+                                </Border>
+                                <StackPanel Orientation="Horizontal"
+                                    VerticalAlignment="Center"
+                                    Margin="6,2,6,4"
+                                    Visibility="{Binding ShowTitle, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource BooleanToVisibilityConverter}}">
+                                    <Grid MaxWidth="{Binding ActualWidth, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource HalfConverter}, ConverterParameter=17}">
+                                        <pg:TrimmedTextBlock Text="{TemplateBinding SelectedObjectTypeName}"
+                                                    TextTrimming="CharacterEllipsis"
+                                                    FontWeight="Bold" />
+                                    </Grid>
+                                    <Grid MaxWidth="{Binding ActualWidth, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource HalfConverter}, ConverterParameter=17}"
+                                Margin="5,0,0,0">
+                                        <pg:TrimmedTextBlock Text="{TemplateBinding SelectedObjectName}"
+                                                    TextTrimming="CharacterEllipsis" />
+                                    </Grid>
+                                </StackPanel>
+                            </StackPanel>
+
+                                <!--
                         <Border x:Name="searchBoxContainer"
                                 Grid.Column="1"
                                 Margin="4,4,0,4"
-                                Background="White"
-                                BorderBrush="Gray"
+                                Background="{StaticResource AvalonDock_Expression_BaseColor1}"
+                                BorderBrush="{StaticResource AvalonDock_Expression_BaseColor3}"
                                 BorderThickness="1"
                                 Visibility="{Binding ShowSearchBox, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource BooleanToVisibilityConverter}}">
                            <Grid>
@@ -1128,18 +1131,12 @@
                                     <Style TargetType="Control">
                                        <Setter Property="BorderThickness"
                                                Value="0" />
-                                       <Style.Triggers>
-                                          <Trigger Property="IsMouseOver"
-                                                   Value="True">
-                                             <Setter Property="BorderThickness"
-                                                     Value="1" />
-                                          </Trigger>
-                                       </Style.Triggers>
                                     </Style>
                                  </local:WatermarkTextBox.Style>
 
                               </local:WatermarkTextBox>
-
+                                
+                              
                               <Button Grid.Column="1"
                                       Command="commands:PropertyGridCommands.ClearFilter"
                                       Style="{StaticResource ClearFilterButtonStyle}"
@@ -1150,17 +1147,18 @@
                               </Button>
                            </Grid>
                         </Border>
+                        -->
                      </Grid>
 
-                     <Grid Grid.Row="2"
-                           Background="{x:Static SystemColors.WindowBrush}">
-                        <ScrollViewer VerticalScrollBarVisibility="Auto">
+                            <Grid Grid.Row="2"
+                                  Background="{StaticResource AvalonDock_Expression_BaseColor3}">
+                                <ScrollViewer VerticalScrollBarVisibility="Auto">
                            <pg:PropertyItemsControl x:Name="PART_PropertyItemsControl"
                                                     IsTabStop="False"
                                                     Focusable="False"
                                                     ItemsSource="{Binding Properties, RelativeSource={RelativeSource TemplatedParent}}"
                                                     ItemContainerStyle="{Binding PropertyContainerStyle, RelativeSource={RelativeSource TemplatedParent}}"
-                                                    Background="{x:Static SystemColors.ControlBrush}"
+                                                    Background="{StaticResource AvalonDock_Expression_BaseColor3}"
                                                     VerticalAlignment="Top">
                               <ItemsControl.ItemsPanel>
                                  <ItemsPanelTemplate>
@@ -1192,6 +1190,7 @@
                      <GridSplitter Height="3"
                                    Grid.Row="3"
                                    HorizontalAlignment="Stretch"
+                                   Background="{StaticResource AvalonDock_Expression_BaseColor4}"
                                    Visibility="{Binding ShowSummary, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource BooleanToVisibilityConverter}}" />
                      <StackPanel Grid.Row="4"
                                  Margin="0,0,0,5"
@@ -1208,9 +1207,11 @@
                <ControlTemplate.Triggers>
                   <MultiTrigger>
                      <MultiTrigger.Conditions>
+                         <!--
                         <Condition SourceName="searchBoxContainer"
                                    Property="Visibility"
                                    Value="Collapsed" />
+                         -->
                         <Condition SourceName="sortButtonContainer"
                                    Property="Visibility"
                                    Value="Collapsed" />

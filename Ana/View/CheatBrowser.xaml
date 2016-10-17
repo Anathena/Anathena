@@ -13,7 +13,8 @@
 	xmlns:gecko="clr-namespace:Gecko;assembly=Geckofx-Wpf"
 	xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
 	mc:Ignorable="d"
-	d:DesignHeight="256" d:DesignWidth="256">
+	d:DesignHeight="256"
+    d:DesignWidth="256">
 	<Grid Background="{StaticResource AvalonDock_Expression_BaseColor3}">
 		<Grid.RowDefinitions>
 			<RowDefinition Height="Auto"/>

@@ -38,7 +38,7 @@
             }
 
             this.Snapshot.MarkAllValid();
-            this.Snapshot.ElementType = this.ScanConstraintManager.GetElementType();
+            this.Snapshot.ElementType = this.ScanConstraintManager.ElementType;
             this.Snapshot.Alignment = Settings.GetInstance().GetAlignmentSettings();
 
             base.Begin();

@@ -334,7 +334,7 @@
             // Build regions from resolved address
             foreach (IntPtr pointer in resolvedAddresses)
             {
-                regions.Add(new SnapshotRegion<Null>(pointer, Marshal.SizeOf(this.ScanConstraintManager.GetElementType())));
+                regions.Add(new SnapshotRegion<Null>(pointer, Marshal.SizeOf(this.ScanConstraintManager.ElementType)));
             }
 
             // Create a snapshot from regions
@@ -342,7 +342,7 @@
 
             // Read the memory (collecting values)
             pointerSnapshot.ReadAllSnapshotMemory();
-            pointerSnapshot.ElementType = this.ScanConstraintManager.GetElementType();
+            pointerSnapshot.ElementType = this.ScanConstraintManager.ElementType;
             this.Snapshot.Alignment = sizeof(Int32);
             pointerSnapshot.MarkAllValid();
 

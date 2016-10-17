@@ -5,6 +5,7 @@
     using Mvvm.Command;
     using ScanConstraints;
     using System;
+    using System.Collections.ObjectModel;
     using System.Threading;
     using System.Threading.Tasks;
     using System.Windows.Input;
@@ -45,9 +46,6 @@
             this.ContentId = ManualScannerViewModel.ToolContentId;
             this.IsVisible = true;
             this.StartScanCommand = new RelayCommand(() => Task.Run(() => this.StartScan()), () => true);
-            this.AddSelectedConstraintCommand = new RelayCommand(() => Task.Run(() => this.AddSelectedConstraint()), () => true);
-            this.RemoveSelectedConstraintCommand = new RelayCommand(() => Task.Run(() => this.RemoveSelectedConstraint()), () => true);
-            this.ClearConstraintsCommand = new RelayCommand(() => Task.Run(() => this.ClearConstraints()), () => true);
             this.SelectChangedCommand = new RelayCommand(() => Task.Run(() => this.ChangeScanConstraintSelection(ConstraintsEnum.Changed)), () => true);
             this.SelectDecreasedCommand = new RelayCommand(() => Task.Run(() => this.ChangeScanConstraintSelection(ConstraintsEnum.Decreased)), () => true);
             this.SelectDecreasedByXCommand = new RelayCommand(() => Task.Run(() => this.ChangeScanConstraintSelection(ConstraintsEnum.DecreasedByX)), () => true);
@@ -61,10 +59,14 @@
             this.SelectNotEqualCommand = new RelayCommand(() => Task.Run(() => this.ChangeScanConstraintSelection(ConstraintsEnum.NotEqual)), () => true);
             this.SelectNotScientificNotationCommand = new RelayCommand(() => Task.Run(() => this.ChangeScanConstraintSelection(ConstraintsEnum.NotScientificNotation)), () => true);
             this.SelectUnchangedCommand = new RelayCommand(() => Task.Run(() => this.ChangeScanConstraintSelection(ConstraintsEnum.Unchanged)), () => true);
+            // Note: Constraint modifying commands cannot be async since they modify the observable collection, which must be done on the same thread as the GUI
+            this.AddSelectedConstraintCommand = new RelayCommand(() => this.AddSelectedConstraint(), () => true);
+            this.RemoveSelectedConstraintCommand = new RelayCommand(() => this.RemoveSelectedConstraint(), () => true);
+            this.ClearConstraintsCommand = new RelayCommand(() => this.ClearConstraints(), () => true);
             this.SelectedScanConstraint = new ScanConstraint(ConstraintsEnum.Equal);
             this.ManualScannerModel = new ManualScannerModel();
-            this.scanConstraintManager = new ScanConstraintManager();
-            this.scanConstraintManager.SetElementType(typeof(Int32));
+            this.ScanConstraintManager = new ScanConstraintManager();
+            this.ScanConstraintManager.SetElementType(typeof(Int32));
             MainViewModel.GetInstance().Subscribe(this);
         }
 
@@ -158,6 +160,35 @@
         /// </summary>
         public ICommand SelectUnchangedCommand { get; private set; }
 
+        public ObservableCollection<ScanConstraint> Constraints
+        {
+            get
+            {
+                return this.ScanConstraintManager.ValueConstraints;
+            }
+        }
+
+        public ObservableCollection<ScanConstraint> ActiveScanConstraint
+        {
+            get
+            {
+                return new ObservableCollection<ScanConstraint>(new ScanConstraint[] { SelectedScanConstraint });
+            }
+        }
+
+        public ScanConstraintManager ScanConstraintManager
+        {
+            get
+            {
+                return this.scanConstraintManager;
+            }
+
+            set
+            {
+                this.scanConstraintManager = value;
+            }
+        }
+
         /// <summary>
         /// Gets or sets the selected scan constraint
         /// </summary>
@@ -173,6 +204,7 @@
                 this.selectedScanConstraint = value;
                 this.RaisePropertyChanged(nameof(this.SelectedScanConstraint));
                 this.RaisePropertyChanged(nameof(this.ScanConstraintImage));
+                this.RaisePropertyChanged(nameof(this.ActiveScanConstraint));
             }
         }
 
@@ -203,7 +235,7 @@
         /// </summary>
         private void StartScan()
         {
-            ManualScannerModel.SetScanConstraintManager(this.scanConstraintManager);
+            ManualScannerModel.SetScanConstraintManager(this.ScanConstraintManager);
             ManualScannerModel.Begin();
         }
 
@@ -212,7 +244,7 @@
         /// </summary>
         private void AddSelectedConstraint()
         {
-            this.scanConstraintManager.AddConstraint(this.selectedScanConstraint);
+            this.ScanConstraintManager.AddConstraint(this.selectedScanConstraint);
         }
 
         /// <summary>
@@ -220,7 +252,7 @@
         /// </summary>
         private void RemoveSelectedConstraint()
         {
-            this.scanConstraintManager.RemoveConstraints(new Int32[] { 0 });
+            this.ScanConstraintManager.RemoveConstraints(new Int32[] { 0 });
         }
 
         /// <summary>
@@ -228,7 +260,7 @@
         /// </summary>
         private void ClearConstraints()
         {
-            this.scanConstraintManager.ClearConstraints();
+            this.ScanConstraintManager.ClearConstraints();
         }
 
         /// <summary>

@@ -20,7 +20,7 @@
 
         public Type GetElementType()
         {
-            return this.scanConstraints.GetElementType();
+            return this.scanConstraints.ElementType;
         }
 
         public void SetElementType(Type elementType)

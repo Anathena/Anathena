@@ -3,6 +3,7 @@
     using System;
     using System.Collections;
     using System.Collections.Generic;
+    using System.Collections.ObjectModel;
     using System.Linq;
     using System.Reflection;
 
@@ -13,12 +14,12 @@
     {
         public ScanConstraintManager()
         {
-            this.ValueConstraints = new List<ScanConstraint>();
+            this.ValueConstraints = new ObservableCollection<ScanConstraint>();
         }
 
-        protected List<ScanConstraint> ValueConstraints { get; set; }
+        public ObservableCollection<ScanConstraint> ValueConstraints { get; private set; }
 
-        protected Type ElementType { get; set; }
+        public Type ElementType { get; private set; }
 
         [Obfuscation(Exclude = true)]
         public ScanConstraint this[Int32 index]
@@ -27,11 +28,6 @@
             {
                 return this.ValueConstraints[index];
             }
-        }
-
-        public Type GetElementType()
-        {
-            return this.ElementType;
         }
 
         public Int32 GetCount()

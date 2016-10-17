@@ -45,7 +45,47 @@
         [Obfuscation(Exclude = true)]
         public dynamic Value { get; set; }
 
-        public BitmapImage ConstraintImage
+        public String ConstraintName
+        {
+            get
+            {
+                switch (this.Constraint)
+                {
+                    case ConstraintsEnum.Equal:
+                        return "Equal";
+                    case ConstraintsEnum.NotEqual:
+                        return "Not Equal";
+                    case ConstraintsEnum.GreaterThan:
+                        return "Greater Than";
+                    case ConstraintsEnum.GreaterThanOrEqual:
+                        return "Greater Than Or Equal";
+                    case ConstraintsEnum.LessThan:
+                        return "Less Than";
+                    case ConstraintsEnum.LessThanOrEqual:
+                        return "Less Than Or Equal";
+                    case ConstraintsEnum.NotScientificNotation:
+                        return "Not Scientific Notation";
+                    case ConstraintsEnum.Changed:
+                        return "Changed";
+                    case ConstraintsEnum.Unchanged:
+                        return "Unchanged";
+                    case ConstraintsEnum.Increased:
+                        return "Increased";
+                    case ConstraintsEnum.Decreased:
+                        return "Decreased";
+                    case ConstraintsEnum.IncreasedByX:
+                        return "Increased By X";
+                    case ConstraintsEnum.DecreasedByX:
+                        return "Decreased By X";
+                    case ConstraintsEnum.Invalid:
+                        return "Invalid";
+                    default:
+                        throw new Exception("Unrecognized Constraint");
+                }
+            }
+        }
+
+        public BitmapSource ConstraintImage
         {
             get
             {

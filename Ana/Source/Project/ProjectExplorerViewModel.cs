@@ -8,7 +8,6 @@
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.Threading;
-    using System.Threading.Tasks;
     using System.Windows.Input;
 
     /// <summary>
@@ -44,13 +43,15 @@
         private ProjectExplorerViewModel() : base("Project Explorer")
         {
             this.ContentId = ToolContentId;
-            this.AddNewFolderItemCommand = new RelayCommand(() => Task.Run(() => this.AddNewFolderItem()), () => true);
-            this.AddNewAddressItemCommand = new RelayCommand(() => Task.Run(() => this.AddNewAddressItem()), () => true);
-            this.AddNewScriptItemCommand = new RelayCommand(() => Task.Run(() => this.AddNewScriptItem()), () => true);
-            this.OpenProjectCommand = new RelayCommand(() => Task.Run(() => this.OpenProject()), () => true);
-            this.ImportProjectCommand = new RelayCommand(() => Task.Run(() => this.ImportProject()), () => true);
-            this.SaveProjectCommand = new RelayCommand(() => Task.Run(() => this.SaveProject()), () => true);
-            this.SaveAsProjectCommand = new RelayCommand(() => Task.Run(() => this.SaveAsProject()), () => true);
+
+            // Commands to manipulate project items may not be async due to multi-threading issues when modifying collections
+            this.AddNewFolderItemCommand = new RelayCommand(() => this.AddNewFolderItem(), () => true);
+            this.AddNewAddressItemCommand = new RelayCommand(() => this.AddNewAddressItem(), () => true);
+            this.AddNewScriptItemCommand = new RelayCommand(() => this.AddNewScriptItem(), () => true);
+            this.OpenProjectCommand = new RelayCommand(() => this.OpenProject(), () => true);
+            this.ImportProjectCommand = new RelayCommand(() => this.ImportProject(), () => true);
+            this.SaveProjectCommand = new RelayCommand(() => this.SaveProject(), () => true);
+            this.SaveAsProjectCommand = new RelayCommand(() => this.SaveAsProject(), () => true);
             this.IsVisible = true;
 
             this.projectItems = new ReadOnlyCollection<ProjectItemViewModel>(new List<ProjectItemViewModel>());
