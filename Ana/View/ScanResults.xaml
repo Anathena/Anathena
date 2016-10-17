@@ -25,6 +25,7 @@
             <Menu Foreground="{StaticResource AvalonDock_Expression_BaseColor2}"
                   Background="{StaticResource AvalonDock_Expression_BaseColor1}"
                   BorderBrush="{StaticResource AvalonDock_Expression_BaseColor2}"
+                  DataContext="{Binding Source={StaticResource ViewModelLocator}}"
                   Padding="4">
                 <MenuItem VerticalAlignment="Center">
                     <MenuItem.Header>
@@ -39,10 +40,16 @@
                           BorderThickness="0">
                     <MenuItem.Header>
                         <StackPanel Orientation="Horizontal">
-                            <TextBlock Foreground="{StaticResource AvalonDock_Expression_BaseColor2}"
-                                           VerticalAlignment="Center">
-                                    Data Type
-                            </TextBlock>
+                            <WrapPanel>
+                                <Image Width="16"
+                                       Height="16"
+                                       Source="{Binding ScanResultsViewModel.ActiveTypeImage}"/>
+                                <TextBlock Foreground="{StaticResource AvalonDock_Expression_BaseColor2}"
+                                           Padding="4 0 0 0"
+                                           VerticalAlignment="Center"
+                                           Text="{Binding ScanResultsViewModel.ActiveTypeName}">
+                                </TextBlock>
+                            </WrapPanel>
                             <Grid x:Name="arrowGlyph"
 									  IsHitTestVisible="False"
 									  Margin="4,3,4,3"
@@ -58,13 +65,13 @@
                     <MenuItem ToolTip="1 Byte Signed Integer"
                               BorderBrush="{StaticResource AvalonDock_Expression_BaseColor1}"
                               Background="{StaticResource AvalonDock_Expression_BaseColor1}"
-                              Command="{Binding ManualScannerViewModel.SelectChangedCommand}">
+                              Command="{Binding ScanResultsViewModel.ChangeTypeSByteCommand}">
                         <MenuItem.Header>
                             <WrapPanel Width="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=ActualWidth}">
                                 <Image Width="16"
                                        Height="16"
                                        Source="pack://application:,,,/Ana;component/Content/Icons/BlueBlocks1.png"/>
-                                <TextBlock Text="Signed Byte"
+                                <TextBlock Text="SByte"
                                            Padding="4 0 0 0"
                                            Background="Transparent"
                                            Foreground="{StaticResource AvalonDock_Expression_BaseColor2}"/>
@@ -74,7 +81,7 @@
                     <MenuItem ToolTip="2 Byte Signed Integer"
                               BorderBrush="{StaticResource AvalonDock_Expression_BaseColor1}"
                               Background="{StaticResource AvalonDock_Expression_BaseColor1}"
-                              Command="{Binding ManualScannerViewModel.SelectChangedCommand}">
+                              Command="{Binding ScanResultsViewModel.ChangeTypeInt16Command}">
                         <MenuItem.Header>
                             <WrapPanel Width="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=ActualWidth}">
                                 <Image Width="16"
@@ -90,7 +97,7 @@
                     <MenuItem ToolTip="4 Byte Signed Integer"
                               BorderBrush="{StaticResource AvalonDock_Expression_BaseColor1}"
                               Background="{StaticResource AvalonDock_Expression_BaseColor1}"
-                              Command="{Binding ManualScannerViewModel.SelectChangedCommand}">
+                              Command="{Binding ScanResultsViewModel.ChangeTypeInt32Command}">
                         <MenuItem.Header>
                             <WrapPanel Width="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=ActualWidth}">
                                 <Image Width="16"
@@ -106,7 +113,7 @@
                     <MenuItem ToolTip="8 Byte Signed Integer"
                               BorderBrush="{StaticResource AvalonDock_Expression_BaseColor1}"
                               Background="{StaticResource AvalonDock_Expression_BaseColor1}"
-                              Command="{Binding ManualScannerViewModel.SelectChangedCommand}">
+                              Command="{Binding ScanResultsViewModel.ChangeTypeInt64Command}">
                         <MenuItem.Header>
                             <WrapPanel Width="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=ActualWidth}">
                                 <Image Width="16"
@@ -122,7 +129,7 @@
                     <MenuItem ToolTip="1 Byte Unsigned Integer"
                               BorderBrush="{StaticResource AvalonDock_Expression_BaseColor1}"
                               Background="{StaticResource AvalonDock_Expression_BaseColor1}"
-                              Command="{Binding ManualScannerViewModel.SelectChangedCommand}">
+                              Command="{Binding ScanResultsViewModel.ChangeTypeByteCommand}">
                         <MenuItem.Header>
                             <WrapPanel Width="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=ActualWidth}">
                                 <Image Width="16"
@@ -138,7 +145,7 @@
                     <MenuItem ToolTip="2 Byte Unsigned Integer"
                               BorderBrush="{StaticResource AvalonDock_Expression_BaseColor1}"
                               Background="{StaticResource AvalonDock_Expression_BaseColor1}"
-                              Command="{Binding ManualScannerViewModel.SelectChangedCommand}">
+                              Command="{Binding ScanResultsViewModel.ChangeTypeUInt16Command}">
                         <MenuItem.Header>
                             <WrapPanel Width="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=ActualWidth}">
                                 <Image Width="16"
@@ -154,7 +161,7 @@
                     <MenuItem ToolTip="4 Byte Unsigned Integer"
                               BorderBrush="{StaticResource AvalonDock_Expression_BaseColor1}"
                               Background="{StaticResource AvalonDock_Expression_BaseColor1}"
-                              Command="{Binding ManualScannerViewModel.SelectChangedCommand}">
+                              Command="{Binding ScanResultsViewModel.ChangeTypeUInt32Command}">
                         <MenuItem.Header>
                             <WrapPanel Width="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=ActualWidth}">
                                 <Image Width="16"
@@ -170,7 +177,7 @@
                     <MenuItem ToolTip="8 Byte Unsigned Integer"
                               BorderBrush="{StaticResource AvalonDock_Expression_BaseColor1}"
                               Background="{StaticResource AvalonDock_Expression_BaseColor1}"
-                              Command="{Binding ManualScannerViewModel.SelectChangedCommand}">
+                              Command="{Binding ScanResultsViewModel.ChangeTypeUInt64Command}">
                         <MenuItem.Header>
                             <WrapPanel Width="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=ActualWidth}">
                                 <Image Width="16"
@@ -186,7 +193,7 @@
                     <MenuItem ToolTip="Single Precision Floating Point Value"
                               BorderBrush="{StaticResource AvalonDock_Expression_BaseColor1}"
                               Background="{StaticResource AvalonDock_Expression_BaseColor1}"
-                              Command="{Binding ManualScannerViewModel.SelectChangedCommand}">
+                              Command="{Binding ScanResultsViewModel.ChangeTypeSingleCommand}">
                         <MenuItem.Header>
                             <WrapPanel Width="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=ActualWidth}">
                                 <Image Width="16"
@@ -202,7 +209,7 @@
                     <MenuItem ToolTip="Double Precision Floating Point Value"
                               BorderBrush="{StaticResource AvalonDock_Expression_BaseColor1}"
                               Background="{StaticResource AvalonDock_Expression_BaseColor1}"
-                              Command="{Binding ManualScannerViewModel.SelectChangedCommand}">
+                              Command="{Binding ScanResultsViewModel.ChangeTypeDoubleCommand}">
                         <MenuItem.Header>
                             <WrapPanel Width="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=ActualWidth}">
                                 <Image Width="16"
@@ -286,16 +293,16 @@
 									</Style>
 								</Grid.Resources>
 								<Border Grid.Column="0">
-									<TextBlock >Address</TextBlock>
+									<TextBlock>Address</TextBlock>
 								</Border>
 								<Border Grid.Column="1">
-									<TextBlock >Value</TextBlock>
+									<TextBlock>Value</TextBlock>
 								</Border>
 								<Border Grid.Column="2">
-									<TextBlock >Previous</TextBlock>
+									<TextBlock>Previous</TextBlock>
 								</Border>
 								<Border Grid.Column="3">
-									<TextBlock >Label</TextBlock>
+									<TextBlock>Label</TextBlock>
 								</Border>
 							</Grid>
 							<ItemsPresenter Grid.Row="1"></ItemsPresenter>
