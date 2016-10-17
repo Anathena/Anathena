@@ -67,7 +67,7 @@
                         intermediateProcess.IsSystemProcess ? DateTime.MinValue : intermediateProcess.ExternalProcess.StartTime,
                         intermediateProcess.IsSystemProcess,
                         this.GetIcon(intermediateProcess)))
-                .OrderByDescending(normalizedProcess => normalizedProcess.ProcessId);
+                .OrderByDescending(normalizedProcess => normalizedProcess.StartTime);
         }
 
         /// <summary>
