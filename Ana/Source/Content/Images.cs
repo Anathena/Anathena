@@ -5,6 +5,10 @@
 
     internal class Images
     {
+        private static BitmapImage blueBlocks1 = ImageLoader.LoadImage("pack://application:,,,/Ana;component/Content/Icons/BlueBlocks1.png");
+        private static BitmapImage blueBlocks2 = ImageLoader.LoadImage("pack://application:,,,/Ana;component/Content/Icons/BlueBlocks2.png");
+        private static BitmapImage blueBlocks4 = ImageLoader.LoadImage("pack://application:,,,/Ana;component/Content/Icons/BlueBlocks4.png");
+        private static BitmapImage blueBlocks8 = ImageLoader.LoadImage("pack://application:,,,/Ana;component/Content/Icons/BlueBlocks8.png");
         private static BitmapImage cancel = ImageLoader.LoadImage("pack://application:,,,/Ana;component/Content/Icons/Cancel.png");
         private static BitmapImage changed = ImageLoader.LoadImage("pack://application:,,,/Ana;component/Content/Icons/Changed.png");
         private static BitmapImage collectValues = ImageLoader.LoadImage("pack://application:,,,/Ana;component/Content/Icons/CollectValues.png");
@@ -36,7 +40,15 @@
         private static BitmapImage nextScan = ImageLoader.LoadImage("pack://application:,,,/Ana;component/Content/Icons/NextScan.png");
         private static BitmapImage notEqual = ImageLoader.LoadImage("pack://application:,,,/Ana;component/Content/Icons/NotEqual.png");
         private static BitmapImage open = ImageLoader.LoadImage("pack://application:,,,/Ana;component/Content/Icons/Open.png");
+        private static BitmapImage orangeBlocks1 = ImageLoader.LoadImage("pack://application:,,,/Ana;component/Content/Icons/OrangeBlocks1.png");
+        private static BitmapImage orangeBlocks2 = ImageLoader.LoadImage("pack://application:,,,/Ana;component/Content/Icons/OrangeBlocks2.png");
+        private static BitmapImage orangeBlocks4 = ImageLoader.LoadImage("pack://application:,,,/Ana;component/Content/Icons/OrangeBlocks4.png");
+        private static BitmapImage orangeBlocks8 = ImageLoader.LoadImage("pack://application:,,,/Ana;component/Content/Icons/OrangeBlocks8.png");
         private static BitmapImage plusX = ImageLoader.LoadImage("pack://application:,,,/Ana;component/Content/Icons/PlusX.png");
+        private static BitmapImage purpleBlocks1 = ImageLoader.LoadImage("pack://application:,,,/Ana;component/Content/Icons/PurpleBlocks1.png");
+        private static BitmapImage purpleBlocks2 = ImageLoader.LoadImage("pack://application:,,,/Ana;component/Content/Icons/PurpleBlocks2.png");
+        private static BitmapImage purpleBlocks4 = ImageLoader.LoadImage("pack://application:,,,/Ana;component/Content/Icons/PurpleBlocks4.png");
+        private static BitmapImage purpleBlocks8 = ImageLoader.LoadImage("pack://application:,,,/Ana;component/Content/Icons/PurpleBlocks8.png");
         private static BitmapImage rightArrow = ImageLoader.LoadImage("pack://application:,,,/Ana;component/Content/Icons/RightArrow.png");
         private static BitmapImage rightArrows = ImageLoader.LoadImage("pack://application:,,,/Ana;component/Content/Icons/RightArrows.png");
         private static BitmapImage save = ImageLoader.LoadImage("pack://application:,,,/Ana;component/Content/Icons/Save.png");
@@ -46,6 +58,38 @@
         private static BitmapImage undo = ImageLoader.LoadImage("pack://application:,,,/Ana;component/Content/Icons/Undo.png");
         private static BitmapImage union = ImageLoader.LoadImage("pack://application:,,,/Ana;component/Content/Icons/Union.png");
         private static BitmapImage unknownValue = ImageLoader.LoadImage("pack://application:,,,/Ana;component/Content/Icons/UnknownValue.png");
+
+        public static BitmapImage BlueBlocks1
+        {
+            get
+            {
+                return blueBlocks1;
+            }
+        }
+
+        public static BitmapImage BlueBlocks2
+        {
+            get
+            {
+                return blueBlocks2;
+            }
+        }
+
+        public static BitmapImage BlueBlocks4
+        {
+            get
+            {
+                return blueBlocks4;
+            }
+        }
+
+        public static BitmapImage BlueBlocks8
+        {
+            get
+            {
+                return blueBlocks8;
+            }
+        }
 
         public static BitmapImage Cancel
         {
@@ -295,11 +339,75 @@
             }
         }
 
+        public static BitmapImage OrangeBlocks1
+        {
+            get
+            {
+                return orangeBlocks1;
+            }
+        }
+
+        public static BitmapImage OrangeBlocks2
+        {
+            get
+            {
+                return orangeBlocks2;
+            }
+        }
+
+        public static BitmapImage OrangeBlocks4
+        {
+            get
+            {
+                return orangeBlocks4;
+            }
+        }
+
+        public static BitmapImage OrangeBlocks8
+        {
+            get
+            {
+                return orangeBlocks8;
+            }
+        }
+
         public static BitmapImage PlusX
         {
             get
             {
                 return plusX;
+            }
+        }
+
+        public static BitmapImage PurpleBlocks1
+        {
+            get
+            {
+                return purpleBlocks1;
+            }
+        }
+
+        public static BitmapImage PurpleBlocks2
+        {
+            get
+            {
+                return purpleBlocks2;
+            }
+        }
+
+        public static BitmapImage PurpleBlocks4
+        {
+            get
+            {
+                return purpleBlocks4;
+            }
+        }
+
+        public static BitmapImage PurpleBlocks8
+        {
+            get
+            {
+                return purpleBlocks8;
             }
         }
 

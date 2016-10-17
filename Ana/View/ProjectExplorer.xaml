@@ -55,8 +55,8 @@
 								<Image Width="16"
                                        Height="16"
                                        Source="pack://application:,,,/Ana;component/Content/Icons/Open.png"/>
-								<TextBlock Text="Add Folder"
-                                           Background="Transparent"
+                                <TextBlock Text="Add Folder"
+                                           Padding="4 0 0 0"
                                            Foreground="{StaticResource AvalonDock_Expression_BaseColor2}"/>
 							</WrapPanel>
 						</MenuItem.Header>
@@ -68,8 +68,8 @@
 						<MenuItem.Header>
 							<WrapPanel Width="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=ActualWidth}">
 								<Image Width="16" Height="16" Source="pack://application:,,,/Ana;component/Content/Icons/CollectValues.png"/>
-								<TextBlock Text="Add Address"
-                                           Background="Transparent"
+                                <TextBlock Text="Add Address"
+                                           Padding="4 0 0 0"
                                            Foreground="{StaticResource AvalonDock_Expression_BaseColor2}"/>
 							</WrapPanel>
 						</MenuItem.Header>
@@ -81,8 +81,8 @@
 						<MenuItem.Header>
 							<WrapPanel Width="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=ActualWidth}">
                                 <Image Width="16" Height="16" Source="pack://application:,,,/Ana;component/Content/Icons/CollectValues.png"/>
-								<TextBlock Text="Add Script"
-                                           Background="Transparent"
+                                <TextBlock Text="Add Script"
+                                           Padding="4 0 0 0"
                                            Foreground="{StaticResource AvalonDock_Expression_BaseColor2}"/>
 							</WrapPanel>
 						</MenuItem.Header>

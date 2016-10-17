@@ -55,18 +55,163 @@
                             </Grid>
                         </StackPanel>
                     </MenuItem.Header>
-                    <MenuItem ToolTip="Changed Value"
-                                  BorderBrush="{StaticResource AvalonDock_Expression_BaseColor1}"
-                                  Background="{StaticResource AvalonDock_Expression_BaseColor1}"
-                                  Command="{Binding ManualScannerViewModel.SelectChangedCommand}">
+                    <MenuItem ToolTip="1 Byte Signed Integer"
+                              BorderBrush="{StaticResource AvalonDock_Expression_BaseColor1}"
+                              Background="{StaticResource AvalonDock_Expression_BaseColor1}"
+                              Command="{Binding ManualScannerViewModel.SelectChangedCommand}">
                         <MenuItem.Header>
                             <WrapPanel Width="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=ActualWidth}">
                                 <Image Width="16"
-                                           Height="16"
-                                           Source="pack://application:,,,/Ana;component/Content/Icons/Changed.png"/>
-                                <TextBlock Text="Changed"
-                                               Background="Transparent"
-                                               Foreground="{StaticResource AvalonDock_Expression_BaseColor2}"/>
+                                       Height="16"
+                                       Source="pack://application:,,,/Ana;component/Content/Icons/BlueBlocks1.png"/>
+                                <TextBlock Text="Signed Byte"
+                                           Padding="4 0 0 0"
+                                           Background="Transparent"
+                                           Foreground="{StaticResource AvalonDock_Expression_BaseColor2}"/>
+                            </WrapPanel>
+                        </MenuItem.Header>
+                    </MenuItem>
+                    <MenuItem ToolTip="2 Byte Signed Integer"
+                              BorderBrush="{StaticResource AvalonDock_Expression_BaseColor1}"
+                              Background="{StaticResource AvalonDock_Expression_BaseColor1}"
+                              Command="{Binding ManualScannerViewModel.SelectChangedCommand}">
+                        <MenuItem.Header>
+                            <WrapPanel Width="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=ActualWidth}">
+                                <Image Width="16"
+                                       Height="16"
+                                       Source="pack://application:,,,/Ana;component/Content/Icons/BlueBlocks2.png"/>
+                                <TextBlock Text="Int16"
+                                           Padding="4 0 0 0"
+                                           Background="Transparent"
+                                           Foreground="{StaticResource AvalonDock_Expression_BaseColor2}"/>
+                            </WrapPanel>
+                        </MenuItem.Header>
+                    </MenuItem>
+                    <MenuItem ToolTip="4 Byte Signed Integer"
+                              BorderBrush="{StaticResource AvalonDock_Expression_BaseColor1}"
+                              Background="{StaticResource AvalonDock_Expression_BaseColor1}"
+                              Command="{Binding ManualScannerViewModel.SelectChangedCommand}">
+                        <MenuItem.Header>
+                            <WrapPanel Width="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=ActualWidth}">
+                                <Image Width="16"
+                                       Height="16"
+                                       Source="pack://application:,,,/Ana;component/Content/Icons/BlueBlocks4.png"/>
+                                <TextBlock Text="Int32"
+                                           Padding="4 0 0 0"
+                                           Background="Transparent"
+                                           Foreground="{StaticResource AvalonDock_Expression_BaseColor2}"/>
+                            </WrapPanel>
+                        </MenuItem.Header>
+                    </MenuItem>
+                    <MenuItem ToolTip="8 Byte Signed Integer"
+                              BorderBrush="{StaticResource AvalonDock_Expression_BaseColor1}"
+                              Background="{StaticResource AvalonDock_Expression_BaseColor1}"
+                              Command="{Binding ManualScannerViewModel.SelectChangedCommand}">
+                        <MenuItem.Header>
+                            <WrapPanel Width="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=ActualWidth}">
+                                <Image Width="16"
+                                       Height="16"
+                                       Source="pack://application:,,,/Ana;component/Content/Icons/BlueBlocks8.png"/>
+                                <TextBlock Text="Int64"
+                                           Padding="4 0 0 0"
+                                           Background="Transparent"
+                                           Foreground="{StaticResource AvalonDock_Expression_BaseColor2}"/>
+                            </WrapPanel>
+                        </MenuItem.Header>
+                    </MenuItem>
+                    <MenuItem ToolTip="1 Byte Unsigned Integer"
+                              BorderBrush="{StaticResource AvalonDock_Expression_BaseColor1}"
+                              Background="{StaticResource AvalonDock_Expression_BaseColor1}"
+                              Command="{Binding ManualScannerViewModel.SelectChangedCommand}">
+                        <MenuItem.Header>
+                            <WrapPanel Width="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=ActualWidth}">
+                                <Image Width="16"
+                                       Height="16"
+                                       Source="pack://application:,,,/Ana;component/Content/Icons/PurpleBlocks1.png"/>
+                                <TextBlock Text="Byte"
+                                           Padding="4 0 0 0"
+                                           Background="Transparent"
+                                           Foreground="{StaticResource AvalonDock_Expression_BaseColor2}"/>
+                            </WrapPanel>
+                        </MenuItem.Header>
+                    </MenuItem>
+                    <MenuItem ToolTip="2 Byte Unsigned Integer"
+                              BorderBrush="{StaticResource AvalonDock_Expression_BaseColor1}"
+                              Background="{StaticResource AvalonDock_Expression_BaseColor1}"
+                              Command="{Binding ManualScannerViewModel.SelectChangedCommand}">
+                        <MenuItem.Header>
+                            <WrapPanel Width="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=ActualWidth}">
+                                <Image Width="16"
+                                       Height="16"
+                                       Source="pack://application:,,,/Ana;component/Content/Icons/PurpleBlocks2.png"/>
+                                <TextBlock Text="UInt16"
+                                           Padding="4 0 0 0"
+                                           Background="Transparent"
+                                           Foreground="{StaticResource AvalonDock_Expression_BaseColor2}"/>
+                            </WrapPanel>
+                        </MenuItem.Header>
+                    </MenuItem>
+                    <MenuItem ToolTip="4 Byte Unsigned Integer"
+                              BorderBrush="{StaticResource AvalonDock_Expression_BaseColor1}"
+                              Background="{StaticResource AvalonDock_Expression_BaseColor1}"
+                              Command="{Binding ManualScannerViewModel.SelectChangedCommand}">
+                        <MenuItem.Header>
+                            <WrapPanel Width="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=ActualWidth}">
+                                <Image Width="16"
+                                       Height="16"
+                                       Source="pack://application:,,,/Ana;component/Content/Icons/PurpleBlocks4.png"/>
+                                <TextBlock Text="UInt32"
+                                           Padding="4 0 0 0"
+                                           Background="Transparent"
+                                           Foreground="{StaticResource AvalonDock_Expression_BaseColor2}"/>
+                            </WrapPanel>
+                        </MenuItem.Header>
+                    </MenuItem>
+                    <MenuItem ToolTip="8 Byte Unsigned Integer"
+                              BorderBrush="{StaticResource AvalonDock_Expression_BaseColor1}"
+                              Background="{StaticResource AvalonDock_Expression_BaseColor1}"
+                              Command="{Binding ManualScannerViewModel.SelectChangedCommand}">
+                        <MenuItem.Header>
+                            <WrapPanel Width="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=ActualWidth}">
+                                <Image Width="16"
+                                       Height="16"
+                                       Source="pack://application:,,,/Ana;component/Content/Icons/PurpleBlocks8.png"/>
+                                <TextBlock Text="UInt64"
+                                           Padding="4 0 0 0"
+                                           Background="Transparent"
+                                           Foreground="{StaticResource AvalonDock_Expression_BaseColor2}"/>
+                            </WrapPanel>
+                        </MenuItem.Header>
+                    </MenuItem>
+                    <MenuItem ToolTip="Single Precision Floating Point Value"
+                              BorderBrush="{StaticResource AvalonDock_Expression_BaseColor1}"
+                              Background="{StaticResource AvalonDock_Expression_BaseColor1}"
+                              Command="{Binding ManualScannerViewModel.SelectChangedCommand}">
+                        <MenuItem.Header>
+                            <WrapPanel Width="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=ActualWidth}">
+                                <Image Width="16"
+                                       Height="16"
+                                       Source="pack://application:,,,/Ana;component/Content/Icons/OrangeBlocks4.png"/>
+                                <TextBlock Text="Single"
+                                           Padding="4 0 0 0"
+                                           Background="Transparent"
+                                           Foreground="{StaticResource AvalonDock_Expression_BaseColor2}"/>
+                            </WrapPanel>
+                        </MenuItem.Header>
+                    </MenuItem>
+                    <MenuItem ToolTip="Double Precision Floating Point Value"
+                              BorderBrush="{StaticResource AvalonDock_Expression_BaseColor1}"
+                              Background="{StaticResource AvalonDock_Expression_BaseColor1}"
+                              Command="{Binding ManualScannerViewModel.SelectChangedCommand}">
+                        <MenuItem.Header>
+                            <WrapPanel Width="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=ActualWidth}">
+                                <Image Width="16"
+                                       Height="16"
+                                       Source="pack://application:,,,/Ana;component/Content/Icons/OrangeBlocks8.png"/>
+                                <TextBlock Text="Double"
+                                           Padding="4 0 0 0"
+                                           Background="Transparent"
+                                           Foreground="{StaticResource AvalonDock_Expression_BaseColor2}"/>
                             </WrapPanel>
                         </MenuItem.Header>
                     </MenuItem>

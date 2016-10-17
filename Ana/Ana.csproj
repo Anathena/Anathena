@@ -415,6 +415,18 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Resource Include="Content\Icons\BlueBlocks1.png" />
+    <Resource Include="Content\Icons\BlueBlocks2.png" />
+    <Resource Include="Content\Icons\BlueBlocks4.png" />
+    <Resource Include="Content\Icons\OrangeBlocks1.png" />
+    <Resource Include="Content\Icons\OrangeBlocks2.png" />
+    <Resource Include="Content\Icons\OrangeBlocks4.png" />
+    <Resource Include="Content\Icons\BlueBlocks8.png" />
+    <Resource Include="Content\Icons\OrangeBlocks8.png" />
+    <Resource Include="Content\Icons\PurpleBlocks1.png" />
+    <Resource Include="Content\Icons\PurpleBlocks2.png" />
+    <Resource Include="Content\Icons\PurpleBlocks4.png" />
+    <Resource Include="Content\Icons\PurpleBlocks8.png" />
     <Content Include="xulrunner-32\D3DCompiler_43.dll" />
     <Content Include="xulrunner-32\freebl3.dll" />
     <Content Include="xulrunner-32\gkmedias.dll" />
