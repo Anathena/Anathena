@@ -235,7 +235,11 @@
         /// </summary>
         private void StartScan()
         {
-            ManualScannerModel.SetScanConstraintManager(this.ScanConstraintManager);
+            // Create a constraint manager that includes the current active constraint
+            ScanConstraintManager allScanConstraints = this.ScanConstraintManager.Clone();
+            allScanConstraints.AddConstraint(this.SelectedScanConstraint);
+
+            ManualScannerModel.SetScanConstraintManager(allScanConstraints);
             ManualScannerModel.Begin();
         }
 

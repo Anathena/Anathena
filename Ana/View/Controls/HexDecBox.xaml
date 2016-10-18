@@ -5,8 +5,61 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Ana.View.Controls"
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300">
-    <Grid>
-            
-    </Grid>
+             x:Name="hexDecBox"
+             Height="18"
+             d:DesignHeight="256"
+             d:DesignWidth="256">
+    <TextBox Width="{Binding Width, ElementName=hexDecBox}"
+             Background="{Binding Background, ElementName=hexDecBox}"
+             Foreground="{Binding Foreground, ElementName=hexDecBox}"
+             VerticalAlignment="Center"
+             Name="textBox">
+        <TextBox.ContextMenu>
+            <ContextMenu BorderThickness="1"
+                         Background="{StaticResource AvalonDock_Expression_BaseColor1}"
+                         BorderBrush="{StaticResource AvalonDock_Expression_BaseColor2}"
+                         Style="{StaticResource DropDownContextMenu}">
+                <ContextMenu.Resources>
+                    <Style x:Key="menuItemStyle" TargetType="{x:Type MenuItem}">
+                        <Setter Property="Foreground" Value="{StaticResource AvalonDock_Expression_BaseColor2}"></Setter>
+                        <Setter Property="Background" Value="{StaticResource AvalonDock_Expression_BaseColor4}"></Setter>
+                        <Setter Property="BorderBrush" Value="{StaticResource AvalonDock_Expression_BaseColor4}"></Setter>
+                        <Setter Property="BorderThickness" Value="0"></Setter>
+                    </Style>
+                </ContextMenu.Resources>
+                
+                <MenuItem Style="{StaticResource menuItemStyle}"
+                          IsChecked="{Binding InputCorrelatorViewModel.IsVisible, Mode=TwoWay}"
+                          IsCheckable="True">
+                    <MenuItem.Header>
+                        <TextBlock Text="Decimal"
+                                   Foreground="{StaticResource AvalonDock_Expression_BaseColor2}"/>
+                    </MenuItem.Header>
+                </MenuItem>
+                <MenuItem Style="{StaticResource menuItemStyle}"
+                          IsChecked="{Binding InputCorrelatorViewModel.IsVisible, Mode=TwoWay}"
+                          IsCheckable="True">
+                    <MenuItem.Header>
+                        <TextBlock Text="Hexedecimal"
+                                   Foreground="{StaticResource AvalonDock_Expression_BaseColor2}"/>
+                    </MenuItem.Header>
+                </MenuItem>
+                <Separator/>
+                <MenuItem Style="{StaticResource menuItemStyle}"
+                          Tag="EmptyCheck">
+                    <MenuItem.Header>
+                        <TextBlock Text="Convert to Decimal"
+                                   Foreground="{StaticResource AvalonDock_Expression_BaseColor2}"/>
+                    </MenuItem.Header>
+                </MenuItem>
+                <MenuItem Style="{StaticResource menuItemStyle}"
+                          Tag="EmptyCheck">
+                    <MenuItem.Header>
+                        <TextBlock Text="Convert to Hexedecimal"
+                                   Foreground="{StaticResource AvalonDock_Expression_BaseColor2}"/>
+                    </MenuItem.Header>
+                </MenuItem>
+            </ContextMenu>
+        </TextBox.ContextMenu>
+    </TextBox>
 </UserControl>

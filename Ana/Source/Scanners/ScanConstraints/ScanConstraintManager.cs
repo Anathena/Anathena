@@ -6,7 +6,7 @@
     using System.Collections.ObjectModel;
     using System.Linq;
     using System.Reflection;
-
+    using Utils.Extensions;
     /// <summary>
     /// Class for storing a collection of constraints to be used in a scan that applies more than one constraint per update
     /// </summary>
@@ -28,6 +28,19 @@
             {
                 return this.ValueConstraints[index];
             }
+        }
+
+        /// <summary>
+        /// Creates a shallow clone of the scan constraint manager
+        /// </summary>
+        /// <returns></returns>
+        public ScanConstraintManager Clone()
+        {
+            ScanConstraintManager scanConstraintManager = new ScanConstraintManager();
+            scanConstraintManager.SetElementType(this.ElementType);
+            this.ValueConstraints.ForEach(x => scanConstraintManager.AddConstraint(x));
+
+            return scanConstraintManager;
         }
 
         public Int32 GetCount()

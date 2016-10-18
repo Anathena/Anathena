@@ -14,8 +14,8 @@
 		WindowStyle="None"
 		AllowsTransparency="False"
 		Title="Anathena"
-        Height="640"
-        Width="720">
+		Height="640"
+		Width="720">
 	<Window.Resources>
 		<avalonDock:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
 	</Window.Resources>
@@ -274,7 +274,7 @@
 
 		<!-- Docking Panel AnchorablesSource="{Binding Tools}"-->
 		<avalonDock:DockingManager x:Name="dockManager"
-                                   Background="{StaticResource AvalonDock_Expression_BaseColor4}"
+								   Background="{StaticResource AvalonDock_Expression_BaseColor4}"
 								   AnchorablesSource="{Binding Tools}" 
 								   Grid.Row="3">
 			<!-- Theme -->

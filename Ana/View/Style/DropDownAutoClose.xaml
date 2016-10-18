@@ -28,11 +28,11 @@
                                    IsOpen="{Binding Path=IsSubmenuOpen, RelativeSource={RelativeSource TemplatedParent}}"
                                    PopupAnimation="{DynamicResource {x:Static SystemParameters.MenuPopupAnimationKey}}">
                                 <Border x:Name="SubMenuBorder"
-                                            Background="{Binding Path=Background, RelativeSource={RelativeSource AncestorType={x:Type Menu}}}"
-                                            BorderBrush="{Binding Path=BorderBrush, RelativeSource={RelativeSource AncestorType={x:Type Menu}}}"
-                                            BorderThickness="1"
-                                            CornerRadius="2"
-                                            Padding="1">
+                                        Background="{Binding Path=Background, RelativeSource={RelativeSource AncestorType={x:Type Menu}}}"
+                                        BorderBrush="{Binding Path=BorderBrush, RelativeSource={RelativeSource AncestorType={x:Type Menu}}}"
+                                        BorderThickness="1"
+                                        CornerRadius="2"
+                                        Padding="1">
                                     <Grid x:Name="SubMenu">
                                         <!-- StackPanel holds children of the menu. This is set by IsItemsHost=True -->
                                         <StackPanel IsItemsHost="True"

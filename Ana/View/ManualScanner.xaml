@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="Ana.View.ManualScanner"
+﻿<UserControl xmlns:Controls="clr-namespace:Ana.View.Controls"  x:Class="Ana.View.ManualScanner"
 	x:Name="AnaManualScanner"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -290,11 +290,10 @@
 							<Label Foreground="{StaticResource AvalonDock_Expression_BaseColor2}">
 								Value:
 							</Label>
-							<TextBox Width="196"
-									 Background="{StaticResource AvalonDock_Expression_BaseColor1}"
-									 Foreground="{StaticResource AvalonDock_Expression_BaseColor2}"
-									 VerticalAlignment="Center">
-							</TextBox>
+							<Controls:HexDecBox Width="196"
+												Background="{StaticResource AvalonDock_Expression_BaseColor1}"
+												Foreground="{StaticResource AvalonDock_Expression_BaseColor2}">
+							</Controls:HexDecBox>
 						</WrapPanel>
 					</StackPanel>
 				</WrapPanel>
