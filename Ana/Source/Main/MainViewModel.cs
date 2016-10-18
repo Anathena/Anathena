@@ -7,7 +7,6 @@
     using System;
     using System.Collections.Generic;
     using System.Threading;
-    using System.Threading.Tasks;
     using System.Windows;
     using System.Windows.Input;
     using Xceed.Wpf.AvalonDock;
@@ -42,11 +41,11 @@
         private MainViewModel()
         {
             this.tools = new HashSet<ToolViewModel>();
-            this.Close = new RelayCommand<Window>((window) => Task.Run(() => this.CloseExecute(window)), (window) => true);
-            this.MaximizeRestore = new RelayCommand<Window>((window) => Task.Run(() => this.MaximizeRestoreExecute(window)), (window) => true);
-            this.Minimize = new RelayCommand<Window>((window) => Task.Run(() => this.MinimizeExecute(window)), (window) => true);
 
-            // These cannot be async, as the logic to update the layout cannot be on a new thread
+            // Note: These cannot be async, as the logic to update the layout or window cannot be on a new thread
+            this.Close = new RelayCommand<Window>((window) => this.CloseExecute(window), (window) => true);
+            this.MaximizeRestore = new RelayCommand<Window>((window) => this.MaximizeRestoreExecute(window), (window) => true);
+            this.Minimize = new RelayCommand<Window>((window) => this.MinimizeExecute(window), (window) => true);
             this.LoadLayout = new RelayCommand<DockingManager>((dockingManager) => this.LoadLayoutExecute(dockingManager), (dockingManager) => true);
             this.SaveLayout = new RelayCommand<DockingManager>((dockingManager) => this.SaveLayoutExecute(dockingManager), (dockingManager) => true);
 
