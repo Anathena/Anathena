@@ -89,6 +89,7 @@
     <Compile Include="Source\ActionScheduler\IAction.cs" />
     <Compile Include="Source\CheatBrowser\CheatBrowserViewModel.cs" />
     <Compile Include="Source\Content\Images.cs" />
+    <Compile Include="Source\Controls\HexDecBoxViewModel.cs" />
     <Compile Include="Source\Controls\TreeViewItemViewModel.cs" />
     <Compile Include="Source\DotNetExplorer\DotNetExplorerViewModel.cs" />
     <Compile Include="Source\Engine\AddressResolver\AddressResolver.cs" />

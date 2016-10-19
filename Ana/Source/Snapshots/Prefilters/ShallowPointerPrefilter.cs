@@ -41,7 +41,7 @@
             this.RegionLock = new Object();
             this.processedCount = 0;
 
-            this.FilteredSnapshot.Alignment = SettingsViewModel.GetInstance().GetAlignmentSettings();
+            this.FilteredSnapshot.Alignment = SettingsViewModel.GetInstance().Alignment;
         }
 
         /// <summary>

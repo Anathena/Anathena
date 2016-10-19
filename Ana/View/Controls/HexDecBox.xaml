@@ -1,65 +1,62 @@
-﻿<UserControl x:Class="Ana.View.Controls.HexDecBox"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:Ana.View.Controls"
-             mc:Ignorable="d" 
-             x:Name="hexDecBox"
-             Height="18"
-             d:DesignHeight="256"
-             d:DesignWidth="256">
-    <TextBox Width="{Binding Width, ElementName=hexDecBox}"
-             Background="{Binding Background, ElementName=hexDecBox}"
-             Foreground="{Binding Foreground, ElementName=hexDecBox}"
-             VerticalAlignment="Center"
-             Name="textBox">
-        <TextBox.ContextMenu>
-            <ContextMenu BorderThickness="1"
+﻿<TextBox x:Class="Ana.View.Controls.HexDecBox"
+         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+         xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+         xmlns:local="clr-namespace:Ana.View.Controls"
+         mc:Ignorable="d" 
+         x:Name="hexDecBox"
+         Height="18"
+         DataContext="{Binding HexDecBoxViewModel, Source={StaticResource ViewModelLocator}}"
+         Text="{Binding Text, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+         VerticalAlignment="Center"
+         d:DesignHeight="256"
+         d:DesignWidth="256">
+    <TextBox.ContextMenu>
+        <ContextMenu BorderThickness="1"
                          Background="{StaticResource AvalonDock_Expression_BaseColor1}"
                          BorderBrush="{StaticResource AvalonDock_Expression_BaseColor2}"
                          Style="{StaticResource DropDownContextMenu}">
-                <ContextMenu.Resources>
-                    <Style x:Key="menuItemStyle" TargetType="{x:Type MenuItem}">
-                        <Setter Property="Foreground" Value="{StaticResource AvalonDock_Expression_BaseColor2}"></Setter>
-                        <Setter Property="Background" Value="{StaticResource AvalonDock_Expression_BaseColor4}"></Setter>
-                        <Setter Property="BorderBrush" Value="{StaticResource AvalonDock_Expression_BaseColor4}"></Setter>
-                        <Setter Property="BorderThickness" Value="0"></Setter>
-                    </Style>
-                </ContextMenu.Resources>
-                
-                <MenuItem Style="{StaticResource menuItemStyle}"
+            <ContextMenu.Resources>
+                <Style x:Key="menuItemStyle" TargetType="{x:Type MenuItem}">
+                    <Setter Property="Foreground" Value="{StaticResource AvalonDock_Expression_BaseColor2}"></Setter>
+                    <Setter Property="Background" Value="{StaticResource AvalonDock_Expression_BaseColor4}"></Setter>
+                    <Setter Property="BorderBrush" Value="{StaticResource AvalonDock_Expression_BaseColor4}"></Setter>
+                    <Setter Property="BorderThickness" Value="0"></Setter>
+                </Style>
+            </ContextMenu.Resources>
+
+            <MenuItem Style="{StaticResource menuItemStyle}"
                           IsChecked="{Binding InputCorrelatorViewModel.IsVisible, Mode=TwoWay}"
                           IsCheckable="True">
-                    <MenuItem.Header>
-                        <TextBlock Text="Decimal"
+                <MenuItem.Header>
+                    <TextBlock Text="Decimal"
                                    Foreground="{StaticResource AvalonDock_Expression_BaseColor2}"/>
-                    </MenuItem.Header>
-                </MenuItem>
-                <MenuItem Style="{StaticResource menuItemStyle}"
+                </MenuItem.Header>
+            </MenuItem>
+            <MenuItem Style="{StaticResource menuItemStyle}"
                           IsChecked="{Binding InputCorrelatorViewModel.IsVisible, Mode=TwoWay}"
                           IsCheckable="True">
-                    <MenuItem.Header>
-                        <TextBlock Text="Hexedecimal"
+                <MenuItem.Header>
+                    <TextBlock Text="Hexedecimal"
                                    Foreground="{StaticResource AvalonDock_Expression_BaseColor2}"/>
-                    </MenuItem.Header>
-                </MenuItem>
-                <Separator/>
-                <MenuItem Style="{StaticResource menuItemStyle}"
+                </MenuItem.Header>
+            </MenuItem>
+            <Separator/>
+            <MenuItem Style="{StaticResource menuItemStyle}"
                           Tag="EmptyCheck">
-                    <MenuItem.Header>
-                        <TextBlock Text="Convert to Decimal"
+                <MenuItem.Header>
+                    <TextBlock Text="Convert to Decimal"
                                    Foreground="{StaticResource AvalonDock_Expression_BaseColor2}"/>
-                    </MenuItem.Header>
-                </MenuItem>
-                <MenuItem Style="{StaticResource menuItemStyle}"
+                </MenuItem.Header>
+            </MenuItem>
+            <MenuItem Style="{StaticResource menuItemStyle}"
                           Tag="EmptyCheck">
-                    <MenuItem.Header>
-                        <TextBlock Text="Convert to Hexedecimal"
+                <MenuItem.Header>
+                    <TextBlock Text="Convert to Hexedecimal"
                                    Foreground="{StaticResource AvalonDock_Expression_BaseColor2}"/>
-                    </MenuItem.Header>
-                </MenuItem>
-            </ContextMenu>
-        </TextBox.ContextMenu>
-    </TextBox>
-</UserControl>
+                </MenuItem.Header>
+            </MenuItem>
+        </ContextMenu>
+    </TextBox.ContextMenu>
+</TextBox>

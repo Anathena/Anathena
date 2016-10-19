@@ -291,7 +291,7 @@
 								Value:
 							</Label>
 							<Controls:HexDecBox Width="196"
-												Background="{StaticResource AvalonDock_Expression_BaseColor1}"
+												Background="{StaticResource AvalonDock_Expression_BaseColor4}"
 												Foreground="{StaticResource AvalonDock_Expression_BaseColor2}">
 							</Controls:HexDecBox>
 						</WrapPanel>

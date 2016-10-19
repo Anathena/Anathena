@@ -23,7 +23,7 @@
         {
             Snapshot snapshot = SnapshotManager.GetInstance().GetActiveSnapshot(createIfNone: true).Clone();
             snapshot.ElementType = typeof(Int32);
-            snapshot.Alignment = SettingsViewModel.GetInstance().GetAlignmentSettings();
+            snapshot.Alignment = SettingsViewModel.GetInstance().Alignment;
             snapshot.ReadAllSnapshotMemory();
             snapshot.ScanMethod = this.ScannerName;
             SnapshotManager.GetInstance().SaveSnapshot(snapshot);

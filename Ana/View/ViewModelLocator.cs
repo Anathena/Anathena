@@ -2,6 +2,7 @@
 {
     using Source.ChangeCounter;
     using Source.CheatBrowser;
+    using Source.Controls;
     using Source.DotNetExplorer;
     using Source.LabelThresholder;
     using Source.Main;
@@ -178,6 +179,17 @@
             get
             {
                 return ValueCollectorViewModel.GetInstance();
+            }
+        }
+
+        /// <summary>
+        /// Gets a Hex Dec Box view model. Note: Not a singleton, will create a new object
+        /// </summary>
+        public HexDecBoxViewModel HexDecBoxViewModel
+        {
+            get
+            {
+                return new HexDecBoxViewModel();
             }
         }
     }

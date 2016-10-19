@@ -36,6 +36,22 @@
             Task.Run(() => MainViewModel.GetInstance().Subscribe(this));
         }
 
+
+        private String debug;
+        public String Debug
+        {
+            get
+            {
+                return this.debug;
+            }
+
+            set
+            {
+                this.debug = value;
+                this.RaisePropertyChanged(nameof(this.Debug));
+            }
+        }
+
         public Boolean RequiredProtectionWrite
         {
             get
@@ -165,55 +181,140 @@
                 Settings.Default.MemoryTypeImage = value;
             }
         }
-        /*
-         * 
-         * 
 
-        public void UpdateFreezeInterval(Int32 freezeInterval)
+        public Boolean IsUserMode
         {
-            Settings.Default.FreezeInterval = freezeInterval;
+            get
+            {
+                return Settings.Default.IsUserMode;
+            }
+
+            set
+            {
+                Settings.Default.IsUserMode = value;
+                this.RaisePropertyChanged(nameof(this.IsUserMode));
+                this.RaisePropertyChanged(nameof(this.IsNotUserMode));
+            }
         }
 
-        public void UpdateRescanInterval(Int32 rescanInterval)
+        public Boolean IsNotUserMode
         {
-            Settings.Default.RescanInterval = rescanInterval;
+            get
+            {
+                return !Settings.Default.IsUserMode;
+            }
+
+            set
+            {
+                Settings.Default.IsUserMode = !value;
+                this.RaisePropertyChanged(nameof(this.IsUserMode));
+                this.RaisePropertyChanged(nameof(this.IsNotUserMode));
+            }
         }
 
-        public void UpdateResultReadInterval(Int32 resultReadInterval)
+        public Int32 FreezeInterval
         {
-            Settings.Default.ResultReadInterval = resultReadInterval;
+            get
+            {
+                return Settings.Default.FreezeInterval;
+            }
+
+            set
+            {
+                Settings.Default.FreezeInterval = value;
+            }
         }
 
-        public void UpdateTableReadInterval(Int32 tableReadInterval)
+        public Int32 RescanInterval
         {
-            Settings.Default.TableReadInterval = tableReadInterval;
+            get
+            {
+                return Settings.Default.RescanInterval;
+            }
+
+            set
+            {
+                Settings.Default.RescanInterval = value;
+            }
         }
 
-        public void UpdateInputCorrelatorTimeOutInterval(Int32 inputCorrelatorTimeOutInterval)
+        public Int32 ResultReadInterval
         {
-            Settings.Default.InputCorrelatorTimeOutInterval = inputCorrelatorTimeOutInterval;
+            get
+            {
+                return Settings.Default.ResultReadInterval;
+            }
+
+            set
+            {
+                Settings.Default.ResultReadInterval = value;
+            }
         }
 
-        public void UpdateAlignmentSettings(Int32 alignment)
+        public Int32 TableReadInterval
         {
-            Settings.Default.Alignment = alignment;
+            get
+            {
+                return Settings.Default.TableReadInterval;
+            }
+
+            set
+            {
+                Settings.Default.TableReadInterval = value;
+            }
         }
 
-        public void UpdateIsUserMode(Boolean isUserMode)
+        public Int32 InputCorrelatorTimeOutInterval
         {
-            Settings.Default.IsUserMode = isUserMode;
+            get
+            {
+                return Settings.Default.InputCorrelatorTimeOutInterval;
+            }
+
+            set
+            {
+                Settings.Default.InputCorrelatorTimeOutInterval = value;
+            }
         }
 
-        public void UpdateStartAddress(UInt64 startAddress)
+        public Int32 Alignment
         {
-            Settings.Default.StartAddress = startAddress;
+            get
+            {
+                return Settings.Default.Alignment;
+            }
+
+            set
+            {
+                Settings.Default.Alignment = value;
+            }
         }
 
-        public void UpdateEndAddress(UInt64 endAddress)
+        public UInt64 StartAddress
         {
-            Settings.Default.EndAddress = endAddress;
+            get
+            {
+                return Settings.Default.StartAddress;
+            }
+
+            set
+            {
+                Settings.Default.StartAddress = value;
+            }
         }
-        */
+
+        public UInt64 EndAddress
+        {
+            get
+            {
+                return Settings.Default.EndAddress;
+            }
+
+            set
+            {
+                Settings.Default.EndAddress = value;
+            }
+        }
 
         /// <summary>
         /// Gets a singleton instance of the <see cref="SettingsViewModel"/> class
@@ -221,7 +322,7 @@
         /// <returns>A singleton instance of the class</returns>
         public static SettingsViewModel GetInstance()
         {
-            return settingsViewModelInstance.Value;
+            return SettingsViewModel.settingsViewModelInstance.Value;
         }
 
         public MemoryTypeEnum GetAllowedTypeSettings()
@@ -293,51 +394,6 @@
             }
 
             return result;
-        }
-
-        public Int32 GetFreezeInterval()
-        {
-            return Settings.Default.FreezeInterval;
-        }
-
-        public Int32 GetRescanInterval()
-        {
-            return Settings.Default.RescanInterval;
-        }
-
-        public Int32 GetResultReadInterval()
-        {
-            return Settings.Default.ResultReadInterval;
-        }
-
-        public Int32 GetTableReadInterval()
-        {
-            return Settings.Default.TableReadInterval;
-        }
-
-        public Int32 GetInputCorrelatorTimeOutInterval()
-        {
-            return Settings.Default.InputCorrelatorTimeOutInterval;
-        }
-
-        public Int32 GetAlignmentSettings()
-        {
-            return Settings.Default.Alignment;
-        }
-
-        public Boolean GetIsUserMode() // TODO: Boolean prop
-        {
-            return Settings.Default.IsUserMode;
-        }
-
-        public UInt64 GetStartAddress()
-        {
-            return Settings.Default.StartAddress;
-        }
-
-        public UInt64 GetEndAddress()
-        {
-            return Settings.Default.EndAddress;
         }
     }
     //// End class

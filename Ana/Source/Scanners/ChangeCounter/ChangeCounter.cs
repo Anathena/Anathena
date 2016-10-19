@@ -53,7 +53,7 @@
             }
 
             this.Snapshot.SetVariableSize(this.VariableSize);
-            this.Snapshot.Alignment = SettingsViewModel.GetInstance().GetAlignmentSettings();
+            this.Snapshot.Alignment = SettingsViewModel.GetInstance().Alignment;
 
             // Initialize change counts to zero
             this.Snapshot.SetElementLabels(0);

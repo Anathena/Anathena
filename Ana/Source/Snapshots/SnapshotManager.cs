@@ -147,15 +147,15 @@
                 excludedPageFlags = SettingsViewModel.GetInstance().GetExcludedProtectionSettings();
                 allowedTypeFlags = SettingsViewModel.GetInstance().GetAllowedTypeSettings();
 
-                if (SettingsViewModel.GetInstance().GetIsUserMode())
+                if (SettingsViewModel.GetInstance().IsUserMode)
                 {
                     startAddress = IntPtr.Zero;
                     endAddress = EngineCore.GetInstance().OperatingSystemAdapter.GetMaximumUserModeAddress();
                 }
                 else
                 {
-                    startAddress = SettingsViewModel.GetInstance().GetStartAddress().ToIntPtr();
-                    endAddress = SettingsViewModel.GetInstance().GetEndAddress().ToIntPtr();
+                    startAddress = SettingsViewModel.GetInstance().StartAddress.ToIntPtr();
+                    endAddress = SettingsViewModel.GetInstance().EndAddress.ToIntPtr();
                 }
             }
             else

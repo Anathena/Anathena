@@ -61,7 +61,7 @@ namespace Xceed.Wpf.AvalonDock
         /// Layout Dependency Property
         /// </summary>
         public static readonly DependencyProperty LayoutProperty =
-            DependencyProperty.Register("Layout", typeof(LayoutRoot), typeof(DockingManager),
+            DependencyProperty.Register(nameof(DockingManager.Layout), typeof(LayoutRoot), typeof(DockingManager),
                 new FrameworkPropertyMetadata(null,
                     new PropertyChangedCallback(OnLayoutChanged),
                     new CoerceValueCallback(CoerceLayoutValue)));
@@ -135,8 +135,8 @@ namespace Xceed.Wpf.AvalonDock
 
                 foreach (var fw in _fwList)
                 {
-                    //fw.Owner = Window.GetWindow(this);
-                    //fw.SetParentToMainWindowOf(this);
+                    // fw.Owner = Window.GetWindow(this);
+                    // fw.SetParentToMainWindowOf(this);
                 }
             }
 
@@ -147,11 +147,10 @@ namespace Xceed.Wpf.AvalonDock
                 newLayout.Updated += new EventHandler(OnLayoutRootUpdated);
             }
 
-            if (LayoutChanged != null)
-                LayoutChanged(this, EventArgs.Empty);
+            LayoutChanged?.Invoke(this, EventArgs.Empty);
 
-            //if (Layout != null)
-            //    Layout.CollectGarbage();
+            // if (Layout != null)
+            //     Layout.CollectGarbage();
 
             CommandManager.InvalidateRequerySuggested();
         }
@@ -172,10 +171,10 @@ namespace Xceed.Wpf.AvalonDock
             {
                 if (Layout.ActiveContent != null)
                 {
-                    //Debug.WriteLine(new StackTrace().ToString());
+                    // Debug.WriteLine(new StackTrace().ToString());
 
-                    //set focus on active element only after a layout pass is completed
-                    //it's possible that it is not yet visible in the visual tree
+                    // set focus on active element only after a layout pass is completed
+                    // it's possible that it is not yet visible in the visual tree
                     if (_setFocusAsyncOperation == null)
                     {
                         _setFocusAsyncOperation = Dispatcher.BeginInvoke(new Action(() =>

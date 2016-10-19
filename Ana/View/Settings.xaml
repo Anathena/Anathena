@@ -153,24 +153,31 @@
                                 <TextBlock Text="Alignment:"
                                            Padding="0 0 4 0"
                                            Foreground="{StaticResource AvalonDock_Expression_BaseColor2}"/>
-                                <Controls:HexDecBox Width="64"/>
+                                <Controls:HexDecBox Width="64"
+                                                    Background="{StaticResource AvalonDock_Expression_BaseColor4}"
+                                                    Foreground="{StaticResource AvalonDock_Expression_BaseColor2}"
+                                                    x:Name="alignmentText"/>
                             </WrapPanel>
                             <WrapPanel>
-                                <RadioButton/>
+                                <RadioButton IsChecked="{Binding IsUserMode, Mode=TwoWay}"/>
                                 <TextBlock Text="Scan Usermode Memory"
                                            Padding="4 0 0 0"
                                            Foreground="{StaticResource AvalonDock_Expression_BaseColor2}"/>
                             </WrapPanel>
                             <WrapPanel>
-                                <RadioButton/>
+                                <RadioButton IsChecked="{Binding IsNotUserMode, Mode=TwoWay}"/>
                                 <TextBlock Text="Scan Custom Range"
                                            Padding="4 0 0 0"
                                            Foreground="{StaticResource AvalonDock_Expression_BaseColor2}"/>
                             </WrapPanel>
                             <WrapPanel>
                                 <Controls:HexDecBox Width="96"
+                                                    Background="{StaticResource AvalonDock_Expression_BaseColor4}"
+                                                    Foreground="{StaticResource AvalonDock_Expression_BaseColor2}"
                                                     Margin="0 0 8 0"/>
                                 <Controls:HexDecBox Width="96"
+                                                    Background="{StaticResource AvalonDock_Expression_BaseColor4}"
+                                                    Foreground="{StaticResource AvalonDock_Expression_BaseColor2}"
                                                     Margin="8 0 0 0"/>
                             </WrapPanel>
                         </StackPanel>
