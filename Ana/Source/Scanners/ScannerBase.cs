@@ -34,7 +34,7 @@
         public override void Begin()
         {
             this.ScanCount = 0;
-            this.UpdateInterval = Settings.GetInstance().GetRescanInterval();
+            this.UpdateInterval = SettingsViewModel.GetInstance().GetRescanInterval();
             base.Begin();
         }
 
@@ -44,7 +44,7 @@
         protected override void Update()
         {
             this.ScanCount++;
-            this.UpdateInterval = Settings.GetInstance().GetRescanInterval();
+            this.UpdateInterval = SettingsViewModel.GetInstance().GetRescanInterval();
         }
     }
     //// End class

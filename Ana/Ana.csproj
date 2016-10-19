@@ -215,7 +215,6 @@
     <Compile Include="Source\Snapshots\ISnapshotObserver.cs" />
     <Compile Include="Source\Snapshots\SnapshotRegion.cs" />
     <Compile Include="Source\UserSettings\SettingsViewModel.cs" />
-    <Compile Include="Source\UserSettings\Settings.cs" />
     <Compile Include="Source\Utils\DataStructures\ConcurrentHashSet.cs">
       <ExcludeFromStyleCop>False</ExcludeFromStyleCop>
     </Compile>

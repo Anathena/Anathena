@@ -49,12 +49,6 @@
             </Grid>
         </Border>
         <ControlTemplate.Triggers>
-            <Trigger Property="Icon"
-                     Value="{x:Null}">
-                <Setter TargetName="Icon"
-                        Property="Visibility"
-                        Value="Hidden" />
-            </Trigger>
             <Trigger Property="IsChecked"
                      Value="true">
                 <Setter TargetName="CheckMark"
@@ -66,9 +60,6 @@
                 <Setter TargetName="Check"
                         Property="Visibility"
                         Value="Visible" />
-                <Setter TargetName="Icon"
-                        Property="Visibility"
-                        Value="Hidden" />
             </Trigger>
             <Trigger Property="Tag"
                      Value="EmptyCheck">

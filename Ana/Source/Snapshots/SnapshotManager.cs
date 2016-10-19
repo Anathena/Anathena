@@ -143,19 +143,19 @@
             if (useSettings)
             {
                 // Use settings parameters
-                requiredPageFlags = Settings.GetInstance().GetRequiredProtectionSettings();
-                excludedPageFlags = Settings.GetInstance().GetExcludedProtectionSettings();
-                allowedTypeFlags = Settings.GetInstance().GetAllowedTypeSettings();
+                requiredPageFlags = SettingsViewModel.GetInstance().GetRequiredProtectionSettings();
+                excludedPageFlags = SettingsViewModel.GetInstance().GetExcludedProtectionSettings();
+                allowedTypeFlags = SettingsViewModel.GetInstance().GetAllowedTypeSettings();
 
-                if (Settings.GetInstance().GetIsUserMode())
+                if (SettingsViewModel.GetInstance().GetIsUserMode())
                 {
                     startAddress = IntPtr.Zero;
                     endAddress = EngineCore.GetInstance().OperatingSystemAdapter.GetMaximumUserModeAddress();
                 }
                 else
                 {
-                    startAddress = Settings.GetInstance().GetStartAddress().ToIntPtr();
-                    endAddress = Settings.GetInstance().GetEndAddress().ToIntPtr();
+                    startAddress = SettingsViewModel.GetInstance().GetStartAddress().ToIntPtr();
+                    endAddress = SettingsViewModel.GetInstance().GetEndAddress().ToIntPtr();
                 }
             }
             else

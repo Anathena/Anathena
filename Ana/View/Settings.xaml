@@ -41,103 +41,139 @@
                  Background="Transparent">
             <Grid>
                 <Grid.RowDefinitions>
-                    <RowDefinition/>
+                    <RowDefinition Height="Auto"/>
                     <RowDefinition/>
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition/>
+                    <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
                 <Grid Grid.Row="0"
-              Grid.Column="0"
-              Margin="2">
+                      Grid.Column="0"
+                      Margin="2">
                     <GroupBox Header="Required Protection Flags"
-                      BorderThickness="1"
-                      Padding="4"
-                      Foreground="{StaticResource AvalonDock_Expression_BaseColor2}">
+                              BorderThickness="1"
+                              Padding="4"
+                              Foreground="{StaticResource AvalonDock_Expression_BaseColor2}">
                         <StackPanel>
                             <WrapPanel>
-                                <CheckBox Padding="0 0 4 0"/>
+                                <CheckBox IsChecked="{Binding RequiredProtectionWrite, Mode=TwoWay}"
+                                          Padding="0 0 4 0"/>
                                 <TextBlock Text="Write"
-                               VerticalAlignment="Center"/>
+                                           VerticalAlignment="Center"/>
                             </WrapPanel>
                             <WrapPanel>
-                                <CheckBox Padding="0 0 4 0"/>
+                                <CheckBox IsChecked="{Binding RequiredProtectionExecute, Mode=TwoWay}"
+                                          Padding="0 0 4 0"/>
                                 <TextBlock Text="Execute"
-                               VerticalAlignment="Center"/>
+                                           VerticalAlignment="Center"/>
                             </WrapPanel>
                             <WrapPanel>
-                                <CheckBox Padding="0 0 4 0"/>
+                                <CheckBox IsChecked="{Binding RequiredProtectionCopyOnWrite, Mode=TwoWay}"
+                                          Padding="0 0 4 0"/>
                                 <TextBlock Text="Copy on Write"
-                               VerticalAlignment="Center"/>
+                                           VerticalAlignment="Center"/>
                             </WrapPanel>
                         </StackPanel>
                     </GroupBox>
                 </Grid>
                 <Grid Grid.Row="0"
-              Grid.Column="1"
-              Margin="2">
-                    <GroupBox Header="Excluding Protection Flags"
-                      BorderThickness="1"
-                      Padding="4"
-                      Foreground="{StaticResource AvalonDock_Expression_BaseColor2}">
+                      Grid.Column="1"
+                      Margin="2">
+                    <GroupBox Header="Excluded Protection Flags"
+                              BorderThickness="1"
+                              Padding="4"
+                              Foreground="{StaticResource AvalonDock_Expression_BaseColor2}">
                         <StackPanel>
                             <WrapPanel>
-                                <CheckBox Padding="0 0 4 0"/>
+                                <CheckBox IsChecked="{Binding ExcludedProtectionWrite, Mode=TwoWay}"
+                                          Padding="0 0 4 0"/>
                                 <TextBlock Text="Write"
-                               VerticalAlignment="Center"/>
+                                           VerticalAlignment="Center"/>
                             </WrapPanel>
                             <WrapPanel>
-                                <CheckBox Padding="0 0 4 0"/>
+                                <CheckBox IsChecked="{Binding ExcludedProtectionExecute, Mode=TwoWay}"
+                                          Padding="0 0 4 0"/>
                                 <TextBlock Text="Execute"
-                               VerticalAlignment="Center"/>
+                                           VerticalAlignment="Center"/>
                             </WrapPanel>
                             <WrapPanel>
-                                <CheckBox Padding="0 0 4 0"/>
+                                <CheckBox IsChecked="{Binding ExcludedProtectionCopyOnWrite, Mode=TwoWay}"
+                                          Padding="0 0 4 0"/>
                                 <TextBlock Text="Copy on Write"
-                               VerticalAlignment="Center"/>
+                                           VerticalAlignment="Center"/>
                             </WrapPanel>
                         </StackPanel>
                     </GroupBox>
                 </Grid>
                 <Grid Grid.Row="1"
-              Grid.Column="0"
-              Margin="2">
+                      Grid.Column="0"
+                      Margin="2">
                     <GroupBox Header="Memory Type"
-                      BorderThickness="1"
-                      Padding="4"
-                      Foreground="{StaticResource AvalonDock_Expression_BaseColor2}">
+                              BorderThickness="1"
+                              Padding="4"
+                              Foreground="{StaticResource AvalonDock_Expression_BaseColor2}">
                         <StackPanel>
                             <WrapPanel>
-                                <CheckBox Padding="0 0 4 0"/>
+                                <CheckBox IsChecked="{Binding MemoryTypeNone, Mode=TwoWay}"
+                                          Padding="0 0 4 0"/>
                                 <TextBlock Text="None"
-                               VerticalAlignment="Center"/>
+                                           VerticalAlignment="Center"/>
                             </WrapPanel>
                             <WrapPanel>
-                                <CheckBox Padding="0 0 4 0"/>
+                                <CheckBox IsChecked="{Binding MemoryTypePrivate, Mode=TwoWay}"
+                                          Padding="0 0 4 0"/>
                                 <TextBlock Text="Image"
-                               VerticalAlignment="Center"/>
+                                           VerticalAlignment="Center"/>
                             </WrapPanel>
                             <WrapPanel>
-                                <CheckBox Padding="0 0 4 0"/>
+                                <CheckBox IsChecked="{Binding MemoryTypeMapped, Mode=TwoWay}"
+                                          Padding="0 0 4 0"/>
                                 <TextBlock Text="Private"
-                               VerticalAlignment="Center"/>
+                                           VerticalAlignment="Center"/>
                             </WrapPanel>
                             <WrapPanel>
-                                <CheckBox Padding="0 0 4 0"/>
+                                <CheckBox IsChecked="{Binding MemoryTypeImage, Mode=TwoWay}"
+                                          Padding="0 0 4 0"/>
                                 <TextBlock Text="Mapped"
-                               VerticalAlignment="Center"/>
+                                           VerticalAlignment="Center"/>
                             </WrapPanel>
                         </StackPanel>
                     </GroupBox>
                 </Grid>
                 <Grid Grid.Row="1"
-              Grid.Column="1"
-              Margin="2">
+                      Grid.Column="1"
+                      Margin="2">
                     <GroupBox Header="General"
-                      BorderThickness="1"
-                      Padding="4"
-                      Foreground="{StaticResource AvalonDock_Expression_BaseColor2}">
+                              BorderThickness="1"
+                              Padding="4"
+                              Foreground="{StaticResource AvalonDock_Expression_BaseColor2}">
+                        <StackPanel>
+                            <WrapPanel>
+                                <TextBlock Text="Alignment:"
+                                           Padding="0 0 4 0"
+                                           Foreground="{StaticResource AvalonDock_Expression_BaseColor2}"/>
+                                <Controls:HexDecBox Width="64"/>
+                            </WrapPanel>
+                            <WrapPanel>
+                                <RadioButton/>
+                                <TextBlock Text="Scan Usermode Memory"
+                                           Padding="4 0 0 0"
+                                           Foreground="{StaticResource AvalonDock_Expression_BaseColor2}"/>
+                            </WrapPanel>
+                            <WrapPanel>
+                                <RadioButton/>
+                                <TextBlock Text="Scan Custom Range"
+                                           Padding="4 0 0 0"
+                                           Foreground="{StaticResource AvalonDock_Expression_BaseColor2}"/>
+                            </WrapPanel>
+                            <WrapPanel>
+                                <Controls:HexDecBox Width="96"
+                                                    Margin="0 0 8 0"/>
+                                <Controls:HexDecBox Width="96"
+                                                    Margin="8 0 0 0"/>
+                            </WrapPanel>
+                        </StackPanel>
                     </GroupBox>
                 </Grid>
             </Grid>
@@ -153,25 +189,25 @@
                                Foreground="{StaticResource AvalonDock_Expression_BaseColor2}"/>
                 </WrapPanel>
                 <WrapPanel Margin="0 4 0 4">
-                    <Controls:HexDecBox Width="66"/>
+                    <Controls:HexDecBox Width="64"/>
                     <TextBlock Text="Rescan Interval"
                                Padding="8 0 0 0"
                                Foreground="{StaticResource AvalonDock_Expression_BaseColor2}"/>
                 </WrapPanel>
                 <WrapPanel Margin="0 4 0 4">
-                    <Controls:HexDecBox Width="66"/>
+                    <Controls:HexDecBox Width="64"/>
                     <TextBlock Text="Table Read Interval"
                                Padding="8 0 0 0"
                                Foreground="{StaticResource AvalonDock_Expression_BaseColor2}"/>
                 </WrapPanel>
                 <WrapPanel Margin="0 4 0 4">
-                    <Controls:HexDecBox Width="66"/>
+                    <Controls:HexDecBox Width="64"/>
                     <TextBlock Text="Result Read Interval"
                                Padding="8 0 0 0"
                                Foreground="{StaticResource AvalonDock_Expression_BaseColor2}"/>
                 </WrapPanel>
                 <WrapPanel Margin="0 4 0 4">
-                    <Controls:HexDecBox Width="66"/>
+                    <Controls:HexDecBox Width="64"/>
                     <TextBlock Text="Input Correlator Timeout"
                                Padding="8 0 0 0"
                                Foreground="{StaticResource AvalonDock_Expression_BaseColor2}"/>
