@@ -1,6 +1,8 @@
 ﻿namespace Ana.View
 {
+    using Controls;
     using System.Windows.Controls;
+    using System.Windows.Forms.Integration;
 
     /// <summary>
     /// Interaction logic for ManualScanner.xaml
@@ -13,6 +15,12 @@
         public ManualScanner()
         {
             this.InitializeComponent();
+
+            // [WINDOWS FORMS]
+            WindowsFormsHost host = new WindowsFormsHost();
+            HexDecTextBox hexDecBox = new HexDecTextBox();
+            host.Child = hexDecBox;
+            this.valueHexDecBox.Children.Add(host);
         }
     }
     //// End class

@@ -290,11 +290,10 @@
 							<Label Foreground="{StaticResource AvalonDock_Expression_BaseColor2}">
 								Value:
 							</Label>
-							<Controls:HexDecBox Width="196"
-												Background="{StaticResource AvalonDock_Expression_BaseColor4}"
-												Foreground="{StaticResource AvalonDock_Expression_BaseColor2}">
-							</Controls:HexDecBox>
-						</WrapPanel>
+                            <Grid x:Name="valueHexDecBox"
+                                  Width="196"
+                                  Height="20"/>
+                        </WrapPanel>
 					</StackPanel>
 				</WrapPanel>
 			</Grid>

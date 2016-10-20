@@ -154,9 +154,11 @@
                                            Padding="0 0 4 0"
                                            Foreground="{StaticResource AvalonDock_Expression_BaseColor2}"/>
                                 <Controls:HexDecBox Width="64"
+                                    Text="{Binding Path=Debug, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                    Value="{Binding Path=Debug2, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                                <!--<Controls:HexDecBox Width="64"
                                                     Background="{StaticResource AvalonDock_Expression_BaseColor4}"
-                                                    Foreground="{StaticResource AvalonDock_Expression_BaseColor2}"
-                                                    x:Name="alignmentText"/>
+                                                    Foreground="{StaticResource AvalonDock_Expression_BaseColor2}"/>-->
                             </WrapPanel>
                             <WrapPanel>
                                 <RadioButton IsChecked="{Binding IsUserMode, Mode=TwoWay}"/>

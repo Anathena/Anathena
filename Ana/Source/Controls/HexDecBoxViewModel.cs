@@ -10,11 +10,13 @@
 
         private String text;
 
+        private UInt64 value;
+
         public HexDecBoxViewModel()
         {
-            this.Text = String.Empty;
+            // this.Text = String.Empty;
         }
-
+        /*
         public String Text
         {
             get
@@ -27,7 +29,7 @@
                 this.text = value;
                 this.RaisePropertyChanged(nameof(this.Text));
             }
-        }
+        }*/
 
         public UInt64 Value
         {
@@ -37,14 +39,19 @@
 
                 if (this.IsDec && CheckSyntax.IsUInt64(RawValue))
                 {
-                    return Conversions.ParseDecStringAsValue(typeof(UInt64), RawValue);
+                    this.value = Conversions.ParseDecStringAsValue(typeof(UInt64), RawValue);
                 }
                 else if (this.IsHex && CheckSyntax.CanParseHex(typeof(UInt64), RawValue))
                 {
-                    return Conversions.ParseHexStringAsValue(typeof(UInt64), RawValue);
+                    this.value = Conversions.ParseHexStringAsValue(typeof(UInt64), RawValue);
                 }
 
-                return 0;
+                return this.value;
+            }
+
+            set
+            {
+                this.value = value;
             }
         }
 

@@ -65,6 +65,7 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
@@ -78,6 +79,7 @@
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
+    <Reference Include="WindowsFormsIntegration" />
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
@@ -242,8 +244,12 @@
     <Compile Include="Source\Utils\VirtualItemProvider\VirtualizingCollection.cs">
       <ExcludeFromStyleCop>False</ExcludeFromStyleCop>
     </Compile>
-    <Compile Include="View\Controls\HexDecBox.xaml.cs">
-      <DependentUpon>HexDecBox.xaml</DependentUpon>
+    <Compile Include="View\Controls\HexDecBox.cs" />
+    <Compile Include="View\Controls\HexDecTextBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="View\Controls\WatermarkTextBox.cs">
+      <SubType>Component</SubType>
     </Compile>
     <Compile Include="View\InputCorrelator.xaml.cs">
       <DependentUpon>InputCorrelator.xaml</DependentUpon>

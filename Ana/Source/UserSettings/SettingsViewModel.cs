@@ -25,6 +25,9 @@
                 () => { return new SettingsViewModel(); },
                 LazyThreadSafetyMode.PublicationOnly);
 
+        private String debug;
+        private UInt64 debug2;
+
         /// <summary>
         /// Prevents a default instance of the <see cref="SettingsViewModel" /> class from being created
         /// </summary>
@@ -36,19 +39,29 @@
             Task.Run(() => MainViewModel.GetInstance().Subscribe(this));
         }
 
-
-        private String debug;
         public String Debug
         {
             get
             {
-                return this.debug;
+                return (String)this.debug;
             }
-
             set
             {
                 this.debug = value;
                 this.RaisePropertyChanged(nameof(this.Debug));
+            }
+        }
+
+        public UInt64 Debug2
+        {
+            get
+            {
+                return (UInt64)this.debug2;
+            }
+            set
+            {
+                this.debug2 = value;
+                this.RaisePropertyChanged(nameof(this.Debug2));
             }
         }
 
