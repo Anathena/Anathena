@@ -153,12 +153,13 @@
                                 <TextBlock Text="Alignment:"
                                            Padding="0 0 4 0"
                                            Foreground="{StaticResource AvalonDock_Expression_BaseColor2}"/>
-                                <Controls:HexDecBox Width="64"
-                                    Text="{Binding Path=Debug, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                    Value="{Binding Path=Debug2, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-                                <!--<Controls:HexDecBox Width="64"
-                                                    Background="{StaticResource AvalonDock_Expression_BaseColor4}"
-                                                    Foreground="{StaticResource AvalonDock_Expression_BaseColor2}"/>-->
+                                <Border BorderThickness="1"
+                                        BorderBrush="White"
+                                        Margin="0 0 8 0">
+                                    <Grid x:Name="alignment"
+                                          Width="64"
+                                          Height="18"/>
+                                </Border>
                             </WrapPanel>
                             <WrapPanel>
                                 <RadioButton IsChecked="{Binding IsUserMode, Mode=TwoWay}"/>
@@ -172,16 +173,22 @@
                                            Padding="4 0 0 0"
                                            Foreground="{StaticResource AvalonDock_Expression_BaseColor2}"/>
                             </WrapPanel>
-                            <WrapPanel>
-                                <Controls:HexDecBox Width="96"
-                                                    Background="{StaticResource AvalonDock_Expression_BaseColor4}"
-                                                    Foreground="{StaticResource AvalonDock_Expression_BaseColor2}"
-                                                    Margin="0 0 8 0"/>
-                                <Controls:HexDecBox Width="96"
-                                                    Background="{StaticResource AvalonDock_Expression_BaseColor4}"
-                                                    Foreground="{StaticResource AvalonDock_Expression_BaseColor2}"
-                                                    Margin="8 0 0 0"/>
-                            </WrapPanel>
+                            <Border BorderThickness="1"
+                                    BorderBrush="White"
+                                    HorizontalAlignment="Left"
+                                    Margin="0 4 8 0"
+                                    Width="196"
+                                    Height="18">
+                                <Grid x:Name="scanRangeStart"/>
+                                </Border>
+                            <Border BorderThickness="1"
+                                    BorderBrush="White"
+                                    HorizontalAlignment="Left"
+                                    Margin="0 4 8 0"
+                                    Width="196"
+                                    Height="18">
+                                <Grid x:Name="scanRangeEnd"/>
+                            </Border>
                         </StackPanel>
                     </GroupBox>
                 </Grid>
@@ -192,33 +199,72 @@
                  Background="Transparent">
             <StackPanel Margin="4">
                 <WrapPanel Margin="0 4 0 4">
-                    <Controls:HexDecBox Width="66"/>
+                    <Border BorderThickness="1"
+                                    BorderBrush="White"
+                                    HorizontalAlignment="Left"
+                                    Margin="0 4 8 0"
+                                    Width="64"
+                                    Height="18">
+                        <Grid x:Name="freezeInterval"/>
+                    </Border>
                     <TextBlock Text="Freeze Interval"
                                Padding="8 0 0 0"
+                               VerticalAlignment="Center"
                                Foreground="{StaticResource AvalonDock_Expression_BaseColor2}"/>
                 </WrapPanel>
                 <WrapPanel Margin="0 4 0 4">
-                    <Controls:HexDecBox Width="64"/>
+                    <Border BorderThickness="1"
+                                    BorderBrush="White"
+                                    HorizontalAlignment="Left"
+                                    Margin="0 4 8 0"
+                                    Width="64"
+                                    Height="18">
+                        <Grid x:Name="rescanInterval"/>
+                    </Border>
                     <TextBlock Text="Rescan Interval"
                                Padding="8 0 0 0"
+                               VerticalAlignment="Center"
                                Foreground="{StaticResource AvalonDock_Expression_BaseColor2}"/>
                 </WrapPanel>
                 <WrapPanel Margin="0 4 0 4">
-                    <Controls:HexDecBox Width="64"/>
+                    <Border BorderThickness="1"
+                                    BorderBrush="White"
+                                    HorizontalAlignment="Left"
+                                    Margin="0 4 8 0"
+                                    Width="64"
+                                    Height="18">
+                        <Grid x:Name="tableReadInterval"/>
+                    </Border>
                     <TextBlock Text="Table Read Interval"
                                Padding="8 0 0 0"
+                               VerticalAlignment="Center"
                                Foreground="{StaticResource AvalonDock_Expression_BaseColor2}"/>
                 </WrapPanel>
                 <WrapPanel Margin="0 4 0 4">
-                    <Controls:HexDecBox Width="64"/>
+                    <Border BorderThickness="1"
+                                    BorderBrush="White"
+                                    HorizontalAlignment="Left"
+                                    Margin="0 4 8 0"
+                                    Width="64"
+                                    Height="18">
+                        <Grid x:Name="resultReadInterval"/>
+                    </Border>
                     <TextBlock Text="Result Read Interval"
                                Padding="8 0 0 0"
                                Foreground="{StaticResource AvalonDock_Expression_BaseColor2}"/>
                 </WrapPanel>
                 <WrapPanel Margin="0 4 0 4">
-                    <Controls:HexDecBox Width="64"/>
+                    <Border BorderThickness="1"
+                                    BorderBrush="White"
+                                    HorizontalAlignment="Left"
+                                    Margin="0 4 8 0"
+                                    Width="64"
+                                    Height="18">
+                        <Grid x:Name="inputCorrelatorTimeout"/>
+                    </Border>
                     <TextBlock Text="Input Correlator Timeout"
                                Padding="8 0 0 0"
+                               VerticalAlignment="Center"
                                Foreground="{StaticResource AvalonDock_Expression_BaseColor2}"/>
                 </WrapPanel>
             </StackPanel>

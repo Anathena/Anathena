@@ -252,6 +252,7 @@
     <Compile Include="View\Controls\WatermarkTextBox.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="View\Controls\WinformsHostingHelper.cs" />
     <Compile Include="View\InputCorrelator.xaml.cs">
       <DependentUpon>InputCorrelator.xaml</DependentUpon>
     </Compile>

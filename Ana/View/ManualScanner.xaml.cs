@@ -5,40 +5,37 @@
     using System;
     using System.Threading.Tasks;
     using System.Windows.Controls;
-    using System.Windows.Forms.Integration;
 
     /// <summary>
     /// Interaction logic for ManualScanner.xaml
     /// </summary>
     internal partial class ManualScanner : UserControl, IResultsObserver
     {
-        private HexDecTextBox hexDecBox;
-
         /// <summary>
-        /// Initializes a new instance of the <see cref="ManualScanner" /> class
+        /// Initializes a new instance of the <see cref="ManualScanner"/> class
         /// </summary>
         public ManualScanner()
         {
             this.InitializeComponent();
 
             // Windows Forms hosting -- TODO: Phase this out
-            WindowsFormsHost host = new WindowsFormsHost();
-            hexDecBox = new HexDecTextBox();
-            hexDecBox.TextChanged += ValueUpdated;
-            host.Child = hexDecBox;
-            this.valueHexDecBox.Children.Add(host);
+            ValueHexDecBox = new HexDecTextBox();
+            ValueHexDecBox.TextChanged += ValueUpdated;
+            this.valueHexDecBox.Children.Add(WinformsHostingHelper.CreateHostedControl(ValueHexDecBox));
 
-            Task.Run(() => Source.Results.ScanResultsViewModel.GetInstance().Subscribe(this));
+            Task.Run(() => ScanResultsViewModel.GetInstance().Subscribe(this));
         }
+
+        private HexDecTextBox ValueHexDecBox { get; set; }
 
         public void Update(Type activeType)
         {
-            hexDecBox?.SetElementType(activeType);
+            ValueHexDecBox?.SetElementType(activeType);
         }
 
         private void ValueUpdated(Object sender, EventArgs e)
         {
-            Source.Scanners.ManualScanner.ManualScannerViewModel.GetInstance().UpdateActiveValueCommand.Execute(hexDecBox.GetValue());
+            Source.Scanners.ManualScanner.ManualScannerViewModel.GetInstance().UpdateActiveValueCommand.Execute(ValueHexDecBox.GetValue());
         }
     }
     //// End class

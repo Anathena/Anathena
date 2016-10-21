@@ -15,7 +15,11 @@
 
         private Boolean textValid;
 
-        public HexDecTextBox()
+        public HexDecTextBox() : this(typeof(UInt64))
+        {
+        }
+
+        public HexDecTextBox(Type elementType)
         {
             this.BorderStyle = BorderStyle.FixedSingle;
             this.BackColor = Color.FromArgb(0x33, 0x33, 0x33); // Color.Gray; // Color.FromArgb(0x333333);
@@ -37,7 +41,7 @@
             this.ContextMenu = this.RightClickMenu;
             this.TextChanged += this.HexDecTextChanged;
 
-            this.ElementType = typeof(UInt64);
+            this.ElementType = elementType;
         }
 
         public Boolean IsHex
