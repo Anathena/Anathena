@@ -186,6 +186,7 @@
     <Compile Include="Source\Project\ProjectItems\ScriptItem.cs" />
     <Compile Include="Source\Project\ProjectItems\ScriptTemplates\LuaTemplates.cs" />
     <Compile Include="Source\PropertyViewer\PropertyViewerViewModel.cs" />
+    <Compile Include="Source\Results\IResultsObserver.cs" />
     <Compile Include="Source\Results\ScanResult.cs" />
     <Compile Include="Source\Results\ScanResultsViewModel.cs">
       <ExcludeFromStyleCop>False</ExcludeFromStyleCop>
@@ -244,7 +245,7 @@
     <Compile Include="Source\Utils\VirtualItemProvider\VirtualizingCollection.cs">
       <ExcludeFromStyleCop>False</ExcludeFromStyleCop>
     </Compile>
-    <Compile Include="View\Controls\HexDecBox.cs" />
+    <Compile Include="View\Controls\Unfinished\HexDecBox.cs" />
     <Compile Include="View\Controls\HexDecTextBox.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -333,7 +334,7 @@
     <Compile Include="Source\Main\MainViewModel.cs">
       <ExcludeFromStyleCop>False</ExcludeFromStyleCop>
     </Compile>
-    <Page Include="View\Controls\HexDecBox.xaml">
+    <Page Include="View\Controls\Unfinished\HexDecBox.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

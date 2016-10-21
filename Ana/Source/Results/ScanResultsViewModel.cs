@@ -8,6 +8,7 @@
     using Project;
     using Snapshots;
     using System;
+    using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.Threading;
     using System.Threading.Tasks;
@@ -77,6 +78,8 @@
             this.PreviousPageCommand = new RelayCommand(() => Task.Run(() => this.PreviousPage()), () => true);
             this.NextPageCommand = new RelayCommand(() => Task.Run(() => this.NextPage()), () => true);
             this.AddAddressCommand = new RelayCommand<ScanResult>((address) => Task.Run(() => this.AddAddress(address)), (address) => true);
+            this.ResultsObservers = new List<IResultsObserver>();
+            this.ObserverLock = new Object();
             this.ActiveType = typeof(Int32);
             this.IsVisible = true;
             this.addresses = new ObservableCollection<ScanResult>();
@@ -142,6 +145,7 @@
             set
             {
                 this.activeType = value;
+                this.NotifyObservers();
                 this.RaisePropertyChanged(nameof(this.ActiveType));
                 this.RaisePropertyChanged(nameof(this.ActiveTypeName));
                 this.RaisePropertyChanged(nameof(this.ActiveTypeImage));
@@ -282,6 +286,13 @@
             }
         }
 
+        private Object ObserverLock { get; set; }
+
+        /// <summary>
+        /// Gets or sets objects observing changes in the active snapshot
+        /// </summary>
+        private List<IResultsObserver> ResultsObservers { get; set; }
+
         /// <summary>
         /// Gets a singleton instance of the <see cref="ScanResultsViewModel"/> class
         /// </summary>
@@ -289,6 +300,37 @@
         public static ScanResultsViewModel GetInstance()
         {
             return ScanResultsViewModel.scanResultsViewModelInstance.Value;
+        }
+
+        /// <summary>
+        /// Subscribes the given object to changes in the active snapshot
+        /// </summary>
+        /// <param name="snapshotObserver">The object to observe active snapshot changes</param>
+        public void Subscribe(IResultsObserver snapshotObserver)
+        {
+            lock (this.ObserverLock)
+            {
+                if (!this.ResultsObservers.Contains(snapshotObserver))
+                {
+                    this.ResultsObservers.Add(snapshotObserver);
+                    snapshotObserver.Update(this.ActiveType);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Unsubscribes the given object from changes in the active snapshot
+        /// </summary>
+        /// <param name="snapshotObserver">The object to observe active snapshot changes</param>
+        public void Unsubscribe(IResultsObserver snapshotObserver)
+        {
+            lock (this.ObserverLock)
+            {
+                if (this.ResultsObservers.Contains(snapshotObserver))
+                {
+                    this.ResultsObservers.Remove(snapshotObserver);
+                }
+            }
         }
 
         /// <summary>
@@ -409,6 +451,20 @@
         private void AddAddress(ScanResult scanResult)
         {
             ProjectExplorerViewModel.GetInstance().AddSpecificAddressItem(scanResult.ElementAddress, typeof(Int32));
+        }
+
+        /// <summary>
+        /// Notify all observing objects of an active type change
+        /// </summary>
+        private void NotifyObservers()
+        {
+            lock (this.ObserverLock)
+            {
+                foreach (IResultsObserver observer in this.ResultsObservers)
+                {
+                    observer.Update(this.ActiveType);
+                }
+            }
         }
     }
     //// End class

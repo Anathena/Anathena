@@ -1,4 +1,6 @@
-﻿<UserControl xmlns:Controls="clr-namespace:Ana.View.Controls"  x:Class="Ana.View.ManualScanner"
+﻿<UserControl xmlns:Controls="clr-namespace:Ana.View.Controls"
+	x:Class="Ana.View.ManualScanner"
+	x:ClassModifier="internal"
 	x:Name="AnaManualScanner"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -290,10 +292,10 @@
 							<Label Foreground="{StaticResource AvalonDock_Expression_BaseColor2}">
 								Value:
 							</Label>
-                            <Grid x:Name="valueHexDecBox"
-                                  Width="196"
-                                  Height="20"/>
-                        </WrapPanel>
+							<Grid x:Name="valueHexDecBox"
+								  Width="196"
+								  Height="20"/>
+						</WrapPanel>
 					</StackPanel>
 				</WrapPanel>
 			</Grid>
@@ -333,7 +335,7 @@
 											   Foreground="{StaticResource AvalonDock_Expression_BaseColor2}"/>
 								</WrapPanel>
 								<TextBlock Grid.Column="1"
-										   Text="{Binding Path=Value}"
+										   Text="{Binding Path=ConstraintValue}"
 										   Foreground="{StaticResource AvalonDock_Expression_BaseColor2}"/>
 							</Grid>
 						</DataTemplate>
@@ -407,7 +409,7 @@
 											   Foreground="{StaticResource AvalonDock_Expression_BaseColor2}"/>
 								</WrapPanel>
 								<TextBlock Grid.Column="1"
-										   Text="{Binding Path=Value}"
+										   Text="{Binding Path=ConstraintValue}"
 										   Foreground="{StaticResource AvalonDock_Expression_BaseColor2}"/>
 							</Grid>
 						</DataTemplate>

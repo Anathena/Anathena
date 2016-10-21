@@ -63,7 +63,7 @@
                     }
                 }
 
-                if (scanConstraint.Value == null)
+                if (scanConstraint.ConstraintValue == null)
                 {
                     continue;
                 }
@@ -71,7 +71,7 @@
                 try
                 {
                     // Attempt to cast the value to the new type
-                    scanConstraint.Value = Convert.ChangeType(scanConstraint.Value, elementType);
+                    scanConstraint.ConstraintValue = Convert.ChangeType(scanConstraint.ConstraintValue, elementType);
                 }
                 catch
                 {

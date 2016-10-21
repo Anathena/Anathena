@@ -369,42 +369,42 @@
                         switch (scanConstraint.Constraint)
                         {
                             case ConstraintsEnum.Equal:
-                                if (!element.EqualToValue(scanConstraint.Value))
+                                if (!element.EqualToValue(scanConstraint.ConstraintValue))
                                 {
                                     element.Valid = false;
                                 }
 
                                 break;
                             case ConstraintsEnum.NotEqual:
-                                if (!element.NotEqualToValue(scanConstraint.Value))
+                                if (!element.NotEqualToValue(scanConstraint.ConstraintValue))
                                 {
                                     element.Valid = false;
                                 }
 
                                 break;
                             case ConstraintsEnum.GreaterThan:
-                                if (!element.GreaterThanValue(scanConstraint.Value))
+                                if (!element.GreaterThanValue(scanConstraint.ConstraintValue))
                                 {
                                     element.Valid = false;
                                 }
 
                                 break;
                             case ConstraintsEnum.GreaterThanOrEqual:
-                                if (!element.GreaterThanOrEqualToValue(scanConstraint.Value))
+                                if (!element.GreaterThanOrEqualToValue(scanConstraint.ConstraintValue))
                                 {
                                     element.Valid = false;
                                 }
 
                                 break;
                             case ConstraintsEnum.LessThan:
-                                if (!element.LessThanValue(scanConstraint.Value))
+                                if (!element.LessThanValue(scanConstraint.ConstraintValue))
                                 {
                                     element.Valid = false;
                                 }
 
                                 break;
                             case ConstraintsEnum.LessThanOrEqual:
-                                if (!element.LessThanOrEqualToValue(scanConstraint.Value))
+                                if (!element.LessThanOrEqualToValue(scanConstraint.ConstraintValue))
                                 {
                                     element.Valid = false;
                                 }

@@ -46,6 +46,7 @@
             this.ContentId = ManualScannerViewModel.ToolContentId;
             this.IsVisible = true;
             this.StartScanCommand = new RelayCommand(() => Task.Run(() => this.StartScan()), () => true);
+            this.UpdateActiveValueCommand = new RelayCommand<dynamic>((newValue) => Task.Run(() => this.UpdateActiveValue(newValue)), (newValue) => true);
             this.SelectChangedCommand = new RelayCommand(() => Task.Run(() => this.ChangeScanConstraintSelection(ConstraintsEnum.Changed)), () => true);
             this.SelectDecreasedCommand = new RelayCommand(() => Task.Run(() => this.ChangeScanConstraintSelection(ConstraintsEnum.Decreased)), () => true);
             this.SelectDecreasedByXCommand = new RelayCommand(() => Task.Run(() => this.ChangeScanConstraintSelection(ConstraintsEnum.DecreasedByX)), () => true);
@@ -74,6 +75,11 @@
         /// Gets the command begin the scan
         /// </summary>
         public ICommand StartScanCommand { get; private set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public ICommand UpdateActiveValueCommand { get; private set; }
 
         /// <summary>
         /// Gets the command to add the selected constraint to the list of scan constraints
@@ -243,12 +249,22 @@
             ManualScannerModel.Begin();
         }
 
+        private Object UpdateActiveValue(dynamic newValue)
+        {
+            this.SelectedScanConstraint.ConstraintValue = newValue;
+            this.RaisePropertyChanged(nameof(this.SelectedScanConstraint));
+            this.RaisePropertyChanged(nameof(this.ScanConstraintImage));
+            this.RaisePropertyChanged(nameof(this.ActiveScanConstraint));
+            return null;
+        }
+
         /// <summary>
         /// Adds the selected constraint to the list of scan constraints
         /// </summary>
         private void AddSelectedConstraint()
         {
-            this.ScanConstraintManager.AddConstraint(this.selectedScanConstraint);
+            this.ScanConstraintManager.AddConstraint(this.SelectedScanConstraint);
+            this.SelectedScanConstraint = new ScanConstraint(this.SelectedScanConstraint.Constraint, this.SelectedScanConstraint.ConstraintValue);
         }
 
         /// <summary>
@@ -273,7 +289,10 @@
         /// <param name="constraint">The new scan constraint</param>
         private void ChangeScanConstraintSelection(ConstraintsEnum constraint)
         {
-            this.SelectedScanConstraint = new ScanConstraint(constraint);
+            this.SelectedScanConstraint.Constraint = constraint;
+            this.RaisePropertyChanged(nameof(this.SelectedScanConstraint));
+            this.RaisePropertyChanged(nameof(this.ScanConstraintImage));
+            this.RaisePropertyChanged(nameof(this.ActiveScanConstraint));
         }
     }
     //// End class

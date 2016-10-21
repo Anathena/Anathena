@@ -120,6 +120,23 @@
             }
         }
 
+        public dynamic GetValue()
+        {
+            if (!this.IsTextValid)
+            {
+                return null;
+            }
+
+            if (this.IsHex)
+            {
+                return Conversions.ParseHexStringAsValue(this.ElementType, this.Text);
+            }
+            else
+            {
+                return Conversions.ParseDecStringAsValue(this.ElementType, this.Text);
+            }
+        }
+
         public String GetRawValue()
         {
             return this.Text;

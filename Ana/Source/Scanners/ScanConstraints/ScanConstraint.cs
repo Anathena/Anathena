@@ -2,6 +2,7 @@
 {
     using Content;
     using System;
+    using System.ComponentModel;
     using System.Reflection;
     using System.Windows.Media.Imaging;
 
@@ -26,24 +27,51 @@
     /// <summary>
     /// Class to define a constraint for certain types of scans
     /// </summary>
-    public class ScanConstraint
+    public class ScanConstraint : INotifyPropertyChanged
     {
+        private ConstraintsEnum constraint;
+        private dynamic constraintValue;
+
         public ScanConstraint()
         {
             this.Constraint = ConstraintsEnum.Changed;
-            this.Value = null;
+            this.ConstraintValue = null;
         }
 
         public ScanConstraint(ConstraintsEnum valueConstraint, dynamic addressValue = null)
         {
             this.Constraint = valueConstraint;
-            this.Value = addressValue;
+            this.ConstraintValue = addressValue;
         }
 
-        public ConstraintsEnum Constraint { get; set; }
+        public ConstraintsEnum Constraint
+        {
+            get
+            {
+                return this.constraint;
+            }
+
+            set
+            {
+                this.constraint = value;
+                this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(this.Constraint)));
+            }
+        }
 
         [Obfuscation(Exclude = true)]
-        public dynamic Value { get; set; }
+        public dynamic ConstraintValue
+        {
+            get
+            {
+                return this.constraintValue;
+            }
+
+            set
+            {
+                this.constraintValue = value;
+                this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(this.ConstraintValue)));
+            }
+        }
 
         public String ConstraintName
         {
@@ -124,6 +152,8 @@
                 }
             }
         }
+
+        public event PropertyChangedEventHandler PropertyChanged;
 
         public Boolean IsRelativeConstraint()
         {

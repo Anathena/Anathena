@@ -42,7 +42,7 @@
         [Obfuscation(Exclude = true)]
         public void UpdateConstraint(Int32 index, dynamic value)
         {
-            this.scanConstraints[index].Value = value;
+            this.scanConstraints[index].ConstraintValue = value;
         }
 
         public void RemoveConstraints(IEnumerable<Int32> constraintIndicies)
