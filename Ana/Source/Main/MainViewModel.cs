@@ -182,7 +182,7 @@
         private void SaveLayoutExecute(DockingManager dockManager)
         {
             XmlLayoutSerializer serializer = new XmlLayoutSerializer(dockManager);
-            serializer.Serialize(LayoutSaveFile);
+            serializer.Serialize(MainViewModel.LayoutSaveFile);
         }
     }
     //// End class

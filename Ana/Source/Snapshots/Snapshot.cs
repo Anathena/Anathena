@@ -93,6 +93,17 @@
         }
 
         /// <summary>
+        /// Gets the total number of bytes contained in this snapshot
+        /// </summary>
+        public UInt64 MemorySize
+        {
+            get
+            {
+                return this.SnapshotRegions == null ? 0 : (UInt64)this.SnapshotRegions.AsEnumerable().Sum(x => ((Int64)x.RegionSize / this.Alignment) + (Int64)x.GetRegionExtension());
+            }
+        }
+
+        /// <summary>
         /// Gets or sets the snapshot regions contained in this snapshot
         /// </summary>
         protected IEnumerable<SnapshotRegion> SnapshotRegions { get; set; }
@@ -191,15 +202,6 @@
         public UInt64 GetElementCount()
         {
             return this.SnapshotRegions == null ? 0 : (UInt64)this.SnapshotRegions.AsEnumerable().Sum(x => (Int64)(x.RegionSize / this.Alignment));
-        }
-
-        /// <summary>
-        /// Gets the total number of bytes contained in this snapshot
-        /// </summary>
-        /// <returns>The total number of bytes contained in this snapshot</returns>
-        public UInt64 GetMemorySize()
-        {
-            return this.SnapshotRegions == null ? 0 : (UInt64)this.SnapshotRegions.AsEnumerable().Sum(x => ((Int64)x.RegionSize / this.Alignment) + (Int64)x.GetRegionExtension());
         }
 
         /// <summary>

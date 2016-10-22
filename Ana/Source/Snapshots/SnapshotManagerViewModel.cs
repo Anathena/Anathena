@@ -4,6 +4,8 @@
     using Main;
     using Mvvm.Command;
     using System;
+    using System.Collections.ObjectModel;
+    using System.Linq;
     using System.Threading;
     using System.Threading.Tasks;
     using System.Windows.Input;
@@ -11,7 +13,7 @@
     /// <summary>
     /// View model for the Snapshot Manager
     /// </summary>
-    internal class SnapshotManagerViewModel : ToolViewModel
+    internal class SnapshotManagerViewModel : ToolViewModel, ISnapshotObserver
     {
         /// <summary>
         /// The content id for the docking library associated with this view model
@@ -19,34 +21,64 @@
         public const String ToolContentId = nameof(SnapshotManagerViewModel);
 
         /// <summary>
-        /// Singleton instance of the <see cref="SnapshotManagerViewModel" /> class
+        /// Singleton instance of the <see cref="SnapshotManagerViewModel"/> class
         /// </summary>
         private static Lazy<SnapshotManagerViewModel> snapshotManagerViewModelInstance = new Lazy<SnapshotManagerViewModel>(
                 () => { return new SnapshotManagerViewModel(); },
                 LazyThreadSafetyMode.PublicationOnly);
 
         /// <summary>
-        /// Prevents a default instance of the <see cref="SnapshotManagerViewModel" /> class from being created
+        /// Prevents a default instance of the <see cref="SnapshotManagerViewModel"/> class from being created
         /// </summary>
         private SnapshotManagerViewModel() : base("Snapshot Manager")
         {
             this.ContentId = ToolContentId;
             this.IsVisible = true;
-            this.NewScanCommand = new RelayCommand(() => Task.Run(() => NewScan()), () => true);
-            this.UndoScanCommand = new RelayCommand(() => Task.Run(() => UndoScan()), () => true);
+            this.ClearSnapshotsCommand = new RelayCommand(() => Task.Run(() => ClearSnapshots()), () => true);
+            this.UndoSnapshotCommand = new RelayCommand(() => Task.Run(() => UndoSnapshot()), () => true);
+            this.RedoSnapshotCommand = new RelayCommand(() => Task.Run(() => RedoSnapshot()), () => true);
 
-            MainViewModel.GetInstance().Subscribe(this);
+            Task.Run(() => MainViewModel.GetInstance().Subscribe(this));
+            Task.Run(() => SnapshotManager.GetInstance().Subscribe(this));
         }
 
         /// <summary>
         /// Gets a command to start a new scan
         /// </summary>
-        public ICommand NewScanCommand { get; private set; }
+        public ICommand ClearSnapshotsCommand { get; private set; }
 
         /// <summary>
         /// Gets a command to undo the last scan
         /// </summary>
-        public ICommand UndoScanCommand { get; private set; }
+        public ICommand UndoSnapshotCommand { get; private set; }
+
+        /// <summary>
+        /// Gets a command to redo the last scan
+        /// </summary>
+        public ICommand RedoSnapshotCommand { get; private set; }
+
+        public ObservableCollection<Snapshot> Snapshots
+        {
+            get
+            {
+                return new ObservableCollection<Snapshot>(SnapshotManager.GetInstance().Snapshots);
+            }
+        }
+
+        public ObservableCollection<Snapshot> DeletedSnapshots
+        {
+            get
+            {
+                return new ObservableCollection<Snapshot>(SnapshotManager.GetInstance().DeletedSnapshots.Reverse());
+            }
+        }
+
+
+        public void Update(Snapshot snapshot)
+        {
+            this.RaisePropertyChanged(nameof(this.Snapshots));
+            this.RaisePropertyChanged(nameof(this.DeletedSnapshots));
+        }
 
         /// <summary>
         /// Gets a singleton instance of the <see cref="SnapshotManagerViewModel"/> class
@@ -58,19 +90,27 @@
         }
 
         /// <summary>
-        /// Starts a new scan, clearing old scans
+        /// Clears all snapshots
         /// </summary>
-        private void NewScan()
+        private void ClearSnapshots()
         {
             SnapshotManager.GetInstance().ClearSnapshots();
         }
 
         /// <summary>
-        /// Undoes the most recent scan
+        /// Undoes the most recent snapshot
         /// </summary>
-        private void UndoScan()
+        private void UndoSnapshot()
         {
             SnapshotManager.GetInstance().UndoSnapshot();
+        }
+
+        /// <summary>
+        /// Redoes the most recent snapshot
+        /// </summary>
+        private void RedoSnapshot()
+        {
+            SnapshotManager.GetInstance().RedoSnapshot();
         }
     }
     //// End class

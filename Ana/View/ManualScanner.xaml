@@ -366,12 +366,12 @@
 											<Setter Property="Background" Value="{StaticResource AvalonDock_Expression_BaseColor4}"/>
 										</Style>
 									</Grid.Resources>
-									<Border Grid.Column="0">
-										<TextBlock>Constraint</TextBlock>
-									</Border>
-									<Border Grid.Column="1">
-										<TextBlock>Value</TextBlock>
-									</Border>
+                                    <Border Grid.Column="0">
+                                        <TextBlock Text="Constraint"/>
+                                    </Border>
+                                    <Border Grid.Column="1">
+                                        <TextBlock Text="Value"/>
+                                    </Border>
 								</Grid>
 								<ItemsPresenter Grid.Row="1"></ItemsPresenter>
 							</Grid>

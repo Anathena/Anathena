@@ -238,7 +238,7 @@
 				</MenuItem>
 				<Separator Style="{DynamicResource VerticalSeparator}" />
 				<MenuItem ToolTip="New Scan"
-						  Command="{Binding SnapshotManagerViewModel.NewScanCommand}">
+						  Command="{Binding SnapshotManagerViewModel.ClearSnapshotsCommand}">
 					<MenuItem.Header>
 						<Image Source="pack://application:,,,/Ana;component/Content/Icons/New.png"
 							   Width="16"
@@ -246,7 +246,7 @@
 					</MenuItem.Header>
 				</MenuItem>
 				<MenuItem ToolTip="Undo Scan"
-						  Command="{Binding SnapshotManagerViewModel.UndoScanCommand}">
+						  Command="{Binding SnapshotManagerViewModel.UndoSnapshotCommand}">
 					<MenuItem.Header>
 						<Image Source="pack://application:,,,/Ana;component/Content/Icons/Undo.png"
 							   Width="16"

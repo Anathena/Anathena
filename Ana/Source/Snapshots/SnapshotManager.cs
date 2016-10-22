@@ -35,6 +35,16 @@
         }
 
         /// <summary>
+        /// Gets or sets the snapshots being managed
+        /// </summary>
+        public Stack<Snapshot> Snapshots { get; private set; }
+
+        /// <summary>
+        /// Gets or sets the deleted snapshots for the capability of redoing after undo
+        /// </summary>
+        public Stack<Snapshot> DeletedSnapshots { get; private set; }
+
+        /// <summary>
         /// Gets or sets a lock to ensure multiple entities do not try and update the snapshot list at the same time
         /// </summary>
         private Object AccessLock { get; set; }
@@ -43,16 +53,6 @@
         /// Gets or sets a lock to ensure multiple entities do not try and update the snapshot list at the same time
         /// </summary>
         private Object ObserverLock { get; set; }
-
-        /// <summary>
-        /// Gets or sets the snapshots being managed
-        /// </summary>
-        private Stack<Snapshot> Snapshots { get; set; }
-
-        /// <summary>
-        /// Gets or sets the deleted snapshots for the capability of redoing after undo
-        /// </summary>
-        private Stack<Snapshot> DeletedSnapshots { get; set; }
 
         /// <summary>
         /// Gets or sets objects observing changes in the active snapshot

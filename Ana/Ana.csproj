@@ -450,6 +450,7 @@
     <Resource Include="Content\Icons\PurpleBlocks2.png" />
     <Resource Include="Content\Icons\PurpleBlocks4.png" />
     <Resource Include="Content\Icons\PurpleBlocks8.png" />
+    <Resource Include="Content\Icons\Redo.png" />
     <Content Include="xulrunner-32\D3DCompiler_43.dll" />
     <Content Include="xulrunner-32\freebl3.dll" />
     <Content Include="xulrunner-32\gkmedias.dll" />

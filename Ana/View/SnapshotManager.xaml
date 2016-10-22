@@ -1,20 +1,194 @@
 ﻿<UserControl x:Class="Ana.View.SnapshotManager"
-    x:Name="AnaSnapshotManager"
-    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             
-    DataContext="{Binding SnapshotManagerViewModel, Source={StaticResource ViewModelLocator}}"
-    xmlns:sys="clr-namespace:System;assembly=mscorlib"
-    xmlns:sysWindows="clr-namespace:System.Windows;assembly=PresentationCore"
-    xmlns:local="clr-namespace:Ana"
-    xmlns:converters="clr-namespace:Ana.Source.Mvvm.Converters"
-    xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
-    mc:Ignorable="d"
-    d:DesignHeight="256"
-    d:DesignWidth="256">
-    <Grid Background="{StaticResource AvalonDock_Expression_BaseColor3}">
-       
-    </Grid>
+	x:Name="AnaSnapshotManager"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+			 
+	DataContext="{Binding SnapshotManagerViewModel, Source={StaticResource ViewModelLocator}}"
+	xmlns:sys="clr-namespace:System;assembly=mscorlib"
+	xmlns:sysWindows="clr-namespace:System.Windows;assembly=PresentationCore"
+	xmlns:local="clr-namespace:Ana"
+	xmlns:converters="clr-namespace:Ana.Source.Mvvm.Converters"
+	xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+	mc:Ignorable="d"
+	d:DesignHeight="256"
+	d:DesignWidth="320">
+	<Grid Background="{StaticResource AvalonDock_Expression_BaseColor3}">
+		<Grid>
+			<Grid.RowDefinitions>
+				<RowDefinition Height="Auto"/>
+				<RowDefinition Height="Auto"/>
+				<RowDefinition/>
+			</Grid.RowDefinitions>
+			<Menu Grid.Row="0"
+				  Foreground="{StaticResource AvalonDock_Expression_BaseColor2}"
+				  Background="{StaticResource AvalonDock_Expression_BaseColor1}"
+				  BorderBrush="{StaticResource AvalonDock_Expression_BaseColor2}"
+				  Padding="4"
+				  DataContext="{Binding Source={StaticResource ViewModelLocator}}">
+				<MenuItem ToolTip="New Scan"
+							  Command="{Binding SnapshotManagerViewModel.ClearSnapshotsCommand}">
+					<MenuItem.Header>
+						<Image Source="pack://application:,,,/Ana;component/Content/Icons/New.png"
+							   Width="16"
+							   Height="16"/>
+					</MenuItem.Header>
+				</MenuItem>
+				<MenuItem ToolTip="Undo"
+						  Command="{Binding SnapshotManagerViewModel.UndoSnapshotCommand}">
+					<MenuItem.Header>
+						<Image Source="pack://application:,,,/Ana;component/Content/Icons/Undo.png"
+							   Width="16"
+							   Height="16"/>
+					</MenuItem.Header>
+				</MenuItem>
+				<MenuItem ToolTip="Redo"
+						  Command="{Binding SnapshotManagerViewModel.RedoSnapshotCommand}">
+					<MenuItem.Header>
+						<Image Source="pack://application:,,,/Ana;component/Content/Icons/Redo.png"
+							   Width="16"
+							   Height="16"/>
+					</MenuItem.Header>
+				</MenuItem>
+				<MenuItem ToolTip="Clear Scans"
+						  Command="{Binding SnapshotManagerViewModel.ClearSnapshotsCommand}">
+					<MenuItem.Header>
+						<Image Source="pack://application:,,,/Ana;component/Content/Icons/Cancel.png"
+							   Width="16"
+							   Height="16"/>
+					</MenuItem.Header>
+				</MenuItem>
+			</Menu>
+			<ScrollViewer Grid.Row="1"
+						  VerticalScrollBarVisibility="Auto">
+                <ListView ItemsSource="{Binding DeletedSnapshots}"
+						  BorderThickness="0">
+					<ListView.ItemContainerStyle>
+						<Style TargetType="ListViewItem">
+							<Setter Property="Focusable" Value="false"/>
+						</Style>
+					</ListView.ItemContainerStyle>
+					<ListView.ItemTemplate>
+						<DataTemplate>
+							<Grid Width="{Binding Path=ActualWidth, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListView}}}">
+								<Grid.ColumnDefinitions>
+									<ColumnDefinition/>
+									<ColumnDefinition/>
+									<ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Grid.Column="0"
+										   Text="{Binding Path=ScanMethod}"
+										   Foreground="{StaticResource AvalonDock_Expression_BaseColor13}"/>
+                                <TextBlock Grid.Column="1"
+										   Text="{Binding Path=MemorySize}"
+										   Foreground="{StaticResource AvalonDock_Expression_BaseColor13}"/>
+                                <TextBlock Grid.Column="2"
+										   Text="{Binding Path=TimeStamp}"
+										   Foreground="{StaticResource AvalonDock_Expression_BaseColor13}"/>
+                            </Grid>
+						</DataTemplate>
+					</ListView.ItemTemplate>
+					<ListView.Template>
+						<ControlTemplate>
+							<Grid HorizontalAlignment="Left">
+								<Grid.RowDefinitions>
+									<RowDefinition Height="Auto"/>
+									<RowDefinition Height="Auto"/>
+								</Grid.RowDefinitions>
+								<Grid Grid.Row="0"
+									  Width="{Binding Path=ActualWidth, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListView}}}"
+									  VerticalAlignment="Center">
+									<Grid.ColumnDefinitions>
+										<ColumnDefinition/>
+										<ColumnDefinition/>
+										<ColumnDefinition/>
+									</Grid.ColumnDefinitions>
+									<Grid.Resources>
+										<Style TargetType="TextBlock">
+											<Setter Property="Margin" Value="5,0"/>
+											<Setter Property="Foreground" Value="{StaticResource AvalonDock_Expression_BaseColor2}"/>
+											<Setter Property="FontWeight" Value="Bold"/>
+										</Style>
+										<Style TargetType="Border">
+											<Setter Property="BorderThickness" Value="0"/>
+											<Setter Property="Padding" Value="8 4 8 4"/>
+											<Setter Property="Background" Value="{StaticResource AvalonDock_Expression_BaseColor4}"/>
+										</Style>
+									</Grid.Resources>
+									<Border Grid.Column="0">
+										<TextBlock Text="Scan Method"/>
+									</Border>
+									<Border Grid.Column="1">
+										<TextBlock Text="Size"/>
+									</Border>
+									<Border Grid.Column="2">
+										<TextBlock Text="Time Stamp"/>
+									</Border>
+								</Grid>
+								<ItemsPresenter Grid.Row="1"></ItemsPresenter>
+							</Grid>
+						</ControlTemplate>
+					</ListView.Template>
+				</ListView>
+			</ScrollViewer>
+			<ScrollViewer Grid.Row="2"
+						  VerticalScrollBarVisibility="Auto">
+                <ListView ItemsSource="{Binding Snapshots}"
+						  BorderThickness="0">
+					<ListView.ItemTemplate>
+						<DataTemplate>
+							<Grid Width="{Binding Path=ActualWidth, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListView}}}">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Grid.Column="0"
+										   Text="{Binding Path=ScanMethod}"
+										   Foreground="{StaticResource AvalonDock_Expression_BaseColor2}"/>
+                                <TextBlock Grid.Column="1"
+										   Text="{Binding Path=MemorySize}"
+										   Foreground="{StaticResource AvalonDock_Expression_BaseColor2}"/>
+                                <TextBlock Grid.Column="2"
+										   Text="{Binding Path=TimeStamp}"
+										   Foreground="{StaticResource AvalonDock_Expression_BaseColor2}"/>
+							</Grid>
+						</DataTemplate>
+					</ListView.ItemTemplate>
+					<ListView.Template>
+						<ControlTemplate>
+							<Grid HorizontalAlignment="Left">
+								<Grid.RowDefinitions>
+									<RowDefinition Height="Auto"/>
+									<RowDefinition Height="Auto"/>
+								</Grid.RowDefinitions>
+								<Grid Grid.Row="0"
+									  Width="{Binding Path=ActualWidth, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListView}}}"
+									  VerticalAlignment="Center">
+									<Grid.ColumnDefinitions>
+										<ColumnDefinition/>
+										<ColumnDefinition/>
+									</Grid.ColumnDefinitions>
+									<Grid.Resources>
+										<Style TargetType="TextBlock">
+											<Setter Property="Margin" Value="5,0"/>
+											<Setter Property="Foreground" Value="{StaticResource AvalonDock_Expression_BaseColor2}"/>
+											<Setter Property="FontWeight" Value="Bold"/>
+										</Style>
+										<Style TargetType="Border">
+											<Setter Property="BorderThickness" Value="0"/>
+											<Setter Property="Padding" Value="8 4 8 4"/>
+											<Setter Property="Background" Value="{StaticResource AvalonDock_Expression_BaseColor4}"/>
+										</Style>
+									</Grid.Resources>
+								</Grid>
+								<ItemsPresenter Grid.Row="1"></ItemsPresenter>
+							</Grid>
+						</ControlTemplate>
+					</ListView.Template>
+				</ListView>
+			</ScrollViewer>
+		</Grid>
+	</Grid>
 </UserControl>

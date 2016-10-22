@@ -19,14 +19,14 @@
         public const String ToolContentId = nameof(SettingsViewModel);
 
         /// <summary>
-        /// Singleton instance of the <see cref="SettingsViewModel" /> class
+        /// Singleton instance of the <see cref="SettingsViewModel"/> class
         /// </summary>
         private static Lazy<SettingsViewModel> settingsViewModelInstance = new Lazy<SettingsViewModel>(
                 () => { return new SettingsViewModel(); },
                 LazyThreadSafetyMode.PublicationOnly);
 
         /// <summary>
-        /// Prevents a default instance of the <see cref="SettingsViewModel" /> class from being created
+        /// Prevents a default instance of the <see cref="SettingsViewModel"/> class from being created
         /// </summary>
         private SettingsViewModel() : base("Settings")
         {
