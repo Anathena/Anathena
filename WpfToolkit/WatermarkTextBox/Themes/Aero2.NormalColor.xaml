@@ -42,8 +42,8 @@
     <!-- =============================================================================== -->
 
     <Style x:Key="WatermarkTextBox" TargetType="{x:Type local:WatermarkTextBox}">
-        <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.WindowTextBrushKey}}" />
-        <Setter Property="Background" Value="{DynamicResource {x:Static SystemColors.WindowBrushKey}}" />
+        <Setter Property="Foreground" Value="White" />
+        <Setter Property="Background" Value="#333333" />
         <Setter Property="BorderBrush" Value="{DynamicResource {x:Static themes:ResourceKeys.ControlNormalBorderKey}}" />
         <Setter Property="BorderThickness" Value="1" />
         <Setter Property="Padding" Value="3" />

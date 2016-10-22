@@ -260,10 +260,14 @@
                           Value="False" />
                <Condition Property="IsMouseOver"
                           Value="False" />
-            </MultiTrigger.Conditions>
-            <Setter Property="BorderBrush"
+                </MultiTrigger.Conditions>
+                <Setter Property="BorderBrush"
                     Value="Transparent" />
-         </MultiTrigger>
+                <Setter Property="Background"
+                    Value="{StaticResource AvalonDock_Expression_BaseColor4}"/>
+                <Setter Property="Foreground"
+                    Value="{StaticResource AvalonDock_Expression_BaseColor2}"/>
+            </MultiTrigger>
       </Style.Triggers>
    </Style>
 
@@ -576,82 +580,15 @@
       </Setter>
    </Style>
 
-   <SolidColorBrush x:Key="GlyphBrush"
+    <SolidColorBrush x:Key="GlyphBrush"
                     Color="Black" />
-
-   <ControlTemplate x:Key="ExpanderToggleButton"
-                    TargetType="{x:Type ToggleButton}">
-      <Grid>
-         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="20" />
-            <ColumnDefinition Width="*" />
-         </Grid.ColumnDefinitions>
-
-         <Rectangle Margin="0,0,0,0"
-                    x:Name="Rectangle"
-                    Fill="Transparent" />
-         <Path HorizontalAlignment="Center"
-               x:Name="Up_Arrow"
-               VerticalAlignment="Center"
-               Fill="{StaticResource GlyphBrush}"
-               Data="M 0 0 L 4 4 L 8 0 Z"
-               RenderTransformOrigin="0.5,0.5">
-            <Path.RenderTransform>
-               <TransformGroup>
-                  <ScaleTransform ScaleX="1"
-                                  ScaleY="1" />
-                  <SkewTransform AngleX="0"
-                                 AngleY="0" />
-                  <RotateTransform Angle="-90" />
-                  <TranslateTransform X="0"
-                                      Y="0" />
-               </TransformGroup>
-            </Path.RenderTransform>
-         </Path>
-         <Path Visibility="Collapsed"
-               HorizontalAlignment="Center"
-               x:Name="Down_Arrow"
-               VerticalAlignment="Center"
-               Fill="{StaticResource GlyphBrush}"
-               Data="M 0 4 L 4 0 L 8 4 Z"
-               RenderTransformOrigin="0.5,0.5">
-            <Path.RenderTransform>
-               <TransformGroup>
-                  <ScaleTransform ScaleX="1"
-                                  ScaleY="1" />
-                  <SkewTransform AngleX="0"
-                                 AngleY="0" />
-                  <RotateTransform Angle="135" />
-                  <TranslateTransform X="0"
-                                      Y="0" />
-               </TransformGroup>
-            </Path.RenderTransform>
-         </Path>
-
-         <ContentPresenter Grid.Column="1" />
-      </Grid>
-      <ControlTemplate.Triggers>
-         <Trigger Property="IsChecked"
-                  Value="true">
-            <Setter Property="Visibility"
-                    Value="Visible"
-                    TargetName="Down_Arrow" />
-            <Setter Property="Visibility"
-                    Value="Collapsed"
-                    TargetName="Up_Arrow" />
-            <Setter Property="OpacityMask"
-                    TargetName="Down_Arrow"
-                    Value="#FF000000" />
-         </Trigger>
-      </ControlTemplate.Triggers>
-   </ControlTemplate>
-
-   <Style x:Key="ExpanderStyle"
+    
+    <Style x:Key="ExpanderStyle"
           TargetType="{x:Type Expander}">
       <Setter Property="Padding"
               Value="0" />
       <Setter Property="Background"
-              Value="#FFF0F0F0" />
+              Value="Transparent" />
       <Setter Property="Template">
          <Setter.Value>
             <ControlTemplate TargetType="{x:Type Expander}">
@@ -661,23 +598,15 @@
                      <RowDefinition Height="*"
                                     x:Name="ContentRow" />
                   </Grid.RowDefinitions>
-                  <Border x:Name="Border"
-                          Background="{TemplateBinding Background}"
+                        <Border x:Name="Border"
+                          Background="Transparent"
                           BorderBrush="#FFF0F0F0">
-                     <ToggleButton Template="{StaticResource ExpanderToggleButton}"
-                                   IsChecked="{Binding Path=IsExpanded, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
-                                   OverridesDefaultStyle="True">
-                        <ContentPresenter Margin="1"
-                                          RecognizesAccessKey="True"
-                                          ContentSource="Header"
-                                          TextElement.FontWeight="Bold" />
-                     </ToggleButton>
-                  </Border>
+                        </Border>
                   <Border Visibility="Collapsed"
                           Grid.Row="1"
                           x:Name="ExpandSite"
-                          Background="{x:Static SystemColors.ControlBrush}"
-                          Padding="10 0 0 0">
+                          Background="Transparent"
+                          Padding="0">
                      <Border BorderThickness="0"
                              Margin="0"
                              Padding="0"
@@ -703,38 +632,30 @@
       </Setter>
    </Style>
 
-   <Style x:Key="PropertyExpanderStyle"
+    <Style x:Key="PropertyExpanderStyle"
           TargetType="{x:Type Expander}">
-      <Setter Property="Padding"
-              Value="10 0 0 0" />
-      <Setter Property="Template">
+        <Setter Property="Template">
          <Setter.Value>
             <ControlTemplate TargetType="{x:Type Expander}">
-               <Grid>
-                  <Border Visibility="Collapsed"
+                    <Grid>
+                        <Border Visibility="Collapsed"
                           Grid.Row="1"
+                              Background="Transparent"
                           x:Name="ExpandSite"
                           Padding="0 0 0 0">
-                     <Border BorderThickness="0"
+                            <Border BorderThickness="0"
                              Margin="0"
+                              Background="Transparent"
                              Padding="0"
                              VerticalAlignment="Stretch"
                              HorizontalAlignment="Stretch">
-                        <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                           VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
                                           Focusable="false" />
-                     </Border>
-                  </Border>
-               </Grid>
-               <ControlTemplate.Triggers>
-                  <Trigger Property="IsExpanded"
-                           Value="True">
-                     <Setter Property="Visibility"
-                             Value="Visible"
-                             TargetName="ExpandSite" />
-                  </Trigger>
-               </ControlTemplate.Triggers>
-            </ControlTemplate>
+                            </Border>
+                        </Border>
+                    </Grid>
+                </ControlTemplate>
          </Setter.Value>
       </Setter>
    </Style>
@@ -745,16 +666,14 @@
       </Style.Resources>
       <Setter Property="Template">
          <Setter.Value>
-            <ControlTemplate>
-               <Border>
-                  <Expander x:Name="expander"
-                            Header="{Binding Name}"
-                            Style="{StaticResource ExpanderStyle}"
-                            IsExpanded="True">
-                     <ItemsPresenter />
-                  </Expander>
-               </Border>
-            </ControlTemplate>
+                <ControlTemplate>
+                    <Expander x:Name="expander"
+                              Style="{StaticResource ExpanderStyle}"
+                              Background="Transparent"
+                              IsExpanded="True">
+                        <ItemsPresenter/>
+                    </Expander>
+                </ControlTemplate>
          </Setter.Value>
       </Setter>
 
@@ -803,7 +722,7 @@
 
    <Style TargetType="{x:Type pg:PropertyItemBase}">
       <Setter Property="Background"
-              Value="{x:Static SystemColors.WindowBrush}" />
+              Value="Transparent" />
       <!-- Set the margin at 1 pixel bottom to let the horizontal "line" effect appear. -->
       <Setter Property="Margin"
               Value="0,0,0,1" />
@@ -830,14 +749,14 @@
                      </Grid.RowDefinitions>
 
                      <!-- Set the BorderThickness at 1 pixel to the right to let the "vertical line" appear -->
-                     <Border x:Name="PART_Name"
-                             Background="{TemplateBinding Background}"
+                            <Border x:Name="PART_Name"
+                                  Background="{StaticResource AvalonDock_Expression_BaseColor3}"
                              BorderBrush="{TemplateBinding BorderBrush}"
                              BorderThickness="{TemplateBinding BorderThickness}"
                              Margin="0,0,1,0"
                              VerticalAlignment="Stretch"
                              HorizontalAlignment="Stretch">
-                        <Grid Margin="2,2,2,2"
+                                <Grid Margin="2,2,2,2"
                               VerticalAlignment="{TemplateBinding VerticalContentAlignment}">
                            <Grid.ColumnDefinitions>
                               <ColumnDefinition Width="*" />
@@ -850,19 +769,13 @@
                                  <ColumnDefinition Width="*" />
                               </Grid.ColumnDefinitions>
 
-                              <ToggleButton x:Name="_expandableButton"
-                                            Grid.Column="0"
-                                            Template="{StaticResource ExpanderToggleButton}"
-                                            OverridesDefaultStyle="True"
-                                            IsChecked="{Binding IsExpanded, RelativeSource={RelativeSource TemplatedParent}}"
-                                            Visibility="{Binding IsExpandable, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource BooleanToVisibilityConverter}}" />
-
                               <pg:TrimmedTextBlock x:Name="_text"
                                                    Grid.Column="1"
                                                    Text="{Binding DisplayName, RelativeSource={RelativeSource TemplatedParent}}"
                                                    HorizontalAlignment="Stretch"
                                                    VerticalAlignment="Center"
                                                    TextTrimming="CharacterEllipsis"
+                                                   Foreground="{StaticResource AvalonDock_Expression_BaseColor2}"
                                                    IsEnabled="{Binding IsReadOnly, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=pg:PropertyGrid}, Converter={StaticResource InverseBoolConverter}}" />
                            </Grid>
 
@@ -883,7 +796,7 @@
 
                      <Border x:Name="PART_Editor"
                              Grid.Column="1"
-                             Background="{TemplateBinding Background}"
+                                  Background="{StaticResource AvalonDock_Expression_BaseColor3}"
                              BorderBrush="{TemplateBinding BorderBrush}"
                              BorderThickness="{TemplateBinding BorderThickness}"
                              KeyboardNavigation.DirectionalNavigation="None"
@@ -896,6 +809,7 @@
                                         Content="{TemplateBinding Editor}"
                                         Focusable="False"
                                         IsTabStop="False"
+                                                   Foreground="{StaticResource AvalonDock_Expression_BaseColor2}"
                                         VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
                                         IsEnabled="{Binding IsReadOnly, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=pg:PropertyGrid}, Converter={StaticResource InverseBoolConverter}}">
                         </ContentControl>
@@ -914,7 +828,7 @@
                                                  ItemContainerStyle="{Binding PropertyContainerStyle, RelativeSource={RelativeSource TemplatedParent}}">
                            <ItemsControl.ItemsPanel>
                               <ItemsPanelTemplate>
-                                 <VirtualizingStackPanel />
+                                    <VirtualizingStackPanel Background="{StaticResource AvalonDock_Expression_BaseColor3}"/>
                               </ItemsPanelTemplate>
                            </ItemsControl.ItemsPanel>
 
@@ -929,15 +843,9 @@
                <ControlTemplate.Triggers>
                   <Trigger Property="IsMouseOver"
                            Value="True">
-                     <Setter TargetName="PART_Name"
-                             Property="Background"
-                             Value="{DynamicResource {x:Static themes:ResourceKeys.ButtonMouseOverBackgroundKey}}" />
                   </Trigger>
                   <Trigger Property="IsSelected"
                            Value="True">
-                     <Setter TargetName="PART_Name"
-                             Property="Background"
-                             Value="{DynamicResource {x:Static themes:ResourceKeys.ButtonPressedBackgroundKey}}" />
                   </Trigger>
                   <Trigger Property="IsEnabled"
                            Value="False">
@@ -959,19 +867,13 @@
                              Value="{Binding Description, RelativeSource={RelativeSource TemplatedParent}}"
                              TargetName="PART_Name" />
                   </MultiDataTrigger>
-                  <Trigger Property="Validation.HasError"
+                        <Trigger Property="Validation.HasError"
                            Value="true">
-                     <Setter Property="ToolTip"
+                            <Setter Property="ToolTip"
                              Value="{Binding RelativeSource={x:Static RelativeSource.Self}, Path=(Validation.Errors).CurrentItem.ErrorContent}" />
-                  </Trigger>
-                  <Trigger Property="Visibility"
-                           Value="Visible"
-                           SourceName="_expandableButton">
-                     <Setter Property="Focusable"
-                             Value="False" />
-                  </Trigger>
+                        </Trigger>
 
-                  <DataTrigger Binding="{Binding ElementName=_optionsImage, Path=ToolTip}"
+                        <DataTrigger Binding="{Binding ElementName=_optionsImage, Path=ToolTip}"
                                Value="{x:Static pg:StringConstants.Local}">
                      <Setter TargetName="_optionsImage"
                              Property="Source"
@@ -1031,10 +933,11 @@
       <Setter Property="Template">
          <Setter.Value>
             <ControlTemplate TargetType="{x:Type pg:PropertyGrid}">
-               <Border Background="{TemplateBinding Background}"
+               <Border Background="Transparent"
                        BorderBrush="{TemplateBinding BorderBrush}"
                        BorderThickness="{TemplateBinding BorderThickness}">
-                  <Grid Margin="{TemplateBinding Padding}">
+                  <Grid Margin="{TemplateBinding Padding}"
+                        Background="Transparent">
                      <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
@@ -1045,6 +948,7 @@
 
 
                      <Grid x:Name="toolsContainer"
+                           Background="Transparent"
                            Grid.Row="1"
                            Margin="4,0,4,4">
                         <Grid.ColumnDefinitions>
@@ -1078,7 +982,7 @@
                                 <StackPanel x:Name="selectObjectNamePanel"
                                 Grid.Column="1"
                                 Orientation="Horizontal">
-                                <Border Background="White"
+                                    <Border Background="Transparent"
                                 BorderBrush="Black"
                                 Visibility="{Binding ShowPreview, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource BooleanToVisibilityConverter}}"
                                 BorderThickness="1"
@@ -1086,73 +990,35 @@
                                 Height="44"
                                 Margin="6,4,0,4"
                                 Padding="2">
-                                    <Rectangle>
-                                        <Rectangle.Fill>
-                                            <VisualBrush Stretch="Uniform"
+                                        <Rectangle>
+                                            <Rectangle.Fill>
+                                                <VisualBrush Stretch="Uniform"
                                                 Visual="{Binding RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource ObjectToUIElementConverter}, Path=SelectedObject}" />
-                                        </Rectangle.Fill>
-                                    </Rectangle>
-                                </Border>
-                                <StackPanel Orientation="Horizontal"
+                                            </Rectangle.Fill>
+                                        </Rectangle>
+                                    </Border>
+                                    <StackPanel Orientation="Horizontal"
                                     VerticalAlignment="Center"
                                     Margin="6,2,6,4"
                                     Visibility="{Binding ShowTitle, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource BooleanToVisibilityConverter}}">
-                                    <Grid MaxWidth="{Binding ActualWidth, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource HalfConverter}, ConverterParameter=17}">
-                                        <pg:TrimmedTextBlock Text="{TemplateBinding SelectedObjectTypeName}"
+                                        <Grid MaxWidth="{Binding ActualWidth, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource HalfConverter}, ConverterParameter=17}">
+                                            <pg:TrimmedTextBlock Text="{TemplateBinding SelectedObjectTypeName}"
                                                     TextTrimming="CharacterEllipsis"
                                                     FontWeight="Bold" />
-                                    </Grid>
-                                    <Grid MaxWidth="{Binding ActualWidth, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource HalfConverter}, ConverterParameter=17}"
+                                        </Grid>
+                                        <Grid MaxWidth="{Binding ActualWidth, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource HalfConverter}, ConverterParameter=17}"
                                 Margin="5,0,0,0">
-                                        <pg:TrimmedTextBlock Text="{TemplateBinding SelectedObjectName}"
+                                            <pg:TrimmedTextBlock Text="{TemplateBinding SelectedObjectName}"
                                                     TextTrimming="CharacterEllipsis" />
-                                    </Grid>
+                                        </Grid>
+                                    </StackPanel>
                                 </StackPanel>
-                            </StackPanel>
-
-                                <!--
-                        <Border x:Name="searchBoxContainer"
-                                Grid.Column="1"
-                                Margin="4,4,0,4"
-                                Background="{StaticResource AvalonDock_Expression_BaseColor1}"
-                                BorderBrush="{StaticResource AvalonDock_Expression_BaseColor3}"
-                                BorderThickness="1"
-                                Visibility="{Binding ShowSearchBox, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource BooleanToVisibilityConverter}}">
-                           <Grid>
-                              <Grid.ColumnDefinitions>
-                                 <ColumnDefinition Width="*" />
-                                 <ColumnDefinition Width="Auto" />
-                              </Grid.ColumnDefinitions>
-                              <local:WatermarkTextBox x:Name="_txtFilter"
-                                                      Background="Transparent"
-                                                      Text="{Binding Filter, RelativeSource={RelativeSource TemplatedParent}, UpdateSourceTrigger=PropertyChanged}"
-                                                      Watermark="{TemplateBinding FilterWatermark}">
-                                 <local:WatermarkTextBox.Style>
-                                    <Style TargetType="Control">
-                                       <Setter Property="BorderThickness"
-                                               Value="0" />
-                                    </Style>
-                                 </local:WatermarkTextBox.Style>
-
-                              </local:WatermarkTextBox>
-                                
-                              
-                              <Button Grid.Column="1"
-                                      Command="commands:PropertyGridCommands.ClearFilter"
-                                      Style="{StaticResource ClearFilterButtonStyle}"
-                                      HorizontalAlignment="Left">
-                                 <Image Source="./../Images/ClearFilter16.png"
-                                        Width="16"
-                                        Height="16" />
-                              </Button>
-                           </Grid>
-                        </Border>
-                        -->
-                     </Grid>
+                            </Grid>
 
                             <Grid Grid.Row="2"
                                   Background="{StaticResource AvalonDock_Expression_BaseColor3}">
-                                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                                <ScrollViewer VerticalScrollBarVisibility="Auto"
+                                              Background="Transparent">
                            <pg:PropertyItemsControl x:Name="PART_PropertyItemsControl"
                                                     IsTabStop="False"
                                                     Focusable="False"
