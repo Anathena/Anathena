@@ -1094,10 +1094,6 @@
       <Project>{2f739124-dda6-45cf-ad05-1b94a04643f1}</Project>
       <Name>AnathenaProxy</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Anna\Anna.fsproj">
-      <Project>{30597be9-08f8-4832-8ab7-009c00a6a2f2}</Project>
-      <Name>Anna</Name>
-    </ProjectReference>
     <ProjectReference Include="..\DockingSuite\DockingSuite.csproj">
       <Project>{c75532c4-765b-418e-b09b-46d36b2abdb1}</Project>
       <Name>DockingSuite</Name>
