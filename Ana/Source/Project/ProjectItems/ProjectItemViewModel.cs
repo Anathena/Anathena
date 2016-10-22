@@ -1,7 +1,6 @@
 ﻿namespace Ana.Source.Project.ProjectItems
 {
     using Controls;
-    using System;
 
     internal class ProjectItemViewModel : TreeViewItemViewModel
     {
@@ -10,14 +9,6 @@
         public ProjectItemViewModel(ProjectItem projectItem, TreeViewItemViewModel parentRegion = null) : base(parentRegion)
         {
             this.projectItem = projectItem;
-        }
-
-        public String Description
-        {
-            get
-            {
-                return this.ProjectItem.Description;
-            }
         }
 
         public ProjectItem ProjectItem

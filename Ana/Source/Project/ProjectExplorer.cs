@@ -58,11 +58,11 @@
             this.UpdateSet = updateSet;
         }
 
-        public void ActivateProjectItems(IEnumerable<ProjectItem> projectItems, Boolean activationState)
+        public void ActivateProjectItems(IEnumerable<ProjectItem> projectItems, Boolean isActivated)
         {
             foreach (ProjectItem projectItem in projectItems)
             {
-                projectItem.SetActivationState(activationState);
+                projectItem.IsActivated = isActivated;
             }
         }
 

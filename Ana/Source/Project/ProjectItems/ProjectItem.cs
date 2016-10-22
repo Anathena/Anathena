@@ -18,7 +18,7 @@
     //// [KnownType(typeof(ControllerHotKey))]
     //// [KnownType(typeof(MouseHotKey))]
     [DataContract]
-    public abstract class ProjectItem //// : IKeyboardObserver, IControllerObserver, IMouseObserver
+    public abstract class ProjectItem : INotifyPropertyChanged //// : IKeyboardObserver, IControllerObserver, IMouseObserver
     {
         [Browsable(false)]
         private const Int32 HotKeyDelay = 400;
@@ -36,6 +36,12 @@
         [Browsable(false)]
         private UInt32 textColorArgb;
 
+        [DataMember]
+        [Browsable(false)]
+        private Boolean isActivated;
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
         /*
         [Browsable(false)]
         private IEnumerable<IHotKey> _HotKeys;
@@ -52,7 +58,7 @@
             this.parent = null;
             this.children = new List<ProjectItem>();
             this.textColorArgb = unchecked((UInt32)SystemColors.ControlText.ToArgb());
-            this.Activated = false;
+            this.IsActivated = false;
         }
 
         [Browsable(false)]
@@ -105,8 +111,8 @@
             {
                 this.description = value;
                 this.UpdateEntryVisual();
-
                 ProjectExplorer.GetInstance().ProjectChanged();
+                this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(this.Description)));
             }
         }
 
@@ -142,7 +148,20 @@
         }
 
         [Browsable(false)]
-        protected Boolean Activated { get; set; }
+        public Boolean IsActivated
+        {
+            get
+            {
+                return this.isActivated;
+            }
+
+            set
+            {
+                this.isActivated = value;
+                this.OnActivationChanged();
+                this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(this.IsActivated)));
+            }
+        }
 
         [OnDeserialized]
         public void OnDeserialized(StreamingContext streamingContext)
@@ -150,16 +169,6 @@
         }
 
         public abstract void Update();
-
-        public virtual void SetActivationState(Boolean activated)
-        {
-            this.Activated = activated;
-        }
-
-        public Boolean GetActivationState()
-        {
-            return this.Activated;
-        }
 
         public void AddChild(ProjectItem projectItem)
         {
@@ -305,6 +314,10 @@
             }
 
             return false;
+        }
+
+        protected virtual void OnActivationChanged()
+        {
         }
 
         private void UpdateEntryVisual()

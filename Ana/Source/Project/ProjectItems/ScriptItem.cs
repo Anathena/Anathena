@@ -44,14 +44,14 @@
         [Browsable(false)]
         private LuaCore LuaCore { get; set; }
 
-        public override void SetActivationState(Boolean activated)
+        protected override void OnActivationChanged()
         {
             if (LuaCore == null)
             {
                 LuaCore = new LuaCore(LuaScript);
             }
 
-            if (activated)
+            if (this.IsActivated)
             {
                 // Try to run script. Will not activate on failure.
                 if (!LuaCore.RunActivationFunction())
@@ -66,8 +66,6 @@
                 // Try to deactivate script (we do not care if this fails)
                 LuaCore.RunDeactivationFunction();
             }
-
-            base.SetActivationState(activated);
         }
 
         public override void Update()

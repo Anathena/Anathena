@@ -240,7 +240,7 @@
 
             this.EffectiveAddress = this.ResolveAddress();
 
-            if (this.GetActivationState())
+            if (this.IsActivated)
             {
                 // Freeze current value if this entry is activated
                 this.WriteValue(this.Value);

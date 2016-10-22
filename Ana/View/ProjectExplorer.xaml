@@ -102,12 +102,21 @@
                                         Mode=OneWay}">
             <TreeView.ItemContainerStyle>
                 <Style TargetType="{x:Type TreeViewItem}">
+                    <Style.Resources>
+                        <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightBrushKey}" Color="Transparent" />
+                        <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="Transparent" />
+                        <SolidColorBrush x:Key="{x:Static SystemColors.ControlBrushKey}" Color="Transparent" />
+                    </Style.Resources>
+                    <Setter Property="BorderBrush" Value="Transparent" />
                     <Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}" />
                     <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}" />
+                    <Setter Property="BorderThickness" Value="2" />
                     <Setter Property="FontWeight" Value="Normal" />
                     <Style.Triggers>
                         <Trigger Property="IsSelected" Value="True">
                             <Setter Property="FontWeight" Value="Bold" />
+                            <Setter Property="BorderThickness" Value="2" />
+                            <Setter Property="BorderBrush" Value="{StaticResource AvalonDock_Expression_BaseColor15}" />
                         </Trigger>
                     </Style.Triggers>
                 </Style>
@@ -115,13 +124,14 @@
 
             <TreeView.Resources>
                 <HierarchicalDataTemplate DataType="{x:Type project:ProjectItemViewModel}" ItemsSource="{Binding Children}">
-                    <StackPanel Orientation="Horizontal">
+                    <WrapPanel Orientation="Horizontal">
+                        <CheckBox IsChecked="{Binding ProjectItem.IsActive}" />
                         <Image Width="16"
                                Height="16"
                                Margin="3,0"
                                Source="pack://application:,,,/Ana;component/Content/Icons/Open.png" />
-                        <TextBlock Foreground="{StaticResource AvalonDock_Expression_BaseColor2}" Text="{Binding Description}" />
-                    </StackPanel>
+                        <TextBlock Foreground="{StaticResource AvalonDock_Expression_BaseColor2}" Text="{Binding ProjectItem.Description}" />
+                    </WrapPanel>
                 </HierarchicalDataTemplate>
             </TreeView.Resources>
         </TreeView>
