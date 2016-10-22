@@ -22,6 +22,11 @@
                 () => { return new PropertyViewerViewModel(); },
                 LazyThreadSafetyMode.PublicationOnly);
 
+
+        private Object[] targetObjects;
+
+        private Object targetObject;
+
         /// <summary>
         /// Prevents a default instance of the <see cref="PropertyViewerViewModel" /> class from being created
         /// </summary>
@@ -33,6 +38,34 @@
             MainViewModel.GetInstance().Subscribe(this);
         }
 
+        public Object[] TargetObjects
+        {
+            get
+            {
+                return this.targetObjects;
+            }
+
+            private set
+            {
+                this.targetObjects = value;
+                this.RaisePropertyChanged(nameof(this.TargetObjects));
+            }
+        }
+
+        public Object TargetObject
+        {
+            get
+            {
+                return this.targetObject;
+            }
+
+            private set
+            {
+                this.targetObject = value;
+                this.RaisePropertyChanged(nameof(this.TargetObject));
+            }
+        }
+
         /// <summary>
         /// Gets a singleton instance of the <see cref="PropertyViewerViewModel"/> class
         /// </summary>
@@ -40,6 +73,16 @@
         public static PropertyViewerViewModel GetInstance()
         {
             return propertyViewerViewModelInstance.Value;
+        }
+
+        public void SetTargetObjects(params Object[] targetObjects)
+        {
+            this.TargetObjects = targetObjects;
+        }
+
+        public void SetTargetObject(Object targetObject)
+        {
+            this.TargetObject = targetObject;
         }
     }
     //// End class

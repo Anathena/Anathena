@@ -140,9 +140,14 @@
                 if (value != this.isSelected)
                 {
                     this.isSelected = value;
+                    this.OnSelected();
                     this.RaisePropertyChanged(nameof(this.IsSelected));
                 }
             }
+        }
+
+        protected virtual void OnSelected()
+        {
         }
 
         /// <summary>

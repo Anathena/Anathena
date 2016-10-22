@@ -23,7 +23,8 @@
         <xctk:PropertyGrid Grid.Row="0"
                            BorderThickness="0"
                            Background="{StaticResource AvalonDock_Expression_BaseColor1}"
-                           Foreground="{StaticResource AvalonDock_Expression_BaseColor2}">
+                           Foreground="{StaticResource AvalonDock_Expression_BaseColor2}"
+                           SelectedObject="{Binding TargetObject}">
         </xctk:PropertyGrid>
     </Grid>
 </UserControl>

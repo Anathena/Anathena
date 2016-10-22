@@ -4,6 +4,7 @@
     using Main;
     using Mvvm.Command;
     using ProjectItems;
+    using PropertyViewer;
     using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
@@ -124,6 +125,8 @@
             set
             {
                 this.selectedProjectItem = value;
+                PropertyViewerViewModel.GetInstance().SetTargetObject(this.selectedProjectItem.ProjectItem);
+                this.RaisePropertyChanged(nameof(this.SelectedProjectItem));
             }
         }
 
