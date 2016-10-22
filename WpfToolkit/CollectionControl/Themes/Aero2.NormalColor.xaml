@@ -1,27 +1,11 @@
-﻿<!--***********************************************************************************
-
-   Extended WPF Toolkit
-
-   Copyright (C) 2007-2013 Xceed Software Inc.
-
-   This program is provided to you under the terms of the Microsoft Public
-   License (Ms-PL) as published at http://wpftoolkit.codeplex.com/license 
-
-   For more features, controls, and fast professional support,
-   pick up the Plus Edition at http://xceed.com/wpf_toolkit
-
-   Stay informed: follow @datagrid on Twitter or Like http://facebook.com/datagrids
-
-  **********************************************************************************-->
-
-<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:local="clr-namespace:Xceed.Wpf.Toolkit"
-                    xmlns:conv="clr-namespace:Xceed.Wpf.Toolkit.Core.Converters"
-                    xmlns:colconv="clr-namespace:Xceed.Wpf.Toolkit.Converters"
-                    xmlns:themes="clr-namespace:Xceed.Wpf.Toolkit.Themes"
                     xmlns:chrome="clr-namespace:Xceed.Wpf.Toolkit.Chromes"
-                    xmlns:pg="clr-namespace:Xceed.Wpf.Toolkit.PropertyGrid">
+                    xmlns:colconv="clr-namespace:Xceed.Wpf.Toolkit.Converters"
+                    xmlns:conv="clr-namespace:Xceed.Wpf.Toolkit.Core.Converters"
+                    xmlns:local="clr-namespace:Xceed.Wpf.Toolkit"
+                    xmlns:pg="clr-namespace:Xceed.Wpf.Toolkit.PropertyGrid"
+                    xmlns:themes="clr-namespace:Xceed.Wpf.Toolkit.Themes">
 
     <conv:InverseBoolConverter x:Key="InverseBoolConverter" />
     <conv:ObjectTypeToNameConverter x:Key="ObjectTypeToNameConverter" />
@@ -40,22 +24,24 @@
     </Style>
 
     <Style TargetType="{x:Type local:CollectionControl}">
-      <Style.Resources>
-         <Style TargetType="ListBox">
-            <Setter Property="ItemTemplate">
-               <Setter.Value>
-                   <DataTemplate>
-                     <TextBlock Text="{Binding Converter={StaticResource ObjectTypeToNameConverter}}"/>
-                  </DataTemplate>
-               </Setter.Value>
-            </Setter>
-         </Style>
-      </Style.Resources>
-         <Setter Property="Template">
+        <Style.Resources>
+            <Style TargetType="ListBox">
+                <Setter Property="ItemTemplate">
+                    <Setter.Value>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Converter={StaticResource ObjectTypeToNameConverter}}" />
+                        </DataTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+        </Style.Resources>
+        <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type local:CollectionControl}">
-                    <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
-                      <Grid  Margin="{TemplateBinding Padding}">
+                    <Border Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}">
+                        <Grid Margin="{TemplateBinding Padding}">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*" />
                                 <ColumnDefinition Width="1.5*" />
@@ -73,52 +59,64 @@
                                 </Grid.RowDefinitions>
                                 <TextBlock Margin="0,0,0,5" Text="Select type:" />
                                 <ComboBox x:Name="PART_NewItemTypesComboBox"
-                                  Grid.Row="1"
-                                  Margin="0,0,0,3"
-                                  HorizontalAlignment="Stretch"
-                                  DisplayMemberPath="Name">
+                                          Grid.Row="1"
+                                          Margin="0,0,0,3"
+                                          HorizontalAlignment="Stretch"
+                                          DisplayMemberPath="Name">
                                     <ComboBox.ItemsSource>
                                         <MultiBinding Converter="{StaticResource NewItemTypesComboBoxConverter}">
-                                            <Binding RelativeSource="{RelativeSource TemplatedParent}" Path="ItemsSourceType" />
-                                            <Binding RelativeSource="{RelativeSource TemplatedParent}" Path="NewItemTypes" />
+                                            <Binding Path="ItemsSourceType" RelativeSource="{RelativeSource TemplatedParent}" />
+                                            <Binding Path="NewItemTypes" RelativeSource="{RelativeSource TemplatedParent}" />
                                         </MultiBinding>
                                     </ComboBox.ItemsSource>
                                 </ComboBox>
-                                <Button Margin="3,0,0,3"
-                                Grid.Row="1"
-                                Grid.Column="1"
-                                Padding="5,0"
-                                Content="Add" 
-                                Command="New"
-                                CommandParameter="{Binding SelectedItem, ElementName=PART_NewItemTypesComboBox}" />
+                                <Button Grid.Row="1"
+                                        Grid.Column="1"
+                                        Margin="3,0,0,3"
+                                        Command="New"
+                                        CommandParameter="{Binding SelectedItem,
+                                                                   ElementName=PART_NewItemTypesComboBox}"
+                                        Content="Add"
+                                        Padding="5,0" />
                                 <ListBox x:Name="_itemsListBox"
-                                          Grid.Row="2"
-                                          Grid.ColumnSpan="2"
-                                          ItemsSource="{Binding Items, RelativeSource={RelativeSource TemplatedParent}}"
-                                          SelectedItem="{Binding SelectedItem, RelativeSource={RelativeSource TemplatedParent}}"
-                                          SelectedIndex="0">
-                                </ListBox>
-                                <StackPanel Margin="7,2,0,0" VerticalAlignment="Top" Grid.Column="2" Grid.Row="2">
-                                    <Button Style="{StaticResource CollectionControlButtonStyle}"
-                                   Command="ComponentCommands.MoveUp"
-                                   CommandParameter="{Binding SelectedItem, ElementName=_itemsListBox}">
-                                        <Path Fill="#FF000000" Data="F0 M 6,0 L 12,7 8,7 8,12 4,12 4,7 0,7 Z" />
+                                         Grid.Row="2"
+                                         Grid.ColumnSpan="2"
+                                         ItemsSource="{Binding Items,
+                                                               RelativeSource={RelativeSource TemplatedParent}}"
+                                         SelectedIndex="0"
+                                         SelectedItem="{Binding SelectedItem,
+                                                                RelativeSource={RelativeSource TemplatedParent}}" />
+                                <StackPanel Grid.Row="2"
+                                            Grid.Column="2"
+                                            Margin="7,2,0,0"
+                                            VerticalAlignment="Top">
+                                    <Button Command="ComponentCommands.MoveUp"
+                                            CommandParameter="{Binding SelectedItem,
+                                                                       ElementName=_itemsListBox}"
+                                            Style="{StaticResource CollectionControlButtonStyle}">
+                                        <Path Data="F0 M 6,0 L 12,7 8,7 8,12 4,12 4,7 0,7 Z" Fill="#FF000000" />
                                     </Button>
                                     <Button Margin="0,1,0,0"
-                                   Style="{StaticResource CollectionControlButtonStyle}"
-                                   Command="ComponentCommands.MoveDown"
-                                   CommandParameter="{Binding SelectedItem, ElementName=_itemsListBox}">
-                                        <Path Fill="#FF000000" Data="F0 M 4,0 L 8,0 8,5 12,5 6,12 0,5 4,5 Z" />
+                                            Command="ComponentCommands.MoveDown"
+                                            CommandParameter="{Binding SelectedItem,
+                                                                       ElementName=_itemsListBox}"
+                                            Style="{StaticResource CollectionControlButtonStyle}">
+                                        <Path Data="F0 M 4,0 L 8,0 8,5 12,5 6,12 0,5 4,5 Z" Fill="#FF000000" />
                                     </Button>
                                     <Button Margin="0,7,0,0"
-                                   Style="{StaticResource CollectionControlButtonStyle}"
-                                   Command="Delete"
-                                   CommandParameter="{Binding SelectedItem, ElementName=_itemsListBox}">
-                                        <Image Stretch="None" Height="16" Width="16" Margin="1" Source="./../Images/Delete16.png" />
+                                            Command="Delete"
+                                            CommandParameter="{Binding SelectedItem,
+                                                                       ElementName=_itemsListBox}"
+                                            Style="{StaticResource CollectionControlButtonStyle}">
+                                        <Image Width="16"
+                                               Height="16"
+                                               Margin="1"
+                                               Source="./../Images/Delete16.png"
+                                               Stretch="None" />
                                     </Button>
                                 </StackPanel>
                             </Grid>
-                            <Grid Column="1" Margin="20,0,0,0">
+                            <Grid Margin="20,0,0,0" Column="1">
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="Auto" />
                                     <RowDefinition />
@@ -130,20 +128,19 @@
                                                  Margin="0,5,0,0"
                                                  HorizontalAlignment="Stretch"
                                                  VerticalAlignment="Stretch"
-                                                 SelectedObject="{Binding SelectedItem, RelativeSource={RelativeSource TemplatedParent}}"
-                                                 IsReadOnly="{Binding IsReadOnly, RelativeSource={RelativeSource TemplatedParent}}" />
+                                                 IsReadOnly="{Binding IsReadOnly,
+                                                                      RelativeSource={RelativeSource TemplatedParent}}"
+                                                 SelectedObject="{Binding SelectedItem,
+                                                                          RelativeSource={RelativeSource TemplatedParent}}" />
                             </Grid>
                         </Grid>
                     </Border>
-               <ControlTemplate.Triggers>
-                  <Trigger Property="IsEnabled"
-                           Value="False">
-                     <Setter Property="Foreground"
-                             Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}"
-                             TargetName="PART_NewItemTypesComboBox"/>
-                  </Trigger>
-               </ControlTemplate.Triggers>
-            </ControlTemplate>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter TargetName="PART_NewItemTypesComboBox" Property="Foreground" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
             </Setter.Value>
         </Setter>
     </Style>
@@ -158,18 +155,19 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type local:PrimitiveTypeCollectionControl}">
-                    <local:MultiLineTextEditor Background="{TemplateBinding Background}"
-                                          BorderBrush="{TemplateBinding BorderBrush}"
-                                          BorderThickness="{TemplateBinding BorderThickness}"
-                                          Content="{TemplateBinding Content}"
-                                          ContentTemplate="{TemplateBinding ContentTemplate}"
-                                          Padding="{TemplateBinding Padding}"
-                                          HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                          IsOpen="{TemplateBinding IsOpen}"
-                                          IsReadOnly="{TemplateBinding IsReadOnly}"
-                                          Text="{Binding Text, RelativeSource={RelativeSource TemplatedParent}}"
-                                          VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
-                                          DropDownWidth="{TemplateBinding ActualWidth}"/>
+                    <local:MultiLineTextEditor HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                               VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                                               Background="{TemplateBinding Background}"
+                                               BorderBrush="{TemplateBinding BorderBrush}"
+                                               BorderThickness="{TemplateBinding BorderThickness}"
+                                               Content="{TemplateBinding Content}"
+                                               ContentTemplate="{TemplateBinding ContentTemplate}"
+                                               DropDownWidth="{TemplateBinding ActualWidth}"
+                                               IsOpen="{TemplateBinding IsOpen}"
+                                               IsReadOnly="{TemplateBinding IsReadOnly}"
+                                               Padding="{TemplateBinding Padding}"
+                                               Text="{Binding Text,
+                                                              RelativeSource={RelativeSource TemplatedParent}}" />
 
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
@@ -188,68 +186,72 @@
         </Setter>
     </Style>
 
-   <Style TargetType="{x:Type local:PrimitiveTypeCollectionControl}" BasedOn="{StaticResource PrimitiveTypeCollectionControl}" />
+    <Style BasedOn="{StaticResource PrimitiveTypeCollectionControl}" TargetType="{x:Type local:PrimitiveTypeCollectionControl}" />
 
-   <Style x:Key="CollectionControlButton" TargetType="{x:Type local:CollectionControlButton}">
-      <Setter Property="Background" Value="White" />
-      <Setter Property="BorderThickness" Value="0" />
-      <Setter Property="Padding" Value="2,0,0,0" />
-      <Setter Property="HorizontalContentAlignment" Value="Left" />
-      <Setter Property="VerticalContentAlignment" Value="Center" />
-      <Setter Property="Content" Value="(Collection)"/>
-      <Setter Property="SnapsToDevicePixels" Value="True"/>
-      <Setter Property="MinHeight" Value="22"/>
-      <Setter Property="IsTabStop" Value="True"/>
-      <Setter Property="Template">
-         <Setter.Value>
-            <ControlTemplate TargetType="Button">
-               <Grid SnapsToDevicePixels="True">
-                  <Grid>
-                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="Auto" />
-                     </Grid.ColumnDefinitions>
+    <Style x:Key="CollectionControlButton" TargetType="{x:Type local:CollectionControlButton}">
+        <Setter Property="Background" Value="White" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="Padding" Value="2,0,0,0" />
+        <Setter Property="HorizontalContentAlignment" Value="Left" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="Content" Value="(Collection)" />
+        <Setter Property="SnapsToDevicePixels" Value="True" />
+        <Setter Property="MinHeight" Value="22" />
+        <Setter Property="IsTabStop" Value="True" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Grid SnapsToDevicePixels="True">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
 
-                     <Border Background="{TemplateBinding Background}" 
-                             BorderBrush="{TemplateBinding BorderBrush}" 
-                             BorderThickness="{TemplateBinding BorderThickness}" 
-                             Padding="{TemplateBinding Padding}" 
-                             SnapsToDevicePixels="True">
-                        <ContentPresenter Content="{TemplateBinding Content}"
-                                          ContentTemplate="{TemplateBinding ContentTemplate}"
-                                          ContentTemplateSelector="{TemplateBinding ContentTemplateSelector}"
-                                          VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-                                          HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" />
-                     </Border>
+                            <Border Background="{TemplateBinding Background}"
+                                    BorderBrush="{TemplateBinding BorderBrush}"
+                                    BorderThickness="{TemplateBinding BorderThickness}"
+                                    Padding="{TemplateBinding Padding}"
+                                    SnapsToDevicePixels="True">
+                                <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                                  VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                                  Content="{TemplateBinding Content}"
+                                                  ContentTemplate="{TemplateBinding ContentTemplate}"
+                                                  ContentTemplateSelector="{TemplateBinding ContentTemplateSelector}" />
+                            </Border>
 
-                     <chrome:ButtonChrome x:Name="ToggleButtonChrome"
-                                          Grid.Column="1"
-                                          CornerRadius="0,2.75,2.75,0"
-                                          RenderEnabled="{Binding IsEnabled, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:CollectionControlButton}}"
-											         RenderMouseOver="{TemplateBinding IsMouseOver}">
-                        <Grid x:Name="arrowGlyph" IsHitTestVisible="False" Grid.Column="1" Margin="5">
-                           <Path x:Name="Arrow" 
-                                 Width="7" 
-                                 Height="4" 
-                                 Data="M 0,1 C0,1 0,0 0,0 0,0 3,0 3,0 3,0 3,1 3,1 3,1 4,1 4,1 4,1 4,0 4,0 4,0 7,0 7,0 7,0 7,1 7,1 7,1 6,1 6,1 6,1 6,2 6,2 6,2 5,2 5,2 5,2 5,3 5,3 5,3 4,3 4,3 4,3 4,4 4,4 4,4 3,4 3,4 3,4 3,3 3,3 3,3 2,3 2,3 2,3 2,2 2,2 2,2 1,2 1,2 1,2 1,1 1,1 1,1 0,1 0,1 z" 
-                                 Fill="#FF000000" />
+                            <chrome:ButtonChrome x:Name="ToggleButtonChrome"
+                                                 Grid.Column="1"
+                                                 CornerRadius="0,2.75,2.75,0"
+                                                 RenderEnabled="{Binding IsEnabled,
+                                                                         RelativeSource={RelativeSource Mode=FindAncestor,
+                                                                                                        AncestorType=local:CollectionControlButton}}"
+                                                 RenderMouseOver="{TemplateBinding IsMouseOver}">
+                                <Grid x:Name="arrowGlyph"
+                                      Grid.Column="1"
+                                      Margin="5"
+                                      IsHitTestVisible="False">
+                                    <Path x:Name="Arrow"
+                                          Width="7"
+                                          Height="4"
+                                          Data="M 0,1 C0,1 0,0 0,0 0,0 3,0 3,0 3,0 3,1 3,1 3,1 4,1 4,1 4,1 4,0 4,0 4,0 7,0 7,0 7,0 7,1 7,1 7,1 6,1 6,1 6,1 6,2 6,2 6,2 5,2 5,2 5,2 5,3 5,3 5,3 4,3 4,3 4,3 4,4 4,4 4,4 3,4 3,4 3,4 3,3 3,3 3,3 2,3 2,3 2,3 2,2 2,2 2,2 1,2 1,2 1,2 1,1 1,1 1,1 0,1 0,1 z"
+                                          Fill="#FF000000" />
+                                </Grid>
+                            </chrome:ButtonChrome>
                         </Grid>
-                     </chrome:ButtonChrome>
-                  </Grid>
 
-               </Grid>
-               <ControlTemplate.Triggers>
-                  <Trigger Property="IsEnabled" Value="False">
-                     <Setter Property="Fill" TargetName="Arrow" Value="#AFAFAF" />
-                     <Setter Property="Foreground" Value="Gray" />
-                  </Trigger>
-               </ControlTemplate.Triggers>
-            </ControlTemplate>
-         </Setter.Value>
-      </Setter>
-   </Style>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter TargetName="Arrow" Property="Fill" Value="#AFAFAF" />
+                            <Setter Property="Foreground" Value="Gray" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
 
-   <Style TargetType="{x:Type local:CollectionControlButton}"
-          BasedOn="{StaticResource CollectionControlButton}" />
+    <Style BasedOn="{StaticResource CollectionControlButton}" TargetType="{x:Type local:CollectionControlButton}" />
 
 </ResourceDictionary>

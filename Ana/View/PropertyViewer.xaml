@@ -1,30 +1,28 @@
-﻿<UserControl
-    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             
-    xmlns:sys="clr-namespace:System;assembly=mscorlib"
-    xmlns:sysWindows="clr-namespace:System.Windows;assembly=PresentationCore"
-    xmlns:local="clr-namespace:Ana"
-    xmlns:converters="clr-namespace:Ana.Source.Mvvm.Converters"
-    xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
-    xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit" x:Class="Ana.View.PropertyViewer"
-    x:Name="AnaPropertyViewer"
-             
-    DataContext="{Binding PropertyViewerViewModel, Source={StaticResource ViewModelLocator}}"
-    mc:Ignorable="d"
-    d:DesignHeight="256"
-    d:DesignWidth="256">
+﻿<UserControl x:Class="Ana.View.PropertyViewer"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:converters="clr-namespace:Ana.Source.Mvvm.Converters"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+             xmlns:local="clr-namespace:Ana"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:sys="clr-namespace:System;assembly=mscorlib"
+             xmlns:sysWindows="clr-namespace:System.Windows;assembly=PresentationCore"
+             xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+             x:Name="AnaPropertyViewer"
+             d:DesignHeight="256"
+             d:DesignWidth="256"
+             DataContext="{Binding PropertyViewerViewModel,
+                                   Source={StaticResource ViewModelLocator}}"
+             mc:Ignorable="d">
     <Grid Background="{StaticResource AvalonDock_Expression_BaseColor3}">
         <Grid.RowDefinitions>
-            <RowDefinition/>
+            <RowDefinition />
         </Grid.RowDefinitions>
         <xctk:PropertyGrid Grid.Row="0"
-                           BorderThickness="0"
                            Background="{StaticResource AvalonDock_Expression_BaseColor1}"
+                           BorderThickness="0"
                            Foreground="{StaticResource AvalonDock_Expression_BaseColor2}"
-                           SelectedObject="{Binding TargetObject}">
-        </xctk:PropertyGrid>
+                           SelectedObject="{Binding TargetObject}" />
     </Grid>
 </UserControl>

@@ -1,20 +1,18 @@
 ﻿<UserControl x:Class="Ana.View.LabelThresholder"
-    x:Name="AnaLabelThresholder"
-    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             
-    DataContext="{Binding LabelThresholderViewModel, Source={StaticResource ViewModelLocator}}"
-    xmlns:sys="clr-namespace:System;assembly=mscorlib"
-    xmlns:sysWindows="clr-namespace:System.Windows;assembly=PresentationCore"
-    xmlns:local="clr-namespace:Ana"
-    xmlns:converters="clr-namespace:Ana.Source.Mvvm.Converters"
-    xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
-    mc:Ignorable="d"
-    d:DesignHeight="256"
-    d:DesignWidth="256">
-    <Grid Background="{StaticResource AvalonDock_Expression_BaseColor3}">
-       
-    </Grid>
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:converters="clr-namespace:Ana.Source.Mvvm.Converters"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+             xmlns:local="clr-namespace:Ana"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:sys="clr-namespace:System;assembly=mscorlib"
+             xmlns:sysWindows="clr-namespace:System.Windows;assembly=PresentationCore"
+             x:Name="AnaLabelThresholder"
+             d:DesignHeight="256"
+             d:DesignWidth="256"
+             DataContext="{Binding LabelThresholderViewModel,
+                                   Source={StaticResource ViewModelLocator}}"
+             mc:Ignorable="d">
+    <Grid Background="{StaticResource AvalonDock_Expression_BaseColor3}" />
 </UserControl>

@@ -1,28 +1,12 @@
-﻿<!--***********************************************************************************
-
-   Extended WPF Toolkit
-
-   Copyright (C) 2007-2013 Xceed Software Inc.
-
-   This program is provided to you under the terms of the Microsoft Public
-   License (Ms-PL) as published at http://wpftoolkit.codeplex.com/license 
-
-   For more features, controls, and fast professional support,
-   pick up the Plus Edition at http://xceed.com/wpf_toolkit
-
-   Stay informed: follow @datagrid on Twitter or Like http://facebook.com/datagrids
-
-  **********************************************************************************-->
-
-<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:chrome="clr-namespace:Xceed.Wpf.Toolkit.Chromes"
                     xmlns:themes="clr-namespace:Xceed.Wpf.Toolkit.Themes">
 
 
-    <!-- =============================================================================== -->
-    <!-- ButtonChrome                                                                    -->
-    <!-- =============================================================================== -->
+    <!--  ===============================================================================  -->
+    <!--  ButtonChrome  -->
+    <!--  ===============================================================================  -->
 
     <Style TargetType="{x:Type chrome:ButtonChrome}">
         <Setter Property="CornerRadius" Value="0" />
@@ -37,19 +21,23 @@
                 <ControlTemplate TargetType="{x:Type chrome:ButtonChrome}">
                     <Grid>
 
-                        <Border x:Name="OuterBorder" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="{TemplateBinding CornerRadius}" BorderBrush="{TemplateBinding BorderBrush}" Background="{TemplateBinding Background}" />
+                        <Border x:Name="OuterBorder"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="{TemplateBinding CornerRadius}" />
 
                         <ContentPresenter Margin="{TemplateBinding Padding}"
-										      IsEnabled="{TemplateBinding IsEnabled}"
-										      Content="{TemplateBinding Content}"
-										      ContentStringFormat="{TemplateBinding ContentStringFormat}"
-										      ContentTemplate="{TemplateBinding ContentTemplate}"
-										      ContentTemplateSelector="{TemplateBinding ContentTemplateSelector}" />
+                                          Content="{TemplateBinding Content}"
+                                          ContentStringFormat="{TemplateBinding ContentStringFormat}"
+                                          ContentTemplate="{TemplateBinding ContentTemplate}"
+                                          ContentTemplateSelector="{TemplateBinding ContentTemplateSelector}"
+                                          IsEnabled="{TemplateBinding IsEnabled}" />
 
                     </Grid>
                     <ControlTemplate.Triggers>
 
-                        <!-- If button is disabled, not checked, and is rendered normal -->
+                        <!--  If button is disabled, not checked, and is rendered normal  -->
                         <MultiTrigger>
                             <MultiTrigger.Conditions>
                                 <Condition Property="RenderEnabled" Value="False" />
@@ -59,7 +47,7 @@
                             <Setter TargetName="OuterBorder" Property="Background" Value="{DynamicResource {x:Static themes:ResourceKeys.ControlDisabledBackgroundKey}}" />
                         </MultiTrigger>
 
-                        <!-- if button is enabled and pressed -->
+                        <!--  if button is enabled and pressed  -->
                         <MultiTrigger>
                             <MultiTrigger.Conditions>
                                 <Condition Property="RenderEnabled" Value="True" />
@@ -69,7 +57,7 @@
                             <Setter TargetName="OuterBorder" Property="Background" Value="{DynamicResource {x:Static themes:ResourceKeys.ButtonPressedBackgroundKey}}" />
                         </MultiTrigger>
 
-                        <!-- if button is enabled, is not checked, the mouse is over, and not pressed -->
+                        <!--  if button is enabled, is not checked, the mouse is over, and not pressed  -->
                         <MultiTrigger>
                             <MultiTrigger.Conditions>
                                 <Condition Property="RenderEnabled" Value="True" />
@@ -81,7 +69,7 @@
                             <Setter TargetName="OuterBorder" Property="Background" Value="{DynamicResource {x:Static themes:ResourceKeys.ButtonMouseOverBackgroundKey}}" />
                         </MultiTrigger>
 
-                        <!-- if button is enabled, checked, the mouse is not over, and it is not pressed -->
+                        <!--  if button is enabled, checked, the mouse is not over, and it is not pressed  -->
                         <MultiTrigger>
                             <MultiTrigger.Conditions>
                                 <Condition Property="RenderEnabled" Value="True" />
@@ -93,7 +81,7 @@
                             <Setter TargetName="OuterBorder" Property="Background" Value="{DynamicResource {x:Static themes:ResourceKeys.ButtonPressedBackgroundKey}}" />
                         </MultiTrigger>
 
-                        <!-- if button is focused, is enabled, not pressed, and the mouse is not over -->
+                        <!--  if button is focused, is enabled, not pressed, and the mouse is not over  -->
                         <MultiTrigger>
                             <MultiTrigger.Conditions>
                                 <Condition Property="RenderFocused" Value="True" />
@@ -105,7 +93,7 @@
                             <Setter TargetName="OuterBorder" Property="Background" Value="{DynamicResource {x:Static themes:ResourceKeys.ButtonFocusedBackgroundKey}}" />
                         </MultiTrigger>
 
-                        <!-- if not rendered normally -->
+                        <!--  if not rendered normally  -->
                         <MultiTrigger>
                             <MultiTrigger.Conditions>
                                 <Condition Property="RenderNormal" Value="False" />

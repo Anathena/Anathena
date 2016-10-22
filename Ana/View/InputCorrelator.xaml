@@ -1,65 +1,58 @@
 ﻿<UserControl x:Class="Ana.View.InputCorrelator"
-    x:Name="AnaInputCorrelator"
-    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             
-    DataContext="{Binding InputCorrelatorViewModel, Source={StaticResource ViewModelLocator}}"
-    xmlns:sys="clr-namespace:System;assembly=mscorlib"
-    xmlns:sysWindows="clr-namespace:System.Windows;assembly=PresentationCore"
-    xmlns:local="clr-namespace:Ana"
-    xmlns:converters="clr-namespace:Ana.Source.Mvvm.Converters"
-    xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
-    mc:Ignorable="d"
-    d:DesignHeight="256"
-    d:DesignWidth="256">
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:converters="clr-namespace:Ana.Source.Mvvm.Converters"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+             xmlns:local="clr-namespace:Ana"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:sys="clr-namespace:System;assembly=mscorlib"
+             xmlns:sysWindows="clr-namespace:System.Windows;assembly=PresentationCore"
+             x:Name="AnaInputCorrelator"
+             d:DesignHeight="256"
+             d:DesignWidth="256"
+             DataContext="{Binding InputCorrelatorViewModel,
+                                   Source={StaticResource ViewModelLocator}}"
+             mc:Ignorable="d">
     <Grid Background="{StaticResource AvalonDock_Expression_BaseColor3}">
         <Grid>
             <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition/>
+                <RowDefinition Height="Auto" />
+                <RowDefinition />
             </Grid.RowDefinitions>
-            <WrapPanel Grid.Row="0"
-                       Background="{StaticResource AvalonDock_Expression_BaseColor4}">
+            <WrapPanel Grid.Row="0" Background="{StaticResource AvalonDock_Expression_BaseColor4}">
                 <Menu Background="Transparent"
-                      Padding="4"
-                      DataContext="{Binding Source={StaticResource ViewModelLocator}}">
+                      DataContext="{Binding Source={StaticResource ViewModelLocator}}"
+                      Padding="4">
                     <MenuItem>
                         <MenuItem.Header>
-                            <Image Source="pack://application:,,,/Ana;component/Content/Icons/RightArrow.png"
-							       Width="16"
-							       Height="16"/>
+                            <Image Width="16"
+                                   Height="16"
+                                   Source="pack://application:,,,/Ana;component/Content/Icons/RightArrow.png" />
                         </MenuItem.Header>
                     </MenuItem>
                     <MenuItem>
                         <MenuItem.Header>
-                            <Image Source="pack://application:,,,/Ana;component/Content/Icons/Stop.png"
-							       Width="16"
-							       Height="16"/>
+                            <Image Width="16"
+                                   Height="16"
+                                   Source="pack://application:,,,/Ana;component/Content/Icons/Stop.png" />
                         </MenuItem.Header>
                     </MenuItem>
                 </Menu>
             </WrapPanel>
             <Grid Grid.Row="1">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition/>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition />
                 </Grid.ColumnDefinitions>
-                <Border Grid.Column="0"
-                        Padding="16 8 16 8">
+                <Border Grid.Column="0" Padding="16 8 16 8">
                     <StackPanel Grid.Column="0">
-                        <TextBlock Foreground="{StaticResource AvalonDock_Expression_BaseColor2}"
-                               Text="Variable Size">
-                        </TextBlock>
+                        <TextBlock Foreground="{StaticResource AvalonDock_Expression_BaseColor2}" Text="Variable Size" />
                     </StackPanel>
                 </Border>
-                <Border Grid.Column="1"
-                        Padding="16 8 16 8">
+                <Border Grid.Column="1" Padding="16 8 16 8">
                     <StackPanel>
-                        <Slider HorizontalAlignment="Left"
-                            Width="128">
-                        </Slider>
+                        <Slider Width="128" HorizontalAlignment="Left" />
                     </StackPanel>
                 </Border>
             </Grid>

@@ -1,394 +1,394 @@
-﻿<Window x:Class="Ana.View.MainWindow"
-		x:Name="AnaWindow"
-		xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-		xmlns:sys="clr-namespace:System;assembly=mscorlib"
-		xmlns:sysWindows="clr-namespace:System.Windows;assembly=PresentationCore"
-		
-		DataContext="{Binding MainViewModel, Source={StaticResource ViewModelLocator}}"
-		xmlns:avalonDock="http://schemas.xceed.com/wpf/xaml/avalondock"
-		xmlns:intr="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity" 
-		xmlns:shell="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-		xmlns:local="clr-namespace:Ana.Source.Docking"
-		xmlns:view="clr-namespace:Ana.View"
-		WindowStyle="None"
-		AllowsTransparency="False"
-		Title="Anathena"
-		Height="640"
-		Width="720">
-	<Window.Resources>
-		<avalonDock:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
-	</Window.Resources>
-	<WindowChrome.WindowChrome>
-		<WindowChrome CaptionHeight="{Binding ActualHeight,ElementName=titlebar}"/>
-	</WindowChrome.WindowChrome>
-	<Grid>
-		<intr:Interaction.Triggers>
-			<intr:EventTrigger EventName="Loaded">
-				<intr:InvokeCommandAction Command="{Binding LoadLayout}" CommandParameter="{Binding ., ElementName=dockManager}"/>
-			</intr:EventTrigger>
-			<intr:EventTrigger EventName="Unloaded">
-				<intr:InvokeCommandAction Command="{Binding SaveLayout}" CommandParameter="{Binding ., ElementName=dockManager}"/>
-			</intr:EventTrigger>
-		</intr:Interaction.Triggers>
+﻿<shell:Window x:Class="Ana.View.MainWindow"
+              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+              xmlns:avalonDock="http://schemas.xceed.com/wpf/xaml/avalondock"
+              xmlns:intr="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+              xmlns:local="clr-namespace:Ana.Source.Docking"
+              xmlns:shell="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+              xmlns:sys="clr-namespace:System;assembly=mscorlib"
+              xmlns:sysWindows="clr-namespace:System.Windows;assembly=PresentationCore"
+              xmlns:view="clr-namespace:Ana.View"
+              x:Name="AnaWindow"
+              Title="Anathena"
+              Width="720"
+              Height="640"
+              AllowsTransparency="False"
+              DataContext="{Binding MainViewModel,
+                                    Source={StaticResource ViewModelLocator}}"
+              WindowStyle="None">
+    <shell:Window.Resources>
+        <avalonDock:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+    </shell:Window.Resources>
+    <shell:WindowChrome.WindowChrome>
+        <shell:WindowChrome CaptionHeight="{Binding ActualHeight, ElementName=titlebar}" />
+    </shell:WindowChrome.WindowChrome>
+    <shell:Grid>
+        <intr:Interaction.Triggers>
+            <intr:EventTrigger EventName="Loaded">
+                <intr:InvokeCommandAction Command="{Binding LoadLayout}" CommandParameter="{Binding ., ElementName=dockManager}" />
+            </intr:EventTrigger>
+            <intr:EventTrigger EventName="Unloaded">
+                <intr:InvokeCommandAction Command="{Binding SaveLayout}" CommandParameter="{Binding ., ElementName=dockManager}" />
+            </intr:EventTrigger>
+        </intr:Interaction.Triggers>
 
-		<Grid.RowDefinitions>
-			<!-- Title Bar Row -->
-			<RowDefinition Height="Auto"/>
-			<!-- Menu Bar Row -->
-			<RowDefinition Height="Auto"/>
-			<!-- Button Menu Bar Row -->
-			<RowDefinition Height="Auto"/>
-			<!-- Docking Panel Row -->
-			<RowDefinition Height="*"/>
-			<!-- Status Bar Row -->
-			<RowDefinition Height="Auto"/>
-		</Grid.RowDefinitions>
-		
-		<!-- Title Bar -->
-		<Grid Grid.Row="0"
-			  Background="{StaticResource AvalonDock_Expression_BaseColor4}"
-			  x:Name="titlebar">
-			<Grid.ColumnDefinitions>
-				<!-- Title Text Column -->
-				<ColumnDefinition/>
-				<!-- Buttons -->
-				<ColumnDefinition Width="Auto"/>
+        <shell:Grid.RowDefinitions>
+            <!--  Title Bar Row  -->
+            <shell:RowDefinition Height="Auto" />
+            <!--  Menu Bar Row  -->
+            <shell:RowDefinition Height="Auto" />
+            <!--  Button Menu Bar Row  -->
+            <shell:RowDefinition Height="Auto" />
+            <!--  Docking Panel Row  -->
+            <shell:RowDefinition Height="*" />
+            <!--  Status Bar Row  -->
+            <shell:RowDefinition Height="Auto" />
+        </shell:Grid.RowDefinitions>
 
-			</Grid.ColumnDefinitions>
-			<WrapPanel Grid.Column="0">
-				<Image Width="24"
-					   Height="24"
-					   Margin="4"
-					   Source="pack://application:,,,/Ana;component/Content/Icons/MainIcon.ico">
-				</Image>
-				<TextBlock Text="Anathena"
-						   Foreground="{StaticResource AvalonDock_Expression_BaseColor7}"
-						   VerticalAlignment="Center">
-				</TextBlock>
-			</WrapPanel>
-			<Menu Grid.Column="1"
-				  Background="Transparent"
-				  VerticalAlignment="Center">
-				<MenuItem ToolTip="Minimize"
-						  Height="24"
-						  shell:WindowChrome.IsHitTestVisibleInChrome="True"
-						  Command="{Binding Minimize}"
-						  CommandParameter="{Binding ElementName=AnaWindow}">
-					<MenuItem.Header>
-						<Image Source="pack://application:,,,/Ana;component/Content/Icons/Decreased.png"
-							   Width="16"
-							   Height="16"/>
-					</MenuItem.Header>
-				</MenuItem>
-				<MenuItem ToolTip="Maximize/Restore"
-						  Height="24"
-						  shell:WindowChrome.IsHitTestVisibleInChrome="True"
-						  Command="{Binding MaximizeRestore}"
-						  CommandParameter="{Binding ElementName=AnaWindow}">
-					<MenuItem.Header>
-						<Image Source="pack://application:,,,/Ana;component/Content/Icons/Maximize.png"
-							   Width="16"
-							   Height="16"/>
-						</MenuItem.Header>
-				</MenuItem>
-				<MenuItem ToolTip="Close"
-						  Height="24"
-						  shell:WindowChrome.IsHitTestVisibleInChrome="True"
-						  Command="{Binding Close}"
-						  CommandParameter="{Binding ElementName=AnaWindow}">
-					<MenuItem.Header>
-						<Image Source="pack://application:,,,/Ana;component/Content/Icons/X.png"
-							   Width="16"
-							   Height="16"/>
-					</MenuItem.Header>
-				</MenuItem>
-			</Menu>
-		</Grid>
+        <!--  Title Bar  -->
+        <shell:Grid x:Name="titlebar"
+                    Grid.Row="0"
+                    Background="{StaticResource AvalonDock_Expression_BaseColor4}">
+            <shell:Grid.ColumnDefinitions>
+                <!--  Title Text Column  -->
+                <shell:ColumnDefinition />
+                <!--  Buttons  -->
+                <shell:ColumnDefinition Width="Auto" />
 
-		<!-- Menu Bar -->
-		<Grid Grid.Row="1" >
-			<Menu Foreground="{StaticResource AvalonDock_Expression_BaseColor2}"
-				  Background="{StaticResource AvalonDock_Expression_BaseColor4}"
-				  BorderBrush="{StaticResource AvalonDock_Expression_BaseColor2}">
-				<Menu.Resources>
-					<Style x:Key="menuItemStyle" TargetType="{x:Type MenuItem}">
-						<Setter Property="Foreground" Value="{StaticResource AvalonDock_Expression_BaseColor2}"></Setter>
-						<Setter Property="Background" Value="{StaticResource AvalonDock_Expression_BaseColor4}"></Setter>
-						<Setter Property="BorderBrush" Value="{StaticResource AvalonDock_Expression_BaseColor4}"></Setter>
-						<Setter Property="BorderThickness" Value="0"></Setter>
-					</Style>
-				</Menu.Resources>
-				<!-- File Header -->
-				<MenuItem Header="File"
-						  Style="{StaticResource DropDown}"
-						  DataContext="{Binding Source={StaticResource ViewModelLocator}}">
-					<MenuItem Header="Open"
-							  Style="{StaticResource menuItemStyle}"
-							  Command="{Binding ProjectExplorerViewModel.OpenProjectCommand}"/>
-					<MenuItem Header="Import Project"
-							  Style="{StaticResource menuItemStyle}"
-							  Command="{Binding ProjectExplorerViewModel.ImportProjectCommand}"/>
-					<MenuItem Header="Save"
-							  Style="{StaticResource menuItemStyle}"
-							  Command="{Binding ProjectExplorerViewModel.SaveProjectCommand}"/>
-					<MenuItem Header="Save As"
-							  Style="{StaticResource menuItemStyle}"
-							  Command="{Binding ProjectExplorerViewModel.SaveAsProjectCommand}"/>
-					<MenuItem Header="Exit"
-							  Style="{StaticResource menuItemStyle}"/>
-				</MenuItem>
+            </shell:Grid.ColumnDefinitions>
+            <shell:WrapPanel Grid.Column="0">
+                <shell:Image Width="24"
+                             Height="24"
+                             Margin="4"
+                             Source="pack://application:,,,/Ana;component/Content/Icons/MainIcon.ico" />
+                <shell:TextBlock VerticalAlignment="Center"
+                                 Foreground="{StaticResource AvalonDock_Expression_BaseColor7}"
+                                 Text="Anathena" />
+            </shell:WrapPanel>
+            <shell:Menu Grid.Column="1"
+                        VerticalAlignment="Center"
+                        Background="Transparent">
+                <shell:MenuItem Height="24"
+                                shell:WindowChrome.IsHitTestVisibleInChrome="True"
+                                Command="{Binding Minimize}"
+                                CommandParameter="{Binding ElementName=AnaWindow}"
+                                ToolTip="Minimize">
+                    <shell:MenuItem.Header>
+                        <shell:Image Width="16"
+                                     Height="16"
+                                     Source="pack://application:,,,/Ana;component/Content/Icons/Decreased.png" />
+                    </shell:MenuItem.Header>
+                </shell:MenuItem>
+                <shell:MenuItem Height="24"
+                                shell:WindowChrome.IsHitTestVisibleInChrome="True"
+                                Command="{Binding MaximizeRestore}"
+                                CommandParameter="{Binding ElementName=AnaWindow}"
+                                ToolTip="Maximize/Restore">
+                    <shell:MenuItem.Header>
+                        <shell:Image Width="16"
+                                     Height="16"
+                                     Source="pack://application:,,,/Ana;component/Content/Icons/Maximize.png" />
+                    </shell:MenuItem.Header>
+                </shell:MenuItem>
+                <shell:MenuItem Height="24"
+                                shell:WindowChrome.IsHitTestVisibleInChrome="True"
+                                Command="{Binding Close}"
+                                CommandParameter="{Binding ElementName=AnaWindow}"
+                                ToolTip="Close">
+                    <shell:MenuItem.Header>
+                        <shell:Image Width="16"
+                                     Height="16"
+                                     Source="pack://application:,,,/Ana;component/Content/Icons/X.png" />
+                    </shell:MenuItem.Header>
+                </shell:MenuItem>
+            </shell:Menu>
+        </shell:Grid>
 
-				<!-- Edit Header -->
-				<MenuItem Header="Edit"
-						  Style="{StaticResource DropDown}"
-						  DataContext="{Binding Source={StaticResource ViewModelLocator}}">
-					<MenuItem Header="Settings"
-							  IsChecked="{Binding SettingsViewModel.IsVisible, Mode=TwoWay}"
-							  IsCheckable="True"
-							  Style="{StaticResource menuItemStyle}"/>
-				</MenuItem>
-				
-				<!-- Tools Header -->
-				<MenuItem Header="Tools"
-						  Style="{StaticResource DropDown}"
-						  DataContext="{Binding Source={StaticResource ViewModelLocator}}">
-					<MenuItem Header="Cheat Browser" 
-							  IsChecked="{Binding CheatBrowserViewModel.IsVisible, Mode=TwoWay}"
-							  IsCheckable="True"
-							  Style="{StaticResource menuItemStyle}"/>
-					<MenuItem Header="Process Selector"
-							  IsChecked="{Binding ProcessSelectorViewModel.IsVisible, Mode=TwoWay}"
-							  IsCheckable="True"
-							  Style="{StaticResource menuItemStyle}"/>
-					<MenuItem Header="Project Explorer" 
-							  IsChecked="{Binding ProjectExplorerViewModel.IsVisible, Mode=TwoWay}" 
-							  IsCheckable="True"
-							  Style="{StaticResource menuItemStyle}"/>
-					<MenuItem Header="Property Viewer"
-							  IsChecked="{Binding PropertyViewerViewModel.IsVisible, Mode=TwoWay}"
-							  IsCheckable="True"
-							  Style="{StaticResource menuItemStyle}"/>
-					<MenuItem Header="Scan Results"
-							  IsChecked="{Binding ScanResultsViewModel.IsVisible, Mode=TwoWay}"
-							  IsCheckable="True"
-							  Style="{StaticResource menuItemStyle}"/>
-					<MenuItem Header="Snapshot Manager" 
-							  IsChecked="{Binding SnapshotManagerViewModel.IsVisible, Mode=TwoWay}" 
-							  IsCheckable="True"
-							  Style="{StaticResource menuItemStyle}"/>
-					<MenuItem Header=".Net Explorer"
-							  IsChecked="{Binding DotNetExplorerViewModel.IsVisible, Mode=TwoWay}"
-							  IsCheckable="True"
-							  Style="{StaticResource menuItemStyle}"/>
-				</MenuItem>
-				<MenuItem Header="Scans"
-						  Style="{StaticResource DropDown}"
-						  DataContext="{Binding Source={StaticResource ViewModelLocator}}">
-					<MenuItem Header="Change Counter"
-								  IsChecked="{Binding ChangeCounterViewModel.IsVisible, Mode=TwoWay}"
-								  IsCheckable="True"
-								  Style="{StaticResource menuItemStyle}"/>
-					<MenuItem Header="Input Correlator"
-								  IsChecked="{Binding InputCorrelatorViewModel.IsVisible, Mode=TwoWay}"
-								  IsCheckable="True"
-								  Style="{StaticResource menuItemStyle}"/>
-					<MenuItem Header="Manual Scanner"
-								  IsChecked="{Binding ManualScannerViewModel.IsVisible, Mode=TwoWay}"
-								  IsCheckable="True"
-								  Style="{StaticResource menuItemStyle}"/>
-					<MenuItem Header="Label Thresholder"
-								  IsChecked="{Binding LabelThresholderViewModel.IsVisible, Mode=TwoWay}" 
-								  IsCheckable="True"
-								  Style="{StaticResource menuItemStyle}"/>
-				</MenuItem>
-			</Menu>
-		</Grid>
+        <!--  Menu Bar  -->
+        <shell:Grid Grid.Row="1">
+            <shell:Menu Background="{StaticResource AvalonDock_Expression_BaseColor4}"
+                        BorderBrush="{StaticResource AvalonDock_Expression_BaseColor2}"
+                        Foreground="{StaticResource AvalonDock_Expression_BaseColor2}">
+                <shell:Menu.Resources>
+                    <shell:Style x:Key="menuItemStyle" TargetType="{x:Type MenuItem}">
+                        <shell:Setter Property="Foreground" Value="{StaticResource AvalonDock_Expression_BaseColor2}" />
+                        <shell:Setter Property="Background" Value="{StaticResource AvalonDock_Expression_BaseColor4}" />
+                        <shell:Setter Property="BorderBrush" Value="{StaticResource AvalonDock_Expression_BaseColor4}" />
+                        <shell:Setter Property="BorderThickness" Value="0" />
+                    </shell:Style>
+                </shell:Menu.Resources>
+                <!--  File Header  -->
+                <shell:MenuItem DataContext="{Binding Source={StaticResource ViewModelLocator}}"
+                                Header="File"
+                                Style="{StaticResource DropDown}">
+                    <shell:MenuItem Command="{Binding ProjectExplorerViewModel.OpenProjectCommand}"
+                                    Header="Open"
+                                    Style="{StaticResource menuItemStyle}" />
+                    <shell:MenuItem Command="{Binding ProjectExplorerViewModel.ImportProjectCommand}"
+                                    Header="Import Project"
+                                    Style="{StaticResource menuItemStyle}" />
+                    <shell:MenuItem Command="{Binding ProjectExplorerViewModel.SaveProjectCommand}"
+                                    Header="Save"
+                                    Style="{StaticResource menuItemStyle}" />
+                    <shell:MenuItem Command="{Binding ProjectExplorerViewModel.SaveAsProjectCommand}"
+                                    Header="Save As"
+                                    Style="{StaticResource menuItemStyle}" />
+                    <shell:MenuItem Header="Exit" Style="{StaticResource menuItemStyle}" />
+                </shell:MenuItem>
 
-		<!-- Button Menu Bar -->
-		<WrapPanel Grid.Row="2"
-				   Background="{StaticResource AvalonDock_Expression_BaseColor4}">
-			<Menu Background="Transparent"
-				  Padding="4"
-				  DataContext="{Binding Source={StaticResource ViewModelLocator}}">
-				<MenuItem ToolTip="Select a Target Process"
-						  Command="{Binding ProcessSelectorViewModel.ToggleVisibility}">
-					<MenuItem.Header>
-						<Image Source="pack://application:,,,/Ana;component/Content/Icons/SelectProcess.png"
-							   Width="16"
-							   Height="16"/>
-					</MenuItem.Header>
-				</MenuItem>
-				<Separator Style="{DynamicResource VerticalSeparator}" />
-				<MenuItem ToolTip="Open Project"
-						  Command="{Binding ProjectExplorerViewModel.OpenProjectCommand}">
-					<MenuItem.Header>
-						<Image Source="pack://application:,,,/Ana;component/Content/Icons/Open.png"
-							   Width="16"
-							   Height="16"/>
-					</MenuItem.Header>
-				</MenuItem>
-				<MenuItem ToolTip="Save Project"
-						  Command="{Binding ProjectExplorerViewModel.SaveProjectCommand}">
-					<MenuItem.Header>
-						<Image Source="pack://application:,,,/Ana;component/Content/Icons/Save.png"
-							   Width="16"
-							   Height="16"/>
-					</MenuItem.Header>
-				</MenuItem>
-				<Separator Style="{DynamicResource VerticalSeparator}" />
-				<MenuItem ToolTip="New Scan"
-						  Command="{Binding SnapshotManagerViewModel.ClearSnapshotsCommand}">
-					<MenuItem.Header>
-						<Image Source="pack://application:,,,/Ana;component/Content/Icons/New.png"
-							   Width="16"
-							   Height="16"/>
-					</MenuItem.Header>
-				</MenuItem>
-				<MenuItem ToolTip="Undo Scan"
-						  Command="{Binding SnapshotManagerViewModel.UndoSnapshotCommand}">
-					<MenuItem.Header>
-						<Image Source="pack://application:,,,/Ana;component/Content/Icons/Undo.png"
-							   Width="16"
-							   Height="16"/>
-					</MenuItem.Header>
-				</MenuItem>
-				<MenuItem ToolTip="Collect Values"
-						  Command="{Binding ValueCollectorViewModel.CollectValuesCommand}">
-					<MenuItem.Header>
-						<Image Source="pack://application:,,,/Ana;component/Content/Icons/CollectValues.png"
-							   Width="16"
-							   Height="16"/>
-					</MenuItem.Header>
-				</MenuItem>
-				<Separator Style="{DynamicResource VerticalSeparator}" />
-				<MenuItem IsHitTestVisible="False">
-					<MenuItem.Header>
-						<TextBlock Text="{Binding ProcessSelectorViewModel.ProcessName}"
-								   Foreground="{StaticResource AvalonDock_Expression_BaseColor2}">
-						</TextBlock>
-					</MenuItem.Header>
-				</MenuItem>
-			</Menu>
-		</WrapPanel>
+                <!--  Edit Header  -->
+                <shell:MenuItem DataContext="{Binding Source={StaticResource ViewModelLocator}}"
+                                Header="Edit"
+                                Style="{StaticResource DropDown}">
+                    <shell:MenuItem Header="Settings"
+                                    IsCheckable="True"
+                                    IsChecked="{Binding SettingsViewModel.IsVisible,
+                                                        Mode=TwoWay}"
+                                    Style="{StaticResource menuItemStyle}" />
+                </shell:MenuItem>
 
-		<!-- Docking Panel AnchorablesSource="{Binding Tools}"-->
-		<avalonDock:DockingManager x:Name="dockManager"
-								   Background="{StaticResource AvalonDock_Expression_BaseColor4}"
-								   AnchorablesSource="{Binding Tools}" 
-								   Grid.Row="3">
-			<!-- Theme -->
-			<avalonDock:DockingManager.Theme>
-				<avalonDock:ExpressionDarkTheme/>
-			</avalonDock:DockingManager.Theme>
+                <!--  Tools Header  -->
+                <shell:MenuItem DataContext="{Binding Source={StaticResource ViewModelLocator}}"
+                                Header="Tools"
+                                Style="{StaticResource DropDown}">
+                    <shell:MenuItem Header="Cheat Browser"
+                                    IsCheckable="True"
+                                    IsChecked="{Binding CheatBrowserViewModel.IsVisible,
+                                                        Mode=TwoWay}"
+                                    Style="{StaticResource menuItemStyle}" />
+                    <shell:MenuItem Header="Process Selector"
+                                    IsCheckable="True"
+                                    IsChecked="{Binding ProcessSelectorViewModel.IsVisible,
+                                                        Mode=TwoWay}"
+                                    Style="{StaticResource menuItemStyle}" />
+                    <shell:MenuItem Header="Project Explorer"
+                                    IsCheckable="True"
+                                    IsChecked="{Binding ProjectExplorerViewModel.IsVisible,
+                                                        Mode=TwoWay}"
+                                    Style="{StaticResource menuItemStyle}" />
+                    <shell:MenuItem Header="Property Viewer"
+                                    IsCheckable="True"
+                                    IsChecked="{Binding PropertyViewerViewModel.IsVisible,
+                                                        Mode=TwoWay}"
+                                    Style="{StaticResource menuItemStyle}" />
+                    <shell:MenuItem Header="Scan Results"
+                                    IsCheckable="True"
+                                    IsChecked="{Binding ScanResultsViewModel.IsVisible,
+                                                        Mode=TwoWay}"
+                                    Style="{StaticResource menuItemStyle}" />
+                    <shell:MenuItem Header="Snapshot Manager"
+                                    IsCheckable="True"
+                                    IsChecked="{Binding SnapshotManagerViewModel.IsVisible,
+                                                        Mode=TwoWay}"
+                                    Style="{StaticResource menuItemStyle}" />
+                    <shell:MenuItem Header=".Net Explorer"
+                                    IsCheckable="True"
+                                    IsChecked="{Binding DotNetExplorerViewModel.IsVisible,
+                                                        Mode=TwoWay}"
+                                    Style="{StaticResource menuItemStyle}" />
+                </shell:MenuItem>
+                <shell:MenuItem DataContext="{Binding Source={StaticResource ViewModelLocator}}"
+                                Header="Scans"
+                                Style="{StaticResource DropDown}">
+                    <shell:MenuItem Header="Change Counter"
+                                    IsCheckable="True"
+                                    IsChecked="{Binding ChangeCounterViewModel.IsVisible,
+                                                        Mode=TwoWay}"
+                                    Style="{StaticResource menuItemStyle}" />
+                    <shell:MenuItem Header="Input Correlator"
+                                    IsCheckable="True"
+                                    IsChecked="{Binding InputCorrelatorViewModel.IsVisible,
+                                                        Mode=TwoWay}"
+                                    Style="{StaticResource menuItemStyle}" />
+                    <shell:MenuItem Header="Manual Scanner"
+                                    IsCheckable="True"
+                                    IsChecked="{Binding ManualScannerViewModel.IsVisible,
+                                                        Mode=TwoWay}"
+                                    Style="{StaticResource menuItemStyle}" />
+                    <shell:MenuItem Header="Label Thresholder"
+                                    IsCheckable="True"
+                                    IsChecked="{Binding LabelThresholderViewModel.IsVisible,
+                                                        Mode=TwoWay}"
+                                    Style="{StaticResource menuItemStyle}" />
+                </shell:MenuItem>
+            </shell:Menu>
+        </shell:Grid>
 
-			<!-- All Dockable Windows -->
-			<avalonDock:DockingManager.LayoutItemTemplateSelector>
-				<view:ViewTemplateSelector>
-					<!-- Process Selector -->
-					<view:ViewTemplateSelector.ProcessSelectorViewTemplate>
-						<DataTemplate>
-							<view:ProcessSelector/>
-						</DataTemplate>
-					</view:ViewTemplateSelector.ProcessSelectorViewTemplate>
-					<!-- Change Counter -->
-					<view:ViewTemplateSelector.ChangeCounterViewTemplate>
-						<DataTemplate>
-							<view:ChangeCounter/>
-						</DataTemplate>
-					</view:ViewTemplateSelector.ChangeCounterViewTemplate>
-					<!-- Input Correlator -->
-					<view:ViewTemplateSelector.InputCorrelatorViewTemplate>
-						<DataTemplate>
-							<view:InputCorrelator/>
-						</DataTemplate>
-					</view:ViewTemplateSelector.InputCorrelatorViewTemplate>
-					<!-- Label Thresholder -->
-					<view:ViewTemplateSelector.LabelThresholderViewTemplate>
-						<DataTemplate>
-							<view:LabelThresholder/>
-						</DataTemplate>
-					</view:ViewTemplateSelector.LabelThresholderViewTemplate>
-					<!-- Manual Scanner -->
-					<view:ViewTemplateSelector.ManualScannerViewTemplate>
-						<DataTemplate>
-							<view:ManualScanner/>
-						</DataTemplate>
-					</view:ViewTemplateSelector.ManualScannerViewTemplate>
-					<!-- Snapshot Manager -->
-					<view:ViewTemplateSelector.SnapshotManagerViewTemplate>
-						<DataTemplate>
-							<view:SnapshotManager/>
-						</DataTemplate>
-					</view:ViewTemplateSelector.SnapshotManagerViewTemplate>
-					<!-- Scan Results -->
-					<view:ViewTemplateSelector.ScanResultsViewTemplate>
-						<DataTemplate>
-							<view:ScanResults/>
-						</DataTemplate>
-					</view:ViewTemplateSelector.ScanResultsViewTemplate>
-					<!-- Cheat Browser -->
-					<view:ViewTemplateSelector.CheatBrowserViewTemplate>
-						<DataTemplate>
-							<view:CheatBrowser/>
-						</DataTemplate>
-					</view:ViewTemplateSelector.CheatBrowserViewTemplate>
-					<!-- .Net Explorer -->
-					<view:ViewTemplateSelector.DotNetExplorerViewTemplate>
-						<DataTemplate>
-							<view:DotNetExplorer/>
-						</DataTemplate>
-					</view:ViewTemplateSelector.DotNetExplorerViewTemplate>
-					<!-- Property Viewer -->
-					<view:ViewTemplateSelector.PropertyViewerViewTemplate>
-						<DataTemplate>
-							<view:PropertyViewer/>
-						</DataTemplate>
-					</view:ViewTemplateSelector.PropertyViewerViewTemplate>
-					<!-- Settings -->
-					<view:ViewTemplateSelector.SettingsViewTemplate>
-						<DataTemplate>
-							<view:Settings/>
-						</DataTemplate>
-					</view:ViewTemplateSelector.SettingsViewTemplate>
-					<!-- Project Explorer -->
-					<view:ViewTemplateSelector.ProjectExplorerViewTemplate>
-						<DataTemplate>
-							<view:ProjectExplorer/>
-						</DataTemplate>
-					</view:ViewTemplateSelector.ProjectExplorerViewTemplate>
-				</view:ViewTemplateSelector>
-			</avalonDock:DockingManager.LayoutItemTemplateSelector>
+        <!--  Button Menu Bar  -->
+        <shell:WrapPanel Grid.Row="2" Background="{StaticResource AvalonDock_Expression_BaseColor4}">
+            <shell:Menu Background="Transparent"
+                        DataContext="{Binding Source={StaticResource ViewModelLocator}}"
+                        Padding="4">
+                <shell:MenuItem Command="{Binding ProcessSelectorViewModel.ToggleVisibility}" ToolTip="Select a Target Process">
+                    <shell:MenuItem.Header>
+                        <shell:Image Width="16"
+                                     Height="16"
+                                     Source="pack://application:,,,/Ana;component/Content/Icons/SelectProcess.png" />
+                    </shell:MenuItem.Header>
+                </shell:MenuItem>
+                <shell:Separator Style="{DynamicResource VerticalSeparator}" />
+                <shell:MenuItem Command="{Binding ProjectExplorerViewModel.OpenProjectCommand}" ToolTip="Open Project">
+                    <shell:MenuItem.Header>
+                        <shell:Image Width="16"
+                                     Height="16"
+                                     Source="pack://application:,,,/Ana;component/Content/Icons/Open.png" />
+                    </shell:MenuItem.Header>
+                </shell:MenuItem>
+                <shell:MenuItem Command="{Binding ProjectExplorerViewModel.SaveProjectCommand}" ToolTip="Save Project">
+                    <shell:MenuItem.Header>
+                        <shell:Image Width="16"
+                                     Height="16"
+                                     Source="pack://application:,,,/Ana;component/Content/Icons/Save.png" />
+                    </shell:MenuItem.Header>
+                </shell:MenuItem>
+                <shell:Separator Style="{DynamicResource VerticalSeparator}" />
+                <shell:MenuItem Command="{Binding SnapshotManagerViewModel.ClearSnapshotsCommand}" ToolTip="New Scan">
+                    <shell:MenuItem.Header>
+                        <shell:Image Width="16"
+                                     Height="16"
+                                     Source="pack://application:,,,/Ana;component/Content/Icons/New.png" />
+                    </shell:MenuItem.Header>
+                </shell:MenuItem>
+                <shell:MenuItem Command="{Binding SnapshotManagerViewModel.UndoSnapshotCommand}" ToolTip="Undo Scan">
+                    <shell:MenuItem.Header>
+                        <shell:Image Width="16"
+                                     Height="16"
+                                     Source="pack://application:,,,/Ana;component/Content/Icons/Undo.png" />
+                    </shell:MenuItem.Header>
+                </shell:MenuItem>
+                <shell:MenuItem Command="{Binding ValueCollectorViewModel.CollectValuesCommand}" ToolTip="Collect Values">
+                    <shell:MenuItem.Header>
+                        <shell:Image Width="16"
+                                     Height="16"
+                                     Source="pack://application:,,,/Ana;component/Content/Icons/CollectValues.png" />
+                    </shell:MenuItem.Header>
+                </shell:MenuItem>
+                <shell:Separator Style="{DynamicResource VerticalSeparator}" />
+                <shell:MenuItem IsHitTestVisible="False">
+                    <shell:MenuItem.Header>
+                        <shell:TextBlock Foreground="{StaticResource AvalonDock_Expression_BaseColor2}" Text="{Binding ProcessSelectorViewModel.ProcessName}" />
+                    </shell:MenuItem.Header>
+                </shell:MenuItem>
+            </shell:Menu>
+        </shell:WrapPanel>
 
-			<!-- Container Style -->
-			<avalonDock:DockingManager.LayoutItemContainerStyleSelector>
-				<local:PanesStyleSelector>
-					<!-- General Docking Tools Style -->
-					<local:PanesStyleSelector.ToolStyle>
-						<Style TargetType="{x:Type avalonDock:LayoutAnchorableItem}">
-							<Setter Property="Title" Value="{Binding Model.Title}"/>
-							<Setter Property="IconSource" Value="{Binding Model.IconSource}"/>
-							<Setter Property="Visibility" Value="{Binding Model.IsVisible, Mode=TwoWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter={x:Static Visibility.Hidden}}"/>
-							<Setter Property="ContentId" Value="{Binding Model.ContentId}"/>
-							<Setter Property="IsSelected" Value="{Binding Model.IsSelected, Mode=TwoWay}"/>
-							<Setter Property="IsActive" Value="{Binding Model.IsActive, Mode=TwoWay}"/>
-						</Style>
-					</local:PanesStyleSelector.ToolStyle>
-				</local:PanesStyleSelector>
-			</avalonDock:DockingManager.LayoutItemContainerStyleSelector>
+        <!--  Docking Panel AnchorablesSource="{Binding Tools}"  -->
+        <avalonDock:DockingManager x:Name="dockManager"
+                                   Grid.Row="3"
+                                   AnchorablesSource="{Binding Tools}"
+                                   Background="{StaticResource AvalonDock_Expression_BaseColor4}">
+            <!--  Theme  -->
+            <avalonDock:DockingManager.Theme>
+                <avalonDock:ExpressionDarkTheme />
+            </avalonDock:DockingManager.Theme>
 
-			<!-- Layout Style -->
-			<avalonDock:LayoutRoot>
-				<!-- Docking Group for All Windows -->
-				<avalonDock:LayoutPanel/>
-			</avalonDock:LayoutRoot>
-		</avalonDock:DockingManager>
-		<Border Grid.Row="4"
-				Padding="4"
-				Background="{StaticResource AvalonDock_Expression_BaseColor15}">
-			<TextBlock Foreground="{StaticResource AvalonDock_Expression_BaseColor2}">
-				Status: Ready
-			</TextBlock>
-		</Border>
-	</Grid>
-</Window>
+            <!--  All Dockable Windows  -->
+            <avalonDock:DockingManager.LayoutItemTemplateSelector>
+                <view:ViewTemplateSelector>
+                    <!--  Process Selector  -->
+                    <view:ViewTemplateSelector.ProcessSelectorViewTemplate>
+                        <shell:DataTemplate>
+                            <view:ProcessSelector />
+                        </shell:DataTemplate>
+                    </view:ViewTemplateSelector.ProcessSelectorViewTemplate>
+                    <!--  Change Counter  -->
+                    <view:ViewTemplateSelector.ChangeCounterViewTemplate>
+                        <shell:DataTemplate>
+                            <view:ChangeCounter />
+                        </shell:DataTemplate>
+                    </view:ViewTemplateSelector.ChangeCounterViewTemplate>
+                    <!--  Input Correlator  -->
+                    <view:ViewTemplateSelector.InputCorrelatorViewTemplate>
+                        <shell:DataTemplate>
+                            <view:InputCorrelator />
+                        </shell:DataTemplate>
+                    </view:ViewTemplateSelector.InputCorrelatorViewTemplate>
+                    <!--  Label Thresholder  -->
+                    <view:ViewTemplateSelector.LabelThresholderViewTemplate>
+                        <shell:DataTemplate>
+                            <view:LabelThresholder />
+                        </shell:DataTemplate>
+                    </view:ViewTemplateSelector.LabelThresholderViewTemplate>
+                    <!--  Manual Scanner  -->
+                    <view:ViewTemplateSelector.ManualScannerViewTemplate>
+                        <shell:DataTemplate>
+                            <view:ManualScanner />
+                        </shell:DataTemplate>
+                    </view:ViewTemplateSelector.ManualScannerViewTemplate>
+                    <!--  Snapshot Manager  -->
+                    <view:ViewTemplateSelector.SnapshotManagerViewTemplate>
+                        <shell:DataTemplate>
+                            <view:SnapshotManager />
+                        </shell:DataTemplate>
+                    </view:ViewTemplateSelector.SnapshotManagerViewTemplate>
+                    <!--  Scan Results  -->
+                    <view:ViewTemplateSelector.ScanResultsViewTemplate>
+                        <shell:DataTemplate>
+                            <view:ScanResults />
+                        </shell:DataTemplate>
+                    </view:ViewTemplateSelector.ScanResultsViewTemplate>
+                    <!--  Cheat Browser  -->
+                    <view:ViewTemplateSelector.CheatBrowserViewTemplate>
+                        <shell:DataTemplate>
+                            <view:CheatBrowser />
+                        </shell:DataTemplate>
+                    </view:ViewTemplateSelector.CheatBrowserViewTemplate>
+                    <!--  .Net Explorer  -->
+                    <view:ViewTemplateSelector.DotNetExplorerViewTemplate>
+                        <shell:DataTemplate>
+                            <view:DotNetExplorer />
+                        </shell:DataTemplate>
+                    </view:ViewTemplateSelector.DotNetExplorerViewTemplate>
+                    <!--  Property Viewer  -->
+                    <view:ViewTemplateSelector.PropertyViewerViewTemplate>
+                        <shell:DataTemplate>
+                            <view:PropertyViewer />
+                        </shell:DataTemplate>
+                    </view:ViewTemplateSelector.PropertyViewerViewTemplate>
+                    <!--  Settings  -->
+                    <view:ViewTemplateSelector.SettingsViewTemplate>
+                        <shell:DataTemplate>
+                            <view:Settings />
+                        </shell:DataTemplate>
+                    </view:ViewTemplateSelector.SettingsViewTemplate>
+                    <!--  Project Explorer  -->
+                    <view:ViewTemplateSelector.ProjectExplorerViewTemplate>
+                        <shell:DataTemplate>
+                            <view:ProjectExplorer />
+                        </shell:DataTemplate>
+                    </view:ViewTemplateSelector.ProjectExplorerViewTemplate>
+                </view:ViewTemplateSelector>
+            </avalonDock:DockingManager.LayoutItemTemplateSelector>
+
+            <!--  Container Style  -->
+            <avalonDock:DockingManager.LayoutItemContainerStyleSelector>
+                <local:PanesStyleSelector>
+                    <!--  General Docking Tools Style  -->
+                    <local:PanesStyleSelector.ToolStyle>
+                        <shell:Style TargetType="{x:Type avalonDock:LayoutAnchorableItem}">
+                            <shell:Setter Property="Title" Value="{Binding Model.Title}" />
+                            <shell:Setter Property="IconSource" Value="{Binding Model.IconSource}" />
+                            <shell:Setter Property="Visibility" Value="{Binding Model.IsVisible, Mode=TwoWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter={x:Static Visibility.Hidden}}" />
+                            <shell:Setter Property="ContentId" Value="{Binding Model.ContentId}" />
+                            <shell:Setter Property="IsSelected" Value="{Binding Model.IsSelected, Mode=TwoWay}" />
+                            <shell:Setter Property="IsActive" Value="{Binding Model.IsActive, Mode=TwoWay}" />
+                        </shell:Style>
+                    </local:PanesStyleSelector.ToolStyle>
+                </local:PanesStyleSelector>
+            </avalonDock:DockingManager.LayoutItemContainerStyleSelector>
+
+            <!--  Layout Style  -->
+            <avalonDock:LayoutRoot>
+                <!--  Docking Group for All Windows  -->
+                <avalonDock:LayoutPanel />
+            </avalonDock:LayoutRoot>
+        </avalonDock:DockingManager>
+        <shell:Border Grid.Row="4"
+                      Background="{StaticResource AvalonDock_Expression_BaseColor15}"
+                      Padding="4">
+            <shell:TextBlock Foreground="{StaticResource AvalonDock_Expression_BaseColor2}">
+                Status: Ready
+            </shell:TextBlock>
+        </shell:Border>
+    </shell:Grid>
+</shell:Window>

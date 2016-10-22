@@ -1,16 +1,16 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:local="clr-namespace:Ana.View.Style">
-    <Style x:Key="VerticalSeparator" 
-       TargetType="{x:Type Separator}"
-       BasedOn="{StaticResource {x:Type Separator}}">
-        <Setter Property="Margin" Value="6,0,6,0"/>
+    <Style x:Key="VerticalSeparator"
+           BasedOn="{StaticResource {x:Type Separator}}"
+           TargetType="{x:Type Separator}">
+        <Setter Property="Margin" Value="6,0,6,0" />
         <Setter Property="LayoutTransform">
             <Setter.Value>
                 <TransformGroup>
                     <TransformGroup.Children>
                         <TransformCollection>
-                            <RotateTransform Angle="90"/>
+                            <RotateTransform Angle="90" />
                         </TransformCollection>
                     </TransformGroup.Children>
                 </TransformGroup>
