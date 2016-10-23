@@ -147,7 +147,7 @@
                     false,
                     pointerValue);
 
-                ProjectExplorer.GetInstance().AddProjectItem(newPointer);
+                ProjectExplorerDeprecated.GetInstance().AddProjectItem(newPointer);
 
                 if (++count >= PointerScanner.MaxAdd)
                 {

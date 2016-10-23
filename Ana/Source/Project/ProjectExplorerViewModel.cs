@@ -9,7 +9,10 @@
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.Threading;
+    using System.Threading.Tasks;
     using System.Windows.Input;
+    using UserSettings;
+    using Utils.Extensions;
 
     /// <summary>
     /// View model for the Project Explorer
@@ -54,10 +57,10 @@
             this.SaveProjectCommand = new RelayCommand(() => this.SaveProject(), () => true);
             this.SaveAsProjectCommand = new RelayCommand(() => this.SaveAsProject(), () => true);
             this.IsVisible = true;
-
             this.projectItems = new ReadOnlyCollection<ProjectItemViewModel>(new List<ProjectItemViewModel>());
 
-            MainViewModel.GetInstance().Subscribe(this);
+            Task.Run(() => MainViewModel.GetInstance().Subscribe(this));
+            this.Update();
         }
 
         /// <summary>
@@ -125,7 +128,7 @@
             set
             {
                 this.selectedProjectItem = value;
-                PropertyViewerViewModel.GetInstance().SetTargetObject(this.selectedProjectItem.ProjectItem);
+                PropertyViewerViewModel.GetInstance().SetTargetObjects(this.selectedProjectItem.ProjectItem);
                 this.RaisePropertyChanged(nameof(this.SelectedProjectItem));
             }
         }
@@ -181,21 +184,16 @@
         {
             List<ProjectItemViewModel> newItems = new List<ProjectItemViewModel>(this.ProjectItems);
 
-            ProjectItemViewModel target = null;
+            ProjectItemViewModel folderTarget = this.SelectedProjectItem;
 
-            foreach (ProjectItemViewModel projectItemViewModel in this.ProjectItems)
+            while (folderTarget != null && !(folderTarget.ProjectItem is FolderItem))
             {
-                target = this.GetAddProjectItemTargetRecurse(projectItemViewModel);
-
-                if (target != null)
-                {
-                    break;
-                }
+                folderTarget = folderTarget.Parent as ProjectItemViewModel;
             }
 
-            if (target != null)
+            if (folderTarget != null)
             {
-                target.Children.Add(new ProjectItemViewModel(projectItem));
+                folderTarget.Children.Add(new ProjectItemViewModel(projectItem));
             }
             else
             {
@@ -205,34 +203,22 @@
             this.ProjectItems = new ReadOnlyCollection<ProjectItemViewModel>(newItems);
         }
 
-        /// <summary>
-        /// Helper function for determining the correct folder to which the project item is added
-        /// </summary>
-        /// <param name="projectItemViewModel">The view model of the project item being added</param>
-        /// <returns>The view model for the project item to which the project item will be added</returns>
-        private ProjectItemViewModel GetAddProjectItemTargetRecurse(ProjectItemViewModel projectItemViewModel)
+        private void Update()
         {
-            if (projectItemViewModel.ProjectItem is FolderItem)
+            Task.Run(() =>
             {
-                if (projectItemViewModel.IsSelected)
+                while (true)
                 {
-                    return projectItemViewModel;
+                    this.ProjectItems.ForEach(x => UpdateRecurse(x));
+                    Thread.Sleep(SettingsViewModel.GetInstance().TableReadInterval);
                 }
-                else
-                {
-                    foreach (ProjectItemViewModel childViewModel in projectItemViewModel.Children)
-                    {
-                        ProjectItemViewModel childResult = this.GetAddProjectItemTargetRecurse(childViewModel);
+            });
+        }
 
-                        if (childResult != null)
-                        {
-                            return childResult;
-                        }
-                    }
-                }
-            }
-
-            return null;
+        private void UpdateRecurse(ProjectItemViewModel projectItemViewModel)
+        {
+            projectItemViewModel?.Children?.ForEach(x => UpdateRecurse(x as ProjectItemViewModel));
+            projectItemViewModel?.ProjectItem?.Update();
         }
 
         /// <summary>

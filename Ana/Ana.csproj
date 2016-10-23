@@ -93,6 +93,13 @@
     <Compile Include="Source\Content\Images.cs" />
     <Compile Include="Source\Controls\HexDecBoxViewModel.cs" />
     <Compile Include="Source\Controls\TreeViewItemViewModel.cs" />
+    <Compile Include="Source\PropertyViewer\IPropertyViewerObserver.cs" />
+    <Compile Include="Source\Utils\TypeConverters\AddressConverter.cs" />
+    <Compile Include="Source\Utils\TypeConverters\DynamicConverter.cs" />
+    <Compile Include="Source\Utils\TypeConverters\HotKeyConverter.cs" />
+    <Compile Include="Source\Utils\TypeConverters\LuaScriptConverter.cs" />
+    <Compile Include="Source\Utils\TypeConverters\OffsetConverter.cs" />
+    <Compile Include="Source\Utils\TypeConverters\ValueTypeConverter.cs" />
     <Compile Include="Source\DotNetExplorer\DotNetExplorerViewModel.cs" />
     <Compile Include="Source\Engine\AddressResolver\AddressResolver.cs" />
     <Compile Include="Source\Engine\AddressResolver\DotNet\DotNetObject.cs" />
@@ -245,6 +252,7 @@
     <Compile Include="Source\Utils\VirtualItemProvider\VirtualizingCollection.cs">
       <ExcludeFromStyleCop>False</ExcludeFromStyleCop>
     </Compile>
+    <Compile Include="View\Controls\DarkBrushes.cs" />
     <Compile Include="View\Controls\Unfinished\HexDecBox.cs" />
     <Compile Include="View\Controls\HexDecTextBox.cs">
       <SubType>Component</SubType>

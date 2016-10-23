@@ -3,6 +3,7 @@
     using Docking;
     using Main;
     using System;
+    using System.Collections.Generic;
     using System.Threading;
 
     /// <summary>
@@ -22,7 +23,6 @@
                 () => { return new PropertyViewerViewModel(); },
                 LazyThreadSafetyMode.PublicationOnly);
 
-
         private Object[] targetObjects;
 
         private Object targetObject;
@@ -34,6 +34,8 @@
         {
             this.ContentId = ToolContentId;
             this.IsVisible = true;
+            this.ObserverLock = new Object();
+            this.PropertyViewerObservers = new List<IPropertyViewerObserver>();
 
             MainViewModel.GetInstance().Subscribe(this);
         }
@@ -49,22 +51,16 @@
             {
                 this.targetObjects = value;
                 this.RaisePropertyChanged(nameof(this.TargetObjects));
+                this.NotifyObservers();
             }
         }
 
-        public Object TargetObject
-        {
-            get
-            {
-                return this.targetObject;
-            }
+        private Object ObserverLock { get; set; }
 
-            private set
-            {
-                this.targetObject = value;
-                this.RaisePropertyChanged(nameof(this.TargetObject));
-            }
-        }
+        /// <summary>
+        /// Gets or sets objects observing changes in the selected objects
+        /// </summary>
+        private List<IPropertyViewerObserver> PropertyViewerObservers { get; set; }
 
         /// <summary>
         /// Gets a singleton instance of the <see cref="PropertyViewerViewModel"/> class
@@ -75,14 +71,55 @@
             return propertyViewerViewModelInstance.Value;
         }
 
+
+        /// <summary>
+        /// Subscribes the given object to changes in the selected objects
+        /// </summary>
+        /// <param name="propertyViewerObserver">The object to observe selected objects changes</param>
+        public void Subscribe(IPropertyViewerObserver propertyViewerObserver)
+        {
+            lock (this.ObserverLock)
+            {
+                if (!this.PropertyViewerObservers.Contains(propertyViewerObserver))
+                {
+                    this.PropertyViewerObservers.Add(propertyViewerObserver);
+                    propertyViewerObserver.Update(this.TargetObjects);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Unsubscribes the given object from changes in the selected objects
+        /// </summary>
+        /// <param name="propertyViewerObserver">The object to observe selected objects changes</param>
+        public void Unsubscribe(IPropertyViewerObserver propertyViewerObserver)
+        {
+            lock (this.ObserverLock)
+            {
+                if (this.PropertyViewerObservers.Contains(propertyViewerObserver))
+                {
+                    this.PropertyViewerObservers.Remove(propertyViewerObserver);
+                }
+            }
+        }
+
         public void SetTargetObjects(params Object[] targetObjects)
         {
             this.TargetObjects = targetObjects;
         }
 
-        public void SetTargetObject(Object targetObject)
+        /// <summary>
+        /// Notify all observing objects of a change in the selected objects
+        /// </summary>
+        private void NotifyObservers()
         {
-            this.TargetObject = targetObject;
+            lock (this.ObserverLock)
+            {
+                foreach (IPropertyViewerObserver observer in this.PropertyViewerObservers)
+                {
+                    observer.Update(this.TargetObjects);
+                }
+            }
         }
     }
     //// End class

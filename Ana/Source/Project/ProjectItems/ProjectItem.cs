@@ -44,7 +44,7 @@
 
         /*
         [Browsable(false)]
-        private IEnumerable<IHotKey> _HotKeys;
+        private IEnumerable<IHotKey> hotKeys;
         */
 
         public ProjectItem() : this(String.Empty)
@@ -72,7 +72,8 @@
             set
             {
                 this.parent = value;
-                ProjectExplorer.GetInstance().ProjectChanged();
+                ProjectExplorerDeprecated.GetInstance().ProjectChanged();
+                this.NotifyPropertyChanged(nameof(this.Parent));
             }
         }
 
@@ -93,8 +94,8 @@
             set
             {
                 this.children = value;
-
-                ProjectExplorer.GetInstance().ProjectChanged();
+                ProjectExplorerDeprecated.GetInstance().ProjectChanged();
+                this.NotifyPropertyChanged(nameof(this.Children));
             }
         }
 
@@ -111,9 +112,14 @@
             {
                 this.description = value;
                 this.UpdateEntryVisual();
-                ProjectExplorer.GetInstance().ProjectChanged();
-                this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(this.Description)));
+                ProjectExplorerDeprecated.GetInstance().ProjectChanged();
+                this.NotifyPropertyChanged(nameof(this.Description));
             }
+        }
+
+        protected void NotifyPropertyChanged(String propertyName)
+        {
+            this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
         /*
@@ -121,12 +127,15 @@
         [Category("Properties"), DisplayName("HotKeys"), Description("Hot key to activate item")]
         public IEnumerable<IHotKey> HotKeys
         {
-            get { return _HotKeys; }
+            get
+            {
+                return hotKeys;
+            }
             set
             {
-                _HotKeys = value; UpdateHotKeyListeners();
-
+                hotKeys = value; UpdateHotKeyListeners();
                 ProjectExplorer.GetInstance().ProjectChanged();
+                this.NotifyPropertyChanged(nameof(this.HotKeys));
             }
         }*/
 
@@ -142,8 +151,8 @@
             {
                 this.textColorArgb = value == null ? 0 : unchecked((UInt32)value.ToArgb());
                 this.UpdateEntryVisual();
-
-                ProjectExplorer.GetInstance().ProjectChanged();
+                ProjectExplorerDeprecated.GetInstance().ProjectChanged();
+                this.NotifyPropertyChanged(nameof(this.TextColor));
             }
         }
 
@@ -159,7 +168,7 @@
             {
                 this.isActivated = value;
                 this.OnActivationChanged();
-                this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(this.IsActivated)));
+                this.NotifyPropertyChanged(nameof(this.IsActivated));
             }
         }
 
@@ -322,7 +331,7 @@
 
         private void UpdateEntryVisual()
         {
-            ProjectExplorer.GetInstance().RefreshProjectStructure();
+            ProjectExplorerDeprecated.GetInstance().RefreshProjectStructure();
         }
 
         /*

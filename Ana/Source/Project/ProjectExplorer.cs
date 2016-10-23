@@ -7,29 +7,30 @@
     using System.Reflection;
     using System.Runtime.Serialization.Json;
     using System.Threading;
+    using Utils;
 
     /// <summary>
     /// Handles the displaying of results
     /// </summary>
     [Obfuscation(ApplyToMembers = true, Exclude = true)]
-    internal class ProjectExplorer
+    internal class ProjectExplorerDeprecated : RepeatedTask
     {
         /// <summary>
-        /// Singleton instance of the <see cref="ProjectExplorer"/> class
+        /// Singleton instance of the <see cref="ProjectExplorerDeprecated"/> class
         /// </summary>
-        private static Lazy<ProjectExplorer> projectExplorerInstance = new Lazy<ProjectExplorer>(
-                () => { return new ProjectExplorer(); },
+        private static Lazy<ProjectExplorerDeprecated> projectExplorerInstance = new Lazy<ProjectExplorerDeprecated>(
+                () => { return new ProjectExplorerDeprecated(); },
                 LazyThreadSafetyMode.PublicationOnly);
 
-        private ProjectExplorer()
+        private ProjectExplorerDeprecated()
         {
             this.ProjectRoot = new FolderItem(String.Empty);
             this.Begin();
         }
 
-        ~ProjectExplorer()
+        ~ProjectExplorerDeprecated()
         {
-            //// TriggerEnd();
+            this.TriggerEnd();
         }
 
         private FolderItem ProjectRoot { get; set; }
@@ -38,19 +39,9 @@
 
         private Boolean Changed { get; set; }
 
-        public static ProjectExplorer GetInstance()
+        public static ProjectExplorerDeprecated GetInstance()
         {
-            return ProjectExplorer.projectExplorerInstance.Value;
-        }
-
-        public void OnGUIOpen()
-        {
-            this.RefreshProjectStructure();
-        }
-
-        public void UpdateSelection(IEnumerable<ProjectItem> projectItems)
-        {
-            //// PropertyViewer.GetInstance().SetTargetObjects(projectItems.ToArray());
+            return ProjectExplorerDeprecated.projectExplorerInstance.Value;
         }
 
         public void SetUpdateSet(IEnumerable<ProjectItem> updateSet)
@@ -98,7 +89,7 @@
 
             this.RefreshProjectStructure();
 
-            ProjectExplorer.GetInstance().ProjectChanged();
+            ProjectExplorerDeprecated.GetInstance().ProjectChanged();
         }
 
         public void UpdateSelectedIndicies(IEnumerable<Int32> indicies)
@@ -115,7 +106,7 @@
         {
             this.ProjectRoot = projectRoot;
             this.RefreshProjectStructure();
-            ProjectExplorer.GetInstance().ProjectChanged();
+            ProjectExplorerDeprecated.GetInstance().ProjectChanged();
         }
 
         public void RefreshProjectStructure()
@@ -123,8 +114,9 @@
             this.ProjectRoot.BuildParents();
         }
 
-        public void Begin()
+        public override void Begin()
         {
+            base.Begin();
         }
 
         public void ProjectChanged()
@@ -151,7 +143,7 @@
                 using (FileStream fileStream = new FileStream(path, FileMode.Create, FileAccess.Write))
                 {
                     DataContractJsonSerializer serializer = new DataContractJsonSerializer(typeof(FolderItem));
-                    serializer.WriteObject(fileStream, ProjectExplorer.GetInstance().GetProjectRoot());
+                    serializer.WriteObject(fileStream, ProjectExplorerDeprecated.GetInstance().GetProjectRoot());
                 }
             }
             catch
@@ -214,7 +206,7 @@
             return true;
         }
 
-        protected void Update()
+        protected override void Update()
         {
             this.UpdateSet = this.CreateUpdateSet_TODO_REPLACE_ME(this.ProjectRoot);
 
@@ -229,8 +221,9 @@
             }
         }
 
-        protected void End()
+        protected override void End()
         {
+            base.End();
         }
 
         private void ImportProjectItems(FolderItem importedProjectRoot)
@@ -242,7 +235,7 @@
 
             this.RefreshProjectStructure();
 
-            ProjectExplorer.GetInstance().ProjectChanged();
+            ProjectExplorerDeprecated.GetInstance().ProjectChanged();
         }
 
         /// <summary>

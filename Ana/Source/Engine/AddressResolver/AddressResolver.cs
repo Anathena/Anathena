@@ -52,6 +52,11 @@
             IntPtr result = IntPtr.Zero;
             DotNetObject dotNetObject;
 
+            if (identifier == null)
+            {
+                return result;
+            }
+
             if (this.DotNetNameMap.TryGetValue(identifier, out dotNetObject))
             {
                 result = dotNetObject.GetAddress();

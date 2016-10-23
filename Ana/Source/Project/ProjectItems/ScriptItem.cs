@@ -5,7 +5,7 @@
     using System.ComponentModel;
     using System.Reflection;
     using System.Runtime.Serialization;
-
+    using Utils.TypeConverters;
     [Obfuscation(ApplyToMembers = true, Exclude = true)]
     [DataContract]
     internal class ScriptItem : ProjectItem
@@ -25,6 +25,7 @@
         }
 
         [DataMember]
+        [TypeConverter(typeof(LuaScriptConverter))]
         [Category("Properties"), DisplayName("Script"), Description("Lua script to interface with engine")]
         public LuaScript LuaScript
         {
@@ -37,7 +38,7 @@
             {
                 this.luaScript = value;
 
-                ProjectExplorer.GetInstance().ProjectChanged();
+                ProjectExplorerDeprecated.GetInstance().ProjectChanged();
             }
         }
 

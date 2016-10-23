@@ -9,6 +9,7 @@
     using System.Reflection;
     using System.Runtime.Serialization;
     using Utils.Extensions;
+    using Utils.TypeConverters;
     using Utils.Validation;
 
     /// <summary>
@@ -103,7 +104,8 @@
             set
             {
                 this.resolveType = value;
-                ProjectExplorer.GetInstance().ProjectChanged();
+                ProjectExplorerDeprecated.GetInstance().ProjectChanged();
+                this.NotifyPropertyChanged(nameof(this.ResolveType));
             }
         }
 
@@ -120,13 +122,14 @@
             set
             {
                 this.baseIdentifier = value == null ? String.Empty : value;
-
-                ProjectExplorer.GetInstance().ProjectChanged();
+                ProjectExplorerDeprecated.GetInstance().ProjectChanged();
+                this.NotifyPropertyChanged(nameof(this.BaseIdentifier));
             }
         }
 
         [DataMember]
         [RefreshProperties(RefreshProperties.All)]
+        [TypeConverter(typeof(AddressConverter))]
         [Category("Properties"), DisplayName("Address Base"), Description("Base address")]
         public IntPtr BaseAddress
         {
@@ -139,13 +142,14 @@
             {
                 this.EffectiveAddress = value;
                 this.baseAddress = value;
-
-                ProjectExplorer.GetInstance().ProjectChanged();
+                ProjectExplorerDeprecated.GetInstance().ProjectChanged();
+                this.NotifyPropertyChanged(nameof(this.BaseAddress));
             }
         }
 
         [DataMember]
         [RefreshProperties(RefreshProperties.All)]
+        [TypeConverter(typeof(OffsetConverter))]
         [Category("Properties"), DisplayName("Address Offsets"), Description("Address offsets")]
         public IEnumerable<Int32> Offsets
         {
@@ -157,12 +161,13 @@
             set
             {
                 this.offsets = value;
-
-                ProjectExplorer.GetInstance().ProjectChanged();
+                ProjectExplorerDeprecated.GetInstance().ProjectChanged();
+                this.NotifyPropertyChanged(nameof(this.Offsets));
             }
         }
 
         [RefreshProperties(RefreshProperties.All)]
+        [TypeConverter(typeof(ValueTypeConverter))]
         [Category("Properties"), DisplayName("Value Type"), Description("Data type of the address")]
         public Type ElementType
         {
@@ -176,11 +181,12 @@
                 String oldTypeName = this.typeName;
                 this.typeName = value == null ? String.Empty : value.FullName;
                 this.addressValue = (oldTypeName != this.typeName) ? null : this.addressValue;
-
-                ProjectExplorer.GetInstance().ProjectChanged();
+                ProjectExplorerDeprecated.GetInstance().ProjectChanged();
+                this.NotifyPropertyChanged(nameof(this.ElementType));
             }
         }
 
+        [TypeConverter(typeof(DynamicConverter))]
         [Category("Properties"), DisplayName("Value"), Description("Value at the address")]
         public dynamic Value
         {
@@ -193,6 +199,7 @@
             {
                 this.addressValue = value;
                 this.WriteValue(value);
+                this.NotifyPropertyChanged(nameof(this.Value));
             }
         }
 
@@ -209,12 +216,13 @@
             set
             {
                 this.isValueHex = value;
-
-                ProjectExplorer.GetInstance().ProjectChanged();
+                ProjectExplorerDeprecated.GetInstance().ProjectChanged();
+                this.NotifyPropertyChanged(nameof(this.IsValueHex));
             }
         }
 
         [ReadOnly(true)]
+        [TypeConverter(typeof(AddressConverter))]
         [Category("Properties"), DisplayName("Address"), Description("Effective address")]
         public IntPtr EffectiveAddress
         {
@@ -226,18 +234,12 @@
             private set
             {
                 this.effectiveAddress = value;
+                this.NotifyPropertyChanged(nameof(this.EffectiveAddress));
             }
         }
 
         public override void Update()
         {
-            Boolean readSuccess;
-
-            if (EngineCore.GetInstance() == null)
-            {
-                return;
-            }
-
             this.EffectiveAddress = this.ResolveAddress();
 
             if (this.IsActivated)
@@ -248,7 +250,8 @@
             else
             {
                 // Otherwise we read as normal (bypass value setter and set value directly to avoid a write-back to memory)
-                this.addressValue = EngineCore.GetInstance().OperatingSystemAdapter.Read(this.ElementType, this.EffectiveAddress, out readSuccess);
+                Boolean readSuccess;
+                this.addressValue = EngineCore.GetInstance()?.OperatingSystemAdapter?.Read(this.ElementType, this.EffectiveAddress, out readSuccess);
             }
         }
 
@@ -315,12 +318,12 @@
 
         private void WriteValue(dynamic newValue)
         {
-            if (EngineCore.GetInstance() == null || newValue == null)
+            if (newValue == null)
             {
                 return;
             }
 
-            EngineCore.GetInstance().OperatingSystemAdapter.Write(this.ElementType, this.EffectiveAddress, newValue);
+            EngineCore.GetInstance()?.OperatingSystemAdapter?.Write(this.ElementType, this.EffectiveAddress, newValue);
         }
     }
     //// End class

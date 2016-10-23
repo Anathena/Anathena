@@ -111,10 +111,8 @@
                     <Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}" />
                     <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}" />
                     <Setter Property="BorderThickness" Value="2" />
-                    <Setter Property="FontWeight" Value="Normal" />
                     <Style.Triggers>
                         <Trigger Property="IsSelected" Value="True">
-                            <Setter Property="FontWeight" Value="Bold" />
                             <Setter Property="BorderThickness" Value="2" />
                             <Setter Property="BorderBrush" Value="{StaticResource AvalonDock_Expression_BaseColor15}" />
                         </Trigger>
@@ -125,7 +123,7 @@
             <TreeView.Resources>
                 <HierarchicalDataTemplate DataType="{x:Type project:ProjectItemViewModel}" ItemsSource="{Binding Children}">
                     <WrapPanel Orientation="Horizontal">
-                        <CheckBox IsChecked="{Binding ProjectItem.IsActive}" />
+                        <CheckBox IsChecked="{Binding ProjectItem.IsActivated}" />
                         <Image Width="16"
                                Height="16"
                                Margin="3,0"

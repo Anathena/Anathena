@@ -153,6 +153,11 @@
                 {
                 }
 
+                if (ScriptEngine == null)
+                {
+                    return;
+                }
+
                 LuaFunction function = this.ScriptEngine["OnDeactivate"] as LuaFunction;
                 function.Call();
                 return;
