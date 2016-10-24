@@ -17,9 +17,9 @@
 
         public OffsetEditorViewModel()
         {
-            this.AddOffsetCommand = new RelayCommand(() => Task.Run(() => AddOffset()), () => true);
-            this.RemoveOffsetCommand = new RelayCommand(() => Task.Run(() => RemoveSelectedOffset()), () => true);
-            this.UpdateActiveValueCommand = new RelayCommand<Int32>((offset) => Task.Run(() => UpdateActiveValue(offset)), (offset) => true);
+            this.AddOffsetCommand = new RelayCommand(() => Task.Run(() => this.AddOffset()), () => true);
+            this.RemoveOffsetCommand = new RelayCommand(() => Task.Run(() => this.RemoveSelectedOffset()), () => true);
+            this.UpdateActiveValueCommand = new RelayCommand<Int32>((offset) => Task.Run(() => this.UpdateActiveValue(offset)), (offset) => true);
             this.AccessLock = new Object();
             this.offsets = new List<Int32>();
         }
@@ -34,9 +34,9 @@
         {
             get
             {
-                lock (AccessLock)
+                lock (this.AccessLock)
                 {
-                    return new ObservableCollection<Int32>(offsets);
+                    return new ObservableCollection<Int32>(this.offsets);
                 }
             }
 
@@ -55,9 +55,9 @@
 
         private void AddOffset()
         {
-            lock (AccessLock)
+            lock (this.AccessLock)
             {
-                offsets.Add(ActiveOffsetValue);
+                this.offsets.Add(this.ActiveOffsetValue);
             }
 
             this.RaisePropertyChanged(nameof(this.Offsets));
@@ -65,18 +65,18 @@
 
         private void RemoveSelectedOffset()
         {
-            Int32 removalIndex = SelectedOffsetIndex;
+            Int32 removalIndex = this.SelectedOffsetIndex;
 
-            lock (AccessLock)
+            lock (this.AccessLock)
             {
                 if (removalIndex < 0)
                 {
                     removalIndex = 0;
                 }
 
-                if (removalIndex < offsets.Count)
+                if (removalIndex < this.offsets.Count)
                 {
-                    offsets.RemoveAt(removalIndex);
+                    this.offsets.RemoveAt(removalIndex);
                 }
             }
 

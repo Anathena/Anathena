@@ -3,7 +3,7 @@
     using System.Windows.Forms;
     using System.Windows.Forms.Integration;
 
-    static class WinformsHostingHelper
+    internal static class WinformsHostingHelper
     {
         public static WindowsFormsHost CreateHostedControl(Control control)
         {

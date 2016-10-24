@@ -111,11 +111,6 @@
             }
         }
 
-        protected void NotifyPropertyChanged(String propertyName)
-        {
-            this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-
         /*
         [DataMember()]
         [Category("Properties"), DisplayName("HotKeys"), Description("Hot key to activate item")]
@@ -300,6 +295,11 @@
             }
 
             return false;
+        }
+
+        protected void NotifyPropertyChanged(String propertyName)
+        {
+            this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
         protected virtual void OnActivationChanged()

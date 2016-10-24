@@ -180,7 +180,9 @@
                 XmlLayoutSerializer serializer = new XmlLayoutSerializer(dockManager);
                 serializer.Deserialize(LayoutSaveFile);
             }
-            catch { }
+            catch
+            {
+            }
         }
 
         /// <summary>
@@ -194,7 +196,9 @@
                 XmlLayoutSerializer serializer = new XmlLayoutSerializer(dockManager);
                 serializer.Serialize(MainViewModel.LayoutSaveFile);
             }
-            catch { }
+            catch
+            {
+            }
         }
     }
     //// End class

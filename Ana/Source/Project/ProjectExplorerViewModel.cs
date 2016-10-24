@@ -209,7 +209,7 @@
             {
                 while (true)
                 {
-                    this.ProjectItems.ForEach(x => UpdateRecurse(x));
+                    this.ProjectItems.ForEach(x => this.UpdateRecurse(x));
                     Thread.Sleep(SettingsViewModel.GetInstance().TableReadInterval);
                 }
             });
@@ -217,7 +217,7 @@
 
         private void UpdateRecurse(ProjectItemViewModel projectItemViewModel)
         {
-            projectItemViewModel?.Children?.ForEach(x => UpdateRecurse(x as ProjectItemViewModel));
+            projectItemViewModel?.Children?.ForEach(x => this.UpdateRecurse(x as ProjectItemViewModel));
             projectItemViewModel?.ProjectItem?.Update();
         }
 

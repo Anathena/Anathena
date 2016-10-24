@@ -44,6 +44,8 @@
             this.ConstraintValue = addressValue;
         }
 
+        public event PropertyChangedEventHandler PropertyChanged;
+
         public ConstraintsEnum Constraint
         {
             get
@@ -152,8 +154,6 @@
                 }
             }
         }
-
-        public event PropertyChangedEventHandler PropertyChanged;
 
         public Boolean IsRelativeConstraint()
         {

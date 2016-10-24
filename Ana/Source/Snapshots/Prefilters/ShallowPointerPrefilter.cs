@@ -35,6 +35,9 @@
         /// </summary>
         private Int64 processedCount;
 
+        /// <summary>
+        /// Prevents a default instance of the <see cref="ShallowPointerPrefilter" /> class from being created
+        /// </summary>
         private ShallowPointerPrefilter()
         {
             this.FilteredSnapshot = new Snapshot<Null>();

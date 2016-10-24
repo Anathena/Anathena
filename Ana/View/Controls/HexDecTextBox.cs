@@ -19,6 +19,10 @@
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="HexDecTextBox" /> class
+        /// </summary>
+        /// <param name="elementType">The value type being edited</param>
         public HexDecTextBox(Type elementType)
         {
             this.BorderStyle = BorderStyle.FixedSingle;

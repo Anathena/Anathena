@@ -15,18 +15,17 @@
         /// <summary>
         /// Initializes a new instance of the <see cref="OffsetEditor" /> class
         /// </summary>
+        /// <param name="offsets">The initial offsets to edit</param>
         public OffsetEditor(IList<Int32> offsets)
         {
             this.InitializeComponent();
 
             // Windows Forms hosting -- TODO: Phase this out
             this.OffsetHexDecBox = new HexDecTextBox();
-            this.OffsetHexDecBox.TextChanged += ValueUpdated;
-            this.offsetHexDecBox.Children.Add(WinformsHostingHelper.CreateHostedControl(OffsetHexDecBox));
+            this.OffsetHexDecBox.TextChanged += this.ValueUpdated;
+            this.offsetHexDecBox.Children.Add(WinformsHostingHelper.CreateHostedControl(this.OffsetHexDecBox));
             this.OffsetEditorViewModel.Offsets = offsets == null ? null : new ObservableCollection<Int32>(offsets);
         }
-
-        private HexDecTextBox OffsetHexDecBox { get; set; }
 
         public OffsetEditorViewModel OffsetEditorViewModel
         {
@@ -35,6 +34,8 @@
                 return this.DataContext as OffsetEditorViewModel;
             }
         }
+
+        private HexDecTextBox OffsetHexDecBox { get; set; }
 
         private void CancelButtonClick(Object sender, RoutedEventArgs e)
         {
@@ -50,7 +51,7 @@
 
         private void ValueUpdated(Object sender, EventArgs e)
         {
-            this.OffsetEditorViewModel.UpdateActiveValueCommand.Execute(OffsetHexDecBox.GetValue());
+            this.OffsetEditorViewModel.UpdateActiveValueCommand.Execute(this.OffsetHexDecBox.GetValue());
         }
 
         private void ListViewSelectionChanged(Object sender, System.Windows.Controls.SelectionChangedEventArgs e)

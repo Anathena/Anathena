@@ -19,9 +19,9 @@
             this.InitializeComponent();
 
             // Windows Forms hosting -- TODO: Phase this out
-            ValueHexDecBox = new HexDecTextBox();
-            ValueHexDecBox.TextChanged += ValueUpdated;
-            this.valueHexDecBox.Children.Add(WinformsHostingHelper.CreateHostedControl(ValueHexDecBox));
+            this.ValueHexDecBox = new HexDecTextBox();
+            this.ValueHexDecBox.TextChanged += this.ValueUpdated;
+            this.valueHexDecBox.Children.Add(WinformsHostingHelper.CreateHostedControl(this.ValueHexDecBox));
 
             Task.Run(() => ScanResultsViewModel.GetInstance().Subscribe(this));
         }
@@ -30,12 +30,12 @@
 
         public void Update(Type activeType)
         {
-            ValueHexDecBox?.SetElementType(activeType);
+            this.ValueHexDecBox?.SetElementType(activeType);
         }
 
         private void ValueUpdated(Object sender, EventArgs e)
         {
-            Source.Scanners.ManualScanner.ManualScannerViewModel.GetInstance().UpdateActiveValueCommand.Execute(ValueHexDecBox.GetValue());
+            Source.Scanners.ManualScanner.ManualScannerViewModel.GetInstance().UpdateActiveValueCommand.Execute(this.ValueHexDecBox.GetValue());
         }
     }
     //// End class

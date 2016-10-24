@@ -34,9 +34,9 @@
         {
             this.ContentId = ToolContentId;
             this.IsVisible = true;
-            this.ClearSnapshotsCommand = new RelayCommand(() => Task.Run(() => ClearSnapshots()), () => true);
-            this.UndoSnapshotCommand = new RelayCommand(() => Task.Run(() => UndoSnapshot()), () => true);
-            this.RedoSnapshotCommand = new RelayCommand(() => Task.Run(() => RedoSnapshot()), () => true);
+            this.ClearSnapshotsCommand = new RelayCommand(() => Task.Run(() => this.ClearSnapshots()), () => true);
+            this.UndoSnapshotCommand = new RelayCommand(() => Task.Run(() => this.UndoSnapshot()), () => true);
+            this.RedoSnapshotCommand = new RelayCommand(() => Task.Run(() => this.RedoSnapshot()), () => true);
 
             Task.Run(() => MainViewModel.GetInstance().Subscribe(this));
             Task.Run(() => SnapshotManager.GetInstance().Subscribe(this));
@@ -73,13 +73,6 @@
             }
         }
 
-
-        public void Update(Snapshot snapshot)
-        {
-            this.RaisePropertyChanged(nameof(this.Snapshots));
-            this.RaisePropertyChanged(nameof(this.DeletedSnapshots));
-        }
-
         /// <summary>
         /// Gets a singleton instance of the <see cref="SnapshotManagerViewModel"/> class
         /// </summary>
@@ -87,6 +80,12 @@
         public static SnapshotManagerViewModel GetInstance()
         {
             return snapshotManagerViewModelInstance.Value;
+        }
+
+        public void Update(Snapshot snapshot)
+        {
+            this.RaisePropertyChanged(nameof(this.Snapshots));
+            this.RaisePropertyChanged(nameof(this.DeletedSnapshots));
         }
 
         /// <summary>

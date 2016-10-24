@@ -19,6 +19,9 @@
 
         private Font waterMarkFont;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="WatermarkTextBox" /> class
+        /// </summary>
         public WatermarkTextBox()
         {
             // Set defaults

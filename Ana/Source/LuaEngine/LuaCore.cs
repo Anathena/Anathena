@@ -153,7 +153,7 @@
                 {
                 }
 
-                if (ScriptEngine == null)
+                if (this.ScriptEngine == null)
                 {
                     return;
                 }

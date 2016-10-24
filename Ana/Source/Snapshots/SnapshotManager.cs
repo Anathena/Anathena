@@ -35,12 +35,12 @@
         }
 
         /// <summary>
-        /// Gets or sets the snapshots being managed
+        /// Gets the snapshots being managed
         /// </summary>
         public Stack<Snapshot> Snapshots { get; private set; }
 
         /// <summary>
-        /// Gets or sets the deleted snapshots for the capability of redoing after undo
+        /// Gets the deleted snapshots for the capability of redoing after undo
         /// </summary>
         public Stack<Snapshot> DeletedSnapshots { get; private set; }
 

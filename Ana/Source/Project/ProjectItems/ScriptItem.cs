@@ -45,6 +45,10 @@
         [Browsable(false)]
         private LuaCore LuaCore { get; set; }
 
+        public override void Update()
+        {
+        }
+
         protected override void OnActivationChanged()
         {
             if (LuaCore == null)
@@ -67,10 +71,6 @@
                 // Try to deactivate script (we do not care if this fails)
                 LuaCore.RunDeactivationFunction();
             }
-        }
-
-        public override void Update()
-        {
         }
     }
     //// End class

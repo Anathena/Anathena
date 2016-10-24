@@ -19,15 +19,14 @@
             }
         }
 
-        protected override void OnSelected()
-        {
-            ProjectExplorerViewModel.GetInstance().SelectedProjectItem = this;
-        }
-
-
         public void AddChild(ProjectItem child)
         {
             this.ProjectItem.AddChild(child);
+        }
+
+        protected override void OnSelected()
+        {
+            ProjectExplorerViewModel.GetInstance().SelectedProjectItem = this;
         }
 
         protected override void LoadChildren()

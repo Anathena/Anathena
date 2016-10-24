@@ -16,6 +16,7 @@
         {
             // this.Text = String.Empty;
         }
+
         /*
         public String Text
         {
@@ -35,15 +36,15 @@
         {
             get
             {
-                String RawValue = this.text;
+                String rawValue = this.text;
 
-                if (this.IsDec && CheckSyntax.IsUInt64(RawValue))
+                if (this.IsDec && CheckSyntax.IsUInt64(rawValue))
                 {
-                    this.value = Conversions.ParseDecStringAsValue(typeof(UInt64), RawValue);
+                    this.value = Conversions.ParseDecStringAsValue(typeof(UInt64), rawValue);
                 }
-                else if (this.IsHex && CheckSyntax.CanParseHex(typeof(UInt64), RawValue))
+                else if (this.IsHex && CheckSyntax.CanParseHex(typeof(UInt64), rawValue))
                 {
-                    this.value = Conversions.ParseHexStringAsValue(typeof(UInt64), RawValue);
+                    this.value = Conversions.ParseHexStringAsValue(typeof(UInt64), rawValue);
                 }
 
                 return this.value;

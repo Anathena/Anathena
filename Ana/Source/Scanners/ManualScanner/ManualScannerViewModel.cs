@@ -60,6 +60,7 @@
             this.SelectNotEqualCommand = new RelayCommand(() => Task.Run(() => this.ChangeScanConstraintSelection(ConstraintsEnum.NotEqual)), () => true);
             this.SelectNotScientificNotationCommand = new RelayCommand(() => Task.Run(() => this.ChangeScanConstraintSelection(ConstraintsEnum.NotScientificNotation)), () => true);
             this.SelectUnchangedCommand = new RelayCommand(() => Task.Run(() => this.ChangeScanConstraintSelection(ConstraintsEnum.Unchanged)), () => true);
+
             // Note: Constraint modifying commands cannot be async since they modify the observable collection, which must be done on the same thread as the GUI
             this.AddSelectedConstraintCommand = new RelayCommand(() => this.AddSelectedConstraint(), () => true);
             this.RemoveSelectedConstraintCommand = new RelayCommand(() => this.RemoveSelectedConstraint(), () => true);
@@ -77,7 +78,7 @@
         public ICommand StartScanCommand { get; private set; }
 
         /// <summary>
-        /// 
+        /// Gets the command to update the value of the active scan constraint
         /// </summary>
         public ICommand UpdateActiveValueCommand { get; private set; }
 
@@ -178,7 +179,7 @@
         {
             get
             {
-                return new ObservableCollection<ScanConstraint>(new ScanConstraint[] { SelectedScanConstraint });
+                return new ObservableCollection<ScanConstraint>(new ScanConstraint[] { this.SelectedScanConstraint });
             }
         }
 

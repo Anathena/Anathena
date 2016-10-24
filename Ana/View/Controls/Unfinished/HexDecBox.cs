@@ -16,9 +16,12 @@
 
         private String lastValidValue;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="HexDecBox" /> class
+        /// </summary>
         public HexDecBox()
         {
-            this.TextChanged += HexDecBoxTextChanged;
+            this.TextChanged += this.HexDecBoxTextChanged;
         }
 
         public UInt64 Value
@@ -44,8 +47,6 @@
             set
             {
                 this.isHex = value;
-                // this.RaisePropertyChanged(nameof(this.IsDec));
-                // this.RaisePropertyChanged(nameof(this.IsHex));
             }
         }
 
@@ -59,8 +60,6 @@
             set
             {
                 this.isHex = !value;
-                //    this.RaisePropertyChanged(nameof(this.IsDec));
-                // this.RaisePropertyChanged(nameof(this.IsHex));
             }
         }
 

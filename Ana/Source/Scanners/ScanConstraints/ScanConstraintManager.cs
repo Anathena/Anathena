@@ -7,6 +7,7 @@
     using System.Linq;
     using System.Reflection;
     using Utils.Extensions;
+
     /// <summary>
     /// Class for storing a collection of constraints to be used in a scan that applies more than one constraint per update
     /// </summary>
@@ -33,7 +34,7 @@
         /// <summary>
         /// Creates a shallow clone of the scan constraint manager
         /// </summary>
-        /// <returns></returns>
+        /// <returns>A shallow clone of the scan constraint manager</returns>
         public ScanConstraintManager Clone()
         {
             ScanConstraintManager scanConstraintManager = new ScanConstraintManager();
