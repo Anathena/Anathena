@@ -355,7 +355,8 @@
                                                                                                         RelativeSource={RelativeSource TemplatedParent}}"
                                                                Focusable="False"
                                                                Style="{StaticResource AvalonDock_Expression_ToolButtonStyle}"
-                                                               ToolTip="{x:Static avalonDockProperties:Resources.Anchorable_CxMenu_Hint}">
+                                                               ToolTip="{x:Static avalonDockProperties:Resources.Anchorable_CxMenu_Hint}"
+                                                               Visibility="Hidden">
                                 <Image x:Name="PART_ImgMenuPin" Source="/Xceed.Wpf.AvalonDock;component/Themes/Images/PinMenu.png" />
                             </avalonDockControls:DropDownButton>
 
@@ -368,11 +369,14 @@
                                     Focusable="False"
                                     Style="{StaticResource AvalonDock_Expression_ButtonStyle}"
                                     ToolTip="{x:Static avalonDockProperties:Resources.Anchorable_BtnAutoHide_Hint}"
+                                    Visibility="Hidden">
+                                <!--
                                     Visibility="{Binding Path=IsEnabled,
-                                                         RelativeSource={RelativeSource Self},
-                                                         Mode=OneWay,
-                                                         Converter={StaticResource BoolToVisibilityConverter},
-                                                         ConverterParameter=Visibility.Hidden}">
+                                    RelativeSource={RelativeSource Self},
+                                    Mode=OneWay,
+                                    Converter={StaticResource BoolToVisibilityConverter},
+                                    ConverterParameter=Visibility.Hidden}"
+                                -->
                                 <Image x:Name="PART_ImgAutoHidePin" Source="/Xceed.Wpf.AvalonDock;component/Themes/Images/PinAutoHide.png" />
                             </Button>
 
