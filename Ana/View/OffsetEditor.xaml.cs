@@ -3,6 +3,8 @@
     using Controls;
     using Source.Utils.ScriptEditor;
     using System;
+    using System.Collections.Generic;
+    using System.Collections.ObjectModel;
     using System.Windows;
 
     /// <summary>
@@ -13,14 +15,15 @@
         /// <summary>
         /// Initializes a new instance of the <see cref="OffsetEditor" /> class
         /// </summary>
-        public OffsetEditor()
+        public OffsetEditor(IList<Int32> offsets)
         {
             this.InitializeComponent();
 
             // Windows Forms hosting -- TODO: Phase this out
-            OffsetHexDecBox = new HexDecTextBox();
-            OffsetHexDecBox.TextChanged += ValueUpdated;
+            this.OffsetHexDecBox = new HexDecTextBox();
+            this.OffsetHexDecBox.TextChanged += ValueUpdated;
             this.offsetHexDecBox.Children.Add(WinformsHostingHelper.CreateHostedControl(OffsetHexDecBox));
+            this.OffsetEditorViewModel.Offsets = offsets == null ? null : new ObservableCollection<Int32>(offsets);
         }
 
         private HexDecTextBox OffsetHexDecBox { get; set; }
@@ -48,6 +51,11 @@
         private void ValueUpdated(Object sender, EventArgs e)
         {
             this.OffsetEditorViewModel.UpdateActiveValueCommand.Execute(OffsetHexDecBox.GetValue());
+        }
+
+        private void ListViewSelectionChanged(Object sender, System.Windows.Controls.SelectionChangedEventArgs e)
+        {
+            this.OffsetEditorViewModel.SelectedOffsetIndex = this.offsetsListView.SelectedIndex;
         }
     }
     //// End class

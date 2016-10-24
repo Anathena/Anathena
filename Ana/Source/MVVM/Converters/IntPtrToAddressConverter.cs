@@ -6,12 +6,12 @@
     using Utils.Validation;
 
     /// <summary>
-    /// Converts Icons to a format readily usable by the view
+    /// Converts IntPtrs to an address with leading 0s
     /// </summary>
     internal class IntPtrToAddressConverter : IValueConverter
     {
         /// <summary>
-        /// Converts an Icon to a BitmapSource
+        /// Converts an IntPtr to an address string
         /// </summary>
         /// <param name="value">Value to be converted</param>
         /// <param name="targetType">Type to convert to</param>
@@ -34,7 +34,7 @@
         }
 
         /// <summary>
-        /// Not implemented for IconConverter
+        /// Not implemented
         /// </summary>
         /// <param name="value">Value to be converted</param>
         /// <param name="targetType">Type to convert to</param>

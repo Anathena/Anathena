@@ -1,12 +1,12 @@
-﻿using Ana.Source.Utils.Validation;
-using System;
-using System.Collections;
-namespace Ana.Source.Utils.TypeConverters
+﻿namespace Ana.Source.Utils.TypeConverters
 {
+    using System;
+    using System.Collections;
     using System.Collections.Generic;
     using System.ComponentModel;
     using System.Globalization;
     using System.Linq;
+    using Validation;
 
     internal class OffsetConverter : StringConverter
     {

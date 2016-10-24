@@ -301,7 +301,14 @@
 
             foreach (Int32 offset in this.Offsets)
             {
-                pointer = EngineCore.GetInstance().OperatingSystemAdapter.Read<IntPtr>(pointer, out successReading);
+                if (EngineCore.GetInstance().Processes.IsOpenedProcess32Bit())
+                {
+                    pointer = EngineCore.GetInstance().OperatingSystemAdapter.Read<Int32>(pointer, out successReading).ToIntPtr();
+                }
+                else
+                {
+                    pointer = EngineCore.GetInstance().OperatingSystemAdapter.Read<Int64>(pointer, out successReading).ToIntPtr();
+                }
 
                 if (pointer == IntPtr.Zero)
                 {

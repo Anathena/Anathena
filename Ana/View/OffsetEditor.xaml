@@ -66,11 +66,13 @@
             </shell:WrapPanel>
         </shell:Grid>
         <shell:ScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Auto">
-            <shell:ListView Background="{StaticResource AvalonDock_Expression_BaseColor3}"
+            <shell:ListView Name="offsetsListView"
+                            Background="{StaticResource AvalonDock_Expression_BaseColor3}"
                             BorderThickness="0"
-                            ItemsSource="{Binding Addresses}">
+                            ItemsSource="{Binding Offsets}"
+                            SelectionChanged="ListViewSelectionChanged">
                 <shell:ListView.Resources>
-                    <converters:IntPtrToAddressConverter x:Key="IntPtrToAddressConverter" />
+                    <converters:Int32ToHexConverter x:Key="Int32ToHexConverter" />
                 </shell:ListView.Resources>
                 <shell:ListView.ItemTemplate>
                     <shell:DataTemplate>
@@ -87,11 +89,11 @@
                             </shell:Grid.InputBindings>
                             <shell:TextBlock Grid.Column="0"
                                              Foreground="{StaticResource AvalonDock_Expression_BaseColor2}"
-                                             Text="{Binding Path=ElementAddress,
-                                                            Converter={StaticResource IntPtrToAddressConverter}}" />
+                                             Text="{Binding .}" />
                             <shell:TextBlock Grid.Column="1"
                                              Foreground="{StaticResource AvalonDock_Expression_BaseColor2}"
-                                             Text="{Binding Path=ElementValue}" />
+                                             Text="{Binding .,
+                                                            Converter={StaticResource Int32ToHexConverter}}" />
                         </shell:Grid>
                     </shell:DataTemplate>
                 </shell:ListView.ItemTemplate>

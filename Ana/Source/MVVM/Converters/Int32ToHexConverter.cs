@@ -1,17 +1,14 @@
 ﻿namespace Ana.Source.Mvvm.Converters
 {
     using System;
-    using System.Drawing;
     using System.Globalization;
-    using System.Windows;
     using System.Windows.Data;
-    using System.Windows.Interop;
-    using System.Windows.Media.Imaging;
+    using Utils.Validation;
 
     /// <summary>
-    /// Converts Icons to a format readily usable by the view
+    ///
     /// </summary>
-    internal class IconConverter : IValueConverter
+    internal class Int32ToHexConverter : IValueConverter
     {
         /// <summary>
         /// Converts an Icon to a BitmapSource
@@ -28,18 +25,16 @@
                 return null;
             }
 
-            if (value is Icon)
+            if (value is Int32)
             {
-                Bitmap bitmap = (value as Icon).ToBitmap();
-                IntPtr bitmaphandle = bitmap.GetHbitmap();
-                return Imaging.CreateBitmapSourceFromHBitmap(bitmaphandle, IntPtr.Zero, Int32Rect.Empty, BitmapSizeOptions.FromEmptyOptions());
+                return Conversions.ParseValueAsHex(typeof(Int32), value);
             }
 
             return null;
         }
 
         /// <summary>
-        /// Not implemented
+        /// Not implemented for IconConverter
         /// </summary>
         /// <param name="value">Value to be converted</param>
         /// <param name="targetType">Type to convert to</param>
