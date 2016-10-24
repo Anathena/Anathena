@@ -290,14 +290,10 @@
                         <Setter.Value>
                             <ControlTemplate TargetType="{x:Type TabItem}">
                                 <Grid SnapsToDevicePixels="true">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="*" />
-                                        <ColumnDefinition Width="16" />
-                                    </Grid.ColumnDefinitions>
                                     <Border x:Name="Bd"
                                             Background="{TemplateBinding Background}"
                                             BorderBrush="{TemplateBinding BorderBrush}"
-                                            CornerRadius="3,0,0,0"
+                                            CornerRadius="3,3,0,0"
                                             Padding="{TemplateBinding Padding}">
                                         <ContentPresenter x:Name="Content"
                                                           HorizontalAlignment="{Binding HorizontalContentAlignment,
@@ -308,11 +304,6 @@
                                                           RecognizesAccessKey="True"
                                                           SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
                                     </Border>
-                                    <Border Grid.Column="1"
-                                            Background="{TemplateBinding Background}"
-                                            BorderBrush="{TemplateBinding BorderBrush}"
-                                            CornerRadius="0,3,0,0"
-                                            Padding="{TemplateBinding Padding}" />
                                 </Grid>
                                 <ControlTemplate.Triggers>
                                     <Trigger Property="Selector.IsSelected" Value="true">
@@ -333,6 +324,8 @@
             </Setter.Value>
         </Setter>
 
+        <!--  THIS IS CAUSING CRASHES : ZAC  -->
+        <!--
         <Setter Property="ItemTemplate">
             <Setter.Value>
                 <DataTemplate>
@@ -340,6 +333,7 @@
                 </DataTemplate>
             </Setter.Value>
         </Setter>
+        -->
 
         <Setter Property="ContentTemplate">
             <Setter.Value>

@@ -20,6 +20,7 @@
               BorderThickness="2"
               DataContext="{Binding OffsetEditorViewModel,
                                     Source={StaticResource ViewModelLocator}}"
+              WindowStartupLocation="CenterOwner"
               WindowStyle="None"
               mc:Ignorable="d">
     <shell:WindowChrome.WindowChrome>
