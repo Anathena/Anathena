@@ -94,11 +94,17 @@
     <Compile Include="Source\Controls\HexDecBoxViewModel.cs" />
     <Compile Include="Source\Controls\TreeViewItemViewModel.cs" />
     <Compile Include="Source\PropertyViewer\IPropertyViewerObserver.cs" />
+    <Compile Include="Source\Utils\TypeEditors\HotkeyEditor\HotkeyEditorViewModel.cs" />
+    <Compile Include="Source\Utils\TypeEditors\IEditorViewModel.cs" />
+    <Compile Include="Source\Utils\TypeEditors\IEditorModel.cs" />
+    <Compile Include="Source\Utils\TypeEditors\OffsetEditor\OffsetEditorViewModel.cs" />
+    <Compile Include="Source\Utils\TypeEditors\ScriptEditor\ScriptEditorViewModel.cs" />
     <Compile Include="Source\Utils\TypeConverters\AddressConverter.cs" />
     <Compile Include="Source\Utils\TypeConverters\DynamicConverter.cs" />
     <Compile Include="Source\Utils\TypeConverters\HotKeyConverter.cs" />
     <Compile Include="Source\Utils\TypeConverters\LuaScriptConverter.cs" />
     <Compile Include="Source\Utils\TypeConverters\OffsetConverter.cs" />
+    <Compile Include="Source\Utils\TypeEditors\OffsetEditor\OffsetEditorModel.cs" />
     <Compile Include="Source\Utils\TypeConverters\ValueTypeConverter.cs" />
     <Compile Include="Source\DotNetExplorer\DotNetExplorerViewModel.cs" />
     <Compile Include="Source\Engine\AddressResolver\AddressResolver.cs" />
@@ -252,6 +258,15 @@
     <Compile Include="Source\Utils\VirtualItemProvider\VirtualizingCollection.cs">
       <ExcludeFromStyleCop>False</ExcludeFromStyleCop>
     </Compile>
+    <Compile Include="View\HotkeyEditor.xaml.cs">
+      <DependentUpon>HotkeyEditor.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\OffsetEditor.xaml.cs">
+      <DependentUpon>OffsetEditor.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\ScriptEditor.xaml.cs">
+      <DependentUpon>ScriptEditor.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\Controls\DarkBrushes.cs" />
     <Compile Include="View\Controls\Unfinished\HexDecBox.cs" />
     <Compile Include="View\Controls\HexDecTextBox.cs">
@@ -306,7 +321,6 @@
       <ExcludeFromStyleCop>False</ExcludeFromStyleCop>
     </Compile>
     <Compile Include="Source\Docking\PaneViewModel.cs" />
-    <Compile Include="Source\Main\MainModel.cs" />
     <Compile Include="Source\Mvvm\Command\EventToCommand.cs" />
     <Compile Include="Source\Mvvm\Command\IEventArgsConverter.cs" />
     <Compile Include="Source\Mvvm\Command\RelayCommand.cs" />
@@ -343,6 +357,18 @@
     <Compile Include="Source\Main\MainViewModel.cs">
       <ExcludeFromStyleCop>False</ExcludeFromStyleCop>
     </Compile>
+    <Page Include="View\HotkeyEditor.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\OffsetEditor.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\ScriptEditor.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="View\Controls\Unfinished\HexDecBox.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -555,6 +581,10 @@
     <ProjectReference Include="..\AvalonDock\AvalonDock.csproj">
       <Project>{db81988f-e0f2-45a0-a1fd-8c37f3d35244}</Project>
       <Name>AvalonDock</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\AvalonEdit\AvalonEdit.csproj">
+      <Project>{6c55b776-26d4-4db3-a6ab-87e783b2f3d1}</Project>
+      <Name>AvalonEdit</Name>
     </ProjectReference>
     <ProjectReference Include="..\GeckoFX\Geckofx-Core\Geckofx-Core.csproj">
       <Project>{6ab4eee6-1889-43ab-83f7-a4f083230be7}</Project>

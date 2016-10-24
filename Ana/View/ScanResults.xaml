@@ -10,6 +10,7 @@
              x:Name="AnaScanResults"
              d:DesignHeight="256"
              d:DesignWidth="512"
+             x:ClassModifier="internal"
              DataContext="{Binding ScanResultsViewModel,
                                    Source={StaticResource ViewModelLocator}}"
              mc:Ignorable="d">

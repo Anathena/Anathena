@@ -5,7 +5,7 @@
     /// <summary>
     /// Interaction logic for ProjectExplorer.xaml
     /// </summary>
-    public partial class ProjectExplorer : UserControl
+    internal partial class ProjectExplorer : UserControl
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ProjectExplorer" /> class

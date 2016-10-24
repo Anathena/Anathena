@@ -3,7 +3,6 @@
     using System;
     using System.Collections.Generic;
     using System.ComponentModel;
-    using System.Drawing;
     using System.Linq;
     using System.Reflection;
     using System.Runtime.Serialization;
@@ -34,10 +33,6 @@
 
         [DataMember]
         [Browsable(false)]
-        private UInt32 textColorArgb;
-
-        [DataMember]
-        [Browsable(false)]
         private Boolean isActivated;
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -57,7 +52,6 @@
             this.description = description == null ? String.Empty : description;
             this.parent = null;
             this.children = new List<ProjectItem>();
-            this.textColorArgb = unchecked((UInt32)SystemColors.ControlText.ToArgb());
             this.IsActivated = false;
         }
 
@@ -138,23 +132,6 @@
                 this.NotifyPropertyChanged(nameof(this.HotKeys));
             }
         }*/
-
-        [Category("Properties"), DisplayName("Text Color"), Description("Display Color")]
-        public Color TextColor
-        {
-            get
-            {
-                return Color.FromArgb(unchecked((Int32)this.textColorArgb));
-            }
-
-            set
-            {
-                this.textColorArgb = value == null ? 0 : unchecked((UInt32)value.ToArgb());
-                this.UpdateEntryVisual();
-                ProjectExplorerDeprecated.GetInstance().ProjectChanged();
-                this.NotifyPropertyChanged(nameof(this.TextColor));
-            }
-        }
 
         [Browsable(false)]
         public Boolean IsActivated

@@ -58,9 +58,9 @@
             this.SaveAsProjectCommand = new RelayCommand(() => this.SaveAsProject(), () => true);
             this.IsVisible = true;
             this.projectItems = new ReadOnlyCollection<ProjectItemViewModel>(new List<ProjectItemViewModel>());
+            this.Update();
 
             Task.Run(() => MainViewModel.GetInstance().Subscribe(this));
-            this.Update();
         }
 
         /// <summary>

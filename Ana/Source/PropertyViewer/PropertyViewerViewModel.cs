@@ -5,6 +5,7 @@
     using System;
     using System.Collections.Generic;
     using System.Threading;
+    using System.Threading.Tasks;
 
     /// <summary>
     /// View model for the Property Viewer
@@ -25,8 +26,6 @@
 
         private Object[] targetObjects;
 
-        private Object targetObject;
-
         /// <summary>
         /// Prevents a default instance of the <see cref="PropertyViewerViewModel" /> class from being created
         /// </summary>
@@ -37,7 +36,7 @@
             this.ObserverLock = new Object();
             this.PropertyViewerObservers = new List<IPropertyViewerObserver>();
 
-            MainViewModel.GetInstance().Subscribe(this);
+            Task.Run(() => MainViewModel.GetInstance().Subscribe(this));
         }
 
         public Object[] TargetObjects
@@ -68,7 +67,7 @@
         /// <returns>A singleton instance of the class</returns>
         public static PropertyViewerViewModel GetInstance()
         {
-            return propertyViewerViewModelInstance.Value;
+            return PropertyViewerViewModel.propertyViewerViewModelInstance.Value;
         }
 
 

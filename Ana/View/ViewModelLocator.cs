@@ -14,6 +14,7 @@
     using Source.Scanners.ValueCollector;
     using Source.Snapshots;
     using Source.UserSettings;
+    using Source.Utils.ScriptEditor;
 
     /// <summary>
     /// This class contains static references to all the view models in the
@@ -179,6 +180,28 @@
             get
             {
                 return ValueCollectorViewModel.GetInstance();
+            }
+        }
+
+        /// <summary>
+        /// Gets the Script Editor view model
+        /// </summary>
+        public ScriptEditorViewModel ScriptEditorViewModel
+        {
+            get
+            {
+                return ScriptEditorViewModel.GetInstance();
+            }
+        }
+
+        /// <summary>
+        /// Gets a Offset Editor view model. Note: Not a singleton, will create a new object
+        /// </summary>
+        public OffsetEditorViewModel OffsetEditorViewModel
+        {
+            get
+            {
+                return new OffsetEditorViewModel();
             }
         }
 

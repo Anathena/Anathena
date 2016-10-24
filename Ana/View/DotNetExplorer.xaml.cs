@@ -5,7 +5,7 @@
     /// <summary>
     /// Interaction logic for DotNetExplorer.xaml
     /// </summary>
-    public partial class DotNetExplorer : UserControl
+    internal partial class DotNetExplorer : UserControl
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="DotNetExplorer" /> class

@@ -5,10 +5,12 @@
     using System;
     using System.Collections.Generic;
     using System.ComponentModel;
+    using System.Drawing.Design;
     using System.Linq;
     using System.Reflection;
     using System.Runtime.Serialization;
     using Utils.Extensions;
+    using Utils.OffsetEditor;
     using Utils.TypeConverters;
     using Utils.Validation;
 
@@ -150,6 +152,7 @@
         [DataMember]
         [RefreshProperties(RefreshProperties.All)]
         [TypeConverter(typeof(OffsetConverter))]
+        [Editor(typeof(OffsetEditorModel), typeof(UITypeEditor))]
         [Category("Properties"), DisplayName("Address Offsets"), Description("Address offsets")]
         public IEnumerable<Int32> Offsets
         {

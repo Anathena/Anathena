@@ -3,14 +3,14 @@
     using System.Windows.Controls;
 
     /// <summary>
-    /// Interaction logic for InputCorrelator.xaml
+    /// Interaction logic for HotkeyEditor.xaml
     /// </summary>
-    internal partial class InputCorrelator : UserControl
+    internal partial class HotkeyEditor : UserControl
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="InputCorrelator" /> class
+        /// Initializes a new instance of the <see cref="HotkeyEditor" /> class
         /// </summary>
-        public InputCorrelator()
+        public HotkeyEditor()
         {
             this.InitializeComponent();
         }

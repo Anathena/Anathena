@@ -12,6 +12,7 @@
               Title="Anathena"
               Width="720"
               Height="640"
+              x:ClassModifier="internal"
               AllowsTransparency="False"
               DataContext="{Binding MainViewModel,
                                     Source={StaticResource ViewModelLocator}}"
@@ -186,7 +187,15 @@
                                     IsChecked="{Binding DotNetExplorerViewModel.IsVisible,
                                                         Mode=TwoWay}"
                                     Style="{StaticResource menuItemStyle}" />
+                    <shell:MenuItem Header="Script Editor"
+                                    IsCheckable="True"
+                                    IsChecked="{Binding ScriptEditorViewModel.IsVisible,
+                                                        Mode=TwoWay}"
+                                    Style="{StaticResource menuItemStyle}"
+                                    Visibility="Hidden" />
                 </shell:MenuItem>
+
+                <!--  Scans Header  -->
                 <shell:MenuItem DataContext="{Binding Source={StaticResource ViewModelLocator}}"
                                 Header="Scans"
                                 Style="{StaticResource DropDown}">
@@ -357,6 +366,12 @@
                             <view:ProjectExplorer />
                         </shell:DataTemplate>
                     </view:ViewTemplateSelector.ProjectExplorerViewTemplate>
+                    <!--  Script Editor  -->
+                    <view:ViewTemplateSelector.ScriptEditorViewTemplate>
+                        <shell:DataTemplate>
+                            <view:ScriptEditor />
+                        </shell:DataTemplate>
+                    </view:ViewTemplateSelector.ScriptEditorViewTemplate>
                 </view:ViewTemplateSelector>
             </avalonDock:DockingManager.LayoutItemTemplateSelector>
 

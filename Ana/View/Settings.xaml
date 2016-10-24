@@ -12,6 +12,7 @@
              x:Name="AnaSettings"
              d:DesignHeight="256"
              d:DesignWidth="416"
+             x:ClassModifier="internal"
              DataContext="{Binding SettingsViewModel,
                                    Source={StaticResource ViewModelLocator}}"
              mc:Ignorable="d">

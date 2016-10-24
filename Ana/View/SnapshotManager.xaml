@@ -11,6 +11,7 @@
              x:Name="AnaSnapshotManager"
              d:DesignHeight="256"
              d:DesignWidth="320"
+             x:ClassModifier="internal"
              DataContext="{Binding SnapshotManagerViewModel,
                                    Source={StaticResource ViewModelLocator}}"
              mc:Ignorable="d">

@@ -5,7 +5,7 @@
     /// <summary>
     /// Interaction logic for CheatBrowser.xaml
     /// </summary>
-    public partial class CheatBrowser : UserControl
+    internal partial class CheatBrowser : UserControl
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="CheatBrowser" /> class

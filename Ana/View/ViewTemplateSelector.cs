@@ -11,6 +11,7 @@
     using Source.Scanners.ManualScanner;
     using Source.Snapshots;
     using Source.UserSettings;
+    using Source.Utils.ScriptEditor;
     using System;
     using System.Windows;
     using System.Windows.Controls;
@@ -88,6 +89,21 @@
         public DataTemplate ProjectExplorerViewTemplate { get; set; }
 
         /// <summary>
+        /// Gets or sets the template for the Offset Editor
+        /// </summary>
+        public DataTemplate OffsetEditorViewTemplate { get; set; }
+
+        /// <summary>
+        /// Gets or sets the template for the Script Editor
+        /// </summary>
+        public DataTemplate ScriptEditorViewTemplate { get; set; }
+
+        /// <summary>
+        /// Gets or sets the template for the Hotkey Editor
+        /// </summary>
+        public DataTemplate HotkeyEditorViewTemplate { get; set; }
+
+        /// <summary>
         /// Returns the required template to display the given view model
         /// </summary>
         /// <param name="item">The view model</param>
@@ -142,6 +158,10 @@
             else if (item is ProjectExplorerViewModel)
             {
                 return this.ProjectExplorerViewTemplate;
+            }
+            else if (item is ScriptEditorViewModel)
+            {
+                return this.ScriptEditorViewTemplate;
             }
 
             return base.SelectTemplate(item, container);

@@ -13,7 +13,7 @@
     /// <summary>
     /// Interaction logic for PropertyViewer.xaml
     /// </summary>
-    public partial class PropertyViewer : UserControl, IPropertyViewerObserver
+    internal partial class PropertyViewer : UserControl, IPropertyViewerObserver
     {
         private System.Windows.Forms.PropertyGrid propertyGrid;
 

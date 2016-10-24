@@ -5,7 +5,7 @@
     /// <summary>
     /// Interaction logic for SnapshotManager.xaml
     /// </summary>
-    public partial class SnapshotManager : UserControl
+    internal partial class SnapshotManager : UserControl
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="SnapshotManager" /> class

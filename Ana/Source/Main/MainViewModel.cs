@@ -112,6 +112,8 @@
             {
                 this.tools?.Add(toolViewModel);
             }
+
+            this.RaisePropertyChanged(nameof(this.Tools));
         }
 
         /// <summary>
@@ -124,6 +126,8 @@
             {
                 this.tools?.Remove(toolViewModel);
             }
+
+            this.RaisePropertyChanged(nameof(this.Tools));
         }
 
         /// <summary>
@@ -171,8 +175,12 @@
         /// <param name="dockManager">The docking root to which content is loaded</param>
         private void LoadLayoutExecute(DockingManager dockManager)
         {
-            XmlLayoutSerializer serializer = new XmlLayoutSerializer(dockManager);
-            serializer.Deserialize(LayoutSaveFile);
+            try
+            {
+                XmlLayoutSerializer serializer = new XmlLayoutSerializer(dockManager);
+                serializer.Deserialize(LayoutSaveFile);
+            }
+            catch { }
         }
 
         /// <summary>
@@ -181,8 +189,12 @@
         /// <param name="dockManager">The docking root to save</param>
         private void SaveLayoutExecute(DockingManager dockManager)
         {
-            XmlLayoutSerializer serializer = new XmlLayoutSerializer(dockManager);
-            serializer.Serialize(MainViewModel.LayoutSaveFile);
+            try
+            {
+                XmlLayoutSerializer serializer = new XmlLayoutSerializer(dockManager);
+                serializer.Serialize(MainViewModel.LayoutSaveFile);
+            }
+            catch { }
         }
     }
     //// End class

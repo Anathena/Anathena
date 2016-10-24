@@ -5,7 +5,7 @@
     /// <summary>
     /// Interaction logic for ChangeCounter.xaml
     /// </summary>
-    public partial class ChangeCounter : UserControl
+    internal partial class ChangeCounter : UserControl
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ChangeCounter" /> class

@@ -3,14 +3,14 @@
     using System.Windows.Controls;
 
     /// <summary>
-    /// Interaction logic for InputCorrelator.xaml
+    /// Interaction logic for ScriptEditor.xaml
     /// </summary>
-    internal partial class InputCorrelator : UserControl
+    internal partial class ScriptEditor : UserControl
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="InputCorrelator" /> class
+        /// Initializes a new instance of the <see cref="ScriptEditor" /> class
         /// </summary>
-        public InputCorrelator()
+        public ScriptEditor()
         {
             this.InitializeComponent();
         }

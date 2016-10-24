@@ -5,7 +5,7 @@
     /// <summary>
     /// Interaction logic for LabelThresholder.xaml
     /// </summary>
-    public partial class LabelThresholder : UserControl
+    internal partial class LabelThresholder : UserControl
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="LabelThresholder" /> class

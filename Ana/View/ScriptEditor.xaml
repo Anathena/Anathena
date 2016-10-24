@@ -1,19 +1,18 @@
-﻿<UserControl x:Class="Ana.View.CheatBrowser"
+﻿<UserControl x:Class="Ana.View.ScriptEditor"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:converters="clr-namespace:Ana.Source.Mvvm.Converters"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:gecko="clr-namespace:Gecko;assembly=Geckofx-Wpf"
              xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
              xmlns:local="clr-namespace:Ana"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:sys="clr-namespace:System;assembly=mscorlib"
              xmlns:sysWindows="clr-namespace:System.Windows;assembly=PresentationCore"
-             x:Name="AnaCheatBrowser"
+             x:Name="AnaScriptEditor"
              d:DesignHeight="256"
              d:DesignWidth="256"
              x:ClassModifier="internal"
-             DataContext="{Binding CheatBrowserViewModel,
+             DataContext="{Binding ScriptEditorViewModel,
                                    Source={StaticResource ViewModelLocator}}"
              mc:Ignorable="d">
     <Grid Background="{StaticResource AvalonDock_Expression_BaseColor3}">
@@ -25,17 +24,15 @@
                 Background="{StaticResource AvalonDock_Expression_BaseColor4}"
                 Padding="8 4 8 4">
             <Menu Background="Transparent">
-                <MenuItem Command="{Binding NavigateHomeCommand}" CommandParameter="{Binding ElementName=browser}">
+                <MenuItem>
                     <MenuItem.Header>
                         <Image Width="16"
                                Height="16"
-                               Source="pack://application:,,,/Ana;component/Content/Icons/Home.png"
+                               Source="pack://application:,,,/Ana;component/Content/Icons/DownArrows.png"
                                ToolTip="Refresh Process List" />
                     </MenuItem.Header>
                 </MenuItem>
             </Menu>
         </Border>
-
-        <gecko:GeckoWebBrowser x:Name="browser" Grid.Row="1" />
     </Grid>
 </UserControl>

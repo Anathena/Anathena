@@ -8,9 +8,10 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:sys="clr-namespace:System;assembly=mscorlib"
              xmlns:sysWindows="clr-namespace:System.Windows;assembly=PresentationCore"
-             x:Name="AnaDotNetExplorerr"
+             x:Name="AnaDotNetExplorer"
              d:DesignHeight="256"
              d:DesignWidth="256"
+             x:ClassModifier="internal"
              DataContext="{Binding DotNetExplorerViewModel,
                                    Source={StaticResource ViewModelLocator}}"
              mc:Ignorable="d">
