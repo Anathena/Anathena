@@ -289,20 +289,15 @@
                     <Setter Property="Template">
                         <Setter.Value>
                             <ControlTemplate TargetType="{x:Type TabItem}">
-                                <Grid SnapsToDevicePixels="true">
+                                <Grid Margin="0 0 12 0" SnapsToDevicePixels="true">
                                     <Border x:Name="Bd"
                                             Background="{TemplateBinding Background}"
                                             BorderBrush="{TemplateBinding BorderBrush}"
                                             CornerRadius="3,3,0,0"
                                             Padding="{TemplateBinding Padding}">
-                                        <ContentPresenter x:Name="Content"
-                                                          HorizontalAlignment="{Binding HorizontalContentAlignment,
-                                                                                        RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}"
-                                                          VerticalAlignment="{Binding VerticalContentAlignment,
-                                                                                      RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}"
-                                                          ContentSource="Header"
-                                                          RecognizesAccessKey="True"
-                                                          SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+                                        <StackPanel>
+                                            <TextBlock Text="{Binding Content.Title}" />
+                                        </StackPanel>
                                     </Border>
                                 </Grid>
                                 <ControlTemplate.Triggers>
@@ -323,17 +318,6 @@
                 </Style>
             </Setter.Value>
         </Setter>
-
-        <!--  THIS IS CAUSING CRASHES : ZAC  -->
-        <!--
-        <Setter Property="ItemTemplate">
-            <Setter.Value>
-                <DataTemplate>
-                    <avalonDockControls:LayoutAnchorableTabItem Model="{Binding}" />
-                </DataTemplate>
-            </Setter.Value>
-        </Setter>
-        -->
 
         <Setter Property="ContentTemplate">
             <Setter.Value>
