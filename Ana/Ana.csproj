@@ -93,6 +93,22 @@
     <Compile Include="Source\Content\Images.cs" />
     <Compile Include="Source\Controls\HexDecBoxViewModel.cs" />
     <Compile Include="Source\Controls\TreeViewItemViewModel.cs" />
+    <Compile Include="Source\Engine\Input\Controller\ControllerCapture.cs" />
+    <Compile Include="Source\Engine\Input\Controller\IControllerObserver.cs" />
+    <Compile Include="Source\Engine\Input\Controller\IControllerSubject.cs" />
+    <Compile Include="Source\Engine\Input\HotKeys\ControllerHotKey.cs" />
+    <Compile Include="Source\Engine\Input\HotKeys\IHotKey.cs" />
+    <Compile Include="Source\Engine\Input\HotKeys\KeyboardHotKey.cs" />
+    <Compile Include="Source\Engine\Input\HotKeys\MouseHotKey.cs" />
+    <Compile Include="Source\Engine\Input\IInputCapture.cs" />
+    <Compile Include="Source\Engine\Input\IInputManager.cs" />
+    <Compile Include="Source\Engine\Input\InputManager.cs" />
+    <Compile Include="Source\Engine\Input\Keyboard\IKeyboardObserver.cs" />
+    <Compile Include="Source\Engine\Input\Keyboard\IKeyboardSubject.cs" />
+    <Compile Include="Source\Engine\Input\Keyboard\KeyboardCapture.cs" />
+    <Compile Include="Source\Engine\Input\Mouse\IMouseObserver.cs" />
+    <Compile Include="Source\Engine\Input\Mouse\IMouseSubject.cs" />
+    <Compile Include="Source\Engine\Input\Mouse\MouseCapture.cs" />
     <Compile Include="Source\Mvvm\Converters\Int32ToHexConverter.cs" />
     <Compile Include="Source\PropertyViewer\IPropertyViewerObserver.cs" />
     <Compile Include="Source\Utils\TypeEditors\HotkeyEditor\HotkeyEditorViewModel.cs" />
@@ -154,7 +170,6 @@
     <Compile Include="Source\Engine\Architecture\Architecture86_64.cs" />
     <Compile Include="Source\Engine\EngineCore.cs" />
     <Compile Include="Source\Engine\Graphics\IGraphics.cs" />
-    <Compile Include="Source\Engine\Input\IInput.cs" />
     <Compile Include="Source\Engine\ManagedObjectResolver\IManagedObjectResolver.cs" />
     <Compile Include="Source\Engine\OperatingSystems\IOperatingSystemAdapter.cs" />
     <Compile Include="Source\Engine\OperatingSystems\NormalizedFlags.cs" />
@@ -510,6 +525,86 @@
     <ProjectReference Include="..\AvalonEdit\AvalonEdit.csproj">
       <Project>{6c55b776-26d4-4db3-a6ab-87e783b2f3d1}</Project>
       <Name>AvalonEdit</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SharpDX\SharpCli\SharpCli.csproj">
+      <Project>{4e2d9a17-2195-4a51-aae3-924517440293}</Project>
+      <Name>SharpCli</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SharpDX\SharpDX.Animation\SharpDX.Animation.csproj">
+      <Project>{1b2e7ac4-b206-4268-a782-53b3e3025a43}</Project>
+      <Name>SharpDX.Animation</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SharpDX\SharpDX.D3DCompiler\SharpDX.D3DCompiler.csproj">
+      <Project>{0ff760b5-436b-44e5-8660-696bfa62a77b}</Project>
+      <Name>SharpDX.D3DCompiler</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SharpDX\SharpDX.Desktop\SharpDX.Desktop.csproj">
+      <Project>{a83e25b7-d5d9-49c0-8fd6-d58213ad1e41}</Project>
+      <Name>SharpDX.Desktop</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SharpDX\SharpDX.Direct2D1\SharpDX.Direct2D1.csproj">
+      <Project>{0d4673aa-44f0-4b27-b5ce-9ad5e8c9a730}</Project>
+      <Name>SharpDX.Direct2D1</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SharpDX\SharpDX.Direct3D11.Effects\SharpDX.Direct3D11.Effects.csproj">
+      <Project>{eff5c0d7-e17a-4eff-bff4-029267b91071}</Project>
+      <Name>SharpDX.Direct3D11.Effects</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SharpDX\SharpDX.Direct3D11\SharpDX.Direct3D11.csproj">
+      <Project>{de53b631-199e-49b8-8b4d-fe9f3d5b28cd}</Project>
+      <Name>SharpDX.Direct3D11</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SharpDX\SharpDX.Direct3D12\SharpDX.Direct3D12.csproj">
+      <Project>{99391458-fe91-4e52-8e38-486f13a02829}</Project>
+      <Name>SharpDX.Direct3D12</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SharpDX\SharpDX.Direct3D9\SharpDX.Direct3D9.csproj">
+      <Project>{9d67f045-eb5d-4759-8be4-06d99a20a668}</Project>
+      <Name>SharpDX.Direct3D9</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SharpDX\SharpDX.DirectComposition\SharpDX.DirectComposition.csproj">
+      <Project>{587db362-8ae3-4697-86ac-cad2f1d4f2ef}</Project>
+      <Name>SharpDX.DirectComposition</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SharpDX\SharpDX.DirectInput\SharpDX.DirectInput.csproj">
+      <Project>{de89f393-94d0-4a2d-a394-f0933461447b}</Project>
+      <Name>SharpDX.DirectInput</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SharpDX\SharpDX.DirectManipulation\SharpDX.DirectManipulation.csproj">
+      <Project>{24ad5cd6-7091-4be6-85b6-e352eda5fe33}</Project>
+      <Name>SharpDX.DirectManipulation</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SharpDX\SharpDX.DirectSound\SharpDX.DirectSound.csproj">
+      <Project>{7d3dabe0-4d95-4cdf-b9de-b798660b6ca3}</Project>
+      <Name>SharpDX.DirectSound</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SharpDX\SharpDX.DXGI\SharpDX.DXGI.csproj">
+      <Project>{34134161-c8d8-4cda-9822-ad9d954140b2}</Project>
+      <Name>SharpDX.DXGI</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SharpDX\SharpDX.Mathematics\SharpDX.Mathematics.csproj">
+      <Project>{dadc8bf0-b87d-4d2f-b9a8-c243abddfceb}</Project>
+      <Name>SharpDX.Mathematics</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SharpDX\SharpDX.MediaFoundation\SharpDX.MediaFoundation.csproj">
+      <Project>{faa17d46-b46f-45ba-978b-c299855c3b06}</Project>
+      <Name>SharpDX.MediaFoundation</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SharpDX\SharpDX.RawInput\SharpDX.RawInput.csproj">
+      <Project>{149dad81-9c63-42f8-8b0c-500645bad9e3}</Project>
+      <Name>SharpDX.RawInput</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SharpDX\SharpDX.XAudio2\SharpDX.XAudio2.csproj">
+      <Project>{032c2158-2b94-485c-a32e-b880e63f7f29}</Project>
+      <Name>SharpDX.XAudio2</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SharpDX\SharpDX.XInput\SharpDX.XInput.csproj">
+      <Project>{7dda3633-fb33-4187-8209-093616e50b08}</Project>
+      <Name>SharpDX.XInput</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SharpDX\SharpDX\SharpDX.csproj">
+      <Project>{6a41eaf1-67d4-43f0-b6b8-1a1395b07235}</Project>
+      <Name>SharpDX</Name>
     </ProjectReference>
     <ProjectReference Include="..\WpfToolkit\WpfToolkit.csproj">
       <Project>{72e591d6-8f83-4d8c-8f67-9c325e623234}</Project>
