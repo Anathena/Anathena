@@ -111,6 +111,9 @@
     <Compile Include="Source\Engine\Input\Mouse\MouseCapture.cs" />
     <Compile Include="Source\Mvvm\Converters\Int32ToHexConverter.cs" />
     <Compile Include="Source\PropertyViewer\IPropertyViewerObserver.cs" />
+    <Compile Include="Source\Scanners\InputCorrelator\InputCorrelator.cs" />
+    <Compile Include="Source\Snapshots\Prefilters\ChunkLinkedListPrefilter.cs" />
+    <Compile Include="Source\Utils\Hashing.cs" />
     <Compile Include="Source\Utils\TypeEditors\HotkeyEditor\HotkeyEditorViewModel.cs" />
     <Compile Include="Source\Utils\TypeEditors\IEditorViewModel.cs" />
     <Compile Include="Source\Utils\TypeEditors\IEditorModel.cs" />

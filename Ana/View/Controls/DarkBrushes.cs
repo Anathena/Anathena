@@ -26,8 +26,6 @@
 
         private static Color baseColor13 = Color.FromArgb(0x66, 0x66, 0x66);
 
-
-
         public static Color BaseColor1
         {
             get

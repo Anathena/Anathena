@@ -70,7 +70,6 @@
             return PropertyViewerViewModel.propertyViewerViewModelInstance.Value;
         }
 
-
         /// <summary>
         /// Subscribes the given object to changes in the selected objects
         /// </summary>

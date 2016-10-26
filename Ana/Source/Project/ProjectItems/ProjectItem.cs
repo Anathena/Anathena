@@ -35,8 +35,6 @@
         [Browsable(false)]
         private Boolean isActivated;
 
-        public event PropertyChangedEventHandler PropertyChanged;
-
         /*
         [Browsable(false)]
         private IEnumerable<IHotKey> hotKeys;
@@ -54,6 +52,8 @@
             this.children = new List<ProjectItem>();
             this.IsActivated = false;
         }
+
+        public event PropertyChangedEventHandler PropertyChanged;
 
         [Browsable(false)]
         public ProjectItem Parent

@@ -1,5 +1,6 @@
 ﻿namespace Ana.Source.Scanners.ManualScanner
 {
+    using Results;
     using ScanConstraints;
     using Snapshots;
     using System;
@@ -38,7 +39,7 @@
             }
 
             this.Snapshot.MarkAllValid();
-            this.Snapshot.ElementType = this.ScanConstraintManager.ElementType;
+            this.Snapshot.ElementType = ScanResultsViewModel.GetInstance().ActiveType;
             this.Snapshot.Alignment = SettingsViewModel.GetInstance().Alignment;
 
             base.Begin();
@@ -180,7 +181,7 @@
                 }
             });
             //// End foreach Region
-            
+
             base.Update();
             this.CancelFlag = true;
         }

@@ -62,7 +62,7 @@
         {
             get
             {
-                return !ScanReady;
+                return !this.ScanReady;
             }
         }
 

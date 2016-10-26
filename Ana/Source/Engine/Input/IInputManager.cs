@@ -1,4 +1,4 @@
-﻿namespace Ana.Source.Engine.InputCapture
+﻿namespace Ana.Source.Engine.Input
 {
     using Controller;
     using Keyboard;

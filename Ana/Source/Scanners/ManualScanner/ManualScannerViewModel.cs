@@ -3,6 +3,7 @@
     using Docking;
     using Main;
     using Mvvm.Command;
+    using Results;
     using ScanConstraints;
     using System;
     using System.Collections.ObjectModel;
@@ -14,7 +15,7 @@
     /// <summary>
     /// View model for the Manual Scanner
     /// </summary>
-    internal class ManualScannerViewModel : ToolViewModel
+    internal class ManualScannerViewModel : ToolViewModel, IResultsObserver
     {
         /// <summary>
         /// The content id for the docking library associated with this view model
@@ -71,7 +72,9 @@
             this.ManualScannerModel = new ManualScannerModel();
             this.ScanConstraintManager = new ScanConstraintManager();
             this.ScanConstraintManager.SetElementType(typeof(Int32));
-            MainViewModel.GetInstance().Subscribe(this);
+
+            Task.Run(() => ScanResultsViewModel.GetInstance().Subscribe(this));
+            Task.Run(() => MainViewModel.GetInstance().Subscribe(this));
         }
 
         /// <summary>
@@ -237,6 +240,11 @@
         public static ManualScannerViewModel GetInstance()
         {
             return ManualScannerViewModel.manualScannerViewModelInstance.Value;
+        }
+
+        public void Update(Type activeType)
+        {
+            this.ScanConstraintManager.SetElementType(activeType);
         }
 
         /// <summary>

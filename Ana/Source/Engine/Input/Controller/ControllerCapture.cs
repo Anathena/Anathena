@@ -1,4 +1,4 @@
-﻿namespace Ana.Source.Engine.InputCapture.Controller
+﻿namespace Ana.Source.Engine.Input.Controller
 {
     using SharpDX.DirectInput;
     using System;

@@ -4,7 +4,7 @@
     using Mvvm;
     using Mvvm.Command;
     using SharpCli;
-    using Snapshots.Prefilter;
+    using Snapshots.Prefilters;
     using System;
     using System.Collections.Generic;
     using System.IO;
@@ -56,7 +56,7 @@
             InteropApp interopApp = new InteropApp(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location));
             interopApp.PatchAll();
 
-            SnapshotPrefilterFactory.GetSnapshotPrefilter(typeof(ShallowPointerPrefilter)).BeginPrefilter();
+            SnapshotPrefilterFactory.GetSnapshotPrefilter(typeof(ChunkLinkedListPrefilter)).BeginPrefilter();
         }
 
         /// <summary>

@@ -1,4 +1,4 @@
-﻿namespace Ana.Source.Snapshots.Prefilter
+﻿namespace Ana.Source.Snapshots.Prefilters
 {
     using System;
 
@@ -17,6 +17,10 @@
             if (prefilterClass == typeof(ShallowPointerPrefilter))
             {
                 return ShallowPointerPrefilter.GetInstance();
+            }
+            else if (prefilterClass == typeof(ChunkLinkedListPrefilter))
+            {
+                return ChunkLinkedListPrefilter.GetInstance();
             }
 
             throw new Exception(prefilterClass?.ToString() + " - Type is not a valid prefilter");

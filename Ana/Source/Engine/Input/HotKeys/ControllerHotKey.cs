@@ -1,4 +1,4 @@
-﻿namespace Ana.Source.Engine.InputCapture.HotKeys
+﻿namespace Ana.Source.Engine.Input.HotKeys
 {
     using System;
     using System.Collections.Generic;

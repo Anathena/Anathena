@@ -1,4 +1,4 @@
-﻿namespace Ana.Source.Engine.InputCapture.HotKeys
+﻿namespace Ana.Source.Engine.Input.HotKeys
 {
     using SharpDX.DirectInput;
     using System;

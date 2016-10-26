@@ -91,7 +91,7 @@
             });
 
             base.Update();
-            UpdateScanCount?.Invoke();
+            this.UpdateScanCount?.Invoke();
         }
 
         protected override void OnEnd()

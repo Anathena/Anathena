@@ -1,4 +1,4 @@
-﻿namespace Ana.Source.Engine.InputCapture.Mouse
+﻿namespace Ana.Source.Engine.Input.Mouse
 {
     using SharpDX;
     using SharpDX.DirectInput;

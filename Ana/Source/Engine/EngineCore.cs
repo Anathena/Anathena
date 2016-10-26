@@ -2,7 +2,7 @@
 {
     using Architecture;
     using Graphics;
-    using InputCapture;
+    using Input;
     using OperatingSystems;
     using Processes;
     using SpeedManipulator;
@@ -65,7 +65,7 @@
         /// <summary>
         /// Gets an object that provides access to system input for mouse, keyboard, and controllers
         /// </summary>
-        public IInputCapture Input { get; private set; }
+        public IInputManager Input { get; private set; }
 
         /// <summary>
         /// Gets an instance of the engine

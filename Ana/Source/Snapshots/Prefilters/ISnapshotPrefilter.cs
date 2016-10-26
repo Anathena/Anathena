@@ -1,4 +1,4 @@
-﻿namespace Ana.Source.Snapshots.Prefilter
+﻿namespace Ana.Source.Snapshots.Prefilters
 {
     /// <summary>
     /// Interface defining methods that a snapshot prefilter must implement

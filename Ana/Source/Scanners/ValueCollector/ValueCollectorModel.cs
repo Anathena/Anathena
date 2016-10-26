@@ -1,7 +1,7 @@
 ﻿namespace Ana.Source.Scanners.ValueCollector
 {
+    using Results;
     using Snapshots;
-    using System;
     using UserSettings;
 
     /// <summary>
@@ -22,7 +22,7 @@
         public override void Begin()
         {
             Snapshot snapshot = SnapshotManager.GetInstance().GetActiveSnapshot(createIfNone: true).Clone();
-            snapshot.ElementType = typeof(Int32);
+            snapshot.ElementType = ScanResultsViewModel.GetInstance().ActiveType;
             snapshot.Alignment = SettingsViewModel.GetInstance().Alignment;
             snapshot.ReadAllSnapshotMemory();
             snapshot.ScanMethod = this.ScannerName;

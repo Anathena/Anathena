@@ -1,4 +1,4 @@
-﻿namespace Ana.Source.Snapshots.Prefilter
+﻿namespace Ana.Source.Snapshots.Prefilters
 {
     using Engine;
     using Engine.OperatingSystems;
@@ -19,8 +19,11 @@
     internal class ShallowPointerPrefilter : RepeatedTask, ISnapshotPrefilter
     {
         private const Int32 PointerRadius = 2048;
+
         private const Int32 RegionLimit = 8192;
+
         private const Int32 RescanTime = 4096;
+
         private const Int32 CompletionThreshold = 97;
 
         /// <summary>

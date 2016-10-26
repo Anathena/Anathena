@@ -2,7 +2,7 @@
 {
     using Engine;
     using Engine.OperatingSystems;
-    using Prefilter;
+    using Prefilters;
     using System;
     using System.Collections.Generic;
     using System.Threading;
@@ -193,7 +193,7 @@
         {
             if (usePrefilter)
             {
-                return SnapshotPrefilterFactory.GetSnapshotPrefilter(typeof(ShallowPointerPrefilter)).GetPrefilteredSnapshot();
+                return SnapshotPrefilterFactory.GetSnapshotPrefilter(typeof(ChunkLinkedListPrefilter)).GetPrefilteredSnapshot();
             }
 
             IEnumerable<NormalizedRegion> virtualPages = this.CollectSnapshotRegions(useSettings);

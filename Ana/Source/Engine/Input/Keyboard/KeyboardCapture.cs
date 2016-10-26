@@ -1,4 +1,4 @@
-﻿namespace Ana.Source.Engine.InputCapture.Keyboard
+﻿namespace Ana.Source.Engine.Input.Keyboard
 {
     using SharpDX;
     using SharpDX.DirectInput;
