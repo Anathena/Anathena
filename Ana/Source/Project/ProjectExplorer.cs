@@ -30,7 +30,7 @@
 
         ~ProjectExplorerDeprecated()
         {
-            this.TriggerEnd();
+            this.End();
         }
 
         private FolderItem ProjectRoot { get; set; }
@@ -221,9 +221,9 @@
             }
         }
 
-        protected override void End()
+        protected override void OnEnd()
         {
-            base.End();
+            base.OnEnd();
         }
 
         private void ImportProjectItems(FolderItem importedProjectRoot)

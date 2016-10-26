@@ -25,15 +25,35 @@
                 () => { return new SettingsViewModel(); },
                 LazyThreadSafetyMode.PublicationOnly);
 
+        private static Lazy<ParallelOptions> parallelSettings = new Lazy<ParallelOptions>(
+                () =>
+                {
+                    ParallelOptions parallelOptions = new ParallelOptions()
+                    {
+                        // Only use 75% of available processing power, as not to interfere with other programs
+                        MaxDegreeOfParallelism = (Environment.ProcessorCount * 3) / 4
+                    };
+                    return parallelOptions;
+                },
+                LazyThreadSafetyMode.PublicationOnly);
+
         /// <summary>
         /// Prevents a default instance of the <see cref="SettingsViewModel"/> class from being created
         /// </summary>
         private SettingsViewModel() : base("Settings")
         {
-            this.ContentId = ToolContentId;
+            this.ContentId = SettingsViewModel.ToolContentId;
 
             // Subscribe async to avoid a deadlock situation
             Task.Run(() => MainViewModel.GetInstance().Subscribe(this));
+        }
+
+        public ParallelOptions ParallelSettings
+        {
+            get
+            {
+                return parallelSettings.Value;
+            }
         }
 
         public Boolean RequiredProtectionWrite

@@ -46,20 +46,22 @@
             this.ContentId = ManualScannerViewModel.ToolContentId;
             this.IsVisible = true;
             this.StartScanCommand = new RelayCommand(() => Task.Run(() => this.StartScan()), () => true);
-            this.UpdateActiveValueCommand = new RelayCommand<dynamic>((newValue) => Task.Run(() => this.UpdateActiveValue(newValue)), (newValue) => true);
-            this.SelectChangedCommand = new RelayCommand(() => Task.Run(() => this.ChangeScanConstraintSelection(ConstraintsEnum.Changed)), () => true);
-            this.SelectDecreasedCommand = new RelayCommand(() => Task.Run(() => this.ChangeScanConstraintSelection(ConstraintsEnum.Decreased)), () => true);
-            this.SelectDecreasedByXCommand = new RelayCommand(() => Task.Run(() => this.ChangeScanConstraintSelection(ConstraintsEnum.DecreasedByX)), () => true);
-            this.SelectEqualCommand = new RelayCommand(() => Task.Run(() => this.ChangeScanConstraintSelection(ConstraintsEnum.Equal)), () => true);
-            this.SelectGreaterThanCommand = new RelayCommand(() => Task.Run(() => this.ChangeScanConstraintSelection(ConstraintsEnum.GreaterThan)), () => true);
-            this.SelectGreaterThanOrEqualCommand = new RelayCommand(() => Task.Run(() => this.ChangeScanConstraintSelection(ConstraintsEnum.GreaterThanOrEqual)), () => true);
-            this.SelectIncreasedCommand = new RelayCommand(() => Task.Run(() => this.ChangeScanConstraintSelection(ConstraintsEnum.Increased)), () => true);
-            this.SelectIncreasedByXCommand = new RelayCommand(() => Task.Run(() => this.ChangeScanConstraintSelection(ConstraintsEnum.IncreasedByX)), () => true);
-            this.SelectLessThanCommand = new RelayCommand(() => Task.Run(() => this.ChangeScanConstraintSelection(ConstraintsEnum.LessThan)), () => true);
-            this.SelectLessThanOrEqualCommand = new RelayCommand(() => Task.Run(() => this.ChangeScanConstraintSelection(ConstraintsEnum.LessThanOrEqual)), () => true);
-            this.SelectNotEqualCommand = new RelayCommand(() => Task.Run(() => this.ChangeScanConstraintSelection(ConstraintsEnum.NotEqual)), () => true);
-            this.SelectNotScientificNotationCommand = new RelayCommand(() => Task.Run(() => this.ChangeScanConstraintSelection(ConstraintsEnum.NotScientificNotation)), () => true);
-            this.SelectUnchangedCommand = new RelayCommand(() => Task.Run(() => this.ChangeScanConstraintSelection(ConstraintsEnum.Unchanged)), () => true);
+
+            // Note: Not async to avoid updates slower than the perception threshold
+            this.UpdateActiveValueCommand = new RelayCommand<dynamic>((newValue) => this.UpdateActiveValue(newValue), (newValue) => true);
+            this.SelectChangedCommand = new RelayCommand(() => this.ChangeScanConstraintSelection(ConstraintsEnum.Changed), () => true);
+            this.SelectDecreasedCommand = new RelayCommand(() => this.ChangeScanConstraintSelection(ConstraintsEnum.Decreased), () => true);
+            this.SelectDecreasedByXCommand = new RelayCommand(() => this.ChangeScanConstraintSelection(ConstraintsEnum.DecreasedByX), () => true);
+            this.SelectEqualCommand = new RelayCommand(() => this.ChangeScanConstraintSelection(ConstraintsEnum.Equal), () => true);
+            this.SelectGreaterThanCommand = new RelayCommand(() => this.ChangeScanConstraintSelection(ConstraintsEnum.GreaterThan), () => true);
+            this.SelectGreaterThanOrEqualCommand = new RelayCommand(() => this.ChangeScanConstraintSelection(ConstraintsEnum.GreaterThanOrEqual), () => true);
+            this.SelectIncreasedCommand = new RelayCommand(() => this.ChangeScanConstraintSelection(ConstraintsEnum.Increased), () => true);
+            this.SelectIncreasedByXCommand = new RelayCommand(() => this.ChangeScanConstraintSelection(ConstraintsEnum.IncreasedByX), () => true);
+            this.SelectLessThanCommand = new RelayCommand(() => this.ChangeScanConstraintSelection(ConstraintsEnum.LessThan), () => true);
+            this.SelectLessThanOrEqualCommand = new RelayCommand(() => this.ChangeScanConstraintSelection(ConstraintsEnum.LessThanOrEqual), () => true);
+            this.SelectNotEqualCommand = new RelayCommand(() => this.ChangeScanConstraintSelection(ConstraintsEnum.NotEqual), () => true);
+            this.SelectNotScientificNotationCommand = new RelayCommand(() => this.ChangeScanConstraintSelection(ConstraintsEnum.NotScientificNotation), () => true);
+            this.SelectUnchangedCommand = new RelayCommand(() => this.ChangeScanConstraintSelection(ConstraintsEnum.Unchanged), () => true);
 
             // Note: Constraint modifying commands cannot be async since they modify the observable collection, which must be done on the same thread as the GUI
             this.AddSelectedConstraintCommand = new RelayCommand(() => this.AddSelectedConstraint(), () => true);

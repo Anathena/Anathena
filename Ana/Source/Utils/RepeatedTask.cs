@@ -95,7 +95,7 @@
         /// <summary>
         /// Cancels the running task
         /// </summary>
-        public void TriggerEnd()
+        public void End()
         {
             Task.Run(() =>
             {
@@ -109,7 +109,7 @@
                 {
                 }
 
-                this.End();
+                this.OnEnd();
             });
         }
 
@@ -121,7 +121,7 @@
         /// <summary>
         /// Called when the repeated task completes
         /// </summary>
-        protected virtual void End()
+        protected virtual void OnEnd()
         {
             this.StartedFlag = false;
         }
@@ -142,7 +142,7 @@
                 {
                     this.FinishedFlag = true;
 
-                    Action action = this.End;
+                    Action action = this.OnEnd;
                     action.BeginInvoke(x => action.EndInvoke(x), null);
                     return;
                 }

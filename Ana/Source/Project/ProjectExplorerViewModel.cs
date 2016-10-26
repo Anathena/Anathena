@@ -46,7 +46,7 @@
         /// </summary>
         private ProjectExplorerViewModel() : base("Project Explorer")
         {
-            this.ContentId = ToolContentId;
+            this.ContentId = ProjectExplorerViewModel.ToolContentId;
 
             // Commands to manipulate project items may not be async due to multi-threading issues when modifying collections
             this.AddNewFolderItemCommand = new RelayCommand(() => this.AddNewFolderItem(), () => true);

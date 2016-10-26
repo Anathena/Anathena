@@ -87,9 +87,9 @@
             this.UpdateProgress();
         }
 
-        protected override void End()
+        protected override void OnEnd()
         {
-            base.End();
+            base.OnEnd();
         }
 
         /// <summary>
@@ -120,7 +120,8 @@
                 Parallel.For(
                     0,
                     Math.Min(filteredRegions.Count, ShallowPointerPrefilter.RegionLimit),
-                    Index =>
+                    SettingsViewModel.GetInstance().ParallelSettings,
+                    (Index) =>
                     {
                         Interlocked.Increment(ref processedCount);
 

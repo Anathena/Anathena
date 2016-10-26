@@ -28,7 +28,7 @@
         /// </summary>
         private HotkeyEditorViewModel() : base("Hotkey Editor")
         {
-            this.ContentId = ToolContentId;
+            this.ContentId = HotkeyEditorViewModel.ToolContentId;
 
             Task.Run(() => MainViewModel.GetInstance().Subscribe(this));
         }

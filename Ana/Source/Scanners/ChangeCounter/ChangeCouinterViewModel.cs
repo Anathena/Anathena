@@ -1,9 +1,12 @@
-﻿namespace Ana.Source.ChangeCounter
+﻿namespace Ana.Source.Scanners.ChangeCounter
 {
     using Docking;
     using Main;
+    using Mvvm.Command;
     using System;
     using System.Threading;
+    using System.Threading.Tasks;
+    using System.Windows.Input;
 
     /// <summary>
     /// View model for the Change Counter
@@ -27,10 +30,35 @@
         /// </summary>
         private ChangeCounterViewModel() : base("Change Counter")
         {
-            this.ContentId = ToolContentId;
+            this.ContentId = ChangeCounterViewModel.ToolContentId;
+            this.StartScanCommand = new RelayCommand(() => Task.Run(() => this.StartScan()), () => ScanReady);
+            this.StopScanCommand = new RelayCommand(() => Task.Run(() => this.StopScan()), () => StopScanReady);
+            this.ChangeCounterModel = new ChangeCounterModel();
 
             MainViewModel.GetInstance().Subscribe(this);
         }
+
+        public ICommand StartScanCommand { get; private set; }
+
+        public ICommand StopScanCommand { get; private set; }
+
+        public Boolean ScanReady
+        {
+            get
+            {
+                return true;
+            }
+        }
+
+        public Boolean StopScanReady
+        {
+            get
+            {
+                return !ScanReady;
+            }
+        }
+
+        private ChangeCounterModel ChangeCounterModel { get; set; }
 
         /// <summary>
         /// Gets a singleton instance of the <see cref="ChangeCounterViewModel"/> class
@@ -38,7 +66,17 @@
         /// <returns>A singleton instance of the class</returns>
         public static ChangeCounterViewModel GetInstance()
         {
-            return changeCounterViewModelInstance.Value;
+            return ChangeCounterViewModel.changeCounterViewModelInstance.Value;
+        }
+
+        private void StartScan()
+        {
+            this.ChangeCounterModel.Begin();
+        }
+
+        private void StopScan()
+        {
+            this.ChangeCounterModel.End();
         }
     }
     //// End class

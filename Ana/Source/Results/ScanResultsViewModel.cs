@@ -62,7 +62,7 @@
         /// </summary>
         private ScanResultsViewModel() : base("Scan Results")
         {
-            this.ContentId = ToolContentId;
+            this.ContentId = ScanResultsViewModel.ToolContentId;
             this.ChangeTypeSByteCommand = new RelayCommand(() => Task.Run(() => this.ChangeType(typeof(SByte))), () => true);
             this.ChangeTypeInt16Command = new RelayCommand(() => Task.Run(() => this.ChangeType(typeof(Int16))), () => true);
             this.ChangeTypeInt32Command = new RelayCommand(() => Task.Run(() => this.ChangeType(typeof(Int32))), () => true);

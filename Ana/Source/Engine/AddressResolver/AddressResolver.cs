@@ -91,9 +91,9 @@
             }
         }
 
-        protected override void End()
+        protected override void OnEnd()
         {
-            base.End();
+            base.OnEnd();
         }
 
         private void BuildNameMap(Dictionary<String, DotNetObject> nameMap, DotNetObject currentObject)

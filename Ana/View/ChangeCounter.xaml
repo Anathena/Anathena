@@ -22,17 +22,15 @@
                 <RowDefinition />
             </Grid.RowDefinitions>
             <WrapPanel Grid.Row="0" Background="{StaticResource AvalonDock_Expression_BaseColor4}">
-                <Menu Background="Transparent"
-                      DataContext="{Binding Source={StaticResource ViewModelLocator}}"
-                      Padding="4">
-                    <MenuItem>
+                <Menu Background="Transparent" Padding="4">
+                    <MenuItem Command="{Binding StartScanCommand}">
                         <MenuItem.Header>
                             <Image Width="16"
                                    Height="16"
                                    Source="pack://application:,,,/Ana;component/Content/Icons/RightArrow.png" />
                         </MenuItem.Header>
                     </MenuItem>
-                    <MenuItem>
+                    <MenuItem Command="{Binding StopScanCommand}">
                         <MenuItem.Header>
                             <Image Width="16"
                                    Height="16"
@@ -41,26 +39,21 @@
                     </MenuItem>
                 </Menu>
             </WrapPanel>
-            <Grid Grid.Row="1">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition />
-                </Grid.ColumnDefinitions>
-                <Border Grid.Column="0" Padding="16 8 16 8">
-                    <StackPanel Grid.Column="0">
-                        <TextBlock Foreground="{StaticResource AvalonDock_Expression_BaseColor2}" Text="Minimum Changes" />
-                        <TextBlock Foreground="{StaticResource AvalonDock_Expression_BaseColor2}" Text="Maximum Changes" />
-                        <TextBlock Foreground="{StaticResource AvalonDock_Expression_BaseColor2}" Text="Variable Size" />
-                    </StackPanel>
-                </Border>
-                <Border Grid.Column="1" Padding="16 8 16 8">
-                    <StackPanel>
-                        <Slider Width="128" HorizontalAlignment="Left" />
-                        <Slider Width="128" HorizontalAlignment="Left" />
-                        <Slider Width="128" HorizontalAlignment="Left" />
-                    </StackPanel>
-                </Border>
-            </Grid>
+            <Border Grid.Row="1" Padding="8">
+                <StackPanel>
+                    <TextBlock Foreground="{StaticResource AvalonDock_Expression_BaseColor2}" Text="Change Count: " />
+                    <TextBlock Foreground="{StaticResource AvalonDock_Expression_BaseColor2}" Text="Minimum Changes: " />
+                    <Border Padding="0 8 0 0" />
+                    <TextBlock Foreground="{StaticResource AvalonDock_Expression_BaseColor2}" Text="Maximum Changes: " />
+                    <WrapPanel>
+                        <RadioButton />
+                        <TextBlock Foreground="{StaticResource AvalonDock_Expression_BaseColor2}" Text="Infinite" />
+                        <Border Padding="8 0 0 0" />
+                        <RadioButton />
+                        <TextBlock Foreground="{StaticResource AvalonDock_Expression_BaseColor2}" Text="Custom" />
+                    </WrapPanel>
+                </StackPanel>
+            </Border>
         </Grid>
     </Grid>
 </UserControl>

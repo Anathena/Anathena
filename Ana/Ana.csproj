@@ -220,7 +220,7 @@
     <Compile Include="Source\Results\ScanResultsViewModel.cs">
       <ExcludeFromStyleCop>False</ExcludeFromStyleCop>
     </Compile>
-    <Compile Include="Source\Scanners\ChangeCounter\ChangeCounter.cs" />
+    <Compile Include="Source\Scanners\ChangeCounter\ChangeCounterModel.cs" />
     <Compile Include="Source\Scanners\ChangeCounter\ChangeCouinterViewModel.cs" />
     <Compile Include="Source\Scanners\InputCorrelator\InputCorrelatorViewModel.cs" />
     <Compile Include="Source\Scanners\ScannerBase.cs" />

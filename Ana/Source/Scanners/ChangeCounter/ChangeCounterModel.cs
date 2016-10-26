@@ -1,5 +1,6 @@
 ﻿namespace Ana.Source.Scanners.ChangeCounter
 {
+    using Results;
     using Snapshots;
     using System;
     using System.Linq;
@@ -7,9 +8,9 @@
     using UserSettings;
     using Utils;
 
-    internal class ChangeCounter : ScannerBase
+    internal class ChangeCounterModel : ScannerBase
     {
-        public ChangeCounter() : base("Change Counter")
+        public ChangeCounterModel() : base("Change Counter")
         {
             this.ProgressLock = new Object();
         }
@@ -23,8 +24,6 @@
 
         private UInt16 MaxChanges { get; set; }
 
-        private Int32 VariableSize { get; set; }
-
         private Object ProgressLock { get; set; }
 
         public void SetMinChanges(UInt16 minChanges)
@@ -37,11 +36,6 @@
             this.MaxChanges = maxChanges;
         }
 
-        public void SetVariableSize(Int32 variableSize)
-        {
-            this.VariableSize = variableSize;
-        }
-
         public override void Begin()
         {
             // Initialize labeled snapshot
@@ -52,7 +46,7 @@
                 return;
             }
 
-            this.Snapshot.SetVariableSize(this.VariableSize);
+            this.Snapshot.ElementType = ScanResultsViewModel.GetInstance().ActiveType;
             this.Snapshot.Alignment = SettingsViewModel.GetInstance().Alignment;
 
             // Initialize change counts to zero
@@ -63,6 +57,8 @@
 
         protected override void Update()
         {
+            base.Update();
+
             Int32 processedPages = 0;
 
             // Read memory to get current values
@@ -72,18 +68,18 @@
                 this.Snapshot.Cast<Object>(),
                 (Object regionObject) =>
             {
-                SnapshotRegion region = (SnapshotRegion)regionObject;
+                SnapshotRegion region = regionObject as SnapshotRegion;
 
                 if (!region.CanCompare())
                 {
                     return;
                 }
 
-                foreach (SnapshotElement<UInt16> Element in region)
+                foreach (SnapshotElement<UInt16> element in region)
                 {
-                    if (Element.Changed())
+                    if (element.Changed())
                     {
-                        Element.ElementLabel++;
+                        element.ElementLabel++;
                     }
                 }
 
@@ -94,29 +90,32 @@
             });
         }
 
-        protected override void End()
+        protected override void OnEnd()
         {
-            base.End();
+            base.OnEnd();
 
             // Mark regions as valid or invalid based on number of changes
-            this.Snapshot.MarkAllInvalid();
+            /* 
+             this.Snapshot.MarkAllInvalid();
 
-            if (this.Snapshot.GetRegionCount() > 0)
-            {
-                foreach (SnapshotRegion<UInt16> region in this.Snapshot)
-                {
-                    foreach (SnapshotElement<UInt16> element in region)
-                    {
-                        if (element.ElementLabel.Value >= this.MinChanges && element.ElementLabel.Value <= this.MaxChanges)
-                        {
-                            element.Valid = true;
-                        }
-                    }
-                }
-            }
+             if (this.Snapshot.GetRegionCount() > 0)
+              {
+                  foreach (SnapshotRegion<UInt16> region in this.Snapshot)
+                  {
+                      foreach (SnapshotElement<UInt16> element in region)
+                      {
+                          if (element.ElementLabel.Value >= this.MinChanges && element.ElementLabel.Value <= this.MaxChanges)
+                          {
+                              element.Valid = true;
+                          }
+                      }
+                  }
+              }
 
-            // Create a snapshot from the valid regions
-            this.Snapshot.DiscardInvalidRegions();
+              // Create a snapshot from the valid regions
+              this.Snapshot.DiscardInvalidRegions();
+              */
+
             this.Snapshot.ScanMethod = this.ScannerName;
 
             SnapshotManager.GetInstance().SaveSnapshot(this.Snapshot);

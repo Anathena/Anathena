@@ -13,6 +13,7 @@
     using System.Linq;
     using System.Runtime.InteropServices;
     using System.Threading.Tasks;
+    using UserSettings;
     using Utils.Extensions;
     using Utils.Validation;
 
@@ -246,9 +247,9 @@
             }
         }
 
-        protected override void End()
+        protected override void OnEnd()
         {
-            base.End();
+            base.OnEnd();
         }
 
         private IntPtr ResolvePointer(Tuple<IntPtr, List<Int32>> fullPointer)
@@ -500,6 +501,7 @@
 
             Parallel.ForEach(
                 this.Snapshot.Cast<Object>(),
+                SettingsViewModel.GetInstance().ParallelSettings,
                 (regionObject) =>
             {
                 SnapshotRegion region = (SnapshotRegion)regionObject;
@@ -577,6 +579,7 @@
 
                 Parallel.ForEach(
                     this.PointerPool,
+                    SettingsViewModel.GetInstance().ParallelSettings,
                     (pointer) =>
                 {
                     // Ensure if this is a max level pointer that it is from an acceptable base address (ie static)
@@ -600,6 +603,7 @@
                 // Construct new target region list from this level of pointers
                 Parallel.ForEach(
                     levelPointers,
+                    SettingsViewModel.GetInstance().ParallelSettings,
                     (pointer) =>
                 {
                     previousLevelRegions.Add(AddressToRegion(pointer.Key));
@@ -620,6 +624,7 @@
             {
                 Parallel.ForEach(
                     this.ConnectedPointers[currentMaximum],
+                    SettingsViewModel.GetInstance().ParallelSettings,
                     (baseAddress) =>
                 {
                     // Enforce static base constraint. Maxlevel pointers were already prefitlered, but not other levels.
@@ -646,6 +651,7 @@
 
             Parallel.ForEach(
                 this.ConnectedPointers[level - 1],
+                SettingsViewModel.GetInstance().ParallelSettings,
                 (target) =>
             {
                 if (pointerDestination.ToUInt64() < target.Key.Subtract(this.MaxPointerOffset).ToUInt64())

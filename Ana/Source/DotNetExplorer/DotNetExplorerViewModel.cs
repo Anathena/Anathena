@@ -27,7 +27,7 @@
         /// </summary>
         private DotNetExplorerViewModel() : base(".Net Explorer")
         {
-            this.ContentId = ToolContentId;
+            this.ContentId = DotNetExplorerViewModel.ToolContentId;
 
             MainViewModel.GetInstance().Subscribe(this);
         }

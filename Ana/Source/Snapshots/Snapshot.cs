@@ -6,6 +6,7 @@
     using System.Linq;
     using System.Reflection;
     using System.Threading.Tasks;
+    using UserSettings;
     using Utils;
     using Utils.Extensions;
 
@@ -306,7 +307,7 @@
         /// <param name="snapshotRegions">The regions with which to initialize this snapshot</param>
         public Snapshot(IEnumerable<SnapshotRegion> snapshotRegions)
         {
-            this.SnapshotRegions = snapshotRegions == null ? null : snapshotRegions.Select(x => (SnapshotRegion<LabelType>)x);
+            this.SnapshotRegions = snapshotRegions == null ? null : snapshotRegions.Select(x => new SnapshotRegion<LabelType>(x));
             this.DeallocatedRegions = new List<SnapshotRegion>();
             this.DeallocatedRegionLock = new Object();
             this.MergeRegions();
@@ -402,6 +403,7 @@
 
             Parallel.ForEach(
                 this.SnapshotRegions,
+                SettingsViewModel.GetInstance().ParallelSettings,
                 (snapshotRegion) =>
             {
                 Boolean readSuccess;

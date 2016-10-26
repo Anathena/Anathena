@@ -31,7 +31,7 @@
         /// </summary>
         private PropertyViewerViewModel() : base("Property Viewer")
         {
-            this.ContentId = ToolContentId;
+            this.ContentId = PropertyViewerViewModel.ToolContentId;
             this.IsVisible = true;
             this.ObserverLock = new Object();
             this.PropertyViewerObservers = new List<IPropertyViewerObserver>();

@@ -27,7 +27,7 @@
         /// </summary>
         private LabelThresholderViewModel() : base("Label Thresholder")
         {
-            this.ContentId = ToolContentId;
+            this.ContentId = LabelThresholderViewModel.ToolContentId;
 
             MainViewModel.GetInstance().Subscribe(this);
         }

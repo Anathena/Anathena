@@ -1,4 +1,4 @@
-﻿namespace Ana.Source.ChangeCounter
+﻿namespace Ana.Source.Scanners.InputCorrelator
 {
     using Docking;
     using Main;
@@ -27,7 +27,7 @@
         /// </summary>
         private InputCorrelatorViewModel() : base("Input Correlator")
         {
-            this.ContentId = ToolContentId;
+            this.ContentId = InputCorrelatorViewModel.ToolContentId;
 
             MainViewModel.GetInstance().Subscribe(this);
         }

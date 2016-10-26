@@ -1,6 +1,5 @@
 ﻿namespace Ana.View
 {
-    using Source.ChangeCounter;
     using Source.CheatBrowser;
     using Source.DotNetExplorer;
     using Source.LabelThresholder;
@@ -8,6 +7,8 @@
     using Source.Project;
     using Source.PropertyViewer;
     using Source.Results;
+    using Source.Scanners.ChangeCounter;
+    using Source.Scanners.InputCorrelator;
     using Source.Scanners.ManualScanner;
     using Source.Snapshots;
     using Source.UserSettings;

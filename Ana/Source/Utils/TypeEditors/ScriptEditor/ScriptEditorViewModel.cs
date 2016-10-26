@@ -28,7 +28,7 @@
         /// </summary>
         private ScriptEditorViewModel() : base("Script Editor")
         {
-            this.ContentId = ToolContentId;
+            this.ContentId = ScriptEditorViewModel.ToolContentId;
 
             Task.Run(() => MainViewModel.GetInstance().Subscribe(this));
         }
