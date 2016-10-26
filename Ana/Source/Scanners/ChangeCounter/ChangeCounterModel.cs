@@ -10,8 +10,9 @@
 
     internal class ChangeCounterModel : ScannerBase
     {
-        public ChangeCounterModel() : base("Change Counter")
+        public ChangeCounterModel(Action updateScanCount) : base("Change Counter")
         {
+            this.UpdateScanCount = updateScanCount;
             this.ProgressLock = new Object();
         }
 
@@ -25,6 +26,8 @@
         private UInt16 MaxChanges { get; set; }
 
         private Object ProgressLock { get; set; }
+
+        private Action UpdateScanCount { get; set; }
 
         public void SetMinChanges(UInt16 minChanges)
         {
@@ -57,8 +60,6 @@
 
         protected override void Update()
         {
-            base.Update();
-
             Int32 processedPages = 0;
 
             // Read memory to get current values
@@ -88,6 +89,9 @@
                     processedPages++;
                 }
             });
+
+            base.Update();
+            UpdateScanCount?.Invoke();
         }
 
         protected override void OnEnd()

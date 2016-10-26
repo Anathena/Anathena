@@ -40,19 +40,10 @@
                 </Menu>
             </WrapPanel>
             <Border Grid.Row="1" Padding="8">
-                <StackPanel>
+                <WrapPanel>
                     <TextBlock Foreground="{StaticResource AvalonDock_Expression_BaseColor2}" Text="Change Count: " />
-                    <TextBlock Foreground="{StaticResource AvalonDock_Expression_BaseColor2}" Text="Minimum Changes: " />
-                    <Border Padding="0 8 0 0" />
-                    <TextBlock Foreground="{StaticResource AvalonDock_Expression_BaseColor2}" Text="Maximum Changes: " />
-                    <WrapPanel>
-                        <RadioButton />
-                        <TextBlock Foreground="{StaticResource AvalonDock_Expression_BaseColor2}" Text="Infinite" />
-                        <Border Padding="8 0 0 0" />
-                        <RadioButton />
-                        <TextBlock Foreground="{StaticResource AvalonDock_Expression_BaseColor2}" Text="Custom" />
-                    </WrapPanel>
-                </StackPanel>
+                    <TextBlock Foreground="{StaticResource AvalonDock_Expression_BaseColor2}" Text="{Binding ScanCount}" />
+                </WrapPanel>
             </Border>
         </Grid>
     </Grid>

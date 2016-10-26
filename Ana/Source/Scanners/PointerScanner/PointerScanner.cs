@@ -206,8 +206,6 @@
 
         protected override void Update()
         {
-            base.Update();
-
             // Scan mode determines the action to make, such that the action always happens on this task thread
             switch (this.ScanMode)
             {
@@ -245,6 +243,8 @@
                     this.ScanMode = ScanModeEnum.ReadValues;
                     break;
             }
+
+            base.Update();
         }
 
         protected override void OnEnd()

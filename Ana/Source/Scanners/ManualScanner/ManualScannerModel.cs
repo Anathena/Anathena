@@ -46,8 +46,6 @@
 
         protected override void Update()
         {
-            base.Update();
-
             Int32 processedPages = 0;
 
             // Read memory to get current values
@@ -182,7 +180,8 @@
                 }
             });
             //// End foreach Region
-
+            
+            base.Update();
             this.CancelFlag = true;
         }
 

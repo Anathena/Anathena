@@ -1,14 +1,17 @@
 ﻿namespace Ana.Source.Scanners
 {
     using System;
+    using System.ComponentModel;
     using UserSettings;
     using Utils;
 
     /// <summary>
     /// The base of all scanner classes
     /// </summary>
-    internal abstract class ScannerBase : RepeatedTask
+    internal abstract class ScannerBase : RepeatedTask, INotifyPropertyChanged
     {
+        private Int32 scanCount;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="ScannerBase" /> class
         /// </summary>
@@ -18,10 +21,24 @@
             this.ScannerName = scannerName;
         }
 
+        public event PropertyChangedEventHandler PropertyChanged;
+
         /// <summary>
         /// Gets the number of scans that have been executed
         /// </summary>
-        public Int32 ScanCount { get; private set; }
+        public Int32 ScanCount
+        {
+            get
+            {
+                return this.scanCount;
+            }
+
+            private set
+            {
+                this.scanCount = value;
+                this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(this.ScanCount)));
+            }
+        }
 
         /// <summary>
         /// Gets the name of this scanner
