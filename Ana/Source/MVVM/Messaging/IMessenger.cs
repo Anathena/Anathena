@@ -7,7 +7,7 @@
     /// The Messenger is a class allowing objects to exchange messages.
     /// </summary>
     ////[ClassInfo(typeof(Messenger))]
-    public interface IMessenger
+    internal interface IMessenger
     {
         /// <summary>
         /// Registers a recipient for a type of message TMessage. The action

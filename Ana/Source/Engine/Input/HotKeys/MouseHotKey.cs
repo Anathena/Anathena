@@ -7,7 +7,7 @@
 
     [DataContract]
     [Obfuscation(Exclude = true, ApplyToMembers = true)]
-    internal class MouseHotKey : IHotKey
+    internal class MouseHotKey : IHotkey
     {
         public MouseHotKey()
         {

@@ -7,7 +7,7 @@
     /// TODO summary
     /// </summary>
     /// <param name="ud">TODO ud</param>
-    public delegate void UdTranslatorDelegate(ref Ud ud);
+    internal delegate void UdTranslatorDelegate(ref Ud ud);
 
     /// <summary>
     /// TODO summary
@@ -16,19 +16,19 @@
     /// <param name="addr">TODO addr</param>
     /// <param name="offset">TODO offset</param>
     /// <returns>TODO TODO</returns>
-    public delegate String UdSymbolResolverDelegate(ref Ud ud, Int64 addr, ref Int64 offset);
+    internal delegate String UdSymbolResolverDelegate(ref Ud ud, Int64 addr, ref Int64 offset);
 
     /// <summary>
     /// TODO summary
     /// </summary>
     /// <param name="ud">TODO ud</param>
     /// <returns>TODO TODO</returns>
-    public delegate Int32 UdInputCallback(ref Ud ud);
+    internal delegate Int32 UdInputCallback(ref Ud ud);
 
     /// <summary>
     /// TODO TODO
     /// </summary>
-    public sealed unsafe class Ud : IDisposable
+    internal sealed unsafe class Ud : IDisposable
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="Ud" /> class

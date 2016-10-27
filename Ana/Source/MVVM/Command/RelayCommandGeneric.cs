@@ -12,7 +12,7 @@
     /// Execute and CanExecute callback methods.
     /// </summary>
     /// <typeparam name="T">The type of the command parameter.</typeparam>
-    public class RelayCommand<T> : ICommand
+    internal class RelayCommand<T> : ICommand
     {
         /// <summary>
         /// TODO TODO

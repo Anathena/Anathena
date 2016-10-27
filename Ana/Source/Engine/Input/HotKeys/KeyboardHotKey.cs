@@ -8,9 +8,9 @@
 
     [DataContract]
     [Obfuscation(Exclude = true, ApplyToMembers = true)]
-    internal class KeyboardHotKey : IHotKey
+    internal class KeyboardHotkey : IHotkey
     {
-        public KeyboardHotKey()
+        public KeyboardHotkey()
         {
             this.ActivationKeys = new HashSet<Key>();
         }

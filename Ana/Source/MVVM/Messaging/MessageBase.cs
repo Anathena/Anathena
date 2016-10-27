@@ -6,7 +6,7 @@
     /// Base class for all messages broadcasted by the Messenger.
     /// You can create your own message types by extending this class.
     /// </summary>
-    public class MessageBase
+    internal class MessageBase
     {
         /// <summary>
         /// Initializes a new instance of the MessageBase class.

@@ -10,7 +10,7 @@
     /// <para>This static class is thread safe ONLY WHEN using separate <see cref="Ud"/> instances.</para>
     /// </summary>
     /// <remarks>This class is deliberately written to match as closely as possible to the original C-library.</remarks>
-    public static unsafe class Udis86
+    internal static unsafe class Udis86
     {
         /// <summary>
         /// TODO TODO

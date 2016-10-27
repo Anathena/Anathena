@@ -7,7 +7,7 @@
     /// <summary>
     /// Interface defining a disassembler
     /// </summary>
-    public interface IDisassembler
+    internal interface IDisassembler
     {
         /// <summary>
         /// Disassemble the specified assembly code

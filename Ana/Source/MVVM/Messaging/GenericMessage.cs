@@ -5,7 +5,7 @@
     /// </summary>
     /// <typeparam name="T">The type of the Content property.</typeparam>
     ////[ClassInfo(typeof(Messenger))]
-    public class GenericMessage<T> : MessageBase
+    internal class GenericMessage<T> : MessageBase
     {
         /// <summary>
         /// Initializes a new instance of the GenericMessage class.

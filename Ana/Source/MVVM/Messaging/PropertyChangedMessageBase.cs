@@ -7,7 +7,7 @@
     /// class allows a recipient to register for all PropertyChangedMessages without
     /// having to specify the type T.
     /// </summary>
-    public abstract class PropertyChangedMessageBase : MessageBase
+    internal abstract class PropertyChangedMessageBase : MessageBase
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="PropertyChangedMessageBase" /> class.

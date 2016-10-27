@@ -7,7 +7,7 @@
     /// <summary>
     /// A textbox that supports a watermark hint
     /// </summary>
-    public class WatermarkTextBox : TextBox
+    internal class WatermarkTextBox : TextBox
     {
         private Panel waterMarkContainer;
 

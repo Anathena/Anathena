@@ -7,7 +7,7 @@
     /// <summary>
     /// Represents an operand for an <see cref="Instruction"/>
     /// </summary>
-    public class Operand
+    internal class Operand
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="Operand" /> class.

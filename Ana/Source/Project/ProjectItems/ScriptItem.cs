@@ -6,6 +6,7 @@
     using System.Reflection;
     using System.Runtime.Serialization;
     using Utils.TypeConverters;
+
     [Obfuscation(ApplyToMembers = true, Exclude = true)]
     [DataContract]
     internal class ScriptItem : ProjectItem

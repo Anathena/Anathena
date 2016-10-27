@@ -18,7 +18,7 @@
     /// </summary>
     internal class InputCorrelator : ScannerBase, IKeyboardObserver, IControllerObserver, IMouseObserver
     {
-        private List<IHotKey> hotKeys;
+        private List<IHotkey> hotKeys;
 
         public InputCorrelator() : base("Input Correlator")
         {
@@ -26,7 +26,7 @@
 
         private Snapshot<Int16> Snapshot { get; set; }
 
-        public List<IHotKey> HotKeys
+        public List<IHotkey> HotKeys
         {
             get
             {
@@ -58,14 +58,12 @@
 
         public void EditKeys()
         {
-            /*
-            HotKeyEditor hotKeyEditor = new HotKeyEditor();
-            hotKeyEditor.SetHotKeys(HotKeys);
+            View.HotkeyEditor hotKeyEditor = new View.HotkeyEditor(this.HotKeys);
 
-            if (hotKeyEditor.ShowDialog() == DialogResult.OK)
+            if (hotKeyEditor.ShowDialog() == true)
             {
-                HotKeys = new List<IHotKey>(hotKeyEditor.GetHotKeys());
-            }*/
+                HotKeys = new List<IHotkey>(hotKeyEditor.HotkeyEditorViewModel.Hotkeys);
+            }
         }
 
         public override void Begin()
@@ -105,7 +103,7 @@
         public void OnUpdateAllDownKeys(HashSet<Key> pressedKeys)
         {
             // If any of our keyboard hotkeys include the current set of pressed keys, trigger activation/deactivation
-            if (this.HotKeys.Where(x => x.GetType().IsAssignableFrom(typeof(KeyboardHotKey))).Cast<KeyboardHotKey>().Any(x => x.GetActivationKeys().All(y => pressedKeys.Contains(y))))
+            if (this.HotKeys.Where(x => x.GetType().IsAssignableFrom(typeof(KeyboardHotkey))).Cast<KeyboardHotkey>().Any(x => x.GetActivationKeys().All(y => pressedKeys.Contains(y))))
             {
                 this.LastActivated = DateTime.Now;
             }

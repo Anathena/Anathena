@@ -9,7 +9,7 @@
     /// <summary>
     /// A textbox that allows for hex and dec values to be stored, validated, and colored. Extends WatermarkTextBox.
     /// </summary>
-    public class HexDecTextBox : WatermarkTextBox
+    internal class HexDecTextBox : WatermarkTextBox
     {
         private Boolean isHex;
 

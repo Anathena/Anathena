@@ -8,7 +8,7 @@
     /// Translates instructions to Intel ASM syntax
     /// </summary>
     /// <threadsafety static="true" instance="false"/>
-    public class IntelTranslator : Translator
+    internal class IntelTranslator : Translator
     {
         /// <summary>
         /// Translate a list of instructions separated by <see cref="Environment.NewLine"/>

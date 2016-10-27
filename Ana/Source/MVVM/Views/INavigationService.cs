@@ -7,7 +7,7 @@
     /// be performed in various frameworks such as Windows, 
     /// Windows Phone, Android, iOS etc.
     /// </summary>
-    public interface INavigationService
+    internal interface INavigationService
     {
         /// <summary>
         /// Gets the key corresponding to the currently displayed page.

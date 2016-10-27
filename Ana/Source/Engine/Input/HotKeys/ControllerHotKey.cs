@@ -7,12 +7,12 @@
 
     [DataContract]
     [Obfuscation(Exclude = true, ApplyToMembers = true)]
-    internal class ControllerHotKey : IHotKey
+    internal class ControllerHotkey : IHotkey
     {
         [DataMember]
         public HashSet<Int32> ActivationKeys { get; set; }
 
-        public ControllerHotKey()
+        public ControllerHotkey()
         {
             this.ActivationKeys = new HashSet<Int32>();
         }

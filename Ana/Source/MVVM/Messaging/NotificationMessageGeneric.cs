@@ -6,7 +6,7 @@
     /// Passes a string message (Notification) and a generic value (Content) to a recipient.
     /// </summary>
     /// <typeparam name="T">The type of the Content property.</typeparam>
-    public class NotificationMessage<T> : GenericMessage<T>
+    internal class NotificationMessage<T> : GenericMessage<T>
     {
         /// <summary>
         /// Initializes a new instance of the NotificationMessage class.

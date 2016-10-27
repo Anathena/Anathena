@@ -6,7 +6,7 @@
     using System.ComponentModel;
     using Utils.Extensions;
 
-    public class DotNetObject : IEnumerable, IComparable<DotNetObject>
+    internal class DotNetObject : IEnumerable, IComparable<DotNetObject>
     {
         public DotNetObject(DotNetObject parent, UInt64 objectReference, Type elementType, String name)
         {

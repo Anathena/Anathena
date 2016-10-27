@@ -9,7 +9,7 @@
     /// <summary>
     /// Represents a decoded instruction.
     /// </summary>
-    public class Instruction
+    internal class Instruction
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="Instruction" /> class

@@ -8,7 +8,7 @@
     /// <summary>
     /// Provides a simple wrapper around the C# ported udis86 library.
     /// </summary>
-    public sealed class Disassembler : IDisposable
+    internal sealed class Disassembler : IDisposable
     {
         /// <summary>
         /// The address offset for the <see cref="code"/>.

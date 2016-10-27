@@ -107,7 +107,7 @@
     /// <summary>
     /// Exception indicating a lock has been held for too long
     /// </summary>
-    public class LockTimeoutException : ApplicationException
+    internal class LockTimeoutException : ApplicationException
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="LockTimeoutException" /> class

@@ -1,26 +1,34 @@
 ﻿namespace Ana.Source.Project.ProjectItems
 {
+    using Engine;
+    using Engine.Input.Controller;
+    using Engine.Input.HotKeys;
+    using Engine.Input.Keyboard;
+    using Engine.Input.Mouse;
+    using SharpDX.DirectInput;
     using System;
     using System.Collections.Generic;
     using System.ComponentModel;
+    using System.Drawing.Design;
     using System.Linq;
     using System.Reflection;
     using System.Runtime.Serialization;
-
+    using Utils.HotkeyEditor;
+    using Utils.TypeConverters;
     [Obfuscation(ApplyToMembers = true, Exclude = true)]
     [KnownType(typeof(ProjectItem))]
     [KnownType(typeof(FolderItem))]
     [KnownType(typeof(ScriptItem))]
     [KnownType(typeof(AddressItem))]
-    //// [KnownType(typeof(IHotKey))]
-    //// [KnownType(typeof(KeyboardHotKey))]
-    //// [KnownType(typeof(ControllerHotKey))]
-    //// [KnownType(typeof(MouseHotKey))]
+    [KnownType(typeof(IHotkey))]
+    [KnownType(typeof(KeyboardHotkey))]
+    [KnownType(typeof(ControllerHotkey))]
+    [KnownType(typeof(MouseHotKey))]
     [DataContract]
-    public abstract class ProjectItem : INotifyPropertyChanged //// : IKeyboardObserver, IControllerObserver, IMouseObserver
+    internal abstract class ProjectItem : INotifyPropertyChanged, IKeyboardObserver, IControllerObserver, IMouseObserver
     {
         [Browsable(false)]
-        private const Int32 HotKeyDelay = 400;
+        private const Int32 HotkeyDelay = 400;
 
         [Browsable(false)]
         private ProjectItem parent;
@@ -35,10 +43,8 @@
         [Browsable(false)]
         private Boolean isActivated;
 
-        /*
         [Browsable(false)]
-        private IEnumerable<IHotKey> hotKeys;
-        */
+        private IEnumerable<IHotkey> hotkeys;
 
         public ProjectItem() : this(String.Empty)
         {
@@ -46,7 +52,7 @@
 
         public ProjectItem(String description)
         {
-            // Bypass setters/getters to avoid triggering any GUI updates in constructor
+            // Bypass setters/getters to avoid triggering any view updates in constructor
             this.description = description == null ? String.Empty : description;
             this.parent = null;
             this.children = new List<ProjectItem>();
@@ -105,28 +111,27 @@
             set
             {
                 this.description = value;
-                this.UpdateEntryVisual();
-                ProjectExplorerDeprecated.GetInstance().ProjectChanged();
                 this.NotifyPropertyChanged(nameof(this.Description));
             }
         }
 
-        /*
         [DataMember()]
+        [TypeConverter(typeof(HotkeyConverter))]
+        [Editor(typeof(HotkeyEditorModel), typeof(UITypeEditor))]
         [Category("Properties"), DisplayName("HotKeys"), Description("Hot key to activate item")]
-        public IEnumerable<IHotKey> HotKeys
+        public IEnumerable<IHotkey> Hotkeys
         {
             get
             {
-                return hotKeys;
+                return hotkeys;
             }
             set
             {
-                hotKeys = value; UpdateHotKeyListeners();
-                ProjectExplorer.GetInstance().ProjectChanged();
-                this.NotifyPropertyChanged(nameof(this.HotKeys));
+                hotkeys = value;
+                this.UpdateHotkeyListeners();
+                this.NotifyPropertyChanged(nameof(this.Hotkeys));
             }
-        }*/
+        }
 
         [Browsable(false)]
         public Boolean IsActivated
@@ -143,6 +148,9 @@
                 this.NotifyPropertyChanged(nameof(this.IsActivated));
             }
         }
+
+        [Browsable(false)]
+        private DateTime LastActivated { get; set; }
 
         [OnDeserialized]
         public void OnDeserialized(StreamingContext streamingContext)
@@ -306,59 +314,66 @@
         {
         }
 
-        private void UpdateEntryVisual()
-        {
-            ProjectExplorerDeprecated.GetInstance().RefreshProjectStructure();
-        }
-
-        /*
-        private void UpdateHotKeyListeners()
+        private void UpdateHotkeyListeners()
         {
             // Determine if any hotkeys we have are keyboard events
-            if (HotKeys != null && HotKeys.Any(X => X.GetType().IsAssignableFrom(typeof(KeyboardHotKey))))
-                EngineCore.InputManager.GetKeyboardCapture().Subscribe(this);
+            if (this.Hotkeys != null && this.Hotkeys.Any(x => x.GetType().IsAssignableFrom(typeof(KeyboardHotkey))))
+            {
+                EngineCore.GetInstance().Input.GetKeyboardCapture().Subscribe(this);
+            }
             else
-                EngineCore.InputManager.GetKeyboardCapture().Unsubscribe(this);
+            {
+                EngineCore.GetInstance().Input.GetKeyboardCapture().Unsubscribe(this);
+            }
 
             // Determine if any hotkeys we have are controller events
-            if (HotKeys != null && HotKeys.Any(X => X.GetType().IsAssignableFrom(typeof(ControllerHotKey))))
-                EngineCore.InputManager.GetControllerCapture().Subscribe(this);
+            if (this.Hotkeys != null && this.Hotkeys.Any(x => x.GetType().IsAssignableFrom(typeof(ControllerHotkey))))
+            {
+                EngineCore.GetInstance().Input.GetControllerCapture().Subscribe(this);
+            }
             else
-                EngineCore.InputManager.GetControllerCapture().Unsubscribe(this);
+            {
+                EngineCore.GetInstance().Input.GetControllerCapture().Unsubscribe(this);
+            }
 
             // Determine if any hotkeys we have are mouse events
-            if (HotKeys != null && HotKeys.Any(X => X.GetType().IsAssignableFrom(typeof(MouseHotKey))))
-                EngineCore.InputManager.GetMouseCapture().Subscribe(this);
+            if (this.Hotkeys != null && this.Hotkeys.Any(x => x.GetType().IsAssignableFrom(typeof(MouseHotKey))))
+            {
+                EngineCore.GetInstance().Input.GetMouseCapture().Subscribe(this);
+            }
             else
-                EngineCore.InputManager.GetMouseCapture().Unsubscribe(this);
-           
+            {
+                EngineCore.GetInstance().Input.GetMouseCapture().Unsubscribe(this);
+            }
         }
 
-        public void OnKeyPress(Key Key) { }
+        public void OnKeyPress(Key key) { }
 
-        public void OnKeyDown(Key Key) { }
+        public void OnKeyDown(Key key) { }
 
-        public void OnKeyRelease(Key Key)
+        public void OnKeyRelease(Key key)
         {
             // Reset hotkey delay if any of the hotkey keys are released
-            if (HotKeys.Where(X => X.GetType().IsAssignableFrom(typeof(KeyboardHotKey))).Cast<KeyboardHotKey>().Any(X => X.GetActivationKeys().Any(Y => Key == Y)))
-                LastActivated = DateTime.MinValue;
+            if (this.Hotkeys.Where(x => x.GetType().IsAssignableFrom(typeof(KeyboardHotkey))).Cast<KeyboardHotkey>().Any(x => x.GetActivationKeys().Any(y => key == y)))
+            {
+                this.LastActivated = DateTime.MinValue;
+            }
         }
 
         public void OnUpdateAllDownKeys(HashSet<Key> PressedKeys)
         {
-            if ((DateTime.Now - LastActivated).TotalMilliseconds < HotKeyDelay)
+            if ((DateTime.Now - this.LastActivated).TotalMilliseconds < ProjectItem.HotkeyDelay)
+            {
                 return;
+            }
 
             // If any of our keyboard hotkeys include the current set of pressed keys, trigger activation/deactivation
-            if (HotKeys.Where(X => X.GetType().IsAssignableFrom(typeof(KeyboardHotKey))).Cast<KeyboardHotKey>().Any(X => X.GetActivationKeys().All(Y => PressedKeys.Contains(Y))))
+            if (this.Hotkeys.Where(x => x.GetType().IsAssignableFrom(typeof(KeyboardHotkey))).Cast<KeyboardHotkey>().Any(x => x.GetActivationKeys().All(y => PressedKeys.Contains(y))))
             {
-                LastActivated = DateTime.Now;
-                SetActivationState(!Activated);
-                UpdateEntryVisual();
+                this.LastActivated = DateTime.Now;
+                this.IsActivated = !this.IsActivated;
             }
         }
-         */
     }
     //// End class
 }

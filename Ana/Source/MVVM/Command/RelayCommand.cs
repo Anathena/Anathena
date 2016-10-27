@@ -11,7 +11,7 @@
     /// method is 'true'.  This class does not allow you to accept command parameters in the
     /// Execute and CanExecute callback methods.
     /// </summary>
-    public class RelayCommand : ICommand
+    internal class RelayCommand : ICommand
     {
         /// <summary>
         /// TODO TODO

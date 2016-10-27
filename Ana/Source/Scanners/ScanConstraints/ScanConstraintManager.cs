@@ -11,7 +11,7 @@
     /// <summary>
     /// Class for storing a collection of constraints to be used in a scan that applies more than one constraint per update
     /// </summary>
-    public class ScanConstraintManager : IEnumerable
+    internal class ScanConstraintManager : IEnumerable
     {
         public ScanConstraintManager()
         {

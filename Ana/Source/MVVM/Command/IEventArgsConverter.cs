@@ -9,7 +9,7 @@
     /// Set an instance of this class to the <see cref="EventToCommand.EventArgsConverter"/>
     /// property of the EventToCommand instance.
     /// </summary>
-    public interface IEventArgsConverter
+    internal interface IEventArgsConverter
     {
         /// <summary>
         /// The method used to convert the EventArgs instance.

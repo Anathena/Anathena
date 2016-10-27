@@ -11,7 +11,7 @@
     /// All translators must inherit from the abstract class <see cref="Translator"/>. This base class provides a number of common methods, and defines two abstract methods that must be implemented.
     /// </summary>
     /// <threadsafety static="true" instance="false" />
-    public abstract class Translator
+    internal abstract class Translator
     {
         /// <summary>
         /// A list of all registers names

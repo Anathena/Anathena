@@ -12,7 +12,7 @@
     /// A base class for the ViewModel classes in the MVVM pattern.
     /// </summary>
     [SuppressMessage("Microsoft.Design", "CA1012", Justification = "Constructors should remain public to allow serialization.")]
-    public abstract class ViewModelBase : ObservableObject, ICleanup
+    internal abstract class ViewModelBase : ObservableObject, ICleanup
     {
         /// <summary>
         /// Indicates if the view model is running in design time

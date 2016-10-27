@@ -6,7 +6,7 @@
 
     [Obfuscation(ApplyToMembers = true, Exclude = true)]
     [DataContract]
-    public class FolderItem : ProjectItem
+    internal class FolderItem : ProjectItem
     {
         public FolderItem() : this("New Folder")
         {

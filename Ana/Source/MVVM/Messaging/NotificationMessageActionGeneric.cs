@@ -11,7 +11,7 @@
     /// </summary>
     /// <typeparam name="TCallbackParameter">The type of the callback method's
     /// only parameter.</typeparam>
-    public class NotificationMessageAction<TCallbackParameter> : NotificationMessageWithCallback
+    internal class NotificationMessageAction<TCallbackParameter> : NotificationMessageWithCallback
     {
         /// <summary>
         /// Initializes a new instance of the

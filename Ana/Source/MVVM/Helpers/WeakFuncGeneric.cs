@@ -9,7 +9,7 @@
     /// </summary>
     /// <typeparam name="T">The type of the Func's parameter.</typeparam>
     /// <typeparam name="TResult">The type of the Func's return value.</typeparam>
-    public class WeakFunc<T, TResult> : WeakFunc<TResult>, IExecuteWithObjectAndResult
+    internal class WeakFunc<T, TResult> : WeakFunc<TResult>, IExecuteWithObjectAndResult
     {
         /// <summary>
         /// TODO TODO

@@ -8,7 +8,7 @@
     /// notify the sender that it is done. Use the <see cref="Execute" />
     /// method to execute the callback.
     /// </summary>
-    public class NotificationMessageAction : NotificationMessageWithCallback
+    internal class NotificationMessageAction : NotificationMessageWithCallback
     {
         /// <summary>
         /// Initializes a new instance of the

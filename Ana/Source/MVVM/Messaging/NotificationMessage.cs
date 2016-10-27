@@ -8,7 +8,7 @@
     /// a unique string, you can use Guid.NewGuid().ToString() or any other unique
     /// identifier.</para>
     /// </summary>
-    public class NotificationMessage : MessageBase
+    internal class NotificationMessage : MessageBase
     {
         /// <summary>
         /// Initializes a new instance of the NotificationMessage class.

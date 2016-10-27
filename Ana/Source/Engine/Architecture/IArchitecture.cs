@@ -6,7 +6,7 @@
     /// <summary>
     /// An interface defining an object that can assemble and disassemble instructions
     /// </summary>
-    public interface IArchitecture
+    internal interface IArchitecture
     {
         /// <summary>
         /// Gets an instruction assembler

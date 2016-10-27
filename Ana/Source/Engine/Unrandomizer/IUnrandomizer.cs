@@ -3,7 +3,7 @@
     /// <summary>
     /// An interface for an object that unrandomizes random library calls in a process
     /// </summary>
-    public interface IUnrandomizer
+    internal interface IUnrandomizer
     {
     }
     //// End interface

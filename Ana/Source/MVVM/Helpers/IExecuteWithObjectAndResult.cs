@@ -8,7 +8,7 @@
     /// what type T represents.
     /// </summary>
     ////[ClassInfo(typeof(WeakAction))]
-    public interface IExecuteWithObjectAndResult
+    internal interface IExecuteWithObjectAndResult
     {
         /// <summary>
         /// Executes a Func and returns the result.

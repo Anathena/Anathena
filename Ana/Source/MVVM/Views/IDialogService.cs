@@ -8,7 +8,7 @@
     /// be displayed in various frameworks such as Windows, 
     /// Windows Phone, Android, iOS etc.
     /// </summary>
-    public interface IDialogService
+    internal interface IDialogService
     {
         /// <summary>
         /// Displays information about an error.

@@ -5,7 +5,7 @@
     /// <summary>
     /// A single entry within an instruction table
     /// </summary>
-    public class UdItabEntry
+    internal class UdItabEntry
     {
         /// <summary>
         /// TODO TODO

@@ -9,7 +9,7 @@
     /// <summary>
     /// Translates to ATT syntax
     /// </summary>
-    public class ATTTranslator : Translator
+    internal class ATTTranslator : Translator
     {
         /// <summary>
         /// Translate a list of instructions separated by <see cref="Environment.NewLine"/>.

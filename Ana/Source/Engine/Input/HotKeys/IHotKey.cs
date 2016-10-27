@@ -3,7 +3,7 @@
     using System.Reflection;
 
     [Obfuscation(Exclude = true, ApplyToMembers = true)]
-    internal interface IHotKey
+    internal interface IHotkey
     {
     }
     //// End interface

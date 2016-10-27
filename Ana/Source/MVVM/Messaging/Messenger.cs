@@ -10,7 +10,7 @@
     /// <summary>
     /// The Messenger is a class allowing objects to exchange messages.
     /// </summary>
-    public class Messenger : IMessenger
+    internal class Messenger : IMessenger
     {
         /// <summary>
         /// Gets or sets TODO TODO

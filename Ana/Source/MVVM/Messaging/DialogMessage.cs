@@ -11,7 +11,7 @@
     /// and the sender will possibly be a ViewModel.
     /// </summary>
     [Obsolete("This class is not recommended because it uses MessageBoxResult which is not good in VMs. See http://www.galasoft.ch/s/dialogmessage.")]
-    public class DialogMessage : GenericMessage<string>
+    internal class DialogMessage : GenericMessage<string>
     {
         /// <summary>
         /// Initializes a new instance of the DialogMessage class.

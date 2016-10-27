@@ -1,38 +1,159 @@
-﻿<UserControl x:Class="Ana.View.HotkeyEditor"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:converters="clr-namespace:Ana.Source.Mvvm.Converters"
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
-             xmlns:local="clr-namespace:Ana"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:sys="clr-namespace:System;assembly=mscorlib"
-             xmlns:sysWindows="clr-namespace:System.Windows;assembly=PresentationCore"
-             x:Name="AnaHotkeyEditor"
-             d:DesignHeight="256"
-             d:DesignWidth="256"
-             x:ClassModifier="internal"
-             DataContext="{Binding HotkeyEditorViewModel,
-                                   Source={StaticResource ViewModelLocator}}"
-             mc:Ignorable="d">
-    <Grid Background="{StaticResource AvalonDock_Expression_BaseColor3}">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition />
-        </Grid.RowDefinitions>
-        <Border Grid.Row="0"
-                Background="{StaticResource AvalonDock_Expression_BaseColor4}"
-                Padding="8 4 8 4">
-            <Menu Background="Transparent">
-                <MenuItem>
-                    <MenuItem.Header>
-                        <Image Width="16"
-                               Height="16"
-                               Source="pack://application:,,,/Ana;component/Content/Icons/DownArrows.png"
-                               ToolTip="Refresh Process List" />
-                    </MenuItem.Header>
-                </MenuItem>
-            </Menu>
-        </Border>
-    </Grid>
-</UserControl>
+﻿<shell:Window x:Class="Ana.View.HotkeyEditor"
+              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+              xmlns:converters="clr-namespace:Ana.Source.Mvvm.Converters"
+              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+              xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+              xmlns:local="clr-namespace:Ana"
+              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+              xmlns:shell="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+              xmlns:sys="clr-namespace:System;assembly=mscorlib"
+              xmlns:sysWindows="clr-namespace:System.Windows;assembly=PresentationCore"
+              x:Name="AnaHotkeyEditor"
+              Title="Hotkey Editor"
+              Width="256"
+              Height="256"
+              d:DesignHeight="256"
+              d:DesignWidth="256"
+              x:ClassModifier="internal"
+              BorderBrush="{StaticResource AvalonDock_Expression_BaseColor2}"
+              BorderThickness="2"
+              DataContext="{Binding HotkeyEditorViewModel,
+                                    Source={StaticResource ViewModelLocator}}"
+              WindowStartupLocation="CenterOwner"
+              WindowStyle="None"
+              mc:Ignorable="d">
+    <shell:WindowChrome.WindowChrome>
+        <shell:WindowChrome CaptionHeight="{Binding ActualHeight, ElementName=titlebar}" />
+    </shell:WindowChrome.WindowChrome>
+
+    <shell:Grid Background="{StaticResource AvalonDock_Expression_BaseColor3}">
+        <shell:Grid.RowDefinitions>
+            <shell:RowDefinition Height="Auto" />
+            <shell:RowDefinition Height="Auto" />
+            <shell:RowDefinition />
+            <shell:RowDefinition Height="Auto" />
+        </shell:Grid.RowDefinitions>
+        <shell:Grid x:Name="titlebar"
+                    Grid.Row="0"
+                    Height="24"
+                    Background="{StaticResource AvalonDock_Expression_BaseColor4}" />
+        <shell:Grid Grid.Row="1" Margin="4">
+            <shell:Grid.ColumnDefinitions>
+                <shell:ColumnDefinition Width="*" />
+                <shell:ColumnDefinition Width="Auto" />
+            </shell:Grid.ColumnDefinitions>
+            <shell:Border Grid.Column="0"
+                          Margin="0 0 8 0"
+                          BorderBrush="{StaticResource AvalonDock_Expression_BaseColor2}"
+                          BorderThickness="1">
+                <shell:Grid Name="offsetHexDecBox" />
+            </shell:Border>
+            <shell:WrapPanel Grid.Column="1" HorizontalAlignment="Right">
+                <shell:Button Margin="0 0 8 0"
+                              Background="Transparent"
+                              Command="{Binding AddOffsetCommand}">
+                    <shell:Image Width="16"
+                                 Height="16"
+                                 Source="pack://application:,,,/Ana;component/Content/Icons/Increased.png"
+                                 ToolTip="Add Hotkey" />
+                </shell:Button>
+                <shell:Button Margin="0 0 8 0"
+                              Background="Transparent"
+                              Command="{Binding RemoveOffsetCommand}">
+                    <shell:Image Width="16"
+                                 Height="16"
+                                 Source="pack://application:,,,/Ana;component/Content/Icons/Decreased.png"
+                                 ToolTip="Remove Selected Hotkey" />
+                </shell:Button>
+                <shell:Button Background="Transparent" Command="{Binding RemoveOffsetCommand}">
+                    <shell:Image Width="16"
+                                 Height="16"
+                                 Source="pack://application:,,,/Ana;component/Content/Icons/Cancel.png"
+                                 ToolTip="Clear Hotkeys" />
+                </shell:Button>
+            </shell:WrapPanel>
+        </shell:Grid>
+        <shell:ScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Auto">
+            <shell:ListView Name="hotkeysListView"
+                            Background="{StaticResource AvalonDock_Expression_BaseColor3}"
+                            BorderThickness="0"
+                            ItemsSource="{Binding Offsets}"
+                            SelectionChanged="ListViewSelectionChanged">
+                <shell:ListView.Resources>
+                    <converters:Int32ToHexConverter x:Key="Int32ToHexConverter" />
+                </shell:ListView.Resources>
+                <shell:ListView.ItemTemplate>
+                    <shell:DataTemplate>
+                        <shell:Grid Width="{Binding Path=ActualWidth, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListView}}}">
+                            <shell:Grid.ColumnDefinitions>
+                                <shell:ColumnDefinition />
+                            </shell:Grid.ColumnDefinitions>
+                            <shell:Grid.InputBindings>
+                                <shell:MouseBinding Command="{Binding DataContext.AddAddressCommand,
+                                                                      ElementName=AnaScanResults}"
+                                                    CommandParameter="{Binding .}"
+                                                    Gesture="LeftDoubleClick" />
+                            </shell:Grid.InputBindings>
+                            <shell:TextBlock Grid.Column="0"
+                                             Foreground="{StaticResource AvalonDock_Expression_BaseColor2}"
+                                             Text="{Binding .}" />
+                        </shell:Grid>
+                    </shell:DataTemplate>
+                </shell:ListView.ItemTemplate>
+                <shell:ListView.Template>
+                    <shell:ControlTemplate>
+                        <shell:Grid HorizontalAlignment="Left">
+                            <shell:Grid.RowDefinitions>
+                                <shell:RowDefinition Height="Auto" />
+                                <shell:RowDefinition Height="Auto" />
+                            </shell:Grid.RowDefinitions>
+                            <shell:Grid Grid.Row="0"
+                                        Width="{Binding Path=ActualWidth,
+                                                        RelativeSource={RelativeSource FindAncestor,
+                                                                                       AncestorType={x:Type ListView}}}"
+                                        VerticalAlignment="Center">
+                                <shell:Grid.ColumnDefinitions>
+                                    <shell:ColumnDefinition />
+                                </shell:Grid.ColumnDefinitions>
+                                <shell:Grid.Resources>
+                                    <shell:Style TargetType="TextBlock">
+                                        <shell:Setter Property="Margin" Value="5,0" />
+                                        <shell:Setter Property="Foreground" Value="{StaticResource AvalonDock_Expression_BaseColor2}" />
+                                        <shell:Setter Property="FontWeight" Value="Bold" />
+                                    </shell:Style>
+                                    <shell:Style TargetType="Border">
+                                        <shell:Setter Property="BorderThickness" Value="0" />
+                                        <shell:Setter Property="Padding" Value="8 4 8 4" />
+                                        <shell:Setter Property="Background" Value="{StaticResource AvalonDock_Expression_BaseColor4}" />
+                                    </shell:Style>
+                                </shell:Grid.Resources>
+                                <shell:Border Grid.Column="0">
+                                    <shell:TextBlock>Hotkey</shell:TextBlock>
+                                </shell:Border>
+                            </shell:Grid>
+                            <shell:ItemsPresenter Grid.Row="1" />
+                        </shell:Grid>
+                    </shell:ControlTemplate>
+                </shell:ListView.Template>
+            </shell:ListView>
+        </shell:ScrollViewer>
+        <shell:Grid Grid.Row="3" Margin="8">
+            <shell:Button Width="96"
+                          Height="20"
+                          HorizontalAlignment="Left"
+                          VerticalAlignment="Bottom"
+                          Click="CancelButtonClick">
+                <shell:TextBlock Text="Cancel" />
+            </shell:Button>
+            <shell:Button Width="96"
+                          Height="20"
+                          HorizontalAlignment="Right"
+                          VerticalAlignment="Bottom"
+                          shell:Grid.Column="1"
+                          Click="AcceptButtonClick">
+                <shell:TextBlock Text="Accept" />
+            </shell:Button>
+        </shell:Grid>
+    </shell:Grid>
+</shell:Window>

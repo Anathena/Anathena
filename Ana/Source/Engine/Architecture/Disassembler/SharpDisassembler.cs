@@ -8,7 +8,7 @@
     /// <summary>
     /// An implementation of the udis disassembler
     /// </summary>
-    public class SharpDisassembler : IDisassembler
+    internal class SharpDisassembler : IDisassembler
     {
         /// <summary>
         /// An instruction disassembler

@@ -8,7 +8,7 @@
     /// Stores an <see cref="Action" /> without causing a hard reference
     /// to be created to the Action's owner. The owner can be garbage collected at any time.
     /// </summary>
-    public class WeakAction
+    internal class WeakAction
     {
         /// <summary>
         /// TODO TODO

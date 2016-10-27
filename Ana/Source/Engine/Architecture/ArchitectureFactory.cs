@@ -5,7 +5,7 @@
     /// <summary>
     /// A factory that returns an object for assembling and disassembling instructions based on the system architecture
     /// </summary>
-    public static class ArchitectureFactory
+    internal static class ArchitectureFactory
     {
         /// <summary>
         /// Gets an object for assembling and disassembling instructions

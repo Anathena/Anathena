@@ -6,7 +6,7 @@
     /// <summary>
     /// A class containing an x86/64 assembler and disassembler
     /// </summary>
-    public class Architecture86_64 : IArchitecture
+    internal class Architecture86_64 : IArchitecture
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="Architecture86_64" /> class

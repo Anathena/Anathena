@@ -10,7 +10,7 @@
     /// </summary>
     /// <typeparam name="TResult">The type of the result of the Func that will be stored
     /// by this weak reference.</typeparam>
-    public class WeakFunc<TResult>
+    internal class WeakFunc<TResult>
     {
         /// <summary>
         /// TODO TODO

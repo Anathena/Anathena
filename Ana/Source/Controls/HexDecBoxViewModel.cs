@@ -8,13 +8,13 @@
     {
         private Boolean isHex;
 
-        private String text;
+        //// private String text;
 
         private UInt64 value;
 
         public HexDecBoxViewModel()
         {
-            // this.Text = String.Empty;
+            //// this.Text = String.Empty;
         }
 
         /*
@@ -36,7 +36,7 @@
         {
             get
             {
-                String rawValue = this.text;
+                String rawValue = String.Empty; //// this.text;
 
                 if (this.IsDec && CheckSyntax.IsUInt64(rawValue))
                 {

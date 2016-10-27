@@ -6,7 +6,7 @@
     /// implementing ICleanup can be cleaned up without being
     /// disposed and garbage collected.
     /// </summary>
-    public interface ICleanup
+    internal interface ICleanup
     {
         /// <summary>
         /// Cleans up the instance, for example by saving its state,

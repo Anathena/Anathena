@@ -5,7 +5,7 @@
     /// <summary>
     /// The Fasm assembler for x86/64
     /// </summary>
-    public class Fasm32Assembler : IAssembler
+    internal class Fasm32Assembler : IAssembler
     {
         /// <summary>
         /// Assemble the specified assembly code

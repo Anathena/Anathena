@@ -14,7 +14,7 @@
     /// <para>To access the EventArgs of the fired event, use a RelayCommand&lt;EventArgs&gt;
     /// and leave the CommandParameter and CommandParameterValue empty!</para>
     /// </summary>
-    public class EventToCommand : TriggerAction<DependencyObject>
+    internal class EventToCommand : TriggerAction<DependencyObject>
     {
         /// <summary>
         /// The <see cref="EventArgsConverterParameter" /> dependency property's name

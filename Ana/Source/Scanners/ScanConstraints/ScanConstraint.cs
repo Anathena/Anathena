@@ -6,7 +6,7 @@
     using System.Reflection;
     using System.Windows.Media.Imaging;
 
-    public enum ConstraintsEnum
+    internal enum ConstraintsEnum
     {
         Invalid,
         Equal,
@@ -27,7 +27,7 @@
     /// <summary>
     /// Class to define a constraint for certain types of scans
     /// </summary>
-    public class ScanConstraint : INotifyPropertyChanged
+    internal class ScanConstraint : INotifyPropertyChanged
     {
         private ConstraintsEnum constraint;
         private dynamic constraintValue;

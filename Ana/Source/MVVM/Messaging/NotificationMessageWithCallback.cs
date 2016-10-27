@@ -10,7 +10,7 @@
     /// <seealso cref="NotificationMessageAction"/> and
     /// <seealso cref="NotificationMessageAction&lt;TCallbackParameter&gt;"/>.
     /// </summary>
-    public class NotificationMessageWithCallback : NotificationMessage
+    internal class NotificationMessageWithCallback : NotificationMessage
     {
         /// <summary>
         /// TODO TODO

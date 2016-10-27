@@ -9,7 +9,7 @@
     /// a recipient using the messenging system.
     /// </summary>
     /// <typeparam name="T">The type of the OldValue and NewValue property.</typeparam>
-    public class PropertyChangedMessage<T> : PropertyChangedMessageBase
+    internal class PropertyChangedMessage<T> : PropertyChangedMessageBase
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="PropertyChangedMessage{T}" /> class.

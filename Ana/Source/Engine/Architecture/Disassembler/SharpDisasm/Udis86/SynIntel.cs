@@ -5,7 +5,7 @@
     /// <summary>
     /// TODO TODO
     /// </summary>
-    public class SynIntel : Syn
+    internal class SynIntel : Syn
     {
         /// <summary>
         /// Prints an operand cast.

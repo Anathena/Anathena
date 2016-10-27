@@ -7,7 +7,7 @@
     /// useful if you store multiple WeakAction{T} instances but don't know in advance
     /// what type T represents.
     /// </summary>
-    public interface IExecuteWithObject
+    internal interface IExecuteWithObject
     {
         /// <summary>
         /// Gets the target of the WeakAction

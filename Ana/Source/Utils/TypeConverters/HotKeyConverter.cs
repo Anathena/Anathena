@@ -1,10 +1,13 @@
 ﻿namespace Ana.Source.Utils.TypeConverters
 {
+    using Engine.Input.HotKeys;
     using System;
+    using System.Collections.Generic;
     using System.ComponentModel;
     using System.Globalization;
+    using System.Linq;
 
-    internal class HotKeyConverter : StringConverter
+    internal class HotkeyConverter : StringConverter
     {
         public override Object ConvertTo(ITypeDescriptorContext context, CultureInfo culture, Object value, Type destinationType)
         {
@@ -13,12 +16,10 @@
                 return "(None)";
             }
 
-            return "(None)";
-            // TODO: Add this back
-            // if (Value.GetType().GetInterfaces().Any(X => X.IsAssignableFrom(typeof(IEnumerable<IHotKey>))))
-            // {
-            //     return "(HotKey)";
-            // }
+            if (value.GetType().GetInterfaces().Any(x => x.IsAssignableFrom(typeof(IEnumerable<IHotkey>))))
+            {
+                return "(HotKey)";
+            }
 
             return base.ConvertTo(context, culture, value, destinationType);
         }

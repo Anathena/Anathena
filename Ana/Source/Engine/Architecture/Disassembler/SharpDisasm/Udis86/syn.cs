@@ -7,7 +7,7 @@
     /// <summary>
     /// TODO TODO
     /// </summary>
-    public class Syn
+    internal class Syn
     {
         /// <summary>
         /// TODO TODO
