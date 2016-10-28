@@ -15,6 +15,7 @@
     using Source.Scanners.ValueCollector;
     using Source.Snapshots;
     using Source.UserSettings;
+    using Source.Utils.HotkeyEditor;
     using Source.Utils.ScriptEditor;
 
     /// <summary>
@@ -203,6 +204,17 @@
             get
             {
                 return new OffsetEditorViewModel();
+            }
+        }
+
+        /// <summary>
+        /// Gets a Hotkey Editor view model. Note: Not a singleton, will create a new object
+        /// </summary>
+        public HotkeyEditorViewModel HotkeyEditorViewModel
+        {
+            get
+            {
+                return new HotkeyEditorViewModel();
             }
         }
 

@@ -6,7 +6,7 @@
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{4E2D9A17-2195-4A51-AAE3-924517440293}</ProjectGuid>
-    <OutputType>Library</OutputType>
+    <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>SharpCli</RootNamespace>
     <AssemblyName>SharpCli</AssemblyName>
@@ -42,7 +42,7 @@
     <Optimize>true</Optimize>
   </PropertyGroup>
   <PropertyGroup>
-    <StartupObject />
+    <StartupObject>SharpCli.Program</StartupObject>
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationIcon>
@@ -91,6 +91,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="InteropApp.cs" />
+    <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

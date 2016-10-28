@@ -10,9 +10,9 @@
     [Obfuscation(Exclude = true, ApplyToMembers = true)]
     internal class KeyboardHotkey : IHotkey
     {
-        public KeyboardHotkey()
+        public KeyboardHotkey(params Key[] keys)
         {
-            this.ActivationKeys = new HashSet<Key>();
+            this.ActivationKeys = new HashSet<Key>(keys);
         }
 
         [DataMember]

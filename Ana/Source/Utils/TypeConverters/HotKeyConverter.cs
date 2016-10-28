@@ -18,7 +18,7 @@
 
             if (value.GetType().GetInterfaces().Any(x => x.IsAssignableFrom(typeof(IEnumerable<IHotkey>))))
             {
-                return "(HotKey)";
+                return "(Hotkeys)";
             }
 
             return base.ConvertTo(context, culture, value, destinationType);

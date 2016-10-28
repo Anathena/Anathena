@@ -30,6 +30,7 @@
             this.Processes = new ProcessAdapter();
             this.OperatingSystemAdapter = OperatingSystemAdapterFactory.GetOperatingSystemAdapter();
             this.Architecture = ArchitectureFactory.GetArchitecture();
+            this.Input = new InputManager();
         }
 
         /// <summary>

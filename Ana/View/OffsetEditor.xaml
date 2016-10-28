@@ -49,7 +49,9 @@
                           BorderThickness="1">
                 <shell:Grid Name="offsetHexDecBox" />
             </shell:Border>
-            <shell:WrapPanel Grid.Column="1" HorizontalAlignment="Right">
+            <shell:WrapPanel Grid.Column="1"
+                             HorizontalAlignment="Right"
+                             VerticalAlignment="Center">
                 <shell:Button Margin="0 0 8 0"
                               Background="Transparent"
                               Command="{Binding AddOffsetCommand}">

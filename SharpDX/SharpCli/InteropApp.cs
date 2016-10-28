@@ -87,7 +87,16 @@ namespace SharpCli
             try
             {
                 foreach (String Library in Libraries)
-                    PatchFile(Path.Combine(ExecutingDirectory, Library));
+                {
+                    try
+                    {
+                        PatchFile(Path.Combine(ExecutingDirectory, Library));
+                    }
+                    catch
+                    {
+
+                    }
+                }
             }
             catch (Exception Ex)
             {

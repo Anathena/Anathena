@@ -3,12 +3,9 @@
     using Docking;
     using Mvvm;
     using Mvvm.Command;
-    using SharpCli;
     using Snapshots.Prefilters;
     using System;
     using System.Collections.Generic;
-    using System.IO;
-    using System.Reflection;
     using System.Threading;
     using System.Windows;
     using System.Windows.Input;
@@ -51,10 +48,6 @@
             this.Minimize = new RelayCommand<Window>((window) => this.MinimizeExecute(window), (window) => true);
             this.LoadLayout = new RelayCommand<DockingManager>((dockingManager) => this.LoadLayoutExecute(dockingManager), (dockingManager) => true);
             this.SaveLayout = new RelayCommand<DockingManager>((dockingManager) => this.SaveLayoutExecute(dockingManager), (dockingManager) => true);
-
-            // Get SharpCli to patch all SharpDX DLLs to implement generated functions 
-            InteropApp interopApp = new InteropApp(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location));
-            interopApp.PatchAll();
 
             SnapshotPrefilterFactory.GetSnapshotPrefilter(typeof(ChunkLinkedListPrefilter)).BeginPrefilter();
         }

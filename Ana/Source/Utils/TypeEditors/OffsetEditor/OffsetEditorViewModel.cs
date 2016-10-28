@@ -21,7 +21,6 @@
             this.RemoveOffsetCommand = new RelayCommand(() => Task.Run(() => this.RemoveSelectedOffset()), () => true);
             this.UpdateActiveValueCommand = new RelayCommand<Int32>((offset) => Task.Run(() => this.UpdateActiveValue(offset)), (offset) => true);
             this.AccessLock = new Object();
-            this.offsets = new List<Int32>();
         }
 
         public ICommand AddOffsetCommand { get; private set; }
@@ -36,14 +35,22 @@
             {
                 lock (this.AccessLock)
                 {
+                    if (this.offsets == null)
+                    {
+                        this.offsets = new List<Int32>();
+                    }
+
                     return new ObservableCollection<Int32>(this.offsets);
                 }
             }
 
             set
             {
-                this.offsets = value == null ? new List<Int32>() : new List<Int32>(value);
-                this.RaisePropertyChanged(nameof(this.Offsets));
+                lock (this.AccessLock)
+                {
+                    this.offsets = value == null ? new List<Int32>() : new List<Int32>(value);
+                    this.RaisePropertyChanged(nameof(this.Offsets));
+                }
             }
         }
 

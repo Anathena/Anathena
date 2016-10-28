@@ -1,15 +1,16 @@
 ﻿namespace Ana.Source.Utils.HotkeyEditor
 {
     using Docking;
+    using Engine;
     using Engine.Input.Controller;
     using Engine.Input.HotKeys;
     using Engine.Input.Keyboard;
     using Engine.Input.Mouse;
     using Main;
+    using Mvvm.Command;
     using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
-    using System.Threading;
     using System.Threading.Tasks;
     using System.Windows.Input;
 
@@ -26,19 +27,16 @@
         private List<IHotkey> hotkeys;
 
         /// <summary>
-        /// Singleton instance of the <see cref="HotkeyEditorViewModel" /> class
+        /// 
         /// </summary>
-        private static Lazy<HotkeyEditorViewModel> hotkeyEditorViewModelInstance = new Lazy<HotkeyEditorViewModel>(
-                () => { return new HotkeyEditorViewModel(); },
-                LazyThreadSafetyMode.PublicationOnly);
-
-        /// <summary>
-        /// Prevents a default instance of the <see cref="HotkeyEditorViewModel" /> class from being created
-        /// </summary>
-        private HotkeyEditorViewModel() : base("Hotkey Editor")
+        public HotkeyEditorViewModel() : base("Hotkey Editor")
         {
             this.ContentId = HotkeyEditorViewModel.ToolContentId;
+            this.AddHotkeyCommand = new RelayCommand(() => AddHotkey(), () => true);
+            this.RemoveHotkeyCommand = new RelayCommand(() => RemoveSelectedHotkey(), () => true);
+            this.ClearHotkeysCommand = new RelayCommand(() => ClearHotkeys(), () => true);
             this.AccessLock = new Object();
+            this.InitializeListeners();
 
             Task.Run(() => MainViewModel.GetInstance().Subscribe(this));
         }
@@ -46,6 +44,8 @@
         public ICommand AddHotkeyCommand { get; private set; }
 
         public ICommand RemoveHotkeyCommand { get; private set; }
+
+        public ICommand ClearHotkeysCommand { get; private set; }
 
         public ICommand UpdateActiveValueCommand { get; private set; }
 
@@ -55,14 +55,22 @@
             {
                 lock (this.AccessLock)
                 {
+                    if (this.hotkeys == null)
+                    {
+                        this.hotkeys = new List<IHotkey>();
+                    }
+
                     return new ObservableCollection<IHotkey>(this.hotkeys);
                 }
             }
 
             set
             {
-                this.hotkeys = value == null ? new List<IHotkey>() : new List<IHotkey>(value);
-                this.RaisePropertyChanged(nameof(this.Hotkeys));
+                lock (this.AccessLock)
+                {
+                    this.hotkeys = value == null ? new List<IHotkey>() : new List<IHotkey>(value);
+                    this.RaisePropertyChanged(nameof(this.Hotkeys));
+                }
             }
         }
 
@@ -72,17 +80,9 @@
 
         private IHotkey ActiveHotkeyValue { get; set; }
 
-        /// <summary>
-        /// Gets a singleton instance of the <see cref="HotkeyEditorViewModel"/> class
-        /// </summary>
-        /// <returns>A singleton instance of the class</returns>
-        public static HotkeyEditorViewModel GetInstance()
-        {
-            return HotkeyEditorViewModel.hotkeyEditorViewModelInstance.Value;
-        }
-
         public void OnKeyPress(SharpDX.DirectInput.Key key)
         {
+            this.ActiveHotkeyValue = new KeyboardHotkey(key);
         }
 
         public void OnKeyRelease(SharpDX.DirectInput.Key key)
@@ -97,17 +97,27 @@
         {
         }
 
+        private void InitializeListeners()
+        {
+            EngineCore.GetInstance()?.Input?.GetKeyboardCapture().Subscribe(this);
+            EngineCore.GetInstance()?.Input?.GetControllerCapture().Subscribe(this);
+            EngineCore.GetInstance()?.Input?.GetMouseCapture().Subscribe(this);
+        }
+
         private void AddHotkey()
         {
             lock (this.AccessLock)
             {
-                this.hotkeys.Add(this.ActiveHotkeyValue);
+                if (this.ActiveHotkeyValue != null)
+                {
+                    this.hotkeys.Add(this.ActiveHotkeyValue);
+                }
             }
 
             this.RaisePropertyChanged(nameof(this.Hotkeys));
         }
 
-        private void RemoveSelectedOffset()
+        private void RemoveSelectedHotkey()
         {
             Int32 removalIndex = this.SelectedHotkeyIndex;
 
@@ -122,6 +132,16 @@
                 {
                     this.hotkeys.RemoveAt(removalIndex);
                 }
+            }
+
+            this.RaisePropertyChanged(nameof(this.Hotkeys));
+        }
+
+        private void ClearHotkeys()
+        {
+            lock (this.AccessLock)
+            {
+                this.hotkeys.Clear();
             }
 
             this.RaisePropertyChanged(nameof(this.Hotkeys));
