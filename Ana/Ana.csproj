@@ -109,6 +109,7 @@
     <Compile Include="Source\Engine\Input\Mouse\IMouseObserver.cs" />
     <Compile Include="Source\Engine\Input\Mouse\IMouseSubject.cs" />
     <Compile Include="Source\Engine\Input\Mouse\MouseCapture.cs" />
+    <Compile Include="Source\Mvvm\Converters\HotkeyToStringConverter.cs" />
     <Compile Include="Source\Mvvm\Converters\Int32ToHexConverter.cs" />
     <Compile Include="Source\PropertyViewer\IPropertyViewerObserver.cs" />
     <Compile Include="Source\Scanners\InputCorrelator\InputCorrelator.cs" />
@@ -698,7 +699,7 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>"$(TargetDir)SharpCli.exe"</PostBuildEvent>
+    <PostBuildEvent>START /WAIT cmd /c "$(TargetDir)SharpCli.exe"</PostBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
     <PreBuildEvent>

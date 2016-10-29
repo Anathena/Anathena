@@ -52,14 +52,13 @@
             <shell:WrapPanel Grid.Column="1"
                              HorizontalAlignment="Right"
                              VerticalAlignment="Center">
-                <shell:Button Margin="0 0 8 0"
-                              Background="Transparent"
-                              Command="{Binding AddOffsetCommand}">
+                <shell:Button Background="Transparent" Command="{Binding AddOffsetCommand}">
                     <shell:Image Width="16"
                                  Height="16"
                                  Source="pack://application:,,,/Ana;component/Content/Icons/Increased.png"
                                  ToolTip="Add Offset" />
                 </shell:Button>
+                <shell:Grid Margin="0 0 8 0" />
                 <shell:Button Background="Transparent" Command="{Binding RemoveOffsetCommand}">
                     <shell:Image Width="16"
                                  Height="16"

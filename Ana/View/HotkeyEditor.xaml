@@ -29,6 +29,10 @@
     </shell:WindowChrome.WindowChrome>
 
     <shell:Grid Background="{StaticResource AvalonDock_Expression_BaseColor3}">
+        <shell:Grid.Resources>
+            <converters:Int32ToHexConverter x:Key="Int32ToHexConverter" />
+            <converters:HotkeyToStringConverter x:Key="HotkeyToStringConverter" />
+        </shell:Grid.Resources>
         <shell:Grid.RowDefinitions>
             <shell:RowDefinition Height="Auto" />
             <shell:RowDefinition Height="Auto" />
@@ -48,32 +52,36 @@
                           Margin="0 0 8 0"
                           BorderBrush="{StaticResource AvalonDock_Expression_BaseColor2}"
                           BorderThickness="1">
-                <xctk:WatermarkTextBox Background="{StaticResource AvalonDock_Expression_BaseColor3}" />
+                <xctk:WatermarkTextBox Background="{StaticResource AvalonDock_Expression_BaseColor3}"
+                                       Foreground="{StaticResource AvalonDock_Expression_BaseColor2}"
+                                       IsReadOnly="True"
+                                       Text="{Binding ActiveHotkey,
+                                                      Mode=OneWay,
+                                                      Converter={StaticResource HotkeyToStringConverter}}"
+                                       Watermark="(Press any key)" />
             </shell:Border>
             <shell:WrapPanel Grid.Column="1"
                              HorizontalAlignment="Right"
                              VerticalAlignment="Center">
-                <shell:Button Margin="0 0 8 0"
-                              Background="Transparent"
-                              Command="{Binding AddHotkeyCommand}">
+                <shell:Button Background="Transparent" Command="{Binding AddHotkeyCommand}">
                     <shell:Image Width="16"
                                  Height="16"
                                  Source="pack://application:,,,/Ana;component/Content/Icons/Increased.png"
                                  ToolTip="Add Hotkey" />
                 </shell:Button>
-                <shell:Button Margin="0 0 8 0"
-                              Background="Transparent"
-                              Command="{Binding RemoveHotkeyCommand}">
-                    <shell:Image Width="16"
-                                 Height="16"
-                                 Source="pack://application:,,,/Ana;component/Content/Icons/Decreased.png"
-                                 ToolTip="Remove Selected Hotkey" />
-                </shell:Button>
+                <shell:Grid Margin="0 0 8 0" />
                 <shell:Button Background="Transparent" Command="{Binding ClearHotkeysCommand}">
                     <shell:Image Width="16"
                                  Height="16"
                                  Source="pack://application:,,,/Ana;component/Content/Icons/Cancel.png"
-                                 ToolTip="Clear Hotkeys" />
+                                 ToolTip="Clear Current Input" />
+                </shell:Button>
+                <shell:Grid Margin="0 0 8 0" />
+                <shell:Button Background="Transparent" Command="{Binding RemoveHotkeyCommand}">
+                    <shell:Image Width="16"
+                                 Height="16"
+                                 Source="pack://application:,,,/Ana;component/Content/Icons/Decreased.png"
+                                 ToolTip="Remove Selected Hotkey" />
                 </shell:Button>
             </shell:WrapPanel>
         </shell:Grid>
@@ -83,9 +91,6 @@
                             BorderThickness="0"
                             ItemsSource="{Binding Hotkeys}"
                             SelectionChanged="ListViewSelectionChanged">
-                <shell:ListView.Resources>
-                    <converters:Int32ToHexConverter x:Key="Int32ToHexConverter" />
-                </shell:ListView.Resources>
                 <shell:ListView.ItemTemplate>
                     <shell:DataTemplate>
                         <shell:Grid Width="{Binding Path=ActualWidth, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListView}}}">

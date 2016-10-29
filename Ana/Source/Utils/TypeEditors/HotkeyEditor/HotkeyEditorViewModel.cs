@@ -26,6 +26,10 @@
 
         private List<IHotkey> hotkeys;
 
+        private IHotkey activeHotkey;
+
+        private KeyboardHotkey keyboardHotkey;
+
         /// <summary>
         /// 
         /// </summary>
@@ -34,7 +38,8 @@
             this.ContentId = HotkeyEditorViewModel.ToolContentId;
             this.AddHotkeyCommand = new RelayCommand(() => AddHotkey(), () => true);
             this.RemoveHotkeyCommand = new RelayCommand(() => RemoveSelectedHotkey(), () => true);
-            this.ClearHotkeysCommand = new RelayCommand(() => ClearHotkeys(), () => true);
+            this.ClearHotkeysCommand = new RelayCommand(() => ClearActiveHotkey(), () => true);
+            this.keyboardHotkey = new KeyboardHotkey();
             this.AccessLock = new Object();
             this.InitializeListeners();
 
@@ -48,6 +53,20 @@
         public ICommand ClearHotkeysCommand { get; private set; }
 
         public ICommand UpdateActiveValueCommand { get; private set; }
+
+        public IHotkey ActiveHotkey
+        {
+            get
+            {
+                return this.activeHotkey;
+            }
+
+            set
+            {
+                this.activeHotkey = value;
+                this.RaisePropertyChanged(nameof(this.ActiveHotkey));
+            }
+        }
 
         public ObservableCollection<IHotkey> Hotkeys
         {
@@ -78,11 +97,10 @@
 
         public Int32 SelectedHotkeyIndex { get; set; }
 
-        private IHotkey ActiveHotkeyValue { get; set; }
-
         public void OnKeyPress(SharpDX.DirectInput.Key key)
         {
-            this.ActiveHotkeyValue = new KeyboardHotkey(key);
+            this.keyboardHotkey.ActivationKeys.Add(key);
+            this.ActiveHotkey = keyboardHotkey;
         }
 
         public void OnKeyRelease(SharpDX.DirectInput.Key key)
@@ -108,9 +126,10 @@
         {
             lock (this.AccessLock)
             {
-                if (this.ActiveHotkeyValue != null)
+                if (this.ActiveHotkey != null)
                 {
-                    this.hotkeys.Add(this.ActiveHotkeyValue);
+                    this.hotkeys.Add(this.ActiveHotkey);
+                    this.ClearActiveHotkey();
                 }
             }
 
@@ -137,11 +156,12 @@
             this.RaisePropertyChanged(nameof(this.Hotkeys));
         }
 
-        private void ClearHotkeys()
+        private void ClearActiveHotkey()
         {
             lock (this.AccessLock)
             {
-                this.hotkeys.Clear();
+                this.keyboardHotkey = new KeyboardHotkey();
+                this.ActiveHotkey = keyboardHotkey;
             }
 
             this.RaisePropertyChanged(nameof(this.Hotkeys));
@@ -149,7 +169,7 @@
 
         private void UpdateActiveValue(IHotkey hotkey)
         {
-            this.ActiveHotkeyValue = hotkey;
+            this.ActiveHotkey = hotkey;
         }
     }
     //// End class
