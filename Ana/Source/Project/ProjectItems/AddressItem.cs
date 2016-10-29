@@ -248,7 +248,11 @@
             if (this.IsActivated)
             {
                 // Freeze current value if this entry is activated
-                this.WriteValue(this.Value);
+                dynamic value = this.Value;
+                if (value != null && value.GetType() == this.ElementType)
+                {
+                    this.WriteValue(value);
+                }
             }
             else
             {
