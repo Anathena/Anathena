@@ -24,11 +24,6 @@
         private const String HomeUrl = "http://www.anathena.com/browser/browser.php";
 
         /// <summary>
-        /// The filter to use for the save file dialog
-        /// </summary>
-        private const String ExtensionFilter = "Cheat File(*.Hax)|*.hax|All files(*.*)|*.*";
-
-        /// <summary>
         /// Singleton instance of the <see cref="CheatBrowserViewModel" /> class
         /// </summary>
         private static Lazy<CheatBrowserViewModel> cheatBrowserViewModelInstance = new Lazy<CheatBrowserViewModel>(

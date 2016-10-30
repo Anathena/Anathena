@@ -96,50 +96,46 @@
             </Menu>
         </WrapPanel>
         <!--  Project Explorer Tree View  -->
-        <Grid Grid.Row="1">
-            <Grid.InputBindings>
-                <MouseBinding Command="{Binding DataContext.ClearSelectionCommand,
-                                                ElementName=AnaProjectExplorer}"
-                              CommandParameter="{Binding .}"
-                              Gesture="LeftClick" />
-            </Grid.InputBindings>
-            <TreeView Background="{StaticResource AvalonDock_Expression_BaseColor3}"
-                      BorderThickness="0"
-                      ItemsSource="{Binding ProjectItems,
-                                            Mode=OneWay}">
-                <TreeView.ItemContainerStyle>
-                    <Style TargetType="{x:Type TreeViewItem}">
-                        <Style.Resources>
-                            <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightBrushKey}" Color="Transparent" />
-                            <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="Transparent" />
-                            <SolidColorBrush x:Key="{x:Static SystemColors.ControlBrushKey}" Color="Transparent" />
-                        </Style.Resources>
-                        <Setter Property="BorderBrush" Value="Transparent" />
-                        <Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}" />
-                        <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}" />
-                        <Setter Property="BorderThickness" Value="2" />
-                        <Style.Triggers>
-                            <Trigger Property="IsSelected" Value="True">
-                                <Setter Property="BorderThickness" Value="2" />
-                                <Setter Property="BorderBrush" Value="{StaticResource AvalonDock_Expression_BaseColor15}" />
-                            </Trigger>
-                        </Style.Triggers>
-                    </Style>
-                </TreeView.ItemContainerStyle>
 
-                <TreeView.Resources>
-                    <HierarchicalDataTemplate DataType="{x:Type project:ProjectItemViewModel}" ItemsSource="{Binding Children}">
-                        <WrapPanel Orientation="Horizontal">
-                            <CheckBox IsChecked="{Binding ProjectItem.IsActivated}" />
-                            <Image Width="16"
-                                   Height="16"
-                                   Margin="3,0"
-                                   Source="pack://application:,,,/Ana;component/Content/Icons/Open.png" />
-                            <TextBlock Foreground="{StaticResource AvalonDock_Expression_BaseColor2}" Text="{Binding ProjectItem.Description}" />
-                        </WrapPanel>
-                    </HierarchicalDataTemplate>
-                </TreeView.Resources>
-            </TreeView>
-        </Grid>
+        <TreeView Name="projectExplorerTreeView"
+                  Grid.Row="1"
+                  Background="{StaticResource AvalonDock_Expression_BaseColor3}"
+                  BorderThickness="0"
+                  ItemsSource="{Binding ProjectItems,
+                                        Mode=OneWay}"
+                  MouseDown="projectExplorerTreeView_MouseDown">
+            <TreeView.ItemContainerStyle>
+                <Style TargetType="{x:Type TreeViewItem}">
+                    <Style.Resources>
+                        <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightBrushKey}" Color="Transparent" />
+                        <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="Transparent" />
+                        <SolidColorBrush x:Key="{x:Static SystemColors.ControlBrushKey}" Color="Transparent" />
+                    </Style.Resources>
+                    <Setter Property="BorderBrush" Value="Transparent" />
+                    <Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}" />
+                    <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}" />
+                    <Setter Property="BorderThickness" Value="2" />
+                    <Style.Triggers>
+                        <Trigger Property="IsSelected" Value="True">
+                            <Setter Property="BorderThickness" Value="2" />
+                            <Setter Property="BorderBrush" Value="{StaticResource AvalonDock_Expression_BaseColor15}" />
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </TreeView.ItemContainerStyle>
+
+            <TreeView.Resources>
+                <HierarchicalDataTemplate DataType="{x:Type project:ProjectItemViewModel}" ItemsSource="{Binding Children}">
+                    <WrapPanel Orientation="Horizontal">
+                        <CheckBox IsChecked="{Binding ProjectItem.IsActivated}" />
+                        <Image Width="16"
+                               Height="16"
+                               Margin="3,0"
+                               Source="{Binding Icon}" />
+                        <TextBlock Foreground="{StaticResource AvalonDock_Expression_BaseColor2}" Text="{Binding ProjectItem.Description}" />
+                    </WrapPanel>
+                </HierarchicalDataTemplate>
+            </TreeView.Resources>
+        </TreeView>
     </Grid>
 </UserControl>

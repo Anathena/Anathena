@@ -15,6 +15,7 @@
     using System.Runtime.Serialization;
     using Utils.HotkeyEditor;
     using Utils.TypeConverters;
+
     [Obfuscation(ApplyToMembers = true, Exclude = true)]
     [KnownType(typeof(ProjectItem))]
     [KnownType(typeof(FolderItem))]
@@ -39,7 +40,6 @@
         [Browsable(false)]
         private String description;
 
-        [DataMember]
         [Browsable(false)]
         private Boolean isActivated;
 
@@ -115,7 +115,7 @@
             }
         }
 
-        [DataMember()]
+        [DataMember]
         [TypeConverter(typeof(HotkeyConverter))]
         [Editor(typeof(HotkeyEditorModel), typeof(UITypeEditor))]
         [Category("Properties"), DisplayName("HotKeys"), Description("Hot key to activate item")]

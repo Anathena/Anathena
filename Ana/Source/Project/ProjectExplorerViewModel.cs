@@ -2,12 +2,16 @@
 {
     using Docking;
     using Main;
+    using Microsoft.Win32;
     using Mvvm.Command;
     using ProjectItems;
     using PropertyViewer;
     using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
+    using System.IO;
+    using System.Linq;
+    using System.Runtime.Serialization.Json;
     using System.Threading;
     using System.Threading.Tasks;
     using System.Windows.Input;
@@ -23,6 +27,12 @@
         /// The content id for the docking library associated with this view model
         /// </summary>
         public const String ToolContentId = nameof(ProjectExplorerViewModel);
+
+
+        /// <summary>
+        /// The filter to use for saving and loading project filters
+        /// </summary>
+        public const String ProjectExtensionFilter = "Cheat File (*.Hax)|*.hax|All files (*.*)|*.*";
 
         /// <summary>
         /// Singleton instance of the <see cref="ProjectExplorerViewModel" /> class
@@ -56,7 +66,6 @@
             this.ImportProjectCommand = new RelayCommand(() => this.ImportProject(), () => true);
             this.SaveProjectCommand = new RelayCommand(() => this.SaveProject(), () => true);
             this.SaveAsProjectCommand = new RelayCommand(() => this.SaveAsProject(), () => true);
-            this.ClearSelectionCommand = new RelayCommand(() => this.ClearSelection(), () => true);
             this.IsVisible = true;
             this.projectItems = new ReadOnlyCollection<ProjectItemViewModel>(new List<ProjectItemViewModel>());
             this.Update();
@@ -103,6 +112,11 @@
         /// Gets the command to clear the selected project item
         /// </summary>
         public ICommand ClearSelectionCommand { get; private set; }
+
+        /// <summary>
+        /// Gets the path to the project file
+        /// </summary>
+        public String ProjectFilePath { get; private set; }
 
         /// <summary>
         /// Gets or sets the collection of project items
@@ -186,7 +200,7 @@
         /// Adds the new project item to the project item collection
         /// </summary>
         /// <param name="projectItem">The project item to add</param>
-        private void AddNewProjectItem(ProjectItem projectItem)
+        public void AddNewProjectItem(ProjectItem projectItem)
         {
             List<ProjectItemViewModel> newItems = new List<ProjectItemViewModel>(this.ProjectItems);
 
@@ -199,7 +213,7 @@
 
             if (folderTarget != null)
             {
-                folderTarget.Children.Add(new ProjectItemViewModel(projectItem));
+                folderTarget.AddChild(new ProjectItemViewModel(projectItem));
             }
             else
             {
@@ -227,27 +241,68 @@
             projectItemViewModel?.ProjectItem?.Update();
         }
 
-        private void ClearSelectionRecurse(ProjectItemViewModel projectItemViewModel)
-        {
-            projectItemViewModel?.Children?.ForEach(x => this.UpdateRecurse(x as ProjectItemViewModel));
-            if (projectItemViewModel != null)
-            {
-                projectItemViewModel.IsSelected = false;
-            }
-        }
-
         /// <summary>
         /// Opens a project from disk
         /// </summary>
         private void OpenProject()
         {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = ProjectExtensionFilter;
+            openFileDialog.Title = "Open Project";
+            openFileDialog.ShowDialog();
+            this.ProjectFilePath = openFileDialog.FileName;
+
+            if (this.ProjectFilePath == null || this.ProjectFilePath == String.Empty)
+            {
+                return;
+            }
+
+            try
+            {
+                using (FileStream fileStream = new FileStream(this.ProjectFilePath, FileMode.Open, FileAccess.Read))
+                {
+                    DataContractJsonSerializer serializer = new DataContractJsonSerializer(typeof(ProjectItem[]));
+                    ProjectItem[] projectRoots = serializer.ReadObject(fileStream) as ProjectItem[];
+                    this.ProjectItems = new ReadOnlyCollection<ProjectItemViewModel>(projectRoots.Select(x => new ProjectItemViewModel(x)).ToList());
+                }
+            }
+            catch
+            {
+                return;
+            }
         }
 
         /// <summary>
-        /// Imports a project from disk
+        /// Imports a project from disk, adding the project items to the current project
         /// </summary>
         private void ImportProject()
         {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = ProjectExtensionFilter;
+            openFileDialog.Title = "Import Project";
+            openFileDialog.ShowDialog();
+            this.ProjectFilePath = openFileDialog.FileName;
+
+            if (this.ProjectFilePath == null || this.ProjectFilePath == String.Empty)
+            {
+                return;
+            }
+
+            try
+            {
+                using (FileStream fileStream = new FileStream(this.ProjectFilePath, FileMode.Open, FileAccess.Read))
+                {
+                    DataContractJsonSerializer serializer = new DataContractJsonSerializer(typeof(ProjectItem[]));
+                    ProjectItem[] projectRoots = serializer.ReadObject(fileStream) as ProjectItem[];
+                    List<ProjectItemViewModel> newItems = projectRoots.Select(x => new ProjectItemViewModel(x)).ToList();
+                    newItems.AddRange(this.ProjectItems);
+                    this.ProjectItems = new ReadOnlyCollection<ProjectItemViewModel>(projectRoots.Select(x => new ProjectItemViewModel(x)).ToList());
+                }
+            }
+            catch
+            {
+                return;
+            }
         }
 
         /// <summary>
@@ -255,6 +310,24 @@
         /// </summary>
         private void SaveProject()
         {
+            if (this.ProjectFilePath == null || this.ProjectFilePath == String.Empty)
+            {
+                SaveAsProject();
+                return;
+            }
+
+            try
+            {
+                using (FileStream fileStream = new FileStream(this.ProjectFilePath, FileMode.Create, FileAccess.Write))
+                {
+                    DataContractJsonSerializer serializer = new DataContractJsonSerializer(typeof(ProjectItem[]));
+                    serializer.WriteObject(fileStream, this.ProjectItems?.Select(x => x.ProjectItem).ToArray());
+                }
+            }
+            catch
+            {
+                return;
+            }
         }
 
         /// <summary>
@@ -262,12 +335,13 @@
         /// </summary>
         private void SaveAsProject()
         {
-        }
+            SaveFileDialog saveFileDialog = new SaveFileDialog();
+            saveFileDialog.Filter = ProjectExplorerViewModel.ProjectExtensionFilter;
+            saveFileDialog.Title = "Save Project";
+            saveFileDialog.ShowDialog();
+            this.ProjectFilePath = saveFileDialog.FileName;
+            this.SaveProject();
 
-        private void ClearSelection()
-        {
-            this.ProjectItems.ForEach(x => this.ClearSelectionRecurse(x));
-            this.SelectedProjectItem = null;
         }
     }
     //// End class

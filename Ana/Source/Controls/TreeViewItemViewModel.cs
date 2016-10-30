@@ -62,7 +62,7 @@
         /// <summary>
         /// Gets the parent tree view of this node
         /// </summary>
-        public TreeViewItemViewModel Parent
+        public virtual TreeViewItemViewModel Parent
         {
             get
             {
@@ -73,7 +73,7 @@
         /// <summary>
         /// Gets the logical child items of this object
         /// </summary>
-        public ObservableCollection<TreeViewItemViewModel> Children
+        public virtual ObservableCollection<TreeViewItemViewModel> Children
         {
             get
             {

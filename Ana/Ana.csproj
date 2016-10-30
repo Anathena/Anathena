@@ -212,7 +212,7 @@
     <Compile Include="Source\Mvvm\Converters\IntPtrToAddressConverter.cs" />
     <Compile Include="Source\Mvvm\Converters\IconConverter.cs" />
     <Compile Include="Source\Project\ProjectExplorerViewModel.cs" />
-    <Compile Include="Source\Project\ProjectExplorer.cs" />
+    <Compile Include="Source\Project\ProjectExplorerDeprecated.cs" />
     <Compile Include="Source\Project\ProjectItems\AddressItem.cs" />
     <Compile Include="Source\Project\ProjectItems\FolderItem.cs" />
     <Compile Include="Source\Project\ProjectItems\ProjectItem.cs" />
