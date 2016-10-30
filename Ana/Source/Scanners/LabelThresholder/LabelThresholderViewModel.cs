@@ -40,6 +40,11 @@
         {
             return labelThresholderViewModelInstance.Value;
         }
+
+        public void OpenLabelThresholder()
+        {
+            this.IsVisible = true;
+        }
     }
     //// End class
 }

@@ -57,7 +57,7 @@
 
         public void Update(Object[] targetObjects)
         {
-            this.propertyGrid.SelectedObjects = targetObjects;
+            this.propertyGrid.SelectedObjects = targetObjects == null || targetObjects.Contains(null) ? new Object[] { } : targetObjects;
         }
 
         private void SetAllColorsDark()

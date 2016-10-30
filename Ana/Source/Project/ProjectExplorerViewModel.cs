@@ -56,6 +56,7 @@
             this.ImportProjectCommand = new RelayCommand(() => this.ImportProject(), () => true);
             this.SaveProjectCommand = new RelayCommand(() => this.SaveProject(), () => true);
             this.SaveAsProjectCommand = new RelayCommand(() => this.SaveAsProject(), () => true);
+            this.ClearSelectionCommand = new RelayCommand(() => this.ClearSelection(), () => true);
             this.IsVisible = true;
             this.projectItems = new ReadOnlyCollection<ProjectItemViewModel>(new List<ProjectItemViewModel>());
             this.Update();
@@ -99,6 +100,11 @@
         public ICommand AddNewScriptItemCommand { get; private set; }
 
         /// <summary>
+        /// Gets the command to clear the selected project item
+        /// </summary>
+        public ICommand ClearSelectionCommand { get; private set; }
+
+        /// <summary>
         /// Gets or sets the collection of project items
         /// </summary>
         public ReadOnlyCollection<ProjectItemViewModel> ProjectItems
@@ -128,7 +134,7 @@
             set
             {
                 this.selectedProjectItem = value;
-                PropertyViewerViewModel.GetInstance().SetTargetObjects(this.selectedProjectItem.ProjectItem);
+                PropertyViewerViewModel.GetInstance().SetTargetObjects(this.selectedProjectItem?.ProjectItem);
                 this.RaisePropertyChanged(nameof(this.SelectedProjectItem));
             }
         }
@@ -221,6 +227,15 @@
             projectItemViewModel?.ProjectItem?.Update();
         }
 
+        private void ClearSelectionRecurse(ProjectItemViewModel projectItemViewModel)
+        {
+            projectItemViewModel?.Children?.ForEach(x => this.UpdateRecurse(x as ProjectItemViewModel));
+            if (projectItemViewModel != null)
+            {
+                projectItemViewModel.IsSelected = false;
+            }
+        }
+
         /// <summary>
         /// Opens a project from disk
         /// </summary>
@@ -247,6 +262,12 @@
         /// </summary>
         private void SaveAsProject()
         {
+        }
+
+        private void ClearSelection()
+        {
+            this.ProjectItems.ForEach(x => this.ClearSelectionRecurse(x));
+            this.SelectedProjectItem = null;
         }
     }
     //// End class

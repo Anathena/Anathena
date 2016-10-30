@@ -230,7 +230,7 @@
     <Compile Include="Source\Scanners\InputCorrelator\InputCorrelatorViewModel.cs" />
     <Compile Include="Source\Scanners\ScannerBase.cs" />
     <Compile Include="Source\Scanners\LabelThresholder\LabelThresholderViewModel.cs" />
-    <Compile Include="Source\Scanners\LabelThresholder\LabelThresholder.cs" />
+    <Compile Include="Source\Scanners\LabelThresholder\LabelThresholderModel.cs" />
     <Compile Include="Source\Scanners\ManualScanner\ManualScannerViewModel.cs" />
     <Compile Include="Source\Scanners\ManualScanner\ManualScannerModel.cs" />
     <Compile Include="Source\Scanners\PointerScanner\PointerScanner.cs" />

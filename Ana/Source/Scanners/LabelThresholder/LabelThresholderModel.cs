@@ -9,9 +9,9 @@
     using System.Threading.Tasks;
     using Utils;
 
-    internal class LabelThresholder
+    internal class LabelThresholderModel
     {
-        public LabelThresholder()
+        public LabelThresholderModel()
         {
             this.ItemLock = new Object();
         }
