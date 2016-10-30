@@ -3,8 +3,10 @@
     using LuaEngine;
     using System;
     using System.ComponentModel;
+    using System.Drawing.Design;
     using System.Reflection;
     using System.Runtime.Serialization;
+    using Utils.ScriptEditor;
     using Utils.TypeConverters;
 
     [Obfuscation(ApplyToMembers = true, Exclude = true)]
@@ -26,7 +28,8 @@
         }
 
         [DataMember]
-        [TypeConverter(typeof(LuaScriptConverter))]
+        [TypeConverter(typeof(ScriptConverter))]
+        [Editor(typeof(ScriptEditorModel), typeof(UITypeEditor))]
         [Category("Properties"), DisplayName("Script"), Description("Lua script to interface with engine")]
         public LuaScript LuaScript
         {

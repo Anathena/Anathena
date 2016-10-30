@@ -28,7 +28,7 @@
 
         public LuaCore(LuaScript luaScript) : base()
         {
-            this.LuaScriptRaw = this.ReplaceTags(luaScript?.Script);
+            this.ScriptRaw = this.ReplaceTags(luaScript?.Script);
         }
 
         private Lua ScriptEngine { get; set; }
@@ -51,7 +51,7 @@
         /// </summary>
         private Task Task { get; set; }
 
-        private String LuaScriptRaw { get; set; }
+        private String ScriptRaw { get; set; }
 
         /// <summary>
         /// Runs the activation function in the Lua script
@@ -64,7 +64,7 @@
 
             try
             {
-                this.ScriptEngine.DoString(this.LuaScriptRaw);
+                this.ScriptEngine.DoString(this.ScriptRaw);
                 LuaFunction function = this.ScriptEngine["OnActivate"] as LuaFunction;
 
                 if (function == null)

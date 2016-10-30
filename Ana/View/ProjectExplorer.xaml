@@ -99,11 +99,12 @@
 
         <TreeView Name="projectExplorerTreeView"
                   Grid.Row="1"
+                  AllowDrop="True"
                   Background="{StaticResource AvalonDock_Expression_BaseColor3}"
                   BorderThickness="0"
                   ItemsSource="{Binding ProjectItems,
                                         Mode=OneWay}"
-                  MouseDown="projectExplorerTreeView_MouseDown">
+                  MouseDown="ProjectExplorerTreeViewMouseDown">
             <TreeView.ItemContainerStyle>
                 <Style TargetType="{x:Type TreeViewItem}">
                     <Style.Resources>
@@ -115,6 +116,9 @@
                     <Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}" />
                     <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}" />
                     <Setter Property="BorderThickness" Value="2" />
+                    <EventSetter Event="TreeViewItem.DragOver" Handler="TreeViewDragOver" />
+                    <EventSetter Event="TreeViewItem.Drop" Handler="TreeViewDrop" />
+                    <EventSetter Event="TreeViewItem.MouseMove" Handler="TreeViewMouseMove" />
                     <Style.Triggers>
                         <Trigger Property="IsSelected" Value="True">
                             <Setter Property="BorderThickness" Value="2" />

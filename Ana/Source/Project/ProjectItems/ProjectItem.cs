@@ -171,6 +171,22 @@
             this.Children.Add(projectItem);
         }
 
+
+        public void RemoveChild(ProjectItem projectItem)
+        {
+            projectItem.Parent = this;
+
+            if (this.Children == null)
+            {
+                this.Children = new List<ProjectItem>();
+            }
+
+            if (this.Children.Contains(projectItem))
+            {
+                this.Children.Remove(projectItem);
+            }
+        }
+
         public void AddSibling(ProjectItem projectItem, Boolean after)
         {
             projectItem.Parent = this.Parent;

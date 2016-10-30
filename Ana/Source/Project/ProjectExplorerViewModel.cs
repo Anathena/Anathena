@@ -153,6 +153,18 @@
             }
         }
 
+        public void RemoveProjectItem(ProjectItemViewModel projectItemViewModel)
+        {
+            this.ProjectItems = new ReadOnlyCollection<ProjectItemViewModel>(ProjectItems.Where(x => x != projectItemViewModel).ToList());
+        }
+
+        public void InsertProjectItem(ProjectItemViewModel projectItemViewModel, Int32 index)
+        {
+            List<ProjectItemViewModel> newItems = ProjectItems.ToList();
+            newItems.Insert(index, projectItemViewModel);
+            this.ProjectItems = new ReadOnlyCollection<ProjectItemViewModel>(newItems);
+        }
+
         /// <summary>
         /// Gets a singleton instance of the <see cref="ProjectExplorerViewModel"/> class
         /// </summary>

@@ -192,7 +192,7 @@
         {
             get
             {
-                return ScriptEditorViewModel.GetInstance();
+                return new ScriptEditorViewModel();
             }
         }
 

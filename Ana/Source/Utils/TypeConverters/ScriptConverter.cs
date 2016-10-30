@@ -4,7 +4,7 @@
     using System.ComponentModel;
     using System.Globalization;
 
-    internal class LuaScriptConverter : TypeConverter
+    internal class ScriptConverter : TypeConverter
     {
         public override Object ConvertTo(ITypeDescriptorContext context, CultureInfo culture, Object value, Type destinationType)
         {

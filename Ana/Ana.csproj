@@ -120,11 +120,12 @@
     <Compile Include="Source\Utils\TypeEditors\IEditorViewModel.cs" />
     <Compile Include="Source\Utils\TypeEditors\IEditorModel.cs" />
     <Compile Include="Source\Utils\TypeEditors\OffsetEditor\OffsetEditorViewModel.cs" />
+    <Compile Include="Source\Utils\TypeEditors\ScriptEditor\ScriptEditorModel.cs" />
     <Compile Include="Source\Utils\TypeEditors\ScriptEditor\ScriptEditorViewModel.cs" />
     <Compile Include="Source\Utils\TypeConverters\AddressConverter.cs" />
     <Compile Include="Source\Utils\TypeConverters\DynamicConverter.cs" />
     <Compile Include="Source\Utils\TypeConverters\HotkeyConverter.cs" />
-    <Compile Include="Source\Utils\TypeConverters\LuaScriptConverter.cs" />
+    <Compile Include="Source\Utils\TypeConverters\ScriptConverter.cs" />
     <Compile Include="Source\Utils\TypeConverters\OffsetConverter.cs" />
     <Compile Include="Source\Utils\TypeEditors\OffsetEditor\OffsetEditorModel.cs" />
     <Compile Include="Source\Utils\TypeConverters\ValueTypeConverter.cs" />
@@ -493,6 +494,10 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <EmbeddedResource Include="Content\Lua.xhsd">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <Resource Include="Content\Icons\BlueBlocks1.png" />
     <Resource Include="Content\Icons\BlueBlocks2.png" />
     <Resource Include="Content\Icons\BlueBlocks4.png" />

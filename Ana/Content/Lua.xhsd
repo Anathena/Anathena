@@ -1,0 +1,171 @@
+﻿<?xml version="1.0"?>
+<!--  Syntax Highlighting Definitions for Lua Scripts  -->
+<SyntaxDefinition xmlns="http://icsharpcode.net/sharpdevelop/syntaxdefinition/2008"
+                  extensions=".slua;.lua"
+                  name="SharpLua">
+    <!--  The named colors 'Comment' and 'String' are used in SharpDevelop to detect if a line is inside a multiline string/comment  -->
+    <Color exampleText="-- comment"
+           foreground="#ff999999"
+           name="Comment" />
+    <Color foreground="#fff99157" name="String" />
+    <Color name="Punctuation" />
+    <Color fontWeight="bold"
+           foreground="#ffffcc66"
+           name="MethodCall" />
+    <Color foreground="#ff99cc99" name="NumberLiteral" />
+    <Color fontWeight="bold" name="NilKeyword" />
+    <Color fontWeight="bold"
+           foreground="#ff6699cc"
+           name="Keywords" />
+    <Color foreground="#ffcc99cc" name="GotoKeywords" />
+    <Color fontWeight="bold"
+           foreground="#fff99157"
+           name="Visibility" />
+    <Color fontWeight="bold"
+           foreground="#ff66cccc"
+           name="TrueFalse" />
+
+    <RuleSet name="CommentMarkerSet">
+        <Keywords fontWeight="bold" foreground="#fff2777a">
+            <Word>TODO</Word>
+            <Word>FIXME</Word>
+        </Keywords>
+        <Keywords fontWeight="bold" foreground="#fff2777a">
+            <Word>HACK</Word>
+            <Word>UNDONE</Word>
+        </Keywords>
+    </RuleSet>
+
+    <!--  This is the main ruleset.  -->
+    <RuleSet>
+
+        <Span color="Comment">
+            <Begin color="XmlDoc/DocComment">---</Begin>
+            <RuleSet>
+                <Import ruleSet="XmlDoc/DocCommentSet" />
+                <Import ruleSet="CommentMarkerSet" />
+            </RuleSet>
+        </Span>
+
+
+        <Span color="Comment"
+                  multiline="true"
+                  ruleSet="CommentMarkerSet">
+            <Begin>--\[[=]*\[</Begin>
+            <End>\][=]*]</End>
+        </Span>
+
+
+        <Span color="Comment" ruleSet="CommentMarkerSet">
+            <Begin>--</Begin>
+        </Span>
+
+        <Span color="String">
+            <Begin>&quot;</Begin>
+            <End>&quot;</End>
+            <RuleSet>
+                <!--  span for escape sequences  -->
+                <Span begin="\\" end="." />
+            </RuleSet>
+        </Span>
+
+        <Span color="String">
+            <Begin>'</Begin>
+            <End>'</End>
+            <RuleSet>
+                <!--  span for escape sequences  -->
+                <Span begin="\\" end="." />
+            </RuleSet>
+        </Span>
+
+        <Span color="String" multiline="true">
+            <Begin color="String">\[[=]*\[</Begin>
+            <End>\][=]*]</End>
+        </Span>
+
+        <Keywords color="TrueFalse">
+            <Word>true</Word>
+            <Word>false</Word>
+        </Keywords>
+
+        <Keywords color="Keywords">
+            <Word>and</Word>
+            <Word>break</Word>
+            <Word>do</Word>
+            <Word>else</Word>
+            <Word>elseif</Word>
+            <Word>end</Word>
+            <Word>false</Word>
+            <Word>for</Word>
+            <Word>function</Word>
+            <Word>if</Word>
+            <Word>in</Word>
+            <Word>local</Word>
+            <!--<Word>nil</Word>-->
+            <Word>not</Word>
+            <Word>or</Word>
+            <Word>repeat</Word>
+            <Word>return</Word>
+            <Word>then</Word>
+            <Word>true</Word>
+            <Word>until</Word>
+            <Word>while</Word>
+            <Word>using</Word>
+            <Word>continue</Word>
+        </Keywords>
+
+        <Keywords color="GotoKeywords">
+            <Word>break</Word>
+            <Word>return</Word>
+        </Keywords>
+
+        <Keywords color="Visibility">
+            <Word>local</Word>
+        </Keywords>
+
+        <Keywords color="NilKeyword">
+            <Word>nil</Word>
+        </Keywords>
+
+        <!--  Mark previous rule  -->
+        <Rule color="MethodCall">
+            \b
+                [\d\w_]+  # an identifier
+                (?=\s*\() # followed by (
+        </Rule>
+        <Rule color="MethodCall">
+            \b
+                [\d\w_]+  # an identifier
+                (?=\s*\&quot;) # followed by &quot;
+        </Rule>
+        <Rule color="MethodCall">
+            \b
+                [\d\w_]+  # an identifier
+                (?=\s*\') # followed by '
+        </Rule>
+        <Rule color="MethodCall">
+            \b
+                [\d\w_]+  # an identifier
+                (?=\s*\{) # followed by {
+        </Rule>
+        <Rule color="MethodCall">
+            \b
+                [\d\w_]+  # an identifier
+                (?=\s*\[) # followed by [
+        </Rule>
+
+        <!--  Digits  -->
+        <Rule color="NumberLiteral">
+            \b0[xX][0-9a-fA-F]+  # hex number
+                |
+                (	\b\d+(\.[0-9]+)?   #number with optional floating point
+                |	\.[0-9]+           #or just starting with floating point
+                )
+                ([eE][+-]?[0-9]+)? # optional exponent
+        </Rule>
+
+        <Rule color="Punctuation">
+            [?,.;()\[\]{}+\-/%*&lt;&gt;^+~!|&amp;]+
+        </Rule>
+    </RuleSet>
+</SyntaxDefinition>
