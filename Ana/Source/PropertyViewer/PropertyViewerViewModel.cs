@@ -22,7 +22,7 @@
         /// </summary>
         private static Lazy<PropertyViewerViewModel> propertyViewerViewModelInstance = new Lazy<PropertyViewerViewModel>(
                 () => { return new PropertyViewerViewModel(); },
-                LazyThreadSafetyMode.PublicationOnly);
+                LazyThreadSafetyMode.ExecutionAndPublication);
 
         private Object[] targetObjects;
 

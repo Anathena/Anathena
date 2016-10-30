@@ -278,7 +278,7 @@
 
         public IEnumerator GetEnumerator()
         {
-            if (this.RegionSize <= 0)
+            if (this.RegionSize <= 0 || this.Alignment <= 0)
             {
                 yield break;
             }

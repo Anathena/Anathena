@@ -22,7 +22,7 @@
         /// </summary>
         private static Lazy<AddressResolver> addressResolverInstance = new Lazy<AddressResolver>(
             () => { return new AddressResolver(); },
-            LazyThreadSafetyMode.PublicationOnly);
+            LazyThreadSafetyMode.ExecutionAndPublication);
 
         private AddressResolver()
         {

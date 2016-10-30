@@ -97,12 +97,6 @@
                             <shell:Grid.ColumnDefinitions>
                                 <shell:ColumnDefinition />
                             </shell:Grid.ColumnDefinitions>
-                            <shell:Grid.InputBindings>
-                                <shell:MouseBinding Command="{Binding DataContext.AddAddressCommand,
-                                                                      ElementName=AnaScanResults}"
-                                                    CommandParameter="{Binding .}"
-                                                    Gesture="LeftDoubleClick" />
-                            </shell:Grid.InputBindings>
                             <shell:TextBlock Grid.Column="0"
                                              Foreground="{StaticResource AvalonDock_Expression_BaseColor2}"
                                              Text="{Binding .}" />

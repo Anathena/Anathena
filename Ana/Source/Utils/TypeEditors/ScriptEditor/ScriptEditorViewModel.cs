@@ -21,7 +21,7 @@
         /// </summary>
         private static Lazy<ScriptEditorViewModel> scriptEditorViewModelInstance = new Lazy<ScriptEditorViewModel>(
                 () => { return new ScriptEditorViewModel(); },
-                LazyThreadSafetyMode.PublicationOnly);
+                LazyThreadSafetyMode.ExecutionAndPublication);
 
         /// <summary>
         /// Prevents a default instance of the <see cref="ScriptEditorViewModel" /> class from being created

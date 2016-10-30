@@ -17,7 +17,7 @@
         /// </summary>
         private static Lazy<ValueCollectorViewModel> valueCollectorViewModelInstance = new Lazy<ValueCollectorViewModel>(
                 () => { return new ValueCollectorViewModel(); },
-                LazyThreadSafetyMode.PublicationOnly);
+                LazyThreadSafetyMode.ExecutionAndPublication);
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ValueCollectorViewModel" /> class

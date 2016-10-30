@@ -5,6 +5,7 @@
     using Engine.Input.HotKeys;
     using Engine.Input.Keyboard;
     using Engine.Input.Mouse;
+    using Results;
     using SharpDX.DirectInput;
     using Snapshots;
     using System;
@@ -16,12 +17,13 @@
     /// <summary>
     /// 
     /// </summary>
-    internal class InputCorrelator : ScannerBase, IKeyboardObserver, IControllerObserver, IMouseObserver
+    internal class InputCorrelatorModel : ScannerBase, IKeyboardObserver, IControllerObserver, IMouseObserver
     {
         private List<IHotkey> hotKeys;
 
-        public InputCorrelator() : base("Input Correlator")
+        public InputCorrelatorModel(Action updateScanCount) : base("Input Correlator")
         {
+            this.UpdateScanCount = updateScanCount;
         }
 
         private Snapshot<Int16> Snapshot { get; set; }
@@ -38,10 +40,8 @@
             }
         }
 
-        /// <summary>
-        /// Gets or sets the number of bytes to correlate at a time
-        /// </summary>
-        private Int32 VariableSize { get; set; }
+
+        private Action UpdateScanCount { get; set; }
 
         /// <summary>
         /// Gets or sets the time to consider a fired key event as active
@@ -79,7 +79,8 @@
                 return;
             }
 
-            this.Snapshot.SetVariableSize(this.VariableSize);
+            this.Snapshot.ElementType = ScanResultsViewModel.GetInstance().ActiveType;
+            this.Snapshot.Alignment = SettingsViewModel.GetInstance().Alignment;
 
             // Initialize with no correlation
             this.Snapshot.SetElementLabels(0);
@@ -147,7 +148,7 @@
                 SettingsViewModel.GetInstance().ParallelSettings,
                 (regionObject) =>
                 {
-                    SnapshotRegion<Int16> region = (SnapshotRegion<Int16>)regionObject;
+                    SnapshotRegion<Int16> region = regionObject as SnapshotRegion<Int16>;
 
                     if (!region.CanCompare())
                     {
@@ -165,6 +166,7 @@
             }
 
             base.Update();
+            this.UpdateScanCount?.Invoke();
         }
 
         protected override void OnEnd()

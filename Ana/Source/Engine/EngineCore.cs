@@ -16,11 +16,11 @@
     internal class EngineCore
     {
         /// <summary>
-        /// Singleton instance of the <see cref="MainViewModel" /> class
+        /// Singleton instance of the <see cref="EngineCore" /> class
         /// </summary>
         private static Lazy<EngineCore> engineCoreInstance = new Lazy<EngineCore>(
                 () => { return new EngineCore(); },
-                LazyThreadSafetyMode.PublicationOnly);
+                LazyThreadSafetyMode.ExecutionAndPublication);
 
         /// <summary>
         /// Prevents a default instance of the <see cref="EngineCore" /> class from being created

@@ -20,7 +20,7 @@
         /// </summary>
         private static Lazy<ProjectExplorerDeprecated> projectExplorerInstance = new Lazy<ProjectExplorerDeprecated>(
                 () => { return new ProjectExplorerDeprecated(); },
-                LazyThreadSafetyMode.PublicationOnly);
+                LazyThreadSafetyMode.ExecutionAndPublication);
 
         private ProjectExplorerDeprecated()
         {

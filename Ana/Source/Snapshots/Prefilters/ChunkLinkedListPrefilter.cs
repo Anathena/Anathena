@@ -41,7 +41,7 @@
         // Singleton instance of Prefilter
         private static Lazy<ISnapshotPrefilter> snapshotPrefilterInstance = new Lazy<ISnapshotPrefilter>(
             () => { return new ChunkLinkedListPrefilter(); },
-            LazyThreadSafetyMode.PublicationOnly);
+            LazyThreadSafetyMode.ExecutionAndPublication);
 
         private ChunkLinkedListPrefilter()
         {

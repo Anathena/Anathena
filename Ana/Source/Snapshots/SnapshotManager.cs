@@ -20,7 +20,7 @@
         /// </summary>
         private static Lazy<SnapshotManager> snapshotManagerInstance = new Lazy<SnapshotManager>(
             () => { return new SnapshotManager(); },
-            LazyThreadSafetyMode.PublicationOnly);
+            LazyThreadSafetyMode.ExecutionAndPublication);
 
         /// <summary>
         /// Prevents a default instance of the <see cref="SnapshotManager" /> class from being created

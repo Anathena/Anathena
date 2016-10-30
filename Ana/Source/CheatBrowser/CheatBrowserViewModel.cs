@@ -33,7 +33,7 @@
         /// </summary>
         private static Lazy<CheatBrowserViewModel> cheatBrowserViewModelInstance = new Lazy<CheatBrowserViewModel>(
                 () => { return new CheatBrowserViewModel(); },
-                LazyThreadSafetyMode.PublicationOnly);
+                LazyThreadSafetyMode.ExecutionAndPublication);
 
         /// <summary>
         /// Prevents a default instance of the <see cref="CheatBrowserViewModel" /> class from being created

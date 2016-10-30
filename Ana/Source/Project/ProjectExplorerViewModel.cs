@@ -29,7 +29,7 @@
         /// </summary>
         private static Lazy<ProjectExplorerViewModel> projectExplorerViewModelInstance = new Lazy<ProjectExplorerViewModel>(
                 () => { return new ProjectExplorerViewModel(); },
-                LazyThreadSafetyMode.PublicationOnly);
+                LazyThreadSafetyMode.ExecutionAndPublication);
 
         /// <summary>
         /// The collection of project items

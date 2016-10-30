@@ -28,7 +28,7 @@
         /// </summary>
         private static Lazy<MainViewModel> mainViewModelInstance = new Lazy<MainViewModel>(
                 () => { return new MainViewModel(); },
-                LazyThreadSafetyMode.PublicationOnly);
+                LazyThreadSafetyMode.ExecutionAndPublication);
 
         /// <summary>
         /// Collection of tools contained in the main docking panel

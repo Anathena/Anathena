@@ -19,20 +19,19 @@
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
                 <RowDefinition />
             </Grid.RowDefinitions>
             <WrapPanel Grid.Row="0" Background="{StaticResource AvalonDock_Expression_BaseColor4}">
-                <Menu Background="Transparent"
-                      DataContext="{Binding Source={StaticResource ViewModelLocator}}"
-                      Padding="4">
-                    <MenuItem>
+                <Menu Background="Transparent" Padding="4">
+                    <MenuItem Command="{Binding StartScanCommand}">
                         <MenuItem.Header>
                             <Image Width="16"
                                    Height="16"
                                    Source="pack://application:,,,/Ana;component/Content/Icons/RightArrow.png" />
                         </MenuItem.Header>
                     </MenuItem>
-                    <MenuItem>
+                    <MenuItem Command="{Binding StopScanCommand}">
                         <MenuItem.Header>
                             <Image Width="16"
                                    Height="16"
@@ -41,22 +40,78 @@
                     </MenuItem>
                 </Menu>
             </WrapPanel>
-            <Grid Grid.Row="1">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition />
-                </Grid.ColumnDefinitions>
-                <Border Grid.Column="0" Padding="16 8 16 8">
-                    <StackPanel Grid.Column="0">
-                        <TextBlock Foreground="{StaticResource AvalonDock_Expression_BaseColor2}" Text="Variable Size" />
-                    </StackPanel>
-                </Border>
-                <Border Grid.Column="1" Padding="16 8 16 8">
-                    <StackPanel>
-                        <Slider Width="128" HorizontalAlignment="Left" />
-                    </StackPanel>
-                </Border>
+            <Grid Grid.Row="1" Margin="8">
+                <WrapPanel>
+                    <Button Width="96"
+                            Height="20"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Center"
+                            Command="{Binding EditHotkeysCommand}">
+                        <TextBlock Text="Edit Keys" />
+                    </Button>
+                    <Border Padding="8 0 0 0" />
+                    <Border Grid.Row="1" VerticalAlignment="Center">
+                        <WrapPanel>
+                            <TextBlock Foreground="{StaticResource AvalonDock_Expression_BaseColor2}" Text="Change Count: " />
+                            <TextBlock Foreground="{StaticResource AvalonDock_Expression_BaseColor2}" Text="{Binding ScanCount}" />
+                        </WrapPanel>
+                    </Border>
+                </WrapPanel>
             </Grid>
+            <ScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Auto">
+                <ListView Name="hotkeysListView"
+                          Background="{StaticResource AvalonDock_Expression_BaseColor3}"
+                          BorderThickness="0"
+                          ItemsSource="{Binding Hotkeys}">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <Grid Width="{Binding Path=ActualWidth, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListView}}}">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Grid.Column="0"
+                                           Foreground="{StaticResource AvalonDock_Expression_BaseColor2}"
+                                           Text="{Binding .}" />
+                            </Grid>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                    <ListView.Template>
+                        <ControlTemplate>
+                            <Grid HorizontalAlignment="Left">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+                                <Grid Grid.Row="0"
+                                      Width="{Binding Path=ActualWidth,
+                                                      RelativeSource={RelativeSource FindAncestor,
+                                                                                     AncestorType={x:Type ListView}}}"
+                                      VerticalAlignment="Center">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition />
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.Resources>
+                                        <Style TargetType="TextBlock">
+                                            <Setter Property="Margin" Value="5,0" />
+                                            <Setter Property="Foreground" Value="{StaticResource AvalonDock_Expression_BaseColor2}" />
+                                            <Setter Property="FontWeight" Value="Bold" />
+                                        </Style>
+                                        <Style TargetType="Border">
+                                            <Setter Property="BorderThickness" Value="0" />
+                                            <Setter Property="Padding" Value="8 4 8 4" />
+                                            <Setter Property="Background" Value="{StaticResource AvalonDock_Expression_BaseColor4}" />
+                                        </Style>
+                                    </Grid.Resources>
+                                    <Border Grid.Column="0">
+                                        <TextBlock>Hotkey</TextBlock>
+                                    </Border>
+                                </Grid>
+                                <ItemsPresenter Grid.Row="1" />
+                            </Grid>
+                        </ControlTemplate>
+                    </ListView.Template>
+                </ListView>
+            </ScrollViewer>
         </Grid>
     </Grid>
 </UserControl>

@@ -67,9 +67,10 @@
 
             Parallel.ForEach(
                 this.Snapshot.Cast<Object>(),
+                SettingsViewModel.GetInstance().ParallelSettings,
                 (Object regionObject) =>
             {
-                SnapshotRegion region = regionObject as SnapshotRegion;
+                SnapshotRegion<UInt16> region = regionObject as SnapshotRegion<UInt16>;
 
                 if (!region.CanCompare())
                 {

@@ -36,7 +36,7 @@
             private set
             {
                 this.scanCount = value;
-                this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(this.ScanCount)));
+                this.NotifyPropertyChanged(nameof(this.ScanCount));
             }
         }
 
@@ -44,6 +44,11 @@
         /// Gets the name of this scanner
         /// </summary>
         protected String ScannerName { get; private set; }
+
+        protected void NotifyPropertyChanged(String propertyName)
+        {
+            this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
 
         /// <summary>
         /// Begins the scan

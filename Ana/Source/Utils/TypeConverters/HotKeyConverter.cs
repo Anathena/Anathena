@@ -7,7 +7,7 @@
     using System.Globalization;
     using System.Linq;
 
-    internal class HotkeyConverter : StringConverter
+    internal class HotkeyConverter : TypeConverter
     {
         public override Object ConvertTo(ITypeDescriptorContext context, CultureInfo culture, Object value, Type destinationType)
         {

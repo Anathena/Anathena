@@ -23,7 +23,7 @@
         /// </summary>
         private static Lazy<SettingsViewModel> settingsViewModelInstance = new Lazy<SettingsViewModel>(
                 () => { return new SettingsViewModel(); },
-                LazyThreadSafetyMode.PublicationOnly);
+                LazyThreadSafetyMode.ExecutionAndPublication);
 
         private static Lazy<ParallelOptions> parallelSettings = new Lazy<ParallelOptions>(
                 () =>
@@ -35,7 +35,7 @@
                     };
                     return parallelOptions;
                 },
-                LazyThreadSafetyMode.PublicationOnly);
+                LazyThreadSafetyMode.ExecutionAndPublication);
 
         /// <summary>
         /// Prevents a default instance of the <see cref="SettingsViewModel"/> class from being created

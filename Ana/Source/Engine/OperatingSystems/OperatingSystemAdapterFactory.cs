@@ -14,7 +14,7 @@
         /// </summary>
         private static Lazy<WindowsAdapter> windowsAdapterInstance = new Lazy<WindowsAdapter>(
             () => { return new WindowsAdapter(); },
-            LazyThreadSafetyMode.PublicationOnly);
+            LazyThreadSafetyMode.ExecutionAndPublication);
 
         /// <summary>
         /// Gets an adapter to the operating system

@@ -31,7 +31,7 @@
         /// </summary>
         private static Lazy<ISnapshotPrefilter> snapshotPrefilterInstance = new Lazy<ISnapshotPrefilter>(
             () => { return new ShallowPointerPrefilter(); },
-            LazyThreadSafetyMode.PublicationOnly);
+            LazyThreadSafetyMode.ExecutionAndPublication);
 
         /// <summary>
         /// Gets or sets the number of regions processed by this prefilter

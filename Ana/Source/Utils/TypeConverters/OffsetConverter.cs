@@ -8,7 +8,7 @@
     using System.Linq;
     using Validation;
 
-    internal class OffsetConverter : StringConverter
+    internal class OffsetConverter : TypeConverter
     {
         public override Object ConvertTo(ITypeDescriptorContext context, CultureInfo culture, Object value, Type destinationType)
         {

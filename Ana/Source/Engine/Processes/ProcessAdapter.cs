@@ -23,6 +23,7 @@
         /// </summary>
         public ProcessAdapter()
         {
+            this.processListeners = new ConcurrentHashSet<IProcessObserver>();
         }
 
         /// <summary>
@@ -36,11 +37,6 @@
         /// <param name="listener">The object that wants to listen to process update events</param>
         public void Subscribe(IProcessObserver listener)
         {
-            if (this.processListeners == null)
-            {
-                this.processListeners = new ConcurrentHashSet<IProcessObserver>();
-            }
-
             this.processListeners.Add(listener);
         }
 
