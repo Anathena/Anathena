@@ -24,14 +24,14 @@
             </Grid.RowDefinitions>
             <WrapPanel Grid.Row="0" Background="{StaticResource AvalonDock_Expression_BaseColor4}">
                 <Menu Background="Transparent" Padding="4">
-                    <MenuItem Command="{Binding StartScanCommand}">
+                    <MenuItem Command="{Binding StartScanCommand}" ToolTip="Start Scan">
                         <MenuItem.Header>
                             <Image Width="16"
                                    Height="16"
                                    Source="pack://application:,,,/Ana;component/Content/Icons/RightArrow.png" />
                         </MenuItem.Header>
                     </MenuItem>
-                    <MenuItem Command="{Binding StopScanCommand}">
+                    <MenuItem Command="{Binding StopScanCommand}" ToolTip="Stop Scan">
                         <MenuItem.Header>
                             <Image Width="16"
                                    Height="16"
