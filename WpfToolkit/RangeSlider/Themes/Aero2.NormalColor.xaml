@@ -216,6 +216,15 @@
                                 <ColumnDefinition Width="11" />
                             </Grid.ColumnDefinitions>
 
+                            <Border Grid.Row="1"
+                                    Grid.Column="1"
+                                    Grid.ColumnSpan="3"
+                                    Height="4"
+                                    VerticalAlignment="Center"
+                                    Background="#FFE7EAEA"
+                                    BorderBrush="#FFD6D6D6"
+                                    BorderThickness="1" />
+
                             <!--  Margin is set in CodeBehind, based on HigherSlider's Thumb width  -->
                             <Slider x:Name="PART_LowerSlider"
                                     Grid.Row="1"
@@ -231,15 +240,6 @@
                                     Background="{TemplateBinding HigherThumbBackground}"
                                     Focusable="False"
                                     Template="{StaticResource SliderTemplate}" />
-
-                            <Border Grid.Row="1"
-                                    Grid.Column="1"
-                                    Grid.ColumnSpan="3"
-                                    Height="4"
-                                    VerticalAlignment="Center"
-                                    Background="#FFE7EAEA"
-                                    BorderBrush="#FFD6D6D6"
-                                    BorderThickness="1" />
 
                             <RepeatButton x:Name="PART_LowerRange"
                                           Grid.Row="1"

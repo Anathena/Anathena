@@ -284,9 +284,6 @@
     <Compile Include="Source\Utils\VirtualItemProvider\VirtualizingCollection.cs">
       <ExcludeFromStyleCop>False</ExcludeFromStyleCop>
     </Compile>
-    <Compile Include="View\Controls\RangeSlider.xaml.cs">
-      <DependentUpon>RangeSlider.xaml</DependentUpon>
-    </Compile>
     <Compile Include="View\HotkeyEditor.xaml.cs">
       <DependentUpon>HotkeyEditor.xaml</DependentUpon>
     </Compile>
@@ -392,10 +389,6 @@
     <Compile Include="Source\Main\MainViewModel.cs">
       <ExcludeFromStyleCop>False</ExcludeFromStyleCop>
     </Compile>
-    <Page Include="View\Controls\RangeSlider.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="View\HotkeyEditor.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
