@@ -1,6 +1,7 @@
 ﻿<UserControl x:Class="Ana.View.LabelThresholder"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:charts="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
              xmlns:converters="clr-namespace:Ana.Source.Mvvm.Converters"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
@@ -15,5 +16,23 @@
              DataContext="{Binding LabelThresholderViewModel,
                                    Source={StaticResource ViewModelLocator}}"
              mc:Ignorable="d">
-    <Grid Background="{StaticResource AvalonDock_Expression_BaseColor3}" />
+    <Grid Background="{StaticResource AvalonDock_Expression_BaseColor3}">
+        <charts:CartesianChart Grid.Row="1" Grid.Column="0">
+            <charts:CartesianChart.Series>
+                <charts:ColumnSeries Values="1,2,3,4,5,6,7,8" />
+            </charts:CartesianChart.Series>
+            <charts:CartesianChart.AxisX>
+                <charts:Axis Labels="Jan, Feb, Mar, Apr, May, Jun, Jul, Ago"
+                             LabelsRotation="-15"
+                             ShowLabels="True">
+                    <charts:Axis.Separator>
+                        <charts:Separator IsEnabled="False" Step="1" />
+                    </charts:Axis.Separator>
+                </charts:Axis>
+            </charts:CartesianChart.AxisX>
+            <charts:CartesianChart.AxisY>
+                <charts:Axis MinValue="0" />
+            </charts:CartesianChart.AxisY>
+        </charts:CartesianChart>
+    </Grid>
 </UserControl>

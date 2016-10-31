@@ -370,5 +370,10 @@
                 <TextBlock Foreground="{StaticResource AvalonDock_Expression_BaseColor2}" Text=")" />
             </WrapPanel>
         </Border>
+        <DataGrid x:Name="dataGrid"
+                  Grid.Row="3"
+                  Margin="166,133,0,-109"
+                  HorizontalAlignment="Left"
+                  VerticalAlignment="Top" />
     </Grid>
 </UserControl>
