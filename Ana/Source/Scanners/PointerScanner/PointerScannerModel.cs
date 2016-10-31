@@ -22,21 +22,18 @@
     /// 0) Potential pre-processing -- no idea how many valid pointers exist in a process, but we may be able to:
     ///     - Store all pointers to use
     ///     - Store all regions that contain a pointer
-    ///  1) Start with a base address.Convert this to a range that spans 1024 in each direction, add this to the target list
+    ///  1) Start with a base address. Convert this to a range that spans 1024 in each direction, add this to the target list
     ///  2) REPEAT FOR N LEVELS:
-    ///      - Search for all pointer values that fall in in the target list
+    ///     - Search for all pointer values that fall in in the target list
     ///     - Convert these pointers to spanning regions, and add them to the target list, clearing the old list
     ///  3) Retrace pointers. We will not trace pointers with invalid bases. Loop from last level to first level:
     ///    - Compare pointer to all pointers in the previous level. Store offsets from current level to all pointers in previous level.
     /// </summary>
-    internal class PointerScanner : ScannerBase
+    internal class PointerScannerModel : ScannerBase
     {
-        /// <summary>
-        /// TODO: Move to pages rather than a virtual list model
-        /// </summary>
         private const Int32 MaxAdd = 4096;
 
-        public PointerScanner() : base("Pointer Scanner")
+        public PointerScannerModel() : base("Pointer Scanner")
         {
             this.IndexValueMap = new ConcurrentDictionary<Int32, String>();
             this.PointerPool = new ConcurrentDictionary<IntPtr, IntPtr>();
@@ -150,7 +147,7 @@
 
                 ProjectExplorerDeprecated.GetInstance().AddProjectItem(newPointer);
 
-                if (++count >= PointerScanner.MaxAdd)
+                if (++count >= PointerScannerModel.MaxAdd)
                 {
                     break;
                 }

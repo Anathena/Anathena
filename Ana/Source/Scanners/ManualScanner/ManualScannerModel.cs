@@ -1,6 +1,6 @@
 ﻿namespace Ana.Source.Scanners.ManualScanner
 {
-    using Results;
+    using Results.ScanResults;
     using ScanConstraints;
     using Snapshots;
     using System;

@@ -6,10 +6,12 @@
     using Source.ProcessSelector;
     using Source.Project;
     using Source.PropertyViewer;
-    using Source.Results;
+    using Source.Results.PointerScanResults;
+    using Source.Results.ScanResults;
     using Source.Scanners.ChangeCounter;
     using Source.Scanners.InputCorrelator;
     using Source.Scanners.ManualScanner;
+    using Source.Scanners.PointerScanner;
     using Source.Snapshots;
     using Source.UserSettings;
     using Source.Utils.ScriptEditor;
@@ -55,6 +57,11 @@
         public DataTemplate ManualScannerViewTemplate { get; set; }
 
         /// <summary>
+        /// Gets or sets the template for the Pointer Scanner
+        /// </summary>
+        public DataTemplate PointerScannerViewTemplate { get; set; }
+
+        /// <summary>
         /// Gets or sets the template for the Snapshot Manager
         /// </summary>
         public DataTemplate SnapshotManagerViewTemplate { get; set; }
@@ -63,6 +70,11 @@
         /// Gets or sets the template for the Scan Results
         /// </summary>
         public DataTemplate ScanResultsViewTemplate { get; set; }
+
+        /// <summary>
+        /// Gets or sets the template for the Pointer Scan Results
+        /// </summary>
+        public DataTemplate PointerScanResultsViewTemplate { get; set; }
 
         /// <summary>
         /// Gets or sets the template for the Cheat Browser
@@ -132,6 +144,10 @@
             {
                 return this.ManualScannerViewTemplate;
             }
+            else if (item is PointerScannerViewModel)
+            {
+                return this.PointerScannerViewTemplate;
+            }
             else if (item is SnapshotManagerViewModel)
             {
                 return this.SnapshotManagerViewTemplate;
@@ -139,6 +155,10 @@
             else if (item is ScanResultsViewModel)
             {
                 return this.ScanResultsViewTemplate;
+            }
+            else if (item is PointerScanResultsViewModel)
+            {
+                return this.PointerScanResultsViewTemplate;
             }
             else if (item is CheatBrowserViewModel)
             {

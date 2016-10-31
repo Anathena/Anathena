@@ -1,4 +1,4 @@
-﻿namespace Ana.Source.Results
+﻿namespace Ana.Source.Results.PointerScanResults
 {
     using System;
     using System.ComponentModel;
@@ -6,7 +6,7 @@
     /// <summary>
     /// A scan result object that can be displayed to the user and added to the project explorer
     /// </summary>
-    internal class ScanResult : INotifyPropertyChanged
+    internal class PointerScanResult : INotifyPropertyChanged
     {
         /// <summary>
         /// The address of the scan result
@@ -35,7 +35,7 @@
         /// <param name="elementValue">The current scan value</param>
         /// <param name="elementPreviousValue">The previous scan value</param>
         /// <param name="elementLabel">The label of this result</param>
-        public ScanResult(IntPtr elementAddress, String elementValue, String elementPreviousValue, String elementLabel)
+        public PointerScanResult(IntPtr elementAddress, String elementValue, String elementPreviousValue, String elementLabel)
         {
             this.ElementAddress = elementAddress;
             this.ElementPreviousValue = elementPreviousValue;

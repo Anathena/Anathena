@@ -112,7 +112,11 @@
     <Compile Include="Source\Mvvm\Converters\HotkeyToStringConverter.cs" />
     <Compile Include="Source\Mvvm\Converters\Int32ToHexConverter.cs" />
     <Compile Include="Source\PropertyViewer\IPropertyViewerObserver.cs" />
+    <Compile Include="Source\Results\PointerScanResults\IPointerScanResultsObserver.cs" />
+    <Compile Include="Source\Results\PointerScanResults\PointerScanResult.cs" />
+    <Compile Include="Source\Results\PointerScanResults\PointerScanResultsViewModel.cs" />
     <Compile Include="Source\Scanners\InputCorrelator\InputCorrelatorModel.cs" />
+    <Compile Include="Source\Scanners\PointerScanner\PointerScannerViewModel.cs" />
     <Compile Include="Source\Snapshots\Prefilters\ChunkLinkedListPrefilter.cs" />
     <Compile Include="Source\Utils\Hashing.cs" />
     <Compile Include="Source\Utils\TypeEditors\HotkeyEditor\HotkeyEditorViewModel.cs" />
@@ -221,9 +225,9 @@
     <Compile Include="Source\Project\ProjectItems\ScriptItem.cs" />
     <Compile Include="Source\Project\ProjectItems\ScriptTemplates\LuaTemplates.cs" />
     <Compile Include="Source\PropertyViewer\PropertyViewerViewModel.cs" />
-    <Compile Include="Source\Results\IResultsObserver.cs" />
-    <Compile Include="Source\Results\ScanResult.cs" />
-    <Compile Include="Source\Results\ScanResultsViewModel.cs">
+    <Compile Include="Source\Results\ScanResults\IResultsObserver.cs" />
+    <Compile Include="Source\Results\ScanResults\ScanResult.cs" />
+    <Compile Include="Source\Results\ScanResults\ScanResultsViewModel.cs">
       <ExcludeFromStyleCop>False</ExcludeFromStyleCop>
     </Compile>
     <Compile Include="Source\Scanners\ChangeCounter\ChangeCounterModel.cs" />
@@ -234,7 +238,7 @@
     <Compile Include="Source\Scanners\LabelThresholder\LabelThresholderModel.cs" />
     <Compile Include="Source\Scanners\ManualScanner\ManualScannerViewModel.cs" />
     <Compile Include="Source\Scanners\ManualScanner\ManualScannerModel.cs" />
-    <Compile Include="Source\Scanners\PointerScanner\PointerScanner.cs" />
+    <Compile Include="Source\Scanners\PointerScanner\PointerScannerModel.cs" />
     <Compile Include="Source\Scanners\ScanConstraints\ScanConstraint.cs" />
     <Compile Include="Source\Scanners\ScanConstraints\ScanConstraintEditor.cs" />
     <Compile Include="Source\Scanners\ScanConstraints\ScanConstraintManager.cs" />
@@ -283,8 +287,14 @@
     <Compile Include="View\HotkeyEditor.xaml.cs">
       <DependentUpon>HotkeyEditor.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\PointerScanner.xaml.cs">
+      <DependentUpon>PointerScanner.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\OffsetEditor.xaml.cs">
       <DependentUpon>OffsetEditor.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\PointerScanResults.xaml.cs">
+      <DependentUpon>PointerScanResults.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\ScriptEditor.xaml.cs">
       <DependentUpon>ScriptEditor.xaml</DependentUpon>
@@ -383,7 +393,15 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="View\PointerScanner.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="View\OffsetEditor.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\PointerScanResults.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

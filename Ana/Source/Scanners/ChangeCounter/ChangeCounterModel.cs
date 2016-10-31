@@ -1,6 +1,6 @@
 ﻿namespace Ana.Source.Scanners.ChangeCounter
 {
-    using Results;
+    using Results.ScanResults;
     using Snapshots;
     using System;
     using System.Linq;

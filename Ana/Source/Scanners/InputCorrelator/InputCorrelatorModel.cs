@@ -5,7 +5,7 @@
     using Engine.Input.HotKeys;
     using Engine.Input.Keyboard;
     using Engine.Input.Mouse;
-    using Results;
+    using Results.ScanResults;
     using SharpDX.DirectInput;
     using Snapshots;
     using System;

@@ -8,10 +8,12 @@
     using Source.ProcessSelector;
     using Source.Project;
     using Source.PropertyViewer;
-    using Source.Results;
+    using Source.Results.PointerScanResults;
+    using Source.Results.ScanResults;
     using Source.Scanners.ChangeCounter;
     using Source.Scanners.InputCorrelator;
     using Source.Scanners.ManualScanner;
+    using Source.Scanners.PointerScanner;
     using Source.Scanners.ValueCollector;
     using Source.Snapshots;
     using Source.UserSettings;
@@ -98,6 +100,17 @@
         }
 
         /// <summary>
+        /// Gets the Pointer Scanner view model
+        /// </summary>
+        public PointerScannerViewModel PointerScannerViewModel
+        {
+            get
+            {
+                return PointerScannerViewModel.GetInstance();
+            }
+        }
+
+        /// <summary>
         /// Gets the Snapshot Manager view model
         /// </summary>
         public SnapshotManagerViewModel SnapshotManagerViewModel
@@ -116,6 +129,17 @@
             get
             {
                 return ScanResultsViewModel.GetInstance();
+            }
+        }
+
+        /// <summary>
+        /// Gets the Pointer Scan Results view model
+        /// </summary>
+        public PointerScanResultsViewModel PointerScanResultsViewModel
+        {
+            get
+            {
+                return PointerScanResultsViewModel.GetInstance();
             }
         }
 

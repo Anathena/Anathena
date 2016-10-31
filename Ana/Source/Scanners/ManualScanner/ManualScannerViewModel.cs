@@ -3,7 +3,7 @@
     using Docking;
     using Main;
     using Mvvm.Command;
-    using Results;
+    using Results.ScanResults;
     using ScanConstraints;
     using System;
     using System.Collections.ObjectModel;

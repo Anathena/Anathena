@@ -1,6 +1,6 @@
 ﻿namespace Ana.Source.Scanners.ValueCollector
 {
-    using Results;
+    using Results.ScanResults;
     using Snapshots;
     using UserSettings;
 

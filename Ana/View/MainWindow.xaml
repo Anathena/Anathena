@@ -177,6 +177,11 @@
                                     IsChecked="{Binding ScanResultsViewModel.IsVisible,
                                                         Mode=TwoWay}"
                                     Style="{StaticResource menuItemStyle}" />
+                    <shell:MenuItem Header="Pointer Scan Results"
+                                    IsCheckable="True"
+                                    IsChecked="{Binding PointerScanResultsViewModel.IsVisible,
+                                                        Mode=TwoWay}"
+                                    Style="{StaticResource menuItemStyle}" />
                     <shell:MenuItem Header="Snapshot Manager"
                                     IsCheckable="True"
                                     IsChecked="{Binding SnapshotManagerViewModel.IsVisible,
@@ -211,6 +216,12 @@
                     <shell:MenuItem Header="Label Thresholder"
                                     IsCheckable="True"
                                     IsChecked="{Binding LabelThresholderViewModel.IsVisible,
+                                                        Mode=TwoWay}"
+                                    Style="{StaticResource menuItemStyle}" />
+                    <shell:Separator />
+                    <shell:MenuItem Header="Pointer Scanner"
+                                    IsCheckable="True"
+                                    IsChecked="{Binding PointerScannerViewModel.IsVisible,
                                                         Mode=TwoWay}"
                                     Style="{StaticResource menuItemStyle}" />
                 </shell:MenuItem>
@@ -318,6 +329,12 @@
                             <view:ManualScanner />
                         </shell:DataTemplate>
                     </view:ViewTemplateSelector.ManualScannerViewTemplate>
+                    <!--  Pointer Scanner  -->
+                    <view:ViewTemplateSelector.PointerScannerViewTemplate>
+                        <shell:DataTemplate>
+                            <view:PointerScanner />
+                        </shell:DataTemplate>
+                    </view:ViewTemplateSelector.PointerScannerViewTemplate>
                     <!--  Snapshot Manager  -->
                     <view:ViewTemplateSelector.SnapshotManagerViewTemplate>
                         <shell:DataTemplate>
@@ -330,6 +347,12 @@
                             <view:ScanResults />
                         </shell:DataTemplate>
                     </view:ViewTemplateSelector.ScanResultsViewTemplate>
+                    <!--  Pointer Scan Results  -->
+                    <view:ViewTemplateSelector.PointerScanResultsViewTemplate>
+                        <shell:DataTemplate>
+                            <view:PointerScanResults />
+                        </shell:DataTemplate>
+                    </view:ViewTemplateSelector.PointerScanResultsViewTemplate>
                     <!--  Cheat Browser  -->
                     <view:ViewTemplateSelector.CheatBrowserViewTemplate>
                         <shell:DataTemplate>

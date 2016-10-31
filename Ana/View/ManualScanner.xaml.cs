@@ -1,7 +1,7 @@
 ﻿namespace Ana.View
 {
     using Controls;
-    using Source.Results;
+    using Source.Results.ScanResults;
     using System;
     using System.Threading.Tasks;
     using System.Windows.Controls;

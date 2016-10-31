@@ -1,4 +1,4 @@
-﻿namespace Ana.Source.Results
+﻿namespace Ana.Source.Results.ScanResults
 {
     using Content;
     using Docking;
