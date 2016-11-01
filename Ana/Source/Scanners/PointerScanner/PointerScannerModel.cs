@@ -201,7 +201,7 @@
             this.ScanMode = ScanModeEnum.Rescan;
         }
 
-        protected override void Update()
+        protected override void OnUpdate()
         {
             // Scan mode determines the action to make, such that the action always happens on this task thread
             switch (this.ScanMode)
@@ -241,7 +241,7 @@
                     break;
             }
 
-            base.Update();
+            base.OnUpdate();
         }
 
         protected override void OnEnd()

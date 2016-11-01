@@ -72,7 +72,7 @@
             this.UpdateInterval = AddressResolver.ResolveIntervalInitial;
         }
 
-        protected override void Update()
+        protected override void OnUpdate()
         {
             Dictionary<String, DotNetObject> nameMap = new Dictionary<String, DotNetObject>();
             List<DotNetObject> objectTrees = new List<DotNetObject>(); // DotNetObjectCollector.GetInstance().GetObjectTrees();

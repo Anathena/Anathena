@@ -48,7 +48,7 @@
             return this.MouseSubject;
         }
 
-        protected override void Update()
+        protected override void OnUpdate()
         {
             this.ControllerSubject.Update();
             this.KeyboardSubject.Update();

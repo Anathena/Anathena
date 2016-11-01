@@ -25,28 +25,21 @@
         </Grid.RowDefinitions>
         <WrapPanel Grid.Row="0" Background="{StaticResource AvalonDock_Expression_BaseColor4}">
             <Menu Background="Transparent" Padding="4">
-                <MenuItem Command="{Binding StartScanCommand}">
+                <MenuItem Command="{Binding ApplyThresholdCommand}" ToolTip="Apply Threshold">
                     <MenuItem.Header>
                         <Image Width="16"
                                Height="16"
                                Source="pack://application:,,,/Ana;component/Content/Icons/RightArrow.png" />
                     </MenuItem.Header>
                 </MenuItem>
-                <MenuItem Command="{Binding StopScanCommand}">
-                    <MenuItem.Header>
-                        <Image Width="16"
-                               Height="16"
-                               Source="pack://application:,,,/Ana;component/Content/Icons/Stop.png" />
-                    </MenuItem.Header>
-                </MenuItem>
             </Menu>
         </WrapPanel>
         <charts:CartesianChart Grid.Row="1" Grid.Column="0">
             <charts:CartesianChart.Series>
-                <charts:ColumnSeries Values="1,2,3,4,5,6,7,8" />
+                <charts:ColumnSeries Values="{Binding Values}" />
             </charts:CartesianChart.Series>
             <charts:CartesianChart.AxisX>
-                <charts:Axis Labels="Jan, Feb, Mar, Apr, May, Jun, Jul, Ago"
+                <charts:Axis Labels="{Binding Labels}"
                              LabelsRotation="-15"
                              ShowLabels="True">
                     <charts:Axis.Separator>
@@ -60,10 +53,12 @@
         </charts:CartesianChart>
         <Grid Grid.Row="2">
             <xctk:RangeSlider Height="20"
-                              HigherValue="{Binding HigherValue}"
-                              LowerValue="{Binding LowerValue}"
-                              Maximum="{Binding MaximumValue}"
-                              Minimum="{Binding MinimumValue}" />
+                              HigherValue="{Binding UpperThreshold}"
+                              LowerValue="{Binding LowerThreshold}"
+                              Maximum="{Binding MaximumValue,
+                                                Mode=OneWay}"
+                              Minimum="{Binding MinimumValue,
+                                                Mode=OneWay}" />
         </Grid>
     </Grid>
 </UserControl>

@@ -9,7 +9,7 @@
     /// <summary>
     /// Interaction logic for ManualScanner.xaml
     /// </summary>
-    internal partial class ManualScanner : UserControl, IResultsObserver
+    internal partial class ManualScanner : UserControl, IScanResultsObserver
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ManualScanner"/> class

@@ -110,7 +110,7 @@
             }
         }
 
-        protected override void Update()
+        protected override void OnUpdate()
         {
             // Read memory to update previous and current values
             this.Snapshot.ReadAllSnapshotMemory();
@@ -165,7 +165,7 @@
                 });
             }
 
-            base.Update();
+            base.OnUpdate();
             this.UpdateScanCount?.Invoke();
         }
 

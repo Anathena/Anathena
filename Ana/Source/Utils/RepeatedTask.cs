@@ -116,7 +116,7 @@
         /// <summary>
         /// Performs the update logic for the running task
         /// </summary>
-        protected abstract void Update();
+        protected abstract void OnUpdate();
 
         /// <summary>
         /// Called when the repeated task completes
@@ -127,7 +127,7 @@
         }
 
         /// <summary>
-        /// Controls the repeated task, calling <see cref="Update"/> at each interval
+        /// Controls the repeated task, calling <see cref="OnUpdate"/> at each interval
         /// </summary>
         private void UpdateController()
         {
@@ -147,7 +147,7 @@
                     return;
                 }
 
-                this.Update();
+                this.OnUpdate();
             }
         }
     }

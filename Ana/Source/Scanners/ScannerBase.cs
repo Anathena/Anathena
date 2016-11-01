@@ -63,7 +63,7 @@
         /// <summary>
         /// Updates the scan
         /// </summary>
-        protected override void Update()
+        protected override void OnUpdate()
         {
             this.ScanCount++;
             this.UpdateInterval = SettingsViewModel.GetInstance().RescanInterval;

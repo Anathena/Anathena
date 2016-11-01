@@ -1,9 +1,15 @@
-﻿namespace Ana.Source.LabelThresholder
+﻿namespace Ana.Source.Scanners.LabelThresholder
 {
     using Docking;
+    using LiveCharts;
     using Main;
+    using Mvvm.Command;
     using System;
+    using System.Collections.Generic;
+    using System.Linq;
     using System.Threading;
+    using System.Threading.Tasks;
+    using System.Windows.Input;
 
     /// <summary>
     /// View model for the Label Thresholder
@@ -22,13 +28,9 @@
                 () => { return new LabelThresholderViewModel(); },
                 LazyThreadSafetyMode.ExecutionAndPublication);
 
-        private Double lowerValue;
+        private IList<String> labels;
 
-        private Double higherValue;
-
-        private Double minimumValue;
-
-        private Double maximumValue;
+        private IChartValues values;
 
         /// <summary>
         /// Prevents a default instance of the <see cref="LabelThresholderViewModel" /> class from being created
@@ -36,39 +38,72 @@
         private LabelThresholderViewModel() : base("Label Thresholder")
         {
             this.ContentId = LabelThresholderViewModel.ToolContentId;
-            this.LowerValue = 0;
-            this.MinimumValue = 0;
-            this.HigherValue = 100;
-            this.MaximumValue = 100;
+            this.LabelThresholderModel = new LabelThresholderModel(this.OnUpdateHistogram);
+            this.LowerThreshold = this.MinimumValue;
+            this.UpperThreshold = this.MaximumValue;
+            this.ApplyThresholdCommand = new RelayCommand(() => Task.Run(() => this.ApplyThreshold()), () => true);
+            this.InvertSelectionCommand = new RelayCommand(() => Task.Run(() => this.InvertSelection()), () => true);
 
             MainViewModel.GetInstance().Subscribe(this);
         }
 
-        public Double LowerValue
+        public ICommand ApplyThresholdCommand { get; private set; }
+
+        public ICommand InvertSelectionCommand { get; private set; }
+
+        public IList<String> Labels
         {
             get
             {
-                return this.lowerValue;
+                return this.labels;
             }
 
             set
             {
-                this.lowerValue = value;
-                this.RaisePropertyChanged(nameof(this.LowerValue));
+                this.labels = value;
+                this.RaisePropertyChanged(nameof(this.Labels));
             }
         }
 
-        public Double HigherValue
+        public IChartValues Values
         {
             get
             {
-                return this.higherValue;
+                return this.values;
             }
 
             set
             {
-                this.higherValue = value;
-                this.RaisePropertyChanged(nameof(this.HigherValue));
+                this.values = value;
+                this.RaisePropertyChanged(nameof(this.Values));
+            }
+        }
+
+        public Double LowerThreshold
+        {
+            get
+            {
+                return this.LabelThresholderModel.LowerThreshold;
+            }
+
+            set
+            {
+                this.LabelThresholderModel.LowerThreshold = value;
+                this.RaisePropertyChanged(nameof(this.LowerThreshold));
+            }
+        }
+
+        public Double UpperThreshold
+        {
+            get
+            {
+                return this.LabelThresholderModel.UpperThreshold;
+            }
+
+            set
+            {
+                this.LabelThresholderModel.UpperThreshold = value;
+                this.RaisePropertyChanged(nameof(this.UpperThreshold));
             }
         }
 
@@ -76,13 +111,7 @@
         {
             get
             {
-                return this.minimumValue;
-            }
-
-            set
-            {
-                this.minimumValue = value;
-                this.RaisePropertyChanged(nameof(this.MinimumValue));
+                return 0;
             }
         }
 
@@ -90,15 +119,11 @@
         {
             get
             {
-                return this.maximumValue;
-            }
-
-            set
-            {
-                this.maximumValue = value;
-                this.RaisePropertyChanged(nameof(this.MaximumValue));
+                return 100;
             }
         }
+
+        private LabelThresholderModel LabelThresholderModel { get; set; }
 
         /// <summary>
         /// Gets a singleton instance of the <see cref="LabelThresholderViewModel"/> class
@@ -112,6 +137,25 @@
         public void OpenLabelThresholder()
         {
             this.IsVisible = true;
+        }
+
+        private void ApplyThreshold()
+        {
+            this.LabelThresholderModel.ApplyThreshold();
+        }
+
+        private void InvertSelection()
+        {
+            this.LabelThresholderModel.ToggleInverted();
+        }
+
+        private void OnUpdateHistogram()
+        {
+            SortedList<dynamic, Int64> histogram = LabelThresholderModel.Histogram;
+            // this.Labels = histogram.Values.Select(x => x.ToString()).ToList();
+            // this.Values = new ChartValues<Int32>(histogram.Keys.Select(x => (Int32)x));
+            this.Labels = histogram.Keys.Select(x => (String)x.ToString()).ToList();
+            this.Values = new ChartValues<Int64>(histogram.Values);
         }
     }
     //// End class

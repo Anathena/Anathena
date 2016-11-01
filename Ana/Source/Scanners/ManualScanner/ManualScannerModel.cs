@@ -45,7 +45,7 @@
             base.Begin();
         }
 
-        protected override void Update()
+        protected override void OnUpdate()
         {
             Int32 processedPages = 0;
 
@@ -182,7 +182,7 @@
             });
             //// End foreach Region
 
-            base.Update();
+            base.OnUpdate();
             this.CancelFlag = true;
         }
 

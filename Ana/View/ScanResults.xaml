@@ -237,9 +237,10 @@
                                 <ColumnDefinition />
                                 <ColumnDefinition />
                                 <ColumnDefinition />
+                                <ColumnDefinition />
                             </Grid.ColumnDefinitions>
                             <Grid.InputBindings>
-                                <MouseBinding Command="{Binding AddAddressCommand,
+                                <MouseBinding Command="{Binding DataContext.AddAddressCommand,
                                                                 ElementName=AnaScanResults}"
                                               CommandParameter="{Binding .}"
                                               Gesture="LeftDoubleClick" />
@@ -254,6 +255,9 @@
                             <TextBlock Grid.Column="2"
                                        Foreground="{StaticResource AvalonDock_Expression_BaseColor2}"
                                        Text="{Binding Path=ElementPreviousValue}" />
+                            <TextBlock Grid.Column="3"
+                                       Foreground="{StaticResource AvalonDock_Expression_BaseColor2}"
+                                       Text="{Binding Path=ElementLabel}" />
                         </Grid>
                     </DataTemplate>
                 </ListView.ItemTemplate>
@@ -273,6 +277,7 @@
                                     <ColumnDefinition />
                                     <ColumnDefinition />
                                     <ColumnDefinition />
+                                    <ColumnDefinition />
                                 </Grid.ColumnDefinitions>
                                 <Grid.Resources>
                                     <Style TargetType="TextBlock">
@@ -287,13 +292,16 @@
                                     </Style>
                                 </Grid.Resources>
                                 <Border Grid.Column="0">
-                                    <TextBlock>Value</TextBlock>
+                                    <TextBlock>Address</TextBlock>
                                 </Border>
                                 <Border Grid.Column="1">
-                                    <TextBlock>Base Address</TextBlock>
+                                    <TextBlock>Value</TextBlock>
                                 </Border>
                                 <Border Grid.Column="2">
-                                    <TextBlock>Offsets</TextBlock>
+                                    <TextBlock>Previous</TextBlock>
+                                </Border>
+                                <Border Grid.Column="3">
+                                    <TextBlock>Label</TextBlock>
                                 </Border>
                             </Grid>
                             <ItemsPresenter Grid.Row="1" />

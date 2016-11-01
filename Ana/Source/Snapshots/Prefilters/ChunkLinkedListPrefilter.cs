@@ -100,7 +100,7 @@
             base.Begin();
         }
 
-        protected override void Update()
+        protected override void OnUpdate()
         {
             this.ProcessPages();
             this.UpdateProgress();

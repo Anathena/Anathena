@@ -78,7 +78,7 @@
             this.PreviousPageCommand = new RelayCommand(() => Task.Run(() => this.PreviousPage()), () => true);
             this.NextPageCommand = new RelayCommand(() => Task.Run(() => this.NextPage()), () => true);
             this.AddAddressCommand = new RelayCommand<ScanResult>((address) => Task.Run(() => this.AddAddress(address)), (address) => true);
-            this.ResultsObservers = new List<IResultsObserver>();
+            this.ScanResultsObservers = new List<IScanResultsObserver>();
             this.ObserverLock = new Object();
             this.ActiveType = typeof(Int32);
             this.IsVisible = true;
@@ -291,7 +291,7 @@
         /// <summary>
         /// Gets or sets objects observing changes in the active snapshot
         /// </summary>
-        private List<IResultsObserver> ResultsObservers { get; set; }
+        private List<IScanResultsObserver> ScanResultsObservers { get; set; }
 
         /// <summary>
         /// Gets a singleton instance of the <see cref="ScanResultsViewModel"/> class
@@ -306,13 +306,13 @@
         /// Subscribes the given object to changes in the active snapshot
         /// </summary>
         /// <param name="snapshotObserver">The object to observe active snapshot changes</param>
-        public void Subscribe(IResultsObserver snapshotObserver)
+        public void Subscribe(IScanResultsObserver snapshotObserver)
         {
             lock (this.ObserverLock)
             {
-                if (!this.ResultsObservers.Contains(snapshotObserver))
+                if (!this.ScanResultsObservers.Contains(snapshotObserver))
                 {
-                    this.ResultsObservers.Add(snapshotObserver);
+                    this.ScanResultsObservers.Add(snapshotObserver);
                     snapshotObserver.Update(this.ActiveType);
                 }
             }
@@ -322,13 +322,13 @@
         /// Unsubscribes the given object from changes in the active snapshot
         /// </summary>
         /// <param name="snapshotObserver">The object to observe active snapshot changes</param>
-        public void Unsubscribe(IResultsObserver snapshotObserver)
+        public void Unsubscribe(IScanResultsObserver snapshotObserver)
         {
             lock (this.ObserverLock)
             {
-                if (this.ResultsObservers.Contains(snapshotObserver))
+                if (this.ScanResultsObservers.Contains(snapshotObserver))
                 {
-                    this.ResultsObservers.Remove(snapshotObserver);
+                    this.ScanResultsObservers.Remove(snapshotObserver);
                 }
             }
         }
@@ -460,7 +460,7 @@
         {
             lock (this.ObserverLock)
             {
-                foreach (IResultsObserver observer in this.ResultsObservers)
+                foreach (IScanResultsObserver observer in this.ScanResultsObservers)
                 {
                     observer.Update(this.ActiveType);
                 }

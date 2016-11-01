@@ -58,7 +58,7 @@
             base.Begin();
         }
 
-        protected override void Update()
+        protected override void OnUpdate()
         {
             Int32 processedPages = 0;
 
@@ -91,7 +91,7 @@
                 }
             });
 
-            base.Update();
+            base.OnUpdate();
             this.UpdateScanCount?.Invoke();
         }
 

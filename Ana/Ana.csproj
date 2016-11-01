@@ -225,7 +225,7 @@
     <Compile Include="Source\Project\ProjectItems\ScriptItem.cs" />
     <Compile Include="Source\Project\ProjectItems\ScriptTemplates\LuaTemplates.cs" />
     <Compile Include="Source\PropertyViewer\PropertyViewerViewModel.cs" />
-    <Compile Include="Source\Results\ScanResults\IResultsObserver.cs" />
+    <Compile Include="Source\Results\ScanResults\IScanResultsObserver.cs" />
     <Compile Include="Source\Results\ScanResults\ScanResult.cs" />
     <Compile Include="Source\Results\ScanResults\ScanResultsViewModel.cs">
       <ExcludeFromStyleCop>False</ExcludeFromStyleCop>

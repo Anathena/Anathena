@@ -15,7 +15,7 @@
     /// <summary>
     /// View model for the Manual Scanner
     /// </summary>
-    internal class ManualScannerViewModel : ToolViewModel, IResultsObserver
+    internal class ManualScannerViewModel : ToolViewModel, IScanResultsObserver
     {
         /// <summary>
         /// The content id for the docking library associated with this view model

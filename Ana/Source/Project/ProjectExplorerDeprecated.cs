@@ -206,7 +206,7 @@
             return true;
         }
 
-        protected override void Update()
+        protected override void OnUpdate()
         {
             this.UpdateSet = this.CreateUpdateSet_TODO_REPLACE_ME(this.ProjectRoot);
 

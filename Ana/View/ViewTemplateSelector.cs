@@ -2,7 +2,6 @@
 {
     using Source.CheatBrowser;
     using Source.DotNetExplorer;
-    using Source.LabelThresholder;
     using Source.ProcessSelector;
     using Source.Project;
     using Source.PropertyViewer;
@@ -10,6 +9,7 @@
     using Source.Results.ScanResults;
     using Source.Scanners.ChangeCounter;
     using Source.Scanners.InputCorrelator;
+    using Source.Scanners.LabelThresholder;
     using Source.Scanners.ManualScanner;
     using Source.Scanners.PointerScanner;
     using Source.Snapshots;
