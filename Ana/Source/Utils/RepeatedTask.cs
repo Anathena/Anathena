@@ -72,13 +72,12 @@
                 }
 
                 this.StartedFlag = true;
+                this.CancelFlag = false;
+                this.FinishedFlag = false;
+                this.CancelRequest = new CancellationTokenSource();
             }
 
-            this.CancelFlag = false;
-            this.FinishedFlag = false;
-
-            this.CancelRequest = new CancellationTokenSource();
-            Task = Task.Run(
+            this.Task = Task.Run(
             async () =>
             {
                 while (true)
@@ -123,7 +122,10 @@
         /// </summary>
         protected virtual void OnEnd()
         {
-            this.StartedFlag = false;
+            using (TimedLock.Lock(this.AccessLock))
+            {
+                this.StartedFlag = false;
+            }
         }
 
         /// <summary>

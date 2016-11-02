@@ -30,7 +30,9 @@
 
         private IList<String> labels;
 
-        private IChartValues values;
+        private IChartValues filteredValues;
+
+        private IChartValues keptValues;
 
         /// <summary>
         /// Prevents a default instance of the <see cref="LabelThresholderViewModel" /> class from being created
@@ -44,7 +46,7 @@
             this.ApplyThresholdCommand = new RelayCommand(() => Task.Run(() => this.ApplyThreshold()), () => true);
             this.InvertSelectionCommand = new RelayCommand(() => Task.Run(() => this.InvertSelection()), () => true);
 
-            MainViewModel.GetInstance().Subscribe(this);
+            Task.Run(() => MainViewModel.GetInstance().Subscribe(this));
         }
 
         public ICommand ApplyThresholdCommand { get; private set; }
@@ -65,17 +67,31 @@
             }
         }
 
-        public IChartValues Values
+        public IChartValues FilteredValues
         {
             get
             {
-                return this.values;
+                return this.filteredValues;
             }
 
             set
             {
-                this.values = value;
-                this.RaisePropertyChanged(nameof(this.Values));
+                this.filteredValues = value;
+                this.RaisePropertyChanged(nameof(this.FilteredValues));
+            }
+        }
+
+        public IChartValues KeptValues
+        {
+            get
+            {
+                return this.keptValues;
+            }
+
+            set
+            {
+                this.keptValues = value;
+                this.RaisePropertyChanged(nameof(this.KeptValues));
             }
         }
 
@@ -152,10 +168,12 @@
         private void OnUpdateHistogram()
         {
             SortedList<dynamic, Int64> histogram = LabelThresholderModel.Histogram;
-            // this.Labels = histogram.Values.Select(x => x.ToString()).ToList();
-            // this.Values = new ChartValues<Int32>(histogram.Keys.Select(x => (Int32)x));
-            this.Labels = histogram.Keys.Select(x => (String)x.ToString()).ToList();
-            this.Values = new ChartValues<Int64>(histogram.Values);
+            SortedList<dynamic, Int64> histogramKept = LabelThresholderModel.HistogramKept;
+            SortedList<dynamic, Int64> histogramFiltered = LabelThresholderModel.HistogramFiltered;
+
+            this.labels = histogram.Keys.Select(x => (String)x.ToString()).ToList();
+            this.KeptValues = new ChartValues<Int64>(histogramKept.Values.Select(x => (Int64)Math.Log(x)));
+            this.FilteredValues = new ChartValues<Int64>(histogramFiltered.Values.Select(x => (Int64)Math.Log(x)));
         }
     }
     //// End class

@@ -79,7 +79,7 @@
                 if (!this.SnapshotObservers.Contains(snapshotObserver))
                 {
                     this.SnapshotObservers.Add(snapshotObserver);
-                    snapshotObserver.Update(this.GetActiveSnapshot());
+                    snapshotObserver.Update(this.GetActiveSnapshot(createIfNone: false));
                 }
             }
         }
