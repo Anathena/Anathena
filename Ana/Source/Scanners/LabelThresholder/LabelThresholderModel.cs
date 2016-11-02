@@ -9,7 +9,6 @@
     using System.Threading.Tasks;
     using UserSettings;
     using Utils;
-    using Utils.Extensions;
     internal class LabelThresholderModel : ScannerBase, ISnapshotObserver
     {
         private Double upperThreshold;
@@ -209,8 +208,8 @@
                 return;
             }
 
-            Int32 lowerIndex = (Int32)(((Double)this.LowerThreshold / 100.0) * (this.Histogram.Count - 1));
-            Int32 upperIndex = (Int32)(((Double)this.UpperThreshold / 100.0) * (this.Histogram.Count - 1));
+            Int32 lowerIndex = (Int32)Math.Round(((Double)this.LowerThreshold / 100.0) * (this.Histogram.Count - 1));
+            Int32 upperIndex = (Int32)Math.Round(((Double)this.UpperThreshold / 100.0) * (this.Histogram.Count - 1));
 
             if (lowerIndex == this.LowerIndex && upperIndex == this.UpperIndex)
             {
@@ -223,15 +222,19 @@
             SortedList<dynamic, Int64> histogramKept = new SortedList<dynamic, Int64>();
             SortedList<dynamic, Int64> histogramFiltered = new SortedList<dynamic, Int64>();
 
-            if (!this.Inverted)
+
+            foreach (KeyValuePair<dynamic, Int64> bar in Histogram)
             {
-                this.Histogram.Select(x => x).Where(x => x.Key >= lowerIndex && x.Key <= upperIndex).ForEach(x => histogramKept.Add(x.Key, x.Value));
-                this.Histogram.Select(x => x).Where(x => x.Key < lowerIndex || x.Key > upperIndex).ForEach(x => histogramFiltered.Add(x.Key, x.Value));
-            }
-            else
-            {
-                this.Histogram.Select(x => x).Where(x => x.Key < lowerIndex && x.Key > upperIndex).ForEach(x => histogramKept.Add(x.Key, x.Value));
-                this.Histogram.Select(x => x).Where(x => x.Key >= lowerIndex || x.Key <= upperIndex).ForEach(x => histogramFiltered.Add(x.Key, x.Value));
+                if (!this.Inverted && bar.Key >= lowerIndex && bar.Key <= upperIndex)
+                {
+                    histogramKept.Add(bar.Key, bar.Value);
+                    histogramFiltered.Add(bar.Key, 0);
+                }
+                else
+                {
+                    histogramKept.Add(bar.Key, 0);
+                    histogramFiltered.Add(bar.Key, bar.Value);
+                }
             }
 
             this.HistogramKept = histogramKept;

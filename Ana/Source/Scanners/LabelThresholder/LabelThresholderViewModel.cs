@@ -2,6 +2,7 @@
 {
     using Docking;
     using LiveCharts;
+    using LiveCharts.Wpf;
     using Main;
     using Mvvm.Command;
     using System;
@@ -9,8 +10,9 @@
     using System.Linq;
     using System.Threading;
     using System.Threading.Tasks;
+    using System.Windows;
     using System.Windows.Input;
-
+    using System.Windows.Media;
     /// <summary>
     /// View model for the Label Thresholder
     /// </summary>
@@ -27,6 +29,8 @@
         private static Lazy<LabelThresholderViewModel> labelThresholderViewModelInstance = new Lazy<LabelThresholderViewModel>(
                 () => { return new LabelThresholderViewModel(); },
                 LazyThreadSafetyMode.ExecutionAndPublication);
+
+        private SeriesCollection seriesCollection;
 
         private IList<String> labels;
 
@@ -52,6 +56,20 @@
         public ICommand ApplyThresholdCommand { get; private set; }
 
         public ICommand InvertSelectionCommand { get; private set; }
+
+        public SeriesCollection SeriesCollection
+        {
+            get
+            {
+                return this.seriesCollection;
+            }
+
+            set
+            {
+                this.seriesCollection = value;
+                this.RaisePropertyChanged(nameof(this.SeriesCollection));
+            }
+        }
 
         public IList<String> Labels
         {
@@ -174,6 +192,33 @@
             this.labels = histogram.Keys.Select(x => (String)x.ToString()).ToList();
             this.KeptValues = new ChartValues<Int64>(histogramKept.Values.Select(x => (Int64)Math.Log(x)));
             this.FilteredValues = new ChartValues<Int64>(histogramFiltered.Values.Select(x => (Int64)Math.Log(x)));
+
+            Application.Current.Dispatcher.Invoke((Action)delegate
+            {
+                if (this.SeriesCollection == null)
+                {
+                    this.SeriesCollection = new SeriesCollection()
+                    {
+                        new ColumnSeries
+                        {
+                            Values = this.KeptValues,
+                            Fill = Brushes.Blue,
+                            DataLabels = false
+                        },
+                        new ColumnSeries
+                        {
+                            Values = this.FilteredValues,
+                            Fill = Brushes.Red,
+                            DataLabels = false
+                        }
+                    };
+                }
+                else
+                {
+                    this.SeriesCollection[0].Values = this.KeptValues;
+                    this.SeriesCollection[1].Values = this.FilteredValues;
+                }
+            });
         }
     }
     //// End class

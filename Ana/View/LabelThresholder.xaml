@@ -34,11 +34,10 @@
                 </MenuItem>
             </Menu>
         </WrapPanel>
-        <charts:CartesianChart Grid.Row="1" Grid.Column="0">
-            <charts:CartesianChart.Series>
-                <charts:ColumnSeries Fill="Blue" Values="{Binding KeptValues}" />
-                <charts:ColumnSeries Fill="Red" Values="{Binding FilteredValues}" />
-            </charts:CartesianChart.Series>
+        <charts:CartesianChart Grid.Row="1"
+                               Grid.Column="0"
+                               DisableAnimations="True"
+                               Series="{Binding SeriesCollection}">
             <charts:CartesianChart.AxisX>
                 <charts:Axis Labels="{Binding Labels}"
                              LabelsRotation="-15"
