@@ -79,6 +79,7 @@
         public void ToggleInverted()
         {
             this.Inverted = !this.Inverted;
+            this.UpdateHistogram(forceUpdate: true);
         }
 
         public void Update(Snapshot snapshot)
@@ -141,6 +142,7 @@
             }
 
             SnapshotManager.GetInstance().SaveSnapshot(this.Snapshot);
+            this.UpdateHistogram(forceUpdate: true);
         }
 
         public override void Begin()
@@ -201,17 +203,18 @@
             base.OnEnd();
         }
 
-        private void UpdateHistogram()
+        private void UpdateHistogram(Boolean forceUpdate = false)
         {
             if (this.Histogram == null || this.Histogram.Count <= 0)
             {
                 return;
             }
 
-            Int32 lowerIndex = (Int32)Math.Round(((Double)this.LowerThreshold / 100.0) * (this.Histogram.Count - 1));
-            Int32 upperIndex = (Int32)Math.Round(((Double)this.UpperThreshold / 100.0) * (this.Histogram.Count - 1));
+            Int32 lowerIndex = (Int32)Math.Round(((Double)this.LowerThreshold / 100.0) * (Double)(this.Histogram.Count - 1));
+            Int32 upperIndex = (Int32)Math.Round(((Double)this.UpperThreshold / 100.0) * (Double)(this.Histogram.Count - 1));
 
-            if (lowerIndex == this.LowerIndex && upperIndex == this.UpperIndex)
+            // Prevent updating the histograms again if we have already computed them
+            if (!forceUpdate && lowerIndex == this.LowerIndex && upperIndex == this.UpperIndex)
             {
                 return;
             }
@@ -225,13 +228,17 @@
 
             foreach (KeyValuePair<dynamic, Int64> bar in Histogram)
             {
-                if (!this.Inverted && bar.Key >= lowerIndex && bar.Key <= upperIndex)
+                Int32 index = Histogram.IndexOfKey(bar.Key);
+
+                if (this.Inverted ^ (index >= lowerIndex && index <= upperIndex))
                 {
+                    // Keep items within bounds (unless inverted)
                     histogramKept.Add(bar.Key, bar.Value);
                     histogramFiltered.Add(bar.Key, 0);
                 }
                 else
                 {
+                    // Filter items outside bounds (unless inverted)
                     histogramKept.Add(bar.Key, 0);
                     histogramFiltered.Add(bar.Key, bar.Value);
                 }

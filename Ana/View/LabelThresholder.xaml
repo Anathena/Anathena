@@ -32,6 +32,13 @@
                                Source="pack://application:,,,/Ana;component/Content/Icons/RightArrow.png" />
                     </MenuItem.Header>
                 </MenuItem>
+                <MenuItem Command="{Binding InvertSelectionCommand}" ToolTip="Invert Filter">
+                    <MenuItem.Header>
+                        <Image Width="16"
+                               Height="16"
+                               Source="pack://application:,,,/Ana;component/Content/Icons/Invert.png" />
+                    </MenuItem.Header>
+                </MenuItem>
             </Menu>
         </WrapPanel>
         <charts:CartesianChart Grid.Row="1"
