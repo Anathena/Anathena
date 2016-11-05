@@ -18,19 +18,12 @@
 
         public override Object EditValue(ITypeDescriptorContext context, IServiceProvider provider, Object value)
         {
-            View.ScriptEditor offsetEditor = new View.ScriptEditor();
+            View.ScriptEditor scriptEditor = new View.ScriptEditor();
 
-            offsetEditor.Owner = Application.Current.MainWindow;
-            if (offsetEditor.ShowDialog() == true)
+            scriptEditor.Owner = Application.Current.MainWindow;
+            if (scriptEditor.ShowDialog() == true)
             {
-                if ("true".Equals("true"))
-                {
-
-                }
-                else
-                {
-                    return null;
-                }
+                return scriptEditor.ScriptEditorViewModel.Script;
             }
 
             return value;

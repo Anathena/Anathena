@@ -51,6 +51,10 @@
         /// </summary>
         private ProjectItemViewModel selectedProjectItem;
 
+        private Boolean hasUnsavedChanges;
+
+        private String projectFilePath;
+
         /// <summary>
         /// Prevents a default instance of the <see cref="ProjectExplorerViewModel" /> class from being created
         /// </summary>
@@ -114,9 +118,38 @@
         public ICommand ClearSelectionCommand { get; private set; }
 
         /// <summary>
+        /// Gets a value indicating if there are unsaved changes
+        /// </summary>
+        public Boolean HasUnsavedChanges
+        {
+            get
+            {
+                return this.hasUnsavedChanges;
+            }
+
+            set
+            {
+                this.hasUnsavedChanges = value;
+                this.RaisePropertyChanged(nameof(this.HasUnsavedChanges));
+            }
+        }
+
+        /// <summary>
         /// Gets the path to the project file
         /// </summary>
-        public String ProjectFilePath { get; private set; }
+        public String ProjectFilePath
+        {
+            get
+            {
+                return this.projectFilePath;
+            }
+
+            private set
+            {
+                this.projectFilePath = value;
+                this.RaisePropertyChanged(nameof(this.ProjectFilePath));
+            }
+        }
 
         /// <summary>
         /// Gets or sets the collection of project items
@@ -131,6 +164,7 @@
             set
             {
                 this.projectItems = value;
+                this.HasUnsavedChanges = true;
                 this.RaisePropertyChanged(nameof(this.ProjectItems));
             }
         }
@@ -276,6 +310,7 @@
                     DataContractJsonSerializer serializer = new DataContractJsonSerializer(typeof(ProjectItem[]));
                     ProjectItem[] projectRoots = serializer.ReadObject(fileStream) as ProjectItem[];
                     this.ProjectItems = new ReadOnlyCollection<ProjectItemViewModel>(projectRoots.Select(x => new ProjectItemViewModel(x)).ToList());
+                    this.HasUnsavedChanges = false;
                 }
             }
             catch
@@ -308,7 +343,8 @@
                     ProjectItem[] projectRoots = serializer.ReadObject(fileStream) as ProjectItem[];
                     List<ProjectItemViewModel> newItems = projectRoots.Select(x => new ProjectItemViewModel(x)).ToList();
                     newItems.AddRange(this.ProjectItems);
-                    this.ProjectItems = new ReadOnlyCollection<ProjectItemViewModel>(projectRoots.Select(x => new ProjectItemViewModel(x)).ToList());
+                    this.ProjectItems = new ReadOnlyCollection<ProjectItemViewModel>(newItems);
+                    this.HasUnsavedChanges = true;
                 }
             }
             catch
@@ -335,6 +371,8 @@
                     DataContractJsonSerializer serializer = new DataContractJsonSerializer(typeof(ProjectItem[]));
                     serializer.WriteObject(fileStream, this.ProjectItems?.Select(x => x.ProjectItem).ToArray());
                 }
+
+                this.HasUnsavedChanges = false;
             }
             catch
             {
@@ -353,7 +391,6 @@
             saveFileDialog.ShowDialog();
             this.ProjectFilePath = saveFileDialog.FileName;
             this.SaveProject();
-
         }
     }
     //// End class

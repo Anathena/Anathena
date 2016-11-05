@@ -62,9 +62,23 @@
                              Height="24"
                              Margin="4"
                              Source="pack://application:,,,/Ana;component/Content/Icons/MainIcon.ico" />
+
+                <shell:TextBlock VerticalAlignment="Center"
+                                 DataContext="{Binding Source={StaticResource ViewModelLocator}}"
+                                 Foreground="{StaticResource AvalonDock_Expression_BaseColor7}"
+                                 Text="* "
+                                 Visibility="{Binding ProjectExplorerViewModel.HasUnsavedChanges,
+                                                      Converter={StaticResource BoolToVisibilityConverter}}" />
                 <shell:TextBlock VerticalAlignment="Center"
                                  Foreground="{StaticResource AvalonDock_Expression_BaseColor7}"
                                  Text="Anathena" />
+                <shell:TextBlock VerticalAlignment="Center"
+                                 Foreground="{StaticResource AvalonDock_Expression_BaseColor7}"
+                                 Text=" - " />
+                <shell:TextBlock VerticalAlignment="Center"
+                                 DataContext="{Binding Source={StaticResource ViewModelLocator}}"
+                                 Foreground="{StaticResource AvalonDock_Expression_BaseColor7}"
+                                 Text="{Binding ProjectExplorerViewModel.ProjectFilePath}" />
             </shell:WrapPanel>
             <shell:Menu Grid.Column="1"
                         VerticalAlignment="Center"

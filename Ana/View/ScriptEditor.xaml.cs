@@ -5,6 +5,7 @@
     using ICSharpCode.AvalonEdit.Editing;
     using ICSharpCode.AvalonEdit.Highlighting;
     using ICSharpCode.AvalonEdit.Highlighting.Xshd;
+    using Source.Utils.ScriptEditor;
     using System;
     using System.Collections.Generic;
     using System.IO;
@@ -30,6 +31,14 @@
             this.InitializeCompleteionWindow();
             // this.ScriptEditorTextEditor.TextArea.TextEntering += ScriptEditorTextEditorTextAreaTextEntering;
             // this.ScriptEditorTextEditor.TextArea.TextEntered += ScriptEditorTextEditorTextAreaTextEntered;
+        }
+
+        public ScriptEditorViewModel ScriptEditorViewModel
+        {
+            get
+            {
+                return this.DataContext as ScriptEditorViewModel;
+            }
         }
 
         private IList<ICompletionData> CompletionData { get; set; }

@@ -16,7 +16,7 @@
         public const String ToolContentId = nameof(ScriptEditorViewModel);
 
         /// <summary>
-        /// 
+        /// Initializes a new instance of the <see cref="ScriptEditorViewModel" /> class
         /// </summary>
         public ScriptEditorViewModel() : base("Script Editor")
         {
@@ -24,6 +24,8 @@
 
             Task.Run(() => MainViewModel.GetInstance().Subscribe(this));
         }
+
+        public String Script { get; set; }
     }
     //// End class
 }
