@@ -6,13 +6,20 @@
     using System.Reflection;
     using System.Runtime.Serialization;
 
+    /// <summary>
+    /// A keyboard hotkey, which is activated by a given set of input
+    /// </summary>
     [DataContract]
     [Obfuscation(Exclude = true, ApplyToMembers = true)]
     internal class KeyboardHotkey : IHotkey
     {
-        public KeyboardHotkey(params Key[] keys)
+        /// <summary>
+        /// Initializes a new instance of the <see cref="KeyboardHotkey" /> class
+        /// </summary>
+        /// <param name="activationKeys">Initial activation keys</param>
+        public KeyboardHotkey(params Key[] activationKeys)
         {
-            this.ActivationKeys = new HashSet<Key>(keys);
+            this.ActivationKeys = new HashSet<Key>(activationKeys);
         }
 
         [DataMember]

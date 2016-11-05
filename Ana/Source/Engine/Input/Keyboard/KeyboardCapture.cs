@@ -4,8 +4,14 @@
     using SharpDX.DirectInput;
     using System.Collections.Generic;
 
+    /// <summary>
+    /// Class to capture keyboard input
+    /// </summary>
     internal class KeyboardCapture : IKeyboardSubject
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="KeyboardCapture" /> class
+        /// </summary>
         public KeyboardCapture()
         {
             SharpDX.RawInput.Device.RegisterDevice(SharpDX.Multimedia.UsagePage.Generic, SharpDX.Multimedia.UsageId.GenericKeyboard, SharpDX.RawInput.DeviceFlags.None);
@@ -15,6 +21,9 @@
             this.Keyboard.Acquire();
         }
 
+        /// <summary>
+        /// Gets or sets the DirectX input object to collect keyboard input
+        /// </summary>
         private DirectInput DirectInput { get; set; }
 
         private Keyboard Keyboard { get; set; }

@@ -76,7 +76,7 @@ namespace ICSharpCode.AvalonEdit
         }
 
 #if !DOTNET4
-        void SetCurrentValue(DependencyProperty property, object value)
+        new void SetCurrentValue(DependencyProperty property, object value)
         {
             SetValue(property, value);
         }

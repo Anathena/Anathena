@@ -13,6 +13,7 @@
     using System.Windows;
     using System.Windows.Input;
     using System.Windows.Media;
+
     /// <summary>
     /// View model for the Label Thresholder
     /// </summary>

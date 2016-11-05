@@ -124,11 +124,12 @@
         {
             get
             {
-                return hotkeys;
+                return this.hotkeys;
             }
+
             set
             {
-                hotkeys = value;
+                this.hotkeys = value;
                 this.UpdateHotkeyListeners();
                 this.NotifyPropertyChanged(nameof(this.Hotkeys));
             }
@@ -171,7 +172,6 @@
 
             this.Children.Add(projectItem);
         }
-
 
         public void RemoveChild(ProjectItem projectItem)
         {
@@ -322,6 +322,38 @@
             return false;
         }
 
+        public void OnKeyPress(Key key)
+        {
+        }
+
+        public void OnKeyDown(Key key)
+        {
+        }
+
+        public void OnKeyRelease(Key key)
+        {
+            // Reset hotkey delay if any of the hotkey keys are released
+            if (this.Hotkeys.Where(x => x.GetType().IsAssignableFrom(typeof(KeyboardHotkey))).Cast<KeyboardHotkey>().Any(x => x.GetActivationKeys().Any(y => key == y)))
+            {
+                this.LastActivated = DateTime.MinValue;
+            }
+        }
+
+        public void OnUpdateAllDownKeys(HashSet<Key> pressedKeys)
+        {
+            if ((DateTime.Now - this.LastActivated).TotalMilliseconds < ProjectItem.HotkeyDelay)
+            {
+                return;
+            }
+
+            // If any of our keyboard hotkeys include the current set of pressed keys, trigger activation/deactivation
+            if (this.Hotkeys.Where(x => x.GetType().IsAssignableFrom(typeof(KeyboardHotkey))).Cast<KeyboardHotkey>().Any(x => x.GetActivationKeys().All(y => pressedKeys.Contains(y))))
+            {
+                this.LastActivated = DateTime.Now;
+                this.IsActivated = !this.IsActivated;
+            }
+        }
+
         protected void NotifyPropertyChanged(String propertyName)
         {
             this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
@@ -361,34 +393,6 @@
             else
             {
                 EngineCore.GetInstance().Input.GetMouseCapture().Unsubscribe(this);
-            }
-        }
-
-        public void OnKeyPress(Key key) { }
-
-        public void OnKeyDown(Key key) { }
-
-        public void OnKeyRelease(Key key)
-        {
-            // Reset hotkey delay if any of the hotkey keys are released
-            if (this.Hotkeys.Where(x => x.GetType().IsAssignableFrom(typeof(KeyboardHotkey))).Cast<KeyboardHotkey>().Any(x => x.GetActivationKeys().Any(y => key == y)))
-            {
-                this.LastActivated = DateTime.MinValue;
-            }
-        }
-
-        public void OnUpdateAllDownKeys(HashSet<Key> PressedKeys)
-        {
-            if ((DateTime.Now - this.LastActivated).TotalMilliseconds < ProjectItem.HotkeyDelay)
-            {
-                return;
-            }
-
-            // If any of our keyboard hotkeys include the current set of pressed keys, trigger activation/deactivation
-            if (this.Hotkeys.Where(x => x.GetType().IsAssignableFrom(typeof(KeyboardHotkey))).Cast<KeyboardHotkey>().Any(x => x.GetActivationKeys().All(y => PressedKeys.Contains(y))))
-            {
-                this.LastActivated = DateTime.Now;
-                this.IsActivated = !this.IsActivated;
             }
         }
     }

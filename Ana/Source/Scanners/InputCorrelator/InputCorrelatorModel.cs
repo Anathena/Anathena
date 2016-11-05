@@ -26,20 +26,20 @@
             this.UpdateScanCount = updateScanCount;
         }
 
-        private Snapshot<Int16> Snapshot { get; set; }
-
         public List<IHotkey> HotKeys
         {
             get
             {
                 return this.hotKeys;
             }
+
             set
             {
                 this.hotKeys = value;
             }
         }
 
+        private Snapshot<Int16> Snapshot { get; set; }
 
         private Action UpdateScanCount { get; set; }
 
@@ -50,19 +50,13 @@
 
         private DateTime LastActivated { get; set; }
 
-        private void InitializeObjects()
-        {
-            this.LastActivated = DateTime.MinValue;
-            this.InitializeListeners();
-        }
-
         public void EditKeys()
         {
             View.HotkeyEditor hotKeyEditor = new View.HotkeyEditor(this.HotKeys);
 
             if (hotKeyEditor.ShowDialog() == true)
             {
-                HotKeys = new List<IHotkey>(hotKeyEditor.HotkeyEditorViewModel.Hotkeys);
+                this.HotKeys = new List<IHotkey>(hotKeyEditor.HotkeyEditorViewModel.Hotkeys);
             }
         }
 
@@ -169,6 +163,9 @@
             this.UpdateScanCount?.Invoke();
         }
 
+        /// <summary>
+        /// Called when the repeated task completes
+        /// </summary>
         protected override void OnEnd()
         {
             base.OnEnd();
@@ -192,6 +189,12 @@
             SnapshotManager.GetInstance().SaveSnapshot(this.Snapshot);
 
             this.CleanUp();
+        }
+
+        private void InitializeObjects()
+        {
+            this.LastActivated = DateTime.MinValue;
+            this.InitializeListeners();
         }
 
         private void InitializeListeners()

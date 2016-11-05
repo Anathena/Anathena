@@ -11,13 +11,6 @@
     using Utils.Extensions;
 
     /// <summary>
-    /// Empty struct for unlabeled snapshots
-    /// </summary>
-    internal struct Null
-    {
-    }
-
-    /// <summary>
     /// Defines data contained in a single snapshot
     /// </summary>
     internal abstract class Snapshot : IEnumerable

@@ -6,11 +6,19 @@
     using System;
     using Utils;
 
+    /// <summary>
+    /// Manages all input devices and is responsible for updating them
+    /// </summary>
     internal class InputManager : RepeatedTask, IInputManager
     {
-        // Collect input ~60 times per second
+        /// <summary>
+        /// The rate at which to collect input in ms. Currently ~60 times per second
+        /// </summary>
         private const Int32 InputCollectionIntervalMs = 1000 / 60;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="InputManager" /> class
+        /// </summary>
         public InputManager()
         {
             this.ControllerSubject = new ControllerCapture();

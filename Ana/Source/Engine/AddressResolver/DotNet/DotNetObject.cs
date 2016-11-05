@@ -6,8 +6,18 @@
     using System.ComponentModel;
     using Utils.Extensions;
 
+    /// <summary>
+    /// An object representing a .Net object in an external process
+    /// </summary>
     internal class DotNetObject : IEnumerable, IComparable<DotNetObject>
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="DotNetObject" /> class
+        /// </summary>
+        /// <param name="parent">The parent object of this object</param>
+        /// <param name="objectReference">The address of this object</param>
+        /// <param name="elementType">The data type this object represents</param>
+        /// <param name="name">The name of this object as a full .Net namespace path</param>
         public DotNetObject(DotNetObject parent, UInt64 objectReference, Type elementType, String name)
         {
             this.Parent = parent;

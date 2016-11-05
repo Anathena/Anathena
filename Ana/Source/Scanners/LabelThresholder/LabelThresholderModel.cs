@@ -9,6 +9,7 @@
     using System.Threading.Tasks;
     using UserSettings;
     using Utils;
+
     internal class LabelThresholderModel : ScannerBase, ISnapshotObserver
     {
         private Double upperThreshold;
@@ -84,7 +85,7 @@
 
         public void Update(Snapshot snapshot)
         {
-            lock (SnapshotLock)
+            lock (this.SnapshotLock)
             {
                 this.Snapshot = snapshot;
             }
@@ -94,7 +95,7 @@
 
         public void ApplyThreshold()
         {
-            lock (SnapshotLock)
+            lock (this.SnapshotLock)
             {
                 if (this.Snapshot == null)
                 {
@@ -102,10 +103,10 @@
                 }
             }
 
-            dynamic lowerValue = Histogram.Keys[this.LowerIndex];
-            dynamic upperValue = Histogram.Keys[this.UpperIndex];
+            dynamic lowerValue = this.Histogram.Keys[this.LowerIndex];
+            dynamic upperValue = this.Histogram.Keys[this.UpperIndex];
 
-            lock (SnapshotLock)
+            lock (this.SnapshotLock)
             {
                 if (!this.Inverted)
                 {
@@ -198,6 +199,9 @@
             this.End();
         }
 
+        /// <summary>
+        /// Called when the repeated task completes
+        /// </summary>
         protected override void OnEnd()
         {
             base.OnEnd();
@@ -225,10 +229,9 @@
             SortedList<dynamic, Int64> histogramKept = new SortedList<dynamic, Int64>();
             SortedList<dynamic, Int64> histogramFiltered = new SortedList<dynamic, Int64>();
 
-
-            foreach (KeyValuePair<dynamic, Int64> bar in Histogram)
+            foreach (KeyValuePair<dynamic, Int64> bar in this.Histogram)
             {
-                Int32 index = Histogram.IndexOfKey(bar.Key);
+                Int32 index = this.Histogram.IndexOfKey(bar.Key);
 
                 if (this.Inverted ^ (index >= lowerIndex && index <= upperIndex))
                 {

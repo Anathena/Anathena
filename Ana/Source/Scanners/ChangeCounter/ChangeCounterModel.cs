@@ -95,6 +95,9 @@
             this.UpdateScanCount?.Invoke();
         }
 
+        /// <summary>
+        /// Called when the repeated task completes
+        /// </summary>
         protected override void OnEnd()
         {
             base.OnEnd();

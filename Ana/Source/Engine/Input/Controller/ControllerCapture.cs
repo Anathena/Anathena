@@ -4,8 +4,14 @@
     using System;
     using System.Collections.Generic;
 
+    /// <summary>
+    /// Class to capture controller input
+    /// </summary>
     internal class ControllerCapture : IControllerSubject
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ControllerCapture" /> class
+        /// </summary>
         public ControllerCapture()
         {
             // Initialize DirectInput
@@ -52,6 +58,9 @@
             this.Joystick.Acquire();
         }
 
+        /// <summary>
+        /// Gets or sets the DirectX input object to collect controller input
+        /// </summary>
         private DirectInput DirectInput { get; set; }
 
         private Guid JoystickGuid { get; set; }

@@ -5,10 +5,16 @@
     using System.Reflection;
     using System.Runtime.Serialization;
 
+    /// <summary>
+    /// A mouse hotkey, which is activated by a given set of input
+    /// </summary>
     [DataContract]
     [Obfuscation(Exclude = true, ApplyToMembers = true)]
     internal class MouseHotKey : IHotkey
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MouseHotKey" /> class
+        /// </summary>
         public MouseHotKey()
         {
             this.ActivationMouseButtons = new HashSet<Byte>();

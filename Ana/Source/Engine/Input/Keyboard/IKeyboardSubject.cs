@@ -3,6 +3,9 @@
     using SharpDX.DirectInput;
     using System.Collections.Generic;
 
+    /// <summary>
+    /// Interface for an object which will capture keyboard input
+    /// </summary>
     internal interface IKeyboardSubject : IInputCapture
     {
         void Subscribe(IKeyboardObserver subject);

@@ -3,6 +3,9 @@
     using System.Windows.Media.Imaging;
     using Utils;
 
+    /// <summary>
+    /// Static images for use by the entire project
+    /// </summary>
     internal class Images
     {
         private static BitmapImage blueBlocks1 = ImageLoader.LoadImage("pack://application:,,,/Ana;component/Content/Icons/BlueBlocks1.png");

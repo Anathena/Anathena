@@ -45,11 +45,6 @@
         /// </summary>
         protected String ScannerName { get; private set; }
 
-        protected void NotifyPropertyChanged(String propertyName)
-        {
-            this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-
         /// <summary>
         /// Begins the scan
         /// </summary>
@@ -58,6 +53,11 @@
             this.ScanCount = 0;
             this.UpdateInterval = SettingsViewModel.GetInstance().RescanInterval;
             base.Begin();
+        }
+
+        protected void NotifyPropertyChanged(String propertyName)
+        {
+            this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
         /// <summary>

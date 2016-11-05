@@ -107,6 +107,14 @@
         }
 
         /// <summary>
+        /// Called when the repeated task completes
+        /// </summary>
+        protected override void OnEnd()
+        {
+            base.OnEnd();
+        }
+
+        /// <summary>
         /// Queries virtual pages from the OS to dertermine if any allocations or deallocations have happened
         /// </summary>
         private IEnumerable<RegionProperties> CollectNewPages()
@@ -242,11 +250,6 @@
                 processedCount = this.ChunkList.Where(x => x.IsProcessed()).Count();
                 chunkCount = this.ChunkList.Count();
             }
-        }
-
-        protected override void OnEnd()
-        {
-            base.OnEnd();
         }
 
         internal class RegionProperties : NormalizedRegion

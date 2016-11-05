@@ -186,6 +186,21 @@
             this.CancelFlag = true;
         }
 
+        /// <summary>
+        /// Called when the repeated task completes
+        /// </summary>
+        protected override void OnEnd()
+        {
+            base.OnEnd();
+
+            this.Snapshot.DiscardInvalidRegions();
+            this.Snapshot.ScanMethod = this.ScannerName;
+
+            SnapshotManager.GetInstance().SaveSnapshot(this.Snapshot);
+
+            this.CleanUp();
+        }
+
         private void ScanRegion(SnapshotRegion region)
         {
             Boolean readSuccess;
@@ -307,18 +322,6 @@
                 //// End foreach Constraint
             }
             //// End foreach Element
-        }
-
-        protected override void OnEnd()
-        {
-            base.OnEnd();
-
-            this.Snapshot.DiscardInvalidRegions();
-            this.Snapshot.ScanMethod = this.ScannerName;
-
-            SnapshotManager.GetInstance().SaveSnapshot(this.Snapshot);
-
-            this.CleanUp();
         }
 
         private void CleanUp()

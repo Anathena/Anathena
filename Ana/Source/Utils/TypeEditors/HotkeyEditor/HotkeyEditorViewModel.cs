@@ -31,7 +31,7 @@
         private KeyboardHotkey keyboardHotkey;
 
         /// <summary>
-        /// 
+        /// Initializes a new instance of the <see cref="HotkeyEditorViewModel" /> class.	Ana	F:\Users\Zachary\Documents\Visual Studio 2015\Projects\Anathena\Ana\Source\Utils\TypeEditors\HotkeyEditor\HotkeyEditorViewModel.cs	36	
         /// </summary>
         public HotkeyEditorViewModel() : base("Hotkey Editor")
         {

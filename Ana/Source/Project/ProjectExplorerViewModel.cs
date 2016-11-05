@@ -28,7 +28,6 @@
         /// </summary>
         public const String ToolContentId = nameof(ProjectExplorerViewModel);
 
-
         /// <summary>
         /// The filter to use for saving and loading project filters
         /// </summary>
@@ -118,7 +117,7 @@
         public ICommand ClearSelectionCommand { get; private set; }
 
         /// <summary>
-        /// Gets a value indicating if there are unsaved changes
+        /// Gets  or sets a value indicating whether there are unsaved changes
         /// </summary>
         public Boolean HasUnsavedChanges
         {
@@ -187,18 +186,6 @@
             }
         }
 
-        public void RemoveProjectItem(ProjectItemViewModel projectItemViewModel)
-        {
-            this.ProjectItems = new ReadOnlyCollection<ProjectItemViewModel>(ProjectItems.Where(x => x != projectItemViewModel).ToList());
-        }
-
-        public void InsertProjectItem(ProjectItemViewModel projectItemViewModel, Int32 index)
-        {
-            List<ProjectItemViewModel> newItems = ProjectItems.ToList();
-            newItems.Insert(index, projectItemViewModel);
-            this.ProjectItems = new ReadOnlyCollection<ProjectItemViewModel>(newItems);
-        }
-
         /// <summary>
         /// Gets a singleton instance of the <see cref="ProjectExplorerViewModel"/> class
         /// </summary>
@@ -206,6 +193,18 @@
         public static ProjectExplorerViewModel GetInstance()
         {
             return ProjectExplorerViewModel.projectExplorerViewModelInstance.Value;
+        }
+
+        public void RemoveProjectItem(ProjectItemViewModel projectItemViewModel)
+        {
+            this.ProjectItems = new ReadOnlyCollection<ProjectItemViewModel>(this.ProjectItems.Where(x => x != projectItemViewModel).ToList());
+        }
+
+        public void InsertProjectItem(ProjectItemViewModel projectItemViewModel, Int32 index)
+        {
+            List<ProjectItemViewModel> newItems = this.ProjectItems.ToList();
+            newItems.Insert(index, projectItemViewModel);
+            this.ProjectItems = new ReadOnlyCollection<ProjectItemViewModel>(newItems);
         }
 
         /// <summary>
@@ -216,30 +215,6 @@
         public void AddSpecificAddressItem(IntPtr baseAddress, Type elementType)
         {
             this.AddNewProjectItem(new AddressItem(baseAddress, elementType));
-        }
-
-        /// <summary>
-        /// Adds a new folder to the project items
-        /// </summary>
-        private void AddNewFolderItem()
-        {
-            this.AddNewProjectItem(new FolderItem());
-        }
-
-        /// <summary>
-        /// Adds a new address to the project items
-        /// </summary>
-        private void AddNewAddressItem()
-        {
-            this.AddNewProjectItem(new AddressItem());
-        }
-
-        /// <summary>
-        /// Adds a new script to the project items
-        /// </summary>
-        private void AddNewScriptItem()
-        {
-            this.AddNewProjectItem(new ScriptItem());
         }
 
         /// <summary>
@@ -267,6 +242,30 @@
             }
 
             this.ProjectItems = new ReadOnlyCollection<ProjectItemViewModel>(newItems);
+        }
+
+        /// <summary>
+        /// Adds a new folder to the project items
+        /// </summary>
+        private void AddNewFolderItem()
+        {
+            this.AddNewProjectItem(new FolderItem());
+        }
+
+        /// <summary>
+        /// Adds a new address to the project items
+        /// </summary>
+        private void AddNewAddressItem()
+        {
+            this.AddNewProjectItem(new AddressItem());
+        }
+
+        /// <summary>
+        /// Adds a new script to the project items
+        /// </summary>
+        private void AddNewScriptItem()
+        {
+            this.AddNewProjectItem(new ScriptItem());
         }
 
         private void Update()
@@ -360,7 +359,7 @@
         {
             if (this.ProjectFilePath == null || this.ProjectFilePath == String.Empty)
             {
-                SaveAsProject();
+                this.SaveAsProject();
                 return;
             }
 

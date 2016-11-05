@@ -36,7 +36,7 @@
         private InputCorrelatorViewModel() : base("Input Correlator")
         {
             this.ContentId = InputCorrelatorViewModel.ToolContentId;
-            this.EditHotkeysCommand = new RelayCommand(() => EditHotkeys(), () => true);
+            this.EditHotkeysCommand = new RelayCommand(() => this.EditHotkeys(), () => true);
             this.StartScanCommand = new RelayCommand(() => Task.Run(() => this.StartScan()), () => true);
             this.StopScanCommand = new RelayCommand(() => Task.Run(() => this.StopScan()), () => true);
             this.InputCorrelatorModel = new InputCorrelatorModel(this.ScanCountUpdated);

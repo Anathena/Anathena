@@ -3,6 +3,9 @@
     using SharpDX.DirectInput;
     using System.Collections.Generic;
 
+    /// <summary>
+    /// Interface for an object which will observe changes in keyboard input
+    /// </summary>
     internal interface IKeyboardObserver
     {
         void OnKeyPress(Key key);

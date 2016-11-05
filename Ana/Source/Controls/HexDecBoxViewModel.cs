@@ -4,6 +4,9 @@
     using System;
     using Utils.Validation;
 
+    /// <summary>
+    /// View model for the Hex Dec Box
+    /// </summary>
     internal class HexDecBoxViewModel : ViewModelBase
     {
         private Boolean isHex;

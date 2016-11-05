@@ -29,7 +29,7 @@
         private String elementLabel;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ScanResult" /> class
+        /// Initializes a new instance of the <see cref="PointerScanResult" /> class
         /// </summary>
         /// <param name="elementAddress">The memory address</param>
         /// <param name="elementValue">The current scan value</param>

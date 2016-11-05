@@ -4,8 +4,14 @@
     using SharpDX.DirectInput;
     using System;
 
+    /// <summary>
+    /// Class to capture mouse input
+    /// </summary>
     internal class MouseCapture : IMouseSubject
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MouseCapture" /> class
+        /// </summary>
         public MouseCapture()
         {
             this.DirectInput = new DirectInput();
@@ -13,19 +19,40 @@
             this.Mouse.Acquire();
         }
 
+        /// <summary>
+        /// An enumeration of possible mouse inputs
+        /// </summary>
         private enum MouseButtonEnum
         {
+            /// <summary>
+            /// The left mouse button
+            /// </summary>
             Left = 0,
 
+            /// <summary>
+            /// The middle mouse button
+            /// </summary>
             Middle = 1,
 
+            /// <summary>
+            /// The right mouse button
+            /// </summary>
             Right = 2,
 
+            /// <summary>
+            /// An additonal button featured on many mouses, often 'forwards' or 'backwards'
+            /// </summary>
             XButton1,
 
+            /// <summary>
+            /// An additonal button featured on many mouses, often 'forwards' or 'backwards'
+            /// </summary>
             XButton2
         }
 
+        /// <summary>
+        /// Gets or sets the DirectX input object to collect mouse input
+        /// </summary>
         private DirectInput DirectInput { get; set; }
 
         private Mouse Mouse { get; set; }

@@ -9,7 +9,7 @@
     /// Class used by SnapshotRegion as a wrapper for indexing into the raw collection of data
     /// </summary>
     [Obfuscation(ApplyToMembers = true, Exclude = true)]
-    internal abstract class SnapshotElement
+    internal partial class SnapshotElement
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="SnapshotElement" /> class

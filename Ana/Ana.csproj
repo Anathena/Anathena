@@ -117,6 +117,7 @@
     <Compile Include="Source\Results\PointerScanResults\PointerScanResultsViewModel.cs" />
     <Compile Include="Source\Scanners\InputCorrelator\InputCorrelatorModel.cs" />
     <Compile Include="Source\Scanners\PointerScanner\PointerScannerViewModel.cs" />
+    <Compile Include="Source\Snapshots\Null.cs" />
     <Compile Include="Source\Snapshots\Prefilters\ChunkLinkedListPrefilter.cs" />
     <Compile Include="Source\Utils\Hashing.cs" />
     <Compile Include="Source\Utils\TypeEditors\HotkeyEditor\HotkeyEditorViewModel.cs" />

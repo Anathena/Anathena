@@ -7,6 +7,7 @@
     using System.Linq;
     using System.Windows.Media.Imaging;
     using Utils.Extensions;
+
     internal class ProjectItemViewModel : TreeViewItemViewModel
     {
         private readonly ProjectItem projectItem;
