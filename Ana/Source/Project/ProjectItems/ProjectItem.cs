@@ -72,7 +72,7 @@
             set
             {
                 this.parent = value;
-                ProjectExplorerDeprecated.GetInstance().ProjectChanged();
+                ProjectExplorerViewModel.GetInstance().HasUnsavedChanges = true;
                 this.NotifyPropertyChanged(nameof(this.Parent));
             }
         }
@@ -94,7 +94,7 @@
             set
             {
                 this.children = value;
-                ProjectExplorerDeprecated.GetInstance().ProjectChanged();
+                ProjectExplorerViewModel.GetInstance().HasUnsavedChanges = true;
                 this.NotifyPropertyChanged(nameof(this.Children));
             }
         }
@@ -111,6 +111,7 @@
             set
             {
                 this.description = value;
+                ProjectExplorerViewModel.GetInstance().HasUnsavedChanges = true;
                 this.NotifyPropertyChanged(nameof(this.Description));
             }
         }

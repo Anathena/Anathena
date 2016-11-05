@@ -41,8 +41,7 @@
             set
             {
                 this.luaScript = value;
-
-                ProjectExplorerDeprecated.GetInstance().ProjectChanged();
+                ProjectExplorerViewModel.GetInstance().HasUnsavedChanges = true;
             }
         }
 

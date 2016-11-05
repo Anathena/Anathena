@@ -106,7 +106,7 @@
             set
             {
                 this.resolveType = value;
-                ProjectExplorerDeprecated.GetInstance().ProjectChanged();
+                ProjectExplorerViewModel.GetInstance().HasUnsavedChanges = true;
                 this.NotifyPropertyChanged(nameof(this.ResolveType));
             }
         }
@@ -124,7 +124,7 @@
             set
             {
                 this.baseIdentifier = value == null ? String.Empty : value;
-                ProjectExplorerDeprecated.GetInstance().ProjectChanged();
+                ProjectExplorerViewModel.GetInstance().HasUnsavedChanges = true;
                 this.NotifyPropertyChanged(nameof(this.BaseIdentifier));
             }
         }
@@ -144,7 +144,7 @@
             {
                 this.EffectiveAddress = value;
                 this.baseAddress = value;
-                ProjectExplorerDeprecated.GetInstance().ProjectChanged();
+                ProjectExplorerViewModel.GetInstance().HasUnsavedChanges = true;
                 this.NotifyPropertyChanged(nameof(this.BaseAddress));
             }
         }
@@ -164,7 +164,7 @@
             set
             {
                 this.offsets = value;
-                ProjectExplorerDeprecated.GetInstance().ProjectChanged();
+                ProjectExplorerViewModel.GetInstance().HasUnsavedChanges = true;
                 this.NotifyPropertyChanged(nameof(this.Offsets));
             }
         }
@@ -184,7 +184,7 @@
                 String oldTypeName = this.typeName;
                 this.typeName = value == null ? String.Empty : value.FullName;
                 this.addressValue = (oldTypeName != this.typeName) ? null : this.addressValue;
-                ProjectExplorerDeprecated.GetInstance().ProjectChanged();
+                ProjectExplorerViewModel.GetInstance().HasUnsavedChanges = true;
                 this.NotifyPropertyChanged(nameof(this.ElementType));
             }
         }
@@ -219,7 +219,7 @@
             set
             {
                 this.isValueHex = value;
-                ProjectExplorerDeprecated.GetInstance().ProjectChanged();
+                ProjectExplorerViewModel.GetInstance().HasUnsavedChanges = true;
                 this.NotifyPropertyChanged(nameof(this.IsValueHex));
             }
         }
