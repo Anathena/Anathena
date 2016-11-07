@@ -1,5 +1,6 @@
 ﻿namespace Ana.Source.Utils.ScriptEditor
 {
+    using LuaEngine;
     using System;
     using System.ComponentModel;
     using System.Drawing.Design;
@@ -18,12 +19,21 @@
 
         public override Object EditValue(ITypeDescriptorContext context, IServiceProvider provider, Object value)
         {
-            View.ScriptEditor scriptEditor = new View.ScriptEditor();
+            View.ScriptEditor scriptEditor = new View.ScriptEditor((value as LuaScript)?.Script);
 
             scriptEditor.Owner = Application.Current.MainWindow;
             if (scriptEditor.ShowDialog() == true)
             {
-                return scriptEditor.ScriptEditorViewModel.Script;
+                String script = scriptEditor.ScriptEditorViewModel.Script;
+
+                if (script != null && script != String.Empty)
+                {
+                    return new LuaScript(scriptEditor.ScriptEditorViewModel.Script);
+                }
+                else
+                {
+                    return null;
+                }
             }
 
             return value;

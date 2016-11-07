@@ -30,6 +30,13 @@
         /// </summary>
         private ProxyCommunicator()
         {
+            // Initialize channel names
+            String anathenaProxy32ServerName = ProxyCommunicator.UriPrefix + Guid.NewGuid().ToString();
+            String anathenaProxy64ServerName = ProxyCommunicator.UriPrefix + Guid.NewGuid().ToString();
+
+            // Start 32 and 64 bit proxy services
+            this.AnathenaProxy32 = this.StartProxyService(ProxyCommunicator.AnathenaProxy32Executable, anathenaProxy32ServerName);
+            this.AnathenaProxy64 = this.StartProxyService(ProxyCommunicator.AnathenaProxy64Executable, anathenaProxy64ServerName);
         }
 
         private IProxyService AnathenaProxy32 { get; set; }
@@ -39,17 +46,6 @@
         public static ProxyCommunicator GetInstance()
         {
             return proxyCommunicatorInstance.Value;
-        }
-
-        public void InitializeServices()
-        {
-            // Initialize channel names
-            String anathenaProxy32ServerName = ProxyCommunicator.UriPrefix + Guid.NewGuid().ToString();
-            String anathenaProxy64ServerName = ProxyCommunicator.UriPrefix + Guid.NewGuid().ToString();
-
-            // Start 32 and 64 bit proxy services
-            this.AnathenaProxy32 = this.StartProxyService(ProxyCommunicator.AnathenaProxy32Executable, anathenaProxy32ServerName);
-            this.AnathenaProxy64 = this.StartProxyService(ProxyCommunicator.AnathenaProxy64Executable, anathenaProxy64ServerName);
         }
 
         public IProxyService GetProxyService(Boolean is32Bit)

@@ -21,16 +21,24 @@
     internal partial class ScriptEditor : Window
     {
         private const String ScriptSyntaxHighlightingResource = "Ana.Content.Lua.xhsd";
+
         /// <summary>
         /// Initializes a new instance of the <see cref="ScriptEditor" /> class
         /// </summary>
-        public ScriptEditor()
+        public ScriptEditor(String script = null)
         {
             this.InitializeComponent();
             this.LoadHightLightRule();
             this.InitializeCompleteionWindow();
-            // this.ScriptEditorTextEditor.TextArea.TextEntering += ScriptEditorTextEditorTextAreaTextEntering;
-            // this.ScriptEditorTextEditor.TextArea.TextEntered += ScriptEditorTextEditorTextAreaTextEntered;
+            //// this.ScriptEditorTextEditor.TextArea.TextEntering += ScriptEditorTextEditorTextAreaTextEntering;
+            //// this.ScriptEditorTextEditor.TextArea.TextEntered += ScriptEditorTextEditorTextAreaTextEntered;
+            this.ScriptEditorTextEditor.TextChanged += ScriptEditorTextEditorTextChanged; ;
+            this.ScriptEditorTextEditor.Text = script == null ? String.Empty : script;
+        }
+
+        private void ScriptEditorTextEditorTextChanged(Object sender, EventArgs e)
+        {
+            this.ScriptEditorViewModel.UpdateScriptCommand.Execute(this.ScriptEditorTextEditor.Text);
         }
 
         public ScriptEditorViewModel ScriptEditorViewModel

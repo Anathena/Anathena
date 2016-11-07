@@ -30,7 +30,7 @@
 
                 if (newOffsets != null && newOffsets.Count > 0)
                 {
-                    return hotkeyEditor.HotkeyEditorViewModel.Hotkeys.ToList();
+                    return newOffsets;
                 }
                 else
                 {

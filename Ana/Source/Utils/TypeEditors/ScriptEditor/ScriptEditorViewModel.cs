@@ -2,8 +2,10 @@
 {
     using Docking;
     using Main;
+    using Mvvm.Command;
     using System;
     using System.Threading.Tasks;
+    using System.Windows.Input;
 
     /// <summary>
     /// View model for the Script Editor
@@ -21,11 +23,19 @@
         public ScriptEditorViewModel() : base("Script Editor")
         {
             this.ContentId = ScriptEditorViewModel.ToolContentId;
+            this.UpdateScriptCommand = new RelayCommand<String>((script) => this.UpdateScript(script), (script) => true);
 
             Task.Run(() => MainViewModel.GetInstance().Subscribe(this));
         }
 
-        public String Script { get; set; }
+        public ICommand UpdateScriptCommand { get; set; }
+
+        public String Script { get; private set; }
+
+        public void UpdateScript(String script)
+        {
+            this.Script = script;
+        }
     }
     //// End class
 }

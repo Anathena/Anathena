@@ -89,28 +89,16 @@
         /// </summary>
         public void RunUpdateFunction()
         {
-            try
-            {
-                if (this.ScriptEngine["OnUpdate"] as LuaFunction == null)
-                {
-                    return;
-                }
-            }
-            catch
-            {
-            }
-
             DateTime previousTime = DateTime.Now;
             TimeSpan elapsedTime;
-
             this.CancelRequest = new CancellationTokenSource();
 
             try
             {
                 this.Task = Task.Run(
-                    async () =>
+                async () =>
                 {
-                    LuaFunction Function = ScriptEngine["OnUpdate"] as LuaFunction;
+                    LuaFunction function = ScriptEngine["OnUpdate"] as LuaFunction;
 
                     while (true)
                     {
@@ -118,7 +106,7 @@
                         elapsedTime = currentTime - previousTime;
 
                         // Call the update function, giving the elapsed milliseconds since the previous call
-                        Function.Call(elapsedTime.TotalMilliseconds);
+                        function?.Call(elapsedTime.TotalMilliseconds);
 
                         previousTime = currentTime;
 
@@ -126,7 +114,7 @@
                         await Task.Delay(LuaCore.UpdateTime, this.CancelRequest.Token);
                     }
                 },
-                    this.CancelRequest.Token);
+                this.CancelRequest.Token);
 
                 return;
             }
@@ -159,7 +147,7 @@
                 }
 
                 LuaFunction function = this.ScriptEngine["OnDeactivate"] as LuaFunction;
-                function.Call();
+                function?.Call();
                 return;
             }
             catch

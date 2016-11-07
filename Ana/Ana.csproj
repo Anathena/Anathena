@@ -582,6 +582,14 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\AnathenaProxy32\AnathenaProxy32.csproj">
+      <Project>{51ac9959-afee-4f91-8a19-03cf0528ab62}</Project>
+      <Name>AnathenaProxy32</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\AnathenaProxy64\AnathenaProxy64.csproj">
+      <Project>{65eec6df-ccc8-46ab-b9fb-00d5a624fe94}</Project>
+      <Name>AnathenaProxy64</Name>
+    </ProjectReference>
     <ProjectReference Include="..\AnathenaProxy\AnathenaProxy.csproj">
       <Project>{2f739124-dda6-45cf-ad05-1b94a04643f1}</Project>
       <Name>AnathenaProxy</Name>
