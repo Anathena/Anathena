@@ -50,8 +50,14 @@
         /// </summary>
         private ProjectItemViewModel selectedProjectItem;
 
+        /// <summary>
+        /// Whether or not there are unsaved project changes
+        /// </summary>
         private Boolean hasUnsavedChanges;
 
+        /// <summary>
+        /// The file path to the project file
+        /// </summary>
         private String projectFilePath;
 
         /// <summary>
@@ -62,13 +68,15 @@
             this.ContentId = ProjectExplorerViewModel.ToolContentId;
 
             // Commands to manipulate project items may not be async due to multi-threading issues when modifying collections
-            this.AddNewFolderItemCommand = new RelayCommand(() => this.AddNewFolderItem(), () => true);
-            this.AddNewAddressItemCommand = new RelayCommand(() => this.AddNewAddressItem(), () => true);
-            this.AddNewScriptItemCommand = new RelayCommand(() => this.AddNewScriptItem(), () => true);
             this.OpenProjectCommand = new RelayCommand(() => this.OpenProject(), () => true);
             this.ImportProjectCommand = new RelayCommand(() => this.ImportProject(), () => true);
             this.SaveProjectCommand = new RelayCommand(() => this.SaveProject(), () => true);
             this.SaveAsProjectCommand = new RelayCommand(() => this.SaveAsProject(), () => true);
+            this.AddNewFolderItemCommand = new RelayCommand(() => this.AddNewFolderItem(), () => true);
+            this.AddNewAddressItemCommand = new RelayCommand(() => this.AddNewAddressItem(), () => true);
+            this.AddNewScriptItemCommand = new RelayCommand(() => this.AddNewScriptItem(), () => true);
+            this.DeleteSelectionCommand = new RelayCommand(() => this.DeleteSelection(), () => true);
+            this.ToggleSelectionActivationCommand = new RelayCommand(() => this.ToggleSelectionActivation(), () => true);
             this.IsVisible = true;
             this.projectItems = new ReadOnlyCollection<ProjectItemViewModel>(new List<ProjectItemViewModel>());
             this.Update();
@@ -112,12 +120,22 @@
         public ICommand AddNewScriptItemCommand { get; private set; }
 
         /// <summary>
+        /// Gets the command to delete the selected project explorer items
+        /// </summary>
+        public ICommand DeleteSelectionCommand { get; private set; }
+
+        /// <summary>
+        /// Gets the command to toggle the activation the selected project explorer items
+        /// </summary>
+        public ICommand ToggleSelectionActivationCommand { get; private set; }
+
+        /// <summary>
         /// Gets the command to clear the selected project item
         /// </summary>
         public ICommand ClearSelectionCommand { get; private set; }
 
         /// <summary>
-        /// Gets  or sets a value indicating whether there are unsaved changes
+        /// Gets or sets a value indicating whether there are unsaved changes
         /// </summary>
         public Boolean HasUnsavedChanges
         {
@@ -187,7 +205,7 @@
         }
 
         /// <summary>
-        /// Gets a singleton instance of the <see cref="ProjectExplorerViewModel"/> class
+        /// Gets a singleton instance of the <see cref="ProjectExplorerViewModel" /> class
         /// </summary>
         /// <returns>A singleton instance of the class</returns>
         public static ProjectExplorerViewModel GetInstance()
@@ -195,11 +213,21 @@
             return ProjectExplorerViewModel.projectExplorerViewModelInstance.Value;
         }
 
+        /// <summary>
+        /// Removes a project item from the project explorer
+        /// </summary>
+        /// <param name="projectItemViewModel">The project item view model to be removed</param>
         public void RemoveProjectItem(ProjectItemViewModel projectItemViewModel)
         {
             this.ProjectItems = new ReadOnlyCollection<ProjectItemViewModel>(this.ProjectItems.Where(x => x != projectItemViewModel).ToList());
+            this.SelectedProjectItem = null;
         }
 
+        /// <summary>
+        /// Inserts a project item into the project explorer
+        /// </summary>
+        /// <param name="projectItemViewModel">The project item view model to be removed</param>
+        /// <param name="index">The index of insertion</param>
         public void InsertProjectItem(ProjectItemViewModel projectItemViewModel, Int32 index)
         {
             List<ProjectItemViewModel> newItems = this.ProjectItems.ToList();
@@ -268,6 +296,29 @@
             this.AddNewProjectItem(new ScriptItem());
         }
 
+        /// <summary>
+        /// Deletes the selected project explorer items
+        /// </summary>
+        private void DeleteSelection()
+        {
+            this.RemoveProjectItem(this.SelectedProjectItem);
+        }
+
+        /// <summary>
+        /// Toggles the activation the selected project explorer items
+        /// </summary>
+        private void ToggleSelectionActivation()
+        {
+            ProjectItem projectItem = this.SelectedProjectItem?.ProjectItem;
+            if (projectItem != null)
+            {
+                projectItem.IsActivated = !projectItem.IsActivated;
+            }
+        }
+
+        /// <summary>
+        /// Continously updates the project explorer items
+        /// </summary>
         private void Update()
         {
             Task.Run(() =>
@@ -280,6 +331,10 @@
             });
         }
 
+        /// <summary>
+        /// Recursive helper function to update a project item and all children contained by it
+        /// </summary>
+        /// <param name="projectItemViewModel">The project item view model being updated</param>
         private void UpdateRecurse(ProjectItemViewModel projectItemViewModel)
         {
             projectItemViewModel?.Children?.ForEach(x => this.UpdateRecurse(x as ProjectItemViewModel));
