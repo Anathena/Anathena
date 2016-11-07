@@ -13,6 +13,7 @@
     internal class LuaMemoryCore : IMemoryCore
     {
         private const Int32 JumpSize = 5;
+
         private const Int32 Largestx86InstructionSize = 15;
 
         public LuaMemoryCore()

@@ -1,4 +1,4 @@
-﻿namespace Ana.Source.Project.ProjectItems.ScriptTemplates
+﻿namespace Ana.Source.LuaEngine
 {
     using System;
 
@@ -16,10 +16,9 @@
                 "\t" + "Memory:SetKeyword(\"exit\", Memory:GetCaveExitAddress(entry))" + "\n\t\n" +
 
                 "\t" + "local assembly = (" + "\n" +
-                "\t" + "[fasm]" + "\n" +
                 "\t" + "\n" +
                 "\t" + "jmp exit" + "\n" +
-                "\t" + "[/fasm])" + "\n\t\n" +
+                "\t" + ")" + "\n\t\n" +
 
                 "\t" + "Memory:CreateCodeCave(entry, assembly)" + "\n" +
                 "end" + "\n\t\n" +

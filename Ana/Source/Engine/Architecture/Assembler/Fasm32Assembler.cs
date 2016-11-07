@@ -1,6 +1,8 @@
 ﻿namespace Ana.Source.Engine.Architecture.Assembler
 {
+    using Proxy;
     using System;
+    using Utils.Extensions;
 
     /// <summary>
     /// The Fasm assembler for x86/64
@@ -28,9 +30,8 @@
         /// <returns>An array of bytes containing the assembly code.</returns>
         public Byte[] Assemble(Boolean isProcess32Bit, String assembly, IntPtr baseAddress)
         {
-            throw new NotImplementedException();
-            //// Call proxy service, which simply passes the asm code to Fasm.net to assemble the instructions
-            //// return ProxyCommunicator.GetInstance().GetProxyService(isProcess32Bit).Assemble(isProcess32Bit, assembly, baseAddress.ToUInt64());
+            // Call proxy service, which simply passes the asm code to Fasm.net to assemble the instructions
+            return ProxyCommunicator.GetInstance().GetProxyService(isProcess32Bit).Assemble(isProcess32Bit, assembly, baseAddress.ToUInt64());
         }
     }
     //// End class

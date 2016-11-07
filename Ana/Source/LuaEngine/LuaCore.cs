@@ -28,7 +28,7 @@
 
         public LuaCore(LuaScript luaScript) : base()
         {
-            this.ScriptRaw = this.ReplaceTags(luaScript?.Script);
+            this.ScriptRaw = luaScript?.Script;
         }
 
         private Lua ScriptEngine { get; set; }
@@ -188,24 +188,6 @@
             this.ScriptEngine["Memory"] = this.LuaMemoryCore;
             this.ScriptEngine["Graphics"] = this.LuaGraphicsCore;
             this.ScriptEngine["Hook"] = this.LuaHookCore;
-        }
-
-        private String ReplaceTags(String script)
-        {
-            if (script == null)
-            {
-                return String.Empty;
-            }
-
-            //// Removes the assembly tags and instead places a string body.
-            //// This is done such that the LUA frontend can do its syntax highlighting with minmal effort
-            //// script = Regex.Replace(script, "\\[fasm\\]", "[[", RegexOptions.IgnoreCase);
-            //// script = Regex.Replace(script, "\\[/fasm\\]", "]]", RegexOptions.IgnoreCase);
-
-            script = script.Replace("[fasm]", "[[");
-            script = script.Replace("[/fasm]", "]]");
-
-            return script;
         }
     }
     //// End class
