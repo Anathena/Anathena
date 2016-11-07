@@ -55,6 +55,7 @@
     <ApplicationIcon>Content\Icons\MainIcon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="EasyHook, Version=2.7.5870.0, Culture=neutral, PublicKeyToken=4b580fca19d0b0c5, processorArchitecture=MSIL" />
     <Reference Include="KopiLua">
       <HintPath>..\Lua\KopiLua.dll</HintPath>
     </Reference>
@@ -64,7 +65,9 @@
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Runtime.Remoting" />
     <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System.Xml" />
@@ -93,6 +96,38 @@
     <Compile Include="Source\Content\Images.cs" />
     <Compile Include="Source\Controls\HexDecBoxViewModel.cs" />
     <Compile Include="Source\Controls\TreeViewItemViewModel.cs" />
+    <Compile Include="Source\Engine\Hook\Client\HookClient.cs" />
+    <Compile Include="Source\Engine\Hook\Client\IHookClient.cs" />
+    <Compile Include="Source\Engine\Hook\Graphics\DirectX\DirextXGraphicsInterface.cs" />
+    <Compile Include="Source\Engine\Hook\Graphics\DirectX\Interface\BaseDXHook.cs" />
+    <Compile Include="Source\Engine\Hook\Graphics\DirectX\Interface\DirectXFlags.cs" />
+    <Compile Include="Source\Engine\Hook\Graphics\DirectX\Interface\DX10\DXHookD3D10.cs" />
+    <Compile Include="Source\Engine\Hook\Graphics\DirectX\Interface\DX10\DXHookD3D10_1.cs" />
+    <Compile Include="Source\Engine\Hook\Graphics\DirectX\Interface\DX11\DeviceManager.cs" />
+    <Compile Include="Source\Engine\Hook\Graphics\DirectX\Interface\DX11\DXFont.cs" />
+    <Compile Include="Source\Engine\Hook\Graphics\DirectX\Interface\DX11\DXHookD3D11.cs">
+      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
+    </Compile>
+    <Compile Include="Source\Engine\Hook\Graphics\DirectX\Interface\DX11\DXImage.cs" />
+    <Compile Include="Source\Engine\Hook\Graphics\DirectX\Interface\DX11\DXOverlayEngine.cs" />
+    <Compile Include="Source\Engine\Hook\Graphics\DirectX\Interface\DX11\DXSprite.cs" />
+    <Compile Include="Source\Engine\Hook\Graphics\DirectX\Interface\DX11\RendererBase.cs" />
+    <Compile Include="Source\Engine\Hook\Graphics\DirectX\Interface\DX11\ScreenAlignedQuadRenderer.cs" />
+    <Compile Include="Source\Engine\Hook\Graphics\DirectX\Interface\DX9\DXHookD3D9.cs" />
+    <Compile Include="Source\Engine\Hook\Graphics\DirectX\Interface\DX9\DXOverlayEngine.cs" />
+    <Compile Include="Source\Engine\Hook\Graphics\DirectX\Interface\DXGI.cs" />
+    <Compile Include="Source\Engine\Hook\Graphics\DirectX\Interface\Elements\Element.cs" />
+    <Compile Include="Source\Engine\Hook\Graphics\DirectX\Interface\Elements\ImageElement.cs" />
+    <Compile Include="Source\Engine\Hook\Graphics\DirectX\Interface\Elements\TextElement.cs" />
+    <Compile Include="Source\Engine\Hook\Graphics\DirectX\Interface\Hook.cs" />
+    <Compile Include="Source\Engine\Hook\Graphics\DirectX\Interface\SafeHGlobal.cs" />
+    <Compile Include="Source\Engine\Hook\Graphics\GraphicsFactory.cs" />
+    <Compile Include="Source\Engine\Hook\Graphics\IGraphicsInterface.cs" />
+    <Compile Include="Source\Engine\Hook\Graphics\OpenGL\ConnectorOpenGL.cs" />
+    <Compile Include="Source\Engine\Hook\Server\HookServer.cs" />
+    <Compile Include="Source\Engine\Hook\SpeedHack\ISpeedHackInterface.cs" />
+    <Compile Include="Source\Engine\Hook\SpeedHack\SpeedHackInterface.cs" />
+    <Compile Include="Source\Engine\Hook\Unrandomizer\IUnrandomizerInterface.cs" />
     <Compile Include="Source\Engine\Input\Controller\ControllerCapture.cs" />
     <Compile Include="Source\Engine\Input\Controller\IControllerObserver.cs" />
     <Compile Include="Source\Engine\Input\Controller\IControllerSubject.cs" />
@@ -109,6 +144,7 @@
     <Compile Include="Source\Engine\Input\Mouse\IMouseObserver.cs" />
     <Compile Include="Source\Engine\Input\Mouse\IMouseSubject.cs" />
     <Compile Include="Source\Engine\Input\Mouse\MouseCapture.cs" />
+    <Compile Include="Source\Engine\Proxy\ProxyCommunicator.cs" />
     <Compile Include="Source\Mvvm\Converters\HotkeyToStringConverter.cs" />
     <Compile Include="Source\Mvvm\Converters\Int32ToHexConverter.cs" />
     <Compile Include="Source\PropertyViewer\IPropertyViewerObserver.cs" />
@@ -546,6 +582,10 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\AnathenaProxy\AnathenaProxy.csproj">
+      <Project>{2f739124-dda6-45cf-ad05-1b94a04643f1}</Project>
+      <Name>AnathenaProxy</Name>
+    </ProjectReference>
     <ProjectReference Include="..\AvalonDock\AvalonDock.csproj">
       <Project>{db81988f-e0f2-45a0-a1fd-8c37f3d35244}</Project>
       <Name>AvalonDock</Name>
@@ -650,7 +690,6 @@
   <ItemGroup>
     <Folder Include="Source\Engine\AddressResolver\Java\" />
     <Folder Include="Source\Engine\AddressResolver\Python\" />
-    <Folder Include="Source\Engine\Proxy\" />
     <Folder Include="Source\Mvvm\Behavior\" />
   </ItemGroup>
   <ItemGroup>
@@ -727,6 +766,15 @@
   <ItemGroup>
     <Resource Include="Content\Icons\LeftArrows.png" />
     <Resource Include="Content\Icons\RightArrows.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Source\EasyHook\EasyHook.dll" />
+    <Content Include="Source\EasyHook\EasyHook32.dll" />
+    <Content Include="Source\EasyHook\EasyHook32Svc.exe" />
+    <Content Include="Source\EasyHook\EasyHook64.dll" />
+    <Content Include="Source\EasyHook\EasyHook64Svc.exe" />
+    <Content Include="Source\EasyHook\EasyLoad32.dll" />
+    <Content Include="Source\EasyHook\EasyLoad64.dll" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
