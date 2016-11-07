@@ -4,10 +4,9 @@
 
     internal class LuaTemplates
     {
-        public static String AddCodeInjectionTemplate(String currentScript, String moduleName, IntPtr moduleOffset)
+        public static String GetCodeInjectionTemplate(String moduleName = "moduleName", UInt64 moduleOffset = 0x12345)
         {
-            String templateCode =
-                "function OnActivate()" + "\n\t\n" +
+            return "function OnActivate()" + "\n\t\n" +
                 "\t" + "MyCheat()" + "\n\t\n" +
                 "end" + "\n\t\n" +
 
@@ -27,14 +26,11 @@
                 "\t" + "Memory:ClearAllKeywords()" + "\n" +
                 "\t" + "Memory:RemoveAllCodeCaves()" + "\n\t\n" +
                 "end";
-
-            return currentScript + templateCode;
         }
 
-        public static String AddGraphicsOverlayTemplate(String currentScript)
+        public static String GetGraphicsOverlayTemplate()
         {
-            String templateCode =
-                "function OnActivate()" + "\n\t\n" +
+            return "function OnActivate()" + "\n\t\n" +
                 "\t" + "MyOverlay()" + "\n\t\n" +
                 "end" + "\n\t\n" +
 
@@ -44,8 +40,6 @@
 
                 "function OnDeactivate()" + "\n\t\n" +
                 "end";
-
-            return currentScript + templateCode;
         }
     }
     //// End class

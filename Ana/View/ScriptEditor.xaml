@@ -14,8 +14,8 @@
     xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
     x:Name="AnaScriptEditor"
     Title="Script Editor"
-    Width="320"
-    Height="320"
+    Width="480"
+    Height="512"
     d:DesignHeight="256"
     d:DesignWidth="256"
     x:ClassModifier="internal"
@@ -32,21 +32,70 @@
     <shell:Grid Background="{StaticResource AvalonDock_Expression_BaseColor3}">
         <shell:Grid.RowDefinitions>
             <shell:RowDefinition Height="Auto" />
+            <shell:RowDefinition Height="Auto" />
             <shell:RowDefinition />
             <shell:RowDefinition Height="Auto" />
         </shell:Grid.RowDefinitions>
+
         <shell:Grid
             x:Name="titlebar"
             Grid.Row="0"
             Height="24"
-            Background="{StaticResource AvalonDock_Expression_BaseColor4}" />
+            Background="{StaticResource AvalonDock_Expression_BaseColor4}">
+            <shell:WrapPanel Margin="8,0,0,0" VerticalAlignment="Center">
+                <shell:TextBlock
+                    Foreground="{StaticResource AvalonDock_Expression_BaseColor2}"
+                    Text="* "
+                    Visibility="Collapsed" />
+                <shell:TextBlock Foreground="{StaticResource AvalonDock_Expression_BaseColor2}" Text="Script Editor" />
+            </shell:WrapPanel>
+        </shell:Grid>
+
+
+        <shell:Menu
+            Grid.Row="1"
+            Background="{StaticResource AvalonDock_Expression_BaseColor4}"
+            BorderBrush="{StaticResource AvalonDock_Expression_BaseColor2}"
+            Foreground="{StaticResource AvalonDock_Expression_BaseColor2}">
+            <shell:Menu.Resources>
+                <shell:Style x:Key="menuItemStyle" TargetType="{x:Type MenuItem}">
+                    <shell:Setter Property="Foreground" Value="{StaticResource AvalonDock_Expression_BaseColor2}" />
+                    <shell:Setter Property="Background" Value="{StaticResource AvalonDock_Expression_BaseColor4}" />
+                    <shell:Setter Property="BorderBrush" Value="{StaticResource AvalonDock_Expression_BaseColor4}" />
+                    <shell:Setter Property="BorderThickness" Value="0" />
+                </shell:Style>
+            </shell:Menu.Resources>
+            <!--  File Header  -->
+            <shell:MenuItem Header="File" Style="{StaticResource DropDown}">
+                <shell:MenuItem
+                    Command="{Binding SaveCommand}"
+                    Header="Save"
+                    Style="{StaticResource menuItemStyle}" />
+                <shell:MenuItem
+                    Click="ExitFileMenuItemClick"
+                    Header="Exit"
+                    Style="{StaticResource menuItemStyle}" />
+            </shell:MenuItem>
+            <!--  Template Header  -->
+            <shell:y Header="Templates" Style="{StaticResource DropDown}">
+                <shell:MenuItem
+                    Click="CodeInjectionFileMenuItemClick"
+                    Header="Code Injection"
+                    Style="{StaticResource menuItemStyle}" />
+                <shell:MenuItem
+                    Click="GraphicsOverlayFileMenuItemClick"
+                    Header="Graphics Overlay"
+                    Style="{StaticResource menuItemStyle}" />
+            </shell:y>
+        </shell:Menu>
 
         <avalonedit:TextEditor
             Name="ScriptEditorTextEditor"
-            Grid.Row="1"
+            shell:Grid.Row="2"
             Background="{StaticResource AvalonDock_Expression_BaseColor3}"
             Foreground="{StaticResource AvalonDock_Expression_BaseColor2}" />
-        <shell:Grid Grid.Row="2" Margin="8">
+
+        <shell:Grid Grid.Row="3" Margin="8">
             <shell:Button
                 Width="96"
                 Height="20"

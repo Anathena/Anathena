@@ -5,6 +5,7 @@
     using ICSharpCode.AvalonEdit.Editing;
     using ICSharpCode.AvalonEdit.Highlighting;
     using ICSharpCode.AvalonEdit.Highlighting.Xshd;
+    using Source.LuaEngine;
     using Source.Utils.ScriptEditor;
     using System;
     using System.Collections.Generic;
@@ -32,7 +33,7 @@
             this.InitializeCompleteionWindow();
             //// this.ScriptEditorTextEditor.TextArea.TextEntering += ScriptEditorTextEditorTextAreaTextEntering;
             //// this.ScriptEditorTextEditor.TextArea.TextEntered += ScriptEditorTextEditorTextAreaTextEntered;
-            this.ScriptEditorTextEditor.TextChanged += ScriptEditorTextEditorTextChanged; ;
+            this.ScriptEditorTextEditor.TextChanged += ScriptEditorTextEditorTextChanged;
             this.ScriptEditorTextEditor.Text = script == null ? String.Empty : script;
         }
 
@@ -61,7 +62,7 @@
 
         private void LoadHightLightRule()
         {
-            using (Stream stream = Assembly.GetExecutingAssembly().GetManifestResourceStream(ScriptSyntaxHighlightingResource))
+            using (Stream stream = Assembly.GetExecutingAssembly().GetManifestResourceStream(ScriptEditor.ScriptSyntaxHighlightingResource))
             {
                 if (stream != null)
                 {
@@ -77,10 +78,9 @@
 
         void ScriptEditorTextEditorTextAreaTextEntered(Object sender, TextCompositionEventArgs e)
         {
-            // if (e.Text == ".")
+            //// if (e.Text == ".")
             {
-                // Open code completion after the user has pressed dot:
-
+                //// Open code completion after the user has pressed dot:
                 this.CompletionWindow = new CompletionWindow(this.ScriptEditorTextEditor.TextArea);
                 this.CompletionWindow.Closed += delegate
                 {
@@ -102,8 +102,7 @@
             {
                 if (!char.IsLetterOrDigit(e.Text[0]))
                 {
-                    // Whenever a non-letter is typed while the completion window is open,
-                    // insert the currently selected element.
+                    // Whenever a non-letter is typed while the completion window is open, insert the currently selected element
                     this.CompletionWindow.CompletionList.RequestInsertion(e);
                 }
             }
@@ -121,8 +120,7 @@
             this.Close();
         }
 
-        /// Implements AvalonEdit ICompletionData interface to provide the entries in the
-        /// completion drop down.
+        /// Implements AvalonEdit ICompletionData interface to provide the entries in the completion drop down
         internal class MyCompletionData : ICompletionData
         {
             public MyCompletionData(string text)
@@ -137,7 +135,7 @@
 
             public String Text { get; private set; }
 
-            // Use this property if you want to show a fancy UIElement in the list.
+            // Use this property if you want to show a fancy UIElement in the list
             public Object Content
             {
                 get
@@ -150,7 +148,8 @@
             {
                 get
                 {
-                    return String.Empty;// "Description for " + this.Text;
+                    //// return "Description for " + this.Text;
+                    return String.Empty;
                 }
             }
 
@@ -166,6 +165,22 @@
             {
                 textArea.Document.Replace(completionSegment, this.Text);
             }
+        }
+
+        private void ExitFileMenuItemClick(Object sender, RoutedEventArgs e)
+        {
+            this.ScriptEditorViewModel.ExitCommand.Execute(null);
+            this.Close();
+        }
+
+        private void CodeInjectionFileMenuItemClick(Object sender, RoutedEventArgs e)
+        {
+            this.ScriptEditorTextEditor.Text = LuaTemplates.GetCodeInjectionTemplate() + this.ScriptEditorTextEditor.Text;
+        }
+
+        private void GraphicsOverlayFileMenuItemClick(Object sender, RoutedEventArgs e)
+        {
+            this.ScriptEditorTextEditor.Text = LuaTemplates.GetGraphicsOverlayTemplate() + this.ScriptEditorTextEditor.Text;
         }
     }
     //// End class
