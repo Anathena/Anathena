@@ -1,35 +1,37 @@
-﻿<UserControl x:Class="Ana.View.CheatBrowser"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:converters="clr-namespace:Ana.Source.Mvvm.Converters"
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
-             xmlns:local="clr-namespace:Ana"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:sys="clr-namespace:System;assembly=mscorlib"
-             xmlns:sysWindows="clr-namespace:System.Windows;assembly=PresentationCore"
-             x:Name="AnaCheatBrowser"
-             d:DesignHeight="256"
-             d:DesignWidth="256"
-             x:ClassModifier="internal"
-             DataContext="{Binding CheatBrowserViewModel,
-                                   Source={StaticResource ViewModelLocator}}"
-             mc:Ignorable="d">
+﻿<UserControl
+    x:Class="Ana.View.CheatBrowser"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:converters="clr-namespace:Ana.Source.Mvvm.Converters"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+    xmlns:local="clr-namespace:Ana"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:sys="clr-namespace:System;assembly=mscorlib"
+    xmlns:sysWindows="clr-namespace:System.Windows;assembly=PresentationCore"
+    x:Name="AnaCheatBrowser"
+    d:DesignHeight="256"
+    d:DesignWidth="256"
+    x:ClassModifier="internal"
+    DataContext="{Binding CheatBrowserViewModel, Source={StaticResource ViewModelLocator}}"
+    mc:Ignorable="d">
     <Grid Background="{StaticResource AvalonDock_Expression_BaseColor3}">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition />
         </Grid.RowDefinitions>
-        <Border Grid.Row="0"
-                Background="{StaticResource AvalonDock_Expression_BaseColor4}"
-                Padding="8 4 8 4">
+        <Border
+            Grid.Row="0"
+            Padding="8,4,8,4"
+            Background="{StaticResource AvalonDock_Expression_BaseColor4}">
             <Menu Background="Transparent">
                 <MenuItem Command="{Binding NavigateHomeCommand}" CommandParameter="{Binding ElementName=browser}">
                     <MenuItem.Header>
-                        <Image Width="16"
-                               Height="16"
-                               Source="pack://application:,,,/Ana;component/Content/Icons/Home.png"
-                               ToolTip="Refresh Process List" />
+                        <Image
+                            Width="16"
+                            Height="16"
+                            Source="pack://application:,,,/Ana;component/Content/Icons/Home.png"
+                            ToolTip="Refresh Process List" />
                     </MenuItem.Header>
                 </MenuItem>
             </Menu>

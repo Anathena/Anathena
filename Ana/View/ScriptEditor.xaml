@@ -70,14 +70,15 @@
                 <shell:MenuItem
                     Command="{Binding SaveCommand}"
                     Header="Save"
-                    Style="{StaticResource menuItemStyle}" />
+                    Style="{StaticResource menuItemStyle}"
+                    Visibility="Collapsed" />
                 <shell:MenuItem
                     Click="ExitFileMenuItemClick"
                     Header="Exit"
                     Style="{StaticResource menuItemStyle}" />
             </shell:MenuItem>
             <!--  Template Header  -->
-            <shell:y Header="Templates" Style="{StaticResource DropDown}">
+            <shell:MenuItem Header="Templates" Style="{StaticResource DropDown}">
                 <shell:MenuItem
                     Click="CodeInjectionFileMenuItemClick"
                     Header="Code Injection"
@@ -86,7 +87,7 @@
                     Click="GraphicsOverlayFileMenuItemClick"
                     Header="Graphics Overlay"
                     Style="{StaticResource menuItemStyle}" />
-            </shell:y>
+            </shell:MenuItem>
         </shell:Menu>
 
         <avalonedit:TextEditor

@@ -1,19 +1,150 @@
-﻿<UserControl x:Class="Ana.View.DotNetExplorer"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:converters="clr-namespace:Ana.Source.Mvvm.Converters"
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
-             xmlns:local="clr-namespace:Ana"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:sys="clr-namespace:System;assembly=mscorlib"
-             xmlns:sysWindows="clr-namespace:System.Windows;assembly=PresentationCore"
-             x:Name="AnaDotNetExplorer"
-             d:DesignHeight="256"
-             d:DesignWidth="256"
-             x:ClassModifier="internal"
-             DataContext="{Binding DotNetExplorerViewModel,
-                                   Source={StaticResource ViewModelLocator}}"
-             mc:Ignorable="d">
-    <Grid Background="{StaticResource AvalonDock_Expression_BaseColor3}" />
+﻿<UserControl
+    x:Class="Ana.View.DotNetExplorer"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:converters="clr-namespace:Ana.Source.Mvvm.Converters"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+    xmlns:local="clr-namespace:Ana"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:project="clr-namespace:Ana.Source.Project.ProjectItems"
+    xmlns:sys="clr-namespace:System;assembly=mscorlib"
+    xmlns:sysWindows="clr-namespace:System.Windows;assembly=PresentationCore"
+    x:Name="AnaDotNetExplorer"
+    d:DesignHeight="256"
+    d:DesignWidth="256"
+    x:ClassModifier="internal"
+    DataContext="{Binding DotNetExplorerViewModel, Source={StaticResource ViewModelLocator}}"
+    mc:Ignorable="d">
+    <Grid Background="{StaticResource AvalonDock_Expression_BaseColor3}">
+        <TextBlock Foreground="{StaticResource AvalonDock_Expression_BaseColor2}" Text="Feature in Development : )" />
+        <!--<TreeView
+            Name="projectExplorerTreeView"
+            Grid.Row="1"
+            AllowDrop="True"
+            Background="{StaticResource AvalonDock_Expression_BaseColor3}"
+            BorderThickness="0"
+            ItemsSource="{Binding ProjectItems, Mode=OneWay}">
+            <TreeView.ContextMenu>
+                <ContextMenu
+                    Background="{StaticResource AvalonDock_Expression_BaseColor1}"
+                    BorderBrush="{StaticResource AvalonDock_Expression_BaseColor2}"
+                    BorderThickness="1"
+                    Style="{StaticResource DropDownContextMenu}">
+                    <ContextMenu.Resources>
+                        <Style x:Key="menuItemStyle" TargetType="{x:Type MenuItem}">
+                            <Setter Property="Foreground" Value="{StaticResource AvalonDock_Expression_BaseColor2}" />
+                            <Setter Property="Background" Value="{StaticResource AvalonDock_Expression_BaseColor4}" />
+                            <Setter Property="BorderBrush" Value="{StaticResource AvalonDock_Expression_BaseColor4}" />
+                            <Setter Property="BorderThickness" Value="0" />
+                        </Style>
+                    </ContextMenu.Resources>
+                    <MenuItem
+                        Command="{Binding ToggleSelectionActivationCommand}"
+                        Style="{StaticResource menuItemStyle}"
+                        ToolTip="Toggle Cheat Activation">
+                        <MenuItem.Header>
+                            <TextBlock Foreground="{StaticResource AvalonDock_Expression_BaseColor2}" Text="Toggle Activation" />
+                        </MenuItem.Header>
+                    </MenuItem>
+                    <MenuItem
+                        Command="{Binding DeleteSelectionCommand}"
+                        Style="{StaticResource menuItemStyle}"
+                        ToolTip="Delete Selected Cheats">
+                        <MenuItem.Header>
+                            <TextBlock Foreground="{StaticResource AvalonDock_Expression_BaseColor2}" Text="Delete Selection" />
+                        </MenuItem.Header>
+                    </MenuItem>
+                    <Separator />
+                    <MenuItem
+                        Background="{StaticResource AvalonDock_Expression_BaseColor1}"
+                        BorderBrush="{StaticResource AvalonDock_Expression_BaseColor1}"
+                        Command="{Binding AddNewFolderItemCommand}"
+                        ToolTip="Add New Folder">
+                        <MenuItem.Header>
+                            <WrapPanel Width="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=ActualWidth}">
+                                <Image
+                                    Width="16"
+                                    Height="16"
+                                    Source="pack://application:,,,/Ana;component/Content/Icons/Open.png" />
+                                <TextBlock
+                                    Padding="4,0,0,0"
+                                    Foreground="{StaticResource AvalonDock_Expression_BaseColor2}"
+                                    Text="Add Folder" />
+                            </WrapPanel>
+                        </MenuItem.Header>
+                    </MenuItem>
+                    <MenuItem
+                        Background="{StaticResource AvalonDock_Expression_BaseColor1}"
+                        BorderBrush="{StaticResource AvalonDock_Expression_BaseColor1}"
+                        Command="{Binding AddNewAddressItemCommand}"
+                        ToolTip="Add New Address">
+                        <MenuItem.Header>
+                            <WrapPanel Width="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=ActualWidth}">
+                                <Image
+                                    Width="16"
+                                    Height="16"
+                                    Source="pack://application:,,,/Ana;component/Content/Icons/CollectValues.png" />
+                                <TextBlock
+                                    Padding="4,0,0,0"
+                                    Foreground="{StaticResource AvalonDock_Expression_BaseColor2}"
+                                    Text="Add Address" />
+                            </WrapPanel>
+                        </MenuItem.Header>
+                    </MenuItem>
+                    <MenuItem
+                        Background="{StaticResource AvalonDock_Expression_BaseColor1}"
+                        BorderBrush="{StaticResource AvalonDock_Expression_BaseColor1}"
+                        Command="{Binding AddNewScriptItemCommand}"
+                        ToolTip="Add New Script">
+                        <MenuItem.Header>
+                            <WrapPanel Width="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=ActualWidth}">
+                                <Image
+                                    Width="16"
+                                    Height="16"
+                                    Source="pack://application:,,,/Ana;component/Content/Icons/CollectValues.png" />
+                                <TextBlock
+                                    Padding="4,0,0,0"
+                                    Foreground="{StaticResource AvalonDock_Expression_BaseColor2}"
+                                    Text="Add Script" />
+                            </WrapPanel>
+                        </MenuItem.Header>
+                    </MenuItem>
+                </ContextMenu>
+            </TreeView.ContextMenu>
+            <TreeView.ItemContainerStyle>
+                <Style TargetType="{x:Type TreeViewItem}">
+                    <Style.Resources>
+                        <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightBrushKey}" Color="Transparent" />
+                        <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="Transparent" />
+                        <SolidColorBrush x:Key="{x:Static SystemColors.ControlBrushKey}" Color="Transparent" />
+                    </Style.Resources>
+                    <Setter Property="BorderBrush" Value="Transparent" />
+                    <Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}" />
+                    <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}" />
+                    <Setter Property="BorderThickness" Value="2" />
+                    <Style.Triggers>
+                        <Trigger Property="IsSelected" Value="True">
+                            <Setter Property="BorderThickness" Value="2" />
+                            <Setter Property="BorderBrush" Value="{StaticResource AvalonDock_Expression_BaseColor15}" />
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </TreeView.ItemContainerStyle>
+
+            <TreeView.Resources>
+                <HierarchicalDataTemplate DataType="{x:Type project:ProjectItemViewModel}" ItemsSource="{Binding Children}">
+                    <WrapPanel Orientation="Horizontal">
+                        <CheckBox IsChecked="{Binding ProjectItem.IsActivated}" />
+                        <Image
+                            Width="16"
+                            Height="16"
+                            Margin="3,0"
+                            Source="{Binding Icon}" />
+                        <TextBlock Foreground="{StaticResource AvalonDock_Expression_BaseColor2}" Text="{Binding ProjectItem.Description}" />
+                    </WrapPanel>
+                </HierarchicalDataTemplate>
+            </TreeView.Resources>
+        </TreeView>-->
+    </Grid>
 </UserControl>
