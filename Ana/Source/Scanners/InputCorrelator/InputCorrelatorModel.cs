@@ -5,6 +5,7 @@
     using Engine.Input.HotKeys;
     using Engine.Input.Keyboard;
     using Engine.Input.Mouse;
+    using LabelThresholder;
     using Results.ScanResults;
     using SharpDX.DirectInput;
     using Snapshots;
@@ -189,6 +190,8 @@
             SnapshotManager.GetInstance().SaveSnapshot(this.Snapshot);
 
             this.CleanUp();
+            LabelThresholderViewModel.GetInstance().IsVisible = true;
+            LabelThresholderViewModel.GetInstance().IsActive = true;
         }
 
         private void InitializeObjects()

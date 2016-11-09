@@ -1,5 +1,6 @@
 ﻿namespace Ana.Source.Scanners.ChangeCounter
 {
+    using LabelThresholder;
     using Results.ScanResults;
     using Snapshots;
     using System;
@@ -101,33 +102,11 @@
         protected override void OnEnd()
         {
             base.OnEnd();
-
-            // Mark regions as valid or invalid based on number of changes
-            /* 
-             this.Snapshot.MarkAllInvalid();
-
-             if (this.Snapshot.GetRegionCount() > 0)
-              {
-                  foreach (SnapshotRegion<UInt16> region in this.Snapshot)
-                  {
-                      foreach (SnapshotElement<UInt16> element in region)
-                      {
-                          if (element.ElementLabel.Value >= this.MinChanges && element.ElementLabel.Value <= this.MaxChanges)
-                          {
-                              element.Valid = true;
-                          }
-                      }
-                  }
-              }
-
-              // Create a snapshot from the valid regions
-              this.Snapshot.DiscardInvalidRegions();
-              */
-
             this.Snapshot.ScanMethod = this.ScannerName;
 
             SnapshotManager.GetInstance().SaveSnapshot(this.Snapshot);
-            //// Main.GetInstance().OpenLabelThresholder();
+            LabelThresholderViewModel.GetInstance().IsVisible = true;
+            LabelThresholderViewModel.GetInstance().IsActive = true;
         }
 
         private void CleanUp()
