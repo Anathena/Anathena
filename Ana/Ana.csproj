@@ -817,6 +817,7 @@
     <Resource Include="Content\Icons\RightArrows.png" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Content\defaultLayout.xml" />
     <Content Include="Source\EasyHook\EasyHook.dll" />
     <Content Include="Source\EasyHook\EasyHook32.dll" />
     <Content Include="Source\EasyHook\EasyHook32Svc.exe" />

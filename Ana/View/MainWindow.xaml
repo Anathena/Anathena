@@ -26,10 +26,10 @@
     <shell:Grid>
         <intr:Interaction.Triggers>
             <intr:EventTrigger EventName="Loaded">
-                <intr:InvokeCommandAction Command="{Binding LoadLayout}" CommandParameter="{Binding ., ElementName=dockManager}" />
+                <intr:InvokeCommandAction Command="{Binding LoadLayoutCommand}" CommandParameter="{Binding ., ElementName=dockManager}" />
             </intr:EventTrigger>
             <intr:EventTrigger EventName="Unloaded">
-                <intr:InvokeCommandAction Command="{Binding SaveLayout}" CommandParameter="{Binding ., ElementName=dockManager}" />
+                <intr:InvokeCommandAction Command="{Binding SaveLayoutCommand}" CommandParameter="{Binding ., ElementName=dockManager}" />
             </intr:EventTrigger>
         </intr:Interaction.Triggers>
 
@@ -92,7 +92,7 @@
                 <shell:MenuItem
                     Height="24"
                     shell:WindowChrome.IsHitTestVisibleInChrome="True"
-                    Command="{Binding Minimize}"
+                    Command="{Binding MinimizeCommand}"
                     CommandParameter="{Binding ElementName=AnaWindow}"
                     ToolTip="Minimize">
                     <shell:MenuItem.Header>
@@ -105,7 +105,7 @@
                 <shell:MenuItem
                     Height="24"
                     shell:WindowChrome.IsHitTestVisibleInChrome="True"
-                    Command="{Binding MaximizeRestore}"
+                    Command="{Binding MaximizeRestoreCommand}"
                     CommandParameter="{Binding ElementName=AnaWindow}"
                     ToolTip="Maximize/Restore">
                     <shell:MenuItem.Header>
@@ -118,7 +118,7 @@
                 <shell:MenuItem
                     Height="24"
                     shell:WindowChrome.IsHitTestVisibleInChrome="True"
-                    Command="{Binding Close}"
+                    Command="{Binding CloseCommand}"
                     CommandParameter="{Binding ElementName=AnaWindow}"
                     ToolTip="Close">
                     <shell:MenuItem.Header>
@@ -178,6 +178,15 @@
                         Header="Settings"
                         IsCheckable="True"
                         IsChecked="{Binding SettingsViewModel.IsVisible, Mode=TwoWay}"
+                        Style="{StaticResource menuItemStyle}" />
+                </shell:MenuItem>
+
+                <!--  View Header  -->
+                <shell:MenuItem Header="View" Style="{StaticResource DropDown}">
+                    <shell:MenuItem
+                        Command="{Binding ResetLayoutCommand}"
+                        CommandParameter="{Binding ., ElementName=dockManager}"
+                        Header="Reset Layout"
                         Style="{StaticResource menuItemStyle}" />
                 </shell:MenuItem>
 

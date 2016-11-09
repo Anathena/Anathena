@@ -88,6 +88,11 @@
             lock (this.SnapshotLock)
             {
                 this.Snapshot = snapshot;
+
+                if (this.Snapshot == null)
+                {
+                    return;
+                }
             }
 
             this.Begin();
