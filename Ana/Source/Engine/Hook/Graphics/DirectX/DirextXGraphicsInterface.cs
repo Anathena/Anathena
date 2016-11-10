@@ -6,6 +6,9 @@
     using System.Drawing;
     using System.IO;
 
+    /// <summary>
+    /// Injected object in an external process that provides access to its DirectX library
+    /// </summary>
     [Serializable]
     internal class DirextXGraphicsInterface : MarshalByRefObject, IGraphicsInterface
     {

@@ -24,6 +24,9 @@
                 () => { return new PropertyViewerViewModel(); },
                 LazyThreadSafetyMode.ExecutionAndPublication);
 
+        /// <summary>
+        /// The objects being viewed
+        /// </summary>
         private Object[] targetObjects;
 
         /// <summary>
@@ -39,6 +42,9 @@
             Task.Run(() => MainViewModel.GetInstance().Subscribe(this));
         }
 
+        /// <summary>
+        /// Gets the objects being viewed
+        /// </summary>
         public Object[] TargetObjects
         {
             get
@@ -54,6 +60,9 @@
             }
         }
 
+        /// <summary>
+        /// Gets or sets a lock that controls access to observing classes
+        /// </summary>
         private Object ObserverLock { get; set; }
 
         /// <summary>
@@ -101,6 +110,10 @@
             }
         }
 
+        /// <summary>
+        /// Sets the objects being viewed
+        /// </summary>
+        /// <param name="targetObjects">The objects to view</param>
         public void SetTargetObjects(params Object[] targetObjects)
         {
             this.TargetObjects = targetObjects;

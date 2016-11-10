@@ -25,6 +25,9 @@
                 () => { return new SettingsViewModel(); },
                 LazyThreadSafetyMode.ExecutionAndPublication);
 
+        /// <summary>
+        /// Settings that control the degree of parallelism for multithreaded tasks
+        /// </summary>
         private static Lazy<ParallelOptions> parallelSettings = new Lazy<ParallelOptions>(
                 () =>
                 {
@@ -48,6 +51,9 @@
             Task.Run(() => MainViewModel.GetInstance().Subscribe(this));
         }
 
+        /// <summary>
+        /// Gets the parallelism settings
+        /// </summary>
         public ParallelOptions ParallelSettings
         {
             get
@@ -56,6 +62,9 @@
             }
         }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether or not 'write' flags are required in retrieved virtual memory pages
+        /// </summary>
         public Boolean RequiredProtectionWrite
         {
             get
@@ -69,6 +78,9 @@
             }
         }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether or not 'execute' flags are required in retrieved virtual memory pages
+        /// </summary>
         public Boolean RequiredProtectionExecute
         {
             get
@@ -82,6 +94,9 @@
             }
         }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether or not 'copy on write' flags are required in retrieved virtual memory pages
+        /// </summary>
         public Boolean RequiredProtectionCopyOnWrite
         {
             get
@@ -95,6 +110,9 @@
             }
         }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether or not retrieved virtual memory pages exclude those with 'write' flags
+        /// </summary>
         public Boolean ExcludedProtectionWrite
         {
             get
@@ -108,6 +126,9 @@
             }
         }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether or not retrieved virtual memory pages exclude those with 'execute' flags
+        /// </summary>
         public Boolean ExcludedProtectionExecute
         {
             get
@@ -121,6 +142,9 @@
             }
         }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether or not retrieved virtual memory pages exclude those with 'copy on write' flags
+        /// </summary>
         public Boolean ExcludedProtectionCopyOnWrite
         {
             get
@@ -134,6 +158,9 @@
             }
         }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether or not retrieved virtual memory pages allow 'none' memory type
+        /// </summary>
         public Boolean MemoryTypeNone
         {
             get
@@ -147,6 +174,9 @@
             }
         }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether or not retrieved virtual memory pages allow 'private' memory type
+        /// </summary>
         public Boolean MemoryTypePrivate
         {
             get
@@ -160,6 +190,9 @@
             }
         }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether or not retrieved virtual memory pages allow 'mapped' memory type
+        /// </summary>
         public Boolean MemoryTypeMapped
         {
             get
@@ -173,6 +206,9 @@
             }
         }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether or not retrieved virtual memory pages allow 'image' memory type
+        /// </summary>
         public Boolean MemoryTypeImage
         {
             get
@@ -186,6 +222,9 @@
             }
         }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether or not retrieved virtual memory pages must be in usermode range
+        /// </summary>
         public Boolean IsUserMode
         {
             get
@@ -201,6 +240,9 @@
             }
         }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether or not retrieved virtual memory pages can be in any address range
+        /// </summary>
         public Boolean IsNotUserMode
         {
             get
@@ -216,6 +258,9 @@
             }
         }
 
+        /// <summary>
+        /// Gets or sets a the interval of reupdating frozen values
+        /// </summary>
         public Int32 FreezeInterval
         {
             get
@@ -229,6 +274,9 @@
             }
         }
 
+        /// <summary>
+        /// Gets or sets a the interval between repeated scans
+        /// </summary>
         public Int32 RescanInterval
         {
             get
@@ -242,6 +290,9 @@
             }
         }
 
+        /// <summary>
+        /// Gets or sets a the interval between reading scan results
+        /// </summary>
         public Int32 ResultReadInterval
         {
             get
@@ -255,6 +306,9 @@
             }
         }
 
+        /// <summary>
+        /// Gets or sets a the interval between reading values in the table
+        /// </summary>
         public Int32 TableReadInterval
         {
             get
@@ -268,6 +322,9 @@
             }
         }
 
+        /// <summary>
+        /// Gets or sets a the allowed period of time for a given input to register as correlated with memory changes
+        /// </summary>
         public Int32 InputCorrelatorTimeOutInterval
         {
             get
@@ -281,6 +338,9 @@
             }
         }
 
+        /// <summary>
+        /// Gets or sets the virtual memory alignment required in scans
+        /// </summary>
         public Int32 Alignment
         {
             get
@@ -294,6 +354,9 @@
             }
         }
 
+        /// <summary>
+        /// Gets or sets the start address of virtual memory scans
+        /// </summary>
         public UInt64 StartAddress
         {
             get
@@ -307,6 +370,9 @@
             }
         }
 
+        /// <summary>
+        /// Gets or sets the end address of virtual memory scans
+        /// </summary>
         public UInt64 EndAddress
         {
             get
@@ -329,6 +395,10 @@
             return SettingsViewModel.settingsViewModelInstance.Value;
         }
 
+        /// <summary>
+        /// Gets the allowed type settings for virtual memory queries based on the set type flags
+        /// </summary>
+        /// <returns>The flags of the allowed types for virtual memory queries</returns>
         public MemoryTypeEnum GetAllowedTypeSettings()
         {
             MemoryTypeEnum result = 0;
@@ -356,6 +426,10 @@
             return result;
         }
 
+        /// <summary>
+        /// Gets the required protection settings for virtual memory queries based on the set type flags
+        /// </summary>
+        /// <returns>The flags of the required protections for virtual memory queries</returns>
         public MemoryProtectionEnum GetRequiredProtectionSettings()
         {
             MemoryProtectionEnum result = 0;
@@ -378,6 +452,10 @@
             return result;
         }
 
+        /// <summary>
+        /// Gets the excluded protection settings for virtual memory queries based on the set type flags
+        /// </summary>
+        /// <returns>The flags of the excluded protections for virtual memory queries</returns>
         public MemoryProtectionEnum GetExcludedProtectionSettings()
         {
             MemoryProtectionEnum result = 0;

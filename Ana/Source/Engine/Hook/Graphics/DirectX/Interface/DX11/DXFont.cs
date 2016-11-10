@@ -7,6 +7,9 @@
     using System.Diagnostics;
     using System.Drawing.Imaging;
 
+    /// <summary>
+    /// 
+    /// </summary>
     internal class DXFont : IDisposable
     {
         private const Char StartChar = (Char)33;

@@ -110,7 +110,7 @@
 
         private Boolean InitializeDirectXHook()
         {
-            DirextXGraphicsInterface dirextXGraphicsInterface = (DirextXGraphicsInterface)HookClient.GetGraphicsInterface();
+            DirextXGraphicsInterface dirextXGraphicsInterface = (DirextXGraphicsInterface)this.HookClient.GetGraphicsInterface();
             DirectXFlags.Direct3DVersionEnum version = DirectXFlags.Direct3DVersionEnum.Unknown;
 
             Dictionary<DirectXFlags.Direct3DVersionEnum, String> directXModules = new Dictionary<DirectXFlags.Direct3DVersionEnum, String>

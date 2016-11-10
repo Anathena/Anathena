@@ -146,6 +146,9 @@
             }
         }
 
+        /// <summary>
+        /// Invoked when the tree view model is selected
+        /// </summary>
         protected virtual void OnSelected()
         {
         }

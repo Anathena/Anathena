@@ -192,9 +192,10 @@
         }
 
         /// <summary>
-        /// Loads and deserializes the saved layout from disk
+        /// Loads and deserializes the saved layout from disk. If no layout found, the default is loaded from resources
         /// </summary>
         /// <param name="dockManager">The docking root to which content is loaded</param>
+        /// <param name="loadDefault">Whether or not to only load the default</param>
         private void LoadLayout(DockingManager dockManager, Boolean loadDefault = false)
         {
             // Attempt to load saved layout file
@@ -208,14 +209,12 @@
                 }
                 catch
                 {
-
                 }
             }
 
             // Attempt to load default layout from resources
             try
             {
-
                 using (Stream stream = Assembly.GetExecutingAssembly().GetManifestResourceStream(DefaultLayoutResources))
                 {
                     if (stream != null)
@@ -224,11 +223,9 @@
                         serializer.Deserialize(stream);
                     }
                 }
-
             }
             catch
             {
-
             }
         }
 

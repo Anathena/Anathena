@@ -2,7 +2,10 @@
 {
     using System;
 
-    public class DirectXFlags
+    /// <summary>
+    /// A collection of virtual table flags for supported DirectX versions
+    /// </summary>
+    internal static class DirectXFlags
     {
         public static readonly Int32 D3D9DeviceMethodCount = Enum.GetNames(typeof(Direct3DDevice9FunctionOrdinalsEnum)).Length;
 
@@ -35,7 +38,7 @@
         }
 
         /// <summary>
-        /// The full list of DXGI functions with the correct index
+        /// The full list of DXGI functions, sorted by virtual table index
         /// </summary>
         internal enum DXGISwapChainVirtualTableEnum : Int16
         {

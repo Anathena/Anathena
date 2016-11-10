@@ -8,483 +8,270 @@
     /// </summary>
     internal class Images
     {
-        private static BitmapImage blueBlocks1 = ImageLoader.LoadImage("pack://application:,,,/Ana;component/Content/Icons/BlueBlocks1.png");
-        private static BitmapImage blueBlocks2 = ImageLoader.LoadImage("pack://application:,,,/Ana;component/Content/Icons/BlueBlocks2.png");
-        private static BitmapImage blueBlocks4 = ImageLoader.LoadImage("pack://application:,,,/Ana;component/Content/Icons/BlueBlocks4.png");
-        private static BitmapImage blueBlocks8 = ImageLoader.LoadImage("pack://application:,,,/Ana;component/Content/Icons/BlueBlocks8.png");
-        private static BitmapImage cancel = ImageLoader.LoadImage("pack://application:,,,/Ana;component/Content/Icons/Cancel.png");
-        private static BitmapImage changed = ImageLoader.LoadImage("pack://application:,,,/Ana;component/Content/Icons/Changed.png");
-        private static BitmapImage collectValues = ImageLoader.LoadImage("pack://application:,,,/Ana;component/Content/Icons/CollectValues.png");
-        private static BitmapImage decreased = ImageLoader.LoadImage("pack://application:,,,/Ana;component/Content/Icons/Decreased.png");
-        private static BitmapImage downArrows = ImageLoader.LoadImage("pack://application:,,,/Ana;component/Content/Icons/ENotation.png");
-        private static BitmapImage exponentialNotation = ImageLoader.LoadImage("pack://application:,,,/Ana;component/Content/Icons/ENotation.png");
-        private static BitmapImage equal = ImageLoader.LoadImage("pack://application:,,,/Ana;component/Content/Icons/Equal.png");
-        private static BitmapImage greaterThan = ImageLoader.LoadImage("pack://application:,,,/Ana;component/Content/Icons/GreaterThan.png");
-        private static BitmapImage greaterThanOrEqual = ImageLoader.LoadImage("pack://application:,,,/Ana;component/Content/Icons/GreaterThanOrEqual.png");
-        private static BitmapImage home = ImageLoader.LoadImage("pack://application:,,,/Ana;component/Content/Icons/Home.png");
-        private static BitmapImage increased = ImageLoader.LoadImage("pack://application:,,,/Ana;component/Content/Icons/Increased.png");
-        private static BitmapImage intersection = ImageLoader.LoadImage("pack://application:,,,/Ana;component/Content/Icons/Intersection.png");
-        private static BitmapImage invert = ImageLoader.LoadImage("pack://application:,,,/Ana;component/Content/Icons/Invert.png");
-        private static BitmapImage leftArrow = ImageLoader.LoadImage("pack://application:,,,/Ana;component/Content/Icons/LeftArrow.png");
-        private static BitmapImage leftArrows = ImageLoader.LoadImage("pack://application:,,,/Ana;component/Content/Icons/LeftArrows.png");
-        private static BitmapImage lessThan = ImageLoader.LoadImage("pack://application:,,,/Ana;component/Content/Icons/LessThan.png");
-        private static BitmapImage lessThanOrEqual = ImageLoader.LoadImage("pack://application:,,,/Ana;component/Content/Icons/LessThanOrEqual.png");
-        private static BitmapImage logicalAnd = ImageLoader.LoadImage("pack://application:,,,/Ana;component/Content/Icons/LogicalAnd.png");
-        private static BitmapImage logicalOr = ImageLoader.LoadImage("pack://application:,,,/Ana;component/Content/Icons/LogicalOr.png");
-        private static BitmapImage maximize = ImageLoader.LoadImage("pack://application:,,,/Ana;component/Content/Icons/Maximize.png");
-        private static BitmapImage merge = ImageLoader.LoadImage("pack://application:,,,/Ana;component/Content/Icons/Merge.png");
-        private static BitmapImage minusX = ImageLoader.LoadImage("pack://application:,,,/Ana;component/Content/Icons/MinusX.png");
-        private static BitmapImage moveDown = ImageLoader.LoadImage("pack://application:,,,/Ana;component/Content/Icons/MoveDown.png");
-        private static BitmapImage moveLeft = ImageLoader.LoadImage("pack://application:,,,/Ana;component/Content/Icons/MoveLeft.png");
-        private static BitmapImage moveRight = ImageLoader.LoadImage("pack://application:,,,/Ana;component/Content/Icons/MoveRight.png");
-        private static BitmapImage moveUp = ImageLoader.LoadImage("pack://application:,,,/Ana;component/Content/Icons/MoveUp.png");
-        private static BitmapImage negation = ImageLoader.LoadImage("pack://application:,,,/Ana;component/Content/Icons/Negation.png");
-        private static BitmapImage newScan = ImageLoader.LoadImage("pack://application:,,,/Ana;component/Content/Icons/New.png");
-        private static BitmapImage nextScan = ImageLoader.LoadImage("pack://application:,,,/Ana;component/Content/Icons/NextScan.png");
-        private static BitmapImage notEqual = ImageLoader.LoadImage("pack://application:,,,/Ana;component/Content/Icons/NotEqual.png");
-        private static BitmapImage open = ImageLoader.LoadImage("pack://application:,,,/Ana;component/Content/Icons/Open.png");
-        private static BitmapImage orangeBlocks1 = ImageLoader.LoadImage("pack://application:,,,/Ana;component/Content/Icons/OrangeBlocks1.png");
-        private static BitmapImage orangeBlocks2 = ImageLoader.LoadImage("pack://application:,,,/Ana;component/Content/Icons/OrangeBlocks2.png");
-        private static BitmapImage orangeBlocks4 = ImageLoader.LoadImage("pack://application:,,,/Ana;component/Content/Icons/OrangeBlocks4.png");
-        private static BitmapImage orangeBlocks8 = ImageLoader.LoadImage("pack://application:,,,/Ana;component/Content/Icons/OrangeBlocks8.png");
-        private static BitmapImage plusX = ImageLoader.LoadImage("pack://application:,,,/Ana;component/Content/Icons/PlusX.png");
-        private static BitmapImage purpleBlocks1 = ImageLoader.LoadImage("pack://application:,,,/Ana;component/Content/Icons/PurpleBlocks1.png");
-        private static BitmapImage purpleBlocks2 = ImageLoader.LoadImage("pack://application:,,,/Ana;component/Content/Icons/PurpleBlocks2.png");
-        private static BitmapImage purpleBlocks4 = ImageLoader.LoadImage("pack://application:,,,/Ana;component/Content/Icons/PurpleBlocks4.png");
-        private static BitmapImage purpleBlocks8 = ImageLoader.LoadImage("pack://application:,,,/Ana;component/Content/Icons/PurpleBlocks8.png");
-        private static BitmapImage rightArrow = ImageLoader.LoadImage("pack://application:,,,/Ana;component/Content/Icons/RightArrow.png");
-        private static BitmapImage rightArrows = ImageLoader.LoadImage("pack://application:,,,/Ana;component/Content/Icons/RightArrows.png");
-        private static BitmapImage save = ImageLoader.LoadImage("pack://application:,,,/Ana;component/Content/Icons/Save.png");
-        private static BitmapImage selectProcess = ImageLoader.LoadImage("pack://application:,,,/Ana;component/Content/Icons/SelectProcess.png");
-        private static BitmapImage stop = ImageLoader.LoadImage("pack://application:,,,/Ana;component/Content/Icons/Stop.png");
-        private static BitmapImage unchanged = ImageLoader.LoadImage("pack://application:,,,/Ana;component/Content/Icons/Unchanged.png");
-        private static BitmapImage undo = ImageLoader.LoadImage("pack://application:,,,/Ana;component/Content/Icons/Undo.png");
-        private static BitmapImage union = ImageLoader.LoadImage("pack://application:,,,/Ana;component/Content/Icons/Union.png");
-        private static BitmapImage unknownValue = ImageLoader.LoadImage("pack://application:,,,/Ana;component/Content/Icons/UnknownValue.png");
+        /// <summary>
+        /// Image of one blue block
+        /// </summary>
+        public static readonly BitmapImage BlueBlocks1 = ImageLoader.LoadImage("pack://application:,,,/Ana;component/Content/Icons/BlueBlocks1.png");
 
-        public static BitmapImage BlueBlocks1
-        {
-            get
-            {
-                return blueBlocks1;
-            }
-        }
+        /// <summary>
+        /// Image of two blue blocks
+        /// </summary>
+        public static readonly BitmapImage BlueBlocks2 = ImageLoader.LoadImage("pack://application:,,,/Ana;component/Content/Icons/BlueBlocks2.png");
 
-        public static BitmapImage BlueBlocks2
-        {
-            get
-            {
-                return blueBlocks2;
-            }
-        }
+        /// <summary>
+        /// Image of four blue blocks
+        /// </summary>
+        public static readonly BitmapImage BlueBlocks4 = ImageLoader.LoadImage("pack://application:,,,/Ana;component/Content/Icons/BlueBlocks4.png");
 
-        public static BitmapImage BlueBlocks4
-        {
-            get
-            {
-                return blueBlocks4;
-            }
-        }
+        /// <summary>
+        /// Image of eight blue blocks
+        /// </summary>
+        public static readonly BitmapImage BlueBlocks8 = ImageLoader.LoadImage("pack://application:,,,/Ana;component/Content/Icons/BlueBlocks8.png");
 
-        public static BitmapImage BlueBlocks8
-        {
-            get
-            {
-                return blueBlocks8;
-            }
-        }
+        /// <summary>
+        /// Image for cancel operations
+        /// </summary>
+        public static readonly BitmapImage Cancel = ImageLoader.LoadImage("pack://application:,,,/Ana;component/Content/Icons/Cancel.png");
 
-        public static BitmapImage Cancel
-        {
-            get
-            {
-                return cancel;
-            }
-        }
+        /// <summary>
+        /// Image for a changed scan
+        /// </summary>
+        public static readonly BitmapImage Changed = ImageLoader.LoadImage("pack://application:,,,/Ana;component/Content/Icons/Changed.png");
 
-        public static BitmapImage Changed
-        {
-            get
-            {
-                return changed;
-            }
-        }
+        /// <summary>
+        /// Image for a value collection scan
+        /// </summary>
+        public static readonly BitmapImage CollectValues = ImageLoader.LoadImage("pack://application:,,,/Ana;component/Content/Icons/CollectValues.png");
 
-        public static BitmapImage CollectValues
-        {
-            get
-            {
-                return collectValues;
-            }
-        }
+        /// <summary>
+        /// Image for a decreased scan
+        /// </summary>
+        public static readonly BitmapImage Decreased = ImageLoader.LoadImage("pack://application:,,,/Ana;component/Content/Icons/Decreased.png");
 
-        public static BitmapImage Decreased
-        {
-            get
-            {
-                return decreased;
-            }
-        }
+        /// <summary>
+        /// Image of two down arrows
+        /// </summary>
+        public static readonly BitmapImage DownArrows = ImageLoader.LoadImage("pack://application:,,,/Ana;component/Content/Icons/ENotation.png");
 
-        public static BitmapImage DownArrows
-        {
-            get
-            {
-                return downArrows;
-            }
-        }
+        /// <summary>
+        /// Image representing mathmateical exponentiation
+        /// </summary>
+        public static readonly BitmapImage ExponentialNotation = ImageLoader.LoadImage("pack://application:,,,/Ana;component/Content/Icons/ENotation.png");
 
-        public static BitmapImage ExponentialNotation
-        {
-            get
-            {
-                return exponentialNotation;
-            }
-        }
+        /// <summary>
+        /// Image for an equal to scan
+        /// </summary>
+        public static readonly BitmapImage Equal = ImageLoader.LoadImage("pack://application:,,,/Ana;component/Content/Icons/Equal.png");
 
-        public static BitmapImage Equal
-        {
-            get
-            {
-                return equal;
-            }
-        }
+        /// <summary>
+        /// Image for a greater than scan
+        /// </summary>
+        public static readonly BitmapImage GreaterThan = ImageLoader.LoadImage("pack://application:,,,/Ana;component/Content/Icons/GreaterThan.png");
 
-        public static BitmapImage GreaterThan
-        {
-            get
-            {
-                return greaterThan;
-            }
-        }
+        /// <summary>
+        /// Image for a greater than or equal to scan
+        /// </summary>
+        public static readonly BitmapImage GreaterThanOrEqual = ImageLoader.LoadImage("pack://application:,,,/Ana;component/Content/Icons/GreaterThanOrEqual.png");
 
-        public static BitmapImage GreaterThanOrEqual
-        {
-            get
-            {
-                return greaterThanOrEqual;
-            }
-        }
+        /// <summary>
+        /// Image representing a 'go home' operation
+        /// </summary>
+        public static readonly BitmapImage Home = ImageLoader.LoadImage("pack://application:,,,/Ana;component/Content/Icons/Home.png");
 
-        public static BitmapImage Home
-        {
-            get
-            {
-                return home;
-            }
-        }
+        /// <summary>
+        /// Image for an increased value scan
+        /// </summary>
+        public static readonly BitmapImage Increased = ImageLoader.LoadImage("pack://application:,,,/Ana;component/Content/Icons/Increased.png");
 
-        public static BitmapImage Increased
-        {
-            get
-            {
-                return increased;
-            }
-        }
+        /// <summary>
+        /// Image for a mathematical intersection
+        /// </summary>
+        public static readonly BitmapImage Intersection = ImageLoader.LoadImage("pack://application:,,,/Ana;component/Content/Icons/Intersection.png");
 
-        public static BitmapImage Intersection
-        {
-            get
-            {
-                return intersection;
-            }
-        }
+        /// <summary>
+        /// Image for histogram selection inversion
+        /// </summary>
+        public static readonly BitmapImage Invert = ImageLoader.LoadImage("pack://application:,,,/Ana;component/Content/Icons/Invert.png");
 
-        public static BitmapImage Invert
-        {
-            get
-            {
-                return invert;
-            }
-        }
+        /// <summary>
+        /// Image of a left arrow
+        /// </summary>
+        public static readonly BitmapImage LeftArrow = ImageLoader.LoadImage("pack://application:,,,/Ana;component/Content/Icons/LeftArrow.png");
 
-        public static BitmapImage LeftArrow
-        {
-            get
-            {
-                return leftArrow;
-            }
-        }
+        /// <summary>
+        /// Image of two left arrows
+        /// </summary>
+        public static readonly BitmapImage LeftArrows = ImageLoader.LoadImage("pack://application:,,,/Ana;component/Content/Icons/LeftArrows.png");
 
-        public static BitmapImage LeftArrows
-        {
-            get
-            {
-                return equal;
-            }
-        }
+        /// <summary>
+        /// Image for a less than scan
+        /// </summary>
+        public static readonly BitmapImage LessThan = ImageLoader.LoadImage("pack://application:,,,/Ana;component/Content/Icons/LessThan.png");
 
-        public static BitmapImage LessThan
-        {
-            get
-            {
-                return lessThan;
-            }
-        }
+        /// <summary>
+        /// Image for a less than or equal to scan
+        /// </summary>
+        public static readonly BitmapImage LessThanOrEqual = ImageLoader.LoadImage("pack://application:,,,/Ana;component/Content/Icons/LessThanOrEqual.png");
 
-        public static BitmapImage LessThanOrEqual
-        {
-            get
-            {
-                return lessThanOrEqual;
-            }
-        }
+        /// <summary>
+        /// Image for a mathematical AND
+        /// </summary>
+        public static readonly BitmapImage LogicalAnd = ImageLoader.LoadImage("pack://application:,,,/Ana;component/Content/Icons/LogicalAnd.png");
 
-        public static BitmapImage LogicalAnd
-        {
-            get
-            {
-                return logicalAnd;
-            }
-        }
+        /// <summary>
+        /// Image for a mathematical OR
+        /// </summary>
+        public static readonly BitmapImage LogicalOr = ImageLoader.LoadImage("pack://application:,,,/Ana;component/Content/Icons/LogicalOr.png");
 
-        public static BitmapImage LogicalOr
-        {
-            get
-            {
-                return logicalOr;
-            }
-        }
+        /// <summary>
+        /// Image represeting a window maximize operation
+        /// </summary>
+        public static readonly BitmapImage Maximize = ImageLoader.LoadImage("pack://application:,,,/Ana;component/Content/Icons/Maximize.png");
 
-        public static BitmapImage Maximize
-        {
-            get
-            {
-                return equal;
-            }
-        }
+        /// <summary>
+        /// Image represeting a merge operation
+        /// </summary>
+        public static readonly BitmapImage Merge = ImageLoader.LoadImage("pack://application:,,,/Ana;component/Content/Icons/Merge.png");
 
-        public static BitmapImage Merge
-        {
-            get
-            {
-                return merge;
-            }
-        }
+        /// <summary>
+        /// Image for an decreased by X scan
+        /// </summary>
+        public static readonly BitmapImage MinusX = ImageLoader.LoadImage("pack://application:,,,/Ana;component/Content/Icons/MinusX.png");
 
-        public static BitmapImage MinusX
-        {
-            get
-            {
-                return minusX;
-            }
-        }
+        /// <summary>
+        /// Image for a down arrow
+        /// </summary>
+        public static readonly BitmapImage MoveDown = ImageLoader.LoadImage("pack://application:,,,/Ana;component/Content/Icons/MoveDown.png");
 
-        public static BitmapImage MoveDown
-        {
-            get
-            {
-                return moveDown;
-            }
-        }
+        /// <summary>
+        /// Image for a left arrow
+        /// </summary>
+        public static readonly BitmapImage MoveLeft = ImageLoader.LoadImage("pack://application:,,,/Ana;component/Content/Icons/MoveLeft.png");
 
-        public static BitmapImage MoveLeft
-        {
-            get
-            {
-                return moveLeft;
-            }
-        }
+        /// <summary>
+        /// Image for a right arrow
+        /// </summary>
+        public static readonly BitmapImage MoveRight = ImageLoader.LoadImage("pack://application:,,,/Ana;component/Content/Icons/MoveRight.png");
 
-        public static BitmapImage MoveRight
-        {
-            get
-            {
-                return moveRight;
-            }
-        }
+        /// <summary>
+        /// Image for an up arrow
+        /// </summary>
+        public static readonly BitmapImage MoveUp = ImageLoader.LoadImage("pack://application:,,,/Ana;component/Content/Icons/MoveUp.png");
 
-        public static BitmapImage MoveUp
-        {
-            get
-            {
-                return moveUp;
-            }
-        }
+        /// <summary>
+        /// Image for a negated value
+        /// </summary>
+        public static readonly BitmapImage Negation = ImageLoader.LoadImage("pack://application:,,,/Ana;component/Content/Icons/Negation.png");
 
-        public static BitmapImage Negation
-        {
-            get
-            {
-                return negation;
-            }
-        }
+        /// <summary>
+        /// Image for a new scan
+        /// </summary>
+        public static readonly BitmapImage NewScan = ImageLoader.LoadImage("pack://application:,,,/Ana;component/Content/Icons/New.png");
 
-        public static BitmapImage NewScan
-        {
-            get
-            {
-                return newScan;
-            }
-        }
+        /// <summary>
+        /// Image for a next scan
+        /// </summary>
+        public static readonly BitmapImage NextScan = ImageLoader.LoadImage("pack://application:,,,/Ana;component/Content/Icons/NextScan.png");
 
-        public static BitmapImage NextScan
-        {
-            get
-            {
-                return nextScan;
-            }
-        }
+        /// <summary>
+        /// Image for a not equal scan
+        /// </summary>
+        public static readonly BitmapImage NotEqual = ImageLoader.LoadImage("pack://application:,,,/Ana;component/Content/Icons/NotEqual.png");
 
-        public static BitmapImage NotEqual
-        {
-            get
-            {
-                return notEqual;
-            }
-        }
+        /// <summary>
+        /// Image represeting an open operation
+        /// </summary>
+        public static readonly BitmapImage Open = ImageLoader.LoadImage("pack://application:,,,/Ana;component/Content/Icons/Open.png");
 
-        public static BitmapImage Open
-        {
-            get
-            {
-                return open;
-            }
-        }
+        /// <summary>
+        /// Image of one orange block
+        /// </summary>
+        public static readonly BitmapImage OrangeBlocks1 = ImageLoader.LoadImage("pack://application:,,,/Ana;component/Content/Icons/OrangeBlocks1.png");
 
-        public static BitmapImage OrangeBlocks1
-        {
-            get
-            {
-                return orangeBlocks1;
-            }
-        }
+        /// <summary>
+        /// Image of two orange blocks
+        /// </summary>
+        public static readonly BitmapImage OrangeBlocks2 = ImageLoader.LoadImage("pack://application:,,,/Ana;component/Content/Icons/OrangeBlocks2.png");
 
-        public static BitmapImage OrangeBlocks2
-        {
-            get
-            {
-                return orangeBlocks2;
-            }
-        }
+        /// <summary>
+        /// Image of four orange blocks
+        /// </summary>
+        public static readonly BitmapImage OrangeBlocks4 = ImageLoader.LoadImage("pack://application:,,,/Ana;component/Content/Icons/OrangeBlocks4.png");
 
-        public static BitmapImage OrangeBlocks4
-        {
-            get
-            {
-                return orangeBlocks4;
-            }
-        }
+        /// <summary>
+        /// Image of eight orange blocks
+        /// </summary>
+        public static readonly BitmapImage OrangeBlocks8 = ImageLoader.LoadImage("pack://application:,,,/Ana;component/Content/Icons/OrangeBlocks8.png");
 
-        public static BitmapImage OrangeBlocks8
-        {
-            get
-            {
-                return orangeBlocks8;
-            }
-        }
+        /// <summary>
+        /// Image for an increased by X scan
+        /// </summary>
+        public static readonly BitmapImage PlusX = ImageLoader.LoadImage("pack://application:,,,/Ana;component/Content/Icons/PlusX.png");
 
-        public static BitmapImage PlusX
-        {
-            get
-            {
-                return plusX;
-            }
-        }
+        /// <summary>
+        /// Image of one purple block
+        /// </summary>
+        public static readonly BitmapImage PurpleBlocks1 = ImageLoader.LoadImage("pack://application:,,,/Ana;component/Content/Icons/PurpleBlocks1.png");
 
-        public static BitmapImage PurpleBlocks1
-        {
-            get
-            {
-                return purpleBlocks1;
-            }
-        }
+        /// <summary>
+        /// Image of two purple blocks
+        /// </summary>
+        public static readonly BitmapImage PurpleBlocks2 = ImageLoader.LoadImage("pack://application:,,,/Ana;component/Content/Icons/PurpleBlocks2.png");
 
-        public static BitmapImage PurpleBlocks2
-        {
-            get
-            {
-                return purpleBlocks2;
-            }
-        }
+        /// <summary>
+        /// Image of four purple blocks
+        /// </summary>
+        public static readonly BitmapImage PurpleBlocks4 = ImageLoader.LoadImage("pack://application:,,,/Ana;component/Content/Icons/PurpleBlocks4.png");
 
-        public static BitmapImage PurpleBlocks4
-        {
-            get
-            {
-                return purpleBlocks4;
-            }
-        }
+        /// <summary>
+        /// Image of eight purple blocks
+        /// </summary>
+        public static readonly BitmapImage PurpleBlocks8 = ImageLoader.LoadImage("pack://application:,,,/Ana;component/Content/Icons/PurpleBlocks8.png");
 
-        public static BitmapImage PurpleBlocks8
-        {
-            get
-            {
-                return purpleBlocks8;
-            }
-        }
+        /// <summary>
+        /// Image of a right arrow
+        /// </summary>
+        public static readonly BitmapImage RightArrow = ImageLoader.LoadImage("pack://application:,,,/Ana;component/Content/Icons/RightArrow.png");
 
-        public static BitmapImage RightArrow
-        {
-            get
-            {
-                return rightArrow;
-            }
-        }
+        /// <summary>
+        /// Image of two right arrows
+        /// </summary>
+        public static readonly BitmapImage RightArrows = ImageLoader.LoadImage("pack://application:,,,/Ana;component/Content/Icons/RightArrows.png");
 
-        public static BitmapImage RightArrows
-        {
-            get
-            {
-                return rightArrows;
-            }
-        }
+        /// <summary>
+        /// Image represeting a save operation
+        /// </summary>
+        public static readonly BitmapImage Save = ImageLoader.LoadImage("pack://application:,,,/Ana;component/Content/Icons/Save.png");
 
-        public static BitmapImage Save
-        {
-            get
-            {
-                return save;
-            }
-        }
+        /// <summary>
+        /// Image for process selection
+        /// </summary>
+        public static readonly BitmapImage SelectProcess = ImageLoader.LoadImage("pack://application:,,,/Ana;component/Content/Icons/SelectProcess.png");
 
-        public static BitmapImage SelectProcess
-        {
-            get
-            {
-                return selectProcess;
-            }
-        }
+        /// <summary>
+        /// Image for stop operations
+        /// </summary>
+        public static readonly BitmapImage Stop = ImageLoader.LoadImage("pack://application:,,,/Ana;component/Content/Icons/Stop.png");
 
-        public static BitmapImage Stop
-        {
-            get
-            {
-                return stop;
-            }
-        }
+        /// <summary>
+        /// Image for an unchanged value scan
+        /// </summary>
+        public static readonly BitmapImage Unchanged = ImageLoader.LoadImage("pack://application:,,,/Ana;component/Content/Icons/Unchanged.png");
 
-        public static BitmapImage Unchanged
-        {
-            get
-            {
-                return unchanged;
-            }
-        }
+        /// <summary>
+        /// Image for undo operations
+        /// </summary>
+        public static readonly BitmapImage Undo = ImageLoader.LoadImage("pack://application:,,,/Ana;component/Content/Icons/Undo.png");
 
-        public static BitmapImage Undo
-        {
-            get
-            {
-                return undo;
-            }
-        }
+        /// <summary>
+        /// Image for a mathematical union
+        /// </summary>
+        public static readonly BitmapImage Union = ImageLoader.LoadImage("pack://application:,,,/Ana;component/Content/Icons/Union.png");
 
-        public static BitmapImage Union
-        {
-            get
-            {
-                return union;
-            }
-        }
-
-        public static BitmapImage UnknownValue
-        {
-            get
-            {
-                return unknownValue;
-            }
-        }
+        /// <summary>
+        /// Image for an unknown value scan
+        /// </summary>
+        public static readonly BitmapImage UnknownValue = ImageLoader.LoadImage("pack://application:,,,/Ana;component/Content/Icons/UnknownValue.png");
     }
     //// End class
 }

@@ -9,12 +9,21 @@
     /// </summary>
     internal class HexDecBoxViewModel : ViewModelBase
     {
+        /// <summary>
+        /// A value indicating whether the represented value is hexedecimal
+        /// </summary>
         private Boolean isHex;
 
         //// private String text;
 
+        /// <summary>
+        /// The value represented
+        /// </summary>
         private UInt64 value;
 
+        /// <summary>
+        ///  Initializes a new instance of the <see cref="HexDecBoxViewModel" /> class
+        /// </summary>
         public HexDecBoxViewModel()
         {
             //// this.Text = String.Empty;
@@ -35,6 +44,9 @@
             }
         }*/
 
+        /// <summary>
+        /// Gets or sets the value being represented
+        /// </summary>
         public UInt64 Value
         {
             get
@@ -59,6 +71,9 @@
             }
         }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether the represented value is hexedecimal
+        /// </summary>
         public Boolean IsHex
         {
             get
@@ -74,6 +89,9 @@
             }
         }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether the represented value is decimal
+        /// </summary>
         public Boolean IsDec
         {
             get

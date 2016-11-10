@@ -54,7 +54,7 @@
                 {
                     Point currentPosition = e.GetPosition(this.projectExplorerTreeView);
 
-                    if ((Math.Abs(currentPosition.X - LastMouseDownLocation.X) > 10.0) || (Math.Abs(currentPosition.Y - LastMouseDownLocation.Y) > 10.0))
+                    if ((Math.Abs(currentPosition.X - this.LastMouseDownLocation.X) > 10.0) || (Math.Abs(currentPosition.Y - this.LastMouseDownLocation.Y) > 10.0))
                     {
                         this.DraggedItem = (ProjectItemViewModel)this.projectExplorerTreeView.SelectedItem;
                         if (this.DraggedItem != null)
@@ -96,7 +96,7 @@
                 {
                     // Verify that this is a valid drop and then store the drop target
                     ProjectItemViewModel item = ((sender as TreeViewItem).Header as ProjectItemViewModel) as ProjectItemViewModel;
-                    if (CheckDropTarget(DraggedItem, item))
+                    if (this.CheckDropTarget(this.DraggedItem, item))
                     {
                         e.Effects = DragDropEffects.Move;
                     }
@@ -122,7 +122,7 @@
 
                 // Verify that this is a valid drop and then store the drop target
                 ProjectItemViewModel targetItem = ((sender as TreeViewItem).Header as ProjectItemViewModel) as ProjectItemViewModel;
-                if (targetItem != null && DraggedItem != null)
+                if (targetItem != null && this.DraggedItem != null)
                 {
                     this.Target = targetItem;
                     e.Effects = DragDropEffects.Move;
@@ -143,7 +143,7 @@
             try
             {
                 // Adding dragged TreeViewItem in target ProjectItemViewModel
-                AddChild(sourceItem, targetItem);
+                this.AddChild(sourceItem, targetItem);
 
                 // Finding Parent ProjectItemViewModel of dragged ProjectItemViewModel 
                 ProjectItemViewModel parentItem = sourceItem.Parent as ProjectItemViewModel;

@@ -5,6 +5,9 @@
     using System.Runtime.InteropServices;
     using System.Threading;
 
+    /// <summary>
+    /// Base class for all DirectX versions to be hooked in a target process
+    /// </summary>
     internal abstract class BaseDXHook
     {
         public BaseDXHook(DirextXGraphicsInterface graphicsInterface)

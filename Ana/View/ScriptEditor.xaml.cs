@@ -31,15 +31,10 @@
             this.InitializeComponent();
             this.LoadHightLightRule();
             this.InitializeCompleteionWindow();
-            //// this.ScriptEditorTextEditor.TextArea.TextEntering += ScriptEditorTextEditorTextAreaTextEntering;
-            //// this.ScriptEditorTextEditor.TextArea.TextEntered += ScriptEditorTextEditorTextAreaTextEntered;
-            this.ScriptEditorTextEditor.TextChanged += ScriptEditorTextEditorTextChanged;
+            //// this.ScriptEditorTextEditor.TextArea.TextEntering += this.ScriptEditorTextEditorTextAreaTextEntering;
+            //// this.ScriptEditorTextEditor.TextArea.TextEntered += this.ScriptEditorTextEditorTextAreaTextEntered;
+            this.ScriptEditorTextEditor.TextChanged += this.ScriptEditorTextEditorTextChanged;
             this.ScriptEditorTextEditor.Text = script == null ? String.Empty : script;
-        }
-
-        private void ScriptEditorTextEditorTextChanged(Object sender, EventArgs e)
-        {
-            this.ScriptEditorViewModel.UpdateScriptCommand.Execute(this.ScriptEditorTextEditor.Text);
         }
 
         public ScriptEditorViewModel ScriptEditorViewModel
@@ -51,6 +46,13 @@
         }
 
         private IList<ICompletionData> CompletionData { get; set; }
+
+        private CompletionWindow CompletionWindow { get; set; }
+
+        private void ScriptEditorTextEditorTextChanged(Object sender, EventArgs e)
+        {
+            this.ScriptEditorViewModel.UpdateScriptCommand.Execute(this.ScriptEditorTextEditor.Text);
+        }
 
         private void InitializeCompleteionWindow()
         {
@@ -74,9 +76,7 @@
             }
         }
 
-        private CompletionWindow CompletionWindow { get; set; }
-
-        void ScriptEditorTextEditorTextAreaTextEntered(Object sender, TextCompositionEventArgs e)
+        private void ScriptEditorTextEditorTextAreaTextEntered(Object sender, TextCompositionEventArgs e)
         {
             //// if (e.Text == ".")
             {
@@ -87,7 +87,7 @@
                     this.CompletionWindow = null;
                 };
 
-                foreach (ICompletionData data in CompletionData)
+                foreach (ICompletionData data in this.CompletionData)
                 {
                     this.CompletionWindow.CompletionList.CompletionData.Add(data);
                 }
@@ -96,7 +96,7 @@
             }
         }
 
-        void ScriptEditorTextEditorTextAreaTextEntering(Object sender, TextCompositionEventArgs e)
+        private void ScriptEditorTextEditorTextAreaTextEntering(Object sender, TextCompositionEventArgs e)
         {
             if (e.Text.Length > 0 && this.CompletionWindow != null)
             {
@@ -120,10 +120,28 @@
             this.Close();
         }
 
+        private void ExitFileMenuItemClick(Object sender, RoutedEventArgs e)
+        {
+            this.ScriptEditorViewModel.ExitCommand.Execute(null);
+            this.Close();
+        }
+
+        private void CodeInjectionFileMenuItemClick(Object sender, RoutedEventArgs e)
+        {
+            this.ScriptEditorTextEditor.Text = LuaTemplates.GetCodeInjectionTemplate() + this.ScriptEditorTextEditor.Text;
+        }
+
+        private void GraphicsOverlayFileMenuItemClick(Object sender, RoutedEventArgs e)
+        {
+            this.ScriptEditorTextEditor.Text = LuaTemplates.GetGraphicsOverlayTemplate() + this.ScriptEditorTextEditor.Text;
+        }
+
+        /// <summary>
         /// Implements AvalonEdit ICompletionData interface to provide the entries in the completion drop down
+        /// </summary>
         internal class MyCompletionData : ICompletionData
         {
-            public MyCompletionData(string text)
+            public MyCompletionData(String text)
             {
                 this.Text = text;
             }
@@ -166,22 +184,7 @@
                 textArea.Document.Replace(completionSegment, this.Text);
             }
         }
-
-        private void ExitFileMenuItemClick(Object sender, RoutedEventArgs e)
-        {
-            this.ScriptEditorViewModel.ExitCommand.Execute(null);
-            this.Close();
-        }
-
-        private void CodeInjectionFileMenuItemClick(Object sender, RoutedEventArgs e)
-        {
-            this.ScriptEditorTextEditor.Text = LuaTemplates.GetCodeInjectionTemplate() + this.ScriptEditorTextEditor.Text;
-        }
-
-        private void GraphicsOverlayFileMenuItemClick(Object sender, RoutedEventArgs e)
-        {
-            this.ScriptEditorTextEditor.Text = LuaTemplates.GetGraphicsOverlayTemplate() + this.ScriptEditorTextEditor.Text;
-        }
+        //// End class
     }
     //// End class
 }

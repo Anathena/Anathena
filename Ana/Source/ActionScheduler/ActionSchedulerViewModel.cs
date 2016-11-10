@@ -9,15 +9,17 @@
     /// </summary>
     internal class ActionSchedulerViewModel
     {
+        /// <summary>
+        /// Prevents a default instance of the <see cref="ActionSchedulerViewModel" /> class from being created
+        /// </summary>
         private ActionSchedulerViewModel()
         {
         }
 
-        private List<IAction> Actions { get; set; }
-
-        private void Update()
-        {
-        }
+        /// <summary>
+        /// Gets or sets actions being scheduled
+        /// </summary>
+        private Queue<IAction> Actions { get; set; }
     }
     //// End class
 }

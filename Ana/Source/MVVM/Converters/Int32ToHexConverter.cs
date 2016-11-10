@@ -6,7 +6,7 @@
     using Utils.Validation;
 
     /// <summary>
-    ///
+    /// Converts an Int32 value to a hexedecimal value
     /// </summary>
     internal class Int32ToHexConverter : IValueConverter
     {

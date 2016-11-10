@@ -7,7 +7,6 @@
         void SetSpeed(Double speed);
 
         void Disconnect();
-
     }
     //// End interface
 }
