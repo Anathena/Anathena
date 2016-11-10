@@ -7,6 +7,9 @@
     [Serializable]
     internal abstract class Element : MarshalByRefObject, ICloneable, IDisposable
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Element" /> class
+        /// </summary>
         public Element()
         {
             this.Visible = true;

@@ -11,6 +11,11 @@
     {
         private Device device;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="DXImage" /> class
+        /// </summary>
+        /// <param name="device">The DirectX device</param>
+        /// <param name="deviceContext">The contect of the DirectX device</param>
         public DXImage(Device device, DeviceContext deviceContext)
         {
             this.Initialized = false;

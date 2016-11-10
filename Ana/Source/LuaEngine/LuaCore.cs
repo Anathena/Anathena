@@ -21,11 +21,18 @@
         /// </summary>
         private const Int32 UpdateTime = 1000 / 15;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="LuaCore" /> class
+        /// </summary>
         public LuaCore()
         {
             this.InitializeLuaEngine();
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="LuaCore" /> class
+        /// </summary>
+        /// <param name="luaScript">Lua cheat script</param>
         public LuaCore(LuaScript luaScript) : base()
         {
             this.ScriptRaw = luaScript?.Script;

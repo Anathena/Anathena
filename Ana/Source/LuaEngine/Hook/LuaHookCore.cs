@@ -5,6 +5,9 @@
 
     internal class LuaHookCore : IHookCore
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="LuaHookCore" /> class
+        /// </summary>
         public LuaHookCore()
         {
             this.AccessLock = new Object();

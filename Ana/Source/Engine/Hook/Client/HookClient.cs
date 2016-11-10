@@ -15,6 +15,9 @@
     [Serializable]
     internal class HookClient : MarshalByRefObject, IHookClient
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="HookClient" /> class
+        /// </summary>
         public HookClient()
         {
         }

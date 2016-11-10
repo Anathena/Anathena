@@ -12,11 +12,18 @@
         [Browsable(false)]
         private String script;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="LuaScript" /> class
+        /// </summary>
         public LuaScript()
         {
             this.Script = String.Empty;
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="LuaScript" /> class
+        /// </summary>
+        /// <param name="script">The raw script text</param>
         public LuaScript(String script)
         {
             this.Script = script;

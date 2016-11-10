@@ -12,11 +12,12 @@
     internal class Hook<T> : Hook where T : class
     {
         /// <summary>
-        /// Creates a new hook at <paramref name="funcToHook"/> redirecting to <paramref name="newFunc"/>. The hook starts inactive so a call to <see cref="Activate"/> is required to enable the hook.
+        /// Initializes a new instance of the <see cref="Hook{T}" /> class
+        /// Creates a new hook at <paramref name="funcToHook"/> redirecting to <paramref name="newFunc"/>. The hook starts inactive so a call to <see cref="Activate"/> is required to enable the hook
         /// </summary>
         /// <param name="funcToHook">A pointer to the location to insert the hook</param>
         /// <param name="newFunc">The delegate to call from the hooked location</param>
-        /// <param name="owner">The object to assign as the "callback" object within the <see cref="EasyHook.LocalHook"/> instance.</param>
+        /// <param name="owner">The object to assign as the "callback" object within the <see cref="EasyHook.LocalHook"/> instance</param>
         public Hook(IntPtr funcToHook, Delegate newFunc, Object owner) : base(funcToHook, newFunc, owner)
         {
             Debug.Assert(typeof(Delegate).IsAssignableFrom(typeof(T)), "T must be Delegate type");
@@ -24,7 +25,7 @@
         }
 
         /// <summary>
-        /// When called from within the <see cref="Hook.NewFunc"/> delegate this will call the original function at <see cref="Hook.FuncToHook"/>.
+        /// Gets a value that when called from within the <see cref="Hook.NewFunc"/> delegate this will call the original function at <see cref="Hook.FuncToHook"/>
         /// </summary>
         public T Original { get; private set; }
     }
@@ -36,11 +37,12 @@
     internal class Hook : IDisposable
     {
         /// <summary>
-        /// Creates a new hook at <paramref name="funcToHook"/> redirecting to <paramref name="newFunc"/>. The hook starts inactive so a call to <see cref="Activate"/> is required to enable the hook.
+        /// Initializes a new instance of the <see cref="Hook" /> class
+        /// Creates a new hook at <paramref name="funcToHook"/> redirecting to <paramref name="newFunc"/>. The hook starts inactive so a call to <see cref="Activate"/> is required to enable the hook
         /// </summary>
         /// <param name="funcToHook">A pointer to the location to insert the hook</param>
         /// <param name="newFunc">The delegate to call from the hooked location</param>
-        /// <param name="owner">The object to assign as the "callback" object within the <see cref="EasyHook.LocalHook"/> instance.</param>
+        /// <param name="owner">The object to assign as the "callback" object within the <see cref="EasyHook.LocalHook"/> instance</param>
         public Hook(IntPtr funcToHook, Delegate newFunc, Object owner)
         {
             this.FuncToHook = funcToHook;
@@ -56,27 +58,27 @@
         }
 
         /// <summary>
-        /// The hooked function location
+        /// Gets the hooked function location
         /// </summary>
         public IntPtr FuncToHook { get; private set; }
 
         /// <summary>
-        /// The replacement delegate
+        /// Gets the replacement delegate
         /// </summary>
         public Delegate NewFunc { get; private set; }
 
         /// <summary>
-        /// The callback object passed to LocalHook constructor
+        /// Gets the callback object passed to LocalHook constructor
         /// </summary>
         public Object Owner { get; private set; }
 
         /// <summary>
-        /// The <see cref="EasyHook.LocalHook"/> instance
+        /// Gets the <see cref="EasyHook.LocalHook"/> instance
         /// </summary>
         public LocalHook LocalHook { get; private set; }
 
         /// <summary>
-        /// Indicates whether the hook is currently active
+        /// Gets a value indicating whether the hook is currently active
         /// </summary>
         public Boolean IsActive { get; private set; }
 

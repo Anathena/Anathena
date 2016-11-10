@@ -12,6 +12,9 @@
     {
         private static Int64 queryPerformanceBase;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SpeedHackInterface" /> class
+        /// </summary>
         public SpeedHackInterface()
         {
             SpeedHackInterface.QueryPerformanceCounter(out queryPerformanceBase);

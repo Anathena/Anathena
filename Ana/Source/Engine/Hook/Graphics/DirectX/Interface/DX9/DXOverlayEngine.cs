@@ -9,6 +9,10 @@
 
     internal class DXOverlayEngine : IDisposable
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="DXOverlayEngine" /> class
+        /// </summary>
+        /// <param name="graphicsInterface">An object providing access to control of the DirectX graphics library</param>
         public DXOverlayEngine(DirextXGraphicsInterface graphicsInterface)
         {
             this.GraphicsInterface = graphicsInterface;

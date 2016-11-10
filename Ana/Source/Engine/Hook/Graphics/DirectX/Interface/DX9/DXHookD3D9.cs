@@ -9,6 +9,10 @@
 
     internal class DXHookD3D9 : BaseDXHook
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="DXHookD3D9" /> class
+        /// </summary>
+        /// <param name="graphicsInterface">An object providing access to control of the DirectX graphics library</param>
         public DXHookD3D9(DirextXGraphicsInterface graphicsInterface) : base(graphicsInterface)
         {
             this.ID3DDeviceFunctionAddresses = new List<IntPtr>();

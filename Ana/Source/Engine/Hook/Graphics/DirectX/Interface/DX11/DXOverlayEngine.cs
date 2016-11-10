@@ -10,6 +10,9 @@
 
     internal class DXOverlayEngine
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="DXOverlayEngine" /> class
+        /// </summary>
         public DXOverlayEngine()
         {
             this.Initialized = false;

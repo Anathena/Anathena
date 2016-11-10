@@ -5,6 +5,9 @@
 
     internal abstract class RendererBase
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="RendererBase" /> class
+        /// </summary>
         public RendererBase()
         {
             //// this.World = RawMatrix.Identity;

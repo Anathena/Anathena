@@ -11,6 +11,11 @@
 
     internal class DXSprite
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="DXSprite" /> class
+        /// </summary>
+        /// <param name="device">The DirectX device</param>
+        /// <param name="deviceContext">The contect of the DirectX device</param>
         public DXSprite(Device device, DeviceContext deviceContext)
         {
             this.Device = device;
@@ -419,6 +424,12 @@ technique11 SpriteTech {
         [StructLayout(LayoutKind.Sequential)]
         internal struct Sprite
         {
+            /// <summary>
+            /// Initializes a new instance of the <see cref="Sprite" /> struct
+            /// </summary>
+            /// <param name="sourceRect"></param>
+            /// <param name="destRect"></param>
+            /// <param name="color"></param>
             public Sprite(RawRectangle sourceRect, RawRectangle destRect, RawColor4 color)
             {
                 this.SourceRectangle = sourceRect;

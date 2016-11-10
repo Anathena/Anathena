@@ -16,6 +16,9 @@
 
         private const Int32 Largestx86InstructionSize = 15;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="LuaMemoryCore" /> class
+        /// </summary>
         public LuaMemoryCore()
         {
             LuaMemoryCore.GlobalKeywords = new ConcurrentDictionary<String, String>();
@@ -549,6 +552,12 @@
 
         private struct CodeCave
         {
+            /// <summary>
+            /// Initializes a new instance of the <see cref="CodeCave" /> struct
+            /// </summary>
+            /// <param name="remoteAllocation">The address of the code cave allocation</param>
+            /// <param name="originalBytes">The original bytes being overwritten</param>
+            /// <param name="entry">The entry to the code cave</param>
             public CodeCave(UInt64 remoteAllocation, Byte[] originalBytes, UInt64 entry)
             {
                 this.RemoteAllocation = remoteAllocation;

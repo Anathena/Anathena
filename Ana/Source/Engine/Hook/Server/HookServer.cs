@@ -20,6 +20,12 @@
     /// </summary>
     public class HookServer : IEntryPoint
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="HookServer" /> class
+        /// </summary>
+        /// <param name="context"></param>
+        /// <param name="channelName"></param>
+        /// <param name="projectDirectory"></param>
         public HookServer(RemoteHooking.IContext context, String channelName, String projectDirectory)
         {
             this.IpcServerChannel = null;

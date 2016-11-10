@@ -77,6 +77,9 @@ float4 PSMain(PixelIn input) : SV_Target
 }
 ";
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ScreenAlignedQuadRenderer" /> class
+        /// </summary>
         public ScreenAlignedQuadRenderer()
         {
         }

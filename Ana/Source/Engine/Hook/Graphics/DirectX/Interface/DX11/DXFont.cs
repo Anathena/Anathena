@@ -18,6 +18,11 @@
 
         private const UInt32 NumChars = DXFont.EndChar - DXFont.StartChar;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="DXFont" /> class
+        /// </summary>
+        /// <param name="device">The DirectX device</param>
+        /// <param name="deviceContext">The contect of the DirectX device</param>
         public DXFont(Device device, DeviceContext deviceContext)
         {
             this.CharRects = new RawRectangle[DXFont.NumChars];

@@ -8,10 +8,17 @@
     [DataContract]
     internal class FolderItem : ProjectItem
     {
+        /// <summary>
+        /// 
+        /// </summary>
         public FolderItem() : this("New Folder")
         {
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="description">The description of the folder</param>
         public FolderItem(String description) : base(description)
         {
         }

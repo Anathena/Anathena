@@ -241,6 +241,9 @@
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public override void Update()
         {
             this.EffectiveAddress = this.ResolveAddress();
@@ -262,6 +265,10 @@
             }
         }
 
+        /// <summary>
+        /// Gets a string representation of the address or pointer
+        /// </summary>
+        /// <returns>A string representing the address or pointer</returns>
         public String GetAddressString()
         {
             if (this.Offsets != null && this.Offsets.Count() > 0)
@@ -272,6 +279,10 @@
             return Conversions.ToAddress(this.EffectiveAddress);
         }
 
+        /// <summary>
+        /// Resolves the address of an address, pointer, or managed object
+        /// </summary>
+        /// <returns>The base address of this object</returns>
         public IntPtr ResolveAddress()
         {
             IntPtr pointer = IntPtr.Zero;
@@ -330,6 +341,10 @@
             return pointer;
         }
 
+        /// <summary>
+        /// Writes a value to the computed address of this item
+        /// </summary>
+        /// <param name="newValue">The value to write</param>
         private void WriteValue(dynamic newValue)
         {
             if (newValue == null)

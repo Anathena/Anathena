@@ -7,12 +7,21 @@
     {
         private Boolean ownsBitmap;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ImageElement" /> class
+        /// </summary>
+        /// <param name="filename">The file from which to load the image</param>
         public ImageElement(String filename) : this(new Bitmap(filename), true)
         {
             this.ownsBitmap = false;
             this.Filename = filename;
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ImageElement" /> class
+        /// </summary>
+        /// <param name="bitmap"></param>
+        /// <param name="ownsBitmap"></param>
         public ImageElement(Bitmap bitmap, Boolean ownsBitmap = false) : base()
         {
             this.Bitmap = bitmap;

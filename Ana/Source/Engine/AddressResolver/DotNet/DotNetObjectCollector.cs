@@ -58,6 +58,9 @@
 
         private List<DotNetObject> objectTrees;
 
+        /// <summary>
+        /// Prevents a default instance of the <see cref="DotNetObjectCollector" /> class from being created
+        /// </summary>
         private DotNetObjectCollector()
         {
             this.Begin();

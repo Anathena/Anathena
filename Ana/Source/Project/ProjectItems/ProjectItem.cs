@@ -46,10 +46,17 @@
         [Browsable(false)]
         private IEnumerable<IHotkey> hotkeys;
 
+        /// <summary>
+        /// 
+        /// </summary>
         public ProjectItem() : this(String.Empty)
         {
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="description">The description of the project item</param>
         public ProjectItem(String description)
         {
             // Bypass setters/getters to avoid triggering any view updates in constructor
@@ -61,6 +68,9 @@
 
         public event PropertyChangedEventHandler PropertyChanged;
 
+        /// <summary>
+        /// Gets or sets the parent of this project item
+        /// </summary>
         [Browsable(false)]
         public ProjectItem Parent
         {
@@ -77,6 +87,10 @@
             }
         }
 
+        /// <summary>
+        /// Gets or sets the children of this project item
+        /// TODO: This belongs literally in nothing but folder item, why the fuck is it here
+        /// </summary>
         [DataMember]
         [Browsable(false)]
         public List<ProjectItem> Children
@@ -99,6 +113,9 @@
             }
         }
 
+        /// <summary>
+        /// Gets or sets the description for this object
+        /// </summary>
         [DataMember]
         [Category("Properties"), DisplayName("Description"), Description("Description to be shown for the Project Items")]
         public String Description
@@ -116,6 +133,9 @@
             }
         }
 
+        /// <summary>
+        /// Gets or sets hot keys that activate this project item
+        /// </summary>
         [DataMember]
         [TypeConverter(typeof(HotkeyConverter))]
         [Editor(typeof(HotkeyEditorModel), typeof(UITypeEditor))]
@@ -135,6 +155,9 @@
             }
         }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether or not this item is activated
+        /// </summary>
         [Browsable(false)]
         public Boolean IsActivated
         {
@@ -151,16 +174,30 @@
             }
         }
 
+        /// <summary>
+        /// Gets or sets the time since this item was last activated
+        /// </summary>
         [Browsable(false)]
         private DateTime LastActivated { get; set; }
 
+        /// <summary>
+        /// Invoked when this object is deserialized
+        /// </summary>
+        /// <param name="streamingContext">Streaming context</param>
         [OnDeserialized]
         public void OnDeserialized(StreamingContext streamingContext)
         {
         }
 
+        /// <summary>
+        /// Updates the project item
+        /// </summary>
         public abstract void Update();
 
+        /// <summary>
+        /// Adds a project item as a child under this one
+        /// </summary>
+        /// <param name="projectItem">The child project item</param>
         public void AddChild(ProjectItem projectItem)
         {
             projectItem.Parent = this;
@@ -173,6 +210,10 @@
             this.Children.Add(projectItem);
         }
 
+        /// <summary>
+        /// Removes a project item as a child under this one
+        /// </summary>
+        /// <param name="projectItem">The child project item</param>
         public void RemoveChild(ProjectItem projectItem)
         {
             projectItem.Parent = this;
@@ -188,6 +229,10 @@
             }
         }
 
+        /// <summary>
+        /// Adds a project item as a sibling to this one
+        /// </summary>
+        /// <param name="projectItem">The child project item</param>
         public void AddSibling(ProjectItem projectItem, Boolean after)
         {
             projectItem.Parent = this.Parent;
@@ -202,7 +247,11 @@
             }
         }
 
-        public void Delete(IEnumerable<ProjectItem> toDelete)
+        /// <summary>
+        /// Deletes the specified children from this item
+        /// </summary>
+        /// <param name="toDelete">The children to delete</param>
+        public void DeleteChildren(IEnumerable<ProjectItem> toDelete)
         {
             if (toDelete == null)
             {
@@ -267,6 +316,11 @@
             }
         }
 
+        /// <summary>
+        /// Reconstructs the parents for all nodes of this graph. Call this from the root
+        /// Needed since we cannot serialize this to json or we will get cyclic dependencies
+        /// </summary>
+        /// <param name="parent"></param>
         public void BuildParents(ProjectItem parent = null)
         {
             this.Parent = parent;
@@ -277,6 +331,11 @@
             }
         }
 
+        /// <summary>
+        /// Determines if this item or any of its children contain an item
+        /// </summary>
+        /// <param name="projectItem">The item to search for</param>
+        /// <returns>Returns true if the item is found</returns>
         public Boolean HasNode(ProjectItem projectItem)
         {
             if (this.Children.Contains(projectItem))
@@ -295,6 +354,11 @@
             return false;
         }
 
+        /// <summary>
+        /// Removes the specified item from this item's children recursively
+        /// </summary>
+        /// <param name="projectItem">The item to remove</param>
+        /// <returns>Returns true if the removal succeeded</returns>
         public Boolean RemoveNode(ProjectItem projectItem)
         {
             if (projectItem == null)

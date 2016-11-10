@@ -10,6 +10,10 @@
     /// </summary>
     internal abstract class BaseDXHook
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="BaseDXHook" /> class
+        /// </summary>
+        /// <param name="graphicsInterface"></param>
         public BaseDXHook(DirextXGraphicsInterface graphicsInterface)
         {
             this.Hooks = new List<Hook>();

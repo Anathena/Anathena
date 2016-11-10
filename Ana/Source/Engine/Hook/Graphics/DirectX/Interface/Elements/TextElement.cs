@@ -5,6 +5,10 @@
 
     internal class TextElement : Element
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TextElement" /> class
+        /// </summary>
+        /// <param name="font">The font with which to render the text</param>
         public TextElement(Font font) : base()
         {
             this.Font = font;

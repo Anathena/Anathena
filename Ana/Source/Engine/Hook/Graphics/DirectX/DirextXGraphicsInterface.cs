@@ -12,6 +12,10 @@
     [Serializable]
     internal class DirextXGraphicsInterface : MarshalByRefObject, IGraphicsInterface
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="DirextXGraphicsInterface" /> class
+        /// </summary>
+        /// <param name="projectDirectory">The root project directory</param>
         public DirextXGraphicsInterface(String projectDirectory)
         {
             this.ProjectDirectory = projectDirectory;

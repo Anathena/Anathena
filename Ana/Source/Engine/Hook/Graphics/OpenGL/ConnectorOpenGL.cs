@@ -2,6 +2,9 @@
 {
     internal class ConnectorOpenGL
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ConnectorOpenGL" /> class
+        /// </summary>
         public ConnectorOpenGL()
         {
         }
