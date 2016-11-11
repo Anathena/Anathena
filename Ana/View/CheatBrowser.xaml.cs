@@ -12,12 +12,24 @@
     /// </summary>
     internal partial class CheatBrowser : UserControl
     {
-        private static readonly String ApplicationFiles = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
-
+        /// <summary>
+        /// The file extension for cheat files
+        /// </summary>
         private const String FileExtension = ".hax";
 
+        /// <summary>
+        /// The subdirectory to store downloaded cheat files
+        /// </summary>
         private const String FileStorageDirectoryName = "Cheats";
 
+        /// <summary>
+        /// The path to all user application files
+        /// </summary>
+        private static readonly String ApplicationFiles = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+
+        /// <summary>
+        /// The complete directory to store saved cheat files
+        /// </summary>
         private static readonly String SavePath = Path.Combine(Path.Combine(ApplicationFiles, Assembly.GetExecutingAssembly().GetName().Name), CheatBrowser.FileStorageDirectoryName);
 
         /// <summary>
@@ -30,6 +42,11 @@
             this.browser.Navigating += this.BrowserNavigating;
         }
 
+        /// <summary>
+        /// Invoked when the browser is about to navigate to a new page
+        /// </summary>
+        /// <param name="sender">Sending object</param>
+        /// <param name="e">Cancel event args</param>
         private void BrowserNavigating(Object sender, NavigatingCancelEventArgs e)
         {
             if (e == null || e.Uri == null || e.Uri.AbsoluteUri == null)
@@ -54,6 +71,12 @@
             }
         }
 
+        /// <summary>
+        /// Invoked when a download is complete, before the bytes are written
+        /// </summary>
+        /// <param name="sender">Sending object</param>
+        /// <param name="e">Download event args</param>
+        /// <param name="fileName">The name of the file being downloaded</param>
         private void DownloadDataCompleted(Object sender, DownloadDataCompletedEventArgs e, String fileName)
         {
             try

@@ -7,16 +7,34 @@
     /// </summary>
     internal static class DirectXFlags
     {
+        /// <summary>
+        /// Number of methods in the DirectX 9 Device table
+        /// </summary>
         public static readonly Int32 D3D9DeviceMethodCount = Enum.GetNames(typeof(Direct3DDevice9FunctionOrdinalsEnum)).Length;
 
+        /// <summary>
+        /// Number of methods in the DirectX 9 DeviceEx table
+        /// </summary>
         public static readonly Int32 D3D9ExDeviceMethodCount = Enum.GetNames(typeof(Direct3DDevice9ExFunctionOrdinalsEnum)).Length;
 
+        /// <summary>
+        /// Number of methods in the DirectX 10 Device virtual table
+        /// </summary>
         public static readonly Int32 D3D10DeviceMethodCount = Enum.GetNames(typeof(D3D10DeviceVirtualTableEnum)).Length;
 
+        /// <summary>
+        /// Number of methods in the DirectX 10.1 Device virtual table
+        /// </summary>
         public static readonly Int32 D3D101DeviceMethodCount = Enum.GetNames(typeof(D3D101DeviceVirtualTableEnum)).Length;
 
+        /// <summary>
+        /// Number of methods in the DirectX 11 Device virtual table
+        /// </summary>
         public static readonly Int32 D3D11DeviceMethodCount = Enum.GetNames(typeof(D3D11DeviceVirtualTableEnum)).Length;
 
+        /// <summary>
+        /// Number of methods in the DirectX 11.1 Device virtual table
+        /// </summary>
         public static readonly Int32 DXGISwapChainMethodCount = Enum.GetNames(typeof(DXGISwapChainVirtualTableEnum)).Length;
 
         /// <summary>
@@ -24,16 +42,34 @@
         /// </summary>
         public enum Direct3DVersionEnum
         {
+            /// <summary>
+            /// Unknown DirectX version
+            /// </summary>
             Unknown,
 
+            /// <summary>
+            /// DirectX 9
+            /// </summary>
             Direct3D9,
 
+            /// <summary>
+            /// DirectX 10
+            /// </summary>
             Direct3D10,
 
+            /// <summary>
+            /// DirectX 10.1
+            /// </summary>
             Direct3D10_1,
 
+            /// <summary>
+            /// DirectX 11
+            /// </summary>
             Direct3D11,
 
+            /// <summary>
+            /// DirectX 11.1
+            /// </summary>
             Direct3D11_1,
         }
 
@@ -42,44 +78,94 @@
         /// </summary>
         internal enum DXGISwapChainVirtualTableEnum : Int16
         {
-            //// IUnknown
+            /// <summary>
+            /// Retrieves pointers to the supported interfaces on an object.
+            /// </summary>
             QueryInterface = 0,
 
+            /// <summary>
+            /// Increments the reference count for an interface on an object. This method should be called for every new copy of a pointer to an interface on an object.
+            /// </summary>
             AddRef = 1,
 
+            /// <summary>
+            /// Decrements the reference count for an interface on an object.
+            /// </summary>
             Release = 2,
 
-            //// IDXGIObject
+            /// <summary>
+            /// Sets application-defined data to the object and associates that data with a GUID.
+            /// </summary>
             SetPrivateData = 3,
 
+            /// <summary>
+            /// Set an interface in the object's private data.
+            /// </summary>
             SetPrivateDataInterface = 4,
 
+            /// <summary>
+            /// Get a pointer to the object's data.
+            /// </summary>
             GetPrivateData = 5,
 
+            /// <summary>
+            /// Gets the parent of the object.
+            /// </summary>
             GetParent = 6,
 
-            //// IDXGIDeviceSubObject
+            /// <summary>
+            /// Retrieves the device.
+            /// </summary>
             GetDevice = 7,
 
-            //// IDXGISwapChain
+            /// <summary>
+            /// Presents a rendered image to the user.
+            /// </summary>
             Present = 8,
 
+            /// <summary>
+            /// Accesses one of the swap-chain's back buffers.
+            /// </summary>
             GetBuffer = 9,
 
+            /// <summary>
+            /// Sets the display state to windowed or full screen.
+            /// </summary>
             SetFullscreenState = 10,
 
+            /// <summary>
+            /// Get the state associated with full-screen mode.
+            /// </summary>
             GetFullscreenState = 11,
 
+            /// <summary>
+            /// Get a description of the swap chain.
+            /// </summary>
             GetDesc = 12,
 
+            /// <summary>
+            /// Changes the swap chain's back buffer size, format, and number of buffers. This should be called when the application window is resized. 
+            /// </summary>
             ResizeBuffers = 13,
 
+            /// <summary>
+            /// Resizes the output target.
+            /// </summary>
             ResizeTarget = 14,
 
+            /// <summary>
+            /// Get the output (the display monitor) that contains the majority of the client area of the target window.
+            /// </summary>
             GetContainingOutput = 15,
 
+            /// <summary>
+            /// Gets performance statistics about the last render frame.
+            /// </summary>
             GetFrameStatistics = 16,
 
+            /// <summary>
+            /// Gets the number of times that IDXGISwapChain::Present or IDXGISwapChain1::Present1 has been called.
+            /// </summary>
             GetLastPresentCount = 17,
         }
         //// End DXGISwapChainVirtualTableEnum
@@ -774,409 +860,1239 @@
         }
         //// End Direct3DDevice9ExFunctionOrdinalsEnum
 
+        /// <summary>
+        /// The device interface represents a virtual adapter for Direct3D 10.0; it is used to perform rendering and create Direct3D resources.
+        /// </summary>
         internal enum D3D10DeviceVirtualTableEnum : Int16
         {
-            //// IUnknown
+            /// <summary>
+            /// Retrieves pointers to the supported interfaces on an object.
+            /// </summary>
             QueryInterface = 0,
+
+            /// <summary>
+            /// Increments the reference count for an interface on an object.
+            /// </summary>
             AddRef = 1,
+
+            /// <summary>
+            /// Decrements the reference count for an interface on an object.
+            /// </summary>
             Release = 2,
 
-            //// ID3D10Device
+            /// <summary>
+            /// Sets the constant buffers used by the vertex shader pipeline stage.
+            /// </summary>
             VSSetConstantBuffers = 3,
+
+            /// <summary>
+            /// Bind an array of shader resources to the pixel shader stage.
+            /// </summary>
             PSSetShaderResources = 4,
+
+            /// <summary>
+            /// Sets a pixel shader to the device.
+            /// </summary>
             PSSetShader = 5,
+
+            /// <summary>
+            /// Set an array of sampler states to the pixel shader pipeline stage.
+            /// </summary>
             PSSetSamplers = 6,
+
+            /// <summary>
+            /// Set a vertex shader to the device.
+            /// </summary>
             VSSetShader = 7,
+
+            /// <summary>
+            /// Draw indexed, non-instanced primitives.
+            /// </summary>
             DrawIndexed = 8,
+
+            /// <summary>
+            /// Draw non-indexed, non-instanced primitives.
+            /// </summary>
             Draw = 9,
+
+            /// <summary>
+            /// Set the constant buffers used by the pixel shader pipeline stage.
+            /// </summary>
             PSSetConstantBuffers = 10,
+
+            /// <summary>
+            /// Bind an input-layout object to the input-assembler stage.
+            /// </summary>
             IASetInputLayout = 11,
+
+            /// <summary>
+            /// Bind an array of vertex buffers to the input-assembler stage.
+            /// </summary>
             IASetVertexBuffers = 12,
+
+            /// <summary>
+            /// Bind an index buffer to the input-assembler stage.
+            /// </summary>
             IASetIndexBuffer = 13,
+
+            /// <summary>
+            /// Draw indexed, instanced primitives.
+            /// </summary>
             DrawIndexedInstanced = 14,
+
+            /// <summary>
+            /// Draw non-indexed, instanced primitives.
+            /// </summary>
             DrawInstanced = 15,
+
+            /// <summary>
+            /// Set the constant buffers used by the geometry shader pipeline stage.
+            /// </summary>
             GSSetConstantBuffers = 16,
+
+            /// <summary>
+            /// Set a geometry shader to the device.
+            /// </summary>
             GSSetShader = 17,
+
+            /// <summary>
+            /// Bind information about the primitive type, and data order that describes input data for the input assembler stage.
+            /// </summary>
             IASetPrimitiveTopology = 18,
+
+            /// <summary>
+            /// Bind an array of shader resources to the vertex shader stage.
+            /// </summary>
             VSSetShaderResources = 19,
+
+            /// <summary>
+            /// Set an array of sampler states to the vertex shader pipeline stage.
+            /// </summary>
             VSSetSamplers = 20,
+
+            /// <summary>
+            /// Set a rendering predicate.
+            /// </summary>
             SetPredication = 21,
+
+            /// <summary>
+            /// Bind an array of shader resources to the geometry shader stage.
+            /// </summary>
             GSSetShaderResources = 22,
+
+            /// <summary>
+            /// Set an array of sampler states to the geometry shader pipeline stage.
+            /// </summary>
             GSSetSamplers = 23,
+
+            /// <summary>
+            /// Bind one or more render targets and the depth-stencil buffer to the output-merger stage.
+            /// </summary>
             OMSetRenderTargets = 24,
+
+            /// <summary>
+            /// Set the blend state of the output-merger stage.
+            /// </summary>
             OMSetBlendState = 25,
+
+            /// <summary>
+            /// Sets the depth-stencil state of the output-merger stage.
+            /// </summary>
             OMSetDepthStencilState = 26,
+
+            /// <summary>
+            /// Set the target output buffers for the StreamOutput stage, which enables/disables the pipeline to stream-out data.
+            /// </summary>
             SOSetTargets = 27,
+
+            /// <summary>
+            /// Draw geometry of an unknown size that was created by the geometry shader stage. See remarks.
+            /// </summary>
             DrawAuto = 28,
+
+            /// <summary>
+            /// Set the rasterizer state for the rasterizer stage of the pipeline.
+            /// </summary>
             RSSetState = 29,
+
+            /// <summary>
+            /// Bind an array of viewports to the rasterizer stage of the pipeline.
+            /// </summary>
             RSSetViewports = 30,
+
+            /// <summary>
+            /// Bind an array of scissor rectangles to the rasterizer stage.
+            /// </summary>
             RSSetScissorRects = 31,
+
+            /// <summary>
+            /// Copy a region from a source resource to a destination resource.
+            /// </summary>
             CopySubresourceRegion = 32,
+
+            /// <summary>
+            /// Copy the entire contents of the source resource to the destination resource using the GPU. 
+            /// </summary>
             CopyResource = 33,
+
+            /// <summary>
+            /// The CPU copies data from memory to a subresource created in non-mappable memory. See remarks.
+            /// </summary>
             UpdateSubresource = 34,
+
+            /// <summary>
+            /// Set all the elements in a render target to one value.
+            /// </summary>
             ClearRenderTargetView = 35,
+
+            /// <summary>
+            /// Clears the depth-stencil resource.
+            /// </summary>
             ClearDepthStencilView = 36,
+
+            /// <summary>
+            /// Generates mipmaps for the given shader resource.
+            /// </summary>
             GenerateMips = 37,
+
+            /// <summary>
+            /// Copy a multisampled resource into a non-multisampled resource.
+            /// This API is most useful when re-using the resulting rendertarget of one render pass as an input to a second render pass.
+            /// </summary>
             ResolveSubresource = 38,
+
+            /// <summary>
+            /// Get the constant buffers used by the vertex shader pipeline stage.
+            /// </summary>
             VSGetConstantBuffers = 39,
+
+            /// <summary>
+            /// Get the pixel shader resources.
+            /// </summary>
             PSGetShaderResources = 40,
+
+            /// <summary>
+            /// Get the pixel shader currently set on the device.
+            /// </summary>
             PSGetShader = 41,
+
+            /// <summary>
+            /// Get an array of sampler states from the pixel shader pipeline stage.
+            /// </summary>
             PSGetSamplers = 42,
+
+            /// <summary>
+            /// Get the vertex shader currently set on the device.
+            /// </summary>
             VSGetShader = 43,
+
+            /// <summary>
+            /// Get the constant buffers used by the pixel shader pipeline stage.
+            /// </summary>
             PSGetConstantBuffers = 44,
+
+            /// <summary>
+            /// Get a pointer to the input-layout object that is bound to the input-assembler stage.
+            /// </summary>
             IAGetInputLayout = 45,
+
+            /// <summary>
+            /// Get the vertex buffers bound to the input-assembler stage.
+            /// </summary>
             IAGetVertexBuffers = 46,
+
+            /// <summary>
+            /// Get a pointer to the index buffer that is bound to the input-assembler stage.
+            /// </summary>
             IAGetIndexBuffer = 47,
+
+            /// <summary>
+            /// Get the constant buffers used by the geometry shader pipeline stage.
+            /// </summary>
             GSGetConstantBuffers = 48,
+
+            /// <summary>
+            /// Get the geometry shader currently set on the device.
+            /// </summary>
             GSGetShader = 49,
+
+            /// <summary>
+            /// Get information about the primitive type, and data order that describes input data for the input assembler stage.
+            /// </summary>
             IAGetPrimitiveTopology = 50,
+
+            /// <summary>
+            /// Get the vertex shader resources.
+            /// </summary>
             VSGetShaderResources = 51,
+
+            /// <summary>
+            /// Get an array of sampler states from the vertex shader pipeline stage.
+            /// </summary>
             VSGetSamplers = 52,
+
+            /// <summary>
+            /// Get the rendering predicate state.
+            /// </summary>
             GetPredication = 53,
+
+            /// <summary>
+            /// Get the geometry shader resources.
+            /// </summary>
             GSGetShaderResources = 54,
+
+            /// <summary>
+            /// Get an array of sampler states from the geometry shader pipeline stage.
+            /// </summary>
             GSGetSamplers = 55,
+
+            /// <summary>
+            /// Get pointers to the render targets and the depth-stencil buffer that are available to the output-merger stage.
+            /// </summary>
             OMGetRenderTargets = 56,
+
+            /// <summary>
+            /// Get the blend state of the output-merger stage.
+            /// </summary>
             OMGetBlendState = 57,
+
+            /// <summary>
+            /// Gets the depth-stencil state of the output-merger stage.
+            /// </summary>
             OMGetDepthStencilState = 58,
+
+            /// <summary>
+            /// Get the target output buffers for the StreamOutput stage of the pipeline.
+            /// </summary>
             SOGetTargets = 59,
+
+            /// <summary>
+            /// Get the rasterizer state from the rasterizer stage of the pipeline.
+            /// </summary>
             RSGetState = 60,
+
+            /// <summary>
+            /// Get the array of viewports bound to the rasterizer stage
+            /// </summary>
             RSGetViewports = 61,
+
+            /// <summary>
+            /// Get the array of scissor rectangles bound to the rasterizer stage.
+            /// </summary>
             RSGetScissorRects = 62,
+
+            /// <summary>
+            /// Get the reason why the device was removed.
+            /// </summary>
             GetDeviceRemovedReason = 63,
+
+            /// <summary>
+            /// Get the exception-mode flags.
+            /// </summary>
             SetExceptionMode = 64,
+
+            /// <summary>
+            /// Get the exception-mode flags.
+            /// </summary>
             GetExceptionMode = 65,
+
+            /// <summary>
+            /// Get data from a device that is associated with a guid.
+            /// </summary>
             GetPrivateData = 66,
+
+            /// <summary>
+            /// Set data to a device and associate that data with a guid.
+            /// </summary>
             SetPrivateData = 67,
+
+            /// <summary>
+            /// Associate an IUnknown-derived interface with this device and associate that interface with an application-defined guid.
+            /// </summary>
             SetPrivateDataInterface = 68,
+
+            /// <summary>
+            /// Restore all default device settings; return the device to the state it was in when it was created.
+            /// This will set all set all input/output resource slots, shaders, input layouts, predications, scissor rectangles,
+            /// depth-stencil state, rasterizer state, blend state, sampler state, and viewports to NULL. The primitive topology will be set to UNDEFINED.
+            /// </summary>
             ClearState = 69,
+
+            /// <summary>
+            /// Send queued-up commands in the command buffer to the GPU.
+            /// </summary>
             Flush = 70,
+
+            /// <summary>
+            /// Create a buffer (vertex buffer, index buffer, or shader-constant buffer).
+            /// </summary>
             CreateBuffer = 71,
+
+            /// <summary>
+            /// Create an array of 1D textures (see Texture1D).
+            /// </summary>
             CreateTexture1D = 72,
+
+            /// <summary>
+            /// Create an array of 2D textures (see Texture2D).
+            /// </summary>
             CreateTexture2D = 73,
+
+            /// <summary>
+            /// Create a single 3D texture (see Texture3D).
+            /// </summary>
             CreateTexture3D = 74,
+
+            /// <summary>
+            /// Create a shader-resource view for accessing data in a resource.
+            /// </summary>
             CreateShaderResourceView = 75,
+
+            /// <summary>
+            /// Create a render-target view for accessing resource data.
+            /// </summary>
             CreateRenderTargetView = 76,
+
+            /// <summary>
+            /// Create a depth-stencil view for accessing resource data.
+            /// </summary>
             CreateDepthStencilView = 77,
+
+            /// <summary>
+            /// Create an input-layout object to describe the input-buffer data for the input-assembler stage.
+            /// </summary>
             CreateInputLayout = 78,
+
+            /// <summary>
+            /// Create a vertex-shader object from a compiled shader.
+            /// </summary>
             CreateVertexShader = 79,
+
+            /// <summary>
+            /// Create a geometry shader.
+            /// </summary>
             CreateGeometryShader = 80,
-            CreateGemoetryShaderWithStreamOutput = 81,
+
+            /// <summary>
+            /// Creates a geometry shader that can write to streaming output buffers.
+            /// </summary>
+            CreateGeometryShaderWithStreamOutput = 81,
+
+            /// <summary>
+            /// Create a pixel shader.
+            /// </summary>
             CreatePixelShader = 82,
+
+            /// <summary>
+            /// Create a blend-state object that encapsules blend state for the output-merger stage.
+            /// </summary>
             CreateBlendState = 83,
+
+            /// <summary>
+            /// Create a depth-stencil state object that encapsulates depth-stencil test information for the output-merger stage.
+            /// </summary>
             CreateDepthStencilState = 84,
+
+            /// <summary>
+            /// Create a rasterizer state object that tells the rasterizer stage how to behave.
+            /// </summary>
             CreateRasterizerState = 85,
+
+            /// <summary>
+            /// Create a sampler-state object that encapsulates sampling information for a texture.
+            /// </summary>
             CreateSamplerState = 86,
+
+            /// <summary>
+            /// This interface encapsulates methods for querying information from the GPU.
+            /// </summary>
             CreateQuery = 87,
+
+            /// <summary>
+            /// Creates a predicate.
+            /// </summary>
             CreatePredicate = 88,
+
+            /// <summary>
+            /// Create a counter object for measuring GPU performance.
+            /// </summary>
             CreateCounter = 89,
+
+            /// <summary>
+            /// Get the support of a given format on the installed video device.
+            /// </summary>
             CheckFormatSupport = 90,
+
+            /// <summary>
+            /// Get the number of quality levels available during multisampling.
+            /// </summary>
             CheckMultisampleQualityLevels = 91,
+
+            /// <summary>
+            /// Get a counter's information.
+            /// </summary>
             CheckCounterInfo = 92,
+
+            /// <summary>
+            /// Get the type, name, units of measure, and a description of an existing counter.
+            /// </summary>
             CheckCounter = 93,
+
+            /// <summary>
+            /// Get the flags used during the call to create the device with D3D10CreateDevice.
+            /// </summary>
             GetCreationFlags = 94,
+
+            /// <summary>
+            /// Give a device access to a shared resource created on a different Direct3d device. 
+            /// </summary>
             OpenSharedResource = 95,
+
+            /// <summary>
+            /// This method is not implemented.
+            /// </summary>
             SetTextFilterSize = 96,
+
+            /// <summary>
+            /// This method is not implemented.
+            /// </summary>
             GetTextFilterSize = 97,
         }
         //// End D3D10DeviceVirtualTableEnum
 
+        /// <summary>
+        /// The device interface represents a virtual adapter for Direct3D 10.1; it is used to perform rendering and create Direct3D resources.
+        /// </summary>
         internal enum D3D101DeviceVirtualTableEnum : Int16
         {
-            //// IUnknown
+            /// <summary>
+            /// Retrieves pointers to the supported interfaces on an object.
+            /// </summary>
             QueryInterface = 0,
 
+            /// <summary>
+            /// Increments the reference count for an interface on an object.
+            /// </summary>
             AddRef = 1,
 
+            /// <summary>
+            /// Decrements the reference count for an interface on an object.
+            /// </summary>
             Release = 2,
 
-            //// ID3D10Device
+            /// <summary>
+            /// Sets the constant buffers used by the vertex shader pipeline stage.
+            /// </summary>
             VSSetConstantBuffers = 3,
 
+            /// <summary>
+            /// Bind an array of shader resources to the pixel shader stage.
+            /// </summary>
             PSSetShaderResources = 4,
 
+            /// <summary>
+            /// Sets a pixel shader to the device.
+            /// </summary>
             PSSetShader = 5,
 
+            /// <summary>
+            /// Set an array of sampler states to the pixel shader pipeline stage.
+            /// </summary>
             PSSetSamplers = 6,
 
+            /// <summary>
+            /// Set a vertex shader to the device.
+            /// </summary>
             VSSetShader = 7,
 
+            /// <summary>
+            /// Draw indexed, non-instanced primitives.
+            /// </summary>
             DrawIndexed = 8,
 
+            /// <summary>
+            /// Draw non-indexed, non-instanced primitives.
+            /// </summary>
             Draw = 9,
 
+            /// <summary>
+            /// Set the constant buffers used by the pixel shader pipeline stage.
+            /// </summary>
             PSSetConstantBuffers = 10,
 
+            /// <summary>
+            /// Bind an input-layout object to the input-assembler stage.
+            /// </summary>
             IASetInputLayout = 11,
 
+            /// <summary>
+            /// Bind an array of vertex buffers to the input-assembler stage.
+            /// </summary>
             IASetVertexBuffers = 12,
 
+            /// <summary>
+            /// Bind an index buffer to the input-assembler stage.
+            /// </summary>
             IASetIndexBuffer = 13,
 
+            /// <summary>
+            /// Draw indexed, instanced primitives.
+            /// </summary>
             DrawIndexedInstanced = 14,
 
+            /// <summary>
+            /// Draw non-indexed, instanced primitives.
+            /// </summary>
             DrawInstanced = 15,
 
+            /// <summary>
+            /// Set the constant buffers used by the geometry shader pipeline stage.
+            /// </summary>
             GSSetConstantBuffers = 16,
 
+            /// <summary>
+            /// Set a geometry shader to the device.
+            /// </summary>
             GSSetShader = 17,
 
+            /// <summary>
+            /// Bind information about the primitive type, and data order that describes input data for the input assembler stage.
+            /// </summary>
             IASetPrimitiveTopology = 18,
 
+            /// <summary>
+            /// Bind an array of shader resources to the vertex shader stage.
+            /// </summary>
             VSSetShaderResources = 19,
 
+            /// <summary>
+            /// Set an array of sampler states to the vertex shader pipeline stage.
+            /// </summary>
             VSSetSamplers = 20,
 
+            /// <summary>
+            /// Set a rendering predicate.
+            /// </summary>
             SetPredication = 21,
 
+            /// <summary>
+            /// Bind an array of shader resources to the geometry shader stage.
+            /// </summary>
             GSSetShaderResources = 22,
 
+            /// <summary>
+            /// Set an array of sampler states to the geometry shader pipeline stage.
+            /// </summary>
             GSSetSamplers = 23,
 
+            /// <summary>
+            /// Bind one or more render targets and the depth-stencil buffer to the output-merger stage.
+            /// </summary>
             OMSetRenderTargets = 24,
 
+            /// <summary>
+            /// Set the blend state of the output-merger stage.
+            /// </summary>
             OMSetBlendState = 25,
 
+            /// <summary>
+            /// Sets the depth-stencil state of the output-merger stage.
+            /// </summary>
             OMSetDepthStencilState = 26,
 
+            /// <summary>
+            /// Set the target output buffers for the StreamOutput stage, which enables/disables the pipeline to stream-out data.
+            /// </summary>
             SOSetTargets = 27,
 
+            /// <summary>
+            /// Draw geometry of an unknown size that was created by the geometry shader stage. See remarks.
+            /// </summary>
             DrawAuto = 28,
 
+            /// <summary>
+            /// Set the rasterizer state for the rasterizer stage of the pipeline.
+            /// </summary>
             RSSetState = 29,
 
+            /// <summary>
+            /// Bind an array of viewports to the rasterizer stage of the pipeline.
+            /// </summary>
             RSSetViewports = 30,
 
+            /// <summary>
+            /// Bind an array of scissor rectangles to the rasterizer stage.
+            /// </summary>
             RSSetScissorRects = 31,
 
+            /// <summary>
+            /// Copy a region from a source resource to a destination resource.
+            /// </summary>
             CopySubresourceRegion = 32,
 
+            /// <summary>
+            /// Copy the entire contents of the source resource to the destination resource using the GPU. 
+            /// </summary>
             CopyResource = 33,
 
+            /// <summary>
+            /// The CPU copies data from memory to a subresource created in non-mappable memory. See remarks.
+            /// </summary>
             UpdateSubresource = 34,
 
+            /// <summary>
+            /// Set all the elements in a render target to one value.
+            /// </summary>
             ClearRenderTargetView = 35,
 
+            /// <summary>
+            /// Clears the depth-stencil resource.
+            /// </summary>
             ClearDepthStencilView = 36,
 
+            /// <summary>
+            /// Generates mipmaps for the given shader resource.
+            /// </summary>
             GenerateMips = 37,
 
+            /// <summary>
+            /// Copy a multisampled resource into a non-multisampled resource.
+            /// This API is most useful when re-using the resulting rendertarget of one render pass as an input to a second render pass.
+            /// </summary>
             ResolveSubresource = 38,
 
+            /// <summary>
+            /// Get the constant buffers used by the vertex shader pipeline stage.
+            /// </summary>
             VSGetConstantBuffers = 39,
 
+            /// <summary>
+            /// Get the pixel shader resources.
+            /// </summary>
             PSGetShaderResources = 40,
 
+            /// <summary>
+            /// Get the pixel shader currently set on the device.
+            /// </summary>
             PSGetShader = 41,
 
+            /// <summary>
+            /// Get an array of sampler states from the pixel shader pipeline stage.
+            /// </summary>
             PSGetSamplers = 42,
 
+            /// <summary>
+            /// Get the vertex shader currently set on the device.
+            /// </summary>
             VSGetShader = 43,
 
+            /// <summary>
+            /// Get the constant buffers used by the pixel shader pipeline stage.
+            /// </summary>
             PSGetConstantBuffers = 44,
 
+            /// <summary>
+            /// Get a pointer to the input-layout object that is bound to the input-assembler stage.
+            /// </summary>
             IAGetInputLayout = 45,
 
+            /// <summary>
+            /// Get the vertex buffers bound to the input-assembler stage.
+            /// </summary>
             IAGetVertexBuffers = 46,
 
+            /// <summary>
+            /// Get a pointer to the index buffer that is bound to the input-assembler stage.
+            /// </summary>
             IAGetIndexBuffer = 47,
 
+            /// <summary>
+            /// Get the constant buffers used by the geometry shader pipeline stage.
+            /// </summary>
             GSGetConstantBuffers = 48,
 
+            /// <summary>
+            /// Get the geometry shader currently set on the device.
+            /// </summary>
             GSGetShader = 49,
 
+            /// <summary>
+            /// Get information about the primitive type, and data order that describes input data for the input assembler stage.
+            /// </summary>
             IAGetPrimitiveTopology = 50,
 
+            /// <summary>
+            /// Get the vertex shader resources.
+            /// </summary>
             VSGetShaderResources = 51,
 
+            /// <summary>
+            /// Get an array of sampler states from the vertex shader pipeline stage.
+            /// </summary>
             VSGetSamplers = 52,
 
+            /// <summary>
+            /// Get the rendering predicate state.
+            /// </summary>
             GetPredication = 53,
 
+            /// <summary>
+            /// Get the geometry shader resources.
+            /// </summary>
             GSGetShaderResources = 54,
 
+            /// <summary>
+            /// Get an array of sampler states from the geometry shader pipeline stage.
+            /// </summary>
             GSGetSamplers = 55,
 
+            /// <summary>
+            /// Get pointers to the render targets and the depth-stencil buffer that are available to the output-merger stage.
+            /// </summary>
             OMGetRenderTargets = 56,
 
+            /// <summary>
+            /// Get the blend state of the output-merger stage.
+            /// </summary>
             OMGetBlendState = 57,
 
+            /// <summary>
+            /// Gets the depth-stencil state of the output-merger stage.
+            /// </summary>
             OMGetDepthStencilState = 58,
 
+            /// <summary>
+            /// Get the target output buffers for the StreamOutput stage of the pipeline.
+            /// </summary>
             SOGetTargets = 59,
 
+            /// <summary>
+            /// Get the rasterizer state from the rasterizer stage of the pipeline.
+            /// </summary>
             RSGetState = 60,
 
+            /// <summary>
+            /// Get the array of viewports bound to the rasterizer stage
+            /// </summary>
             RSGetViewports = 61,
 
+            /// <summary>
+            /// Get the array of scissor rectangles bound to the rasterizer stage.
+            /// </summary>
             RSGetScissorRects = 62,
 
+            /// <summary>
+            /// Get the reason why the device was removed.
+            /// </summary>
             GetDeviceRemovedReason = 63,
 
+            /// <summary>
+            /// Get the exception-mode flags.
+            /// </summary>
             SetExceptionMode = 64,
 
+            /// <summary>
+            /// Get the exception-mode flags.
+            /// </summary>
             GetExceptionMode = 65,
 
+            /// <summary>
+            /// Get data from a device that is associated with a guid.
+            /// </summary>
             GetPrivateData = 66,
 
+            /// <summary>
+            /// Set data to a device and associate that data with a guid.
+            /// </summary>
             SetPrivateData = 67,
 
+            /// <summary>
+            /// Associate an IUnknown-derived interface with this device and associate that interface with an application-defined guid.
+            /// </summary>
             SetPrivateDataInterface = 68,
 
+            /// <summary>
+            /// Restore all default device settings; return the device to the state it was in when it was created.
+            /// This will set all set all input/output resource slots, shaders, input layouts, predications, scissor rectangles,
+            /// depth-stencil state, rasterizer state, blend state, sampler state, and viewports to NULL. The primitive topology will be set to UNDEFINED.
+            /// </summary>
             ClearState = 69,
 
+            /// <summary>
+            /// Send queued-up commands in the command buffer to the GPU.
+            /// </summary>
             Flush = 70,
 
+            /// <summary>
+            /// Create a buffer (vertex buffer, index buffer, or shader-constant buffer).
+            /// </summary>
             CreateBuffer = 71,
 
+            /// <summary>
+            /// Create an array of 1D textures (see Texture1D).
+            /// </summary>
             CreateTexture1D = 72,
 
+            /// <summary>
+            /// Create an array of 2D textures (see Texture2D).
+            /// </summary>
             CreateTexture2D = 73,
 
+            /// <summary>
+            /// Create a single 3D texture (see Texture3D).
+            /// </summary>
             CreateTexture3D = 74,
 
+            /// <summary>
+            /// Create a shader-resource view for accessing data in a resource.
+            /// </summary>
             CreateShaderResourceView = 75,
 
+            /// <summary>
+            /// Create a render-target view for accessing resource data.
+            /// </summary>
             CreateRenderTargetView = 76,
 
+            /// <summary>
+            /// Create a depth-stencil view for accessing resource data.
+            /// </summary>
             CreateDepthStencilView = 77,
 
+            /// <summary>
+            /// Create an input-layout object to describe the input-buffer data for the input-assembler stage.
+            /// </summary>
             CreateInputLayout = 78,
 
+            /// <summary>
+            /// Create a vertex-shader object from a compiled shader.
+            /// </summary>
             CreateVertexShader = 79,
 
+            /// <summary>
+            /// Create a geometry shader.
+            /// </summary>
             CreateGeometryShader = 80,
 
-            CreateGemoetryShaderWithStreamOutput = 81,
+            /// <summary>
+            /// Creates a geometry shader that can write to streaming output buffers.
+            /// </summary>
+            CreateGeometryShaderWithStreamOutput = 81,
 
+            /// <summary>
+            /// Create a pixel shader.
+            /// </summary>
             CreatePixelShader = 82,
 
+            /// <summary>
+            /// Create a blend-state object that encapsules blend state for the output-merger stage.
+            /// </summary>
             CreateBlendState = 83,
 
+            /// <summary>
+            /// Create a depth-stencil state object that encapsulates depth-stencil test information for the output-merger stage.
+            /// </summary>
             CreateDepthStencilState = 84,
 
+            /// <summary>
+            /// Create a rasterizer state object that tells the rasterizer stage how to behave.
+            /// </summary>
             CreateRasterizerState = 85,
 
+            /// <summary>
+            /// Create a sampler-state object that encapsulates sampling information for a texture.
+            /// </summary>
             CreateSamplerState = 86,
 
+            /// <summary>
+            /// This interface encapsulates methods for querying information from the GPU.
+            /// </summary>
             CreateQuery = 87,
 
+            /// <summary>
+            /// Creates a predicate.
+            /// </summary>
             CreatePredicate = 88,
 
+            /// <summary>
+            /// Create a counter object for measuring GPU performance.
+            /// </summary>
             CreateCounter = 89,
 
+            /// <summary>
+            /// Get the support of a given format on the installed video device.
+            /// </summary>
             CheckFormatSupport = 90,
 
+            /// <summary>
+            /// Get the number of quality levels available during multisampling.
+            /// </summary>
             CheckMultisampleQualityLevels = 91,
 
+            /// <summary>
+            /// Get a counter's information.
+            /// </summary>
             CheckCounterInfo = 92,
 
+            /// <summary>
+            /// Get the type, name, units of measure, and a description of an existing counter.
+            /// </summary>
             CheckCounter = 93,
 
+            /// <summary>
+            /// Get the flags used during the call to create the device with D3D10CreateDevice.
+            /// </summary>
             GetCreationFlags = 94,
 
+            /// <summary>
+            /// Give a device access to a shared resource created on a different Direct3d device. 
+            /// </summary>
             OpenSharedResource = 95,
 
+            /// <summary>
+            /// This method is not implemented.
+            /// </summary>
             SetTextFilterSize = 96,
 
+            /// <summary>
+            /// This method is not implemented.
+            /// </summary>
             GetTextFilterSize = 97,
 
-            //// ID3D10Device1
+            /// <summary>
+            /// Create a shader-resource view for accessing data in a resource.
+            /// </summary>
             CreateShaderResourceView1 = 98,
 
+            /// <summary>
+            /// Create a blend-state object that encapsules blend state for the output-merger stage.
+            /// </summary>
             CreateBlendState1 = 99,
 
+            /// <summary>
+            /// Gets the feature level of the hardware device.
+            /// </summary>
             GetFeatureLevel = 100,
         }
         //// End D3D101DeviceVirtualTableEnum
 
+        /// <summary>
+        /// The device interface represents a virtual adapter; it is used to create resources.
+        /// </summary>
         internal enum D3D11DeviceVirtualTableEnum : Int16
         {
-            //// IUnknown
+            /// <summary>
+            /// Retrieves pointers to the supported interfaces on an object.
+            /// </summary>
             QueryInterface = 0,
 
+            /// <summary>
+            /// Increments the reference count for an interface on an object.
+            /// </summary>
             AddRef = 1,
 
+            /// <summary>
+            /// Decrements the reference count for an interface on an object.
+            /// </summary>
             Release = 2,
 
-            //// ID3D11Device
+            /// <summary>
+            /// Creates a buffer (vertex buffer, index buffer, or shader-constant buffer).
+            /// </summary>
             CreateBuffer = 3,
 
+            /// <summary>
+            /// Creates an array of 1D textures.
+            /// </summary>
             CreateTexture1D = 4,
 
+            /// <summary>
+            /// Create an array of 2D textures.
+            /// </summary>
             CreateTexture2D = 5,
 
+            /// <summary>
+            /// Create a single 3D texture.
+            /// </summary>
             CreateTexture3D = 6,
 
+            /// <summary>
+            /// Create a shader-resource view for accessing data in a resource.
+            /// </summary>
             CreateShaderResourceView = 7,
 
+            /// <summary>
+            /// Creates a view for accessing an unordered access resource.
+            /// </summary>
             CreateUnorderedAccessView = 8,
 
+            /// <summary>
+            /// Creates a render-target view for accessing resource data.
+            /// </summary>
             CreateRenderTargetView = 9,
 
+            /// <summary>
+            /// Create a depth-stencil view for accessing resource data.
+            /// </summary>
             CreateDepthStencilView = 10,
 
+            /// <summary>
+            /// Create an input-layout object to describe the input-buffer data for the input-assembler stage.
+            /// </summary>
             CreateInputLayout = 11,
 
+            /// <summary>
+            /// Create a vertex-shader object from a compiled shader.
+            /// </summary>
             CreateVertexShader = 12,
 
+            /// <summary>
+            /// Create a geometry shader.
+            /// </summary>
             CreateGeometryShader = 13,
 
+            /// <summary>
+            /// Creates a geometry shader that can write to streaming output buffers.
+            /// </summary>
             CreateGeometryShaderWithStreamOutput = 14,
 
+            /// <summary>
+            /// Create a pixel shader.
+            /// </summary>
             CreatePixelShader = 15,
 
+            /// <summary>
+            /// Create a hull shader.
+            /// </summary>
             CreateHullShader = 16,
 
+            /// <summary>
+            /// Create a domain shader.
+            /// </summary>
             CreateDomainShader = 17,
 
+            /// <summary>
+            /// Create a compute shader.
+            /// </summary>
             CreateComputeShader = 18,
 
+            /// <summary>
+            /// Creates class linkage libraries to enable dynamic shader linkage.
+            /// </summary>
             CreateClassLinkage = 19,
 
+            /// <summary>
+            /// Create a blend-state object that encapsules blend state for the output-merger stage.
+            /// </summary>
             CreateBlendState = 20,
 
+            /// <summary>
+            /// Create a depth-stencil state object that encapsulates depth-stencil test information for the output-merger stage.
+            /// </summary>
             CreateDepthStencilState = 21,
 
+            /// <summary>
+            /// Create a rasterizer state object that tells the rasterizer stage how to behave.
+            /// </summary>
             CreateRasterizerState = 22,
 
+            /// <summary>
+            /// Create a sampler-state object that encapsulates sampling information for a texture.
+            /// </summary>
             CreateSamplerState = 23,
 
+            /// <summary>
+            /// This interface encapsulates methods for querying information from the GPU.
+            /// </summary>
             CreateQuery = 24,
 
+            /// <summary>
+            /// Creates a predicate.
+            /// </summary>
             CreatePredicate = 25,
 
+            /// <summary>
+            /// Create a counter object for measuring GPU performance.
+            /// </summary>
             CreateCounter = 26,
 
+            /// <summary>
+            /// Creates a deferred context, which can record command lists. 
+            /// </summary>
             CreateDeferredContext = 27,
 
+            /// <summary>
+            /// Give a device access to a shared resource created on a different device.
+            /// </summary>
             OpenSharedResource = 28,
 
+            /// <summary>
+            /// Get the support of a given format on the installed video device.
+            /// </summary>
             CheckFormatSupport = 29,
 
+            /// <summary>
+            /// Get the number of quality levels available during multisampling.
+            /// </summary>
             CheckMultisampleQualityLevels = 30,
 
+            /// <summary>
+            /// Get a counter's information.
+            /// </summary>
             CheckCounterInfo = 31,
 
+            /// <summary>
+            /// Get the type, name, units of measure, and a description of an existing counter.
+            /// </summary>
             CheckCounter = 32,
 
+            /// <summary>
+            /// Gets information about the features that are supported by the current graphics driver.
+            /// </summary>
             CheckFeatureSupport = 33,
 
+            /// <summary>
+            /// Get application-defined data from a device.
+            /// </summary>
             GetPrivateData = 34,
 
+            /// <summary>
+            /// Set data to a device and associate that data with a guid.
+            /// </summary>
             SetPrivateData = 35,
 
+            /// <summary>
+            /// Associate an IUnknown-derived interface with this device child and associate that interface with an application-defined guid.
+            /// </summary>
             SetPrivateDataInterface = 36,
 
+            /// <summary>
+            /// Gets the feature level of the hardware device.
+            /// </summary>
             GetFeatureLevel = 37,
 
+            /// <summary>
+            /// Get the flags used during the call to create the device with D3D11CreateDevice.
+            /// </summary>
             GetCreationFlags = 38,
 
+            /// <summary>
+            /// Get the reason why the device was removed.
+            /// </summary>
             GetDeviceRemovedReason = 39,
 
+            /// <summary>
+            /// Gets an immediate context, which can play back command lists.
+            /// </summary>
             GetImmediateContext = 40,
 
+            /// <summary>
+            /// Get the exception-mode flags.
+            /// </summary>
             SetExceptionMode = 41,
 
+            /// <summary>
+            /// Get the exception-mode flags.
+            /// </summary>
             GetExceptionMode = 42,
         }
         //// End D3D11DeviceVirtualTableEnum

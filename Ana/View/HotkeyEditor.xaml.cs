@@ -22,6 +22,9 @@
             this.HotkeyEditorViewModel.Hotkeys = hotkeys == null ? null : new ObservableCollection<IHotkey>(hotkeys);
         }
 
+        /// <summary>
+        /// Gets the view model associated with this view.
+        /// </summary>
         public HotkeyEditorViewModel HotkeyEditorViewModel
         {
             get
@@ -30,18 +33,33 @@
             }
         }
 
+        /// <summary>
+        /// Invoked when the added hotkeys are canceled. Closes the view.
+        /// </summary>
+        /// <param name="sender">Sending object</param>
+        /// <param name="e">Event args</param>
         private void CancelButtonClick(Object sender, RoutedEventArgs e)
         {
             this.DialogResult = false;
             this.Close();
         }
 
+        /// <summary>
+        /// Invoked when the added hotkeys are accepted. Closes the view.
+        /// </summary>
+        /// <param name="sender">Sending object</param>
+        /// <param name="e">Event args</param>
         private void AcceptButtonClick(Object sender, RoutedEventArgs e)
         {
             this.DialogResult = true;
             this.Close();
         }
 
+        /// <summary>
+        /// Invoked when the selected hotkey is changed, and informs the viewmodel.
+        /// </summary>
+        /// <param name="sender">Sending object</param>
+        /// <param name="e">Selection event args</param>
         private void ListViewSelectionChanged(Object sender, System.Windows.Controls.SelectionChangedEventArgs e)
         {
             this.HotkeyEditorViewModel.SelectedHotkeyIndex = this.hotkeysListView.SelectedIndex;

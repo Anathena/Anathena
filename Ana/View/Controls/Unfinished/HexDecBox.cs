@@ -1,5 +1,6 @@
 ﻿namespace Ana.View.Controls
 {
+    /*
     using Source.Utils.Validation;
     using System;
     using System.Windows;
@@ -86,5 +87,6 @@
         }
     }
     //// End class
+    */
 }
 //// End namespace

@@ -21,15 +21,19 @@
     /// </summary>
     internal partial class ScriptEditor : Window
     {
+        /// <summary>
+        /// The resource file for Lua script highlighting rules
+        /// </summary>
         private const String ScriptSyntaxHighlightingResource = "Ana.Content.Lua.xhsd";
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ScriptEditor" /> class
         /// </summary>
+        /// <param name="script">The initial script text being edited</param>
         public ScriptEditor(String script = null)
         {
             this.InitializeComponent();
-            this.LoadHightLightRule();
+            this.LoadHightLightRules();
             this.InitializeCompleteionWindow();
             //// this.ScriptEditorTextEditor.TextArea.TextEntering += this.ScriptEditorTextEditorTextAreaTextEntering;
             //// this.ScriptEditorTextEditor.TextArea.TextEntered += this.ScriptEditorTextEditorTextAreaTextEntered;
@@ -37,6 +41,9 @@
             this.ScriptEditorTextEditor.Text = script == null ? String.Empty : script;
         }
 
+        /// <summary>
+        /// Gets the view model associated with this view.
+        /// </summary>
         public ScriptEditorViewModel ScriptEditorViewModel
         {
             get
@@ -45,24 +52,31 @@
             }
         }
 
+        /// <summary>
+        /// Gets or sets the completion fields
+        /// </summary>
         private IList<ICompletionData> CompletionData { get; set; }
 
+        /// <summary>
+        /// Gets or sets the completion window
+        /// </summary>
         private CompletionWindow CompletionWindow { get; set; }
 
-        private void ScriptEditorTextEditorTextChanged(Object sender, EventArgs e)
-        {
-            this.ScriptEditorViewModel.UpdateScriptCommand.Execute(this.ScriptEditorTextEditor.Text);
-        }
-
+        /// <summary>
+        /// Initializes fields that can be shown in the completion window
+        /// </summary>
         private void InitializeCompleteionWindow()
         {
             this.CompletionData = new List<ICompletionData>();
-            this.CompletionData.Add(new MyCompletionData("Memory"));
-            this.CompletionData.Add(new MyCompletionData("Engine"));
-            this.CompletionData.Add(new MyCompletionData("Graphics"));
+            this.CompletionData.Add(new AutoCompleteData("Memory"));
+            this.CompletionData.Add(new AutoCompleteData("Engine"));
+            this.CompletionData.Add(new AutoCompleteData("Graphics"));
         }
 
-        private void LoadHightLightRule()
+        /// <summary>
+        /// Loads highlighting rules from the highlighting resource file
+        /// </summary>
+        private void LoadHightLightRules()
         {
             using (Stream stream = Assembly.GetExecutingAssembly().GetManifestResourceStream(ScriptEditor.ScriptSyntaxHighlightingResource))
             {
@@ -76,6 +90,21 @@
             }
         }
 
+        /// <summary>
+        /// Invoked when the script editor text is changed
+        /// </summary>
+        /// <param name="sender">Sending object</param>
+        /// <param name="e">Event args</param>
+        private void ScriptEditorTextEditorTextChanged(Object sender, EventArgs e)
+        {
+            this.ScriptEditorViewModel.UpdateScriptCommand.Execute(this.ScriptEditorTextEditor.Text);
+        }
+
+        /// <summary>
+        /// Invoked when the script editor text area is entered
+        /// </summary>
+        /// <param name="sender">Sending object</param>
+        /// <param name="e">Event args</param>
         private void ScriptEditorTextEditorTextAreaTextEntered(Object sender, TextCompositionEventArgs e)
         {
             //// if (e.Text == ".")
@@ -96,6 +125,11 @@
             }
         }
 
+        /// <summary>
+        /// Invoked when the script editor text is entered
+        /// </summary>
+        /// <param name="sender">Sending object</param>
+        /// <param name="e">Event args</param>
         private void ScriptEditorTextEditorTextAreaTextEntering(Object sender, TextCompositionEventArgs e)
         {
             if (e.Text.Length > 0 && this.CompletionWindow != null)
@@ -108,29 +142,54 @@
             }
         }
 
+        /// <summary>
+        /// Invoked when the added offsets are canceled. Closes the view.
+        /// </summary>
+        /// <param name="sender">Sending object</param>
+        /// <param name="e">Event args</param>
         private void CancelButtonClick(Object sender, RoutedEventArgs e)
         {
             this.DialogResult = false;
             this.Close();
         }
 
+        /// <summary>
+        /// Invoked when the added offsets are accepted. Closes the view.
+        /// </summary>
+        /// <param name="sender">Sending object</param>
+        /// <param name="e">Event args</param>
         private void AcceptButtonClick(Object sender, RoutedEventArgs e)
         {
             this.DialogResult = true;
             this.Close();
         }
 
+        /// <summary>
+        /// Invoked when the exit file menu event executes. Closes the view.
+        /// </summary>
+        /// <param name="sender">Sending object</param>
+        /// <param name="e">Event args</param>
         private void ExitFileMenuItemClick(Object sender, RoutedEventArgs e)
         {
             this.ScriptEditorViewModel.ExitCommand.Execute(null);
             this.Close();
         }
 
+        /// <summary>
+        /// Invoked when the code injection file menu event executes.
+        /// </summary>
+        /// <param name="sender">Sending object</param>
+        /// <param name="e">Event args</param>
         private void CodeInjectionFileMenuItemClick(Object sender, RoutedEventArgs e)
         {
             this.ScriptEditorTextEditor.Text = LuaTemplates.GetCodeInjectionTemplate() + this.ScriptEditorTextEditor.Text;
         }
 
+        /// <summary>
+        /// Invoked when the graphics overlay file menu event executes.
+        /// </summary>
+        /// <param name="sender">Sending object</param>
+        /// <param name="e">Event args</param>
         private void GraphicsOverlayFileMenuItemClick(Object sender, RoutedEventArgs e)
         {
             this.ScriptEditorTextEditor.Text = LuaTemplates.GetGraphicsOverlayTemplate() + this.ScriptEditorTextEditor.Text;
@@ -139,21 +198,33 @@
         /// <summary>
         /// Implements AvalonEdit ICompletionData interface to provide the entries in the completion drop down
         /// </summary>
-        internal class MyCompletionData : ICompletionData
+        internal class AutoCompleteData : ICompletionData
         {
-            public MyCompletionData(String text)
+            /// <summary>
+            /// Initializes a new instance of the <see cref="AutoCompleteData" /> class
+            /// </summary>
+            /// <param name="text">The auto completion text</param>
+            public AutoCompleteData(String text)
             {
                 this.Text = text;
             }
 
+            /// <summary>
+            /// Gets the image associated with this auto complete data
+            /// </summary>
             public ImageSource Image
             {
                 get { return null; }
             }
 
+            /// <summary>
+            /// Gets the auto complete text
+            /// </summary>
             public String Text { get; private set; }
 
-            // Use this property if you want to show a fancy UIElement in the list
+            /// <summary>
+            /// Gets an optional UIElement to show in the list
+            /// </summary>
             public Object Content
             {
                 get
@@ -162,15 +233,20 @@
                 }
             }
 
+            /// <summary>
+            /// Gets the description associated with this autocomplete element
+            /// </summary>
             public Object Description
             {
                 get
                 {
-                    //// return "Description for " + this.Text;
                     return String.Empty;
                 }
             }
 
+            /// <summary>
+            /// Gets the priority of this autocomplete element
+            /// </summary>
             public Double Priority
             {
                 get
@@ -179,6 +255,12 @@
                 }
             }
 
+            /// <summary>
+            /// Invoked when the auto complete is accepted
+            /// </summary>
+            /// <param name="textArea">Text area</param>
+            /// <param name="completionSegment">Completion segment</param>
+            /// <param name="insertionRequestEventArgs">Insertion event args</param>
             public void Complete(TextArea textArea, ISegment completionSegment, EventArgs insertionRequestEventArgs)
             {
                 textArea.Document.Replace(completionSegment, this.Text);

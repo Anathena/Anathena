@@ -9,14 +9,14 @@
     /// </summary>
     internal class WatermarkTextBox : TextBox
     {
-        private Panel waterMarkContainer;
-
-        private SolidBrush waterMarkBrush;
-
-        private String watermarkText;
-
+        /// <summary>
+        /// The water mark draw color
+        /// </summary>
         private Color watermarkColor;
 
+        /// <summary>
+        /// The font used to draw the water mark
+        /// </summary>
         private Font waterMarkFont;
 
         /// <summary>
@@ -27,30 +27,36 @@
             // Set defaults
             this.watermarkColor = Color.LightGray;
             this.waterMarkFont = this.Font;
-            this.waterMarkContainer = null;
+            this.WaterMarkContainer = null;
 
             // Draw the watermark, so we can see it in design time
             this.DrawWaterMark();
 
-            this.Enter += new EventHandler(this.ThisHasFocus);
-            this.Leave += new EventHandler(this.ThisWasLeaved);
-            this.TextChanged += new EventHandler(this.ThisTextChanged);
+            this.Enter += new EventHandler(this.TextEnter);
+            this.Leave += new EventHandler(this.TextLeave);
+            this.TextChanged += new EventHandler(this.TextChange);
         }
 
+        /// <summary>
+        /// Gets or sets the water mark text
+        /// </summary>
         public String WaterMarkText
         {
             get
             {
-                return this.watermarkText;
+                return this.WatermarkText;
             }
 
             set
             {
-                this.watermarkText = value;
+                this.WatermarkText = value;
                 this.Invalidate();
             }
         }
 
+        /// <summary>
+        /// Gets or sets the water mark draw color
+        /// </summary>
         public Color WatermarkColor
         {
             get
@@ -65,6 +71,9 @@
             }
         }
 
+        /// <summary>
+        /// Gets or sets the font used to draw the water mark
+        /// </summary>
         public Font WaterMarkFont
         {
             get
@@ -79,6 +88,25 @@
             }
         }
 
+        /// <summary>
+        /// Gets or sets the panel to contain the watermark, rather than using the textbox itself
+        /// </summary>
+        private Panel WaterMarkContainer { get; set; }
+
+        /// <summary>
+        /// Gets or sets the brush used to render the watermark
+        /// </summary>
+        private SolidBrush WaterMarkBrush { get; set; }
+
+        /// <summary>
+        /// Gets or sets the watermark text
+        /// </summary>
+        private String WatermarkText { get; set; }
+
+        /// <summary>
+        /// Invoked when the control is being rendered
+        /// </summary>
+        /// <param name="e">Event args</param>
         protected override void OnPaint(PaintEventArgs e)
         {
             base.OnPaint(e);
@@ -87,15 +115,19 @@
             this.DrawWaterMark();
         }
 
+        /// <summary>
+        /// Invoked when the control is invalidated
+        /// </summary>
+        /// <param name="e">Event args</param>
         protected override void OnInvalidated(InvalidateEventArgs e)
         {
             base.OnInvalidated(e);
 
             // Check if there is a watermark
-            if (this.waterMarkContainer != null)
+            if (this.WaterMarkContainer != null)
             {
                 // If there is a watermark it should also be invalidated();
-                this.waterMarkContainer.Invalidate();
+                this.WaterMarkContainer.Invalidate();
             }
         }
 
@@ -104,10 +136,10 @@
         /// </summary>
         private void RemoveWaterMark()
         {
-            if (this.waterMarkContainer != null)
+            if (this.WaterMarkContainer != null)
             {
-                this.Controls.Remove(this.waterMarkContainer);
-                this.waterMarkContainer = null;
+                this.Controls.Remove(this.WaterMarkContainer);
+                this.WaterMarkContainer = null;
             }
         }
 
@@ -116,47 +148,62 @@
         /// </summary>
         private void DrawWaterMark()
         {
-            if (this.waterMarkContainer == null && this.TextLength <= 0)
+            if (this.WaterMarkContainer == null && this.TextLength <= 0)
             {
-                this.waterMarkContainer = new Panel();
-                this.waterMarkContainer.Click += this.WaterMarkContainerClick;
-                this.waterMarkContainer.Paint += this.WaterMarkContainerPaint;
-                this.waterMarkContainer.Invalidate();
-                this.Controls.Add(this.waterMarkContainer);
+                this.WaterMarkContainer = new Panel();
+                this.WaterMarkContainer.Click += this.WaterMarkContainerClick;
+                this.WaterMarkContainer.Paint += this.WaterMarkContainerPaint;
+                this.WaterMarkContainer.Invalidate();
+                this.Controls.Add(this.WaterMarkContainer);
             }
         }
 
+        /// <summary>
+        /// Invoked when the water mark container is clicked. Note this is not the textbox itself.
+        /// </summary>
+        /// <param name="sender">Sending object</param>
+        /// <param name="e">Event args</param>
         private void WaterMarkContainerClick(Object sender, EventArgs e)
         {
             this.Focus();
         }
 
+        /// <summary>
+        /// Invoked when the water mark container is rendered
+        /// </summary>
+        /// <param name="sender">Sending object</param>
+        /// <param name="e">Event args</param>
         private void WaterMarkContainerPaint(Object sender, PaintEventArgs e)
         {
-            this.waterMarkContainer.Location = new Point(2, 0);
-            this.waterMarkContainer.Height = this.Height;
-            this.waterMarkContainer.Width = this.Width;
-            this.waterMarkContainer.Anchor = AnchorStyles.Left | AnchorStyles.Right;
+            this.WaterMarkContainer.Location = new Point(2, 0);
+            this.WaterMarkContainer.Height = this.Height;
+            this.WaterMarkContainer.Width = this.Width;
+            this.WaterMarkContainer.Anchor = AnchorStyles.Left | AnchorStyles.Right;
 
             if (this.ContainsFocus)
             {
                 // If focused use normal color
-                this.waterMarkBrush = new SolidBrush(this.BackColor);
+                this.WaterMarkBrush = new SolidBrush(this.BackColor);
             }
             else
             {
                 // If not focused use not active color
-                this.waterMarkBrush = new SolidBrush(this.watermarkColor);
+                this.WaterMarkBrush = new SolidBrush(this.watermarkColor);
             }
 
             // Drawing the string into the panel 
-            e.Graphics.DrawString(this.watermarkText, this.waterMarkFont, this.waterMarkBrush, new PointF(-2f, 1f));
+            e.Graphics.DrawString(this.WatermarkText, this.waterMarkFont, this.WaterMarkBrush, new PointF(-2f, 1f));
         }
 
-        private void ThisHasFocus(Object sender, EventArgs e)
+        /// <summary>
+        /// Invoked when the control is selected
+        /// </summary>
+        /// <param name="sender">Sending object</param>
+        /// <param name="e">Event args</param>
+        private void TextEnter(Object sender, EventArgs e)
         {
             // If focused use focus color
-            this.waterMarkBrush = new SolidBrush(this.BackColor);
+            this.WaterMarkBrush = new SolidBrush(this.BackColor);
 
             // The watermark should not be drawn if the user has already written some text
             if (this.TextLength <= 0)
@@ -166,7 +213,12 @@
             }
         }
 
-        private void ThisWasLeaved(Object sender, EventArgs e)
+        /// <summary>
+        /// Invoked when the control is deselected
+        /// </summary>
+        /// <param name="sender">Sending object</param>
+        /// <param name="e">Event args</param>
+        private void TextLeave(Object sender, EventArgs e)
         {
             // If the user has written something and left the control
             if (this.TextLength > 0)
@@ -181,7 +233,12 @@
             }
         }
 
-        private void ThisTextChanged(Object sender, EventArgs e)
+        /// <summary>
+        /// Invoked when the text changes for the textbox
+        /// </summary>
+        /// <param name="sender">Sending object</param>
+        /// <param name="e">Event args</param>
+        private void TextChange(Object sender, EventArgs e)
         {
             // If the text of the textbox is not empty
             if (this.TextLength > 0)

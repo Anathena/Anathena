@@ -15,6 +15,9 @@
     /// </summary>
     internal partial class PropertyViewer : UserControl, IPropertyViewerObserver
     {
+        /// <summary>
+        /// The property grid to display selected objects
+        /// </summary>
         private System.Windows.Forms.PropertyGrid propertyGrid;
 
         /// <summary>
@@ -27,7 +30,11 @@
             // Windows Forms hosting -- TODO: Phase this out
             this.propertyGrid = new System.Windows.Forms.PropertyGrid();
 
-            this.SetAllColorsDark();
+            // Use reflection to set all propertygrid colors to dark, since some are otherwise not publically accessible
+            PropertyInfo[] allProperties = this.propertyGrid.GetType().GetProperties();
+            IEnumerable<PropertyInfo> colorProperties = allProperties.Select(x => x).Where(x => x.PropertyType == typeof(Color));
+            colorProperties.ForEach(x => x.SetValue(this.propertyGrid, DarkBrushes.BaseColor3, null));
+
             this.propertyGrid.BackColor = DarkBrushes.BaseColor3;
             this.propertyGrid.CommandsBackColor = DarkBrushes.BaseColor3;
             this.propertyGrid.HelpBackColor = DarkBrushes.BaseColor3;
@@ -55,16 +62,13 @@
             this.propertyViewer.Children.Add(WinformsHostingHelper.CreateHostedControl(this.propertyGrid));
         }
 
+        /// <summary>
+        /// Updates the selected target objects
+        /// </summary>
+        /// <param name="targetObjects">The selected target objects</param>
         public void Update(Object[] targetObjects)
         {
             this.propertyGrid.SelectedObjects = targetObjects == null || targetObjects.Contains(null) ? new Object[] { } : targetObjects;
-        }
-
-        private void SetAllColorsDark()
-        {
-            PropertyInfo[] allProperties = this.propertyGrid.GetType().GetProperties();
-            IEnumerable<PropertyInfo> colorProperties = allProperties.Select(x => x).Where(x => x.PropertyType == typeof(Color));
-            colorProperties.ForEach(x => x.SetValue(this.propertyGrid, DarkBrushes.BaseColor3, null));
         }
     }
     //// End class

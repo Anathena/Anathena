@@ -26,13 +26,25 @@
             Task.Run(() => ScanResultsViewModel.GetInstance().Subscribe(this));
         }
 
+        /// <summary>
+        /// Gets or sets the value hex dec box used to display the current value being edited
+        /// </summary>
         private HexDecTextBox ValueHexDecBox { get; set; }
 
+        /// <summary>
+        /// Updates the active type
+        /// </summary>
+        /// <param name="activeType">The new active type</param>
         public void Update(Type activeType)
         {
-            this.ValueHexDecBox?.SetElementType(activeType);
+            this.ValueHexDecBox.ElementType = activeType;
         }
 
+        /// <summary>
+        /// Invoked when the current value is changed, and informs the viewmodel.
+        /// </summary>
+        /// <param name="sender">Sending object</param>
+        /// <param name="e">Event args</param>
         private void ValueUpdated(Object sender, EventArgs e)
         {
             Source.Scanners.ManualScanner.ManualScannerViewModel.GetInstance().UpdateActiveValueCommand.Execute(this.ValueHexDecBox.GetValue());

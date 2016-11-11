@@ -21,12 +21,26 @@
             this.InitializeComponent();
         }
 
+        /// <summary>
+        /// Gets or sets the last location the left mouse button was down
+        /// </summary>
         private Point LastMouseDownLocation { get; set; }
 
+        /// <summary>
+        /// Gets or sets the item being dragged
+        /// </summary>
         private ProjectItemViewModel DraggedItem { get; set; }
 
+        /// <summary>
+        /// Gets or sets the target item of the drop action
+        /// </summary>
         private ProjectItemViewModel Target { get; set; }
 
+        /// <summary>
+        /// Invoked on a mouse down event in the tree view
+        /// </summary>
+        /// <param name="sender">Sending object</param>
+        /// <param name="e">Event args</param>
         private void ProjectExplorerTreeViewMouseDown(Object sender, MouseButtonEventArgs e)
         {
             if (e.ChangedButton == MouseButton.Left)
@@ -46,6 +60,11 @@
             }
         }
 
+        /// <summary>
+        /// Invoked on a mouse move event in the tree view
+        /// </summary>
+        /// <param name="sender">Sending object</param>
+        /// <param name="e">Event args</param>
         private void TreeViewMouseMove(Object sender, MouseEventArgs e)
         {
             try
@@ -86,6 +105,11 @@
             }
         }
 
+        /// <summary>
+        /// Invoked a on drag over event in the tree view
+        /// </summary>
+        /// <param name="sender">Sending object</param>
+        /// <param name="e">Event args</param>
         private void TreeViewDragOver(Object sender, DragEventArgs e)
         {
             try
@@ -96,7 +120,7 @@
                 {
                     // Verify that this is a valid drop and then store the drop target
                     ProjectItemViewModel item = ((sender as TreeViewItem).Header as ProjectItemViewModel) as ProjectItemViewModel;
-                    if (this.CheckDropTarget(this.DraggedItem, item))
+                    if (this.DraggedItem != item)
                     {
                         e.Effects = DragDropEffects.Move;
                     }
@@ -113,6 +137,11 @@
             }
         }
 
+        /// <summary>
+        /// Invoked on a drop event in the tree view
+        /// </summary>
+        /// <param name="sender">Sending object</param>
+        /// <param name="e">Event args</param>
         private void TreeViewDrop(Object sender, DragEventArgs e)
         {
             try
@@ -130,48 +159,6 @@
             }
             catch
             {
-            }
-        }
-
-        private Boolean CheckDropTarget(ProjectItemViewModel sourceItem, ProjectItemViewModel targetItem)
-        {
-            return sourceItem != targetItem;
-        }
-
-        private void CopyItem(ProjectItemViewModel sourceItem, ProjectItemViewModel targetItem)
-        {
-            try
-            {
-                // Adding dragged TreeViewItem in target ProjectItemViewModel
-                this.AddChild(sourceItem, targetItem);
-
-                // Finding Parent ProjectItemViewModel of dragged ProjectItemViewModel 
-                ProjectItemViewModel parentItem = sourceItem.Parent as ProjectItemViewModel;
-
-                // If parent is null then remove from TreeView else remove from Parent ProjectItemViewModel
-                if (parentItem == null)
-                {
-                    this.projectExplorerTreeView.Items.Remove(sourceItem);
-                }
-                else
-                {
-                    parentItem.RemoveChild(sourceItem);
-                }
-            }
-            catch
-            {
-            }
-        }
-
-        public void AddChild(ProjectItemViewModel sourceItem, ProjectItemViewModel targetItem)
-        {
-            // Add item in target ProjectItemViewModel 
-            ProjectItemViewModel newItem = new ProjectItemViewModel(sourceItem.ProjectItem);
-            newItem = sourceItem;
-            targetItem.AddChild(newItem);
-            foreach (ProjectItemViewModel item in sourceItem.Children)
-            {
-                this.AddChild(item, newItem);
             }
         }
     }
