@@ -2,6 +2,9 @@
 {
     using System;
 
+    /// <summary>
+    /// Interface for environment manipulations in a hooked process
+    /// </summary>
     internal interface IHookCore
     {
         void SetSpeed(Double speed);

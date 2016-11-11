@@ -4,9 +4,15 @@
     using System;
     using System.Runtime.InteropServices;
 
+    /// <summary>
+    /// Client event used to notify the hook to exit
+    /// </summary>
     [Serializable]
     public delegate void DisconnectedEvent();
 
+    /// <summary>
+    /// Interface to a hook that controls speed in an external process
+    /// </summary>
     [Serializable]
     internal class SpeedHackInterface : MarshalByRefObject, ISpeedHackInterface
     {

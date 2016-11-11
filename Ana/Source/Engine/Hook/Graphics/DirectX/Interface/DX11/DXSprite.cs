@@ -9,6 +9,9 @@
     using System.Diagnostics;
     using System.Runtime.InteropServices;
 
+    /// <summary>
+    /// A DirectX 11 Sprite
+    /// </summary>
     internal class DXSprite
     {
         /// <summary>

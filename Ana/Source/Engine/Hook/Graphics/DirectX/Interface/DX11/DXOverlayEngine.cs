@@ -8,6 +8,9 @@
     using System.Collections.Generic;
     using System.Diagnostics;
 
+    /// <summary>
+    /// Manages rendered DirectX 11 overlays in an external processes
+    /// </summary>
     internal class DXOverlayEngine
     {
         /// <summary>

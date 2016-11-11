@@ -16,6 +16,9 @@
     using Utils.HotkeyEditor;
     using Utils.TypeConverters;
 
+    /// <summary>
+    /// A base class for all project items that can be added to the project explorer
+    /// </summary>
     [Obfuscation(ApplyToMembers = true, Exclude = true)]
     [KnownType(typeof(ProjectItem))]
     [KnownType(typeof(FolderItem))]
@@ -47,14 +50,14 @@
         private IEnumerable<IHotkey> hotkeys;
 
         /// <summary>
-        /// 
+        /// Initializes a new instance of the <see cref="ProjectItem" /> class
         /// </summary>
         public ProjectItem() : this(String.Empty)
         {
         }
 
         /// <summary>
-        /// 
+        /// Initializes a new instance of the <see cref="ProjectItem" /> class
         /// </summary>
         /// <param name="description">The description of the project item</param>
         public ProjectItem(String description)

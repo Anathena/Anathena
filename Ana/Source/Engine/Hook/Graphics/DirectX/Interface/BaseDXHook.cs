@@ -20,6 +20,9 @@
             this.GraphicsInterface = graphicsInterface;
         }
 
+        /// <summary>
+        /// Finalizes an instance of the <see cref="BaseDXHook" /> class
+        /// </summary>
         ~BaseDXHook()
         {
             this.Dispose(false);

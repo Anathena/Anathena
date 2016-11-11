@@ -1,5 +1,8 @@
 ﻿namespace Ana.Source.LuaEngine.Input
 {
+    /// <summary>
+    /// Provides access to user input for Lua scripts
+    /// </summary>
     internal class LuaInputCore : IInputCore
     {
         /// <summary>

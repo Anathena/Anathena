@@ -10,6 +10,9 @@
     using Utils.Extensions;
     using Utils.Validation;
 
+    /// <summary>
+    /// Provides access to memory manipulations in an external process for Lua scripts
+    /// </summary>
     internal class LuaMemoryCore : IMemoryCore
     {
         private const Int32 JumpSize = 5;

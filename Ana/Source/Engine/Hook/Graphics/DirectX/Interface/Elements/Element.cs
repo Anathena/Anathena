@@ -15,6 +15,9 @@
             this.Visible = true;
         }
 
+        /// <summary>
+        /// Finalizes an instance of the <see cref="Element" /> class
+        /// </summary>
         ~Element()
         {
             this.Dispose(false);

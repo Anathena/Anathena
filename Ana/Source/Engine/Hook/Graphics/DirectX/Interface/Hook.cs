@@ -52,6 +52,9 @@
             this.CreateHook();
         }
 
+        /// <summary>
+        /// Finalizes an instance of the <see cref="Hook" /> class
+        /// </summary>
         ~Hook()
         {
             this.Dispose(false);

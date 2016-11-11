@@ -3,6 +3,9 @@
     using Engine.SpeedManipulator;
     using System;
 
+    /// <summary>
+    /// Provides access to environment manipulations in a hooked process for Lua scripts
+    /// </summary>
     internal class LuaHookCore : IHookCore
     {
         /// <summary>

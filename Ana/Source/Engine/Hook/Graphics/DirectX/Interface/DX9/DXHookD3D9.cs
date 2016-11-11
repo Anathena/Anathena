@@ -7,6 +7,9 @@
     using System.Runtime.InteropServices;
     using System.Windows.Forms;
 
+    /// <summary>
+    /// Hook for a DirectX 9 graphics library
+    /// </summary>
     internal class DXHookD3D9 : BaseDXHook
     {
         /// <summary>

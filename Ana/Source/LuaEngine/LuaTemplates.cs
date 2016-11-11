@@ -2,6 +2,9 @@
 {
     using System;
 
+    /// <summary>
+    /// Defines Lua templates for various classifications of cheats
+    /// </summary>
     internal class LuaTemplates
     {
         public static String GetCodeInjectionTemplate(String moduleName = "moduleName", UInt64 moduleOffset = 0x12345)

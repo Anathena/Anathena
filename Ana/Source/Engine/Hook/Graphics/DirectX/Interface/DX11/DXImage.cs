@@ -7,6 +7,9 @@
     using System.Drawing;
     using System.Drawing.Imaging;
 
+    /// <summary>
+    /// A DirectX 11 Image
+    /// </summary>
     internal class DXImage
     {
         private Device device;

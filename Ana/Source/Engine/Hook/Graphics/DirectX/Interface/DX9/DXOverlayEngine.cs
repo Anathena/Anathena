@@ -1,12 +1,15 @@
 ﻿namespace Ana.Source.Engine.Hook.Graphics.DirectX.Interface.DX9
 {
-    using Ana.Source.Engine.Hook.Graphics.DirectX.Interface.Elements;
+    using Elements;
     using SharpDX;
     using SharpDX.Direct3D9;
     using SharpDX.Mathematics.Interop;
     using System;
     using System.Collections.Generic;
 
+    /// <summary>
+    /// Manages rendered DirectX 9 overlays in an external processes
+    /// </summary>
     internal class DXOverlayEngine : IDisposable
     {
         /// <summary>

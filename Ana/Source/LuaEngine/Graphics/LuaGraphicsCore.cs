@@ -2,6 +2,9 @@
 {
     using System;
 
+    /// <summary>
+    /// Provides functions to interact with graphics in an external process for Lua scripts
+    /// </summary>
     internal class LuaGraphicsCore : IGraphicsCore
     {
         public Guid CreateText(String text, Int32 locationX, Int32 locationY)
