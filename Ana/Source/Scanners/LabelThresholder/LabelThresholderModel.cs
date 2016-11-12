@@ -8,7 +8,6 @@
     using System.Reflection;
     using System.Threading.Tasks;
     using UserSettings;
-    using Utils;
 
     internal class LabelThresholderModel : ScannerBase, ISnapshotObserver
     {
@@ -182,7 +181,7 @@
                             return;
                         }
 
-                        using (TimedLock.Lock(this.ItemLock))
+                        lock (this.ItemLock)
                         {
                             if (histogram.ContainsKey(element.ElementLabel))
                             {

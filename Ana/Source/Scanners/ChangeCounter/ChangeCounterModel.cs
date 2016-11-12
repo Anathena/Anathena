@@ -7,7 +7,6 @@
     using System.Linq;
     using System.Threading.Tasks;
     using UserSettings;
-    using Utils;
 
     internal class ChangeCounterModel : ScannerBase
     {
@@ -86,7 +85,7 @@
                     }
                 }
 
-                using (TimedLock.Lock(ProgressLock))
+                lock (ProgressLock)
                 {
                     processedPages++;
                 }

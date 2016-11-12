@@ -118,7 +118,7 @@
 
             this.FilteredSnapshot.AddSnapshotRegions(baseRegions);
 
-            using (TimedLock.Lock(this.RegionLock))
+            lock (this.RegionLock)
             {
                 List<SnapshotRegion> filteredRegions = new List<SnapshotRegion>(this.FilteredSnapshot.GetSnapshotRegions().OrderBy(x => x.TimeSinceLastRead));
 
@@ -196,7 +196,7 @@
         {
             Int32 regionCount = 1;
 
-            using (TimedLock.Lock(this.RegionLock))
+            lock (this.RegionLock)
             {
                 if (this.FilteredSnapshot != null)
                 {

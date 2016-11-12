@@ -7,7 +7,6 @@
     using System.Linq;
     using System.Threading.Tasks;
     using UserSettings;
-    using Utils;
 
     internal class ManualScannerModel : ScannerBase
     {
@@ -175,7 +174,8 @@
                     //// End foreach Constraint
                 }
                 //// End foreach Element
-                using (TimedLock.Lock(this.ProgressLock))
+
+                lock (this.ProgressLock)
                 {
                     processedPages++;
                 }

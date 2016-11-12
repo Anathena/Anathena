@@ -7,7 +7,6 @@
     using System.Collections.Generic;
     using System.Threading;
     using UserSettings;
-    using Utils;
     using Utils.Extensions;
 
     /// <summary>
@@ -106,7 +105,7 @@
         /// <returns>The current active snapshot of memory in the target process</returns>
         public Snapshot GetActiveSnapshot(Boolean createIfNone = true)
         {
-            using (TimedLock.Lock(this.AccessLock))
+            lock (this.AccessLock)
             {
                 // Take a snapshot if there are none, or the current one is empty
                 if (this.Snapshots.Count == 0 || this.Snapshots.Peek() == null || this.Snapshots.Peek().GetElementCount() == 0)
@@ -210,7 +209,7 @@
         /// </summary>
         public void CreateNewSnapshot()
         {
-            using (TimedLock.Lock(this.AccessLock))
+            lock (this.AccessLock)
             {
                 if (this.Snapshots.Count != 0 && this.Snapshots.Peek() == null)
                 {
@@ -227,7 +226,7 @@
         /// </summary>
         public void RedoSnapshot()
         {
-            using (TimedLock.Lock(this.AccessLock))
+            lock (this.AccessLock)
             {
                 if (this.DeletedSnapshots.Count == 0)
                 {
@@ -244,7 +243,7 @@
         /// </summary>
         public void UndoSnapshot()
         {
-            using (TimedLock.Lock(this.AccessLock))
+            lock (this.AccessLock)
             {
                 if (this.Snapshots.Count == 0)
                 {
@@ -267,7 +266,7 @@
         /// </summary>
         public void ClearSnapshots()
         {
-            using (TimedLock.Lock(this.AccessLock))
+            lock (this.AccessLock)
             {
                 this.Snapshots.Clear();
                 this.DeletedSnapshots.Clear();
@@ -281,7 +280,7 @@
         /// <param name="snapshot">The snapshot to save</param>
         public void SaveSnapshot(Snapshot snapshot)
         {
-            using (TimedLock.Lock(this.AccessLock))
+            lock (this.AccessLock)
             {
                 if (this.Snapshots.Count != 0 && this.Snapshots.Peek() == null)
                 {

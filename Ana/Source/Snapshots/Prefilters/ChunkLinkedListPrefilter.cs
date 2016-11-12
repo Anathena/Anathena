@@ -70,7 +70,7 @@
         {
             List<SnapshotRegion> regions = new List<SnapshotRegion>();
 
-            using (TimedLock.Lock(this.ChunkLock))
+            lock (this.ChunkLock)
             {
                 foreach (RegionProperties virtualPage in this.ChunkList)
                 {
@@ -132,7 +132,7 @@
             IOrderedEnumerable<NormalizedRegion> queriedRegionsSorted = queriedChunkedRegions.OrderByDescending(x => x.BaseAddress.ToUInt64());
             IOrderedEnumerable<RegionProperties> currentRegionsSorted;
 
-            using (TimedLock.Lock(this.ChunkLock))
+            lock (this.ChunkLock)
             {
                 currentRegionsSorted = this.ChunkList.OrderByDescending(x => x.BaseAddress.ToUInt64());
             }
@@ -185,7 +185,7 @@
         private void ProcessPages()
         {
             // Check for newly allocated pages
-            using (TimedLock.Lock(this.ChunkLock))
+            lock (this.ChunkLock)
             {
                 foreach (RegionProperties newPage in this.CollectNewPages())
                 {
@@ -193,7 +193,7 @@
                 }
             }
 
-            using (TimedLock.Lock(this.ChunkLock))
+            lock (this.ChunkLock)
             {
                 // Process the allowed amount of chunks from the priority queue
                 Parallel.For(
@@ -232,7 +232,7 @@
                     chunk.Update(pageData);
 
                     // Recycle it
-                    using (TimedLock.Lock(this.ElementLock))
+                    lock (this.ElementLock)
                     {
                         ChunkList.AddLast(chunk);
                     }
@@ -245,7 +245,7 @@
             Int32 processedCount;
             Int32 chunkCount;
 
-            using (TimedLock.Lock(this.ChunkLock))
+            lock (this.ChunkLock)
             {
                 processedCount = this.ChunkList.Where(x => x.IsProcessed()).Count();
                 chunkCount = this.ChunkList.Count();

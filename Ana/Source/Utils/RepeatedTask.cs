@@ -64,7 +64,7 @@
         /// </summary>
         public virtual void Begin()
         {
-            using (TimedLock.Lock(this.AccessLock))
+            lock (this.AccessLock)
             {
                 if (this.StartedFlag)
                 {
@@ -122,7 +122,7 @@
         /// </summary>
         protected virtual void OnEnd()
         {
-            using (TimedLock.Lock(this.AccessLock))
+            lock (this.AccessLock)
             {
                 this.StartedFlag = false;
             }
@@ -133,7 +133,7 @@
         /// </summary>
         private void UpdateController()
         {
-            using (TimedLock.Lock(this.AccessLock))
+            lock (this.AccessLock)
             {
                 if (this.FinishedFlag)
                 {

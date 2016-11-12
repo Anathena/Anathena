@@ -7,7 +7,6 @@
     using System.Reflection;
     using System.Threading.Tasks;
     using UserSettings;
-    using Utils;
     using Utils.Extensions;
 
     /// <summary>
@@ -405,7 +404,7 @@
 
                 if (!readSuccess)
                 {
-                    using (TimedLock.Lock(this.DeallocatedRegionLock))
+                    lock (this.DeallocatedRegionLock)
                     {
                         if (!this.DeallocatedRegions.Contains(snapshotRegion))
                         {

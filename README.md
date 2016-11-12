@@ -45,12 +45,8 @@ Write sophisticated hacks with minimal effort using the user friendly scripting 
 
 2) Compile for Release as AnyCPU
 
-3) Obfuscate executables in bin/Release using .Net Reactor
+3) Publish for Release in OneClick to the proper AnathenaWeb release folder
 
-4) Replace the main executable in obj/Release
+4) Manually copy over every single SharpDx DLL, and delete the existing '.deploy' SharpDx DLLs. Add '.deploy' to the copied over SharpDx DLLs. You can thank microsoft for this, SharpCli.exe will patch the SharpDx DLLs, but OneClick creates the published files before they get patched.
 
-5) Publish for Release in OneClick to the proper AnathenaWeb release folder. ENSURE BUILD DOES NOT RECOMPILE -- otherwise we will lose obfuscation changes. If there are any changes to the Anathena properties page, they will be auto-saved, and the project will recompile and one will have to start again.
-
-6) Ensure published assemblies are obfuscated (file size check in publish folder, as well as checking that no rebuild has started will suffice)
-
-7) Push assemblies to develop/master branch, deploy to elastic beanstalk.
+5) Push assemblies to develop/master branch, deploy to site
