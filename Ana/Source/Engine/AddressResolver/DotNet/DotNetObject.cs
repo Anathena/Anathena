@@ -5,7 +5,7 @@
     using System.Collections.Generic;
     using System.ComponentModel;
     using Utils.Extensions;
-
+    using Utils.TypeConverters;
     /// <summary>
     /// An object representing a .Net object in an external process
     /// </summary>
@@ -38,6 +38,7 @@
         }
 
         [ReadOnly(true)]
+        [TypeConverter(typeof(AddressConverter))]
         [Category("Properties"), DisplayName("Address"), Description("Address of the object. The CLR can change this at any time")]
         public UInt64 ObjectReference { get; set; }
 
@@ -51,7 +52,7 @@
 
         private DotNetObject Parent { get; set; }
 
-        private List<DotNetObject> Children { get; set; }
+        public List<DotNetObject> Children { get; set; }
 
         public void AddChild(DotNetObject objectNode)
         {

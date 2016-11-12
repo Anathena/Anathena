@@ -1,22 +1,22 @@
-﻿<UserControl x:Class="Ana.View.LabelThresholder"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:charts="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
-             xmlns:converters="clr-namespace:Ana.Source.Mvvm.Converters"
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
-             xmlns:local="clr-namespace:Ana"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:sys="clr-namespace:System;assembly=mscorlib"
-             xmlns:sysWindows="clr-namespace:System.Windows;assembly=PresentationCore"
-             xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
-             x:Name="AnaLabelThresholder"
-             d:DesignHeight="256"
-             d:DesignWidth="256"
-             x:ClassModifier="internal"
-             DataContext="{Binding LabelThresholderViewModel,
-                                   Source={StaticResource ViewModelLocator}}"
-             mc:Ignorable="d">
+﻿<UserControl
+    x:Class="Ana.View.LabelThresholder"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:charts="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
+    xmlns:converters="clr-namespace:Ana.Source.Mvvm.Converters"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+    xmlns:local="clr-namespace:Ana"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:sys="clr-namespace:System;assembly=mscorlib"
+    xmlns:sysWindows="clr-namespace:System.Windows;assembly=PresentationCore"
+    xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+    x:Name="AnaLabelThresholder"
+    d:DesignHeight="256"
+    d:DesignWidth="256"
+    x:ClassModifier="internal"
+    DataContext="{Binding LabelThresholderViewModel, Source={StaticResource ViewModelLocator}}"
+    mc:Ignorable="d">
     <Grid Background="{StaticResource AvalonDock_Expression_BaseColor3}">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
@@ -24,31 +24,35 @@
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <WrapPanel Grid.Row="0" Background="{StaticResource AvalonDock_Expression_BaseColor4}">
-            <Menu Background="Transparent" Padding="4">
+            <Menu Padding="4" Background="Transparent">
                 <MenuItem Command="{Binding ApplyThresholdCommand}" ToolTip="Apply Threshold">
                     <MenuItem.Header>
-                        <Image Width="16"
-                               Height="16"
-                               Source="pack://application:,,,/Ana;component/Content/Icons/RightArrow.png" />
+                        <Image
+                            Width="16"
+                            Height="16"
+                            Source="pack://application:,,,/Ana;component/Content/Icons/RightArrow.png" />
                     </MenuItem.Header>
                 </MenuItem>
                 <MenuItem Command="{Binding InvertSelectionCommand}" ToolTip="Invert Filter">
                     <MenuItem.Header>
-                        <Image Width="16"
-                               Height="16"
-                               Source="pack://application:,,,/Ana;component/Content/Icons/Invert.png" />
+                        <Image
+                            Width="16"
+                            Height="16"
+                            Source="pack://application:,,,/Ana;component/Content/Icons/Invert.png" />
                     </MenuItem.Header>
                 </MenuItem>
             </Menu>
         </WrapPanel>
-        <charts:CartesianChart Grid.Row="1"
-                               Grid.Column="0"
-                               DisableAnimations="True"
-                               Series="{Binding SeriesCollection}">
+        <charts:CartesianChart
+            Grid.Row="1"
+            Grid.Column="0"
+            DisableAnimations="True"
+            Series="{Binding SeriesCollection}">
             <charts:CartesianChart.AxisX>
-                <charts:Axis Labels="{Binding Labels}"
-                             LabelsRotation="-15"
-                             ShowLabels="True">
+                <charts:Axis
+                    Labels="{Binding Labels}"
+                    LabelsRotation="-15"
+                    ShowLabels="True">
                     <charts:Axis.Separator>
                         <charts:Separator IsEnabled="False" Step="1" />
                     </charts:Axis.Separator>
@@ -59,13 +63,12 @@
             </charts:CartesianChart.AxisY>
         </charts:CartesianChart>
         <Grid Grid.Row="2">
-            <xctk:RangeSlider Height="20"
-                              HigherValue="{Binding UpperThreshold}"
-                              LowerValue="{Binding LowerThreshold}"
-                              Maximum="{Binding MaximumValue,
-                                                Mode=OneWay}"
-                              Minimum="{Binding MinimumValue,
-                                                Mode=OneWay}" />
+            <xctk:RangeSlider
+                Height="20"
+                HigherValue="{Binding UpperThreshold}"
+                LowerValue="{Binding LowerThreshold}"
+                Maximum="{Binding MaximumValue, Mode=OneWay}"
+                Minimum="{Binding MinimumValue, Mode=OneWay}" />
         </Grid>
     </Grid>
 </UserControl>

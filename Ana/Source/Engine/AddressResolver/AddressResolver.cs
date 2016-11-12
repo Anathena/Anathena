@@ -37,7 +37,6 @@
         {
             this.DotNetNameMap = new Dictionary<String, DotNetObject>();
             this.Modules = new List<NormalizedModule>();
-            this.Begin();
         }
 
         /// <summary>
@@ -102,7 +101,7 @@
         protected override void OnUpdate()
         {
             Dictionary<String, DotNetObject> nameMap = new Dictionary<String, DotNetObject>();
-            List<DotNetObject> objectTrees = new List<DotNetObject>(); // DotNetObjectCollector.GetInstance().GetObjectTrees();
+            List<DotNetObject> objectTrees = DotNetObjectCollector.GetInstance().GetObjectTrees();
 
             // Build module list
             this.Modules = EngineCore.GetInstance().OperatingSystemAdapter.GetModules();

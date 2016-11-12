@@ -1,6 +1,8 @@
 ﻿namespace Ana.Source.Main
 {
     using Docking;
+    using Engine.AddressResolver;
+    using Engine.AddressResolver.DotNet;
     using Mvvm;
     using Mvvm.Command;
     using Snapshots.Prefilters;
@@ -58,6 +60,8 @@
             this.SaveLayoutCommand = new RelayCommand<DockingManager>((dockingManager) => this.SaveLayout(dockingManager), (dockingManager) => true);
 
             SnapshotPrefilterFactory.GetSnapshotPrefilter(typeof(ChunkLinkedListPrefilter)).BeginPrefilter();
+            DotNetObjectCollector.GetInstance().Begin();
+            AddressResolver.GetInstance().Begin();
         }
 
         /// <summary>

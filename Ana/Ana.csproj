@@ -137,6 +137,7 @@
     <Compile Include="Source\Controls\HexDecBoxViewModel.cs" />
     <Compile Include="Source\Controls\TreeViewItemViewModel.cs" />
     <Compile Include="Source\Engine\AddressResolver\DotNet\DotNetObjectCollector.cs" />
+    <Compile Include="Source\Engine\AddressResolver\DotNet\DotNetObjectViewModel.cs" />
     <Compile Include="Source\Engine\Hook\Client\HookClient.cs" />
     <Compile Include="Source\Engine\Hook\Client\IHookClient.cs" />
     <Compile Include="Source\Engine\Hook\Graphics\DirectX\DirextXGraphicsInterface.cs" />

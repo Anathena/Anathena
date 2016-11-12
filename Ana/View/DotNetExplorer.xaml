@@ -4,10 +4,11 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:converters="clr-namespace:Ana.Source.Mvvm.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:dotNet="clr-namespace:Ana.Source.Engine.AddressResolver.DotNet"
     xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+    xmlns:intr="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
     xmlns:local="clr-namespace:Ana"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:project="clr-namespace:Ana.Source.Project.ProjectItems"
     xmlns:sys="clr-namespace:System;assembly=mscorlib"
     xmlns:sysWindows="clr-namespace:System.Windows;assembly=PresentationCore"
     x:Name="AnaDotNetExplorer"
@@ -16,102 +17,42 @@
     x:ClassModifier="internal"
     DataContext="{Binding DotNetExplorerViewModel, Source={StaticResource ViewModelLocator}}"
     mc:Ignorable="d">
+    <intr:Interaction.Triggers>
+        <intr:EventTrigger EventName="Loaded">
+            <intr:InvokeCommandAction Command="{Binding RefreshObjectsCommand}" />
+        </intr:EventTrigger>
+    </intr:Interaction.Triggers>
+
     <Grid Background="{StaticResource AvalonDock_Expression_BaseColor3}">
-        <TextBlock Foreground="{StaticResource AvalonDock_Expression_BaseColor2}" Text="Feature in Development : )" />
-        <!--<TreeView
-            Name="projectExplorerTreeView"
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <Border
+            Grid.Row="0"
+            Padding="8,4,8,4"
+            Background="{StaticResource AvalonDock_Expression_BaseColor4}">
+            <WrapPanel>
+                <Menu Background="Transparent">
+                    <MenuItem Command="{Binding RefreshObjectsCommand}">
+                        <MenuItem.Header>
+                            <Image
+                                Width="16"
+                                Height="16"
+                                Source="pack://application:,,,/Ana;component/Content/Icons/Undo.png"
+                                ToolTip="Refresh Object Trees" />
+                        </MenuItem.Header>
+                    </MenuItem>
+                </Menu>
+            </WrapPanel>
+        </Border>
+        <TreeView
+            Name="dotNetExplorerTreeView"
             Grid.Row="1"
             AllowDrop="True"
             Background="{StaticResource AvalonDock_Expression_BaseColor3}"
             BorderThickness="0"
-            ItemsSource="{Binding ProjectItems, Mode=OneWay}">
-            <TreeView.ContextMenu>
-                <ContextMenu
-                    Background="{StaticResource AvalonDock_Expression_BaseColor1}"
-                    BorderBrush="{StaticResource AvalonDock_Expression_BaseColor2}"
-                    BorderThickness="1"
-                    Style="{StaticResource DropDownContextMenu}">
-                    <ContextMenu.Resources>
-                        <Style x:Key="menuItemStyle" TargetType="{x:Type MenuItem}">
-                            <Setter Property="Foreground" Value="{StaticResource AvalonDock_Expression_BaseColor2}" />
-                            <Setter Property="Background" Value="{StaticResource AvalonDock_Expression_BaseColor4}" />
-                            <Setter Property="BorderBrush" Value="{StaticResource AvalonDock_Expression_BaseColor4}" />
-                            <Setter Property="BorderThickness" Value="0" />
-                        </Style>
-                    </ContextMenu.Resources>
-                    <MenuItem
-                        Command="{Binding ToggleSelectionActivationCommand}"
-                        Style="{StaticResource menuItemStyle}"
-                        ToolTip="Toggle Cheat Activation">
-                        <MenuItem.Header>
-                            <TextBlock Foreground="{StaticResource AvalonDock_Expression_BaseColor2}" Text="Toggle Activation" />
-                        </MenuItem.Header>
-                    </MenuItem>
-                    <MenuItem
-                        Command="{Binding DeleteSelectionCommand}"
-                        Style="{StaticResource menuItemStyle}"
-                        ToolTip="Delete Selected Cheats">
-                        <MenuItem.Header>
-                            <TextBlock Foreground="{StaticResource AvalonDock_Expression_BaseColor2}" Text="Delete Selection" />
-                        </MenuItem.Header>
-                    </MenuItem>
-                    <Separator />
-                    <MenuItem
-                        Background="{StaticResource AvalonDock_Expression_BaseColor1}"
-                        BorderBrush="{StaticResource AvalonDock_Expression_BaseColor1}"
-                        Command="{Binding AddNewFolderItemCommand}"
-                        ToolTip="Add New Folder">
-                        <MenuItem.Header>
-                            <WrapPanel Width="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=ActualWidth}">
-                                <Image
-                                    Width="16"
-                                    Height="16"
-                                    Source="pack://application:,,,/Ana;component/Content/Icons/Open.png" />
-                                <TextBlock
-                                    Padding="4,0,0,0"
-                                    Foreground="{StaticResource AvalonDock_Expression_BaseColor2}"
-                                    Text="Add Folder" />
-                            </WrapPanel>
-                        </MenuItem.Header>
-                    </MenuItem>
-                    <MenuItem
-                        Background="{StaticResource AvalonDock_Expression_BaseColor1}"
-                        BorderBrush="{StaticResource AvalonDock_Expression_BaseColor1}"
-                        Command="{Binding AddNewAddressItemCommand}"
-                        ToolTip="Add New Address">
-                        <MenuItem.Header>
-                            <WrapPanel Width="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=ActualWidth}">
-                                <Image
-                                    Width="16"
-                                    Height="16"
-                                    Source="pack://application:,,,/Ana;component/Content/Icons/CollectValues.png" />
-                                <TextBlock
-                                    Padding="4,0,0,0"
-                                    Foreground="{StaticResource AvalonDock_Expression_BaseColor2}"
-                                    Text="Add Address" />
-                            </WrapPanel>
-                        </MenuItem.Header>
-                    </MenuItem>
-                    <MenuItem
-                        Background="{StaticResource AvalonDock_Expression_BaseColor1}"
-                        BorderBrush="{StaticResource AvalonDock_Expression_BaseColor1}"
-                        Command="{Binding AddNewScriptItemCommand}"
-                        ToolTip="Add New Script">
-                        <MenuItem.Header>
-                            <WrapPanel Width="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=ActualWidth}">
-                                <Image
-                                    Width="16"
-                                    Height="16"
-                                    Source="pack://application:,,,/Ana;component/Content/Icons/CollectValues.png" />
-                                <TextBlock
-                                    Padding="4,0,0,0"
-                                    Foreground="{StaticResource AvalonDock_Expression_BaseColor2}"
-                                    Text="Add Script" />
-                            </WrapPanel>
-                        </MenuItem.Header>
-                    </MenuItem>
-                </ContextMenu>
-            </TreeView.ContextMenu>
+            ItemsSource="{Binding DotNetObjects, Mode=OneWay}">
             <TreeView.ItemContainerStyle>
                 <Style TargetType="{x:Type TreeViewItem}">
                     <Style.Resources>
@@ -133,18 +74,26 @@
             </TreeView.ItemContainerStyle>
 
             <TreeView.Resources>
-                <HierarchicalDataTemplate DataType="{x:Type project:ProjectItemViewModel}" ItemsSource="{Binding Children}">
-                    <WrapPanel Orientation="Horizontal">
-                        <CheckBox IsChecked="{Binding ProjectItem.IsActivated}" />
-                        <Image
-                            Width="16"
-                            Height="16"
-                            Margin="3,0"
-                            Source="{Binding Icon}" />
-                        <TextBlock Foreground="{StaticResource AvalonDock_Expression_BaseColor2}" Text="{Binding ProjectItem.Description}" />
-                    </WrapPanel>
+                <HierarchicalDataTemplate DataType="{x:Type dotNet:DotNetObjectViewModel}" ItemsSource="{Binding Children}">
+                    <Grid>
+                        <Grid.InputBindings>
+                            <MouseBinding
+                                Command="{Binding DataContext.AddDotNetObjectCommand, ElementName=AnaDotNetExplorer}"
+                                CommandParameter="{Binding .}"
+                                Gesture="LeftDoubleClick" />
+                        </Grid.InputBindings>
+
+                        <WrapPanel Orientation="Horizontal">
+                            <Image
+                                Width="16"
+                                Height="16"
+                                Margin="3,0"
+                                Source="{Binding Icon}" />
+                            <TextBlock Foreground="{StaticResource AvalonDock_Expression_BaseColor2}" Text="{Binding DotNetObject.Name}" />
+                        </WrapPanel>
+                    </Grid>
                 </HierarchicalDataTemplate>
             </TreeView.Resources>
-        </TreeView>-->
+        </TreeView>
     </Grid>
 </UserControl>

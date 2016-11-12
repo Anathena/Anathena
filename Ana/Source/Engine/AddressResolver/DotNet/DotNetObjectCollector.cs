@@ -1,6 +1,7 @@
 ﻿namespace Ana.Source.Engine.AddressResolver.DotNet
 {
     using AnathenaProxy;
+    using Processes;
     using Proxy;
     using System;
     using System.Collections.Generic;
@@ -63,7 +64,6 @@
         /// </summary>
         private DotNetObjectCollector()
         {
-            this.Begin();
         }
 
         public static DotNetObjectCollector GetInstance()
@@ -88,6 +88,7 @@
             this.UpdateInterval = DotNetObjectCollector.PollingTime;
 
             ProxyCommunicator proxyCommunicator = ProxyCommunicator.GetInstance();
+            NormalizedProcess process = EngineCore.GetInstance()?.Processes?.GetOpenedProcess();
             IProxyService proxyService = proxyCommunicator.GetProxyService(EngineCore.GetInstance().Processes.IsOpenedProcess32Bit());
 
             if (proxyService == null)
@@ -95,7 +96,7 @@
                 return;
             }
 
-            if (!proxyService.RefreshHeap(EngineCore.GetInstance().Processes.GetOpenedProcess().ProcessId))
+            if (process == null || !proxyService.RefreshHeap(process.ProcessId))
             {
                 return;
             }

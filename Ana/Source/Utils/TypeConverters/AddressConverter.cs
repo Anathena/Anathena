@@ -30,7 +30,7 @@
 
         public override Boolean CanConvertTo(ITypeDescriptorContext context, Type sourceType)
         {
-            return sourceType == typeof(IntPtr);
+            return (sourceType == typeof(IntPtr) || sourceType == typeof(UInt64));
         }
 
         public override Boolean CanConvertFrom(ITypeDescriptorContext context, Type sourceType)
