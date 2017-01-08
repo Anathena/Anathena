@@ -29,9 +29,8 @@ namespace Ana.Content
         /// </summary>
         public virtual string TransformText()
         {
-            this.Write("- Added a Change Log :)\r\n- Added quick edit for scripts and values. Just double c" +
-                    "lick them now.\r\n- Fixes to 64 bit code injection (issues with allocation permiss" +
-                    "ions)");
+            this.Write("- Added an output window to show useful events as they happen.\r\n- Added auto dete" +
+                    "ction for when a process closes");
             return this.GenerationEnvironment.ToString();
         }
     }

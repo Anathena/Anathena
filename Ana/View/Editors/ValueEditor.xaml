@@ -1,5 +1,5 @@
 ﻿<shell:Window
-    x:Class="Ana.View.ValueEditor"
+    x:Class="Ana.View.Editors.ValueEditor"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:avalonedit="http://icsharpcode.net/sharpdevelop/avalonedit"
@@ -21,10 +21,11 @@
     x:ClassModifier="internal"
     BorderBrush="{StaticResource AvalonDock_Expression_BaseColor2}"
     BorderThickness="2"
+    ContentRendered="AnaValueEditorContentRendered"
     DataContext="{Binding ValueEditorViewModel, Source={StaticResource ViewModelLocator}}"
     WindowStartupLocation="CenterOwner"
     WindowStyle="None"
-    mc:Ignorable="d" ContentRendered="AnaValueEditorContentRendered">
+    mc:Ignorable="d">
     <shell:WindowChrome.WindowChrome>
         <shell:WindowChrome CaptionHeight="{Binding ActualHeight, ElementName=titlebar}" />
     </shell:WindowChrome.WindowChrome>

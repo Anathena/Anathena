@@ -12,8 +12,8 @@
     using System.Linq;
     using System.Threading.Tasks;
     using UserSettings;
+    using Utils;
     using Utils.Extensions;
-    using Utils.Validation;
 
     /// <summary>
     /// Trace-Retrace Algorithm:
@@ -164,7 +164,7 @@
 
         public String GetAddressAtIndex(Int32 index)
         {
-            return Conversions.ToHex(this.AcceptedPointers[index].Item1);
+            return Conversions.ToHex(this.AcceptedPointers[index].Item1, formatAsAddress: true, includePrefix: false);
         }
 
         public IEnumerable<String> GetOffsetsAtIndex(Int32 index)
@@ -243,7 +243,7 @@
         }
 
         /// <summary>
-        /// Called when the repeated task completes
+        /// Called when the repeated task completes.
         /// </summary>
         protected override void OnEnd()
         {

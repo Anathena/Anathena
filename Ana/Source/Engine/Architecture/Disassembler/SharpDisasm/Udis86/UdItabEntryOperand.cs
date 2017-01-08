@@ -1,15 +1,15 @@
 ﻿namespace Ana.Source.Engine.Architecture.Disassembler.SharpDisasm.Udis86
 {
     /// <summary>
-    /// A single operand of an entry within the instruction table
+    /// A single operand of an entry within the instruction table.
     /// </summary>
     public struct UdItabEntryOperand
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="UdItabEntryOperand" /> struct
+        /// Initializes a new instance of the <see cref="UdItabEntryOperand" /> struct.
         /// </summary>
-        /// <param name="operandType">TODO operandType</param>
-        /// <param name="operandSize">TODO operandSize</param>
+        /// <param name="operandType">TODO operandType.</param>
+        /// <param name="operandSize">TODO operandSize.</param>
         public UdItabEntryOperand(UdOperandCode operandType, UdOperandSize operandSize)
         {
             this.OperandType = operandType;
@@ -17,12 +17,12 @@
         }
 
         /// <summary>
-        /// Gets or sets the operand type
+        /// Gets or sets the operand type.
         /// </summary>
         public UdOperandCode OperandType { get; set; }
 
         /// <summary>
-        /// Gets or sets the operand size
+        /// Gets or sets the operand size.
         /// </summary>
         public UdOperandSize Size { get; set; }
     }

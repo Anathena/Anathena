@@ -3,18 +3,14 @@ namespace Ana.Source.Mvvm.Helpers
     using System.Threading.Tasks;
 
     /// <summary>
-    /// Helper class used when an async method is required,
-    /// but the context is synchronous.
+    /// Helper class used when an async method is required, but the context is synchronous.
     /// </summary>
     public static class Empty
     {
         /// <summary>
-        /// An empty task object
+        /// An empty task object.
         /// </summary>
-        private static readonly Task ConcreteTask = new Task(
-            () =>
-            {
-            });
+        private static readonly Task ConcreteTask = new Task(() => { });
 
         /// <summary>
         /// Gets the empty task.

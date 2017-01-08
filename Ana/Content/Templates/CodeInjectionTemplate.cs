@@ -60,6 +60,11 @@ public class Cheat
 		Memory.CreateCodeCave(entry, code);
 	}
 
+	public void OnUpdate(float elapsedTimeMillis)
+	{
+	
+	}
+
 	public void OnDeactivate()
 	{
 		Memory.ClearAllKeywords();

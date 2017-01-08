@@ -5,6 +5,5 @@
 <#@ import namespace="System.Text" #>
 <#@ import namespace="System.Collections.Generic" #>
 <#@ import namespace="Ana" #>
-- Added a Change Log :)
-- Added quick edit for scripts and values. Just double click them now.
-- Fixes to 64 bit code injection (issues with allocation permissions)
+- Added an output window to show useful events as they happen.
+- Added auto detection for when a process closes

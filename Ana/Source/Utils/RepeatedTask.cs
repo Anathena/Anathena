@@ -5,62 +5,72 @@
     using System.Threading.Tasks;
 
     /// <summary>
-    /// A task that repeatedly performs an action
+    /// A task that repeatedly performs an action.
     /// </summary>
     internal abstract class RepeatedTask
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="RepeatedTask" /> class
+        /// The default amount of time to wait for aborting actions.
+        /// </summary>
+        private const Int32 DefaultAbortTime = 3000;
+
+        /// <summary>
+        /// The default update loop time.
+        /// </summary>
+        private const Int32 DefaultUpdateTime = 400;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="RepeatedTask" /> class.
         /// </summary>
         public RepeatedTask()
         {
             this.AccessLock = new Object();
-            this.AbortTime = 3000;       // Set a default abort time
-            this.UpdateInterval = 400;   // Set a default update interval
+            this.AbortTime = RepeatedTask.DefaultAbortTime;
+            this.UpdateInterval = RepeatedTask.DefaultUpdateTime;
         }
 
         /// <summary>
-        /// Gets or sets a value indicating whether the task should be canceled
+        /// Gets or sets a value indicating whether the task should be canceled.
         /// </summary>
         protected Boolean CancelFlag { get; set; }
 
         /// <summary>
-        /// Gets or sets the time to wait (in ms) before giving up when ending scan
+        /// Gets or sets the time to wait (in ms) before giving up when ending scan.
         /// </summary>
         protected Int32 AbortTime { get; set; }
 
         /// <summary>
-        /// Gets or sets the time to wait (in ms) before next update (and time to wait for cancelation)
+        /// Gets or sets the time to wait (in ms) before next update (and time to wait for cancelation).
         /// </summary>
         protected Int32 UpdateInterval { get; set; }
 
         /// <summary>
-        /// Gets or sets the multithreading lock for shared resources
+        /// Gets or sets the multithreading lock for shared resources.
         /// </summary>
         private Object AccessLock { get; set; }
 
         /// <summary>
-        /// Gets or sets a value indicating whether the repeated task has started
+        /// Gets or sets a value indicating whether the repeated task has started.
         /// </summary>
         private Boolean StartedFlag { get; set; }
 
         /// <summary>
-        /// Gets or sets a value indicating whether the repeated task has finished
+        /// Gets or sets a value indicating whether the repeated task has finished.
         /// </summary>
         private Boolean FinishedFlag { get; set; }
 
         /// <summary>
-        /// Gets or sets an object that informs the running task that it should cancel and exit
+        /// Gets or sets an object that informs the running task that it should cancel and exit.
         /// </summary>
         private CancellationTokenSource CancelRequest { get; set; }
 
         /// <summary>
-        /// Gets or sets the task being repeated
+        /// Gets or sets the task being repeated.
         /// </summary>
         private Task Task { get; set; }
 
         /// <summary>
-        /// Starts the repeated task
+        /// Starts the repeated task.
         /// </summary>
         public virtual void Begin()
         {
@@ -92,7 +102,7 @@
         }
 
         /// <summary>
-        /// Cancels the running task
+        /// Cancels the running task.
         /// </summary>
         public void End()
         {
@@ -113,12 +123,12 @@
         }
 
         /// <summary>
-        /// Performs the update logic for the running task
+        /// Performs the update logic for the running task.
         /// </summary>
         protected abstract void OnUpdate();
 
         /// <summary>
-        /// Called when the repeated task completes
+        /// Called when the repeated task completes.
         /// </summary>
         protected virtual void OnEnd()
         {
@@ -129,7 +139,7 @@
         }
 
         /// <summary>
-        /// Controls the repeated task, calling <see cref="OnUpdate"/> at each interval
+        /// Controls the repeated task, calling <see cref="OnUpdate"/> at each interval.
         /// </summary>
         private void UpdateController()
         {

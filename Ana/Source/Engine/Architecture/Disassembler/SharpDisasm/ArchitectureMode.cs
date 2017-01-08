@@ -1,22 +1,22 @@
 ﻿namespace Ana.Source.Engine.Architecture.Disassembler.SharpDisasm
 {
     /// <summary>
-    /// The CPU architecture mode
+    /// The CPU architecture mode.
     /// </summary>
     public enum ArchitectureMode
     {
         /// <summary>
-        /// 16-bit Architecture
+        /// 16-bit Architecture.
         /// </summary>
         x86_16 = 16,
 
         /// <summary>
-        /// 32-bit Architecture
+        /// 32-bit Architecture.
         /// </summary>
         x86_32 = 32,
 
         /// <summary>
-        /// 64-bit Architecture
+        /// 64-bit Architecture.
         /// </summary>
         x86_64 = 64
     }

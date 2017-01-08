@@ -167,16 +167,16 @@
         /// <summary>
         /// Converts the concurrent hash set to a list.
         /// </summary>
-        /// <returns>The collection as a list</returns>
+        /// <returns>The collection as a list.</returns>
         internal List<T> ToList()
         {
             return this.hashSet.ToList();
         }
 
         /// <summary>
-        /// Disposes of this object and all managed resources
+        /// Disposes of this object and all managed resources.
         /// </summary>
-        /// <param name="disposing">Whether or not to dispose managed resources</param>
+        /// <param name="disposing">Whether or not to dispose managed resources.</param>
         protected virtual void Dispose(Boolean disposing)
         {
             if (disposing)

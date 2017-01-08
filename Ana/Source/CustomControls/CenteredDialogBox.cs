@@ -1,9 +1,8 @@
-﻿namespace Ana.View.Controls
+﻿namespace Ana.Source.CustomControls
 {
     using System;
     using System.Drawing;
     using System.Runtime.InteropServices;
-    using System.Text;
     using System.Threading;
     using System.Windows;
     using System.Windows.Interop;
@@ -11,26 +10,10 @@
     public class MessageBoxEx
     {
         private static IntPtr ownerPtr;
+
         private static HookProc hookProc;
+
         private static IntPtr hHook;
-
-        public static MessageBoxResult Show(String text)
-        {
-            MessageBoxEx.Initialize();
-            return MessageBox.Show(text);
-        }
-
-        public static MessageBoxResult Show(String text, String caption)
-        {
-            MessageBoxEx.Initialize();
-            return MessageBox.Show(text, caption);
-        }
-
-        public static MessageBoxResult Show(String text, String caption, MessageBoxButton buttons)
-        {
-            MessageBoxEx.Initialize();
-            return MessageBox.Show(text, caption, buttons);
-        }
 
         public static MessageBoxResult Show(String text, String caption, MessageBoxButton buttons, MessageBoxImage icon)
         {
@@ -38,58 +21,11 @@
             return MessageBox.Show(text, caption, buttons, icon);
         }
 
-        public static MessageBoxResult Show(String text, String caption, MessageBoxButton buttons, MessageBoxImage icon, MessageBoxResult defResult)
-        {
-            MessageBoxEx.Initialize();
-            return MessageBox.Show(text, caption, buttons, icon, defResult);
-        }
-
-        public static MessageBoxResult Show(String text, String caption, MessageBoxButton buttons, MessageBoxImage icon, MessageBoxResult defResult, MessageBoxOptions options)
-        {
-            MessageBoxEx.Initialize();
-            return MessageBox.Show(text, caption, buttons, icon, defResult, options);
-        }
-
-        public static MessageBoxResult Show(Window owner, String text)
-        {
-            ownerPtr = new WindowInteropHelper(owner).Handle;
-            MessageBoxEx.Initialize();
-            return MessageBox.Show(owner, text);
-        }
-
-        public static MessageBoxResult Show(Window owner, string text, string caption)
-        {
-            ownerPtr = new WindowInteropHelper(owner).Handle;
-            MessageBoxEx.Initialize();
-            return MessageBox.Show(owner, text, caption);
-        }
-
-        public static MessageBoxResult Show(Window owner, string text, string caption, MessageBoxButton buttons)
-        {
-            ownerPtr = new WindowInteropHelper(owner).Handle;
-            MessageBoxEx.Initialize();
-            return MessageBox.Show(owner, text, caption, buttons);
-        }
-
         public static MessageBoxResult Show(Window owner, string text, string caption, MessageBoxButton buttons, MessageBoxImage icon)
         {
             ownerPtr = new WindowInteropHelper(owner).Handle;
             MessageBoxEx.Initialize();
             return MessageBox.Show(owner, text, caption, buttons, icon);
-        }
-
-        public static MessageBoxResult Show(Window owner, string text, string caption, MessageBoxButton buttons, MessageBoxImage icon, MessageBoxResult defResult)
-        {
-            ownerPtr = new WindowInteropHelper(owner).Handle;
-            MessageBoxEx.Initialize();
-            return MessageBox.Show(owner, text, caption, buttons, icon, defResult);
-        }
-
-        public static MessageBoxResult Show(Window owner, string text, String caption, MessageBoxButton buttons, MessageBoxImage icon, MessageBoxResult defResult, MessageBoxOptions options)
-        {
-            ownerPtr = new WindowInteropHelper(owner).Handle;
-            MessageBoxEx.Initialize();
-            return MessageBox.Show(owner, text, caption, buttons, icon, defResult, options);
         }
 
         public delegate IntPtr HookProc(Int32 nCode, IntPtr wParam, IntPtr lParam);
@@ -118,12 +54,6 @@
         [DllImport("user32.dll")]
         private static extern Int32 MoveWindow(IntPtr hWnd, Int32 X, Int32 Y, Int32 nWidth, Int32 nHeight, Boolean bRepaint);
 
-        [DllImport("User32.dll")]
-        public static extern UIntPtr SetTimer(IntPtr hWnd, UIntPtr nIDEvent, UInt32 uElapse, TimerProc lpTimerFunc);
-
-        [DllImport("User32.dll")]
-        public static extern IntPtr SendMessage(IntPtr hWnd, Int32 Msg, IntPtr wParam, IntPtr lParam);
-
         [DllImport("user32.dll")]
         public static extern IntPtr SetWindowsHookEx(Int32 idHook, HookProc lpfn, IntPtr hInstance, Int32 threadId);
 
@@ -132,15 +62,6 @@
 
         [DllImport("user32.dll")]
         public static extern IntPtr CallNextHookEx(IntPtr idHook, Int32 nCode, IntPtr wParam, IntPtr lParam);
-
-        [DllImport("user32.dll")]
-        public static extern Int32 GetWindowTextLength(IntPtr hWnd);
-
-        [DllImport("user32.dll")]
-        public static extern Int32 GetWindowText(IntPtr hWnd, StringBuilder text, Int32 maxLength);
-
-        [DllImport("user32.dll")]
-        public static extern Int32 EndDialog(IntPtr hDlg, IntPtr nResult);
 
         [StructLayout(LayoutKind.Sequential)]
         public struct CWPRETSTRUCT
@@ -162,7 +83,7 @@
         {
             if (hHook != IntPtr.Zero)
             {
-                throw new NotSupportedException("multiple calls are not supported");
+                throw new NotSupportedException("Multiple calls are not supported.");
             }
 
             if (ownerPtr != null)

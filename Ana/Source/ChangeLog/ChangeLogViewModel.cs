@@ -5,10 +5,13 @@
     using System.Reflection;
 
     /// <summary>
-    /// View model for the Change Log
+    /// View model for the Change Log.
     /// </summary>
     internal class ChangeLogViewModel : ViewModelBase
     {
+        /// <summary>
+        /// The changelog text.
+        /// </summary>
         private String changeLog;
 
         /// <summary>
@@ -19,6 +22,9 @@
             this.changeLog = new Ana.Content.ChangeLog().TransformText();
         }
 
+        /// <summary>
+        /// Gets the changelog text.
+        /// </summary>
         public String ChangeLog
         {
             get
@@ -27,6 +33,9 @@
             }
         }
 
+        /// <summary>
+        /// Gets the title, including version, of the changelog.
+        /// </summary>
         public String Title
         {
             get

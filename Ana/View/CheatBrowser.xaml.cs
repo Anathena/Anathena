@@ -10,24 +10,23 @@
     using System.Windows.Navigation;
 
     /// <summary>
-    /// Interaction logic for CheatBrowser.xaml
+    /// Interaction logic for CheatBrowser.xaml.
     /// </summary>
     internal partial class CheatBrowser : System.Windows.Controls.UserControl
     {
         /// <summary>
-        /// The file extension for cheat files
+        /// The file extension for cheat files.
         /// </summary>
         private const String FileExtension = ".hax";
 
-
         /// <summary>
-        /// Initializes a new instance of the <see cref="CheatBrowser" /> class
+        /// Initializes a new instance of the <see cref="CheatBrowser" /> class.
         /// </summary>
         public CheatBrowser()
         {
             this.InitializeComponent();
 
-            this.browser.Navigating += BrowserNavigating;
+            this.browser.Navigating += this.BrowserNavigating;
             this.CheatBrowserViewModel.NavigateHomeCommand.Execute(this.browser);
         }
 
@@ -43,10 +42,10 @@
         }
 
         /// <summary>
-        /// Invoked when the browser is about to navigate to a new page
+        /// Invoked when the browser is about to navigate to a new page.
         /// </summary>
-        /// <param name="sender">Sending object</param>
-        /// <param name="e">Cancel event args</param>
+        /// <param name="sender">Sending object.</param>
+        /// <param name="e">Cancel event args.</param>
         private void BrowserNavigating(Object sender, NavigatingCancelEventArgs e)
         {
             if (e == null || e.Uri == null || e.Uri.AbsoluteUri == null)
@@ -69,10 +68,16 @@
             }
         }
 
+        /// <summary>
+        /// Event invoked when a download has been completed in the browser.
+        /// </summary>
+        /// <param name="sender">Sending object.</param>
+        /// <param name="e">Download event args.</param>
         private void DownloadDataCompleted(Object sender, DownloadDataCompletedEventArgs e)
         {
             try
             {
+                // Load and import the file.
                 String file = Path.GetTempFileName();
                 File.WriteAllBytes(file, e.Result);
                 ProjectExplorerViewModel.GetInstance().ImportSpecificProjectCommand.Execute(file);
@@ -82,7 +87,12 @@
             }
         }
 
-        private void MenuItemClick(Object sender, RoutedEventArgs e)
+        /// <summary>
+        /// Event for the navigate home menu item click.
+        /// </summary>
+        /// <param name="sender">Sending object.</param>
+        /// <param name="e">Event args.</param>
+        private void NavigateHomeMenuClick(Object sender, RoutedEventArgs e)
         {
             this.CheatBrowserViewModel.NavigateHomeCommand.Execute(this.browser);
         }

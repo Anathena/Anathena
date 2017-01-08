@@ -6,25 +6,23 @@
     using System.Windows.Input;
 
     /// <summary>
-    /// A command whose sole purpose is to relay its functionality to other
-    /// objects by invoking delegates. The default return value for the CanExecute
-    /// method is 'true'.  This class does not allow you to accept command parameters in the
-    /// Execute and CanExecute callback methods.
+    /// A command whose sole purpose is to relay its functionality to other objects by invoking delegates. The default return value for the CanExecute
+    /// method is 'true'.  This class does not allow you to accept command parameters in the Execute and CanExecute callback methods.
     /// </summary>
     internal class RelayCommand : ICommand
     {
         /// <summary>
-        /// TODO TODO
+        /// TODO TODO.
         /// </summary>
         private readonly WeakAction execute;
 
         /// <summary>
-        /// TODO TODO
+        /// TODO TODO.
         /// </summary>
         private readonly WeakFunc<Boolean> canExecute;
 
         /// <summary>
-        /// TODO TODO
+        /// TODO TODO.
         /// </summary>
         private EventHandler requerySuggestedLocal;
 
@@ -32,8 +30,7 @@
         /// Initializes a new instance of the RelayCommand class that  can always execute.
         /// </summary>
         /// <param name="execute">
-        /// The execution logic. IMPORTANT: Note that closures are not supported at the moment
-        /// due to the use of WeakActions (see http://stackoverflow.com/questions/25730530/)
+        /// The execution logic. IMPORTANT: Note that closures are not supported at the moment due to the use of WeakActions (see http://stackoverflow.com/questions/25730530/)
         /// </param>
         /// <exception cref="ArgumentNullException">If the execute argument is null.</exception>
         public RelayCommand(Action execute)
@@ -44,11 +41,13 @@
         /// <summary>
         /// Initializes a new instance of the RelayCommand class.
         /// </summary>
-        /// <param name="execute">The execution logic. IMPORTANT: Note that closures are not supported at the moment
-        /// due to the use of WeakActions (see http://stackoverflow.com/questions/25730530/). </param>
+        /// <param name="execute">
+        /// The execution logic. IMPORTANT: Note that closures are not supported at the moment due to the use of WeakActions (see http://stackoverflow.com/questions/25730530/).
+        /// </param>
         /// <param name="canExecute">The execution status logic.</param>
-        /// <exception cref="ArgumentNullException">If the execute argument is null. IMPORTANT: Note that closures are not supported at the moment
-        /// due to the use of WeakActions (see http://stackoverflow.com/questions/25730530/). </exception>
+        /// <exception cref="ArgumentNullException">
+        /// If the execute argument is null. IMPORTANT: Note that closures are not supported at the moment due to the use of WeakActions (see http://stackoverflow.com/questions/25730530/).
+        /// </exception>
         public RelayCommand(Action execute, Func<Boolean> canExecute)
         {
             if (execute == null)

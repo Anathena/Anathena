@@ -30,9 +30,9 @@
         /// Initializes a new instance of the GenericMessage class.
         /// </summary>
         /// <param name="sender">The message's sender.</param>
-        /// <param name="target">The message's intended target. This parameter can be used
-        /// to give an indication as to whom the message was intended for. Of course
-        /// this is only an indication, amd may be null.</param>
+        /// <param name="target">
+        /// The message's intended target. This parameter can be used to give an indication as to whom the message was intended for. Of course this is only an indication, amd may be null.
+        /// </param>
         /// <param name="content">The message content.</param>
         public GenericMessage(object sender, object target, T content) : base(sender, target)
         {

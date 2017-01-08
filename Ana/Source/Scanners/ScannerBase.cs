@@ -6,19 +6,19 @@
     using Utils;
 
     /// <summary>
-    /// The base of all scanner classes
+    /// The base of all scanner classes.
     /// </summary>
     internal abstract class ScannerBase : RepeatedTask, INotifyPropertyChanged
     {
         /// <summary>
-        /// The number of scans completed
+        /// The number of scans completed.
         /// </summary>
         private Int32 scanCount;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ScannerBase" /> class
+        /// Initializes a new instance of the <see cref="ScannerBase" /> class.
         /// </summary>
-        /// <param name="scannerName">The name of this scanner</param>
+        /// <param name="scannerName">The name of this scanner.</param>
         public ScannerBase(String scannerName)
         {
             this.ScannerName = scannerName;
@@ -30,7 +30,7 @@
         public event PropertyChangedEventHandler PropertyChanged;
 
         /// <summary>
-        /// Gets the number of scans that have been executed
+        /// Gets the number of scans that have been executed.
         /// </summary>
         public Int32 ScanCount
         {
@@ -47,12 +47,12 @@
         }
 
         /// <summary>
-        /// Gets the name of this scanner
+        /// Gets the name of this scanner.
         /// </summary>
         protected String ScannerName { get; private set; }
 
         /// <summary>
-        /// Begins the scan
+        /// Begins the scan.
         /// </summary>
         public override void Begin()
         {
@@ -62,16 +62,16 @@
         }
 
         /// <summary>
-        /// Notifies view model of a property change
+        /// Notifies view model of a property change.
         /// </summary>
-        /// <param name="propertyName">The name of the changing property</param>
+        /// <param name="propertyName">The name of the changing property.</param>
         protected void NotifyPropertyChanged(String propertyName)
         {
             this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
         /// <summary>
-        /// Updates the scan
+        /// Updates the scan.
         /// </summary>
         protected override void OnUpdate()
         {

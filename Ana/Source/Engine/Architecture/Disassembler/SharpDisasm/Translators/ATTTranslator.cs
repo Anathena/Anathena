@@ -7,15 +7,15 @@
     using Udis86;
 
     /// <summary>
-    /// Translates to ATT syntax
+    /// Translates to ATT syntax.
     /// </summary>
     internal class ATTTranslator : Translator
     {
         /// <summary>
         /// Translate a list of instructions separated by <see cref="Environment.NewLine"/>.
         /// </summary>
-        /// <param name="insns">TODO insns</param>
-        /// <returns>TODO TODO</returns>
+        /// <param name="insns">TODO insns.</param>
+        /// <returns>TODO TODO.</returns>
         public override String Translate(IEnumerable<Instruction> insns)
         {
             Boolean first = true;
@@ -49,10 +49,10 @@
         }
 
         /// <summary>
-        /// Translate a single instruction
+        /// Translate a single instruction.
         /// </summary>
-        /// <param name="insn">TODO insn</param>
-        /// <returns>TODO TODO</returns>
+        /// <param name="insn">TODO insn.</param>
+        /// <returns>TODO TODO.</returns>
         public override String Translate(Instruction insn)
         {
             this.Content = new StringBuilder();
@@ -75,8 +75,8 @@
         /// <summary>
         /// Prints an operand cast.
         /// </summary>
-        /// <param name="insn">TODO insn</param>
-        /// <param name="op">TODO op</param>
+        /// <param name="insn">TODO insn.</param>
+        /// <param name="op">TODO op.</param>
         private void Opr_cast(Instruction insn, Operand op)
         {
             switch (op.Size)
@@ -90,10 +90,10 @@
         }
 
         /// <summary>
-        /// Generates assembly output for each operand
+        /// Generates assembly output for each operand.
         /// </summary>
-        /// <param name="u">TODO u</param>
-        /// <param name="op">TODO op</param>
+        /// <param name="u">TODO u.</param>
+        /// <param name="op">TODO op.</param>
         private void Gen_operand(Instruction u, Operand op)
         {
             switch (op.Type)
@@ -175,9 +175,9 @@
         }
 
         /// <summary>
-        /// Translates to ATT syntax 
+        /// Translates to ATT syntax .
         /// </summary>
-        /// <param name="u">TODO u</param>
+        /// <param name="u">TODO u.</param>
         private void Ud_translate_att(Instruction u)
         {
             Int32 size = 0;

@@ -1,16 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ServiceModel;
-
-namespace AnathenaProxy
+﻿namespace AnathenaProxy
 {
+    using System;
+    using System.Collections.Generic;
+    using System.ServiceModel;
+
     [ServiceContract()]
     public interface IProxyService
     {
         #region Fasm
 
         [OperationContract]
-        Byte[] Assemble(Boolean isProcess32Bit, String assembly, UInt64 baseAddress);
+        Byte[] Assemble(Boolean isProcess32Bit, String assembly, UInt64 baseAddress, out String logs);
 
         #endregion
 

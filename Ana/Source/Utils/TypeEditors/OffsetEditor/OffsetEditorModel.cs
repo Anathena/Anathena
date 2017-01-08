@@ -38,7 +38,7 @@
         /// <returns>The updated values.</returns>
         public override Object EditValue(ITypeDescriptorContext context, IServiceProvider provider, Object value)
         {
-            View.OffsetEditor offsetEditor = new View.OffsetEditor(value == null ? null : (value as IEnumerable<Int32>)?.ToList());
+            View.Editors.OffsetEditor offsetEditor = new View.Editors.OffsetEditor(value == null ? null : (value as IEnumerable<Int32>)?.ToList());
 
             offsetEditor.Owner = Application.Current.MainWindow;
             if (offsetEditor.ShowDialog() == true)

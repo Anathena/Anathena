@@ -4,32 +4,32 @@
     using System.Collections.Generic;
 
     /// <summary>
-    /// Interface for an object which will observe changes in keyboard input
+    /// Interface for an object which will observe changes in keyboard input.
     /// </summary>
     internal interface IKeyboardObserver
     {
         /// <summary>
-        /// Event received when a key is pressed
+        /// Event received when a key is pressed.
         /// </summary>
-        /// <param name="key">The key that was pressed</param>
+        /// <param name="key">The key that was pressed.</param>
         void OnKeyPress(Key key);
 
         /// <summary>
-        /// Event received when a key is released
+        /// Event received when a key is released.
         /// </summary>
-        /// <param name="key">The key that was released</param>
+        /// <param name="key">The key that was released.</param>
         void OnKeyRelease(Key key);
 
         /// <summary>
-        /// Event received when a key is down
+        /// Event received when a key is down.
         /// </summary>
-        /// <param name="key">The key that is down</param>
+        /// <param name="key">The key that is down.</param>
         void OnKeyDown(Key key);
 
         /// <summary>
-        /// Event received when a set of keys are down
+        /// Event received when a set of keys are down.
         /// </summary>
-        /// <param name="pressedKeys">The down keys</param>
+        /// <param name="pressedKeys">The down keys.</param>
         void OnUpdateAllDownKeys(HashSet<Key> pressedKeys);
     }
     //// End interface

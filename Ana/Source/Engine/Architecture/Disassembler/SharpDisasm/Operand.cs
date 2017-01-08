@@ -5,14 +5,14 @@
     using Udis86;
 
     /// <summary>
-    /// Represents an operand for an <see cref="Instruction"/>
+    /// Represents an operand for an <see cref="Instruction"/>.
     /// </summary>
     internal class Operand
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="Operand" /> class.
         /// </summary>
-        /// <param name="operand">Disassembled operand</param>
+        /// <param name="operand">Disassembled operand.</param>
         internal Operand(UdOperand operand)
         {
             this.UdOperand = operand;
@@ -62,7 +62,7 @@
         }
 
         /// <summary>
-        /// Gets the operand code
+        /// Gets the operand code.
         /// </summary>
         public UdOperandCode Opcode
         {
@@ -70,7 +70,7 @@
         }
 
         /// <summary>
-        /// Gets the operand type (UD_OP_REG, UD_OP_MEM, UD_OP_PTR, UD_OP_IMM, UD_OP_JIMM, UD_OP_CONST)
+        /// Gets the operand type (UD_OP_REG, UD_OP_MEM, UD_OP_PTR, UD_OP_IMM, UD_OP_JIMM, UD_OP_CONST).
         /// </summary>
         public UdType Type
         {
@@ -78,7 +78,7 @@
         }
 
         /// <summary>
-        /// Gets the size of the result of the operand
+        /// Gets the size of the result of the operand.
         /// </summary>
         public UInt16 Size
         {
@@ -86,7 +86,7 @@
         }
 
         /// <summary>
-        /// Gets the base register
+        /// Gets the base register.
         /// </summary>
         public UdType Base
         {
@@ -94,7 +94,7 @@
         }
 
         /// <summary>
-        /// Gets the index register
+        /// Gets the index register.
         /// </summary>
         public UdType Index
         {
@@ -102,7 +102,7 @@
         }
 
         /// <summary>
-        /// Gets the scale applied to index register (2, 4, or 8). 0 == 1 == does nothing
+        /// Gets the scale applied to index register (2, 4, or 8). 0 == 1 == does nothing.
         /// </summary>
         public Byte Scale
         {
@@ -111,7 +111,7 @@
 
         /// <summary>
         /// Gets the size of the memory displacement value for UD_OP_MEM operands (e.g. 8-, 16-, 32-, or 64- bits).
-        /// This helps determine which "Lval*" value should be read (e.g. if Offset is 8 and operand type is UD_OP_MEM and Base register is not UD_NONE, read LvalSByte)
+        /// This helps determine which "Lval*" value should be read (e.g. if Offset is 8 and operand type is UD_OP_MEM and Base register is not UD_NONE, read LvalSByte).
         /// </summary>
         /// <remarks>
         /// <see cref="RawValue"/> for more detail about the rules governing which value is read.
@@ -122,7 +122,7 @@
         }
 
         /// <summary>
-        /// Gets the segment component of PTR operand
+        /// Gets the segment component of PTR operand.
         /// </summary>
         public UInt16 PtrSegment
         {
@@ -130,7 +130,7 @@
         }
 
         /// <summary>
-        /// Gets the offset component of PTR operand
+        /// Gets the offset component of PTR operand.
         /// </summary>
         public UInt32 PtrOffset
         {
@@ -138,7 +138,7 @@
         }
 
         /// <summary>
-        /// Gets the displacement value as <see cref="SByte"/>
+        /// Gets the displacement value as <see cref="SByte"/>.
         /// </summary>
         public SByte LvalSByte
         {
@@ -146,7 +146,7 @@
         }
 
         /// <summary>
-        /// Gets the displacement value as <see cref="Byte"/>
+        /// Gets the displacement value as <see cref="Byte"/>.
         /// </summary>
         public Byte LvalByte
         {
@@ -154,7 +154,7 @@
         }
 
         /// <summary>
-        /// Gets the displacement value as <see cref="Int16"/>
+        /// Gets the displacement value as <see cref="Int16"/>.
         /// </summary>
         public Int16 LvalSWord
         {
@@ -162,7 +162,7 @@
         }
 
         /// <summary>
-        /// Gets the displacement value as <see cref="UInt16"/>
+        /// Gets the displacement value as <see cref="UInt16"/>.
         /// </summary>
         public UInt16 LvalUWord
         {
@@ -170,7 +170,7 @@
         }
 
         /// <summary>
-        /// Gets the displacement value as <see cref="Int32"/>
+        /// Gets the displacement value as <see cref="Int32"/>.
         /// </summary>
         public Int32 LvalSDWord
         {
@@ -178,7 +178,7 @@
         }
 
         /// <summary>
-        /// Gets the displacement value as <see cref="UInt32"/>
+        /// Gets the displacement value as <see cref="UInt32"/>.
         /// </summary>
         public UInt32 LvalUDWord
         {
@@ -186,7 +186,7 @@
         }
 
         /// <summary>
-        /// Gets the displacement value as <see cref="Int64"/>
+        /// Gets the displacement value as <see cref="Int64"/>.
         /// </summary>
         public Int64 LvalSQWord
         {
@@ -194,7 +194,7 @@
         }
 
         /// <summary>
-        /// Gets the displacement value as <see cref="UInt64"/>
+        /// Gets the displacement value as <see cref="UInt64"/>.
         /// </summary>
         public UInt64 LvalUQWord
         {
@@ -202,7 +202,7 @@
         }
 
         /// <summary>
-        /// Gets or sets the disassembled instruction operand
+        /// Gets or sets the disassembled instruction operand.
         /// </summary>
         internal UdOperand UdOperand { get; set; }
 
@@ -253,9 +253,9 @@
         }
 
         /// <summary>
-        /// Returns a string representing the displacement address
+        /// Returns a string representing the displacement address.
         /// </summary>
-        /// <returns>The displacement address as a string</returns>
+        /// <returns>The displacement address as a string.</returns>
         private String PrintDisplacementAddress()
         {
             if (this.Base == UdType.UD_NONE && this.Index == UdType.UD_NONE)
@@ -319,11 +319,11 @@
         }
 
         /// <summary>
-        /// Converts the stored value to its raw value of the appropriate size and sign
+        /// Converts the stored value to its raw value of the appropriate size and sign.
         /// </summary>
-        /// <param name="size">Data type size</param>
-        /// <param name="signed">Should return value be signed</param>
-        /// <returns>A converted operand lval of the appropriate size and sign</returns>
+        /// <param name="size">Data type size.</param>
+        /// <param name="signed">Should return value be signed.</param>
+        /// <returns>A converted operand lval of the appropriate size and sign.</returns>
         private Object GetRawValue(Int32 size, Boolean signed = true)
         {
             switch (size)

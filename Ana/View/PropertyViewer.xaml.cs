@@ -1,6 +1,6 @@
 ﻿namespace Ana.View
 {
-    using Controls;
+    using Source.CustomControls;
     using Source.PropertyViewer;
     using Source.Utils.Extensions;
     using System;
@@ -9,6 +9,7 @@
     using System.Linq;
     using System.Reflection;
     using System.Windows.Controls;
+
     /// <summary>
     /// Interaction logic for PropertyViewer.xaml
     /// </summary>
@@ -67,7 +68,9 @@
         /// <param name="targetObjects">The selected target objects</param>
         public void Update(Object[] targetObjects)
         {
-            ControlThreadingHelper.InvokeControlAction(this.propertyGrid, () =>
+            ControlThreadingHelper.InvokeControlAction(
+                this.propertyGrid,
+                () =>
             {
                 this.propertyGrid.SelectedObjects = targetObjects == null || targetObjects.Contains(null) ? new Object[] { } : targetObjects;
             });

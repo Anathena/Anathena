@@ -1,6 +1,6 @@
-﻿namespace Ana.View
+﻿namespace Ana.View.Editors
 {
-    using Controls;
+    using Source.CustomControls;
     using Source.Mvvm;
     using Source.Utils.ScriptEditor;
     using System;

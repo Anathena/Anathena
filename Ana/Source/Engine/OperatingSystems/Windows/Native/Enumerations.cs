@@ -2,9 +2,11 @@
 {
     using System;
 
+    /// <summary>
+    /// Class containing native Windows enumerations.
+    /// </summary>
     internal class Enumerations
     {
-
         /// <summary>
         /// A filtering flag for querying modules in an external process.
         /// </summary>

@@ -5,18 +5,17 @@
     using System.Reflection;
 
     /// <summary>
-    /// Stores an <see cref="Action" /> without causing a hard reference
-    /// to be created to the Action's owner. The owner can be garbage collected at any time.
+    /// Stores an <see cref="Action" /> without causing a hard reference to be created to the Action's owner. The owner can be garbage collected at any time.
     /// </summary>
     internal class WeakAction
     {
         /// <summary>
-        /// TODO TODO
+        /// TODO TODO.
         /// </summary>
         private Action staticAction;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="WeakAction" /> class
+        /// Initializes a new instance of the <see cref="WeakAction" /> class.
         /// </summary>
         /// <param name="action">The action that will be associated to this instance.</param>
         public WeakAction(Action action) : this(action == null ? null : action.Target, action)
@@ -24,7 +23,7 @@
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="WeakAction" /> class
+        /// Initializes a new instance of the <see cref="WeakAction" /> class.
         /// </summary>
         /// <param name="target">The action's owner.</param>
         /// <param name="action">The action that will be associated to this instance</param>
@@ -55,14 +54,14 @@
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="WeakAction" /> class
+        /// Initializes a new instance of the <see cref="WeakAction" /> class.
         /// </summary>
         protected WeakAction()
         {
         }
 
         /// <summary>
-        /// Gets the name of the method that this WeakAction represents
+        /// Gets the name of the method that this WeakAction represents.
         /// </summary>
         public virtual String MethodName
         {
@@ -78,7 +77,7 @@
         }
 
         /// <summary>
-        /// Gets a value indicating whether the WeakAction is static or not
+        /// Gets a value indicating whether the WeakAction is static or not.
         /// </summary>
         public Boolean IsStatic
         {
@@ -89,8 +88,7 @@
         }
 
         /// <summary>
-        /// Gets a value indicating whether the Action's owner is still alive, or if it was collected
-        /// by the Garbage Collector already
+        /// Gets a value indicating whether the Action's owner is still alive, or if it was collected by the Garbage Collector already.
         /// </summary>
         public virtual Boolean IsAlive
         {
@@ -116,8 +114,7 @@
         }
 
         /// <summary>
-        /// Gets the Action's owner. This object is stored as a 
-        /// <see cref="WeakReference" />
+        /// Gets the Action's owner. This object is stored as a  <see cref="WeakReference" />.
         /// </summary>
         public Object Target
         {
@@ -133,24 +130,18 @@
         }
 
         /// <summary>
-        /// Gets or sets the <see cref="MethodInfo" /> corresponding to this WeakAction's
-        /// method passed in the constructor
+        /// Gets or sets the <see cref="MethodInfo" /> corresponding to this WeakAction's method passed in the constructor.
         /// </summary>
         protected MethodInfo Method { get; set; }
 
         /// <summary>
-        /// Gets or sets a WeakReference to this WeakAction's action's target.
-        /// This is not necessarily the same as
-        /// <see cref="Reference" />, for example if the
-        /// method is anonymous
+        /// Gets or sets a WeakReference to this WeakAction's action's target. This is not necessarily the same as <see cref="Reference" />, for example if the method is anonymous.
         /// </summary>
         protected WeakReference ActionReference { get; set; }
 
         /// <summary>
-        /// Gets or sets a WeakReference to the target passed when constructing
-        /// the WeakAction. This is not necessarily the same as
-        /// <see cref="ActionReference" />, for example if the
-        /// method is anonymous
+        /// Gets or sets a WeakReference to the target passed when constructing the WeakAction. This is not necessarily the same as <see cref="ActionReference" />,
+        /// for example if the method is anonymous.
         /// </summary>
         protected WeakReference Reference { get; set; }
 
@@ -171,7 +162,7 @@
         }
 
         /// <summary>
-        /// Executes the action. This only happens if the action's owner is still alive
+        /// Executes the action. This only happens if the action's owner is still alive.
         /// </summary>
         public void Execute()
         {
@@ -194,7 +185,7 @@
         }
 
         /// <summary>
-        /// Sets the reference that this instance stores to null
+        /// Sets the reference that this instance stores to null.
         /// </summary>
         public void MarkForDeletion()
         {

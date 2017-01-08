@@ -185,7 +185,7 @@
         }
 
         /// <summary>
-        /// Called when the repeated task completes
+        /// Called when the repeated task completes.
         /// </summary>
         protected override void OnEnd()
         {

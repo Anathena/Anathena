@@ -25,8 +25,7 @@
             Padding="8,4,8,4"
             Background="{StaticResource AvalonDock_Expression_BaseColor4}">
             <Menu Background="Transparent">
-                <!--  Command="{Binding NavigateHomeCommand}" CommandParameter="{Binding ElementName=browser}"  -->
-                <MenuItem Click="MenuItemClick">
+                <MenuItem Click="NavigateHomeMenuClick">
                     <MenuItem.Header>
                         <Image
                             Width="16"

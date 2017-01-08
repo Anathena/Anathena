@@ -11,22 +11,28 @@
     using static Native.Structures;
 
     /// <summary>
-    /// Static class providing tools for windows memory editing internals
+    /// Static class providing tools for windows memory editing internals.
     /// </summary>
     internal static class Memory
     {
+        /// <summary>
+        /// The number of retry attempts for 64-bit process allocation. This is a work around due to non-deterministic allocation failures.
+        /// </summary>
         private const Int32 AllocateRetryCount = 64;
 
-        private static Random Random = new Random();
+        /// <summary>
+        /// Random class instance.
+        /// </summary>
+        private static readonly Random Random = new Random();
 
         /// <summary>
-        /// Reads an array of bytes in the memory form the target process
+        /// Reads an array of bytes in the memory form the target process.
         /// </summary>
-        /// <param name="processHandle">A handle to the process with memory that is being read</param>
-        /// <param name="address">A pointer to the base address in the specified process from which to read</param>
-        /// <param name="size">The number of bytes to be read from the specified process</param>
-        /// <param name="success">Whether or not the read operation succeeded</param>
-        /// <returns>The bytes read from the target, can be null or empty on failure</returns>
+        /// <param name="processHandle">A handle to the process with memory that is being read.</param>
+        /// <param name="address">A pointer to the base address in the specified process from which to read.</param>
+        /// <param name="size">The number of bytes to be read from the specified process.</param>
+        /// <param name="success">Whether or not the read operation succeeded.</param>
+        /// <returns>The bytes read from the target, can be null or empty on failure.</returns>
         public static Byte[] ReadBytes(IntPtr processHandle, IntPtr address, Int32 size, out Boolean success)
         {
             // Allocate the buffer
@@ -40,12 +46,12 @@
         }
 
         /// <summary>
-        /// Writes bytes to memory in a specified process
+        /// Writes bytes to memory in a specified process.
         /// </summary>
-        /// <param name="processHandle">A handle to the process memory to be modified</param>
-        /// <param name="address">A pointer to the base address in the specified process to which data is written</param>
-        /// <param name="byteArray">A buffer that contains data to be written in the address space of the specified process</param>
-        /// <returns>The number of bytes written</returns>
+        /// <param name="processHandle">A handle to the process memory to be modified.</param>
+        /// <param name="address">A pointer to the base address in the specified process to which data is written.</param>
+        /// <param name="byteArray">A buffer that contains data to be written in the address space of the specified process.</param>
+        /// <returns>The number of bytes written.</returns>
         public static Int32 WriteBytes(IntPtr processHandle, IntPtr address, Byte[] byteArray)
         {
             // Create the variable storing the number of bytes written
@@ -82,11 +88,12 @@
         {
             if (allocAddress != IntPtr.Zero)
             {
-                // A specific address has been given. We will modify it to support the following constraints:
-                // - Aligned by 0x10000 / 65536
-                // - Pointing to an unallocated region of memory
-                // - Within +/- 2GB (using 256MB for safety) of address space of the originally specified address, such as to always be in range of a far jump instruction
-                // Note: This does not seem to guarentee a valid result, so a retry count has been put in place.
+                /* A specific address has been given. We will modify it to support the following constraints:
+                 * - Aligned by 0x10000 / 65536
+                 * - Pointing to an unallocated region of memory
+                 * - Within +/- 2GB (using 256MB for safety) of address space of the originally specified address, such as to always be in range of a far jump instruction
+                 * Note: This does not seem to guarentee a valid result, so a retry count has been put in place.
+                 */
 
                 Int32 retryCount = 0;
                 IntPtr result = IntPtr.Zero;
@@ -102,8 +109,8 @@
                     }
 
                     retryCount++;
-
-                } while (result == IntPtr.Zero);
+                }
+                while (result == IntPtr.Zero);
 
                 return result;
             }
@@ -115,20 +122,20 @@
         }
 
         /// <summary>
-        /// Opens an existing local process object
+        /// Opens an existing local process object.
         /// </summary>
-        /// <param name="accessFlags">The access level to the process object</param>
-        /// <param name="process">The identifier of the local process to be opened</param>
-        /// <returns>An open handle to the specified process</returns>
+        /// <param name="accessFlags">The access level to the process object.</param>
+        /// <param name="process">The identifier of the local process to be opened.</param>
+        /// <returns>An open handle to the specified process.</returns>
         public static IntPtr OpenProcess(ProcessAccessFlags accessFlags, NormalizedProcess process)
         {
             return NativeMethods.OpenProcess(accessFlags, false, process == null ? 0 : process.ProcessId);
         }
 
         /// <summary>
-        /// Closes an open object handle
+        /// Closes an open object handle.
         /// </summary>
-        /// <param name="handle">A valid handle to an open object</param>
+        /// <param name="handle">A valid handle to an open object.</param>
         public static void CloseHandle(IntPtr handle)
         {
             // Close the handle
@@ -136,10 +143,10 @@
         }
 
         /// <summary>
-        /// Releases a region of memory within the virtual address space of a specified process
+        /// Releases a region of memory within the virtual address space of a specified process.
         /// </summary>
-        /// <param name="processHandle">A handle to a process</param>
-        /// <param name="address">A pointer to the starting address of the region of memory to be freed</param>
+        /// <param name="processHandle">A handle to a process.</param>
+        /// <param name="address">A pointer to the starting address of the region of memory to be freed.</param>
         public static void Free(IntPtr processHandle, IntPtr address)
         {
             // Free the memory
@@ -147,13 +154,13 @@
         }
 
         /// <summary>
-        /// Changes the protection on a region of committed pages in the virtual address space of a specified process
+        /// Changes the protection on a region of committed pages in the virtual address space of a specified process.
         /// </summary>
-        /// <param name="processHandle">A handle to the process whose memory protection is to be changed</param>
-        /// <param name="address">A pointer to the base address of the region of pages whose access protection attributes are to be changed</param>
-        /// <param name="size">The size of the region whose access protection attributes are changed, in bytes</param>
-        /// <param name="protection">The memory protection option</param>
-        /// <returns>The old protection of the region in a <see cref="MemoryBasicInformation32"/> structure</returns>
+        /// <param name="processHandle">A handle to the process whose memory protection is to be changed.</param>
+        /// <param name="address">A pointer to the base address of the region of pages whose access protection attributes are to be changed.</param>
+        /// <param name="size">The size of the region whose access protection attributes are changed, in bytes.</param>
+        /// <param name="protection">The memory protection option.</param>
+        /// <returns>The old protection of the region in a <see cref="MemoryBasicInformation32"/> structure.</returns>
         public static MemoryProtectionFlags ChangeProtection(IntPtr processHandle, IntPtr address, Int32 size, MemoryProtectionFlags protection)
         {
             // Create the variable storing the old protection of the memory page
@@ -166,13 +173,13 @@
         }
 
         /// <summary>
-        /// Retrieves information about a range of pages within the virtual address space of a specified process
+        /// Retrieves information about a range of pages within the virtual address space of a specified process.
         /// </summary>
-        /// <param name="processHandle">A handle to the process whose memory information is queried</param>
-        /// <param name="startAddress">A pointer to the starting address of the region of pages to be queried</param>
-        /// <param name="endAddress">A pointer to the ending address of the region of pages to be queried</param>
+        /// <param name="processHandle">A handle to the process whose memory information is queried.</param>
+        /// <param name="startAddress">A pointer to the starting address of the region of pages to be queried.</param>
+        /// <param name="endAddress">A pointer to the ending address of the region of pages to be queried.</param>
         /// <returns>
-        /// A collection of <see cref="MemoryBasicInformation64"/> structures containing info about all virtual pages in the target process
+        /// A collection of <see cref="MemoryBasicInformation64"/> structures containing info about all virtual pages in the target process.
         /// </returns>
         public static IEnumerable<MemoryBasicInformation64> UnallocatedMemory(
             IntPtr processHandle,
@@ -240,16 +247,16 @@
         }
 
         /// <summary>
-        /// Retrieves information about a range of pages within the virtual address space of a specified process
+        /// Retrieves information about a range of pages within the virtual address space of a specified process.
         /// </summary>
-        /// <param name="processHandle">A handle to the process whose memory information is queried</param>
-        /// <param name="startAddress">A pointer to the starting address of the region of pages to be queried</param>
-        /// <param name="endAddress">A pointer to the ending address of the region of pages to be queried</param>
-        /// <param name="requiredProtection">Protection flags required to be present</param>
-        /// <param name="excludedProtection">Protection flags that must not be present</param>
-        /// <param name="allowedTypes">Memory types that can be present</param>
+        /// <param name="processHandle">A handle to the process whose memory information is queried.</param>
+        /// <param name="startAddress">A pointer to the starting address of the region of pages to be queried.</param>
+        /// <param name="endAddress">A pointer to the ending address of the region of pages to be queried.</param>
+        /// <param name="requiredProtection">Protection flags required to be present.</param>
+        /// <param name="excludedProtection">Protection flags that must not be present.</param>
+        /// <param name="allowedTypes">Memory types that can be present.</param>
         /// <returns>
-        /// A collection of <see cref="MemoryBasicInformation64"/> structures containing info about all virtual pages in the target process
+        /// A collection of <see cref="MemoryBasicInformation64"/> structures containing info about all virtual pages in the target process.
         /// </returns>
         public static IEnumerable<MemoryBasicInformation64> VirtualPages(
             IntPtr processHandle,

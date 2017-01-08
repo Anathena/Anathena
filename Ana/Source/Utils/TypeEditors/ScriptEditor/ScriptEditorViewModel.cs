@@ -9,17 +9,17 @@
     using System.Windows.Input;
 
     /// <summary>
-    /// View model for the Script Editor
+    /// View model for the Script Editor.
     /// </summary>
     internal class ScriptEditorViewModel : ToolViewModel
     {
         /// <summary>
-        /// The content id for the docking library associated with this view model
+        /// The content id for the docking library associated with this view model.
         /// </summary>
         public const String ToolContentId = nameof(ScriptEditorViewModel);
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ScriptEditorViewModel" /> class
+        /// Initializes a new instance of the <see cref="ScriptEditorViewModel" /> class.
         /// </summary>
         public ScriptEditorViewModel() : base("Script Editor")
         {
@@ -45,6 +45,10 @@
         /// </summary>
         public String Script { get; private set; }
 
+        /// <summary>
+        /// Gets the code injection script template.
+        /// </summary>
+        /// <returns>The code injection script template.</returns>
         public String GetCodeInjectionTemplate()
         {
             CodeInjectionTemplate codeInjectionTemplate = new CodeInjectionTemplate();
@@ -52,6 +56,10 @@
             return codeInjectionTemplate.TransformText();
         }
 
+        /// <summary>
+        /// Gets the graphics injection script template.
+        /// </summary>
+        /// <returns>The graphics injection script template.</returns>
         public String GetGraphicsInjectionTemplate()
         {
             GraphicsInjectionTemplate graphicsInjectionTemplate = new GraphicsInjectionTemplate();

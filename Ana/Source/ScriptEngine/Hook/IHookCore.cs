@@ -3,7 +3,7 @@
     using System;
 
     /// <summary>
-    /// Interface for environment manipulations in a hooked process
+    /// Interface for environment manipulations in a hooked process.
     /// </summary>
     public interface IHookCore
     {

@@ -77,9 +77,9 @@
         }
 
         /// <summary>
-        /// Recieves an update of the active snapshot
+        /// Recieves an update of the active snapshot.
         /// </summary>
-        /// <param name="snapshot">The active snapshot</param>
+        /// <param name="snapshot">The active snapshot.</param>
         public void Update(Snapshot snapshot)
         {
             lock (this.SnapshotLock)
@@ -202,7 +202,7 @@
         }
 
         /// <summary>
-        /// Called when the repeated task completes
+        /// Called when the repeated task completes.
         /// </summary>
         protected override void OnEnd()
         {

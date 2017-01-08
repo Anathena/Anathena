@@ -3,10 +3,8 @@
     using System;
 
     /// <summary>
-    /// Passes a string property name (PropertyName) and a generic value
-    /// (<see cref="OldValue" /> and <see cref="NewValue" />) to a recipient.
-    /// This message type can be used to propagate a PropertyChanged event to
-    /// a recipient using the messenging system.
+    /// Passes a string property name (PropertyName) and a generic value (<see cref="OldValue" /> and <see cref="NewValue" />) to a recipient.
+    /// This message type can be used to propagate a PropertyChanged event to a recipient using the messenging system.
     /// </summary>
     /// <typeparam name="T">The type of the OldValue and NewValue property.</typeparam>
     internal class PropertyChangedMessage<T> : PropertyChangedMessageBase
@@ -41,9 +39,9 @@
         /// Initializes a new instance of the <see cref="PropertyChangedMessage{T}" /> class.
         /// </summary>
         /// <param name="sender">The message's sender.</param>
-        /// <param name="target">The message's intended target. This parameter can be used
-        /// to give an indication as to whom the message was intended for. Of course
-        /// this is only an indication, amd may be null.</param>
+        /// <param name="target">
+        /// The message's intended target. This parameter can be used to give an indication as to whom the message was intended for. Of course this is only an indication, amd may be null.
+        /// </param>
         /// <param name="oldValue">The property's value before the change occurred.</param>
         /// <param name="newValue">The property's value after the change occurred.</param>
         /// <param name="propertyName">The name of the property that changed.</param>

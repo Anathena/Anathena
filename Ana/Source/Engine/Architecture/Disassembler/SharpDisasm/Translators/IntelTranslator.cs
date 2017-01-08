@@ -5,16 +5,16 @@
     using Udis86;
 
     /// <summary>
-    /// Translates instructions to Intel ASM syntax
+    /// Translates instructions to Intel ASM syntax.
     /// </summary>
     /// <threadsafety static="true" instance="false"/>
     internal class IntelTranslator : Translator
     {
         /// <summary>
-        /// Translate a list of instructions separated by <see cref="Environment.NewLine"/>
+        /// Translate a list of instructions separated by <see cref="Environment.NewLine"/>.
         /// </summary>
         /// <param name="insns">The instructions to translate</param>
-        /// <returns>Each instruction as Intel ASM syntax separated by <see cref="Environment.NewLine"/></returns>
+        /// <returns>Each instruction as Intel ASM syntax separated by <see cref="Environment.NewLine"/>.</returns>
         public override String Translate(IEnumerable<Instruction> insns)
         {
             Boolean first = true;
@@ -51,10 +51,10 @@
         }
 
         /// <summary>
-        /// Translate a single instruction
+        /// Translate a single instruction.
         /// </summary>
-        /// <param name="insn">TODO insn</param>
-        /// <returns>TODO TODO</returns>
+        /// <param name="insn">TODO insn.</param>
+        /// <returns>TODO TODO.</returns>
         public override String Translate(Instruction insn)
         {
             Content.Length = 0;
@@ -77,10 +77,10 @@
         }
 
         /// <summary>
-        /// Prints an operand cast
+        /// Prints an operand cast.
         /// </summary>
-        /// <param name="insn">TODO insn</param>
-        /// <param name="op">TODO op</param>
+        /// <param name="insn">TODO insn.</param>
+        /// <param name="op">TODO op.</param>
         private void OprCast(Instruction insn, Operand op)
         {
             if (insn.BrFar > 0)
@@ -110,11 +110,11 @@
         }
 
         /// <summary>
-        /// Generates assembly output for each operand
+        /// Generates assembly output for each operand.
         /// </summary>
-        /// <param name="insn">TODO insn</param>
-        /// <param name="op">TODO op</param>
-        /// <param name="synCast">TODO synCast</param>
+        /// <param name="insn">TODO insn.</param>
+        /// <param name="op">TODO op.</param>
+        /// <param name="synCast">TODO synCast.</param>
         private void Gen_operand(Instruction insn, Operand op, Int32 synCast)
         {
             switch (op.Type)
@@ -188,9 +188,9 @@
         }
 
         /// <summary>
-        /// Translates to intel syntax
+        /// Translates to intel syntax.
         /// </summary>
-        /// <param name="insn">TODO insn</param>
+        /// <param name="insn">TODO insn.</param>
         private void UdTranslateIntel(Instruction insn)
         {
             /* check if P_OSO prefix is used */

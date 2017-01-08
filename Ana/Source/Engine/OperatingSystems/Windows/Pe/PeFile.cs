@@ -17,6 +17,7 @@ limitations under the License.
 
 using Ana.Source.Engine.OperatingSystems.Windows.Pe.ImpHash;
 using Ana.Source.Engine.OperatingSystems.Windows.Pe.Structures;
+using Ana.Source.Output;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -46,7 +47,7 @@ namespace Ana.Source.Engine.OperatingSystems.Windows.Pe
         private string _sha256;
 
         /// <summary>
-        ///     Create a new PeFile object.
+        /// Create a new PeFile object.
         /// </summary>
         /// <param name="peFile">Path to a PE file.</param>
         public PeFile(string peFile)
@@ -70,9 +71,9 @@ namespace Ana.Source.Engine.OperatingSystems.Windows.Pe
                         );
                 }
             }
-            catch
+            catch (Exception ex)
             {
-                // TODO: Log to user
+                OutputViewModel.GetInstance().Log(OutputViewModel.LogLevel.Error, "Error parsing PE header from file: " + ex.ToString());
             }
         }
 

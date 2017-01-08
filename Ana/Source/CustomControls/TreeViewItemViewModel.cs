@@ -1,4 +1,4 @@
-﻿namespace Ana.Source.Controls
+﻿namespace Ana.Source.CustomControls
 {
     using Mvvm;
     using System;
@@ -11,35 +11,35 @@
     internal class TreeViewItemViewModel : ViewModelBase
     {
         /// <summary>
-        /// Dummy child for nodes with dynamically loaded children
+        /// Dummy child for nodes with dynamically loaded children.
         /// </summary>
         private static readonly TreeViewItemViewModel DummyChild = new TreeViewItemViewModel();
 
         /// <summary>
-        /// Root items in the collection
+        /// Root items in the collection.
         /// </summary>
         private readonly ObservableCollection<TreeViewItemViewModel> children;
 
         /// <summary>
-        /// The parent tree view of this node
+        /// The parent tree view of this node.
         /// </summary>
         private readonly TreeViewItemViewModel parent;
 
         /// <summary>
-        /// Whether or not this node has its children expanded
+        /// Whether or not this node has its children expanded.
         /// </summary>
         private Boolean isExpanded;
 
         /// <summary>
-        /// Whether or not this node is selected
+        /// Whether or not this node is selected.
         /// </summary>
         private Boolean isSelected;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="TreeViewItemViewModel" /> class
+        /// Initializes a new instance of the <see cref="TreeViewItemViewModel" /> class.
         /// </summary>
-        /// <param name="parent">The parent of this node</param>
-        /// <param name="lazyLoadChildren">Whether children need to be lazy loaded</param>
+        /// <param name="parent">The parent of this node.</param>
+        /// <param name="lazyLoadChildren">Whether children need to be lazy loaded.</param>
         protected TreeViewItemViewModel(TreeViewItemViewModel parent, Boolean lazyLoadChildren = false)
         {
             this.parent = parent;
@@ -52,15 +52,14 @@
         }
 
         /// <summary>
-        /// Prevents a default instance of the <see cref="TreeViewItemViewModel" /> class from being created        
-        /// This is used to create the DummyChild instance
+        /// Prevents a default instance of the <see cref="TreeViewItemViewModel" /> class from being created. This is used to create the DummyChild instance.
         /// </summary>
         private TreeViewItemViewModel()
         {
         }
 
         /// <summary>
-        /// Gets the parent tree view of this node
+        /// Gets the parent tree view of this node.
         /// </summary>
         public virtual TreeViewItemViewModel Parent
         {
@@ -71,7 +70,7 @@
         }
 
         /// <summary>
-        /// Gets the logical child items of this object
+        /// Gets the logical child items of this object.
         /// </summary>
         public virtual ObservableCollection<TreeViewItemViewModel> Children
         {
@@ -82,7 +81,7 @@
         }
 
         /// <summary>
-        /// Gets a value indicating whether this object's children have not yet been populated
+        /// Gets a value indicating whether this object's children have not yet been populated.
         /// </summary>
         public Boolean HasDummyChild
         {
@@ -93,7 +92,7 @@
         }
 
         /// <summary>
-        /// Gets or sets a value indicating whether the TreeViewItem associated with this object is expanded
+        /// Gets or sets a value indicating whether the TreeViewItem associated with this object is expanded.
         /// </summary>
         public Boolean IsExpanded
         {
@@ -147,15 +146,14 @@
         }
 
         /// <summary>
-        /// Invoked when the tree view model is selected
+        /// Invoked when the tree view model is selected.
         /// </summary>
         protected virtual void OnSelected()
         {
         }
 
         /// <summary>
-        /// Invoked when the child items need to be loaded on demand
-        /// Subclasses can override this to populate the Children collection
+        /// Invoked when the child items need to be loaded on demand. Subclasses can override this to populate the Children collection.
         /// </summary>
         protected virtual void LoadChildren()
         {

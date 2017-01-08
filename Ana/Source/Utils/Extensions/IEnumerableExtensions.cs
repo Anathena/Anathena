@@ -4,10 +4,10 @@
     using System.Collections;
     using System.Collections.Generic;
     using System.Linq;
-    using System.Windows;
-    using System.Windows.Media;    /// <summary>
-                                   /// Extension methods for IEnumerable interfaces.
-                                   /// </summary>
+
+    /// <summary>
+    /// Extension methods for IEnumerable interfaces.
+    /// </summary>
     internal static class IEnumerableExtensions
     {
         /// <summary>
@@ -61,8 +61,8 @@
         /// Adds a single element to the end of an IEnumerable.
         /// </summary>
         /// <typeparam name="T">Type of enumerable to return.</typeparam>
-        /// <param name="source">The source enumerable</param>
-        /// <param name="element">The element to append</param>
+        /// <param name="source">The source enumerable.</param>
+        /// <param name="element">The element to append.</param>
         /// <returns>IEnumerable containing all the input elements, followed by the specified additional element.</returns>
         public static IEnumerable<T> Append<T>(this IEnumerable<T> source, T element)
         {
@@ -78,8 +78,8 @@
         /// Adds a single element to the start of an IEnumerable.
         /// </summary>
         /// <typeparam name="T">Type of enumerable to return.</typeparam>
-        /// <param name="tail">The source enumerable</param>
-        /// <param name="head">The element to prepend</param>
+        /// <param name="tail">The source enumerable.</param>
+        /// <param name="head">The element to prepend.</param>
         /// <returns>IEnumerable containing the specified additional element, followed by all the input elements.</returns>
         public static IEnumerable<T> Prepend<T>(this IEnumerable<T> tail, T head)
         {
@@ -92,12 +92,12 @@
         }
 
         /// <summary>
-        /// Concatenation iterater to allow appending and prepending information
+        /// Concatenation iterater to allow appending and prepending information.
         /// </summary>
         /// <typeparam name="T">Type of enumerable to return.</typeparam>
-        /// <param name="extraElement">The element being added</param>
-        /// <param name="source">The IEnumerable source</param>
-        /// <param name="insertAtStart">Whether or not to append or prepend</param>
+        /// <param name="extraElement">The element being added.</param>
+        /// <param name="source">The IEnumerable source.</param>
+        /// <param name="insertAtStart">Whether or not to append or prepend.</param>
         /// <returns>IEnumerable with all source elements and the new one either appended or prepended.</returns>
         private static IEnumerable<T> ConcatIterator<T>(T extraElement, IEnumerable<T> source, Boolean insertAtStart)
         {
@@ -114,39 +114,6 @@
             if (!insertAtStart)
             {
                 yield return extraElement;
-            }
-        }
-
-        public static IEnumerable<DependencyObject> Descendents(this DependencyObject root, Int32 depth)
-        {
-            Int32 count = VisualTreeHelper.GetChildrenCount(root);
-            for (Int32 index = 0; index < count; index++)
-            {
-                DependencyObject child = VisualTreeHelper.GetChild(root, index);
-                yield return child;
-
-                if (depth > 0)
-                {
-                    foreach (var descendent in Descendents(child, --depth))
-                    {
-                        yield return descendent;
-                    }
-                }
-            }
-        }
-
-        public static IEnumerable<DependencyObject> Descendents(this DependencyObject root)
-        {
-            return Descendents(root, Int32.MaxValue);
-        }
-
-        public static IEnumerable<DependencyObject> Ancestors(this DependencyObject root)
-        {
-            DependencyObject current = VisualTreeHelper.GetParent(root);
-            while (current != null)
-            {
-                yield return current;
-                current = VisualTreeHelper.GetParent(current);
             }
         }
     }

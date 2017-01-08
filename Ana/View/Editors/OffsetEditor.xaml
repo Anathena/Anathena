@@ -1,5 +1,5 @@
 ﻿<shell:Window
-    x:Class="Ana.View.OffsetEditor"
+    x:Class="Ana.View.Editors.OffsetEditor"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:converters="clr-namespace:Ana.Source.Mvvm.Converters"

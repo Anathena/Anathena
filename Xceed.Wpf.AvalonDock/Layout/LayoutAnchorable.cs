@@ -216,6 +216,25 @@ namespace Xceed.Wpf.AvalonDock.Layout
             RaisePropertyChanging("IsHidden");
             RaisePropertyChanging("IsVisible");
 
+            // Work-around when we cant find anything to add this element to
+            if (PreviousContainer == null)
+            {
+                if (Parent is ILayoutRoot)
+                {
+                    ILayoutGroup firstContainer = Parent.Descendents()
+                        .OfType<ILayoutPane>()
+                        .OfType<ILayoutGroup>()
+                        .Where(x => x.Children.Any(y => y.GetType() == typeof(LayoutAnchorable)))
+                        .FirstOrDefault();
+
+                    if (firstContainer != null)
+                    {
+                        PreviousContainer = firstContainer;
+                        PreviousContainerIndex = 0;
+                    }
+                }
+            }
+
             bool added = false;
             var root = Root;
             if (root != null && root.Manager != null)

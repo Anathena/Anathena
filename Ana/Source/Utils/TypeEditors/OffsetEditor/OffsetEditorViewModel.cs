@@ -9,7 +9,7 @@
     using System.Windows.Input;
 
     /// <summary>
-    /// View model for the Offset Editor
+    /// View model for the Offset Editor.
     /// </summary>
     internal class OffsetEditorViewModel : ViewModelBase
     {

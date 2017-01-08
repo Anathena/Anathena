@@ -3,47 +3,47 @@
     using System;
 
     /// <summary>
-    /// Extension methods for converting and operating on <see cref="IntPtr"/> types
+    /// Extension methods for converting and operating on <see cref="IntPtr"/> types.
     /// </summary>
     public static class IntPtrExtensions
     {
         #region Integer conversions
 
         /// <summary>
-        /// Converts an <see cref="IntPtr"/> to an unsigned <see cref="UInt32"/>
+        /// Converts an <see cref="IntPtr"/> to an unsigned <see cref="UInt32"/>.
         /// </summary>
-        /// <param name="intPtr">The pointer to convert</param>
-        /// <returns>The result of the conversion</returns>
+        /// <param name="intPtr">The pointer to convert.</param>
+        /// <returns>The result of the conversion.</returns>
         public static UInt32 ToUInt32(this IntPtr intPtr)
         {
             return unchecked((UInt32)(Int32)intPtr);
         }
 
         /// <summary>
-        /// Converts an <see cref="UIntPtr"/> to an unsigned <see cref="UInt32"/>
+        /// Converts an <see cref="UIntPtr"/> to an unsigned <see cref="UInt32"/>.
         /// </summary>
-        /// <param name="intPtr">The pointer to convert</param>
-        /// <returns>The result of the conversion</returns>
+        /// <param name="intPtr">The pointer to convert.</param>
+        /// <returns>The result of the conversion.</returns>
         public static UInt32 ToUInt32(this UIntPtr intPtr)
         {
             return unchecked((UInt32)intPtr);
         }
 
         /// <summary>
-        /// Converts an <see cref="IntPtr"/> to an unsigned <see cref="UInt64"/>
+        /// Converts an <see cref="IntPtr"/> to an unsigned <see cref="UInt64"/>.
         /// </summary>
-        /// <param name="intPtr">The pointer to convert</param>
-        /// <returns>The result of the conversion</returns>
+        /// <param name="intPtr">The pointer to convert.</param>
+        /// <returns>The result of the conversion.</returns>
         public static UInt64 ToUInt64(this IntPtr intPtr)
         {
             return unchecked((UInt64)(Int64)intPtr);
         }
 
         /// <summary>
-        /// Converts an <see cref="UIntPtr"/> to an unsigned <see cref="UInt64"/>
+        /// Converts an <see cref="UIntPtr"/> to an unsigned <see cref="UInt64"/>.
         /// </summary>
-        /// <param name="intPtr">The pointer to convert</param>
-        /// <returns>The result of the conversion</returns>
+        /// <param name="intPtr">The pointer to convert.</param>
+        /// <returns>The result of the conversion.</returns>
         public static UInt64 ToUInt64(this UIntPtr intPtr)
         {
             return unchecked((UInt64)intPtr);
@@ -54,11 +54,11 @@
         #region IntPtr operations
 
         /// <summary>
-        /// Performs the addition operation with the given values
+        /// Performs the addition operation with the given values.
         /// </summary>
-        /// <param name="left">The left side value</param>
-        /// <param name="right">The right side value</param>
-        /// <returns>The result of the operation</returns>
+        /// <param name="left">The left side value.</param>
+        /// <param name="right">The right side value.</param>
+        /// <returns>The result of the operation.</returns>
         public static IntPtr Add(this IntPtr left, IntPtr right)
         {
             switch (IntPtr.Size)
@@ -69,11 +69,11 @@
         }
 
         /// <summary>
-        /// Performs the addition operation with the given values
+        /// Performs the addition operation with the given values.
         /// </summary>
-        /// <param name="left">The left side value</param>
-        /// <param name="right">The right side value</param>
-        /// <returns>The result of the operation</returns>
+        /// <param name="left">The left side value.</param>
+        /// <param name="right">The right side value.</param>
+        /// <returns>The result of the operation.</returns>
         public static IntPtr Add(this IntPtr left, Byte right)
         {
             switch (IntPtr.Size)
@@ -84,11 +84,11 @@
         }
 
         /// <summary>
-        /// Performs the addition operation with the given values
+        /// Performs the addition operation with the given values.
         /// </summary>
-        /// <param name="left">The left side value</param>
-        /// <param name="right">The right side value</param>
-        /// <returns>The result of the operation</returns>
+        /// <param name="left">The left side value.</param>
+        /// <param name="right">The right side value.</param>
+        /// <returns>The result of the operation.</returns>
         public static IntPtr Add(this IntPtr left, SByte right)
         {
             switch (IntPtr.Size)
@@ -99,11 +99,11 @@
         }
 
         /// <summary>
-        /// Performs the addition operation with the given values
+        /// Performs the addition operation with the given values.
         /// </summary>
-        /// <param name="left">The left side value</param>
-        /// <param name="right">The right side value</param>
-        /// <returns>The result of the operation</returns>
+        /// <param name="left">The left side value.</param>
+        /// <param name="right">The right side value.</param>
+        /// <returns>The result of the operation.</returns>
         public static IntPtr Add(this IntPtr left, Int16 right)
         {
             switch (IntPtr.Size)
@@ -114,11 +114,11 @@
         }
 
         /// <summary>
-        /// Performs the addition operation with the given values
+        /// Performs the addition operation with the given values.
         /// </summary>
-        /// <param name="left">The left side value</param>
-        /// <param name="right">The right side value</param>
-        /// <returns>The result of the operation</returns>
+        /// <param name="left">The left side value.</param>
+        /// <param name="right">The right side value.</param>
+        /// <returns>The result of the operation.</returns>
         public static IntPtr Add(this IntPtr left, UInt16 right)
         {
             switch (IntPtr.Size)
@@ -129,11 +129,11 @@
         }
 
         /// <summary>
-        /// Performs the addition operation with the given values
+        /// Performs the addition operation with the given values.
         /// </summary>
-        /// <param name="left">The left side value</param>
-        /// <param name="right">The right side value</param>
-        /// <returns>The result of the operation</returns>
+        /// <param name="left">The left side value.</param>
+        /// <param name="right">The right side value.</param>
+        /// <returns>The result of the operation.</returns>
         public static IntPtr Add(this IntPtr left, Int32 right)
         {
             switch (IntPtr.Size)
@@ -144,11 +144,11 @@
         }
 
         /// <summary>
-        /// Performs the addition operation with the given values
+        /// Performs the addition operation with the given values.
         /// </summary>
-        /// <param name="left">The left side value</param>
-        /// <param name="right">The right side value</param>
-        /// <returns>The result of the operation</returns>
+        /// <param name="left">The left side value.</param>
+        /// <param name="right">The right side value.</param>
+        /// <returns>The result of the operation.</returns>
         public static IntPtr Add(this IntPtr left, UInt32 right)
         {
             switch (IntPtr.Size)
@@ -159,11 +159,11 @@
         }
 
         /// <summary>
-        /// Performs the addition operation with the given values
+        /// Performs the addition operation with the given values.
         /// </summary>
-        /// <param name="left">The left side value</param>
-        /// <param name="right">The right side value</param>
-        /// <returns>The result of the operation</returns>
+        /// <param name="left">The left side value.</param>
+        /// <param name="right">The right side value.</param>
+        /// <returns>The result of the operation.</returns>
         public static IntPtr Add(this IntPtr left, Int64 right)
         {
             switch (IntPtr.Size)
@@ -174,11 +174,11 @@
         }
 
         /// <summary>
-        /// Performs the addition operation with the given values
+        /// Performs the addition operation with the given values.
         /// </summary>
-        /// <param name="left">The left side value</param>
-        /// <param name="right">The right side value</param>
-        /// <returns>The result of the operation</returns>
+        /// <param name="left">The left side value.</param>
+        /// <param name="right">The right side value.</param>
+        /// <returns>The result of the operation.</returns>
         public static IntPtr Add(this IntPtr left, UInt64 right)
         {
             switch (IntPtr.Size)
@@ -189,11 +189,11 @@
         }
 
         /// <summary>
-        /// Performs the subtraction operation with the given values
+        /// Performs the subtraction operation with the given values.
         /// </summary>
-        /// <param name="left">The left side value</param>
-        /// <param name="right">The right side value</param>
-        /// <returns>The result of the operation</returns>
+        /// <param name="left">The left side value.</param>
+        /// <param name="right">The right side value.</param>
+        /// <returns>The result of the operation.</returns>
         public static IntPtr Subtract(this IntPtr left, IntPtr right)
         {
             switch (IntPtr.Size)
@@ -204,11 +204,11 @@
         }
 
         /// <summary>
-        /// Performs the subtraction operation with the given values
+        /// Performs the subtraction operation with the given values.
         /// </summary>
-        /// <param name="left">The left side value</param>
-        /// <param name="right">The right side value</param>
-        /// <returns>The result of the operation</returns>
+        /// <param name="left">The left side value.</param>
+        /// <param name="right">The right side value.</param>
+        /// <returns>The result of the operation.</returns>
         public static IntPtr Subtract(this IntPtr left, Byte right)
         {
             switch (IntPtr.Size)
@@ -219,11 +219,11 @@
         }
 
         /// <summary>
-        /// Performs the subtraction operation with the given values
+        /// Performs the subtraction operation with the given values.
         /// </summary>
-        /// <param name="left">The left side value</param>
-        /// <param name="right">The right side value</param>
-        /// <returns>The result of the operation</returns>
+        /// <param name="left">The left side value.</param>
+        /// <param name="right">The right side value.</param>
+        /// <returns>The result of the operation.</returns>
         public static IntPtr Subtract(this IntPtr left, SByte right)
         {
             switch (IntPtr.Size)
@@ -234,11 +234,11 @@
         }
 
         /// <summary>
-        /// Performs the subtraction operation with the given values
+        /// Performs the subtraction operation with the given values.
         /// </summary>
-        /// <param name="left">The left side value</param>
-        /// <param name="right">The right side value</param>
-        /// <returns>The result of the operation</returns>
+        /// <param name="left">The left side value.</param>
+        /// <param name="right">The right side value.</param>
+        /// <returns>The result of the operation.</returns>
         public static IntPtr Subtract(this IntPtr left, Int16 right)
         {
             switch (IntPtr.Size)
@@ -249,11 +249,11 @@
         }
 
         /// <summary>
-        /// Performs the subtraction operation with the given values
+        /// Performs the subtraction operation with the given values.
         /// </summary>
-        /// <param name="left">The left side value</param>
-        /// <param name="right">The right side value</param>
-        /// <returns>The result of the operation</returns>
+        /// <param name="left">The left side value.</param>
+        /// <param name="right">The right side value.</param>
+        /// <returns>The result of the operation.</returns>
         public static IntPtr Subtract(this IntPtr left, UInt16 right)
         {
             switch (IntPtr.Size)
@@ -264,11 +264,11 @@
         }
 
         /// <summary>
-        /// Performs the subtraction operation with the given values
+        /// Performs the subtraction operation with the given values.
         /// </summary>
-        /// <param name="left">The left side value</param>
-        /// <param name="right">The right side value</param>
-        /// <returns>The result of the operation</returns>
+        /// <param name="left">The left side value.</param>
+        /// <param name="right">The right side value.</param>
+        /// <returns>The result of the operation.</returns>
         public static IntPtr Subtract(this IntPtr left, Int32 right)
         {
             switch (IntPtr.Size)
@@ -279,11 +279,11 @@
         }
 
         /// <summary>
-        /// Performs the subtraction operation with the given values
+        /// Performs the subtraction operation with the given values.
         /// </summary>
-        /// <param name="left">The left side value</param>
-        /// <param name="right">The right side value</param>
-        /// <returns>The result of the operation</returns>
+        /// <param name="left">The left side value.</param>
+        /// <param name="right">The right side value.</param>
+        /// <returns>The result of the operation.</returns>
         public static IntPtr Subtract(this IntPtr left, UInt32 right)
         {
             switch (IntPtr.Size)
@@ -294,11 +294,11 @@
         }
 
         /// <summary>
-        /// Performs the subtraction operation with the given values
+        /// Performs the subtraction operation with the given values.
         /// </summary>
-        /// <param name="left">The left side value</param>
-        /// <param name="right">The right side value</param>
-        /// <returns>The result of the operation</returns>
+        /// <param name="left">The left side value.</param>
+        /// <param name="right">The right side value.</param>
+        /// <returns>The result of the operation.</returns>
         public static IntPtr Subtract(this IntPtr left, Int64 right)
         {
             switch (IntPtr.Size)
@@ -309,11 +309,11 @@
         }
 
         /// <summary>
-        /// Performs the subtraction operation with the given values
+        /// Performs the subtraction operation with the given values.
         /// </summary>
-        /// <param name="left">The left side value</param>
-        /// <param name="right">The right side value</param>
-        /// <returns>The result of the operation</returns>
+        /// <param name="left">The left side value.</param>
+        /// <param name="right">The right side value.</param>
+        /// <returns>The result of the operation.</returns>
         public static IntPtr Subtract(this IntPtr left, UInt64 right)
         {
             switch (IntPtr.Size)
@@ -324,11 +324,11 @@
         }
 
         /// <summary>
-        /// Performs the multiplication operation with the given values
+        /// Performs the multiplication operation with the given values.
         /// </summary>
-        /// <param name="left">The left side value</param>
-        /// <param name="right">The right side value</param>
-        /// <returns>The result of the operation</returns>
+        /// <param name="left">The left side value.</param>
+        /// <param name="right">The right side value.</param>
+        /// <returns>The result of the operation.</returns>
         public static IntPtr Multiply(this IntPtr left, IntPtr right)
         {
             switch (IntPtr.Size)
@@ -339,11 +339,11 @@
         }
 
         /// <summary>
-        /// Performs the multiplication operation with the given values
+        /// Performs the multiplication operation with the given values.
         /// </summary>
-        /// <param name="left">The left side value</param>
-        /// <param name="right">The right side value</param>
-        /// <returns>The result of the operation</returns>
+        /// <param name="left">The left side value.</param>
+        /// <param name="right">The right side value.</param>
+        /// <returns>The result of the operation.</returns>
         public static IntPtr Multiply(this IntPtr left, Byte right)
         {
             switch (IntPtr.Size)
@@ -354,11 +354,11 @@
         }
 
         /// <summary>
-        /// Performs the multiplication operation with the given values
+        /// Performs the multiplication operation with the given values.
         /// </summary>
-        /// <param name="left">The left side value</param>
-        /// <param name="right">The right side value</param>
-        /// <returns>The result of the operation</returns>
+        /// <param name="left">The left side value.</param>
+        /// <param name="right">The right side value.</param>
+        /// <returns>The result of the operation.</returns>
         public static IntPtr Multiply(this IntPtr left, SByte right)
         {
             switch (IntPtr.Size)
@@ -369,11 +369,11 @@
         }
 
         /// <summary>
-        /// Performs the multiplication operation with the given values
+        /// Performs the multiplication operation with the given values.
         /// </summary>
-        /// <param name="left">The left side value</param>
-        /// <param name="right">The right side value</param>
-        /// <returns>The result of the operation</returns>
+        /// <param name="left">The left side value.</param>
+        /// <param name="right">The right side value.</param>
+        /// <returns>The result of the operation.</returns>
         public static IntPtr Multiply(this IntPtr left, Int16 right)
         {
             switch (IntPtr.Size)
@@ -384,11 +384,11 @@
         }
 
         /// <summary>
-        /// Performs the multiplication operation with the given values
+        /// Performs the multiplication operation with the given values.
         /// </summary>
-        /// <param name="left">The left side value</param>
-        /// <param name="right">The right side value</param>
-        /// <returns>The result of the operation</returns>
+        /// <param name="left">The left side value.</param>
+        /// <param name="right">The right side value.</param>
+        /// <returns>The result of the operation.</returns>
         public static IntPtr Multiply(this IntPtr left, UInt16 right)
         {
             switch (IntPtr.Size)
@@ -399,11 +399,11 @@
         }
 
         /// <summary>
-        /// Performs the multiplication operation with the given values
+        /// Performs the multiplication operation with the given values.
         /// </summary>
-        /// <param name="left">The left side value</param>
-        /// <param name="right">The right side value</param>
-        /// <returns>The result of the operation</returns>
+        /// <param name="left">The left side value.</param>
+        /// <param name="right">The right side value.</param>
+        /// <returns>The result of the operation.</returns>
         public static IntPtr Multiply(this IntPtr left, Int32 right)
         {
             switch (IntPtr.Size)
@@ -414,11 +414,11 @@
         }
 
         /// <summary>
-        /// Performs the multiplication operation with the given values
+        /// Performs the multiplication operation with the given values.
         /// </summary>
-        /// <param name="left">The left side value</param>
-        /// <param name="right">The right side value</param>
-        /// <returns>The result of the operation</returns>
+        /// <param name="left">The left side value.</param>
+        /// <param name="right">The right side value.</param>
+        /// <returns>The result of the operation.</returns>
         public static IntPtr Multiply(this IntPtr left, UInt32 right)
         {
             switch (IntPtr.Size)
@@ -429,11 +429,11 @@
         }
 
         /// <summary>
-        /// Performs the multiplication operation with the given values
+        /// Performs the multiplication operation with the given values.
         /// </summary>
-        /// <param name="left">The left side value</param>
-        /// <param name="right">The right side value</param>
-        /// <returns>The result of the operation</returns>
+        /// <param name="left">The left side value.</param>
+        /// <param name="right">The right side value.</param>
+        /// <returns>The result of the operation.</returns>
         public static IntPtr Multiply(this IntPtr left, Int64 right)
         {
             switch (IntPtr.Size)
@@ -444,11 +444,11 @@
         }
 
         /// <summary>
-        /// Performs the multiplication operation with the given values
+        /// Performs the multiplication operation with the given values.
         /// </summary>
-        /// <param name="left">The left side value</param>
-        /// <param name="right">The right side value</param>
-        /// <returns>The result of the operation</returns>
+        /// <param name="left">The left side value.</param>
+        /// <param name="right">The right side value.</param>
+        /// <returns>The result of the operation.</returns>
         public static IntPtr Multiply(this IntPtr left, UInt64 right)
         {
             switch (IntPtr.Size)
@@ -459,11 +459,11 @@
         }
 
         /// <summary>
-        /// Performs the division operation with the given values
+        /// Performs the division operation with the given values.
         /// </summary>
-        /// <param name="left">The left side value</param>
-        /// <param name="right">The right side value</param>
-        /// <returns>The result of the operation</returns>
+        /// <param name="left">The left side value.</param>
+        /// <param name="right">The right side value.</param>
+        /// <returns>The result of the operation.</returns>
         public static IntPtr Divide(this IntPtr left, IntPtr right)
         {
             switch (IntPtr.Size)
@@ -474,11 +474,11 @@
         }
 
         /// <summary>
-        /// Performs the division operation with the given values
+        /// Performs the division operation with the given values.
         /// </summary>
-        /// <param name="left">The left side value</param>
-        /// <param name="right">The right side value</param>
-        /// <returns>The result of the operation</returns>
+        /// <param name="left">The left side value.</param>
+        /// <param name="right">The right side value.</param>
+        /// <returns>The result of the operation.</returns>
         public static IntPtr Divide(this IntPtr left, Byte right)
         {
             switch (IntPtr.Size)
@@ -489,11 +489,11 @@
         }
 
         /// <summary>
-        /// Performs the division operation with the given values
+        /// Performs the division operation with the given values.
         /// </summary>
-        /// <param name="left">The left side value</param>
-        /// <param name="right">The right side value</param>
-        /// <returns>The result of the operation</returns>
+        /// <param name="left">The left side value.</param>
+        /// <param name="right">The right side value.</param>
+        /// <returns>The result of the operation.</returns>
         public static IntPtr Divide(this IntPtr left, SByte right)
         {
             switch (IntPtr.Size)
@@ -504,11 +504,11 @@
         }
 
         /// <summary>
-        /// Performs the division operation with the given values
+        /// Performs the division operation with the given values.
         /// </summary>
-        /// <param name="left">The left side value</param>
-        /// <param name="right">The right side value</param>
-        /// <returns>The result of the operation</returns>
+        /// <param name="left">The left side value.</param>
+        /// <param name="right">The right side value.</param>
+        /// <returns>The result of the operation.</returns>
         public static IntPtr Divide(this IntPtr left, Int16 right)
         {
             switch (IntPtr.Size)
@@ -519,11 +519,11 @@
         }
 
         /// <summary>
-        /// Performs the division operation with the given values
+        /// Performs the division operation with the given values.
         /// </summary>
-        /// <param name="left">The left side value</param>
-        /// <param name="right">The right side value</param>
-        /// <returns>The result of the operation</returns>
+        /// <param name="left">The left side value.</param>
+        /// <param name="right">The right side value.</param>
+        /// <returns>The result of the operation.</returns>
         public static IntPtr Divide(this IntPtr left, UInt16 right)
         {
             switch (IntPtr.Size)
@@ -534,11 +534,11 @@
         }
 
         /// <summary>
-        /// Performs the division operation with the given values
+        /// Performs the division operation with the given values.
         /// </summary>
-        /// <param name="left">The left side value</param>
-        /// <param name="right">The right side value</param>
-        /// <returns>The result of the operation</returns>
+        /// <param name="left">The left side value.</param>
+        /// <param name="right">The right side value.</param>
+        /// <returns>The result of the operation.</returns>
         public static IntPtr Divide(this IntPtr left, Int32 right)
         {
             switch (IntPtr.Size)
@@ -549,11 +549,11 @@
         }
 
         /// <summary>
-        /// Performs the division operation with the given values
+        /// Performs the division operation with the given values.
         /// </summary>
-        /// <param name="left">The left side value</param>
-        /// <param name="right">The right side value</param>
-        /// <returns>The result of the operation</returns>
+        /// <param name="left">The left side value.</param>
+        /// <param name="right">The right side value.</param>
+        /// <returns>The result of the operation.</returns>
         public static IntPtr Divide(this IntPtr left, UInt32 right)
         {
             switch (IntPtr.Size)
@@ -564,11 +564,11 @@
         }
 
         /// <summary>
-        /// Performs the division operation with the given values
+        /// Performs the division operation with the given values.
         /// </summary>
-        /// <param name="left">The left side value</param>
-        /// <param name="right">The right side value</param>
-        /// <returns>The result of the operation</returns>
+        /// <param name="left">The left side value.</param>
+        /// <param name="right">The right side value.</param>
+        /// <returns>The result of the operation.</returns>
         public static IntPtr Divide(this IntPtr left, Int64 right)
         {
             switch (IntPtr.Size)
@@ -579,11 +579,11 @@
         }
 
         /// <summary>
-        /// Performs the division operation with the given values
+        /// Performs the division operation with the given values.
         /// </summary>
-        /// <param name="left">The left side value</param>
-        /// <param name="right">The right side value</param>
-        /// <returns>The result of the operation</returns>
+        /// <param name="left">The left side value.</param>
+        /// <param name="right">The right side value.</param>
+        /// <returns>The result of the operation.</returns>
         public static IntPtr Divide(this IntPtr left, UInt64 right)
         {
             switch (IntPtr.Size)
@@ -594,11 +594,11 @@
         }
 
         /// <summary>
-        /// Performs the modulo operation with the given values
+        /// Performs the modulo operation with the given values.
         /// </summary>
-        /// <param name="left">The left side value</param>
-        /// <param name="right">The right side value</param>
-        /// <returns>The result of the operation</returns>
+        /// <param name="left">The left side value.</param>
+        /// <param name="right">The right side value.</param>
+        /// <returns>The result of the operation.</returns>
         public static IntPtr Mod(this IntPtr left, IntPtr right)
         {
             switch (IntPtr.Size)
@@ -609,11 +609,11 @@
         }
 
         /// <summary>
-        /// Performs the modulo operation with the given values
+        /// Performs the modulo operation with the given values.
         /// </summary>
-        /// <param name="left">The left side value</param>
-        /// <param name="right">The right side value</param>
-        /// <returns>The result of the operation</returns>
+        /// <param name="left">The left side value.</param>
+        /// <param name="right">The right side value.</param>
+        /// <returns>The result of the operation.</returns>
         public static IntPtr Mod(this IntPtr left, Byte right)
         {
             switch (IntPtr.Size)
@@ -624,11 +624,11 @@
         }
 
         /// <summary>
-        /// Performs the modulo operation with the given values
+        /// Performs the modulo operation with the given values.
         /// </summary>
-        /// <param name="left">The left side value</param>
-        /// <param name="right">The right side value</param>
-        /// <returns>The result of the operation</returns>
+        /// <param name="left">The left side value.</param>
+        /// <param name="right">The right side value.</param>
+        /// <returns>The result of the operation.</returns>
         public static IntPtr Mod(this IntPtr left, SByte right)
         {
             switch (IntPtr.Size)
@@ -639,11 +639,11 @@
         }
 
         /// <summary>
-        /// Performs the modulo operation with the given values
+        /// Performs the modulo operation with the given values.
         /// </summary>
-        /// <param name="left">The left side value</param>
-        /// <param name="right">The right side value</param>
-        /// <returns>The result of the operation</returns>
+        /// <param name="left">The left side value.</param>
+        /// <param name="right">The right side value.</param>
+        /// <returns>The result of the operation.</returns>
         public static IntPtr Mod(this IntPtr left, Int16 right)
         {
             switch (IntPtr.Size)
@@ -654,11 +654,11 @@
         }
 
         /// <summary>
-        /// Performs the modulo operation with the given values
+        /// Performs the modulo operation with the given values.
         /// </summary>
-        /// <param name="left">The left side value</param>
-        /// <param name="right">The right side value</param>
-        /// <returns>The result of the operation</returns>
+        /// <param name="left">The left side value.</param>
+        /// <param name="right">The right side value.</param>
+        /// <returns>The result of the operation.</returns>
         public static IntPtr Mod(this IntPtr left, UInt16 right)
         {
             switch (IntPtr.Size)
@@ -669,11 +669,11 @@
         }
 
         /// <summary>
-        /// Performs the modulo operation with the given values
+        /// Performs the modulo operation with the given values.
         /// </summary>
-        /// <param name="left">The left side value</param>
-        /// <param name="right">The right side value</param>
-        /// <returns>The result of the operation</returns>
+        /// <param name="left">The left side value.</param>
+        /// <param name="right">The right side value.</param>
+        /// <returns>The result of the operation.</returns>
         public static IntPtr Mod(this IntPtr left, Int32 right)
         {
             switch (IntPtr.Size)
@@ -684,11 +684,11 @@
         }
 
         /// <summary>
-        /// Performs the modulo operation with the given values
+        /// Performs the modulo operation with the given values.
         /// </summary>
-        /// <param name="left">The left side value</param>
-        /// <param name="right">The right side value</param>
-        /// <returns>The result of the operation</returns>
+        /// <param name="left">The left side value.</param>
+        /// <param name="right">The right side value.</param>
+        /// <returns>The result of the operation.</returns>
         public static IntPtr Mod(this IntPtr left, UInt32 right)
         {
             switch (IntPtr.Size)
@@ -699,11 +699,11 @@
         }
 
         /// <summary>
-        /// Performs the modulo operation with the given values
+        /// Performs the modulo operation with the given values.
         /// </summary>
-        /// <param name="left">The left side value</param>
-        /// <param name="right">The right side value</param>
-        /// <returns>The result of the operation</returns>
+        /// <param name="left">The left side value.</param>
+        /// <param name="right">The right side value.</param>
+        /// <returns>The result of the operation.</returns>
         public static IntPtr Mod(this IntPtr left, Int64 right)
         {
             switch (IntPtr.Size)
@@ -714,11 +714,11 @@
         }
 
         /// <summary>
-        /// Performs the modulo operation with the given values
+        /// Performs the modulo operation with the given values.
         /// </summary>
-        /// <param name="left">The left side value</param>
-        /// <param name="right">The right side value</param>
-        /// <returns>The result of the operation</returns>
+        /// <param name="left">The left side value.</param>
+        /// <param name="right">The right side value.</param>
+        /// <returns>The result of the operation.</returns>
         public static IntPtr Mod(this IntPtr left, UInt64 right)
         {
             switch (IntPtr.Size)
@@ -733,11 +733,11 @@
         #region UIntPtr operations
 
         /// <summary>
-        /// Performs the addition operation with the given values
+        /// Performs the addition operation with the given values.
         /// </summary>
-        /// <param name="left">The left side value</param>
-        /// <param name="right">The right side value</param>
-        /// <returns>The result of the operation</returns>
+        /// <param name="left">The left side value.</param>
+        /// <param name="right">The right side value.</param>
+        /// <returns>The result of the operation.</returns>
         public static UIntPtr Add(this UIntPtr left, UIntPtr right)
         {
             switch (IntPtr.Size)
@@ -748,11 +748,11 @@
         }
 
         /// <summary>
-        /// Performs the addition operation with the given values
+        /// Performs the addition operation with the given values.
         /// </summary>
-        /// <param name="left">The left side value</param>
-        /// <param name="right">The right side value</param>
-        /// <returns>The result of the operation</returns>
+        /// <param name="left">The left side value.</param>
+        /// <param name="right">The right side value.</param>
+        /// <returns>The result of the operation.</returns>
         public static UIntPtr Add(this UIntPtr left, Byte right)
         {
             switch (IntPtr.Size)
@@ -763,11 +763,11 @@
         }
 
         /// <summary>
-        /// Performs the addition operation with the given values
+        /// Performs the addition operation with the given values.
         /// </summary>
-        /// <param name="left">The left side value</param>
-        /// <param name="right">The right side value</param>
-        /// <returns>The result of the operation</returns>
+        /// <param name="left">The left side value.</param>
+        /// <param name="right">The right side value.</param>
+        /// <returns>The result of the operation.</returns>
         public static UIntPtr Add(this UIntPtr left, SByte right)
         {
             switch (IntPtr.Size)
@@ -778,11 +778,11 @@
         }
 
         /// <summary>
-        /// Performs the addition operation with the given values
+        /// Performs the addition operation with the given values.
         /// </summary>
-        /// <param name="left">The left side value</param>
-        /// <param name="right">The right side value</param>
-        /// <returns>The result of the operation</returns>
+        /// <param name="left">The left side value.</param>
+        /// <param name="right">The right side value.</param>
+        /// <returns>The result of the operation.</returns>
         public static UIntPtr Add(this UIntPtr left, Int16 right)
         {
             switch (IntPtr.Size)
@@ -793,11 +793,11 @@
         }
 
         /// <summary>
-        /// Performs the addition operation with the given values
+        /// Performs the addition operation with the given values.
         /// </summary>
-        /// <param name="left">The left side value</param>
-        /// <param name="right">The right side value</param>
-        /// <returns>The result of the operation</returns>
+        /// <param name="left">The left side value.</param>
+        /// <param name="right">The right side value.</param>
+        /// <returns>The result of the operation.</returns>
         public static UIntPtr Add(this UIntPtr left, UInt16 right)
         {
             switch (IntPtr.Size)
@@ -808,11 +808,11 @@
         }
 
         /// <summary>
-        /// Performs the addition operation with the given values
+        /// Performs the addition operation with the given values.
         /// </summary>
-        /// <param name="left">The left side value</param>
-        /// <param name="right">The right side value</param>
-        /// <returns>The result of the operation</returns>
+        /// <param name="left">The left side value.</param>
+        /// <param name="right">The right side value.</param>
+        /// <returns>The result of the operation.</returns>
         public static UIntPtr Add(this UIntPtr left, Int32 right)
         {
             switch (IntPtr.Size)
@@ -823,11 +823,11 @@
         }
 
         /// <summary>
-        /// Performs the addition operation with the given values
+        /// Performs the addition operation with the given values.
         /// </summary>
-        /// <param name="left">The left side value</param>
-        /// <param name="right">The right side value</param>
-        /// <returns>The result of the operation</returns>
+        /// <param name="left">The left side value.</param>
+        /// <param name="right">The right side value.</param>
+        /// <returns>The result of the operation.</returns>
         public static UIntPtr Add(this UIntPtr left, UInt32 right)
         {
             switch (IntPtr.Size)
@@ -838,11 +838,11 @@
         }
 
         /// <summary>
-        /// Performs the addition operation with the given values
+        /// Performs the addition operation with the given values.
         /// </summary>
-        /// <param name="left">The left side value</param>
-        /// <param name="right">The right side value</param>
-        /// <returns>The result of the operation</returns>
+        /// <param name="left">The left side value.</param>
+        /// <param name="right">The right side value.</param>
+        /// <returns>The result of the operation.</returns>
         public static UIntPtr Add(this UIntPtr left, Int64 right)
         {
             switch (IntPtr.Size)
@@ -853,11 +853,11 @@
         }
 
         /// <summary>
-        /// Performs the addition operation with the given values
+        /// Performs the addition operation with the given values.
         /// </summary>
-        /// <param name="left">The left side value</param>
-        /// <param name="right">The right side value</param>
-        /// <returns>The result of the operation</returns>
+        /// <param name="left">The left side value.</param>
+        /// <param name="right">The right side value.</param>
+        /// <returns>The result of the operation.</returns>
         public static UIntPtr Add(this UIntPtr left, UInt64 right)
         {
             switch (IntPtr.Size)
@@ -868,11 +868,11 @@
         }
 
         /// <summary>
-        /// Performs the subtraction operation with the given values
+        /// Performs the subtraction operation with the given values.
         /// </summary>
-        /// <param name="left">The left side value</param>
-        /// <param name="right">The right side value</param>
-        /// <returns>The result of the operation</returns>
+        /// <param name="left">The left side value.</param>
+        /// <param name="right">The right side value.</param>
+        /// <returns>The result of the operation.</returns>
         public static UIntPtr Subtract(this UIntPtr left, UIntPtr right)
         {
             switch (IntPtr.Size)
@@ -883,11 +883,11 @@
         }
 
         /// <summary>
-        /// Performs the subtraction operation with the given values
+        /// Performs the subtraction operation with the given values.
         /// </summary>
-        /// <param name="left">The left side value</param>
-        /// <param name="right">The right side value</param>
-        /// <returns>The result of the operation</returns>
+        /// <param name="left">The left side value.</param>
+        /// <param name="right">The right side value.</param>
+        /// <returns>The result of the operation.</returns>
         public static UIntPtr Subtract(this UIntPtr left, Byte right)
         {
             switch (IntPtr.Size)
@@ -898,11 +898,11 @@
         }
 
         /// <summary>
-        /// Performs the subtraction operation with the given values
+        /// Performs the subtraction operation with the given values.
         /// </summary>
-        /// <param name="left">The left side value</param>
-        /// <param name="right">The right side value</param>
-        /// <returns>The result of the operation</returns>
+        /// <param name="left">The left side value.</param>
+        /// <param name="right">The right side value.</param>
+        /// <returns>The result of the operation.</returns>
         public static UIntPtr Subtract(this UIntPtr left, SByte right)
         {
             switch (IntPtr.Size)
@@ -913,11 +913,11 @@
         }
 
         /// <summary>
-        /// Performs the subtraction operation with the given values
+        /// Performs the subtraction operation with the given values.
         /// </summary>
-        /// <param name="left">The left side value</param>
-        /// <param name="right">The right side value</param>
-        /// <returns>The result of the operation</returns>
+        /// <param name="left">The left side value.</param>
+        /// <param name="right">The right side value.</param>
+        /// <returns>The result of the operation.</returns>
         public static UIntPtr Subtract(this UIntPtr left, Int16 right)
         {
             switch (IntPtr.Size)
@@ -928,11 +928,11 @@
         }
 
         /// <summary>
-        /// Performs the subtraction operation with the given values
+        /// Performs the subtraction operation with the given values.
         /// </summary>
-        /// <param name="left">The left side value</param>
-        /// <param name="right">The right side value</param>
-        /// <returns>The result of the operation</returns>
+        /// <param name="left">The left side value.</param>
+        /// <param name="right">The right side value.</param>
+        /// <returns>The result of the operation.</returns>
         public static UIntPtr Subtract(this UIntPtr left, UInt16 right)
         {
             switch (IntPtr.Size)
@@ -943,11 +943,11 @@
         }
 
         /// <summary>
-        /// Performs the subtraction operation with the given values
+        /// Performs the subtraction operation with the given values.
         /// </summary>
-        /// <param name="left">The left side value</param>
-        /// <param name="right">The right side value</param>
-        /// <returns>The result of the operation</returns>
+        /// <param name="left">The left side value.</param>
+        /// <param name="right">The right side value.</param>
+        /// <returns>The result of the operation.</returns>
         public static UIntPtr Subtract(this UIntPtr left, Int32 right)
         {
             switch (IntPtr.Size)
@@ -958,11 +958,11 @@
         }
 
         /// <summary>
-        /// Performs the subtraction operation with the given values
+        /// Performs the subtraction operation with the given values.
         /// </summary>
-        /// <param name="left">The left side value</param>
-        /// <param name="right">The right side value</param>
-        /// <returns>The result of the operation</returns>
+        /// <param name="left">The left side value.</param>
+        /// <param name="right">The right side value.</param>
+        /// <returns>The result of the operation.</returns>
         public static UIntPtr Subtract(this UIntPtr left, UInt32 right)
         {
             switch (IntPtr.Size)
@@ -973,11 +973,11 @@
         }
 
         /// <summary>
-        /// Performs the subtraction operation with the given values
+        /// Performs the subtraction operation with the given values.
         /// </summary>
-        /// <param name="left">The left side value</param>
-        /// <param name="right">The right side value</param>
-        /// <returns>The result of the operation</returns>
+        /// <param name="left">The left side value.</param>
+        /// <param name="right">The right side value.</param>
+        /// <returns>The result of the operation.</returns>
         public static UIntPtr Subtract(this UIntPtr left, Int64 right)
         {
             switch (IntPtr.Size)
@@ -988,11 +988,11 @@
         }
 
         /// <summary>
-        /// Performs the subtraction operation with the given values
+        /// Performs the subtraction operation with the given values.
         /// </summary>
-        /// <param name="left">The left side value</param>
-        /// <param name="right">The right side value</param>
-        /// <returns>The result of the operation</returns>
+        /// <param name="left">The left side value.</param>
+        /// <param name="right">The right side value.</param>
+        /// <returns>The result of the operation.</returns>
         public static UIntPtr Subtract(this UIntPtr left, UInt64 right)
         {
             switch (IntPtr.Size)
@@ -1003,11 +1003,11 @@
         }
 
         /// <summary>
-        /// Performs the multiplication operation with the given values
+        /// Performs the multiplication operation with the given values.
         /// </summary>
-        /// <param name="left">The left side value</param>
-        /// <param name="right">The right side value</param>
-        /// <returns>The result of the operation</returns>
+        /// <param name="left">The left side value.</param>
+        /// <param name="right">The right side value.</param>
+        /// <returns>The result of the operation.</returns>
         public static UIntPtr Multiply(this UIntPtr left, UIntPtr right)
         {
             switch (IntPtr.Size)
@@ -1018,11 +1018,11 @@
         }
 
         /// <summary>
-        /// Performs the multiplication operation with the given values
+        /// Performs the multiplication operation with the given values.
         /// </summary>
-        /// <param name="left">The left side value</param>
-        /// <param name="right">The right side value</param>
-        /// <returns>The result of the operation</returns>
+        /// <param name="left">The left side value.</param>
+        /// <param name="right">The right side value.</param>
+        /// <returns>The result of the operation.</returns>
         public static UIntPtr Multiply(this UIntPtr left, Byte right)
         {
             switch (IntPtr.Size)
@@ -1033,11 +1033,11 @@
         }
 
         /// <summary>
-        /// Performs the multiplication operation with the given values
+        /// Performs the multiplication operation with the given values.
         /// </summary>
-        /// <param name="left">The left side value</param>
-        /// <param name="right">The right side value</param>
-        /// <returns>The result of the operation</returns>
+        /// <param name="left">The left side value.</param>
+        /// <param name="right">The right side value.</param>
+        /// <returns>The result of the operation.</returns>
         public static UIntPtr Multiply(this UIntPtr left, SByte right)
         {
             switch (IntPtr.Size)
@@ -1048,11 +1048,11 @@
         }
 
         /// <summary>
-        /// Performs the multiplication operation with the given values
+        /// Performs the multiplication operation with the given values.
         /// </summary>
-        /// <param name="left">The left side value</param>
-        /// <param name="right">The right side value</param>
-        /// <returns>The result of the operation</returns>
+        /// <param name="left">The left side value.</param>
+        /// <param name="right">The right side value.</param>
+        /// <returns>The result of the operation.</returns>
         public static UIntPtr Multiply(this UIntPtr left, Int16 right)
         {
             switch (IntPtr.Size)
@@ -1063,11 +1063,11 @@
         }
 
         /// <summary>
-        /// Performs the multiplication operation with the given values
+        /// Performs the multiplication operation with the given values.
         /// </summary>
-        /// <param name="left">The left side value</param>
-        /// <param name="right">The right side value</param>
-        /// <returns>The result of the operation</returns>
+        /// <param name="left">The left side value.</param>
+        /// <param name="right">The right side value.</param>
+        /// <returns>The result of the operation.</returns>
         public static UIntPtr Multiply(this UIntPtr left, UInt16 right)
         {
             switch (IntPtr.Size)
@@ -1078,11 +1078,11 @@
         }
 
         /// <summary>
-        /// Performs the multiplication operation with the given values
+        /// Performs the multiplication operation with the given values.
         /// </summary>
-        /// <param name="left">The left side value</param>
-        /// <param name="right">The right side value</param>
-        /// <returns>The result of the operation</returns>
+        /// <param name="left">The left side value.</param>
+        /// <param name="right">The right side value.</param>
+        /// <returns>The result of the operation.</returns>
         public static UIntPtr Multiply(this UIntPtr left, Int32 right)
         {
             switch (IntPtr.Size)
@@ -1093,11 +1093,11 @@
         }
 
         /// <summary>
-        /// Performs the multiplication operation with the given values
+        /// Performs the multiplication operation with the given values.
         /// </summary>
-        /// <param name="left">The left side value</param>
-        /// <param name="right">The right side value</param>
-        /// <returns>The result of the operation</returns>
+        /// <param name="left">The left side value.</param>
+        /// <param name="right">The right side value.</param>
+        /// <returns>The result of the operation.</returns>
         public static UIntPtr Multiply(this UIntPtr left, UInt32 right)
         {
             switch (IntPtr.Size)
@@ -1108,11 +1108,11 @@
         }
 
         /// <summary>
-        /// Performs the multiplication operation with the given values
+        /// Performs the multiplication operation with the given values.
         /// </summary>
-        /// <param name="left">The left side value</param>
-        /// <param name="right">The right side value</param>
-        /// <returns>The result of the operation</returns>
+        /// <param name="left">The left side value.</param>
+        /// <param name="right">The right side value.</param>
+        /// <returns>The result of the operation.</returns>
         public static UIntPtr Multiply(this UIntPtr left, Int64 right)
         {
             switch (IntPtr.Size)
@@ -1123,11 +1123,11 @@
         }
 
         /// <summary>
-        /// Performs the multiplication operation with the given values
+        /// Performs the multiplication operation with the given values.
         /// </summary>
-        /// <param name="left">The left side value</param>
-        /// <param name="right">The right side value</param>
-        /// <returns>The result of the operation</returns>
+        /// <param name="left">The left side value.</param>
+        /// <param name="right">The right side value.</param>
+        /// <returns>The result of the operation.</returns>
         public static UIntPtr Multiply(this UIntPtr left, UInt64 right)
         {
             switch (IntPtr.Size)
@@ -1138,11 +1138,11 @@
         }
 
         /// <summary>
-        /// Performs the division operation with the given values
+        /// Performs the division operation with the given values.
         /// </summary>
-        /// <param name="left">The left side value</param>
-        /// <param name="right">The right side value</param>
-        /// <returns>The result of the operation</returns>
+        /// <param name="left">The left side value.</param>
+        /// <param name="right">The right side value.</param>
+        /// <returns>The result of the operation.</returns>
         public static UIntPtr Divide(this UIntPtr left, UIntPtr right)
         {
             switch (IntPtr.Size)
@@ -1153,11 +1153,11 @@
         }
 
         /// <summary>
-        /// Performs the division operation with the given values
+        /// Performs the division operation with the given values.
         /// </summary>
-        /// <param name="left">The left side value</param>
-        /// <param name="right">The right side value</param>
-        /// <returns>The result of the operation</returns>
+        /// <param name="left">The left side value.</param>
+        /// <param name="right">The right side value.</param>
+        /// <returns>The result of the operation.</returns>
         public static UIntPtr Divide(this UIntPtr left, Byte right)
         {
             switch (IntPtr.Size)
@@ -1168,11 +1168,11 @@
         }
 
         /// <summary>
-        /// Performs the division operation with the given values
+        /// Performs the division operation with the given values.
         /// </summary>
-        /// <param name="left">The left side value</param>
-        /// <param name="right">The right side value</param>
-        /// <returns>The result of the operation</returns>
+        /// <param name="left">The left side value.</param>
+        /// <param name="right">The right side value.</param>
+        /// <returns>The result of the operation.</returns>
         public static UIntPtr Divide(this UIntPtr left, SByte right)
         {
             switch (IntPtr.Size)
@@ -1183,11 +1183,11 @@
         }
 
         /// <summary>
-        /// Performs the division operation with the given values
+        /// Performs the division operation with the given values.
         /// </summary>
-        /// <param name="left">The left side value</param>
-        /// <param name="right">The right side value</param>
-        /// <returns>The result of the operation</returns>
+        /// <param name="left">The left side value.</param>
+        /// <param name="right">The right side value.</param>
+        /// <returns>The result of the operation.</returns>
         public static UIntPtr Divide(this UIntPtr left, Int16 right)
         {
             switch (IntPtr.Size)
@@ -1198,11 +1198,11 @@
         }
 
         /// <summary>
-        /// Performs the division operation with the given values
+        /// Performs the division operation with the given values.
         /// </summary>
-        /// <param name="left">The left side value</param>
-        /// <param name="right">The right side value</param>
-        /// <returns>The result of the operation</returns>
+        /// <param name="left">The left side value.</param>
+        /// <param name="right">The right side value.</param>
+        /// <returns>The result of the operation.</returns>
         public static UIntPtr Divide(this UIntPtr left, UInt16 right)
         {
             switch (IntPtr.Size)
@@ -1213,11 +1213,11 @@
         }
 
         /// <summary>
-        /// Performs the division operation with the given values
+        /// Performs the division operation with the given values.
         /// </summary>
-        /// <param name="left">The left side value</param>
-        /// <param name="right">The right side value</param>
-        /// <returns>The result of the operation</returns>
+        /// <param name="left">The left side value.</param>
+        /// <param name="right">The right side value.</param>
+        /// <returns>The result of the operation.</returns>
         public static UIntPtr Divide(this UIntPtr left, Int32 right)
         {
             switch (IntPtr.Size)
@@ -1228,11 +1228,11 @@
         }
 
         /// <summary>
-        /// Performs the division operation with the given values
+        /// Performs the division operation with the given values.
         /// </summary>
-        /// <param name="left">The left side value</param>
-        /// <param name="right">The right side value</param>
-        /// <returns>The result of the operation</returns>
+        /// <param name="left">The left side value.</param>
+        /// <param name="right">The right side value.</param>
+        /// <returns>The result of the operation.</returns>
         public static UIntPtr Divide(this UIntPtr left, UInt32 right)
         {
             switch (IntPtr.Size)
@@ -1243,11 +1243,11 @@
         }
 
         /// <summary>
-        /// Performs the division operation with the given values
+        /// Performs the division operation with the given values.
         /// </summary>
-        /// <param name="left">The left side value</param>
-        /// <param name="right">The right side value</param>
-        /// <returns>The result of the operation</returns>
+        /// <param name="left">The left side value.</param>
+        /// <param name="right">The right side value.</param>
+        /// <returns>The result of the operation.</returns>
         public static UIntPtr Divide(this UIntPtr left, Int64 right)
         {
             switch (IntPtr.Size)
@@ -1258,11 +1258,11 @@
         }
 
         /// <summary>
-        /// Performs the division operation with the given values
+        /// Performs the division operation with the given values.
         /// </summary>
-        /// <param name="left">The left side value</param>
-        /// <param name="right">The right side value</param>
-        /// <returns>The result of the operation</returns>
+        /// <param name="left">The left side value.</param>
+        /// <param name="right">The right side value.</param>
+        /// <returns>The result of the operation.</returns>
         public static UIntPtr Divide(this UIntPtr left, UInt64 right)
         {
             switch (IntPtr.Size)
@@ -1273,11 +1273,11 @@
         }
 
         /// <summary>
-        /// Performs the modulo operation with the given values
+        /// Performs the modulo operation with the given values.
         /// </summary>
-        /// <param name="left">The left side value</param>
-        /// <param name="right">The right side value</param>
-        /// <returns>The result of the operation</returns>
+        /// <param name="left">The left side value.</param>
+        /// <param name="right">The right side value.</param>
+        /// <returns>The result of the operation.</returns>
         public static UIntPtr Mod(this UIntPtr left, UIntPtr right)
         {
             switch (IntPtr.Size)
@@ -1288,11 +1288,11 @@
         }
 
         /// <summary>
-        /// Performs the modulo operation with the given values
+        /// Performs the modulo operation with the given values.
         /// </summary>
-        /// <param name="left">The left side value</param>
-        /// <param name="right">The right side value</param>
-        /// <returns>The result of the operation</returns>
+        /// <param name="left">The left side value.</param>
+        /// <param name="right">The right side value.</param>
+        /// <returns>The result of the operation.</returns>
         public static UIntPtr Mod(this UIntPtr left, Byte right)
         {
             switch (IntPtr.Size)
@@ -1303,11 +1303,11 @@
         }
 
         /// <summary>
-        /// Performs the modulo operation with the given values
+        /// Performs the modulo operation with the given values.
         /// </summary>
-        /// <param name="left">The left side value</param>
-        /// <param name="right">The right side value</param>
-        /// <returns>The result of the operation</returns>
+        /// <param name="left">The left side value.</param>
+        /// <param name="right">The right side value.</param>
+        /// <returns>The result of the operation.</returns>
         public static UIntPtr Mod(this UIntPtr left, SByte right)
         {
             switch (IntPtr.Size)
@@ -1318,11 +1318,11 @@
         }
 
         /// <summary>
-        /// Performs the modulo operation with the given values
+        /// Performs the modulo operation with the given values.
         /// </summary>
-        /// <param name="left">The left side value</param>
-        /// <param name="right">The right side value</param>
-        /// <returns>The result of the operation</returns>
+        /// <param name="left">The left side value.</param>
+        /// <param name="right">The right side value.</param>
+        /// <returns>The result of the operation.</returns>
         public static UIntPtr Mod(this UIntPtr left, Int16 right)
         {
             switch (IntPtr.Size)
@@ -1333,11 +1333,11 @@
         }
 
         /// <summary>
-        /// Performs the modulo operation with the given values
+        /// Performs the modulo operation with the given values.
         /// </summary>
-        /// <param name="left">The left side value</param>
-        /// <param name="right">The right side value</param>
-        /// <returns>The result of the operation</returns>
+        /// <param name="left">The left side value.</param>
+        /// <param name="right">The right side value.</param>
+        /// <returns>The result of the operation.</returns>
         public static UIntPtr Mod(this UIntPtr left, UInt16 right)
         {
             switch (IntPtr.Size)
@@ -1348,11 +1348,11 @@
         }
 
         /// <summary>
-        /// Performs the modulo operation with the given values
+        /// Performs the modulo operation with the given values.
         /// </summary>
-        /// <param name="left">The left side value</param>
-        /// <param name="right">The right side value</param>
-        /// <returns>The result of the operation</returns>
+        /// <param name="left">The left side value.</param>
+        /// <param name="right">The right side value.</param>
+        /// <returns>The result of the operation.</returns>
         public static UIntPtr Mod(this UIntPtr left, Int32 right)
         {
             switch (IntPtr.Size)
@@ -1363,11 +1363,11 @@
         }
 
         /// <summary>
-        /// Performs the modulo operation with the given values
+        /// Performs the modulo operation with the given values.
         /// </summary>
-        /// <param name="left">The left side value</param>
-        /// <param name="right">The right side value</param>
-        /// <returns>The result of the operation</returns>
+        /// <param name="left">The left side value.</param>
+        /// <param name="right">The right side value.</param>
+        /// <returns>The result of the operation.</returns>
         public static UIntPtr Mod(this UIntPtr left, UInt32 right)
         {
             switch (IntPtr.Size)
@@ -1378,11 +1378,11 @@
         }
 
         /// <summary>
-        /// Performs the modulo operation with the given values
+        /// Performs the modulo operation with the given values.
         /// </summary>
-        /// <param name="left">The left side value</param>
-        /// <param name="right">The right side value</param>
-        /// <returns>The result of the operation</returns>
+        /// <param name="left">The left side value.</param>
+        /// <param name="right">The right side value.</param>
+        /// <returns>The result of the operation.</returns>
         public static UIntPtr Mod(this UIntPtr left, Int64 right)
         {
             switch (IntPtr.Size)
@@ -1393,11 +1393,11 @@
         }
 
         /// <summary>
-        /// Performs the modulo operation with the given values
+        /// Performs the modulo operation with the given values.
         /// </summary>
-        /// <param name="left">The left side value</param>
-        /// <param name="right">The right side value</param>
-        /// <returns>The result of the operation</returns>
+        /// <param name="left">The left side value.</param>
+        /// <param name="right">The right side value.</param>
+        /// <returns>The result of the operation.</returns>
         public static UIntPtr Mod(this UIntPtr left, UInt64 right)
         {
             switch (IntPtr.Size)

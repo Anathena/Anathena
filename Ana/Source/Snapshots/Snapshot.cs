@@ -14,10 +14,19 @@
     /// </summary>
     internal class Snapshot : IEnumerable
     {
+        /// <summary>
+        /// The memory alignmnet of the regions in this snapshot.
+        /// </summary>
         private Int32 alignment;
 
+        /// <summary>
+        /// The data type of the elements contained in this snapshot.
+        /// </summary>
         private Type elementType;
 
+        /// <summary>
+        /// The label type of the elements contained in this snapshot.
+        /// </summary>
         private Type labelType;
 
         /// <summary>
@@ -64,6 +73,9 @@
             }
         }
 
+        /// <summary>
+        /// Gets or sets the data type of the elements contained in this snapshot.
+        /// </summary>
         public Type ElementType
         {
             get
@@ -78,6 +90,9 @@
             }
         }
 
+        /// <summary>
+        /// Gets or sets the data type of the labels contained in this snapshot.
+        /// </summary>
         public Type LabelType
         {
             get
@@ -157,7 +172,7 @@
         public void DiscardInvalidRegions()
         {
             List<SnapshotRegion> validRegions = new List<SnapshotRegion>();
-            SnapshotRegions?.ForEach(x => validRegions.AddRange(x.GetValidRegions()));
+            this.SnapshotRegions?.ForEach(x => validRegions.AddRange(x.GetValidRegions()));
             this.SnapshotRegions = validRegions;
         }
 
@@ -185,6 +200,7 @@
         /// <summary>
         /// Sets the label of every element in this snapshot to the same value.
         /// </summary>
+        /// <typeparam name="LabelType">The data type of the label.</typeparam>
         /// <param name="label">The new snapshot label value.</param>
         public void SetElementLabels<LabelType>(LabelType label) where LabelType : struct, IComparable<LabelType>
         {
@@ -240,6 +256,7 @@
 
             this.MergeAndSortRegions();
 
+            // TODO: Resolve the masking issues below:
             return;
 
             // Initialize stacks with regions and masking regions
@@ -419,6 +436,8 @@
         /// <summary>
         /// Merges regions of a given set of normalized regions using a fast stack based algorithm O(nlogn + n).
         /// </summary>
+        /// <param name="regions">The regions to merge and sort.</param>
+        /// <returns>The merged and sorted regions.</returns>
         private IEnumerable<NormalizedRegion> MergeAndSortRegions(IEnumerable<NormalizedRegion> regions)
         {
             if (regions == null || regions.Count() <= 0)
@@ -463,7 +482,7 @@
         /// </summary>
         private void MergeAndSortRegions()
         {
-            if (this.SnapshotRegions == null || SnapshotRegions.Count <= 0)
+            if (this.SnapshotRegions.IsNullOrEmpty())
             {
                 return;
             }

@@ -13,24 +13,24 @@
     using Utils;
 
     /// <summary>
-    /// View model for the Process Selector
+    /// View model for the Process Selector.
     /// </summary>
-    internal class ProcessSelectorViewModel : ToolViewModel
+    internal class ProcessSelectorViewModel : ToolViewModel, IProcessObserver
     {
         /// <summary>
-        /// The content id for the docking library associated with this view model
+        /// The content id for the docking library associated with this view model.
         /// </summary>
         public const String ToolContentId = nameof(ProcessSelectorViewModel);
 
         /// <summary>
-        /// Singleton instance of the <see cref="ProcessSelectorViewModel" /> class
+        /// Singleton instance of the <see cref="ProcessSelectorViewModel" /> class.
         /// </summary>
         private static Lazy<ProcessSelectorViewModel> processSelectorViewModelInstance = new Lazy<ProcessSelectorViewModel>(
                 () => { return new ProcessSelectorViewModel(); },
                 LazyThreadSafetyMode.ExecutionAndPublication);
 
         /// <summary>
-        /// Prevents a default instance of the <see cref="ProcessSelectorViewModel" /> class from being created
+        /// Prevents a default instance of the <see cref="ProcessSelectorViewModel" /> class from being created.
         /// </summary>
         private ProcessSelectorViewModel() : base("Process Selector")
         {
@@ -41,20 +41,23 @@
 
             // Subscribe async to avoid a deadlock situation
             Task.Run(() => { MainViewModel.GetInstance().Subscribe(this); });
+
+            // Subscribe to process events (async call as to avoid locking on GetInstance() if engine is being constructed)
+            Task.Run(() => { EngineCore.GetInstance().Processes.Subscribe(this); });
         }
 
         /// <summary>
-        /// Gets the command to refresh the process list
+        /// Gets the command to refresh the process list.
         /// </summary>
         public ICommand RefreshProcessListCommand { get; private set; }
 
         /// <summary>
-        /// Gets the command to select a target process
+        /// Gets the command to select a target process.
         /// </summary>
         public ICommand SelectProcessCommand { get; private set; }
 
         /// <summary>
-        /// Gets the processes running on the machine
+        /// Gets the processes running on the machine.
         /// </summary>
         public IEnumerable<NormalizedProcess> ProcessList
         {
@@ -65,7 +68,7 @@
         }
 
         /// <summary>
-        /// Gets the name of the opened process
+        /// Gets the name of the opened process.
         /// </summary>
         public String ProcessName
         {
@@ -77,12 +80,22 @@
         }
 
         /// <summary>
-        /// Gets a singleton instance of the <see cref="ProcessSelectorViewModel"/> class
+        /// Gets a singleton instance of the <see cref="ProcessSelectorViewModel"/> class.
         /// </summary>
-        /// <returns>A singleton instance of the class</returns>
+        /// <returns>A singleton instance of the class.</returns>
         public static ProcessSelectorViewModel GetInstance()
         {
             return processSelectorViewModelInstance.Value;
+        }
+
+        /// <summary>
+        /// Recieves a process update.
+        /// </summary>
+        /// <param name="process">The newly selected process.</param>>
+        public void Update(NormalizedProcess process)
+        {
+            // Raise event to update process name in the view
+            this.RaisePropertyChanged(nameof(this.ProcessName));
         }
 
         /// <summary>
@@ -97,7 +110,7 @@
         }
 
         /// <summary>
-        /// Refreshes the process list
+        /// Refreshes the process list.
         /// </summary>
         private void RefreshProcessList()
         {
@@ -106,9 +119,9 @@
         }
 
         /// <summary>
-        /// Makes the target process selection
+        /// Makes the target process selection.
         /// </summary>
-        /// <param name="process">The process being selected</param>
+        /// <param name="process">The process being selected.</param>
         private void SelectProcess(NormalizedProcess process)
         {
             if (process == null)
@@ -117,9 +130,6 @@
             }
 
             EngineCore.GetInstance().Processes.OpenProcess(process);
-
-            // Raise event to update process name in the view
-            this.RaisePropertyChanged(nameof(this.ProcessName));
             this.IsVisible = false;
         }
     }

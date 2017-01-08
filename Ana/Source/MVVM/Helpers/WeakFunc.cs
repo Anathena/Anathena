@@ -5,20 +5,18 @@
     using System.Reflection;
 
     /// <summary>
-    /// Stores a Func&lt;T&gt; without causing a hard reference
-    /// to be created to the Func's owner. The owner can be garbage collected at any time.
+    /// Stores a Func&lt;T&gt; without causing a hard reference to be created to the Func's owner. The owner can be garbage collected at any time.
     /// </summary>
-    /// <typeparam name="TResult">The type of the result of the Func that will be stored
-    /// by this weak reference.</typeparam>
+    /// <typeparam name="TResult">The type of the result of the Func that will be stored by this weak reference.</typeparam>
     internal class WeakFunc<TResult>
     {
         /// <summary>
-        /// TODO TODO
+        /// TODO TODO.
         /// </summary>
         private Func<TResult> staticFunc;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="WeakFunc{TResult}" /> class
+        /// Initializes a new instance of the <see cref="WeakFunc{TResult}" /> class.
         /// </summary>
         /// <param name="func">The Func that will be associated to this instance.</param>
         public WeakFunc(Func<TResult> func)
@@ -27,7 +25,7 @@
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="WeakFunc{TResult}" /> class
+        /// Initializes a new instance of the <see cref="WeakFunc{TResult}" /> class.
         /// </summary>
         /// <param name="target">The Func's owner.</param>
         /// <param name="func">The Func that will be associated to this instance.</param>
@@ -58,7 +56,7 @@
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="WeakFunc{TResult}" /> class
+        /// Initializes a new instance of the <see cref="WeakFunc{TResult}" /> class.
         /// </summary>
         protected WeakFunc()
         {
@@ -92,8 +90,7 @@
         }
 
         /// <summary>
-        /// Gets a value indicating whether the Func's owner is still alive, or if it was collected
-        /// by the Garbage Collector already.
+        /// Gets a value indicating whether the Func's owner is still alive, or if it was collected by the Garbage Collector already.
         /// </summary>
         public virtual Boolean IsAlive
         {
@@ -119,8 +116,7 @@
         }
 
         /// <summary>
-        /// Gets the Func's owner. This object is stored as a 
-        /// <see cref="WeakReference" />.
+        /// Gets the Func's owner. This object is stored as a <see cref="WeakReference" />.
         /// </summary>
         public Object Target
         {
@@ -136,32 +132,23 @@
         }
 
         /// <summary>
-        /// Gets or sets the <see cref="MethodInfo" /> corresponding to this WeakFunc's
-        /// method passed in the constructor.
+        /// Gets or sets the <see cref="MethodInfo" /> corresponding to this WeakFunc's method passed in the constructor.
         /// </summary>
         protected MethodInfo Method { get; set; }
 
         /// <summary>
-        /// Gets or sets a WeakReference to this WeakFunc's action's target.
-        /// This is not necessarily the same as
-        /// <see cref="Reference" />, for example if the
-        /// method is anonymous.
+        /// Gets or sets a WeakReference to this WeakFunc's action's target. This is not necessarily the same as <see cref="Reference" />, for example if the method is anonymous.
         /// </summary>
         protected WeakReference FuncReference { get; set; }
 
         /// <summary>
-        /// Gets or sets a WeakReference to the target passed when constructing
-        /// the WeakFunc. This is not necessarily the same as
-        /// <see cref="FuncReference" />, for example if the
-        /// method is anonymous.
+        /// Gets or sets a WeakReference to the target passed when constructing the WeakFunc. This is not necessarily the same as <see cref="FuncReference" />,
+        /// for example if the method is anonymous.
         /// </summary>
         protected WeakReference Reference { get; set; }
 
         /// <summary>
-        /// Gets the owner of the Func that was passed as parameter.
-        /// This is not necessarily the same as
-        /// <see cref="Target" />, for example if the
-        /// method is anonymous.
+        /// Gets the owner of the Func that was passed as parameter. This is not necessarily the same as <see cref="Target" />, for example if the method is anonymous.
         /// </summary>
         protected Object FuncTarget
         {
@@ -177,8 +164,7 @@
         }
 
         /// <summary>
-        /// Executes the action. This only happens if the Func's owner
-        /// is still alive.
+        /// Executes the action. This only happens if the Func's owner is still alive.
         /// </summary>
         /// <returns>The result of the Func stored as reference.</returns>
         public TResult Execute()

@@ -4,7 +4,6 @@
     using System;
     using System.ComponentModel;
     using System.Globalization;
-    using Validation;
 
     /// <summary>
     /// Address type converter for use in the property viewer.
@@ -23,7 +22,7 @@
         {
             if (CheckSyntax.CanParseValue(typeof(UInt64), value.ToString()))
             {
-                return Conversions.ToHex(Conversions.ParsePrimitiveStringAsDynamic(typeof(UInt64), value.ToString()));
+                return Conversions.ToHex(Conversions.ParsePrimitiveStringAsDynamic(typeof(UInt64), value.ToString()), formatAsAddress: true, includePrefix: false);
             }
 
             return base.ConvertTo(context, culture, value, destinationType);

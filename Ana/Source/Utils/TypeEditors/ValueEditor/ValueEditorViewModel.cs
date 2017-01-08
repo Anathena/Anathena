@@ -6,17 +6,17 @@
     using System.Threading.Tasks;
 
     /// <summary>
-    /// View model for the Value Editor
+    /// View model for the Value Editor.
     /// </summary>
     internal class ValueEditorViewModel : ToolViewModel
     {
         /// <summary>
-        /// The content id for the docking library associated with this view model
+        /// The content id for the docking library associated with this view model.
         /// </summary>
         public const String ToolContentId = nameof(ValueEditorViewModel);
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ValueEditorViewModel" /> class
+        /// Initializes a new instance of the <see cref="ValueEditorViewModel" /> class.
         /// </summary>
         public ValueEditorViewModel() : base("Value Editor")
         {

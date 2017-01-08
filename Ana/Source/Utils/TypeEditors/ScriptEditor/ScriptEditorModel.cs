@@ -36,7 +36,7 @@
         /// <returns>The updated values.</returns>
         public override Object EditValue(ITypeDescriptorContext context, IServiceProvider provider, Object value)
         {
-            View.ScriptEditor scriptEditor = new View.ScriptEditor(value as String);
+            View.Editors.ScriptEditor scriptEditor = new View.Editors.ScriptEditor(value as String);
 
             scriptEditor.Owner = Application.Current.MainWindow;
             if (scriptEditor.ShowDialog() == true)

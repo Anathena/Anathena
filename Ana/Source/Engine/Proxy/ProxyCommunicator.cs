@@ -1,6 +1,7 @@
 ﻿namespace Ana.Source.Engine.Proxy
 {
     using AnathenaProxy;
+    using Output;
     using System;
     using System.Diagnostics;
     using System.IO;
@@ -98,24 +99,34 @@
         /// <returns>The proxy service that is created</returns>
         private IProxyService StartProxyService(String executableName, String channelServerName)
         {
-            // Start the proxy service
-            EventWaitHandle processStartEvent = new EventWaitHandle(false, EventResetMode.ManualReset, ProxyCommunicator.WaitEventName);
-            ProcessStartInfo processInfo = new ProcessStartInfo(Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), executableName));
-            processInfo.Arguments = Process.GetCurrentProcess().Id.ToString() + " " + channelServerName + " " + ProxyCommunicator.WaitEventName;
-            processInfo.UseShellExecute = false;
-            processInfo.CreateNoWindow = true;
-            Process.Start(processInfo);
-            processStartEvent.WaitOne();
+            try
+            {
+                // Start the proxy service
+                EventWaitHandle processStartEvent = new EventWaitHandle(false, EventResetMode.ManualReset, ProxyCommunicator.WaitEventName);
+                ProcessStartInfo processInfo = new ProcessStartInfo(Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), executableName));
+                processInfo.Arguments = Process.GetCurrentProcess().Id.ToString() + " " + channelServerName + " " + ProxyCommunicator.WaitEventName;
+                processInfo.UseShellExecute = false;
+                processInfo.CreateNoWindow = true;
+                Process.Start(processInfo);
+                processStartEvent.WaitOne();
 
-            // Create connection
-            NetNamedPipeBinding binding = new NetNamedPipeBinding(NetNamedPipeSecurityMode.None);
-            binding.MaxReceivedMessageSize = Int32.MaxValue;
-            binding.MaxBufferSize = Int32.MaxValue;
+                // Create connection
+                NetNamedPipeBinding binding = new NetNamedPipeBinding(NetNamedPipeSecurityMode.None);
+                binding.MaxReceivedMessageSize = Int32.MaxValue;
+                binding.MaxBufferSize = Int32.MaxValue;
 
-            EndpointAddress endpoint = new EndpointAddress(channelServerName);
-            IProxyService proxyService = ChannelFactory<IProxyService>.CreateChannel(binding, endpoint);
+                EndpointAddress endpoint = new EndpointAddress(channelServerName);
+                IProxyService proxyService = ChannelFactory<IProxyService>.CreateChannel(binding, endpoint);
 
-            return proxyService;
+                OutputViewModel.GetInstance().Log(OutputViewModel.LogLevel.Info, "Started proxy service: " + executableName + " over channel " + channelServerName);
+
+                return proxyService;
+            }
+            catch
+            {
+                OutputViewModel.GetInstance().Log(OutputViewModel.LogLevel.Fatal, "Failed to start proxy service: " + executableName + ". This may impact Scripts and .NET explorer");
+                return null;
+            }
         }
     }
     //// End class

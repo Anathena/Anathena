@@ -4,37 +4,37 @@
     using System.ComponentModel;
 
     /// <summary>
-    /// A scan result object that can be displayed to the user and added to the project explorer
+    /// A scan result object that can be displayed to the user and added to the project explorer.
     /// </summary>
     internal class ScanResult : INotifyPropertyChanged
     {
         /// <summary>
-        /// The address of the scan result
+        /// The address of the scan result.
         /// </summary>
         private IntPtr elementAddress;
 
         /// <summary>
-        /// The value of the scan result
+        /// The value of the scan result.
         /// </summary>
         private String elementValue;
 
         /// <summary>
-        /// The previous value of the scan result
+        /// The previous value of the scan result.
         /// </summary>
         private String previousElementValue;
 
         /// <summary>
-        /// The label of the scan result
+        /// The label of the scan result.
         /// </summary>
         private String elementLabel;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ScanResult" /> class
+        /// Initializes a new instance of the <see cref="ScanResult" /> class.
         /// </summary>
-        /// <param name="elementAddress">The memory address</param>
-        /// <param name="elementValue">The current scan value</param>
-        /// <param name="elementPreviousValue">The previous scan value</param>
-        /// <param name="elementLabel">The label of this result</param>
+        /// <param name="elementAddress">The memory address.</param>
+        /// <param name="elementValue">The current scan value.</param>
+        /// <param name="elementPreviousValue">The previous scan value.</param>
+        /// <param name="elementLabel">The label of this result.</param>
         public ScanResult(IntPtr elementAddress, String elementValue, String elementPreviousValue, String elementLabel)
         {
             this.ElementAddress = elementAddress;
@@ -49,7 +49,7 @@
         public event PropertyChangedEventHandler PropertyChanged;
 
         /// <summary>
-        /// Gets or sets the address of the scan result
+        /// Gets or sets the address of the scan result.
         /// </summary>
         public IntPtr ElementAddress
         {
@@ -66,7 +66,7 @@
         }
 
         /// <summary>
-        /// Gets or sets the value of the scan result
+        /// Gets or sets the value of the scan result.
         /// </summary>
         public String ElementValue
         {
@@ -83,7 +83,7 @@
         }
 
         /// <summary>
-        /// Gets or sets the previous value of the scan result
+        /// Gets or sets the previous value of the scan result.
         /// </summary>
         public String ElementPreviousValue
         {
@@ -100,7 +100,7 @@
         }
 
         /// <summary>
-        /// Gets or sets the label of the scan result
+        /// Gets or sets the label of the scan result.
         /// </summary>
         public String ElementLabel
         {

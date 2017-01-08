@@ -4,15 +4,30 @@
     using System.Runtime.InteropServices;
     using static Enumerations;
 
+    /// <summary>
+    /// Class containing native Windows structures.
+    /// </summary>
     internal class Structures
     {
+        /// <summary>
+        /// Contains information about a module in an external process.
+        /// </summary>
         [StructLayout(LayoutKind.Sequential)]
         internal struct ModuleInformation
         {
-            public IntPtr lpBaseOfDll;
+            /// <summary>
+            /// The base address of the module.
+            /// </summary>
+            public IntPtr ModuleBase;
 
+            /// <summary>
+            /// The size of the module.
+            /// </summary>
             public UInt32 SizeOfImage;
 
+            /// <summary>
+            /// The entry point of the module.
+            /// </summary>
             public IntPtr EntryPoint;
         }
 

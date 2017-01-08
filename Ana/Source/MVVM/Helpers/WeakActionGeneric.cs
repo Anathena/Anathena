@@ -4,14 +4,13 @@
     using System.Diagnostics.CodeAnalysis;
 
     /// <summary>
-    /// Stores an Action without causing a hard reference
-    /// to be created to the Action's owner. The owner can be garbage collected at any time.
+    /// Stores an Action without causing a hard reference to be created to the Action's owner. The owner can be garbage collected at any time.
     /// </summary>
     /// <typeparam name="T">The type of the Action's parameter.</typeparam>
     internal class WeakAction<T> : WeakAction, IExecuteWithObject
     {
         /// <summary>
-        /// TODO TODO
+        /// TODO TODO.
         /// </summary>
         private Action<T> staticAction;
 
@@ -71,8 +70,7 @@
         }
 
         /// <summary>
-        /// Gets a value indicating whether the Action's owner is still alive, or if it was collected
-        /// by the Garbage Collector already.
+        /// Gets a value indicating whether the Action's owner is still alive, or if it was collected by the Garbage Collector already.
         /// </summary>
         public override Boolean IsAlive
         {
@@ -98,8 +96,7 @@
         }
 
         /// <summary>
-        /// Executes the action. This only happens if the action's owner
-        /// is still alive. The action's parameter is set to default(T).
+        /// Executes the action. This only happens if the action's owner is still alive. The action's parameter is set to default(T).
         /// </summary>
         public new void Execute()
         {
@@ -107,8 +104,7 @@
         }
 
         /// <summary>
-        /// Executes the action. This only happens if the action's owner
-        /// is still alive.
+        /// Executes the action. This only happens if the action's owner is still alive.
         /// </summary>
         /// <param name="parameter">A parameter to be passed to the action.</param>
         public void Execute(T parameter)
@@ -131,22 +127,17 @@
         }
 
         /// <summary>
-        /// Executes the action with a parameter of type object. This parameter
-        /// will be casted to T. This method implements <see cref="IExecuteWithObject.ExecuteWithObject" />
-        /// and can be useful if you store multiple WeakAction{T} instances but don't know in advance
-        /// what type T represents.
+        /// Executes the action with a parameter of type object. This parameter will be casted to T. This method implements <see cref="IExecuteWithObject.ExecuteWithObject" />
+        /// and can be useful if you store multiple WeakAction{T} instances but don't know in advance what type T represents.
         /// </summary>
-        /// <param name="parameter">The parameter that will be passed to the action after
-        /// being casted to T.</param>
+        /// <param name="parameter">The parameter that will be passed to the action after being casted to T.</param>
         public void ExecuteWithObject(Object parameter)
         {
             this.Execute((T)parameter);
         }
 
         /// <summary>
-        /// Sets all the actions that this WeakAction contains to null,
-        /// which is a signal for containing objects that this WeakAction
-        /// should be deleted.
+        /// Sets all the actions that this WeakAction contains to null, which is a signal for containing objects that this WeakAction should be deleted.
         /// </summary>
         public new void MarkForDeletion()
         {

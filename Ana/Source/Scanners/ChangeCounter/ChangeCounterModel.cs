@@ -16,7 +16,7 @@
         }
 
         /// <summary>
-        /// Gets or sets the snapshot being labeled with change counts
+        /// Gets or sets the snapshot being labeled with change counts.
         /// </summary>
         private Snapshot Snapshot { get; set; }
 
@@ -93,7 +93,7 @@
         }
 
         /// <summary>
-        /// Called when the repeated task completes
+        /// Called when the repeated task completes.
         /// </summary>
         protected override void OnEnd()
         {

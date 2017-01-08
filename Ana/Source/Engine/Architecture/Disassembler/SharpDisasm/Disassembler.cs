@@ -111,7 +111,7 @@
         }
 
         /// <summary>
-        /// Finalizes an instance of the <see cref="Disassembler" /> class
+        /// Finalizes an instance of the <see cref="Disassembler" /> class.
         /// </summary>
         ~Disassembler()
         {
@@ -131,7 +131,7 @@
         /// <summary>
         /// Disassemble instructions and yield the result. Breaking out of the enumerator will prevent further instructions being disassembled.
         /// </summary>
-        /// <returns>An IEnumerable collection of disassembled instructions</returns>
+        /// <returns>An IEnumerable collection of disassembled instructions.</returns>
         public IEnumerable<Instruction> Disassemble()
         {
             this.Reset();
@@ -143,7 +143,7 @@
         }
 
         /// <summary>
-        /// Reset to beginning of the buffer
+        /// Reset to beginning of the buffer.
         /// </summary>
         public void Reset()
         {
@@ -155,7 +155,7 @@
         /// <summary>
         /// Decodes a single instruction and increments buffer position.
         /// </summary>
-        /// <returns>TODO TODO</returns>
+        /// <returns>TODO TODO.</returns>
         public Instruction NextInstruction()
         {
             Int32 length = 0;
@@ -174,7 +174,7 @@
         }
 
         /// <summary>
-        /// Dispose managed objects
+        /// Dispose managed objects.
         /// </summary>
         public void Dispose()
         {
@@ -186,7 +186,7 @@
         }
 
         /// <summary>
-        /// (Re)Initialize the udis86 disassembler
+        /// (Re)Initialize the udis86 disassembler.
         /// </summary>
         private void InitUdis86()
         {

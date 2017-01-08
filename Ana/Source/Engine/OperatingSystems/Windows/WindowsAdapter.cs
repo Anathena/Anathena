@@ -1,6 +1,7 @@
 ﻿namespace Ana.Source.Engine.OperatingSystems.Windows
 {
     using Native;
+    using Output;
     using Pe;
     using Pe.Structures;
     using Processes;
@@ -11,8 +12,8 @@
     using System.Linq;
     using System.Text;
     using System.Threading.Tasks;
+    using Utils;
     using Utils.Extensions;
-    using Utils.Validation;
     using static Native.Enumerations;
     using static Native.Structures;
 
@@ -21,9 +22,10 @@
     /// </summary>
     internal class WindowsAdapter : IOperatingSystemAdapter
     {
+        /// <summary>
+        /// A reference to target process.
+        /// </summary>
         private Process systemProcess;
-
-        private PeFile peFile;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="WindowsAdapter"/> class
@@ -35,8 +37,7 @@
         }
 
         /// <summary>
-        /// Gets a reference to the process running. This is an optimization to minimize accesses
-        /// to the Processes component of the Engine
+        /// Gets a reference to the target process. This is an optimization to minimize accesses to the Processes component of the Engine.
         /// </summary>
         public Process SystemProcess
         {
@@ -44,8 +45,9 @@
             {
                 try
                 {
-                    if (this.systemProcess != null && this.systemProcess.HasExited)
+                    if (this.systemProcess?.HasExited == true)
                     {
+                        EngineCore.GetInstance().Processes.OpenProcess(null);
                         this.systemProcess = null;
                     }
                 }
@@ -59,14 +61,20 @@
             private set
             {
                 this.systemProcess = value;
-                this.peFile = new PeFile(this.SystemProcess?.MainModule?.FileName);
+                this.PortableExecutableFile = new PeFile(this.SystemProcess?.MainModule?.FileName);
             }
         }
+
         /// <summary>
-        /// Recieve a process update. This is an optimization over grabbing the process from the <see cref="IProcesses"/> component
-        /// of the <see cref="EngineCore"/> every time we need it, which would be cumbersome when doing hundreds of thousands of memory read/writes
+        /// Gets or sets the last file parsed as a PE file for signatures.
         /// </summary>
-        /// <param name="process">The newly selected process</param>
+        private PeFile PortableExecutableFile { get; set; }
+
+        /// <summary>
+        /// Recieves a process update. This is an optimization over grabbing the process from the <see cref="IProcesses"/> component
+        /// of the <see cref="EngineCore"/> every time we need it, which would be cumbersome when doing hundreds of thousands of memory read/writes.
+        /// </summary>
+        /// <param name="process">The newly selected process.</param>
         public void Update(NormalizedProcess process)
         {
             try
@@ -75,7 +83,8 @@
             }
             catch
             {
-                this.SystemProcess = null;
+                // Avoid setter functions
+                this.systemProcess = null;
             }
         }
 
@@ -492,21 +501,21 @@
                     for (Int32 index = 0; index < totalNumberofModules; index++)
                     {
                         StringBuilder moduleFilePath = new StringBuilder(1024);
-                        Native.NativeMethods.GetModuleFileNameEx(this.SystemProcess.Handle, modulePointers[index], moduleFilePath, (UInt32)(moduleFilePath.Capacity));
+                        Native.NativeMethods.GetModuleFileNameEx(this.SystemProcess.Handle, modulePointers[index], moduleFilePath, (UInt32)moduleFilePath.Capacity);
 
                         String moduleName = Path.GetFileName(moduleFilePath.ToString());
                         ModuleInformation moduleInformation = new ModuleInformation();
-                        Native.NativeMethods.GetModuleInformation(this.SystemProcess.Handle, modulePointers[index], out moduleInformation, (UInt32)(IntPtr.Size * (modulePointers.Length)));
+                        Native.NativeMethods.GetModuleInformation(this.SystemProcess.Handle, modulePointers[index], out moduleInformation, (UInt32)(IntPtr.Size * modulePointers.Length));
 
                         // Convert to a normalized module and add it to our list
-                        NormalizedModule module = new NormalizedModule(moduleName, moduleInformation.lpBaseOfDll, unchecked((Int32)moduleInformation.SizeOfImage));
+                        NormalizedModule module = new NormalizedModule(moduleName, moduleInformation.ModuleBase, unchecked((Int32)moduleInformation.SizeOfImage));
                         normalizedModules.Add(module);
                     }
                 }
             }
-            catch
+            catch (Exception ex)
             {
-                // TODO: Log to user
+                OutputViewModel.GetInstance().Log(OutputViewModel.LogLevel.Error, "Error fetching modules from selected process: " + ex.ToString());
             }
 
             return normalizedModules;
@@ -603,9 +612,7 @@
 
             try
             {
-                Process systemProcess = Process.GetProcessById(process.ProcessId);
-
-                if (systemProcess == null || !Native.NativeMethods.IsWow64Process(systemProcess.Handle, out isWow64))
+                if (this.SystemProcess == null || !Native.NativeMethods.IsWow64Process(this.SystemProcess.Handle, out isWow64))
                 {
                     // Error, assume 32 bit
                     return true;
@@ -649,7 +656,7 @@
 
             try
             {
-                binaryVersion = FileVersionInfo.GetVersionInfo(SystemProcess?.MainModule?.FileName)?.ProductVersion;
+                binaryVersion = FileVersionInfo.GetVersionInfo(this.SystemProcess?.MainModule?.FileName)?.ProductVersion;
             }
             catch
             {
@@ -668,7 +675,7 @@
 
             try
             {
-                binaryHeaderHash = peFile.SHA256;
+                binaryHeaderHash = this.PortableExecutableFile.SHA256;
             }
             catch
             {
@@ -687,7 +694,7 @@
 
             try
             {
-                binaryImportHash = peFile.ImpHash;
+                binaryImportHash = this.PortableExecutableFile.ImpHash;
             }
             catch
             {
@@ -708,15 +715,15 @@
 
             try
             {
-                IMAGE_SECTION_HEADER textHeader = peFile.ImageSectionHeaders.Where(x => Encoding.UTF8.GetString(x?.Name).TrimEnd('\0') == ".text")?.First();
-                UInt32 entryPointAddress = peFile.ImageNtHeaders.OptionalHeader.AddressOfEntryPoint;
+                IMAGE_SECTION_HEADER textHeader = this.PortableExecutableFile.ImageSectionHeaders.Where(x => Encoding.UTF8.GetString(x?.Name).TrimEnd('\0') == ".text")?.First();
+                UInt32 entryPointAddress = this.PortableExecutableFile.ImageNtHeaders.OptionalHeader.AddressOfEntryPoint;
                 UInt32 pointerToRawData = textHeader.PointerToRawData;
                 UInt32 virtualAddress = textHeader.VirtualAddress;
 
                 // Formula: AddressOfRawEntryPoint (in exe file) = AddressOfEntryPoint + .text[PointerToRawData] - .text[VirtualAddress]
                 Int32 entryPoint = unchecked((Int32)(entryPointAddress + pointerToRawData - virtualAddress));
 
-                mainModuleHash = Convert.ToBase64String(File.ReadAllBytes(SystemProcess?.MainModule?.FileName).Skip(entryPoint).Take(BytesToRead).ToArray());
+                mainModuleHash = Convert.ToBase64String(File.ReadAllBytes(this.SystemProcess?.MainModule?.FileName).Skip(entryPoint).Take(BytesToRead).ToArray());
             }
             catch
             {

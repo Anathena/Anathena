@@ -1,4 +1,4 @@
-﻿namespace Ana.View
+﻿namespace Ana.View.Editors
 {
     using Source.Engine.Input.HotKeys;
     using Source.Utils.HotkeyEditor;

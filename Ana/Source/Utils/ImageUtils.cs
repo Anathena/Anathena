@@ -6,15 +6,15 @@
     using System.Windows.Media.Imaging;
 
     /// <summary>
-    /// Static class for loading images from the project content
+    /// Static class for useful image utilities.
     /// </summary>
     internal static class ImageUtils
     {
         /// <summary>
-        /// Loads an image from the given uri
+        /// Loads an image from the given uri.
         /// </summary>
-        /// <param name="uri">The uri specifying from where to load the image</param>
-        /// <returns>The bitmap image loaded from the given uri</returns>
+        /// <param name="uri">The uri specifying from where to load the image.</param>
+        /// <returns>The bitmap image loaded from the given uri.</returns>
         public static BitmapImage LoadImage(String uri)
         {
             BitmapImage bitmapImage = new BitmapImage();
@@ -27,6 +27,11 @@
             return bitmapImage;
         }
 
+        /// <summary>
+        /// Converts a <see cref="BitmapImage"/> to a <see cref="Bitmap"/>.
+        /// </summary>
+        /// <param name="bitmapImage">The bitmap image to convert.</param>
+        /// <returns>The resulting bitmap.</returns>
         public static Bitmap BitmapImageToBitmap(BitmapImage bitmapImage)
         {
             using (MemoryStream outStream = new MemoryStream())

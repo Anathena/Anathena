@@ -88,7 +88,7 @@
         }
 
         /// <summary>
-        /// Called when the repeated task completes
+        /// Called when the repeated task completes.
         /// </summary>
         protected override void OnEnd()
         {
@@ -96,7 +96,7 @@
         }
 
         /// <summary>
-        /// Gradually gathers pointers in the running process
+        /// Gradually gathers pointers in the running process.
         /// </summary>
         private void GatherPointers()
         {

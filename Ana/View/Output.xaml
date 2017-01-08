@@ -1,0 +1,34 @@
+﻿<UserControl
+    x:Class="Ana.View.Output"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:charts="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
+    xmlns:converters="clr-namespace:Ana.Source.Mvvm.Converters"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+    xmlns:local="clr-namespace:Ana"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:sys="clr-namespace:System;assembly=mscorlib"
+    xmlns:sysWindows="clr-namespace:System.Windows;assembly=PresentationCore"
+    xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+    x:Name="OutputViewModel"
+    d:DesignHeight="256"
+    d:DesignWidth="256"
+    x:ClassModifier="internal"
+    DataContext="{Binding OutputViewModel, Source={StaticResource ViewModelLocator}}"
+    mc:Ignorable="d">
+    <Grid Background="{StaticResource AvalonDock_Expression_BaseColor3}">
+        <ScrollViewer
+            Name="OutputScrollViewer"
+            Grid.Row="1"
+            ScrollChanged="OutputScrollViewerScrollChanged">
+            <TextBox
+                Margin="0"
+                Background="{StaticResource AvalonDock_Expression_BaseColor3}"
+                Foreground="{StaticResource AvalonDock_Expression_BaseColor2}"
+                IsReadOnly="True"
+                Text="{Binding LogText, Mode=OneWay}"
+                TextWrapping="Wrap" />
+        </ScrollViewer>
+    </Grid>
+</UserControl>

@@ -4,12 +4,12 @@
     using System;
 
     /// <summary>
-    /// Provides access to environment manipulations in a hooked process for scripts
+    /// Provides access to environment manipulations in a hooked process for scripts.
     /// </summary>
     internal class HookCore : IHookCore
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="HookCore" /> class
+        /// Initializes a new instance of the <see cref="HookCore" /> class.
         /// </summary>
         public HookCore()
         {
@@ -28,9 +28,9 @@
         }
 
         /// <summary>
-        /// Gives access to the speed hook in the target process, injecting the hooks if needed
+        /// Gives access to the speed hook in the target process, injecting the hooks if needed.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>An interface providing access to the speed hook.</returns>
         private ISpeedManipulator GetSpeedHackInterface()
         {
             return null;

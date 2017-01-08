@@ -4,7 +4,6 @@
     using System;
     using System.ComponentModel;
     using System.Globalization;
-    using Validation;
 
     /// <summary>
     /// Dynamic type converter for use in the property viewer.
@@ -35,7 +34,7 @@
                 return base.ConvertTo(context, culture, value, destinationType);
             }
 
-            return isHex ? Conversions.ParseDynamicAsHex(valueType, valueString) : Conversions.ParseDynamicAsPrimitiveString(valueType, valueString);
+            return isHex ? Conversions.ParseDynamicAsHexString(valueType, valueString) : valueString;
         }
 
         /// <summary>

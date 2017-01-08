@@ -11,7 +11,7 @@
     public class ScriptEngine
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="ScriptManager" /> class
+        /// Initializes a new instance of the <see cref="ScriptEngine" /> class.
         /// </summary>
         public ScriptEngine()
         {
@@ -21,12 +21,24 @@
             this.InputCore = new InputCore();
         }
 
+        /// <summary>
+        /// Gets or sets an interface to provide access to memory manipulations in an external process.
+        /// </summary>
         public IMemoryCore MemoryCore { get; set; }
 
+        /// <summary>
+        /// Gets or sets an interface to provide access to manipulating graphics in an external process.
+        /// </summary>
         public IGraphicsCore GraphicsCore { get; set; }
 
+        /// <summary>
+        /// Gets or sets an interface for environment manipulations in a hooked process.
+        /// </summary>
         public IHookCore HookCore { get; set; }
 
+        /// <summary>
+        /// Gets or sets an interface to provide access to user input.
+        /// </summary>
         public IInputCore InputCore { get; set; }
     }
     //// End class

@@ -1,15 +1,16 @@
 ﻿namespace Ana.Source.ScriptEngine.Memory
 {
-    using Source.Engine;
-    using Source.Engine.Architecture.Disassembler.SharpDisasm;
-    using Source.Engine.OperatingSystems;
+    using Engine;
+    using Engine.Architecture.Disassembler.SharpDisasm;
+    using Engine.OperatingSystems;
+    using Output;
     using System;
     using System.Collections.Concurrent;
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading;
+    using Utils;
     using Utils.Extensions;
-    using Utils.Validation;
 
     /// <summary>
     /// Provides access to memory manipulations in an external process for scripts.
@@ -95,7 +96,7 @@
 
             assembly = this.ResolveKeywords(assembly);
 
-            Byte[] bytes = EngineCore.GetInstance().Architecture.GetAssembler().Assemble(EngineCore.GetInstance().Processes.IsOpenedProcess32Bit(), assembly, address.ToIntPtr());
+            Byte[] bytes = this.GetAssemblyBytes(assembly, address);
 
             return bytes == null ? 0 : bytes.Length;
         }
@@ -111,8 +112,12 @@
             this.PrintDebugTag();
 
             assembly = this.ResolveKeywords(assembly);
+            String logs;
+            Byte[] result = EngineCore.GetInstance().Architecture.GetAssembler().Assemble(EngineCore.GetInstance().Processes.IsOpenedProcess32Bit(), assembly, address.ToIntPtr(), out logs);
 
-            return EngineCore.GetInstance().Architecture.GetAssembler().Assemble(EngineCore.GetInstance().Processes.IsOpenedProcess32Bit(), assembly, address.ToIntPtr());
+            OutputViewModel.GetInstance().Log(OutputViewModel.LogLevel.Info, logs);
+
+            return result;
         }
 
         /// <summary>
@@ -252,7 +257,7 @@
             Byte[] originalBytes = this.CollectOriginalBytes(address, minimumReplacementSize);
 
             // Determine number of no-ops to fill dangling bytes
-            String noOps = (originalBytes.Length - minimumReplacementSize > 0 ? "db " + String.Join(" ", Enumerable.Repeat("0x90,", originalBytes.Length - minimumReplacementSize)).TrimEnd(',') : String.Empty);
+            String noOps = originalBytes.Length - minimumReplacementSize > 0 ? "db " + String.Join(" ", Enumerable.Repeat("0x90,", originalBytes.Length - minimumReplacementSize)).TrimEnd(',') : String.Empty;
 
             // Handle case where allocation is not needed
             if (assemblySize <= originalBytes.Length)
@@ -268,7 +273,8 @@
             else
             {
                 // Add code cave jump return automatically
-                UInt64 returnAddress = GetCaveExitAddress(address);
+                UInt64 returnAddress = this.GetCaveExitAddress(address);
+
                 // Place jump to return address
                 assembly = assembly.Trim()
                     + Environment.NewLine
@@ -327,7 +333,7 @@
             // Determine number of no-ops to fill dangling bytes
             String noOps = (originalBytes.Length - assemblySize > 0 ? "db " : String.Empty) + String.Join(" ", Enumerable.Repeat("0x90,", originalBytes.Length - assemblySize)).TrimEnd(',');
 
-            Byte[] injectionBytes = EngineCore.GetInstance().Architecture.GetAssembler().Assemble(EngineCore.GetInstance().Processes.IsOpenedProcess32Bit(), assembly + "\n" + noOps, address.ToIntPtr());
+            Byte[] injectionBytes = this.GetAssemblyBytes(assembly + "\n" + noOps, address);
             EngineCore.GetInstance().OperatingSystemAdapter.WriteBytes(address.ToIntPtr(), injectionBytes);
 
             CodeCave codeCave = new CodeCave(address, 0, originalBytes);
@@ -416,9 +422,9 @@
         /// <param name="address">The address to which the keyword is bound.</param>
         public void SetKeyword(String keyword, UInt64 address)
         {
-            this.PrintDebugTag(keyword?.ToLower(), address.ToString("x"));
+            this.PrintDebugTag(keyword?.ToLower(), address.ToString("X"));
 
-            String mapping = "0x" + Conversions.ToHex(address);
+            String mapping = Conversions.ToHex(address, formatAsAddress: true, includePrefix: true);
             this.Keywords[keyword?.ToLower()] = mapping;
         }
 
@@ -429,9 +435,9 @@
         /// <param name="address">The address to which the keyword is bound.</param>
         public void SetGlobalKeyword(String globalKeyword, UInt64 address)
         {
-            this.PrintDebugTag(globalKeyword?.ToLower(), address.ToString("x"));
+            this.PrintDebugTag(globalKeyword?.ToLower(), address.ToString("X"));
 
-            String mapping = "0x" + Conversions.ToHex(address);
+            String mapping = Conversions.ToHex(address, formatAsAddress: true, includePrefix: true);
             MemoryCore.globalKeywords.Value[globalKeyword?.ToLower()] = mapping;
         }
 
@@ -461,7 +467,7 @@
         /// <summary>
         /// Gets the value of a global keyword.
         /// </summary>
-        /// <param name="keyword">The global keyword.</param>
+        /// <param name="globalKeyword">The global keyword.</param>
         /// <returns>The value of the global keyword. If not found, returns 0.</returns>
         public UInt64 GetGlobalKeywordValue(String globalKeyword)
         {
@@ -573,6 +579,7 @@
         /// <summary>
         /// Reads the value at the given address.
         /// </summary>
+        /// <typeparam name="T">The data type to read.</typeparam>
         /// <param name="address">The address of the read.</param>
         /// <returns>The value read from memory.</returns>
         public T ReadMemory<T>(UInt64 address)
@@ -600,6 +607,7 @@
         /// <summary>
         /// Writes the value at the specified address.
         /// </summary>
+        /// <typeparam name="T">The data type to write.</typeparam>
         /// <param name="address">The address of the write.</param>
         /// <param name="value">The value of the write.</param>
         public void WriteMemory<T>(UInt64 address, T value)
@@ -658,9 +666,9 @@
             /// <summary>
             /// Initializes a new instance of the <see cref="CodeCave" /> struct.
             /// </summary>
+            /// <param name="address">The entry address of the code cave.</param>
             /// <param name="codeCaveAddress">The address of the code cave allocation.</param>
             /// <param name="originalBytes">The original bytes being overwritten.</param>
-            /// <param name="address">The entry address of the code cave.</param>
             public CodeCave(UInt64 address, UInt64 codeCaveAddress, Byte[] originalBytes)
             {
                 this.RemoteAllocationAddress = codeCaveAddress;

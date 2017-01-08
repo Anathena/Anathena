@@ -18,22 +18,22 @@
     using Utils.Extensions;
 
     /// <summary>
-    /// View model for the Process Selector
+    /// View model for the Process Selector.
     /// </summary>
     internal class PointerScanResultsViewModel : ToolViewModel, ISnapshotObserver
     {
         /// <summary>
-        /// The content id for the docking library associated with this view model
+        /// The content id for the docking library associated with this view model.
         /// </summary>
         public const String ToolContentId = nameof(PointerScanResultsViewModel);
 
         /// <summary>
-        /// The number of elements to display on each page
+        /// The number of elements to display on each page.
         /// </summary>
         private const Int32 PageSize = 64;
 
         /// <summary>
-        /// Singleton instance of the <see cref="PointerScanResultsViewModel" /> class
+        /// Singleton instance of the <see cref="PointerScanResultsViewModel" /> class.
         /// </summary>
         private static Lazy<PointerScanResultsViewModel> pointerScanResultsViewModelInstance = new Lazy<PointerScanResultsViewModel>(
                 () => { return new PointerScanResultsViewModel(); },
@@ -42,22 +42,22 @@
         private Type activeType;
 
         /// <summary>
-        /// The current page of scan results
+        /// The current page of scan results.
         /// </summary>
         private Int64 currentPage;
 
         /// <summary>
-        /// The total number of addresses
+        /// The total number of addresses.
         /// </summary>
         private Int64 addressCount;
 
         /// <summary>
-        /// The addresses on the current page
+        /// The addresses on the current page.
         /// </summary>
         private ObservableCollection<PointerScanResult> addresses;
 
         /// <summary>
-        /// Prevents a default instance of the <see cref="PointerScanResultsViewModel" /> class from being created
+        /// Prevents a default instance of the <see cref="PointerScanResultsViewModel" /> class from being created.
         /// </summary>
         private PointerScanResultsViewModel() : base("Pointer Scan Results")
         {
@@ -109,27 +109,27 @@
         public ICommand ChangeTypeDoubleCommand { get; private set; }
 
         /// <summary>
-        /// Gets the command to go to the first page
+        /// Gets the command to go to the first page.
         /// </summary>
         public ICommand FirstPageCommand { get; private set; }
 
         /// <summary>
-        /// Gets the command to go to the last page
+        /// Gets the command to go to the last page.
         /// </summary>
         public ICommand LastPageCommand { get; private set; }
 
         /// <summary>
-        /// Gets the command to go to the previous page
+        /// Gets the command to go to the previous page.
         /// </summary>
         public ICommand PreviousPageCommand { get; private set; }
 
         /// <summary>
-        /// Gets the command to go to the next page
+        /// Gets the command to go to the next page.
         /// </summary>
         public ICommand NextPageCommand { get; private set; }
 
         /// <summary>
-        /// Gets the command to select a target process
+        /// Gets the command to select a target process.
         /// </summary>
         public ICommand AddAddressCommand { get; private set; }
 
@@ -215,7 +215,7 @@
         }
 
         /// <summary>
-        /// Gets or sets the total number of addresses found
+        /// Gets or sets the total number of addresses found.
         /// </summary>
         public Int64 CurrentPage
         {
@@ -233,7 +233,7 @@
         }
 
         /// <summary>
-        /// Gets the total number of addresses found
+        /// Gets the total number of addresses found.
         /// </summary>
         public Int64 PageCount
         {
@@ -244,7 +244,7 @@
         }
 
         /// <summary>
-        /// Gets or sets the total number of addresses found
+        /// Gets or sets the total number of addresses found.
         /// </summary>
         public Int64 ResultCount
         {
@@ -262,7 +262,7 @@
         }
 
         /// <summary>
-        /// Gets the address elements
+        /// Gets the address elements.
         /// </summary>
         public ObservableCollection<PointerScanResult> Addresses
         {
@@ -275,23 +275,23 @@
         private Object ObserverLock { get; set; }
 
         /// <summary>
-        /// Gets or sets objects observing changes in the active snapshot
+        /// Gets or sets objects observing changes in the active snapshot.
         /// </summary>
         private List<IPointerScanResultsObserver> PointerScanResultsObservers { get; set; }
 
         /// <summary>
-        /// Gets a singleton instance of the <see cref="PointerScanResultsViewModel"/> class
+        /// Gets a singleton instance of the <see cref="PointerScanResultsViewModel"/> class.
         /// </summary>
-        /// <returns>A singleton instance of the class</returns>
+        /// <returns>A singleton instance of the class.</returns>
         public static PointerScanResultsViewModel GetInstance()
         {
             return PointerScanResultsViewModel.pointerScanResultsViewModelInstance.Value;
         }
 
         /// <summary>
-        /// Subscribes the given object to changes in the active snapshot
+        /// Subscribes the given object to changes in the active snapshot.
         /// </summary>
-        /// <param name="snapshotObserver">The object to observe active snapshot changes</param>
+        /// <param name="snapshotObserver">The object to observe active snapshot changes.</param>
         public void Subscribe(IPointerScanResultsObserver snapshotObserver)
         {
             lock (this.ObserverLock)
@@ -305,9 +305,9 @@
         }
 
         /// <summary>
-        /// Unsubscribes the given object from changes in the active snapshot
+        /// Unsubscribes the given object from changes in the active snapshot.
         /// </summary>
-        /// <param name="snapshotObserver">The object to observe active snapshot changes</param>
+        /// <param name="snapshotObserver">The object to observe active snapshot changes.</param>
         public void Unsubscribe(IPointerScanResultsObserver snapshotObserver)
         {
             lock (this.ObserverLock)
@@ -320,9 +320,9 @@
         }
 
         /// <summary>
-        /// Recieves an update of the active snapshot
+        /// Recieves an update of the active snapshot.
         /// </summary>
-        /// <param name="snapshot">The active snapshot</param>
+        /// <param name="snapshot">The active snapshot.</param>
         public void Update(Snapshot snapshot)
         {
             this.ResultCount = snapshot == null ? 0 : snapshot.GetElementCount();
@@ -330,7 +330,7 @@
         }
 
         /// <summary>
-        /// Loads the results for the current page
+        /// Loads the results for the current page.
         /// </summary>
         private void LoadPointerScanResults()
         {
@@ -338,7 +338,7 @@
         }
 
         /// <summary>
-        /// Updates the values for the current scan results
+        /// Updates the values for the current scan results.
         /// </summary>
         private void UpdateScanResults()
         {
@@ -360,7 +360,7 @@
         }
 
         /// <summary>
-        /// Goes to the first page of results
+        /// Goes to the first page of results.
         /// </summary>
         private void FirstPage()
         {
@@ -368,7 +368,7 @@
         }
 
         /// <summary>
-        /// Goes to the last page of results
+        /// Goes to the last page of results.
         /// </summary>
         private void LastPage()
         {
@@ -376,7 +376,7 @@
         }
 
         /// <summary>
-        /// Goes to the previous page of results
+        /// Goes to the previous page of results.
         /// </summary>
         private void PreviousPage()
         {
@@ -384,7 +384,7 @@
         }
 
         /// <summary>
-        /// Goes to the next page of results
+        /// Goes to the next page of results.
         /// </summary>
         private void NextPage()
         {
@@ -392,16 +392,16 @@
         }
 
         /// <summary>
-        /// Adds the given scan result address to the project explorer
+        /// Adds the given scan result address to the project explorer.
         /// </summary>
-        /// <param name="scanResult">The scan result to add to the project explorer</param>
+        /// <param name="scanResult">The scan result to add to the project explorer.</param>
         private void AddAddress(PointerScanResult scanResult)
         {
             ProjectExplorerViewModel.GetInstance().AddSpecificAddressItem(scanResult.ElementAddress, typeof(Int32));
         }
 
         /// <summary>
-        /// Notify all observing objects of an active type change
+        /// Notify all observing objects of an active type change.
         /// </summary>
         private void NotifyObservers()
         {

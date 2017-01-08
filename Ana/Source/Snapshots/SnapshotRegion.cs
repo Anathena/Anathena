@@ -8,13 +8,17 @@
     using System.Collections.Generic;
     using System.Runtime.InteropServices;
     using UserSettings;
+    using Utils;
     using Utils.Extensions;
-    using Utils.Validation;
+
     /// <summary>
     /// Defines a region of memory in an external process.
     /// </summary>
     internal class SnapshotRegion : NormalizedRegion, IEnumerable
     {
+        /// <summary>
+        /// The memory alignment of this region.
+        /// </summary>
         private Int32 alignment;
 
         /// <summary>
@@ -56,7 +60,7 @@
         public Type LabelType { get; set; }
 
         /// <summary>
-        /// Gets or sets the memory alignment, typically aligned with external process pointer size
+        /// Gets or sets the memory alignment, typically aligned with external process pointer size.
         /// </summary>
         public Int32 Alignment
         {
@@ -85,32 +89,32 @@
         }
 
         /// <summary>
-        /// Gets or sets the most recently read values
+        /// Gets or sets the most recently read values.
         /// </summary>
         private unsafe Byte[] CurrentValues { get; set; }
 
         /// <summary>
-        /// Gets or sets the previously read values
+        /// Gets or sets the previously read values.
         /// </summary>
         private unsafe Byte[] PreviousValues { get; set; }
 
         /// <summary>
-        /// Gets or sets the previously read values
+        /// Gets or sets the previously read values.
         /// </summary>
         private unsafe Object[] ElementLabels { get; set; }
 
         /// <summary>
-        /// Gets or sets the valid bits for use in filtering scans
+        /// Gets or sets the valid bits for use in filtering scans.
         /// </summary>
         private BitArray ValidBits { get; set; }
 
         /// <summary>
-        /// Gets or sets the time since the last read was performed on this region
+        /// Gets or sets the time since the last read was performed on this region.
         /// </summary>
         private DateTime TimeSinceLastRead { get; set; }
 
         /// <summary>
-        /// Gets or sets the reference to the snapshot element being iterated over
+        /// Gets or sets the reference to the snapshot element being iterated over.
         /// </summary>
         private SnapshotElementRef SnapshotElementRef { get; set; }
 

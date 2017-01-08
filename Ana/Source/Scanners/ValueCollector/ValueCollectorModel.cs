@@ -8,14 +8,14 @@
     internal class ValueCollectorModel : ScannerBase
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="ValueCollectorModel" /> class
+        /// Initializes a new instance of the <see cref="ValueCollectorModel" /> class.
         /// </summary>
         public ValueCollectorModel() : base("Value Collector")
         {
         }
 
         /// <summary>
-        /// Performs the value collection scan
+        /// Performs the value collection scan.
         /// </summary>
         public override void Begin()
         {

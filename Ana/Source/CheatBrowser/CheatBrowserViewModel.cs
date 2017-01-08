@@ -9,7 +9,7 @@
     using System.Windows.Input;
 
     /// <summary>
-    /// View model for the Cheat Browser
+    /// View model for the Cheat Browser.
     /// </summary>
     internal class CheatBrowserViewModel : ToolViewModel
     {

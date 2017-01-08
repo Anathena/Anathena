@@ -6,7 +6,7 @@
     using System.Windows.Media.Imaging;
 
     /// <summary>
-    /// Enumeration of all possible scan constraints
+    /// Enumeration of all possible scan constraints.
     /// </summary>
     internal enum ConstraintsEnum
     {
@@ -82,12 +82,12 @@
     internal class ScanConstraint : INotifyPropertyChanged
     {
         /// <summary>
-        /// The constraint type
+        /// The constraint type.
         /// </summary>
         private ConstraintsEnum constraint;
 
         /// <summary>
-        /// The value associated with this constraint, if applicable
+        /// The value associated with this constraint, if applicable.
         /// </summary>
         private dynamic constraintValue;
 
@@ -103,8 +103,8 @@
         /// <summary>
         /// Initializes a new instance of the <see cref="ScanConstraint" /> class.
         /// </summary>
-        /// <param name="valueConstraint">The constraint type</param>
-        /// <param name="addressValue">The value associated with this constraint</param>
+        /// <param name="valueConstraint">The constraint type.</param>
+        /// <param name="addressValue">The value associated with this constraint.</param>
         public ScanConstraint(ConstraintsEnum valueConstraint, dynamic addressValue = null)
         {
             this.Constraint = valueConstraint;
@@ -117,7 +117,7 @@
         public event PropertyChangedEventHandler PropertyChanged;
 
         /// <summary>
-        /// Gets or sets the constraint type
+        /// Gets or sets the constraint type.
         /// </summary>
         public ConstraintsEnum Constraint
         {
@@ -137,7 +137,7 @@
         }
 
         /// <summary>
-        /// Gets or sets the value associated with this constraint, if applicable
+        /// Gets or sets the value associated with this constraint, if applicable.
         /// </summary>
         public dynamic ConstraintValue
         {
@@ -161,7 +161,7 @@
         }
 
         /// <summary>
-        /// Gets the name associated with this constraint
+        /// Gets the name associated with this constraint.
         /// </summary>
         public String ConstraintName
         {
@@ -202,7 +202,7 @@
         }
 
         /// <summary>
-        /// Gets the image associated with this constraint
+        /// Gets the image associated with this constraint.
         /// </summary>
         public BitmapSource ConstraintImage
         {
@@ -243,9 +243,9 @@
         }
 
         /// <summary>
-        /// Gets a value indicating whether this constraint is a relative comparison constraint or not
+        /// Gets a value indicating whether this constraint is a relative comparison constraint or not.
         /// </summary>
-        /// <returns>True if the constraint is a relative value constraint</returns>
+        /// <returns>True if the constraint is a relative value constraint.</returns>
         public Boolean IsRelativeConstraint()
         {
             switch (this.Constraint)
@@ -271,9 +271,9 @@
         }
 
         /// <summary>
-        /// Gets a value indicating whether this constraint requires a value
+        /// Gets a value indicating whether this constraint requires a value.
         /// </summary>
-        /// <returns>True if the constraint requires a value</returns>
+        /// <returns>True if the constraint requires a value.</returns>
         public Boolean IsValuedConstraint()
         {
             switch (this.Constraint)

@@ -5,12 +5,12 @@
     using System.Linq;
 
     /// <summary>
-    /// TODO TODO
+    /// TODO TODO.
     /// </summary>
     internal class Syn
     {
         /// <summary>
-        /// TODO TODO
+        /// TODO TODO.
         /// </summary>
         public static readonly String[] UdRegTab = new String[]
         {
@@ -70,12 +70,11 @@
         /// <summary>
         /// Printf style function for printing translated assembly output. 
         /// </summary>
-        /// <param name="u">TODO u</param>
-        /// <param name="fmt">TODO fmt</param>
-        /// <param name="args">TODO args</param>
+        /// <param name="u">TODO u.</param>
+        /// <param name="fmt">TODO fmt.</param>
+        /// <param name="args">TODO args.</param>
         /// <returns>
-        /// Returns the number of characters written and moves the buffer pointer forward. On an overflow,
-        /// returns a negative number and truncates the output.
+        /// Returns the number of characters written and moves the buffer pointer forward. On an overflow, returns a negative number and truncates the output.
         /// </returns>
         public static Int32 UdAsmPrintf(ref Ud u, String fmt, params Object[] args)
         {
@@ -102,11 +101,11 @@
         }
 
         /// <summary>
-        /// TODO summary
+        /// TODO summary.
         /// </summary>
-        /// <param name="u">TODO u</param>
-        /// <param name="opr">TODO opr</param>
-        /// <returns>TODO TODO</returns>
+        /// <param name="u">TODO u.</param>
+        /// <param name="opr">TODO opr.</param>
+        /// <returns>TODO TODO.</returns>
         public UInt64 UdSynRelTarget(ref Ud u, ref UdOperand opr)
         {
             UInt64 trunc_mask = 0xffffffffffffffff >> (64 - u.OprMode);
@@ -125,10 +124,10 @@
         }
 
         /// <summary>
-        /// TODO summary
+        /// TODO summary.
         /// </summary>
-        /// <param name="u">TODO u</param>
-        /// <param name="addr">TODO addr</param>
+        /// <param name="u">TODO u.</param>
+        /// <param name="addr">TODO addr.</param>
         public void UdSynPrintAddr(ref Ud u, Int64 addr)
         {
             String name = null;
@@ -156,10 +155,10 @@
         }
 
         /// <summary>
-        /// TODO summary
+        /// TODO summary.
         /// </summary>
-        /// <param name="u">TODO u</param>
-        /// <param name="op">TODO op</param>
+        /// <param name="u">TODO u.</param>
+        /// <param name="op">TODO op.</param>
         public void UdSynPrintImm(ref Ud u, ref UdOperand op)
         {
             UInt64 v;
@@ -207,11 +206,11 @@
         }
 
         /// <summary>
-        /// TODO summary
+        /// TODO summary.
         /// </summary>
-        /// <param name="u">TODO u</param>
-        /// <param name="op">TODO op</param>
-        /// <param name="sign">TODO sign</param>
+        /// <param name="u">TODO u.</param>
+        /// <param name="op">TODO op.</param>
+        /// <param name="sign">TODO sign.</param>
         public void UdSynPrintMemDisp(ref Ud u, ref UdOperand op, Int32 sign)
         {
             Debug.Assert(op.Offset != 0, "TODO: REASON");

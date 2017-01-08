@@ -2,9 +2,9 @@
 {
     using Source.ChangeLog;
     using Source.CheatBrowser;
-    using Source.Controls;
     using Source.DotNetExplorer;
     using Source.Main;
+    using Source.Output;
     using Source.ProcessSelector;
     using Source.Project;
     using Source.PropertyViewer;
@@ -22,6 +22,7 @@
     using Source.Utils.HotkeyEditor;
     using Source.Utils.ScriptEditor;
     using Source.Utils.ValueEditor;
+
     /// <summary>
     /// This class contains static references to all the view models in the
     /// application and provides an entry point for the bindings.
@@ -223,7 +224,18 @@
         }
 
         /// <summary>
-        /// Gets the Script Editor view model.
+        /// Gets a Output view model.
+        /// </summary>
+        public OutputViewModel OutputViewModel
+        {
+            get
+            {
+                return OutputViewModel.GetInstance();
+            }
+        }
+
+        /// <summary>
+        /// Gets the Script Editor view model. Note: Not a singleton, will create a new object.
         /// </summary>
         public ScriptEditorViewModel ScriptEditorViewModel
         {
@@ -234,7 +246,7 @@
         }
 
         /// <summary>
-        /// Gets the Value Editor view model.
+        /// Gets the Value Editor view model. Note: Not a singleton, will create a new object.
         /// </summary>
         public ValueEditorViewModel ValueEditorViewModel
         {
@@ -263,17 +275,6 @@
             get
             {
                 return new HotkeyEditorViewModel();
-            }
-        }
-
-        /// <summary>
-        /// Gets a Hex Dec Box view model. Note: Not a singleton, will create a new object.
-        /// </summary>
-        public HexDecBoxViewModel HexDecBoxViewModel
-        {
-            get
-            {
-                return new HexDecBoxViewModel();
             }
         }
 

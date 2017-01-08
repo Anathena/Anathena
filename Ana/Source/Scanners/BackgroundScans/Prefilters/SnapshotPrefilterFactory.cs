@@ -3,15 +3,15 @@
     using System;
 
     /// <summary>
-    /// Factory for obtaining a memory prefilter
+    /// Factory for obtaining a memory prefilter.
     /// </summary>
     internal static class SnapshotPrefilterFactory
     {
         /// <summary>
-        /// Gets a prefilter based on the provided class type
+        /// Gets a prefilter based on the provided class type.
         /// </summary>
-        /// <param name="prefilterClass">The class type of the prefilter</param>
-        /// <returns>A prefilter of the specified type</returns>
+        /// <param name="prefilterClass">The class type of the prefilter.</param>
+        /// <returns>A prefilter of the specified type.</returns>
         public static ISnapshotPrefilter GetSnapshotPrefilter(Type prefilterClass)
         {
             if (prefilterClass == typeof(ShallowPointerPrefilter))

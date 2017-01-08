@@ -1,6 +1,7 @@
 ﻿namespace Ana.Source.Engine.Processes
 {
     using OperatingSystems.Windows.Native;
+    using Output;
     using System;
     using System.Collections.Generic;
     using System.Diagnostics;
@@ -73,6 +74,15 @@
         public void OpenProcess(NormalizedProcess process)
         {
             this.OpenedProcess = process;
+
+            if (process != null)
+            {
+                OutputViewModel.GetInstance().Log(OutputViewModel.LogLevel.Info, "Attached to process: " + process.ProcessName);
+            }
+            else
+            {
+                OutputViewModel.GetInstance().Log(OutputViewModel.LogLevel.Warn, "Detached from target process");
+            }
 
             if (this.processListeners != null)
             {

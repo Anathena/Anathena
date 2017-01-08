@@ -14,24 +14,24 @@
     using System.Windows.Input;
 
     /// <summary>
-    /// View model for the Input Correlator
+    /// View model for the Input Correlator.
     /// </summary>
     internal class InputCorrelatorViewModel : ToolViewModel
     {
         /// <summary>
-        /// The content id for the docking library associated with this view model
+        /// The content id for the docking library associated with this view model.
         /// </summary>
         public const String ToolContentId = nameof(InputCorrelatorViewModel);
 
         /// <summary>
-        /// Singleton instance of the <see cref="InputCorrelatorViewModel" /> class
+        /// Singleton instance of the <see cref="InputCorrelatorViewModel" /> class.
         /// </summary>
         private static Lazy<InputCorrelatorViewModel> inputCorrelatorViewModelInstance = new Lazy<InputCorrelatorViewModel>(
                 () => { return new InputCorrelatorViewModel(); },
                 LazyThreadSafetyMode.ExecutionAndPublication);
 
         /// <summary>
-        /// Prevents a default instance of the <see cref="InputCorrelatorViewModel" /> class from being created
+        /// Prevents a default instance of the <see cref="InputCorrelatorViewModel" /> class from being created.
         /// </summary>
         private InputCorrelatorViewModel() : base("Input Correlator")
         {
@@ -69,9 +69,9 @@
         private InputCorrelatorModel InputCorrelatorModel { get; set; }
 
         /// <summary>
-        /// Gets a singleton instance of the <see cref="ChangeCounterViewModel"/> class
+        /// Gets a singleton instance of the <see cref="ChangeCounterViewModel"/> class.
         /// </summary>
-        /// <returns>A singleton instance of the class</returns>
+        /// <returns>A singleton instance of the class.</returns>
         public static InputCorrelatorViewModel GetInstance()
         {
             return inputCorrelatorViewModelInstance.Value;
@@ -79,7 +79,7 @@
 
         private void EditHotkeys()
         {
-            View.HotkeyEditor hotkeyEditor = new View.HotkeyEditor(InputCorrelatorModel.HotKeys);
+            View.Editors.HotkeyEditor hotkeyEditor = new View.Editors.HotkeyEditor(InputCorrelatorModel.HotKeys);
 
             hotkeyEditor.Owner = Application.Current.MainWindow;
             if (hotkeyEditor.ShowDialog() == true)

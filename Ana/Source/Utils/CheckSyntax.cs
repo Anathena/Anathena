@@ -1,4 +1,4 @@
-﻿namespace Ana.Source.Utils.Validation
+﻿namespace Ana.Source.Utils
 {
     using System;
 
@@ -306,7 +306,7 @@
 
             if (isHex && IsUInt32(value, isHex))
             {
-                return Single.TryParse(Conversions.ParseHexStringAsDecString(typeof(Single), value), out temp);
+                return Single.TryParse(Conversions.ParseHexStringAsPrimitiveString(typeof(Single), value), out temp);
             }
             else
             {
@@ -326,7 +326,7 @@
 
             if (isHex && IsUInt64(value, isHex))
             {
-                return Double.TryParse(Conversions.ParseHexStringAsDecString(typeof(Double), value), out temp);
+                return Double.TryParse(Conversions.ParseHexStringAsPrimitiveString(typeof(Double), value), out temp);
             }
             else
             {

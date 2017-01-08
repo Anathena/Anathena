@@ -4,50 +4,50 @@
     using System.Diagnostics;
 
     /// <summary>
-    /// TODO TODO
+    /// TODO TODO.
     /// </summary>
     internal class Decode
     {
         /// <summary>
-        /// TODO TODO
+        /// TODO TODO.
         /// </summary>
         public const Int32 MaxInstructionLength = 15;
 
         /// <summary>
-        /// TODO TODO
+        /// TODO TODO.
         /// </summary>
         public const Int32 MaxPrefixes = 15;
 
         /// <summary>
-        /// TODO TODO
+        /// TODO TODO.
         /// </summary>
         public const Int32 UdEoi = -1;
 
         /// <summary>
-        /// TODO TODO
+        /// TODO TODO.
         /// </summary>
         public const Int32 UdInpCacheSize = 32;
 
         /// <summary>
-        /// TODO TODO
+        /// TODO TODO.
         /// </summary>
         public const Int32 UdVendorAmd = 0;
 
         /// <summary>
-        /// TODO TODO
+        /// TODO TODO.
         /// </summary>
         public const Int32 UdVendorIntel = 1;
 
         /// <summary>
-        /// TODO TODO
+        /// TODO TODO.
         /// </summary>
         public const Int32 UdVendorAny = 2;
 
         /// <summary>
-        /// Instruction decoder. Returns the number of bytes decoded
+        /// Instruction decoder. Returns the number of bytes decoded.
         /// </summary>
-        /// <param name="u">TODO u</param>
-        /// <returns>TODO TODO</returns>
+        /// <param name="u">TODO u.</param>
+        /// <returns>TODO TODO.</returns>
         public Int32 UdDecode(ref Ud u)
         {
             this.InpStart(ref u);
@@ -88,17 +88,17 @@
         /// <summary>
         /// Should be called before each de-code operation.
         /// </summary>
-        /// <param name="u">TODO u</param>
+        /// <param name="u">TODO u.</param>
         private void InpStart(ref Ud u)
         {
             u.InputCtr = 0;
         }
 
         /// <summary>
-        /// TODO summary
+        /// TODO summary.
         /// </summary>
-        /// <param name="u">TODO u</param>
-        /// <returns>TODO TODO</returns>
+        /// <param name="u">TODO u.</param>
+        /// <returns>TODO TODO.</returns>
         private unsafe Int32 InpPeek(ref Ud u)
         {
             if (u.InputEnd == 0)
@@ -132,10 +132,10 @@
         }
 
         /// <summary>
-        /// TODO summary
+        /// TODO summary.
         /// </summary>
-        /// <param name="u">TODO u</param>
-        /// <returns>TODO TODO</returns>
+        /// <param name="u">TODO u.</param>
+        /// <returns>TODO TODO.</returns>
         private unsafe Byte InpNext(ref Ud u)
         {
             if (u.InputEnd == 0)
@@ -168,30 +168,30 @@
         }
 
         /// <summary>
-        /// TODO summary
+        /// TODO summary.
         /// </summary>
-        /// <param name="ud">TODO ud</param>
-        /// <returns>TODO TODO</returns>
+        /// <param name="ud">TODO u.d</param>
+        /// <returns>TODO TODO.</returns>
         private Byte InpCurr(ref Ud ud)
         {
             return ud.InputCur;
         }
 
         /// <summary>
-        /// Load little-endian values from input
+        /// Load little-endian values from input.
         /// </summary>
-        /// <param name="u">TODO u</param>
-        /// <returns>TODO TODO</returns>
+        /// <param name="u">TODO u.</param>
+        /// <returns>TODO TODO.</returns>
         private Byte InpUInt8(ref Ud u)
         {
             return this.InpNext(ref u);
         }
 
         /// <summary>
-        /// TODO summary
+        /// TODO summary.
         /// </summary>
-        /// <param name="u">TODO u</param>
-        /// <returns>TODO TODO</returns>
+        /// <param name="u">TODO u.</param>
+        /// <returns>TODO TODO.</returns>
         private UInt16 InpUInt16(ref Ud u)
         {
             UInt16 r, ret;
@@ -202,10 +202,10 @@
         }
 
         /// <summary>
-        /// TODO summary
+        /// TODO summary.
         /// </summary>
-        /// <param name="u">TODO u</param>
-        /// <returns>TODO TODO</returns>
+        /// <param name="u">TODO u.</param>
+        /// <returns>TODO TODO.</returns>
         private UInt32 InpUInt32(ref Ud u)
         {
             UInt32 r, ret;
@@ -220,10 +220,10 @@
         }
 
         /// <summary>
-        /// TODO summary
+        /// TODO summary.
         /// </summary>
-        /// <param name="u">TODO u</param>
-        /// <returns>TODO TODO</returns>
+        /// <param name="u">TODO u.</param>
+        /// <returns>TODO TODO.</returns>
         private UInt64 InpUInt64(ref Ud u)
         {
             UInt64 r, ret;
@@ -247,12 +247,12 @@
         }
 
         /// <summary>
-        /// TODO summary
+        /// TODO summary.
         /// </summary>
-        /// <param name="disMode">TODO disMode</param>
-        /// <param name="rexW">TODO rexW</param>
-        /// <param name="pfxOpr">TODO pfxOpr</param>
-        /// <returns>TODO TODO</returns>
+        /// <param name="disMode">TODO disMode.</param>
+        /// <param name="rexW">TODO rexW.</param>
+        /// <param name="pfxOpr">TODO pfxOpr.</param>
+        /// <returns>TODO TODO.</returns>
         private Int32 EffOprMode(Int32 disMode, Int32 rexW, Int32 pfxOpr)
         {
             if (disMode == 64)
@@ -271,11 +271,11 @@
         }
 
         /// <summary>
-        /// TODO summary
+        /// TODO summary.
         /// </summary>
-        /// <param name="disMode">TODO disMode</param>
-        /// <param name="pfxAdr">TODO pfxAdr</param>
-        /// <returns>TODO TODO</returns>
+        /// <param name="disMode">TODO disMode.</param>
+        /// <param name="pfxAdr">TODO pfxAdr.</param>
+        /// <returns>TODO TODO.</returns>
         private Int32 EffAdrMode(Int32 disMode, Int32 pfxAdr)
         {
             if (disMode == 64)
@@ -296,8 +296,8 @@
         /// <summary>
         /// Extracts instruction prefixes.
         /// </summary>
-        /// <param name="u">TODO u</param>
-        /// <returns>TODO TODO</returns>
+        /// <param name="u">TODO u.</param>
+        /// <returns>TODO TODO.</returns>
         private Int32 DecodePrefixes(ref Ud u)
         {
             Boolean done = false;
@@ -379,10 +379,10 @@
         }
 
         /// <summary>
-        /// TODO summary
+        /// TODO summary.
         /// </summary>
-        /// <param name="u">TODO u</param>
-        /// <returns>TODO TODO</returns>
+        /// <param name="u">TODO u.</param>
+        /// <returns>TODO TODO.</returns>
         private Byte VexL(ref Ud u)
         {
             Debug.Assert(u.VexOp != 0, "TODO: REASON");
@@ -390,10 +390,10 @@
         }
 
         /// <summary>
-        /// TODO summary
+        /// TODO summary.
         /// </summary>
-        /// <param name="u">TODO u</param>
-        /// <returns>TODO TODO</returns>
+        /// <param name="u">TODO u.</param>
+        /// <returns>TODO TODO.</returns>
         private Byte VexW(ref Ud u)
         {
             Debug.Assert(u.VexOp != 0, "TODO: REASON");
@@ -401,10 +401,10 @@
         }
 
         /// <summary>
-        /// TODO summary
+        /// TODO summary.
         /// </summary>
-        /// <param name="u">TODO u</param>
-        /// <returns>TODO TODO</returns>
+        /// <param name="u">TODO u.</param>
+        /// <returns>TODO TODO.</returns>
         private Byte Modrm(ref Ud u)
         {
             if (u.HaveModrm == 0)
@@ -418,11 +418,11 @@
         }
 
         /// <summary>
-        /// TODO summary
+        /// TODO summary.
         /// </summary>
-        /// <param name="u">TODO u</param>
-        /// <param name="operandSize">TODO operandSize</param>
-        /// <returns>TODO TODO</returns>
+        /// <param name="u">TODO u.</param>
+        /// <param name="operandSize">TODO operandSize.</param>
+        /// <returns>TODO TODO.</returns>
         private UdOperandSize ResolveOperandSize(ref Ud u, UdOperandSize operandSize)
         {
             switch (operandSize)
@@ -444,10 +444,10 @@
         }
 
         /// <summary>
-        /// TODO summary
+        /// TODO summary.
         /// </summary>
-        /// <param name="u">TODO u</param>
-        /// <returns>TODO TODO</returns>
+        /// <param name="u">TODO u.</param>
+        /// <returns>TODO TODO.</returns>
         private Int32 ResolveMnemonic(ref Ud u)
         {
             // Resolve 3dnow weirdness
@@ -487,10 +487,10 @@
         }
 
         /// <summary>
-        /// Decodes operands of the type seg:offset
+        /// Decodes operands of the type seg:offset.
         /// </summary>
-        /// <param name="u">TODO u</param>
-        /// <param name="op">TODO op</param>
+        /// <param name="u">TODO u.</param>
+        /// <param name="op">TODO op.</param>
         private void DecodeA(ref Ud u, ref UdOperand op)
         {
             if (u.OprMode == 16)
@@ -512,12 +512,12 @@
         }
 
         /// <summary>
-        /// Returns decoded General Purpose Register 
+        /// Returns decoded General Purpose Register .
         /// </summary>
-        /// <param name="u">TODO u</param>
-        /// <param name="s">TODO s</param>
-        /// <param name="rm">TODO rm</param>
-        /// <returns>TODO TODO</returns>
+        /// <param name="u">TODO u.</param>
+        /// <param name="s">TODO s.</param>
+        /// <param name="rm">TODO rm.</param>
+        /// <returns>TODO TODO.</returns>
         private UdType DecodeGeneralPurposeRegister(ref Ud u, UdOperandSize s, Byte rm)
         {
             switch ((Int32)s)
@@ -550,13 +550,13 @@
         }
 
         /// <summary>
-        /// TODO summary
+        /// TODO summary.
         /// </summary>
-        /// <param name="u">TODO u</param>
-        /// <param name="opr">TODO opr</param>
-        /// <param name="type">TODO type</param>
-        /// <param name="num">TODO num</param>
-        /// <param name="size">TODO size</param>
+        /// <param name="u">TODO u.</param>
+        /// <param name="opr">TODO opr.</param>
+        /// <param name="type">TODO type.</param>
+        /// <param name="num">TODO num.</param>
+        /// <param name="size">TODO size.</param>
         private void DecodeReg(ref Ud u, ref UdOperand opr, RegClass type, Byte num, UdOperandSize size)
         {
             Int32 reg;
@@ -609,11 +609,11 @@
         }
 
         /// <summary>
-        /// Decode Immediate values
+        /// Decode Immediate values.
         /// </summary>
-        /// <param name="u">TODO u</param>
-        /// <param name="size">TODO size</param>
-        /// <param name="op">TODO op</param>
+        /// <param name="u">TODO u.</param>
+        /// <param name="size">TODO size.</param>
+        /// <param name="op">TODO op.</param>
         private void DecodeImmediate(ref Ud u, UdOperandSize size, ref UdOperand op)
         {
             op.Size = (Byte)this.ResolveOperandSize(ref u, size);
@@ -640,9 +640,9 @@
         /// <summary>
         /// Decode mem address displacement.
         /// </summary>
-        /// <param name="u">TODO u</param>
-        /// <param name="size">TODO size</param>
-        /// <param name="op">TODO op</param>
+        /// <param name="u">TODO u.</param>
+        /// <param name="size">TODO size.</param>
+        /// <param name="op">TODO op.</param>
         private void DecodeMemoryDisplacement(ref Ud u, int size, ref UdOperand op)
         {
             switch (size)
@@ -669,12 +669,12 @@
         }
 
         /// <summary>
-        /// Decodes reg field of mod/rm byte
+        /// Decodes reg field of mod/rm byte.
         /// </summary>
-        /// <param name="u">TODO u</param>
-        /// <param name="operand">TODO operand</param>
-        /// <param name="type">TODO type</param>
-        /// <param name="size">TODO size</param>
+        /// <param name="u">TODO u.</param>
+        /// <param name="operand">TODO operand.</param>
+        /// <param name="type">TODO type.</param>
+        /// <param name="size">TODO size.</param>
         private void DecodeModrmReg(ref Ud u, ref UdOperand operand, RegClass type, UdOperandSize size)
         {
             Byte reg = (Byte)((BitOps.REX_R(u.Rex) << 3) | BitOps.MODRM_REG(this.Modrm(ref u)));
@@ -682,12 +682,12 @@
         }
 
         /// <summary>
-        /// Decodes rm field of mod/rm byte
+        /// Decodes rm field of mod/rm byte.
         /// </summary>
-        /// <param name="u">TODO u</param>
-        /// <param name="op">TODO op</param>
-        /// <param name="type">TODO type</param>
-        /// <param name="size">TODO size</param>
+        /// <param name="u">TODO u.</param>
+        /// <param name="op">TODO op.</param>
+        /// <param name="type">TODO type.</param>
+        /// <param name="size">TODO size.</param>
         private void DecodeModrmRm(ref Ud u, ref UdOperand op, RegClass type, UdOperandSize size)
         {
             Int32 offset = 0;
@@ -865,11 +865,11 @@
         }
 
         /// <summary>
-        /// Decode offset-only memory operand
+        /// Decode offset-only memory operand.
         /// </summary>
-        /// <param name="u">TODO u</param>
-        /// <param name="size">TODO size</param>
-        /// <param name="opr">TODO opr</param>
+        /// <param name="u">TODO u.</param>
+        /// <param name="size">TODO size.</param>
+        /// <param name="opr">TODO opr.</param>
         private void DecodeMOffset(ref Ud u, UdOperandSize size, ref UdOperand opr)
         {
             opr.UdType = UdType.UD_OP_MEM;
@@ -881,11 +881,11 @@
         }
 
         /// <summary>
-        /// TODO summary
+        /// TODO summary.
         /// </summary>
-        /// <param name="u">TODO u</param>
-        /// <param name="opr">TODO opr</param>
-        /// <param name="size">TODO size</param>
+        /// <param name="u">TODO u.</param>
+        /// <param name="opr">TODO opr.</param>
+        /// <param name="size">TODO size.</param>
         private void DecodeVexVvvv(ref Ud u, ref UdOperand opr, UdOperandSize size)
         {
             Byte vvvv;
@@ -896,12 +896,12 @@
         }
 
         /// <summary>
-        /// Decode source operand encoded in immediate byte [7:4]
+        /// Decode source operand encoded in immediate byte [7:4].
         /// </summary>
-        /// <param name="u">TODO u</param>
-        /// <param name="opr">TODO opr</param>
-        /// <param name="size">TODO size</param>
-        /// <returns>TODO TODO</returns>
+        /// <param name="u">TODO u.</param>
+        /// <param name="opr">TODO opr.</param>
+        /// <param name="size">TODO size.</param>
+        /// <returns>TODO TODO.</returns>
         private Int32 DecodeVexImmreg(ref Ud u, ref UdOperand opr, UdOperandSize size)
         {
             Byte imm = (Byte)this.InpNext(ref u);
@@ -917,33 +917,33 @@
         }
 
         /// <summary>
-        /// TODO summary
+        /// TODO summary.
         /// </summary>
-        /// <param name="size">TODO size</param>
-        /// <returns>TODO TODO</returns>
+        /// <param name="size">TODO size.</param>
+        /// <returns>TODO TODO.</returns>
         private UdOperandSize MxMemSize(Int32 size)
         {
             return (UdOperandSize)((size >> 8) & 0xff);
         }
 
         /// <summary>
-        /// TODO summary
+        /// TODO summary.
         /// </summary>
-        /// <param name="size">TODO size</param>
-        /// <returns>TODO TODO</returns>
+        /// <param name="size">TODO size.</param>
+        /// <returns>TODO TODO.</returns>
         private UdOperandSize MxRegSize(Int32 size)
         {
             return (UdOperandSize)(size & 0xff);
         }
 
         /// <summary>
-        /// Disassembles Operands
+        /// Disassembles Operands.
         /// </summary>
-        /// <param name="u">TODO u</param>
-        /// <param name="operand">TODO operand</param>
-        /// <param name="type">TODO type</param>
-        /// <param name="size">TODO size</param>
-        /// <returns>TODO TODO</returns>
+        /// <param name="u">TODO u.</param>
+        /// <param name="operand">TODO operand.</param>
+        /// <param name="type">TODO type.</param>
+        /// <param name="size">TODO size.</param>
+        /// <returns>TODO TODO.</returns>
         private UdType DecodeOperand(ref Ud u, ref UdOperand operand, UdOperandCode type, UdOperandSize size)
         {
             operand.UdType = UdType.UD_NONE;
@@ -1126,10 +1126,10 @@
 
         /// <summary>
         /// Disassemble upto 4 operands of the current instruction being disassembled. By the end of the function,
-        /// the operand fields of the ud structure will have been filled
+        /// the operand fields of the ud structure will have been filled.
         /// </summary>
-        /// <param name="u">TODO u</param>
-        /// <returns>TODO TODO</returns>
+        /// <param name="u">TODO u.</param>
+        /// <returns>TODO TODO.</returns>
         private Int32 DecodeOperands(ref Ud u)
         {
             if (this.DecodeOperand(ref u, ref u.Operand[0], u.ItabEntry.Operand1.OperandType, u.ItabEntry.Operand1.Size) != UdType.UD_NONE)
@@ -1147,9 +1147,9 @@
         }
 
         /// <summary>
-        /// Clear instruction structure
+        /// Clear instruction structure.
         /// </summary>
-        /// <param name="u">TODO u</param>
+        /// <param name="u">TODO u.</param>
         private void ClearInstruction(ref Ud u)
         {
             u.Error = 0;
@@ -1175,10 +1175,10 @@
         }
 
         /// <summary>
-        /// TODO summary
+        /// TODO summary.
         /// </summary>
-        /// <param name="u">TODO u</param>
-        /// <returns>TODO TODO</returns>
+        /// <param name="u">TODO u.</param>
+        /// <returns>TODO TODO.</returns>
         private Int32 ResolvePrefixStr(ref Ud u)
         {
             if (u.PfxStr == 0xf3)
@@ -1201,10 +1201,10 @@
         }
 
         /// <summary>
-        /// TODO summary
+        /// TODO summary.
         /// </summary>
-        /// <param name="u">TODO u</param>
-        /// <returns>TODO TODO</returns>
+        /// <param name="u">TODO u.</param>
+        /// <returns>TODO TODO.</returns>
         private Int32 ResolveMode(ref Ud u)
         {
             Int32 default64;
@@ -1289,11 +1289,11 @@
         }
 
         /// <summary>
-        /// TODO summary
+        /// TODO summary.
         /// </summary>
-        /// <param name="u">TODO u</param>
-        /// <param name="ptr">TODO ptr</param>
-        /// <returns>TODO TODO</returns>
+        /// <param name="u">TODO u.</param>
+        /// <param name="ptr">TODO ptr.</param>
+        /// <returns>TODO TODO.</returns>
         private Int32 DecodeInstruction(ref Ud u, UInt16 ptr)
         {
             Debug.Assert((ptr & 0x8000) == 0, "TODO: REASON");
@@ -1304,16 +1304,12 @@
         }
 
         /// <summary>
-        /// Decoding 3dnow is a little tricky because of its strange opcode
-        /// structure. The final opcode disambiguation depends on the last
-        /// byte that comes after the operands have been decoded. Fortunately,
-        /// all 3dnow instructions have the same set of operand types. So we
-        /// go ahead and decode the instruction by picking an arbitrarily chosen
-        /// valid entry in the table, decode the operands, and read the final
-        /// byte to resolve the menmonic.
+        /// Decoding 3dnow is a little tricky because of its strange opcode structure. The final opcode disambiguation depends on the last
+        /// byte that comes after the operands have been decoded. Fortunately, all 3dnow instructions have the same set of operand types. So we
+        /// go ahead and decode the instruction by picking an arbitrarily chosen valid entry in the table, decode the operands, and read the final byte to resolve the menmonic.
         /// </summary>
-        /// <param name="u">TODO u</param>
-        /// <returns>TODO TODO</returns>
+        /// <param name="u">TODO u.</param>
+        /// <returns>TODO TODO.</returns>
         private Int32 Decode3dNow(ref Ud u)
         {
             UInt16 ptr;
@@ -1335,10 +1331,10 @@
         }
 
         /// <summary>
-        /// TODO summary
+        /// TODO summary.
         /// </summary>
-        /// <param name="u">TODO u</param>
-        /// <returns>TODO TODO</returns>
+        /// <param name="u">TODO u.</param>
+        /// <returns>TODO TODO.</returns>
         private Int32 DecodeSsePrefix(ref Ud u)
         {
             Byte idx;
@@ -1372,10 +1368,10 @@
         }
 
         /// <summary>
-        /// TODO summary
+        /// TODO summary.
         /// </summary>
-        /// <param name="u">TODO u</param>
-        /// <returns>TODO TODO</returns>
+        /// <param name="u">TODO u.</param>
+        /// <returns>TODO TODO.</returns>
         private Int32 DecodeVex(ref Ud u)
         {
             Byte index;
@@ -1421,11 +1417,11 @@
         }
 
         /// <summary>
-        /// Decode opcode extensions (if any)
+        /// Decode opcode extensions (if any).
         /// </summary>
-        /// <param name="u">TODO u</param>
-        /// <param name="ptr">TODO ptr</param>
-        /// <returns>TODO TODO</returns>
+        /// <param name="u">TODO u.</param>
+        /// <param name="ptr">TODO ptr.</param>
+        /// <returns>TODO TODO.</returns>
         private Int32 DecodeExtension(ref Ud u, UInt16 ptr)
         {
             Byte idx = 0;
@@ -1503,10 +1499,10 @@
         }
 
         /// <summary>
-        /// TODO summary
+        /// TODO summary.
         /// </summary>
-        /// <param name="u">TODO u</param>
-        /// <returns>TODO TODO</returns>
+        /// <param name="u">TODO u.</param>
+        /// <returns>TODO TODO.</returns>
         private Int32 DecodeOpcode(ref Ud u)
         {
             UInt16 ptr;

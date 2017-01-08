@@ -2,6 +2,7 @@
 {
     using Source.CheatBrowser;
     using Source.DotNetExplorer;
+    using Source.Output;
     using Source.ProcessSelector;
     using Source.Project;
     using Source.PropertyViewer;
@@ -108,6 +109,11 @@
         public DataTemplate SignatureCollectorViewTemplate { get; set; }
 
         /// <summary>
+        /// Gets or sets the template for the Output
+        /// </summary>
+        public DataTemplate OutputViewTemplate { get; set; }
+
+        /// <summary>
         /// Gets or sets the template for the Offset Editor
         /// </summary>
         public DataTemplate OffsetEditorViewTemplate { get; set; }
@@ -189,6 +195,10 @@
             else if (item is SignatureCollectorViewModel)
             {
                 return this.SignatureCollectorViewTemplate;
+            }
+            else if (item is OutputViewModel)
+            {
+                return this.OutputViewTemplate;
             }
             else if (item is ScriptEditorViewModel)
             {

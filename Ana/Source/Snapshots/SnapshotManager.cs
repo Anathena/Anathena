@@ -11,19 +11,19 @@
     using Utils.Extensions;
 
     /// <summary>
-    /// Manages snapshots of memory taken from the target process
+    /// Manages snapshots of memory taken from the target process.
     /// </summary>
     internal class SnapshotManager : IScanResultsObserver
     {
         /// <summary>
-        /// Singleton instance of Snapshot Manager
+        /// Singleton instance of Snapshot Manager.
         /// </summary>
         private static Lazy<SnapshotManager> snapshotManagerInstance = new Lazy<SnapshotManager>(
             () => { return new SnapshotManager(); },
             LazyThreadSafetyMode.ExecutionAndPublication);
 
         /// <summary>
-        /// Prevents a default instance of the <see cref="SnapshotManager" /> class from being created
+        /// Prevents a default instance of the <see cref="SnapshotManager" /> class from being created.
         /// </summary>
         private SnapshotManager()
         {
@@ -35,43 +35,43 @@
         }
 
         /// <summary>
-        /// Gets the snapshots being managed
+        /// Gets the snapshots being managed.
         /// </summary>
         public Stack<Snapshot> Snapshots { get; private set; }
 
         /// <summary>
-        /// Gets the deleted snapshots for the capability of redoing after undo
+        /// Gets the deleted snapshots for the capability of redoing after undo.
         /// </summary>
         public Stack<Snapshot> DeletedSnapshots { get; private set; }
 
         /// <summary>
-        /// Gets or sets a lock to ensure multiple entities do not try and update the snapshot list at the same time
+        /// Gets or sets a lock to ensure multiple entities do not try and update the snapshot list at the same time.
         /// </summary>
         private Object AccessLock { get; set; }
 
         /// <summary>
-        /// Gets or sets a lock to ensure multiple entities do not try and update the snapshot list at the same time
+        /// Gets or sets a lock to ensure multiple entities do not try and update the snapshot list at the same time.
         /// </summary>
         private Object ObserverLock { get; set; }
 
         /// <summary>
-        /// Gets or sets objects observing changes in the active snapshot
+        /// Gets or sets objects observing changes in the active snapshot.
         /// </summary>
         private List<ISnapshotObserver> SnapshotObservers { get; set; }
 
         /// <summary>
-        /// Gets a singleton instance of the <see cref="SnapshotManager"/> class
+        /// Gets a singleton instance of the <see cref="SnapshotManager"/> class.
         /// </summary>
-        /// <returns>A singleton instance of the class</returns>
+        /// <returns>A singleton instance of the class.</returns>
         public static SnapshotManager GetInstance()
         {
             return SnapshotManager.snapshotManagerInstance.Value;
         }
 
         /// <summary>
-        /// Subscribes the given object to changes in the active snapshot
+        /// Subscribes the given object to changes in the active snapshot.
         /// </summary>
-        /// <param name="snapshotObserver">The object to observe active snapshot changes</param>
+        /// <param name="snapshotObserver">The object to observe active snapshot changes.</param>
         public void Subscribe(ISnapshotObserver snapshotObserver)
         {
             lock (this.ObserverLock)
@@ -85,9 +85,9 @@
         }
 
         /// <summary>
-        /// Unsubscribes the given object from changes in the active snapshot
+        /// Unsubscribes the given object from changes in the active snapshot.
         /// </summary>
-        /// <param name="snapshotObserver">The object to observe active snapshot changes</param>
+        /// <param name="snapshotObserver">The object to observe active snapshot changes.</param>
         public void Unsubscribe(ISnapshotObserver snapshotObserver)
         {
             lock (this.ObserverLock)
@@ -102,8 +102,8 @@
         /// <summary>
         /// Returns the memory regions associated with the current snapshot. If none exist, a query will be done.
         /// </summary>
-        /// <param name="createIfNone">Creates a snapshot if none exists</param>
-        /// <returns>The current active snapshot of memory in the target process</returns>
+        /// <param name="createIfNone">Creates a snapshot if none exists.</param>
+        /// <returns>The current active snapshot of memory in the target process.</returns>
         public Snapshot GetActiveSnapshot(Boolean createIfNone = true)
         {
             lock (this.AccessLock)
@@ -129,8 +129,8 @@
         /// <summary>
         /// Collects all snapshot regions in the target process. Will not read the values of the snapshots.
         /// </summary>
-        /// <param name="useSettings">Whether or not to apply user settings to the query</param>
-        /// <returns>Regions of memory in the target process</returns>
+        /// <param name="useSettings">Whether or not to apply user settings to the query.</param>
+        /// <returns>Regions of memory in the target process.</returns>
         public IEnumerable<NormalizedRegion> CollectSnapshotRegions(Boolean useSettings = true)
         {
             IntPtr startAddress;
@@ -184,11 +184,11 @@
         }
 
         /// <summary>
-        /// Collects a new snapshot of memory in the target process
+        /// Collects a new snapshot of memory in the target process.
         /// </summary>
-        /// <param name="useSettings">Whether or not to apply user settings to the query</param>
-        /// <param name="usePrefilter">Whether or not to apply the active prefilter to the query</param>
-        /// <returns>The snapshot of memory taken in the target process</returns>
+        /// <param name="useSettings">Whether or not to apply user settings to the query.</param>
+        /// <param name="usePrefilter">Whether or not to apply the active prefilter to the query.</param>
+        /// <returns>The snapshot of memory taken in the target process.</returns>
         public Snapshot CollectSnapshot(Boolean useSettings = true, Boolean usePrefilter = true)
         {
             if (usePrefilter)
@@ -206,7 +206,7 @@
         }
 
         /// <summary>
-        /// Creates a new empty snapshot, which becomes the new active snapshot
+        /// Creates a new empty snapshot, which becomes the new active snapshot.
         /// </summary>
         public void CreateNewSnapshot()
         {
@@ -223,7 +223,7 @@
         }
 
         /// <summary>
-        /// Reverses an undo action
+        /// Reverses an undo action.
         /// </summary>
         public void RedoSnapshot()
         {
@@ -240,7 +240,7 @@
         }
 
         /// <summary>
-        /// Undoes the current active snapshot, reverting to the previous snapshot
+        /// Undoes the current active snapshot, reverting to the previous snapshot.
         /// </summary>
         public void UndoSnapshot()
         {
@@ -263,7 +263,7 @@
         }
 
         /// <summary>
-        /// Clears all snapshot records
+        /// Clears all snapshot records.
         /// </summary>
         public void ClearSnapshots()
         {
@@ -275,6 +275,10 @@
             }
         }
 
+        /// <summary>
+        /// Updates the active type.
+        /// </summary>
+        /// <param name="activeType">The new active type.</param>
         public void Update(Type activeType)
         {
             Snapshot activeSnapshot = this.GetActiveSnapshot(createIfNone: false);
@@ -286,9 +290,9 @@
         }
 
         /// <summary>
-        /// Saves a new snapshot, which will become the current active snapshot
+        /// Saves a new snapshot, which will become the current active snapshot.
         /// </summary>
-        /// <param name="snapshot">The snapshot to save</param>
+        /// <param name="snapshot">The snapshot to save.</param>
         public void SaveSnapshot(Snapshot snapshot)
         {
             lock (this.AccessLock)
@@ -305,7 +309,7 @@
         }
 
         /// <summary>
-        /// Notify all observing objects of an active snapshot change
+        /// Notify all observing objects of an active snapshot change.
         /// </summary>
         private void NotifyObservers()
         {
@@ -318,7 +322,6 @@
                 }
             }
         }
-
     }
     //// End class
 }

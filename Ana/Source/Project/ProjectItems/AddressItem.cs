@@ -8,60 +8,84 @@
     using System.Drawing.Design;
     using System.Linq;
     using System.Runtime.Serialization;
+    using Utils;
     using Utils.Extensions;
     using Utils.OffsetEditor;
     using Utils.TypeConverters;
-    using Utils.Validation;
 
     /// <summary>
-    /// Defines an address that can be added to the project explorer
+    /// Defines an address that can be added to the project explorer.
     /// </summary>
     [DataContract]
     internal class AddressItem : ProjectItem
     {
+        /// <summary>
+        /// The identifier type for this address item.
+        /// </summary>
         [Browsable(false)]
         private AddressResolver.ResolveTypeEnum resolveType;
 
+        /// <summary>
+        /// The identifier for the base address of this object.
+        /// </summary>
         [Browsable(false)]
         private String baseIdentifier;
 
+        /// <summary>
+        /// The base address of this object. This will be added as an offset from the resolved base identifier.
+        /// </summary>
         [Browsable(false)]
         private IntPtr baseAddress;
 
+        /// <summary>
+        /// The pointer offsets of this address item.
+        /// </summary>
         [Browsable(false)]
         private IEnumerable<Int32> offsets;
 
+        /// <summary>
+        /// The type name of the element type of this address. Used for serailization purposes.
+        /// </summary>
         [DataMember]
         [Browsable(false)]
         private String typeName;
 
+        /// <summary>
+        /// The value at this address.
+        /// </summary>
         [Browsable(false)]
         private dynamic addressValue;
 
+        /// <summary>
+        /// A value indicating whether the value at this address should be displayed as hex.
+        /// </summary>
         [Browsable(false)]
         private Boolean isValueHex;
 
+        /// <summary>
+        /// The effective address after tracing all pointer offsets.
+        /// </summary>
         [Browsable(false)]
         private IntPtr effectiveAddress;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="AddressItem" /> class
+        /// Initializes a new instance of the <see cref="AddressItem" /> class.
         /// </summary>
         public AddressItem() : this(IntPtr.Zero, typeof(Int32), "New Address")
         {
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="AddressItem" /> class
+        /// Initializes a new instance of the <see cref="AddressItem" /> class.
         /// </summary>
-        /// <param name="baseAddress"></param>
-        /// <param name="elementType"></param>
-        /// <param name="description"></param>
-        /// <param name="resolveType"></param>
-        /// <param name="baseIdentifier"></param>
-        /// <param name="offsets"></param>
-        /// <param name="isValueHex"></param>
-        /// <param name="value"></param>
+        /// <param name="baseAddress">The base address. This will be added as an offset from the resolved base identifier.</param>
+        /// <param name="elementType">The data type of the value at this address.</param>
+        /// <param name="description">The description of this address.</param>
+        /// <param name="resolveType">The identifier type for this address item.</param>
+        /// <param name="baseIdentifier">The identifier for the base address of this object.</param>
+        /// <param name="offsets">The pointer offsets of this address item.</param>
+        /// <param name="isValueHex">A value indicating whether the value at this address should be displayed as hex.</param>
+        /// <param name="value">The value at this address. If none provided, it will be figured out later. Used here to allow immediate view updates upon creation.</param>
         public AddressItem(
             IntPtr baseAddress,
             Type elementType,
@@ -83,14 +107,17 @@
 
             if (!this.isValueHex && CheckSyntax.CanParseValue(elementType, value))
             {
-                this.addressValue = Utils.Validation.Conversions.ParsePrimitiveStringAsDynamic(elementType, value);
+                this.addressValue = Conversions.ParsePrimitiveStringAsDynamic(elementType, value);
             }
             else if (this.isValueHex && CheckSyntax.CanParseHex(elementType, value))
             {
-                this.addressValue = Conversions.ParseHexStringAsDecString(elementType, value);
+                this.addressValue = Conversions.ParseHexStringAsPrimitiveString(elementType, value);
             }
         }
 
+        /// <summary>
+        /// Gets or sets the identifier type for this address item.
+        /// </summary>
         [DataMember]
         [RefreshProperties(RefreshProperties.All)]
         [Category("Properties"), DisplayName("Resolve Type"), Description("Method to use for resolving the address base. If there is an identifier to resolve, the address is treated as an offset.")]
@@ -109,6 +136,9 @@
             }
         }
 
+        /// <summary>
+        /// Gets or sets the identifier for the base address of this object.
+        /// </summary>
         [DataMember]
         [RefreshProperties(RefreshProperties.All)]
         [Category("Properties"), DisplayName("Resolve Id"), Description("Text identifier to use when resolving the base address, such as a module or .NET Object name")]
@@ -127,6 +157,9 @@
             }
         }
 
+        /// <summary>
+        /// Gets or sets the base address of this object. This will be added as an offset from the resolved base identifier.
+        /// </summary>
         [DataMember]
         [RefreshProperties(RefreshProperties.All)]
         [TypeConverter(typeof(AddressConverter))]
@@ -147,6 +180,9 @@
             }
         }
 
+        /// <summary>
+        /// Gets or sets the pointer offsets of this address item.
+        /// </summary>
         [DataMember]
         [RefreshProperties(RefreshProperties.All)]
         [TypeConverter(typeof(OffsetConverter))]
@@ -167,6 +203,9 @@
             }
         }
 
+        /// <summary>
+        /// Gets or sets the element type of the value at this address.
+        /// </summary>
         [RefreshProperties(RefreshProperties.All)]
         [TypeConverter(typeof(ValueTypeConverter))]
         [Category("Properties"), DisplayName("Value Type"), Description("Data type of the address")]
@@ -187,6 +226,9 @@
             }
         }
 
+        /// <summary>
+        /// Gets or sets the value at this address.
+        /// </summary>
         [TypeConverter(typeof(DynamicConverter))]
         [Category("Properties"), DisplayName("Value"), Description("Value at the address")]
         public dynamic Value
@@ -204,6 +246,9 @@
             }
         }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether the value at this address should be displayed as hex.
+        /// </summary>
         [DataMember]
         [RefreshProperties(RefreshProperties.All)]
         [Category("Properties"), DisplayName("Value as Hex"), Description("Whether or not to display value as hexedecimal")]
@@ -222,6 +267,9 @@
             }
         }
 
+        /// <summary>
+        /// Gets the effective address after tracing all pointer offsets.
+        /// </summary>
         [ReadOnly(true)]
         [TypeConverter(typeof(AddressConverter))]
         [Category("Properties"), DisplayName("Address"), Description("Effective address")]
@@ -240,7 +288,7 @@
         }
 
         /// <summary>
-        /// 
+        /// Update event for this project item. Resolves addresses and values.
         /// </summary>
         public override void Update()
         {
@@ -264,43 +312,29 @@
         }
 
         /// <summary>
-        /// Gets a string representation of the address or pointer
-        /// </summary>
-        /// <returns>A string representing the address or pointer</returns>
-        public String GetAddressString()
-        {
-            if (this.Offsets != null && this.Offsets.Count() > 0)
-            {
-                return "P->" + Conversions.ToHex(this.EffectiveAddress);
-            }
-
-            return Conversions.ToHex(this.EffectiveAddress);
-        }
-
-        /// <summary>
         /// Clones the project item.
         /// </summary>
         /// <returns>The clone of the project item.</returns>
         public override ProjectItem Clone()
         {
             AddressItem clone = new AddressItem();
-            clone.description = this.Description;
-            clone.parent = this.Parent;
-            clone.resolveType = resolveType;
-            clone.baseIdentifier = baseIdentifier;
-            clone.baseAddress = baseAddress;
-            clone.offsets = offsets?.ToArray();
-            clone.typeName = typeName;
-            clone.addressValue = addressValue;
-            clone.isValueHex = isValueHex;
-            clone.effectiveAddress = effectiveAddress;
+            clone.Description = this.Description;
+            clone.Parent = this.Parent;
+            clone.resolveType = this.resolveType;
+            clone.baseIdentifier = this.baseIdentifier;
+            clone.baseAddress = this.baseAddress;
+            clone.offsets = this.offsets?.ToArray();
+            clone.typeName = this.typeName;
+            clone.addressValue = this.addressValue;
+            clone.isValueHex = this.isValueHex;
+            clone.effectiveAddress = this.effectiveAddress;
             return clone;
         }
 
         /// <summary>
-        /// Resolves the address of an address, pointer, or managed object
+        /// Resolves the address of an address, pointer, or managed object.
         /// </summary>
-        /// <returns>The base address of this object</returns>
+        /// <returns>The base address of this object.</returns>
         public IntPtr ResolveAddress()
         {
             IntPtr pointer = IntPtr.Zero;
@@ -350,9 +384,9 @@
         }
 
         /// <summary>
-        /// Writes a value to the computed address of this item
+        /// Writes a value to the computed address of this item.
         /// </summary>
-        /// <param name="newValue">The value to write</param>
+        /// <param name="newValue">The value to write.</param>
         private void WriteValue(dynamic newValue)
         {
             if (newValue == null)

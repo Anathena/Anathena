@@ -12,7 +12,7 @@
     x:Name="AnaWindow"
     Title="Anathena"
     Width="840"
-    Height="720"
+    Height="840"
     x:ClassModifier="internal"
     AllowsTransparency="False"
     DataContext="{Binding MainViewModel, Source={StaticResource ViewModelLocator}}"
@@ -188,14 +188,23 @@
                 </shell:MenuItem>
 
                 <!--  View Header  -->
-                <shell:MenuItem Header="View" Style="{StaticResource DropDown}">
+                <shell:MenuItem
+                    DataContext="{Binding Source={StaticResource ViewModelLocator}}"
+                    Header="View"
+                    Style="{StaticResource DropDown}">
                     <shell:MenuItem
-                        Command="{Binding ResetLayoutStandardCommand}"
+                        Header="Output"
+                        IsCheckable="True"
+                        IsChecked="{Binding OutputViewModel.IsVisible, Mode=TwoWay}"
+                        Style="{StaticResource menuItemStyle}" />
+                    <shell:Separator />
+                    <shell:MenuItem
+                        Command="{Binding MainViewModel.ResetLayoutStandardCommand}"
                         CommandParameter="{Binding ., ElementName=dockManager}"
                         Header="Standard Layout"
                         Style="{StaticResource menuItemStyle}" />
                     <shell:MenuItem
-                        Command="{Binding ResetLayoutDeveloperCommand}"
+                        Command="{Binding MainViewModel.ResetLayoutDeveloperCommand}"
                         CommandParameter="{Binding ., ElementName=dockManager}"
                         Header="Developer Layout"
                         Style="{StaticResource menuItemStyle}" />
@@ -458,6 +467,12 @@
                             <view:SignatureCollector />
                         </shell:DataTemplate>
                     </view:ViewTemplateSelector.SignatureCollectorViewTemplate>
+                    <!--  Output  -->
+                    <view:ViewTemplateSelector.OutputViewTemplate>
+                        <shell:DataTemplate>
+                            <view:Output />
+                        </shell:DataTemplate>
+                    </view:ViewTemplateSelector.OutputViewTemplate>
                 </view:ViewTemplateSelector>
             </avalonDock:DockingManager.LayoutItemTemplateSelector>
 
@@ -484,6 +499,8 @@
                 <avalonDock:LayoutPanel />
             </avalonDock:LayoutRoot>
         </avalonDock:DockingManager>
+
+        <!--  Status Bar  -->
         <shell:Border
             Grid.Row="4"
             Padding="4"

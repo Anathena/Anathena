@@ -5,7 +5,7 @@
     using System.Runtime.Serialization;
 
     /// <summary>
-    /// A base class for all project items that can be added to the project explorer
+    /// A base class for all project items that can be added to the project explorer.
     /// </summary>
     [KnownType(typeof(ProjectItem))]
     [KnownType(typeof(FolderItem))]
@@ -14,14 +14,23 @@
     [DataContract]
     internal abstract class ProjectItem : INotifyPropertyChanged
     {
+        /// <summary>
+        /// The parent of this project item.
+        /// </summary>
         [Browsable(false)]
-        protected FolderItem parent;
+        private FolderItem parent;
 
+        /// <summary>
+        /// The description of this project item.
+        /// </summary>
         [Browsable(false)]
-        protected String description;
+        private String description;
 
+        /// <summary>
+        /// A value indicating whether this project item has been activated.
+        /// </summary>
         [Browsable(false)]
-        protected Boolean isActivated;
+        private Boolean isActivated;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ProjectItem" /> class.
@@ -112,7 +121,7 @@
         }
 
         /// <summary>
-        /// Gets or sets a value indicating whether or not this item can be activated.
+        /// Gets a value indicating whether or not this item can be activated.
         /// </summary>
         [Browsable(false)]
         public Boolean CanActivate
@@ -139,15 +148,15 @@
         }
 
         /// <summary>
-        /// Updates the project item.
+        /// Updates event for this project item.
         /// </summary>
         public abstract void Update();
 
         /// <summary>
-        /// Reconstructs the parents for all nodes of this graph. Call this from the root
-        /// Needed since we cannot serialize this to json or we will get cyclic dependencies
+        /// Reconstructs the parents for all nodes of this graph. Call this from the root.
+        /// Needed since we cannot serialize the parent to json or we will get cyclic dependencies.
         /// </summary>
-        /// <param name="parent"></param>
+        /// <param name="parent">The parent of this project item.</param>
         public virtual void BuildParents(FolderItem parent = null)
         {
             this.Parent = parent;
@@ -159,6 +168,10 @@
         /// <returns>The clone of the project item.</returns>
         public abstract ProjectItem Clone();
 
+        /// <summary>
+        /// Indicates that a given property in this project item has changed.
+        /// </summary>
+        /// <param name="propertyName">The name of the changed property.</param>
         protected void NotifyPropertyChanged(String propertyName)
         {
             this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
@@ -173,10 +186,17 @@
             this.NotifyPropertyChanged(nameof(this.IsActivated));
         }
 
+        /// <summary>
+        /// Called when the activation state changes.
+        /// </summary>
         protected virtual void OnActivationChanged()
         {
         }
 
+        /// <summary>
+        /// Overridable function indicating if this script can be activated.
+        /// </summary>
+        /// <returns>True if the script can be activated, otherwise false.</returns>
         protected virtual Boolean IsActivatable()
         {
             return true;

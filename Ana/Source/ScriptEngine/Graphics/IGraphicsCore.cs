@@ -3,7 +3,7 @@
     using System;
 
     /// <summary>
-    /// Interface to interacting with graphics in an external process
+    /// Interface to provide access to manipulating graphics in an external process.
     /// </summary>
     public interface IGraphicsCore
     {

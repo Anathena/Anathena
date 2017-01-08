@@ -5,14 +5,13 @@
     using System.Windows;
 
     /// <summary>
-    /// Interaction logic for ChangeLog.xaml
+    /// Interaction logic for ChangeLog.xaml.
     /// </summary>
     internal partial class ChangeLog : Window
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="OffsetEditor" /> class
+        /// Initializes a new instance of the <see cref="ChangeLog" /> class.
         /// </summary>
-        /// <param name="offsets">The initial offsets to edit</param>
         public ChangeLog()
         {
             this.InitializeComponent();

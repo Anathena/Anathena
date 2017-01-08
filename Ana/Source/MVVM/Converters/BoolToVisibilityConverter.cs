@@ -4,6 +4,9 @@
     using System.Windows;
     using System.Windows.Data;
 
+    /// <summary>
+    /// Converter class to convert a boolean to a <see cref="Visibility"/> value.
+    /// </summary>
     [ValueConversion(typeof(Boolean), typeof(Visibility))]
     internal class BoolToVisibilityConverter : IValueConverter
     {

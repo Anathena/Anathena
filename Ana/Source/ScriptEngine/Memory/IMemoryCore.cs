@@ -125,7 +125,7 @@
         /// <summary>
         /// Gets the value of a global keyword.
         /// </summary>
-        /// <param name="keyword">The global keyword.</param>
+        /// <param name="globalKeyword">The global keyword.</param>
         /// <returns>The value of the global keyword. If not found, returns 0.</returns>
         UInt64 GetGlobalKeywordValue(String globalKeyword);
 
@@ -176,6 +176,7 @@
         /// Reads the Double at the given address.
         /// </summary>
         /// <param name="address">The address of the read.</param>
+        /// <typeparam name="T">The data type to read.</typeparam>
         /// <returns>The Double read from memory.</returns>
         T ReadMemory<T>(UInt64 address);
 
@@ -191,7 +192,8 @@
         /// Writes the value at the specified address.
         /// </summary>
         /// <param name="address">The address of the write.</param>
-        /// <param name="T">The value of the write.</param>
+        /// <param name="value">The value of the write.</param>
+        /// <typeparam name="T">The data type to write.</typeparam>
         void WriteMemory<T>(UInt64 address, T value);
 
         /// <summary>

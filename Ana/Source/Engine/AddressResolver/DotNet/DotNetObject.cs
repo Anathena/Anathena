@@ -7,17 +7,17 @@
     using Utils.TypeConverters;
 
     /// <summary>
-    /// An object representing a .Net object in an external process
+    /// An object representing a .Net object in an external process.
     /// </summary>
     internal class DotNetObject : IEnumerable, IComparable<DotNetObject>
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="DotNetObject" /> class
+        /// Initializes a new instance of the <see cref="DotNetObject" /> class.
         /// </summary>
-        /// <param name="parent">The parent object of this object</param>
-        /// <param name="objectReference">The address of this object</param>
-        /// <param name="elementType">The data type this object represents</param>
-        /// <param name="name">The name of this object as a full .Net namespace path</param>
+        /// <param name="parent">The parent object of this object.</param>
+        /// <param name="objectReference">The address of this object.</param>
+        /// <param name="elementType">The data type this object represents.</param>
+        /// <param name="name">The name of this object as a full .Net namespace path.</param>
         public DotNetObject(DotNetObject parent, UInt64 objectReference, Type elementType, String name)
         {
             this.Parent = parent;
@@ -81,8 +81,8 @@
         /// <summary>
         /// Compares this to another .Net object for sorting. Comparison done alphabetically by name.
         /// </summary>
-        /// <param name="other">The .Net object to compare to</param>
-        /// <returns>An integer indicating sorting priority</returns>
+        /// <param name="other">The .Net object to compare to.</param>
+        /// <returns>An integer indicating sorting priority.</returns>
         public Int32 CompareTo(DotNetObject other)
         {
             String name = this.Name == null ? String.Empty : this.Name;
@@ -101,9 +101,9 @@
         }
 
         /// <summary>
-        /// Gets the root namespace name of this object
+        /// Gets the root namespace name of this object.
         /// </summary>
-        /// <returns>The root namespace name</returns>
+        /// <returns>The root namespace name.</returns>
         private String GetRootName()
         {
             if (this.Parent == null)
@@ -115,10 +115,10 @@
         }
 
         /// <summary>
-        /// Gets the full namespace that contains this object recursively
+        /// Gets the full namespace that contains this object recursively.
         /// </summary>
-        /// <param name="currentNamespace">The namespace constructed so far</param>
-        /// <returns>The full namespace of this object</returns>
+        /// <param name="currentNamespace">The namespace constructed so far.</param>
+        /// <returns>The full namespace of this object.</returns>
         private String GetFullNamespace(String currentNamespace)
         {
             if (this.Parent == null)

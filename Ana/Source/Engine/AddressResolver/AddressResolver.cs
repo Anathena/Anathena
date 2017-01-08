@@ -40,7 +40,7 @@
         }
 
         /// <summary>
-        /// The managed language to be used when resolving the provided object.
+        /// The managed language, module, keyword, or other identifier to be used when resolving the provided object.
         /// </summary>
         public enum ResolveTypeEnum
         {
@@ -166,7 +166,7 @@
         }
 
         /// <summary>
-        /// Called when the repeated task completes
+        /// Called when the repeated task completes.
         /// </summary>
         protected override void OnEnd()
         {

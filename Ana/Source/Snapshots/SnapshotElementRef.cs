@@ -10,7 +10,7 @@
     internal class SnapshotElementRef
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="SnapshotElementRef {DataType,LabelType}" /> class.
+        /// Initializes a new instance of the <see cref="SnapshotElementRef" /> class.
         /// </summary>
         /// <param name="parent">The parent region that contains this element</param>
         public SnapshotElementRef(SnapshotRegion parent)
@@ -18,6 +18,9 @@
             this.Parent = parent;
         }
 
+        /// <summary>
+        /// Gets the base address of this element.
+        /// </summary>
         public IntPtr BaseAddress
         {
             get
@@ -26,6 +29,9 @@
             }
         }
 
+        /// <summary>
+        /// Gets or sets the label associated with this element.
+        /// </summary>
         public Object ElementLabel
         {
             get

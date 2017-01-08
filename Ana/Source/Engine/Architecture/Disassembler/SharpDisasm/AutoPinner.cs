@@ -4,24 +4,24 @@
     using System.Runtime.InteropServices;
 
     /// <summary>
-    /// Utility class to safely manage pinned objects
+    /// Utility class to safely manage pinned objects.
     /// </summary>
     public sealed class AutoPinner : IDisposable
     {
         /// <summary>
-        /// TODO TODO
+        /// TODO TODO.
         /// </summary>
         private Boolean disposed;
 
         /// <summary>
-        /// TODO TODO
+        /// TODO TODO.
         /// </summary>
         private GCHandle pinnedObj;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="AutoPinner" /> class
+        /// Initializes a new instance of the <see cref="AutoPinner" /> class.
         /// </summary>
-        /// <param name="obj">Object to pin</param>
+        /// <param name="obj">Object to pin.</param>
         public AutoPinner(Object obj)
         {
             this.disposed = false;
@@ -29,7 +29,7 @@
         }
 
         /// <summary>
-        /// Finalizes an instance of the <see cref="AutoPinner" /> class
+        /// Finalizes an instance of the <see cref="AutoPinner" /> class.
         /// </summary>
         ~AutoPinner()
         {
@@ -37,9 +37,9 @@
         }
 
         /// <summary>
-        /// TODO TODO
+        /// TODO TODO.
         /// </summary>
-        /// <param name="ap">TODO ap</param>
+        /// <param name="ap">TODO ap.</param>
         public static implicit operator IntPtr(AutoPinner ap)
         {
             if (ap.disposed)
@@ -51,9 +51,9 @@
         }
 
         /// <summary>
-        /// Gets address of binned object
+        /// Gets address of binned object.
         /// </summary>
-        /// <returns>Address of pinned object as an IntPtr</returns>
+        /// <returns>Address of pinned object as an IntPtr.</returns>
         public IntPtr AddrOfPinnedObject()
         {
             if (this.disposed)
@@ -65,7 +65,7 @@
         }
 
         /// <summary>
-        /// TODO TODO
+        /// TODO TODO.
         /// </summary>
         public void Dispose()
         {

@@ -5,19 +5,19 @@
     using System.Windows.Input;
 
     /// <summary>
-    /// Generic view model for all tool panes
+    /// Generic view model for all tool panes.
     /// </summary>
     internal class ToolViewModel : PaneViewModel
     {
         /// <summary>
-        /// Value indicating if tool pane is visible
+        /// Value indicating if tool pane is visible.
         /// </summary>
         private Boolean isVisible;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ToolViewModel" /> class
+        /// Initializes a new instance of the <see cref="ToolViewModel" /> class.
         /// </summary>
-        /// <param name="title">The title to display for the tool pane</param>
+        /// <param name="title">The title to display for the tool pane.</param>
         public ToolViewModel(String title)
         {
             this.Title = title;
@@ -25,12 +25,12 @@
         }
 
         /// <summary>
-        /// Gets a command that toggles the visibility of this tool
+        /// Gets a command that toggles the visibility of this tool.
         /// </summary>
         public ICommand ToggleVisibility { get; private set; }
 
         /// <summary>
-        /// Gets or sets a value indicating whether or not the tool pane is visible
+        /// Gets or sets a value indicating whether or not the tool pane is visible.
         /// </summary>
         public Boolean IsVisible
         {
@@ -48,7 +48,7 @@
         }
 
         /// <summary>
-        /// Toggles the visibility of this tool
+        /// Toggles the visibility of this tool.
         /// </summary>
         public void ToggleVisibilityExecute()
         {

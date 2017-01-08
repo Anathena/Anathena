@@ -10,7 +10,6 @@
     using System.Threading;
     using Utils;
     using Utils.Extensions;
-    using Utils.Validation;
 
     /// <summary>
     /// Class to walk through the managed heap of a .NET process, allowing for the easy retrieval.
@@ -74,7 +73,7 @@
         };
 
         /// <summary>
-        /// Prevents a default instance of the <see cref="DotNetObjectCollector" /> class from being created
+        /// Prevents a default instance of the <see cref="DotNetObjectCollector" /> class from being created.
         /// </summary>
         private DotNetObjectCollector()
         {
@@ -86,16 +85,16 @@
         public List<DotNetObject> ObjectTrees { get; private set; }
 
         /// <summary>
-        /// Gets a singleton instance of the <see cref="DotNetObjectCollector"/> class
+        /// Gets a singleton instance of the <see cref="DotNetObjectCollector"/> class.
         /// </summary>
-        /// <returns>A singleton instance of the class</returns>
+        /// <returns>A singleton instance of the class.</returns>
         public static DotNetObjectCollector GetInstance()
         {
             return dotNetObjectCollectorInstance.Value;
         }
 
         /// <summary>
-        /// Starts the collection of .Net objects
+        /// Starts the collection of .Net objects.
         /// </summary>
         public override void Begin()
         {
@@ -105,7 +104,7 @@
         }
 
         /// <summary>
-        /// Collects .Net objects in the external process
+        /// Collects .Net objects in the external process.
         /// </summary>
         protected override void OnUpdate()
         {
@@ -187,12 +186,12 @@
         }
 
         /// <summary>
-        /// Recursively build the heirarchy of .Net objects in the external process
+        /// Recursively build the heirarchy of .Net objects in the external process.
         /// </summary>
-        /// <param name="proxyService">The proxy service collecting the .Net objects</param>
-        /// <param name="visited">A set of visited object addresses</param>
-        /// <param name="parent">The parent of the current object</param>
-        /// <param name="parentRef">The address of the parent of the current object</param>
+        /// <param name="proxyService">The proxy service collecting the .Net objects.</param>
+        /// <param name="visited">A set of visited object addresses.</param>
+        /// <param name="parent">The parent of the current object.</param>
+        /// <param name="parentRef">The address of the parent of the current object.</param>
         private void RecursiveBuild(IProxyService proxyService, HashSet<UInt64> visited, DotNetObject parent, UInt64 parentRef)
         {
             // Add all fields

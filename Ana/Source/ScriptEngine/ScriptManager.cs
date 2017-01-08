@@ -1,6 +1,8 @@
 ﻿namespace Ana.Source.ScriptEngine
 {
     using CSScriptLibrary;
+    using Output;
+    using Project.ProjectItems;
     using System;
     using System.IO;
     using System.Reflection;
@@ -8,7 +10,11 @@
     using System.Threading;
     using System.Threading.Tasks;
     using Utils;
-    public class ScriptManager
+
+    /// <summary>
+    /// Class for managing a single script.
+    /// </summary>
+    internal class ScriptManager
     {
         /// <summary>
         /// Time to wait for the update loop to finish on deactivation.
@@ -37,6 +43,9 @@
         /// </summary>
         private Task Task { get; set; }
 
+        /// <summary>
+        /// Gets or sets the compiled assembly object of a script.
+        /// </summary>
         private dynamic ScriptObject { get; set; }
 
         /// <summary>
@@ -53,9 +62,13 @@
                 String compiledScriptFile = CSScript.CompileCode(script);
                 Byte[] compressedScript = Compression.Compress(File.ReadAllBytes(compiledScriptFile));
                 result = Convert.ToBase64String(compressedScript);
+
+                OutputViewModel.GetInstance().Log(OutputViewModel.LogLevel.Error, "Script compiled");
             }
-            catch
+            catch (Exception ex)
             {
+                OutputViewModel.GetInstance().Log(OutputViewModel.LogLevel.Error, "Error compiling script: " + ex.ToString());
+                throw ex;
             }
 
             return result;
@@ -64,35 +77,38 @@
         /// <summary>
         /// Runs the activation function in the script.
         /// </summary>
-        /// <returns></returns>
-        public Boolean RunActivationFunction(String script, Boolean compiled)
+        /// <param name="scriptItem">The script to run.</param>
+        /// <returns>Returns true if the function successfully ran, otherwise false.</returns>
+        public Boolean RunActivationFunction(ScriptItem scriptItem)
         {
             try
             {
                 Assembly assembly;
 
-                if (compiled)
+                if (scriptItem.IsCompiled)
                 {
                     // Assembly already compiled, just load it
-                    assembly = Assembly.Load(Compression.Decompress(Convert.FromBase64String(script)));
+                    assembly = Assembly.Load(Compression.Decompress(Convert.FromBase64String(scriptItem.Script)));
                 }
                 else
                 {
                     // Raw script, compile it
-                    assembly = CSScript.MonoEvaluator.CompileCode(script);
+                    assembly = CSScript.MonoEvaluator.CompileCode(scriptItem.Script);
                 }
 
-                ScriptObject = assembly.CreateObject("*");
-                ScriptObject.OnActivate();
+                this.ScriptObject = assembly.CreateObject("*");
+                this.ScriptObject.OnActivate();
+
+                OutputViewModel.GetInstance().Log(OutputViewModel.LogLevel.Info, "Script activated: " + scriptItem.Description?.ToString());
             }
             catch (SecurityException ex)
             {
-                // TODO: Log to user
+                OutputViewModel.GetInstance().Log(OutputViewModel.LogLevel.Error, "Invalid operation in sandbox environment: " + ex.ToString());
                 return false;
             }
             catch (Exception ex)
             {
-                // TODO: Log to user
+                OutputViewModel.GetInstance().Log(OutputViewModel.LogLevel.Error, "Script activation error: " + ex.ToString());
                 return false;
             }
 
@@ -102,7 +118,8 @@
         /// <summary>
         /// Continously runs the update function in the script.
         /// </summary>
-        public void RunUpdateFunction()
+        /// <param name="scriptItem">The script to run.</param>
+        public void RunUpdateFunction(ScriptItem scriptItem)
         {
             this.CancelRequest = new CancellationTokenSource();
 
@@ -119,8 +136,26 @@
                         DateTime currentTime = DateTime.Now;
                         elapsedTime = currentTime - previousTime;
 
-                        // Call the update function, giving the elapsed milliseconds since the previous call
-                        ScriptObject.OnUpdate((Single)elapsedTime.TotalMilliseconds);
+                        try
+                        {
+                            // Call the update function, giving the elapsed milliseconds since the previous call
+                            ScriptObject.OnUpdate((Single)elapsedTime.TotalMilliseconds);
+                        }
+                        catch (Exception ex)
+                        {
+                            String exception = ex.ToString();
+
+                            if (exception.ToString().Contains("does not contain a definition for 'OnUpdate'"))
+                            {
+                                OutputViewModel.GetInstance().Log(OutputViewModel.LogLevel.Warn, "Optional update function not executed");
+                            }
+                            else
+                            {
+                                OutputViewModel.GetInstance().Log(OutputViewModel.LogLevel.Error, "Error running update function: " + ex.ToString());
+                            }
+
+                            return;
+                        }
 
                         previousTime = currentTime;
 
@@ -134,35 +169,38 @@
             }
             catch
             {
-                // TODO: Log to user
+                OutputViewModel.GetInstance().Log(OutputViewModel.LogLevel.Error, "Error executing update loop.");
             }
         }
 
         /// <summary>
         /// Runs the deactivation function in the script.
         /// </summary>
-        public void RunDeactivationFunction()
+        /// <param name="scriptItem">The script to run.</param>
+        public void RunDeactivationFunction(ScriptItem scriptItem)
         {
+            // Abort the update loop
             try
             {
-                // Abort the update loop
+                this.ScriptObject.OnDeactivate();
+
+                OutputViewModel.GetInstance().Log(OutputViewModel.LogLevel.Info, "Script deactivated: " + scriptItem.Description?.ToString());
+
                 try
                 {
-                    ScriptObject.OnDeactivate();
-
                     this.CancelRequest?.Cancel();
                     this.Task?.Wait(ScriptManager.AbortTime);
                 }
-                catch (Exception)
+                catch
                 {
                 }
-
-                return;
             }
-            catch
+            catch (Exception ex)
             {
-                // TODO: Log to user
+                OutputViewModel.GetInstance().Log(OutputViewModel.LogLevel.Error, "Error when deactivating script: " + ex.ToString());
             }
+
+            return;
         }
     }
     //// End class

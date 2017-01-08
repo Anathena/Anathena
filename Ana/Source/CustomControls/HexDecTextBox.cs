@@ -1,6 +1,6 @@
-﻿namespace Ana.View.Controls
+﻿namespace Ana.Source.CustomControls
 {
-    using Source.Utils.Validation;
+    using Source.Utils;
     using System;
     using System.Drawing;
     using System.Windows.Forms;
@@ -11,31 +11,31 @@
     internal class HexDecTextBox : WatermarkTextBox
     {
         /// <summary>
-        /// The data type being represented
+        /// The data type being represented.
         /// </summary>
         private Type elementType;
 
         /// <summary>
-        /// Value indicating whether the value is displayed as hex
+        /// Value indicating whether the value is displayed as hex.
         /// </summary>
         private Boolean isHex;
 
         /// <summary>
-        /// Value indicating whether the current value is valid for the current data type
+        /// Value indicating whether the current value is valid for the current data type.
         /// </summary>
         private Boolean textValid;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="HexDecTextBox" /> class
+        /// Initializes a new instance of the <see cref="HexDecTextBox" /> class.
         /// </summary>
         public HexDecTextBox() : this(typeof(UInt64))
         {
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="HexDecTextBox" /> class
+        /// Initializes a new instance of the <see cref="HexDecTextBox" /> class.
         /// </summary>
-        /// <param name="elementType">The value type being edited</param>
+        /// <param name="elementType">The value type being edited.</param>
         public HexDecTextBox(Type elementType)
         {
             this.BorderStyle = BorderStyle.FixedSingle;
@@ -62,7 +62,7 @@
         }
 
         /// <summary>
-        /// Gets or sets a value indicating whether the value is displayed as hex
+        /// Gets or sets a value indicating whether the value is displayed as hex.
         /// </summary>
         public Boolean IsHex
         {
@@ -79,7 +79,7 @@
         }
 
         /// <summary>
-        /// Gets or sets the data type being represented
+        /// Gets or sets the data type being represented.
         /// </summary>
         public Type ElementType
         {
@@ -96,7 +96,7 @@
         }
 
         /// <summary>
-        /// Gets or sets a value indicating whether the current value is valid for the current data type
+        /// Gets or sets a value indicating whether the current value is valid for the current data type.
         /// </summary>
         private Boolean IsTextValid
         {
@@ -113,34 +113,34 @@
         }
 
         /// <summary>
-        /// Gets or sets the Decimal context menu item
+        /// Gets or sets the Decimal context menu item.
         /// </summary>
         private MenuItem DecimalMenuItem { get; set; }
 
         /// <summary>
-        /// Gets or sets the Hexedecimal context menu item
+        /// Gets or sets the Hexedecimal context menu item.
         /// </summary>
         private MenuItem HexidecimalMenuItem { get; set; }
 
         /// <summary>
-        /// Gets or sets the Convert to Dec context menu item
+        /// Gets or sets the Convert to Dec context menu item.
         /// </summary>
         private MenuItem ConvertToDecMenuItem { get; set; }
 
         /// <summary>
-        /// Gets or sets the Convert to Hex context menu item
+        /// Gets or sets the Convert to Hex context menu item.
         /// </summary>
         private MenuItem ConvertToHexMenuItem { get; set; }
 
         /// <summary>
-        /// Gets or sets the context menu
+        /// Gets or sets the context menu.
         /// </summary>
         private ContextMenu RightClickMenu { get; set; }
 
         /// <summary>
-        /// Gets the value as its standard decimal representation
+        /// Gets the value as its standard decimal representation.
         /// </summary>
-        /// <returns>The decimal value</returns>
+        /// <returns>The decimal value.</returns>
         public String GetValueAsDecimal()
         {
             if (!this.IsTextValid)
@@ -150,18 +150,18 @@
 
             if (this.IsHex)
             {
-                return Conversions.ParseDynamicAsPrimitiveString(this.ElementType, Conversions.ParseHexStringAsDecString(this.ElementType, this.Text));
+                return Conversions.ParseHexStringAsPrimitiveString(this.ElementType, this.Text);
             }
             else
             {
-                return Conversions.ParseDynamicAsPrimitiveString(this.ElementType, this.Text);
+                return this.Text;
             }
         }
 
         /// <summary>
-        /// Gets the value as a hexedecimal representation
+        /// Gets the value as a hexedecimal representation.
         /// </summary>
-        /// <returns>The hexedecimal value string</returns>
+        /// <returns>The hexedecimal value string.</returns>
         public String GetValueAsHexidecimal()
         {
             if (!this.IsTextValid)
@@ -171,18 +171,18 @@
 
             if (this.IsHex)
             {
-                return Conversions.ParsePrimitiveStringAsHexString(this.ElementType, Conversions.ParseHexStringAsDecString(this.ElementType, this.Text));
+                return this.Text;
             }
             else
             {
-                return Conversions.ParsePrimitiveStringAsHexString(this.ElementType, Conversions.ParseDynamicAsPrimitiveString(this.ElementType, this.Text));
+                return Conversions.ParsePrimitiveStringAsHexString(this.ElementType, this.Text);
             }
         }
 
         /// <summary>
-        /// Gets the raw value being represented
+        /// Gets the raw value being represented.
         /// </summary>
-        /// <returns>The raw value</returns>
+        /// <returns>The raw value.</returns>
         public dynamic GetValue()
         {
             if (!this.IsTextValid)
@@ -201,9 +201,9 @@
         }
 
         /// <summary>
-        /// Sets the raw value being represented
+        /// Sets the raw value being represented.
         /// </summary>
-        /// <param name="value">The raw value</param>
+        /// <param name="value">The raw value.</param>
         public void SetValue(dynamic value)
         {
             if (value == null)
@@ -224,21 +224,21 @@
             }
             else
             {
-                this.Text = Conversions.ParseDynamicAsPrimitiveString(this.ElementType, valueString);
+                this.Text = valueString;
             }
         }
 
         /// <summary>
-        /// Determines if the current value is valid for the current data type
+        /// Determines if the current value is valid for the current data type.
         /// </summary>
-        /// <returns>True if the current value is valid</returns>
+        /// <returns>True if the current value is valid.</returns>
         public Boolean IsValid()
         {
             return this.IsTextValid;
         }
 
         /// <summary>
-        /// Determines if the current text is valid for the current data type
+        /// Determines if the current text is valid for the current data type.
         /// </summary>
         private void UpdateValidity()
         {
@@ -264,7 +264,7 @@
         }
 
         /// <summary>
-        /// Updates the color based on the validity of the current text
+        /// Updates the color based on the validity of the current text.
         /// </summary>
         private void UpdateColor()
         {
@@ -285,10 +285,10 @@
         }
 
         /// <summary>
-        /// Invoked when the hexedecimal menu item is clicked
+        /// Invoked when the hexedecimal menu item is clicked.
         /// </summary>
-        /// <param name="sender">Sending object</param>
-        /// <param name="e">Event args</param>
+        /// <param name="sender">Sending object.</param>
+        /// <param name="e">Event args.</param>
         private void HexidecimalMenuItemClick(Object sender, EventArgs e)
         {
             this.IsHex = true;
@@ -296,10 +296,10 @@
         }
 
         /// <summary>
-        /// Invoked when the decimal menu item is clicked
+        /// Invoked when the decimal menu item is clicked.
         /// </summary>
-        /// <param name="sender">Sending object</param>
-        /// <param name="e">Event args</param>
+        /// <param name="sender">Sending object.</param>
+        /// <param name="e">Event args.</param>
         private void DecimalMenuItemClick(Object sender, EventArgs e)
         {
             this.IsHex = false;
@@ -307,10 +307,10 @@
         }
 
         /// <summary>
-        /// Invoked when the convert to hexedecimal menu item is clicked
+        /// Invoked when the convert to hexedecimal menu item is clicked.
         /// </summary>
-        /// <param name="sender">Sending object</param>
-        /// <param name="e">Event args</param>
+        /// <param name="sender">Sending object.</param>
+        /// <param name="e">Event args.</param>
         private void ConvertToHexMenuItemClick(Object sender, EventArgs e)
         {
             if (CheckSyntax.CanParseValue(this.ElementType, this.Text))
@@ -322,25 +322,25 @@
         }
 
         /// <summary>
-        /// Invoked when the convert to decimal menu item is clicked
+        /// Invoked when the convert to decimal menu item is clicked.
         /// </summary>
-        /// <param name="sender">Sending object</param>
-        /// <param name="e">Event args</param>
+        /// <param name="sender">Sending object.</param>
+        /// <param name="e">Event args.</param>
         private void ConvertToDecMenuItemClick(Object sender, EventArgs e)
         {
             if (CheckSyntax.CanParseHex(this.ElementType, this.Text))
             {
-                this.Text = Conversions.ParseHexStringAsDecString(this.ElementType, this.Text);
+                this.Text = Conversions.ParseHexStringAsPrimitiveString(this.ElementType, this.Text);
             }
 
             this.IsHex = false;
         }
 
         /// <summary>
-        /// Invoked when the context menu opens
+        /// Invoked when the context menu opens.
         /// </summary>
-        /// <param name="sender">Sending object</param>
-        /// <param name="e">Event args</param>
+        /// <param name="sender">Sending object.</param>
+        /// <param name="e">Event args.</param>
         private void RightClickMenuPopup(Object sender, EventArgs e)
         {
             this.DecimalMenuItem.Checked = this.IsHex ? false : true;
@@ -348,15 +348,18 @@
         }
 
         /// <summary>
-        /// Invoked when the text is changed in the hex dec box
+        /// Invoked when the text is changed in the hex dec box.
         /// </summary>
-        /// <param name="sender">Sending object</param>
-        /// <param name="e">Event args</param>
+        /// <param name="sender">Sending object.</param>
+        /// <param name="e">Event args.</param>
         private void HexDecTextChanged(Object sender, EventArgs e)
         {
             this.UpdateValidity();
         }
 
+        /// <summary>
+        /// Forces a text changed event to be raised.
+        /// </summary>
         private void RaiseTextChangedEvent()
         {
             String text = this.Text;

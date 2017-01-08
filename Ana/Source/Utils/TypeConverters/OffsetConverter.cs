@@ -6,7 +6,6 @@
     using System.ComponentModel;
     using System.Globalization;
     using System.Linq;
-    using Validation;
 
     /// <summary>
     /// Offset type converter for use in the property viewer.

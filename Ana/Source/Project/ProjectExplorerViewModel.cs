@@ -1,5 +1,6 @@
 ﻿namespace Ana.Source.Project
 {
+    using CustomControls;
     using Docking;
     using Main;
     using Microsoft.Win32;
@@ -18,51 +19,51 @@
     using System.Windows.Input;
     using UserSettings;
     using Utils.Extensions;
-    using View.Controls;
+
     /// <summary>
-    /// View model for the Project Explorer
+    /// View model for the Project Explorer.
     /// </summary>
     internal class ProjectExplorerViewModel : ToolViewModel
     {
         /// <summary>
-        /// The content id for the docking library associated with this view model
+        /// The content id for the docking library associated with this view model.
         /// </summary>
         public const String ToolContentId = nameof(ProjectExplorerViewModel);
 
         /// <summary>
-        /// The filter to use for saving and loading project filters
+        /// The filter to use for saving and loading project filters.
         /// </summary>
         public const String ProjectExtensionFilter = "Cheat File (*.Hax)|*.hax|All files (*.*)|*.*";
 
         /// <summary>
-        /// Singleton instance of the <see cref="ProjectExplorerViewModel" /> class
+        /// Singleton instance of the <see cref="ProjectExplorerViewModel" /> class.
         /// </summary>
         private static Lazy<ProjectExplorerViewModel> projectExplorerViewModelInstance = new Lazy<ProjectExplorerViewModel>(
                 () => { return new ProjectExplorerViewModel(); },
                 LazyThreadSafetyMode.ExecutionAndPublication);
 
         /// <summary>
-        /// The project root which contains all project items
+        /// The project root which contains all project items.
         /// </summary>
         private ProjectRoot projectRoot;
 
         /// <summary>
-        /// The selected project item
+        /// The selected project item.
         /// </summary>
         private IEnumerable<ProjectItem> selectedProjectItems;
 
         /// <summary>
-        /// Whether or not there are unsaved project changes
+        /// Whether or not there are unsaved project changes.
         /// </summary>
         private Boolean hasUnsavedChanges;
 
         /// <summary>
-        /// The file path to the project file
+        /// The file path to the project file.
         /// </summary>
         private String projectFilePath;
 
         /// <summary>
-        /// Prevents a default instance of the <see cref="ProjectExplorerViewModel" /> class from being created
+        /// Prevents a default instance of the <see cref="ProjectExplorerViewModel" /> class from being created.
         /// </summary>
         private ProjectExplorerViewModel() : base("Project Explorer")
         {
@@ -88,72 +89,62 @@
         }
 
         /// <summary>
-        /// Gets the command to open a project from disk
+        /// Gets the command to open a project from disk.
         /// </summary>
         public ICommand OpenProjectCommand { get; private set; }
 
         /// <summary>
-        /// Gets the command to open a project from disk
+        /// Gets the command to open a project from disk.
         /// </summary>
         public ICommand ImportProjectCommand { get; private set; }
 
         /// <summary>
-        /// Gets the command to open a specific project from disk, used for loading downloaded web projects
+        /// Gets the command to open a specific project from disk, used for loading downloaded web projects.
         /// </summary>
         public ICommand ImportSpecificProjectCommand { get; private set; }
 
         /// <summary>
-        /// Gets the command to open a project from disk
+        /// Gets the command to open a project from disk.
         /// </summary>
         public ICommand SaveProjectCommand { get; private set; }
 
         /// <summary>
-        /// Gets the command to open a project from disk
+        /// Gets the command to open a project from disk.
         /// </summary>
         public ICommand SaveAsProjectCommand { get; private set; }
 
         /// <summary>
-        /// Gets the command to add a new folder
+        /// Gets the command to add a new folder.
         /// </summary>
         public ICommand AddNewFolderItemCommand { get; private set; }
 
         /// <summary>
-        /// Gets the command to add a new address
+        /// Gets the command to add a new address.
         /// </summary>
         public ICommand AddNewAddressItemCommand { get; private set; }
 
         /// <summary>
-        /// Gets the command to add a new script
+        /// Gets the command to add a new script.
         /// </summary>
         public ICommand AddNewScriptItemCommand { get; private set; }
 
         /// <summary>
-        /// Gets the command to delete the selected project explorer items
+        /// Gets the command to delete the selected project explorer items.
         /// </summary>
         public ICommand DeleteSelectionCommand { get; private set; }
 
         /// <summary>
-        /// Gets the command to toggle the activation the selected project explorer items
+        /// Gets the command to toggle the activation the selected project explorer items.
         /// </summary>
         public ICommand ToggleSelectionActivationCommand { get; private set; }
 
         /// <summary>
-        /// Gets the command to clear the selected project item
+        /// Gets the command to clear the selected project item.
         /// </summary>
         public ICommand ClearSelectionCommand { get; private set; }
 
         /// <summary>
-        /// Gets or sets a lock that controls access to observing classes.
-        /// </summary>
-        private Object ObserverLock { get; set; }
-
-        /// <summary>
-        /// Gets or sets objects observing changes in the selected objects.
-        /// </summary>
-        private List<IProjectExplorerObserver> ProjectExplorerObservers { get; set; }
-
-        /// <summary>
-        /// Gets or sets a value indicating whether there are unsaved changes
+        /// Gets or sets a value indicating whether there are unsaved changes.
         /// </summary>
         public Boolean HasUnsavedChanges
         {
@@ -170,7 +161,7 @@
         }
 
         /// <summary>
-        /// Gets the path to the project file
+        /// Gets the path to the project file.
         /// </summary>
         public String ProjectFilePath
         {
@@ -187,7 +178,7 @@
         }
 
         /// <summary>
-        /// The root that contains all project items
+        /// Gets the root that contains all project items.
         /// </summary>
         public ProjectRoot ProjectRoot
         {
@@ -222,9 +213,19 @@
         }
 
         /// <summary>
-        /// Gets a singleton instance of the <see cref="ProjectExplorerViewModel" /> class
+        /// Gets or sets a lock that controls access to observing classes.
         /// </summary>
-        /// <returns>A singleton instance of the class</returns>
+        private Object ObserverLock { get; set; }
+
+        /// <summary>
+        /// Gets or sets objects observing changes in the selected objects.
+        /// </summary>
+        private List<IProjectExplorerObserver> ProjectExplorerObservers { get; set; }
+
+        /// <summary>
+        /// Gets a singleton instance of the <see cref="ProjectExplorerViewModel" /> class.
+        /// </summary>
+        /// <returns>A singleton instance of the class.</returns>
         public static ProjectExplorerViewModel GetInstance()
         {
             return ProjectExplorerViewModel.projectExplorerViewModelInstance.Value;
@@ -268,10 +269,10 @@
         }
 
         /// <summary>
-        /// Adds a specific address to the project explorer
+        /// Adds a specific address to the project explorer.
         /// </summary>
-        /// <param name="baseAddress">The address</param>
-        /// <param name="elementType">The value type</param>
+        /// <param name="baseAddress">The address.</param>
+        /// <param name="elementType">The value type.</param>
         public void AddSpecificAddressItem(IntPtr baseAddress, Type elementType)
         {
             this.AddNewProjectItems(true, new AddressItem(baseAddress, elementType));
@@ -280,9 +281,9 @@
         /// <summary>
         /// Adds the new project item to the project item collection.
         /// </summary>
+        /// <param name="addToSelected">Whether or not the items should be added under the selected item.</param>
         /// <param name="projectItems">The project item to add.</param>
-        /// <param name="AddToSelected">Whether or not the items should be added under the selected item.</param>
-        public void AddNewProjectItems(Boolean AddToSelected = true, params ProjectItem[] projectItems)
+        public void AddNewProjectItems(Boolean addToSelected = true, params ProjectItem[] projectItems)
         {
             if (projectItems.IsNullOrEmpty())
             {
@@ -320,7 +321,7 @@
         }
 
         /// <summary>
-        /// Called when a property is updated in any of the contained project items
+        /// Called when a property is updated in any of the contained project items.
         /// </summary>
         public void OnPropertyUpdate()
         {
@@ -328,7 +329,39 @@
         }
 
         /// <summary>
-        /// Adds a new folder to the project items
+        /// Subscribes the given object to changes in the project structure.
+        /// </summary>
+        /// <param name="projectExplorerObserver">The object to observe project structure changes.</param>
+        public void Subscribe(IProjectExplorerObserver projectExplorerObserver)
+        {
+            lock (this.ObserverLock)
+            {
+                if (!this.ProjectExplorerObservers.Contains(projectExplorerObserver))
+                {
+                    this.ProjectExplorerObservers.Add(projectExplorerObserver);
+                    projectExplorerObserver.Update(this.ProjectRoot);
+                    projectExplorerObserver.UpdateStructure(this.ProjectRoot);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Unsubscribes the given object from changes in the project structure.
+        /// </summary>
+        /// <param name="projectExplorerObserver">The object to observe project structure changes.</param>
+        public void Unsubscribe(IProjectExplorerObserver projectExplorerObserver)
+        {
+            lock (this.ObserverLock)
+            {
+                if (this.ProjectExplorerObservers.Contains(projectExplorerObserver))
+                {
+                    this.ProjectExplorerObservers.Remove(projectExplorerObserver);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Adds a new folder to the project items.
         /// </summary>
         private void AddNewFolderItem()
         {
@@ -336,7 +369,7 @@
         }
 
         /// <summary>
-        /// Adds a new address to the project items
+        /// Adds a new address to the project items.
         /// </summary>
         private void AddNewAddressItem()
         {
@@ -344,7 +377,7 @@
         }
 
         /// <summary>
-        /// Adds a new script to the project items
+        /// Adds a new script to the project items.
         /// </summary>
         private void AddNewScriptItem()
         {
@@ -352,7 +385,7 @@
         }
 
         /// <summary>
-        /// Deletes the selected project explorer items
+        /// Deletes the selected project explorer items.
         /// </summary>
         private void DeleteSelection()
         {
@@ -363,7 +396,7 @@
         }
 
         /// <summary>
-        /// Toggles the activation the selected project explorer items
+        /// Toggles the activation the selected project explorer items.
         /// </summary>
         private void ToggleSelectionActivation()
         {
@@ -382,7 +415,7 @@
         }
 
         /// <summary>
-        /// Continously updates the project explorer items
+        /// Continously updates the project explorer items.
         /// </summary>
         private void Update()
         {
@@ -398,7 +431,7 @@
         }
 
         /// <summary>
-        /// Opens a project from disk
+        /// Opens a project from disk.
         /// </summary>
         private void OpenProject()
         {
@@ -432,8 +465,9 @@
         }
 
         /// <summary>
-        /// Imports a project from disk, adding the project items to the current project
+        /// Imports a project from disk, adding the project items to the current project.
         /// </summary>
+        /// <param name="filename">The file path of the project to import.</param>
         private void ImportProject(String filename = null)
         {
             // Ask for a specific file if one was not explicitly provided
@@ -479,7 +513,7 @@
         }
 
         /// <summary>
-        /// Save a project to disk
+        /// Save a project to disk.
         /// </summary>
         private void SaveProject()
         {
@@ -506,7 +540,7 @@
         }
 
         /// <summary>
-        /// Save a project to disk under a new specified project name
+        /// Save a project to disk under a new specified project name.
         /// </summary>
         private void SaveAsProject()
         {
@@ -518,37 +552,6 @@
             {
                 this.ProjectFilePath = saveFileDialog.FileName;
                 this.SaveProject();
-            }
-        }
-
-        /// <summary>
-        /// Subscribes the given object to changes in the project structure.
-        /// </summary>
-        /// <param name="projectExplorerObserver">The object to observe project structure changes.</param>
-        public void Subscribe(IProjectExplorerObserver projectExplorerObserver)
-        {
-            lock (this.ObserverLock)
-            {
-                if (!this.ProjectExplorerObservers.Contains(projectExplorerObserver))
-                {
-                    this.ProjectExplorerObservers.Add(projectExplorerObserver);
-                    projectExplorerObserver.UpdateStructure(this.ProjectRoot);
-                }
-            }
-        }
-
-        /// <summary>
-        /// Unsubscribes the given object from changes in the project structure.
-        /// </summary>
-        /// <param name="projectExplorerObserver">The object to observe project structure changes.</param>
-        public void Unsubscribe(IProjectExplorerObserver projectExplorerObserver)
-        {
-            lock (this.ObserverLock)
-            {
-                if (this.ProjectExplorerObservers.Contains(projectExplorerObserver))
-                {
-                    this.ProjectExplorerObservers.Remove(projectExplorerObserver);
-                }
             }
         }
 

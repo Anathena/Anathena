@@ -3,16 +3,16 @@
     using System;
 
     /// <summary>
-    /// TODO TODO
+    /// TODO TODO.
     /// </summary>
     public struct UdLookupTableListEntry
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="UdLookupTableListEntry" /> struct
+        /// Initializes a new instance of the <see cref="UdLookupTableListEntry" /> struct.
         /// </summary>
-        /// <param name="table">TODO table</param>
-        /// <param name="tableType">TODO tableType</param>
-        /// <param name="meta">TODO meta</param>
+        /// <param name="table">TODO table.</param>
+        /// <param name="tableType">TODO tableType.</param>
+        /// <param name="meta">TODO meta.</param>
         public UdLookupTableListEntry(UInt16[] table, UdTableType tableType, String meta)
         {
             this.Table = table;
@@ -21,17 +21,17 @@
         }
 
         /// <summary>
-        /// Gets or sets TODO TODO
+        /// Gets or sets TODO TODO.
         /// </summary>
         public UInt16[] Table { get; set; }
 
         /// <summary>
-        /// Gets or sets the table type
+        /// Gets or sets the table type.
         /// </summary>
         public UdTableType TableType { get; set; }
 
         /// <summary>
-        /// Gets or sets TODO TODO
+        /// Gets or sets TODO TODO.
         /// </summary>
         public String Meta { get; set; }
     }

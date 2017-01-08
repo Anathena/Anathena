@@ -2,6 +2,8 @@
 {
     using Engine;
     using Engine.OperatingSystems;
+    using Engine.Processes;
+    using Output;
     using Snapshots;
     using System;
     using System.Collections.Generic;
@@ -14,59 +16,96 @@
 
     /// <summary>
     /// <para>
-    /// SnapshotPrefilter is a heuristic process that drastically improves scan speed. It capitalizes on the fact that
-    /// > 95% of memory remains constant in most processes, at least for a short time span. Users will
-    /// likely be hunting variables that are in the remaining 5%, which Divine will isolate.
+    ///     SnapshotPrefilter is a heuristic process that drastically improves scan speed. It capitalizes on the fact that
+    ///     > 90% of memory remains constant in most processes, at least for a short time span. Users will
+    ///     likely be hunting variables that are in the remaining 10%.
     /// </para>
     /// <para>
-    /// This is a heuristic because it assumes that the variable, or a variable in the same chunk on the same page,
-    /// has changed before the user requests a snapshot of the target processes memory
+    ///     This is a heuristic because it assumes that the variable, or a variable in the same chunk on the same page,
+    ///     has changed before the user requests a snapshot of the target processes memory.
     /// </para>
     /// <para>
-    /// Steps are as follows:
-    /// 1) Update a queue of chunks to process, based on timestamp since last edit. Add or remove chunks that
-    ///     become allocated or deallocated
-    /// 2) Cycle through x chunks (to be determined how many is reasonable), computing the hash of each. Skip chunks
-    ///     that have already changed. We can indefinitely mark them as a dynamic region.
-    /// 3) On snapshot request, we can do a grow+mask operation of current chunks against the current virtual pages.
+    ///     Steps are as follows:
+    ///     1) Update a queue of chunks to process, based on timestamp since last edit. Add or remove chunks that
+    ///         become allocated or deallocated.
+    ///     2) Cycle through x chunks (to be determined how many is reasonable), computing the hash of each. Skip chunks
+    ///         that have already changed. We can indefinitely mark them as a dynamic region.
+    ///     3) On snapshot request, we can do a grow+mask operation of current chunks against the current virtual pages.
     /// </para>
     /// </summary>
-    internal class ChunkLinkedListPrefilter : RepeatedTask, ISnapshotPrefilter
+    internal class ChunkLinkedListPrefilter : RepeatedTask, ISnapshotPrefilter, IProcessObserver
     {
+        /// <summary>
+        /// The maximum number of chunks to process in a given update cycle.
+        /// </summary>
         private const Int32 ChunkLimit = 16384;
 
+        /// <summary>
+        /// The size of a chunk.
+        /// </summary>
         private const Int32 ChunkSize = 4096;
 
+        /// <summary>
+        /// The time between each update cycle.
+        /// </summary>
         private const Int32 RescanTime = 800;
 
-        // Singleton instance of Prefilter
+        /// <summary>
+        /// Singleton instance of the <see cref="ChunkLinkedListPrefilter"/> class.
+        /// </summary>
         private static Lazy<ISnapshotPrefilter> snapshotPrefilterInstance = new Lazy<ISnapshotPrefilter>(
             () => { return new ChunkLinkedListPrefilter(); },
             LazyThreadSafetyMode.ExecutionAndPublication);
 
+        /// <summary>
+        /// Prevents a default instance of the <see cref="ChunkLinkedListPrefilter" /> class from being created.
+        /// </summary>
         private ChunkLinkedListPrefilter()
         {
             this.ChunkList = new LinkedList<RegionProperties>();
             this.ChunkLock = new Object();
             this.ElementLock = new Object();
+
+            // Subscribe to process events (async call as to avoid locking on GetInstance() if engine is being constructed)
+            Task.Run(() => { EngineCore.GetInstance().Processes.Subscribe(this); });
         }
 
+        /// <summary>
+        /// Gets or sets the current list of tracked chunks.
+        /// </summary>
         private LinkedList<RegionProperties> ChunkList { get; set; }
 
+        /// <summary>
+        /// Gets or sets the access lock for our chunk list.
+        /// </summary>
         private Object ChunkLock { get; set; }
 
+        /// <summary>
+        /// Gets or sets the access lock for individual chunks in the chunk list.
+        /// </summary>
         private Object ElementLock { get; set; }
 
+        /// <summary>
+        /// Gets a singleton instance of the <see cref="ChunkLinkedListPrefilter"/> class.
+        /// </summary>
+        /// <returns>A singleton instance of the class.</returns>
         public static ISnapshotPrefilter GetInstance()
         {
             return ChunkLinkedListPrefilter.snapshotPrefilterInstance.Value;
         }
 
+        /// <summary>
+        /// Starts the update cycle for this prefilter.
+        /// </summary>
         public void BeginPrefilter()
         {
             this.Begin();
         }
 
+        /// <summary>
+        /// Gets the snapshot generated by the prefilter.
+        /// </summary>
+        /// <returns>The snapshot generated by the prefilter.</returns>
         public Snapshot GetPrefilteredSnapshot()
         {
             List<SnapshotRegion> regions = new List<SnapshotRegion>();
@@ -75,7 +114,7 @@
             {
                 foreach (RegionProperties virtualPage in this.ChunkList)
                 {
-                    if (!virtualPage.HasChanged())
+                    if (!virtualPage.HasChanged)
                     {
                         continue;
                     }
@@ -93,12 +132,34 @@
             return prefilteredSnapshot;
         }
 
+        /// <summary>
+        /// Recieves a process update.
+        /// </summary>
+        /// <param name="process">The newly selected process.</param>>
+        public void Update(NormalizedProcess process)
+        {
+            lock (this.ChunkLock)
+            {
+                if (this.ChunkList.Count > 0)
+                {
+                    this.ChunkList.Clear();
+                    OutputViewModel.GetInstance().Log(OutputViewModel.LogLevel.Info, "Prefilter cleared");
+                }
+            }
+        }
+
+        /// <summary>
+        /// Starts the prefilter.
+        /// </summary>
         public override void Begin()
         {
             this.UpdateInterval = ChunkLinkedListPrefilter.RescanTime;
             base.Begin();
         }
 
+        /// <summary>
+        /// Updates the prefilter.
+        /// </summary>
         protected override void OnUpdate()
         {
             this.ProcessPages();
@@ -106,7 +167,7 @@
         }
 
         /// <summary>
-        /// Called when the repeated task completes
+        /// Called when the repeated task completes.
         /// </summary>
         protected override void OnEnd()
         {
@@ -114,9 +175,9 @@
         }
 
         /// <summary>
-        /// Queries virtual pages from the OS to dertermine if any allocations or deallocations have happened
+        /// Queries virtual pages from the OS to dertermine if any allocations or deallocations have happened.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>The collected pages.</returns>
         private IEnumerable<RegionProperties> CollectNewPages()
         {
             List<RegionProperties> newRegions = new List<RegionProperties>();
@@ -212,7 +273,7 @@
                         this.ChunkList.RemoveFirst();
 
                         // Do not process chunks that have been marked as changed
-                        if (chunk.HasChanged())
+                        if (chunk.HasChanged)
                         {
                             this.ChunkList.AddLast(chunk);
                             return;
@@ -240,6 +301,9 @@
             }
         }
 
+        /// <summary>
+        /// Updates the progress of how many chunks have been processed.
+        /// </summary>
         private void UpdateProgress()
         {
             Int32 processedCount;
@@ -252,22 +316,44 @@
             }
         }
 
+        /// <summary>
+        /// A class to keep track of state within a tracked chunk of memory.
+        /// </summary>
         internal class RegionProperties : NormalizedRegion
         {
+            /// <summary>
+            /// Initializes a new instance of the <see cref="RegionProperties" /> class.
+            /// </summary>
+            /// <param name="region">The region that this chunk spans.</param>
             public RegionProperties(NormalizedRegion region) : this(region.BaseAddress, region.RegionSize)
             {
             }
 
+            /// <summary>
+            /// Initializes a new instance of the <see cref="RegionProperties" /> class.
+            /// </summary>
+            /// <param name="baseAddress">The start address of this chunk.</param>
+            /// <param name="regionSize">The size of this chunk.</param>
             public RegionProperties(IntPtr baseAddress, Int32 regionSize) : base(baseAddress, regionSize)
             {
                 this.Checksum = null;
-                this.Changed = false;
+                this.HasChanged = false;
             }
 
+            /// <summary>
+            /// Gets a value indicating whether there has been an observed change in this region.
+            /// </summary>
+            public Boolean HasChanged { get; private set; }
+
+            /// <summary>
+            /// Gets or sets the last computed checksum of this chunk.
+            /// </summary>
             private UInt64? Checksum { get; set; }
 
-            private Boolean Changed { get; set; }
-
+            /// <summary>
+            /// Determines if a checksum has ever been computed for this chunk.
+            /// </summary>
+            /// <returns>True if a checksum has been computed, otherwise false.</returns>
             public Boolean IsProcessed()
             {
                 if (this.Checksum == null)
@@ -278,11 +364,10 @@
                 return true;
             }
 
-            public Boolean HasChanged()
-            {
-                return this.Changed;
-            }
-
+            /// <summary>
+            /// Processes the provided bytes associated with this chunk to compute the checksum and determine if there are changes.
+            /// </summary>
+            /// <param name="memory">The bytes read from memory in this chunk.</param>
             public void Update(Byte[] memory)
             {
                 UInt64 currentChecksum;
@@ -295,7 +380,7 @@
                     return;
                 }
 
-                this.Changed = this.Checksum != currentChecksum;
+                this.HasChanged = this.Checksum != currentChecksum;
             }
         }
         //// End class

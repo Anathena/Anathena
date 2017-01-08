@@ -1,4 +1,4 @@
-﻿namespace Ana.View
+﻿namespace Ana.View.Editors
 {
     using ICSharpCode.AvalonEdit.CodeCompletion;
     using ICSharpCode.AvalonEdit.Document;

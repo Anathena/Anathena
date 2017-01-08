@@ -5,13 +5,13 @@
     using System.Runtime.InteropServices;
 
     /// <summary>
-    /// Client event used to notify the hook to exit
+    /// Client event used to notify the hook to exit.
     /// </summary>
     [Serializable]
     public delegate void DisconnectedEvent();
 
     /// <summary>
-    /// Interface to a hook that controls speed in an external process
+    /// Interface to a hook that controls speed in an external process.
     /// </summary>
     [Serializable]
     internal class SpeedHackInterface : MarshalByRefObject, ISpeedHackInterface
@@ -19,7 +19,7 @@
         private static Int64 queryPerformanceBase;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="SpeedHackInterface" /> class
+        /// Initializes a new instance of the <see cref="SpeedHackInterface" /> class.
         /// </summary>
         public SpeedHackInterface()
         {
@@ -31,14 +31,14 @@
         public delegate IntPtr QueryPerformanceCounter2(out Int64 performanceCount);
 
         /// <summary>
-        /// Hook to kernel methods in the external process
+        /// Gets or sets the hook to environment methods in the external process.
         /// </summary>
         private LocalHook Hook { get; set; }
 
         /// <summary>
-        /// Sets the speed in the external process
+        /// Sets the speed in the external process.
         /// </summary>
-        /// <param name="speed">The speed multiplier</param>
+        /// <param name="speed">The speed multiplier.</param>
         public void SetSpeed(Double speed)
         {
         }
@@ -52,17 +52,16 @@
         [DllImport("kernel32.dll")]
         private static extern Boolean QueryPerformanceCounter(out Int64 performanceCount);
 
-
         [DllImport("Kernel32.dll")]
         private static extern Boolean QueryPerformanceFrequency(out Int64 performanceFrequency);
 
         /// <summary>
-        /// Client event proxy for marshalling event handlers
+        /// Client event proxy for marshalling event handlers.
         /// </summary>
         internal class SpeedHackEventProxy : MarshalByRefObject
         {
             /// <summary>
-            /// Client event used to notify the hook to exit
+            /// Client event used to notify the hook to exit.
             /// </summary>
             public event DisconnectedEvent Disconnected;
 
