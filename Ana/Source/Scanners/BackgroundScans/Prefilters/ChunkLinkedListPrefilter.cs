@@ -269,7 +269,13 @@
                     // Grab next available element
                     lock (this.ElementLock)
                     {
-                        chunk = this.ChunkList.First();
+                        chunk = this.ChunkList.FirstOrDefault();
+
+                        if (chunk == null)
+                        {
+                            return;
+                        }
+
                         this.ChunkList.RemoveFirst();
 
                         // Do not process chunks that have been marked as changed

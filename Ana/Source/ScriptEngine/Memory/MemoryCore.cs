@@ -256,13 +256,13 @@
             // Gather the original bytes
             Byte[] originalBytes = this.CollectOriginalBytes(address, minimumReplacementSize);
 
-            // Determine number of no-ops to fill dangling bytes
-            String noOps = originalBytes.Length - minimumReplacementSize > 0 ? "db " + String.Join(" ", Enumerable.Repeat("0x90,", originalBytes.Length - minimumReplacementSize)).TrimEnd(',') : String.Empty;
-
             // Handle case where allocation is not needed
             if (assemblySize <= originalBytes.Length)
             {
-                Byte[] injectionBytes = this.GetAssemblyBytes(assembly + "\n" + noOps, address);
+                // Determine number of no-ops to fill dangling bytes
+                String noOps = assemblySize - originalBytes.Length > 0 ? "db " + String.Join(" ", Enumerable.Repeat("0x90,", assemblySize - originalBytes.Length)).TrimEnd(',') : String.Empty;
+
+                Byte[] injectionBytes = this.GetAssemblyBytes(assembly + Environment.NewLine + noOps, address);
                 this.WriteMemory(address, injectionBytes);
 
                 CodeCave codeCave = new CodeCave(address, 0, originalBytes);
@@ -272,6 +272,9 @@
             }
             else
             {
+                // Determine number of no-ops to fill dangling bytes
+                String noOps = originalBytes.Length - minimumReplacementSize > 0 ? "db " + String.Join(" ", Enumerable.Repeat("0x90,", originalBytes.Length - minimumReplacementSize)).TrimEnd(',') : String.Empty;
+
                 // Add code cave jump return automatically
                 UInt64 returnAddress = this.GetCaveExitAddress(address);
 
