@@ -31,11 +31,11 @@
     <ErrorReportUrl>https://www.anathena.com/</ErrorReportUrl>
     <ProductName>Anathena</ProductName>
     <PublisherName>Anathena</PublisherName>
-    <MinimumRequiredVersion>3.4.2.0</MinimumRequiredVersion>
+    <MinimumRequiredVersion>3.4.3.0</MinimumRequiredVersion>
     <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>publish.htm</WebPage>
     <ApplicationRevision>0</ApplicationRevision>
-    <ApplicationVersion>3.4.2.0</ApplicationVersion>
+    <ApplicationVersion>3.4.3.0</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
     <PublishWizardCompleted>true</PublishWizardCompleted>
