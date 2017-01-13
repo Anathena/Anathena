@@ -29,8 +29,8 @@ namespace Ana.Content
         /// </summary>
         public virtual string TransformText()
         {
-            this.Write("- Added an output window to show useful events as they happen.\r\n- Added auto dete" +
-                    "ction for when a process closes");
+            this.Write("- Significant simplication to scripting\r\n- (More) fixes to memory allocation in a" +
+                    " 64-bit process");
             return this.GenerationEnvironment.ToString();
         }
     }
