@@ -1,77 +1,83 @@
 ﻿namespace Ana.Source.Engine.Input.Mouse
 {
+    using Output;
     using SharpDX;
     using SharpDX.DirectInput;
     using System;
+    using System.Collections.Generic;
 
     /// <summary>
-    /// Class to capture mouse input
+    /// Class to capture mouse input.
     /// </summary>
     internal class MouseCapture : IMouseSubject
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="MouseCapture" /> class
+        /// Initializes a new instance of the <see cref="MouseCapture" /> class.
         /// </summary>
         public MouseCapture()
         {
-            this.DirectInput = new DirectInput();
-            this.Mouse = new Mouse(this.DirectInput);
-            this.Mouse.Acquire();
+            this.Subjects = new List<IMouseObserver>();
+            this.FindMouse();
         }
 
         /// <summary>
-        /// An enumeration of possible mouse inputs
+        /// An enumeration of possible mouse inputs.
         /// </summary>
         private enum MouseButtonEnum
         {
             /// <summary>
-            /// The left mouse button
+            /// The left mouse button.
             /// </summary>
             Left = 0,
 
             /// <summary>
-            /// The middle mouse button
+            /// The middle mouse button.
             /// </summary>
             Middle = 1,
 
             /// <summary>
-            /// The right mouse button
+            /// The right mouse button.
             /// </summary>
             Right = 2,
 
             /// <summary>
-            /// An additonal button featured on many mouses, often 'forwards' or 'backwards'
+            /// An additonal button featured on many mouses, often 'forwards' or 'backwards'.
             /// </summary>
             XButton1,
 
             /// <summary>
-            /// An additonal button featured on many mouses, often 'forwards' or 'backwards'
+            /// An additonal button featured on many mouses, often 'forwards' or 'backwards'.
             /// </summary>
             XButton2
         }
 
         /// <summary>
-        /// Gets or sets the DirectX input object to collect mouse input
+        /// Gets or sets the DirectX input object to collect mouse input.
         /// </summary>
         private DirectInput DirectInput { get; set; }
 
         /// <summary>
-        /// Gets or sets the mouse input object to capture input
+        /// Gets or sets the mouse input object to capture input.
         /// </summary>
         private Mouse Mouse { get; set; }
 
         /// <summary>
-        /// Gets or sets the current mouse state
+        /// Gets or sets the current mouse state.
         /// </summary>
         private MouseState CurrentMouseState { get; set; }
 
         /// <summary>
-        /// Gets or sets the previous mouse state
+        /// Gets or sets the previous mouse state.
         /// </summary>
         private MouseState PreviousMouseState { get; set; }
 
         /// <summary>
-        /// Updates mouse capture, gathering the input state and raising necessary events
+        /// Gets or sets the subjects that are observing mouse events.
+        /// </summary>
+        private List<IMouseObserver> Subjects { get; set; }
+
+        /// <summary>
+        /// Updates mouse capture, gathering the input state and raising necessary events.
         /// </summary>
         public void Update()
         {
@@ -111,9 +117,9 @@
         }
 
         /// <summary>
-        /// Subscribes to mouse capture events
+        /// Subscribes to mouse capture events.
         /// </summary>
-        /// <param name="subject">The observer to subscribe</param>
+        /// <param name="subject">The observer to subscribe.</param>
         public void Subscribe(IMouseObserver subject)
         {
         }
@@ -127,9 +133,9 @@
         }
 
         /// <summary>
-        /// Notifies subscribers of a mouse down event
+        /// Notifies subscribers of a mouse down event.
         /// </summary>
-        /// <param name="mouseButton">The mouse down button</param>
+        /// <param name="mouseButton">The mouse down button.</param>
         private void OnMouseDown(MouseButtonEnum mouseButton)
         {
             switch (mouseButton)
@@ -146,9 +152,9 @@
         }
 
         /// <summary>
-        /// Notifies subscribers of a mouse up event
+        /// Notifies subscribers of a mouse up event.
         /// </summary>
-        /// <param name="mouseButton">The mouse up button</param>
+        /// <param name="mouseButton">The mouse up button.</param>
         private void OnMouseUp(MouseButtonEnum mouseButton)
         {
             switch (mouseButton)
@@ -161,6 +167,25 @@
                     break;
                 default:
                     return;
+            }
+        }
+
+        /// <summary>
+        /// Finds any connected mouse devices.
+        /// </summary>
+        private void FindMouse()
+        {
+            try
+            {
+                this.DirectInput = new DirectInput();
+                this.Mouse = new Mouse(this.DirectInput);
+                this.Mouse.Acquire();
+
+                OutputViewModel.GetInstance().Log(OutputViewModel.LogLevel.Info, "Mouse device found");
+            }
+            catch (Exception ex)
+            {
+                OutputViewModel.GetInstance().Log(OutputViewModel.LogLevel.Warn, "No (optional) mouse found: " + ex.ToString());
             }
         }
     }

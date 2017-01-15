@@ -77,6 +77,13 @@
         /// <param name="process">The newly selected process.</param>
         public void Update(NormalizedProcess process)
         {
+            if (process == null)
+            {
+                // Avoid setter functions
+                this.systemProcess = null;
+                return;
+            }
+
             try
             {
                 this.SystemProcess = Process.GetProcessById(process.ProcessId);

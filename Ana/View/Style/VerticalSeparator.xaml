@@ -1,9 +1,12 @@
-﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:local="clr-namespace:Ana.View.Style">
-    <Style x:Key="VerticalSeparator"
-           BasedOn="{StaticResource {x:Type Separator}}"
-           TargetType="{x:Type Separator}">
+﻿<ResourceDictionary
+    x:Class="Ana.View.Style.VerticalSeparator"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="clr-namespace:Ana.View.Style">
+    <Style
+        x:Key="VerticalSeparator"
+        BasedOn="{StaticResource {x:Type Separator}}"
+        TargetType="{x:Type Separator}">
         <Setter Property="Margin" Value="6,0,6,0" />
         <Setter Property="LayoutTransform">
             <Setter.Value>
