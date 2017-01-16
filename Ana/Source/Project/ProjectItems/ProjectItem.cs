@@ -2,11 +2,12 @@
 {
     using System;
     using System.ComponentModel;
+    using System.Drawing.Design;
     using System.Runtime.Serialization;
-
-    /// <summary>
-    /// A base class for all project items that can be added to the project explorer.
-    /// </summary>
+    using Utils.TextEditor;
+    using Utils.TypeConverters;    /// <summary>
+                                   /// A base class for all project items that can be added to the project explorer.
+                                   /// </summary>
     [KnownType(typeof(ProjectItem))]
     [KnownType(typeof(FolderItem))]
     [KnownType(typeof(ScriptItem))]
@@ -25,6 +26,12 @@
         /// </summary>
         [Browsable(false)]
         private String description;
+
+        /// <summary>
+        /// The extended description of this project item.
+        /// </summary>
+        [Browsable(false)]
+        private String extendedDescription;
 
         /// <summary>
         /// A value indicating whether this project item has been activated.
@@ -91,6 +98,29 @@
                 this.description = value;
                 ProjectExplorerViewModel.GetInstance().HasUnsavedChanges = true;
                 this.NotifyPropertyChanged(nameof(this.Description));
+                ProjectExplorerViewModel.GetInstance().OnPropertyUpdate();
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the description for this object.
+        /// </summary>
+        [DataMember]
+        [TypeConverter(typeof(TextConverter))]
+        [Editor(typeof(TextEditorModel), typeof(UITypeEditor))]
+        [Category("Properties"), DisplayName("Extended Description"), Description("Extended description for additional information about this item")]
+        public String ExtendedDescription
+        {
+            get
+            {
+                return this.extendedDescription;
+            }
+
+            set
+            {
+                this.extendedDescription = value;
+                ProjectExplorerViewModel.GetInstance().HasUnsavedChanges = true;
+                this.NotifyPropertyChanged(nameof(this.ExtendedDescription));
                 ProjectExplorerViewModel.GetInstance().OnPropertyUpdate();
             }
         }

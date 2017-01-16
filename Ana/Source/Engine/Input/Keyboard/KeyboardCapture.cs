@@ -1,7 +1,9 @@
 ﻿namespace Ana.Source.Engine.Input.Keyboard
 {
+    using Output;
     using SharpDX;
     using SharpDX.DirectInput;
+    using System;
     using System.Collections.Generic;
 
     /// <summary>
@@ -15,9 +17,7 @@
         public KeyboardCapture()
         {
             this.Subjects = new List<IKeyboardObserver>();
-            this.DirectInput = new DirectInput();
-            this.Keyboard = new Keyboard(this.DirectInput);
-            this.Keyboard.Acquire();
+            this.FindKeyboard();
         }
 
         /// <summary>
@@ -120,7 +120,13 @@
             }
             catch (SharpDXException)
             {
-                this.Keyboard.Acquire();
+                try
+                {
+                    this.Keyboard.Acquire();
+                }
+                catch
+                {
+                }
             }
         }
 
@@ -169,6 +175,25 @@
             foreach (IKeyboardObserver keySubject in this.Subjects)
             {
                 keySubject.OnUpdateAllDownKeys(downKeys);
+            }
+        }
+
+        /// <summary>
+        /// Finds any connected keyboard devices.
+        /// </summary>
+        private void FindKeyboard()
+        {
+            try
+            {
+                this.DirectInput = new DirectInput();
+                this.Keyboard = new Keyboard(this.DirectInput);
+                this.Keyboard.Acquire();
+
+                OutputViewModel.GetInstance().Log(OutputViewModel.LogLevel.Info, "Keyboard device found");
+            }
+            catch (Exception ex)
+            {
+                OutputViewModel.GetInstance().Log(OutputViewModel.LogLevel.Error, "Unable to acquire keyboard device: " + ex.ToString());
             }
         }
     }

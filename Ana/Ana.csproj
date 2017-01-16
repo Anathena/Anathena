@@ -31,11 +31,11 @@
     <ErrorReportUrl>https://www.anathena.com/</ErrorReportUrl>
     <ProductName>Anathena</ProductName>
     <PublisherName>Anathena</PublisherName>
-    <MinimumRequiredVersion>3.4.3.0</MinimumRequiredVersion>
+    <MinimumRequiredVersion>3.4.4.0</MinimumRequiredVersion>
     <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>publish.htm</WebPage>
     <ApplicationRevision>0</ApplicationRevision>
-    <ApplicationVersion>3.4.3.0</ApplicationVersion>
+    <ApplicationVersion>3.4.4.0</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -443,9 +443,12 @@
     <Compile Include="Source\Utils\Extensions\StringExtensions.cs" />
     <Compile Include="Source\Utils\Hashing.cs" />
     <Compile Include="Source\Utils\StaticRandom.cs" />
+    <Compile Include="Source\Utils\TypeConverters\TextConverter.cs" />
     <Compile Include="Source\Utils\TypeEditors\HotkeyEditor\HotkeyEditorViewModel.cs" />
     <Compile Include="Source\Utils\TypeEditors\HotkeyEditor\HotkeyEditorModel.cs" />
     <Compile Include="Source\Utils\TypeEditors\OffsetEditor\OffsetEditorViewModel.cs" />
+    <Compile Include="Source\Utils\TypeEditors\TextEditor\TextEditorModel.cs" />
+    <Compile Include="Source\Utils\TypeEditors\TextEditor\TextEditorViewModel.cs" />
     <Compile Include="Source\Utils\TypeEditors\ValueEditor\ValueEditorModel.cs" />
     <Compile Include="Source\Utils\TypeEditors\ValueEditor\ValueEditorViewModel.cs" />
     <Compile Include="Source\Utils\TypeEditors\ScriptEditor\ScriptEditorModel.cs" />
@@ -597,6 +600,9 @@
     <Compile Include="View\ChangeLog.xaml.cs">
       <DependentUpon>ChangeLog.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\Editors\TextEditor.xaml.cs">
+      <DependentUpon>TextEditor.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\Editors\ValueEditor.xaml.cs">
       <DependentUpon>ValueEditor.xaml</DependentUpon>
     </Compile>
@@ -712,6 +718,10 @@
       <ExcludeFromStyleCop>False</ExcludeFromStyleCop>
     </Compile>
     <Page Include="View\ChangeLog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\Editors\TextEditor.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

@@ -21,6 +21,7 @@
     using Source.UserSettings;
     using Source.Utils.HotkeyEditor;
     using Source.Utils.ScriptEditor;
+    using Source.Utils.TextEditor;
     using Source.Utils.ValueEditor;
 
     /// <summary>
@@ -242,6 +243,17 @@
             get
             {
                 return new ScriptEditorViewModel();
+            }
+        }
+
+        /// <summary>
+        /// Gets the Text Editor view model. Note: Not a singleton, will create a new object.
+        /// </summary>
+        public TextEditorViewModel TextEditorViewModel
+        {
+            get
+            {
+                return new TextEditorViewModel();
             }
         }
 

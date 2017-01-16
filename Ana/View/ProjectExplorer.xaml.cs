@@ -108,6 +108,11 @@
         private ContextMenuStrip contextMenuStrip;
 
         /// <summary>
+        /// The tool tip for project items.
+        /// </summary>
+        private ToolTip projectItemToolTip;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="ProjectExplorer" /> class.
         /// </summary>
         public ProjectExplorer()
@@ -739,6 +744,7 @@
             entryValuePreview.ParentColumn = null;
             entryValuePreview.DrawText += this.EntryValuePreviewDrawText;
 
+            this.projectItemToolTip = new ToolTip();
             this.toggleSelectionMenuItem = new ToolStripMenuItem("Toggle");
             this.compileSelectionMenuItem = new ToolStripMenuItem("Compile");
             this.addNewItemMenuItem = new ToolStripMenuItem("Add New...");
@@ -800,11 +806,37 @@
             this.projectExplorerTreeView.DragDrop += this.ProjectExplorerTreeViewDragDrop;
             this.projectExplorerTreeView.DragEnter += this.ProjectExplorerTreeViewDragEnter;
             this.projectExplorerTreeView.DragOver += this.ProjectExplorerTreeViewDragOver;
+            this.projectExplorerTreeView.MouseMove += this.ProjectExplorerTreeViewMouseMove;
 
             this.projectExplorerTreeView.BackColor = DarkBrushes.BaseColor3;
             this.projectExplorerTreeView.ForeColor = DarkBrushes.BaseColor2;
             this.projectExplorerTreeView.DragDropMarkColor = DarkBrushes.BaseColor11;
             this.projectExplorerTreeView.LineColor = DarkBrushes.BaseColor11;
+        }
+
+        /// <summary>
+        /// Event when the mouse moves on the tree view. Will show the appropriate tooltip for the target item.
+        /// </summary>
+        /// <param name="sender">Sending object.</param>
+        /// <param name="e">Event args.</param>
+        private void ProjectExplorerTreeViewMouseMove(Object sender, MouseEventArgs e)
+        {
+            // Get the node at the current mouse pointer location
+            ProjectItem projectItem = this.GetProjectItemFromNode(this.projectExplorerTreeView.GetNodeAt(e.Location));
+
+            if (projectItem != null)
+            {
+                // Change the ToolTip only if the pointer moved to a new node
+                if (projectItem.ExtendedDescription != this.projectItemToolTip.GetToolTip(this.projectExplorerTreeView))
+                {
+                    this.projectItemToolTip.SetToolTip(this.projectExplorerTreeView, projectItem.ExtendedDescription);
+                }
+            }
+            else
+            {
+                // Pointer is not over a node so clear the ToolTip
+                this.projectItemToolTip.SetToolTip(this.projectExplorerTreeView, String.Empty);
+            }
         }
 
         /// <summary>

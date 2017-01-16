@@ -172,7 +172,7 @@
         /// </summary>
         /// <param name="size">The size of the allocation.</param>
         /// <returns>The address of the allocated memory.</returns>
-        public UInt64 AllocateMemory(Int32 size)
+        public UInt64 Allocate(Int32 size)
         {
             this.PrintDebugTag();
 
@@ -188,7 +188,7 @@
         /// <param name="size">The size of the allocation.</param>
         /// <param name="allocAddress">The rough address of where the allocation should take place.</param>
         /// <returns>The address of the allocated memory.</returns>
-        public UInt64 AllocateMemory(Int32 size, UInt64 allocAddress)
+        public UInt64 Allocate(Int32 size, UInt64 allocAddress)
         {
             this.PrintDebugTag();
 
@@ -202,7 +202,7 @@
         /// Deallocates memory previously allocated at a specified address.
         /// </summary>
         /// <param name="address">The address to perform the deallocation.</param>
-        public void DeallocateMemory(UInt64 address)
+        public void Deallocate(UInt64 address)
         {
             this.PrintDebugTag();
 
@@ -222,7 +222,7 @@
         /// <summary>
         /// Deallocates all allocated memory for the parent script.
         /// </summary>
-        public void DeallocateAllMemory()
+        public void DeallocateAll()
         {
             this.PrintDebugTag();
 
@@ -263,7 +263,7 @@
                 String noOps = assemblySize - originalBytes.Length > 0 ? "db " + String.Join(" ", Enumerable.Repeat("0x90,", assemblySize - originalBytes.Length)).TrimEnd(',') : String.Empty;
 
                 Byte[] injectionBytes = this.GetAssemblyBytes(assembly + Environment.NewLine + noOps, address);
-                this.WriteMemory(address, injectionBytes);
+                this.Write(address, injectionBytes);
 
                 CodeCave codeCave = new CodeCave(address, 0, originalBytes);
                 this.CodeCaves.Add(codeCave);
@@ -288,21 +288,21 @@
                 UInt64 remoteAllocation;
                 if (EngineCore.GetInstance().Processes.IsOpenedProcess32Bit())
                 {
-                    remoteAllocation = this.AllocateMemory(assemblySize);
+                    remoteAllocation = this.Allocate(assemblySize);
                 }
                 else
                 {
-                    remoteAllocation = this.AllocateMemory(assemblySize, address);
+                    remoteAllocation = this.Allocate(assemblySize, address);
                 }
 
                 // Write injected code to new page
                 Byte[] injectionBytes = this.GetAssemblyBytes(assembly, remoteAllocation);
-                this.WriteMemory(remoteAllocation, injectionBytes);
+                this.Write(remoteAllocation, injectionBytes);
 
                 // Write in the jump to the code cave
                 String codeCaveJump = ("jmp " + Conversions.ToHex(remoteAllocation, formatAsAddress: false, includePrefix: true) + Environment.NewLine + noOps).Trim();
                 Byte[] jumpBytes = this.GetAssemblyBytes(codeCaveJump, address);
-                this.WriteMemory(address, jumpBytes);
+                this.Write(address, jumpBytes);
 
                 // Save this code cave for later deallocation
                 CodeCave codeCave = new CodeCave(address, remoteAllocation, originalBytes);
@@ -563,7 +563,7 @@
         /// <typeparam name="T">The data type to read.</typeparam>
         /// <param name="address">The address of the read.</param>
         /// <returns>The value read from memory.</returns>
-        public T ReadMemory<T>(UInt64 address)
+        public T Read<T>(UInt64 address)
         {
             this.PrintDebugTag(address.ToString("x"));
 
@@ -577,7 +577,7 @@
         /// <param name="address">The address of the read.</param>
         /// <param name="count">The number of bytes to read.</param>
         /// <returns>The bytes read at the address.</returns>
-        public Byte[] ReadMemory(UInt64 address, Int32 count)
+        public Byte[] Read(UInt64 address, Int32 count)
         {
             this.PrintDebugTag(address.ToString("x"), count.ToString());
 
@@ -591,7 +591,7 @@
         /// <typeparam name="T">The data type to write.</typeparam>
         /// <param name="address">The address of the write.</param>
         /// <param name="value">The value of the write.</param>
-        public void WriteMemory<T>(UInt64 address, T value)
+        public void Write<T>(UInt64 address, T value)
         {
             this.PrintDebugTag(address.ToString("x"), value.ToString());
 
@@ -603,7 +603,7 @@
         /// </summary>
         /// <param name="address">The address of the write.</param>
         /// <param name="values">The values of the write.</param>
-        public void WriteMemory(UInt64 address, Byte[] values)
+        public void Write(UInt64 address, Byte[] values)
         {
             this.PrintDebugTag(address.ToString("x"));
 
