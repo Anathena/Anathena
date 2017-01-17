@@ -1,5 +1,6 @@
 ﻿namespace Ana.Source.Engine.AddressResolver.DotNet
 {
+    using ActionScheduler;
     using AnathenaProxy;
     using Processes;
     using Proxy;
@@ -10,7 +11,6 @@
     using System.Threading;
     using Utils;
     using Utils.Extensions;
-    using Utils.Tasks;
 
     /// <summary>
     /// Class to walk through the managed heap of a .NET process, allowing for the easy retrieval.

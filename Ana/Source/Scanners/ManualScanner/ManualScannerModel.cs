@@ -1,5 +1,7 @@
 ﻿namespace Ana.Source.Scanners.ManualScanner
 {
+    using ActionScheduler;
+    using BackgroundScans.Prefilters;
     using ScanConstraints;
     using Snapshots;
     using System;
@@ -9,7 +11,10 @@
 
     internal class ManualScannerModel : ScannerBase
     {
-        public ManualScannerModel() : base("Manual Scan")
+        public ManualScannerModel() : base(
+            scannerName: "Manual Scan",
+            isRepeated: false,
+            dependencyBehavior: new DependencyBehavior(dependencies: typeof(ISnapshotPrefilter)))
         {
             this.ProgressLock = new Object();
         }

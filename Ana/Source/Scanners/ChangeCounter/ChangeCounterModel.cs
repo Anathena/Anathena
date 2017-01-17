@@ -1,5 +1,7 @@
 ﻿namespace Ana.Source.Scanners.ChangeCounter
 {
+    using ActionScheduler;
+    using BackgroundScans.Prefilters;
     using LabelThresholder;
     using Snapshots;
     using System;
@@ -9,7 +11,10 @@
 
     internal class ChangeCounterModel : ScannerBase
     {
-        public ChangeCounterModel(Action updateScanCount) : base("Change Counter")
+        public ChangeCounterModel(Action updateScanCount) : base(
+            scannerName: "Change Counter",
+            isRepeated: true,
+            dependencyBehavior: new DependencyBehavior(dependencies: typeof(ISnapshotPrefilter)))
         {
             this.UpdateScanCount = updateScanCount;
             this.ProgressLock = new Object();

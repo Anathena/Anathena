@@ -1,10 +1,9 @@
 ﻿namespace Ana.Source.Scanners
 {
-    using BackgroundScans.Prefilters;
+    using ActionScheduler;
     using System;
     using System.ComponentModel;
     using UserSettings;
-    using Utils.Tasks;
 
     /// <summary>
     /// The base of all scanner classes.
@@ -20,9 +19,9 @@
         /// Initializes a new instance of the <see cref="ScannerBase" /> class.
         /// </summary>
         /// <param name="scannerName">The name of this scanner.</param>
-        public ScannerBase(String scannerName) : base(
-            isRepeated: true,
-            dependencyBehavior: new DependencyBehavior(dependencies: typeof(ISnapshotPrefilter)))
+        public ScannerBase(String scannerName, Boolean isRepeated, DependencyBehavior dependencyBehavior) : base(
+            isRepeated: isRepeated,
+            dependencyBehavior: dependencyBehavior)
         {
             this.ScannerName = scannerName;
         }

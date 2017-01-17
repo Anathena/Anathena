@@ -1,5 +1,7 @@
 ﻿namespace Ana.Source.Scanners.PointerScanner
 {
+    using ActionScheduler;
+    using BackgroundScans.Prefilters;
     using Engine;
     using Engine.AddressResolver;
     using Project;
@@ -31,7 +33,10 @@
     {
         private const Int32 MaxAdd = 4096;
 
-        public PointerScannerModel() : base("Pointer Scanner")
+        public PointerScannerModel() : base(
+            scannerName: "Pointer Scanner",
+            isRepeated: false,
+            dependencyBehavior: new DependencyBehavior(dependencies: typeof(ISnapshotPrefilter)))
         {
             this.IndexValueMap = new ConcurrentDictionary<Int32, String>();
             this.PointerPool = new ConcurrentDictionary<IntPtr, IntPtr>();

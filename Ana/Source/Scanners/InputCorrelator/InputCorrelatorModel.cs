@@ -1,5 +1,7 @@
 ﻿namespace Ana.Source.Scanners.InputCorrelator
 {
+    using ActionScheduler;
+    using BackgroundScans.Prefilters;
     using Engine;
     using Engine.Input.Controller;
     using Engine.Input.HotKeys;
@@ -18,7 +20,10 @@
     {
         private List<IHotkey> hotKeys;
 
-        public InputCorrelatorModel(Action updateScanCount) : base("Input Correlator")
+        public InputCorrelatorModel(Action updateScanCount) : base(
+            scannerName: "Input Correlator",
+            isRepeated: true,
+            dependencyBehavior: new DependencyBehavior(dependencies: typeof(ISnapshotPrefilter)))
         {
             this.UpdateScanCount = updateScanCount;
         }

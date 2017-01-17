@@ -1,5 +1,7 @@
 ﻿namespace Ana.Source.Scanners.ValueCollector
 {
+    using ActionScheduler;
+    using BackgroundScans.Prefilters;
     using Snapshots;
 
     /// <summary>
@@ -10,7 +12,10 @@
         /// <summary>
         /// Initializes a new instance of the <see cref="ValueCollectorModel" /> class.
         /// </summary>
-        public ValueCollectorModel() : base("Value Collector")
+        public ValueCollectorModel() : base(
+            scannerName: "Value Collector",
+            isRepeated: false,
+            dependencyBehavior: new DependencyBehavior(dependencies: typeof(ISnapshotPrefilter)))
         {
         }
 

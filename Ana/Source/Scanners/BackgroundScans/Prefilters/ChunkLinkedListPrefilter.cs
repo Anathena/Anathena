@@ -1,5 +1,6 @@
 ﻿namespace Ana.Source.Scanners.BackgroundScans.Prefilters
 {
+    using ActionScheduler;
     using Engine;
     using Engine.OperatingSystems;
     using Engine.Processes;
@@ -13,7 +14,6 @@
     using UserSettings;
     using Utils;
     using Utils.Extensions;
-    using Utils.Tasks;
 
     /// <summary>
     /// <para>
@@ -163,7 +163,11 @@
         protected override void OnUpdate()
         {
             this.ProcessPages();
-            this.UpdateProgress();
+
+            lock (this.ChunkLock)
+            {
+                this.UpdateProgress(this.ChunkList.Where(x => x.IsProcessed()).Count(), this.ChunkList.Count());
+            }
         }
 
         /// <summary>
@@ -296,21 +300,6 @@
                         ChunkList.AddLast(chunk);
                     }
                 });
-            }
-        }
-
-        /// <summary>
-        /// Updates the progress of how many chunks have been processed.
-        /// </summary>
-        private void UpdateProgress()
-        {
-            Int32 processedCount;
-            Int32 chunkCount;
-
-            lock (this.ChunkLock)
-            {
-                processedCount = this.ChunkList.Where(x => x.IsProcessed()).Count();
-                chunkCount = this.ChunkList.Count();
             }
         }
 

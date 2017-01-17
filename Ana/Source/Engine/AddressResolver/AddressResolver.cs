@@ -1,5 +1,6 @@
 ﻿namespace Ana.Source.Engine.AddressResolver
 {
+    using ActionScheduler;
     using DotNet;
     using OperatingSystems;
     using System;
@@ -7,7 +8,6 @@
     using System.Linq;
     using System.Threading;
     using Utils.Extensions;
-    using Utils.Tasks;
 
     /// <summary>
     /// Singleton class to resolve the address of managed objects in an external process.

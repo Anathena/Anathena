@@ -1,5 +1,6 @@
 ﻿namespace Ana.Source.Scanners.BackgroundScans
 {
+    using ActionScheduler;
     using Engine;
     using Snapshots;
     using System;
@@ -9,7 +10,6 @@
     using System.Threading.Tasks;
     using UserSettings;
     using Utils.DataStructures;
-    using Utils.Tasks;
 
     /// <summary>
     /// Class to collect all pointers in the running process.

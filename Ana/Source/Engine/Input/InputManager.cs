@@ -1,10 +1,10 @@
 ﻿namespace Ana.Source.Engine.Input
 {
+    using ActionScheduler;
     using Controller;
     using Keyboard;
     using Mouse;
     using System;
-    using Utils.Tasks;
 
     /// <summary>
     /// Manages all input devices and is responsible for updating them.

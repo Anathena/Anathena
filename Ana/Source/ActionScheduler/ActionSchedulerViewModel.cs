@@ -6,7 +6,6 @@
     using System.Linq;
     using System.Threading;
     using System.Threading.Tasks;
-    using Utils.Tasks;
 
     /// <summary>
     /// Class to schedule tasks that are executed.
@@ -31,7 +30,7 @@
         private ActionSchedulerViewModel()
         {
             this.AccessLock = new Object();
-            this.Actions = new LinkedList<ScheduledTaskWrapper>();
+            this.Actions = new LinkedList<ScheduledTaskManager>();
 
             this.Update();
         }
@@ -44,7 +43,7 @@
         /// <summary>
         /// Gets or sets actions being scheduled.
         /// </summary>
-        private LinkedList<ScheduledTaskWrapper> Actions { get; set; }
+        private LinkedList<ScheduledTaskManager> Actions { get; set; }
 
         /// <summary>
         /// Gets a singleton instance of the <see cref="ActionSchedulerViewModel"/> class.
@@ -66,7 +65,7 @@
         {
             lock (this.AccessLock)
             {
-                this.Actions.AddLast(new ScheduledTaskWrapper(scheduledTask, startAction, updateAction, endAction));
+                this.Actions.AddLast(new ScheduledTaskManager(scheduledTask, startAction, updateAction, endAction));
             }
         }
 
@@ -78,16 +77,16 @@
         {
             lock (this.AccessLock)
             {
-                ScheduledTaskWrapper scheduledTaskWrapper = this.Actions.Select(x => x).Where(x => x.ScheduledTask == scheduledTask).FirstOrDefault();
+                ScheduledTaskManager scheduledTaskManager = this.Actions.Select(x => x).Where(x => x.ScheduledTask == scheduledTask).FirstOrDefault();
 
-                if (scheduledTaskWrapper == null)
+                if (scheduledTaskManager == null)
                 {
                     return;
                 }
 
-                this.Actions.Remove(scheduledTaskWrapper);
+                this.Actions.Remove(scheduledTaskManager);
 
-                Task.Run(() => scheduledTaskWrapper.EndAction());
+                Task.Run(() => scheduledTaskManager.EndAction());
             }
         }
 
@@ -105,41 +104,54 @@
 
                     lock (this.AccessLock)
                     {
-                        ScheduledTaskWrapper scheduledTask = this.Actions.FirstOrDefault();
+                        ScheduledTaskManager scheduledTaskManager = this.Actions.FirstOrDefault();
 
-                        if (scheduledTask == null)
+                        if (scheduledTaskManager == null)
                         {
-                            continue;
-                        }
-
-                        this.Actions.Remove(scheduledTask);
-
-                        if (scheduledTask.CanStart)
-                        {
-                            // Start the task
-                            scheduledTask.InitializeStart();
-                            Task.Run(() => scheduledTask.StartAction());
-                        }
-                        else if (scheduledTask.CanUpdate)
-                        {
-                            if (!scheduledTask.IsBusy)
-                            {
-                                // Update the task
-                                scheduledTask.InitializeUpdate();
-                                Task.Run(() => scheduledTask.UpdateAction());
-                            }
-                        }
-                        else if (scheduledTask.CanEnd)
-                        {
-                            // End the task
-                            Task.Run(() => scheduledTask.EndAction());
-
-                            // End early as to prevent the task from getting requeued
                             continue;
                         }
 
                         // Add the task to the end of the queue
-                        this.Actions.AddLast(scheduledTask);
+                        this.Actions.Remove(scheduledTaskManager);
+                        this.Actions.AddLast(scheduledTaskManager);
+
+                        ScheduledTask scheduledTask = scheduledTaskManager.ScheduledTask;
+
+                        if (scheduledTaskManager.CanStart)
+                        {
+                            // Check if dependencies are complete for this task to start
+                            if (scheduledTask.DependencyBehavior.IsDependencyRequiredForStart && !this.DependenciesResolved(scheduledTask))
+                            {
+                                continue;
+                            }
+
+                            // Start the task
+                            scheduledTaskManager.InitializeStart();
+                            Task.Run(() => scheduledTaskManager.StartAction());
+                        }
+                        else if (scheduledTaskManager.CanUpdate)
+                        {
+                            // Check if dependencies are complete for this task to update
+                            if (scheduledTask.DependencyBehavior.IsDependencyRequiredForUpdate && !this.DependenciesResolved(scheduledTask))
+                            {
+                                continue;
+                            }
+
+                            if (!scheduledTaskManager.IsBusy)
+                            {
+                                // Update the task
+                                scheduledTaskManager.InitializeUpdate();
+                                Task.Run(() => scheduledTaskManager.UpdateAction());
+                            }
+                        }
+                        else if (scheduledTaskManager.CanEnd)
+                        {
+                            // End the task
+                            Task.Run(() => scheduledTaskManager.EndAction());
+
+                            // Permanently remove this task
+                            this.Actions.Remove(scheduledTaskManager);
+                        }
                     }
                 }
                 while (true);
@@ -147,23 +159,37 @@
         }
 
         /// <summary>
+        /// Determines if the depencies are resolved for a given scheduled task.
+        /// </summary>
+        /// <param name="scheduledTask">The scheduled task.</param>
+        /// <returns>True if the dependencies are resolved, otherwise false.</returns>
+        private Boolean DependenciesResolved(ScheduledTask scheduledTask)
+        {
+            IEnumerable<Type> completedDependencies = this.Actions.Select(x => x.ScheduledTask)
+                .Where(x => x.HasProgressCompleted)
+                .Select(x => x.GetType());
+
+            return scheduledTask.DependencyBehavior.AreDependenciesResolved(completedDependencies);
+        }
+
+        /// <summary>
         /// Manages a scheduled task and the state information associated with the task.
         /// </summary>
-        private class ScheduledTaskWrapper
+        private class ScheduledTaskManager
         {
             /// <summary>
-            /// Initializes a new instance of the <see cref="ScheduledTaskWrapper" /> class.
+            /// Initializes a new instance of the <see cref="ScheduledTaskManager" /> class.
             /// </summary>
             /// <param name="scheduledTask">The task to be scheduled.</param>
             /// <param name="startAction">The start callback function.</param>
             /// <param name="updateAction">The update callback function.</param>
             /// <param name="endAction">The end callback function.</param>
-            public ScheduledTaskWrapper(ScheduledTask scheduledTask, Action startAction, Action updateAction, Action endAction)
+            public ScheduledTaskManager(ScheduledTask scheduledTask, Action startAction, Action updateAction, Action endAction)
             {
                 this.ScheduledTask = scheduledTask;
                 this.StartAction = startAction;
                 this.InternalUpdateAction = updateAction;
-                this.UpdateAction = this.UpdateWrapper;
+                this.UpdateAction = this.Update;
                 this.EndAction = endAction;
 
                 this.HasStarted = false;
@@ -274,7 +300,7 @@
             /// <summary>
             /// A wrapper function for the update callback. This will call the update function and update required state information.
             /// </summary>
-            private void UpdateWrapper()
+            private void Update()
             {
                 lock (this.AccessLock)
                 {

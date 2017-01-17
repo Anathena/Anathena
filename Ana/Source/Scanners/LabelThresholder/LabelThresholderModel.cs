@@ -14,7 +14,10 @@
 
         private Double lowerThreshold;
 
-        public LabelThresholderModel(Action onUpdateHistogram) : base("Label Thresholder")
+        public LabelThresholderModel(Action onUpdateHistogram) : base(
+            scannerName: "Label Thresholder",
+            isRepeated: false,
+            dependencyBehavior: null)
         {
             this.ItemLock = new Object();
             this.SnapshotLock = new Object();

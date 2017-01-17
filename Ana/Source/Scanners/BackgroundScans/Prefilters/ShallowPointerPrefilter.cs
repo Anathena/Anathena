@@ -1,5 +1,6 @@
 ﻿namespace Ana.Source.Scanners.BackgroundScans.Prefilters
 {
+    using ActionScheduler;
     using Engine;
     using Engine.OperatingSystems;
     using Engine.Processes;
@@ -10,7 +11,6 @@
     using System.Threading;
     using Utils.DataStructures;
     using Utils.Extensions;
-    using Utils.Tasks;
 
     /// <summary>
     /// Class to collect all pointers in the module bases of the target process, and slowly trace pointers from there.
