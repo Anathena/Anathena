@@ -1,14 +1,15 @@
 ﻿namespace Ana.Source.Scanners
 {
+    using BackgroundScans.Prefilters;
     using System;
     using System.ComponentModel;
     using UserSettings;
-    using Utils;
+    using Utils.Tasks;
 
     /// <summary>
     /// The base of all scanner classes.
     /// </summary>
-    internal abstract class ScannerBase : RepeatedTask, INotifyPropertyChanged
+    internal abstract class ScannerBase : ScheduledTask, INotifyPropertyChanged
     {
         /// <summary>
         /// The number of scans completed.
@@ -19,7 +20,9 @@
         /// Initializes a new instance of the <see cref="ScannerBase" /> class.
         /// </summary>
         /// <param name="scannerName">The name of this scanner.</param>
-        public ScannerBase(String scannerName)
+        public ScannerBase(String scannerName) : base(
+            isRepeated: true,
+            dependencyBehavior: new DependencyBehavior(dependencies: typeof(ISnapshotPrefilter)))
         {
             this.ScannerName = scannerName;
         }
@@ -52,22 +55,21 @@
         protected String ScannerName { get; private set; }
 
         /// <summary>
-        /// Begins the scan.
-        /// </summary>
-        public override void Begin()
-        {
-            this.ScanCount = 0;
-            this.UpdateInterval = SettingsViewModel.GetInstance().RescanInterval;
-            base.Begin();
-        }
-
-        /// <summary>
         /// Notifies view model of a property change.
         /// </summary>
         /// <param name="propertyName">The name of the changing property.</param>
         protected void NotifyPropertyChanged(String propertyName)
         {
             this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        /// <summary>
+        /// Begins the scan.
+        /// </summary>
+        protected override void OnBegin()
+        {
+            this.ScanCount = 0;
+            this.UpdateInterval = SettingsViewModel.GetInstance().RescanInterval;
         }
 
         /// <summary>

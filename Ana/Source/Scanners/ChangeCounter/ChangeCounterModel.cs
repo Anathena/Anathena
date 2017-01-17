@@ -38,7 +38,7 @@
             this.MaxChanges = maxChanges;
         }
 
-        public override void Begin()
+        protected override void OnBegin()
         {
             // Initialize labeled snapshot
             this.Snapshot = SnapshotManager.GetInstance().GetActiveSnapshot(createIfNone: true).Clone();
@@ -51,8 +51,6 @@
 
             // Initialize change counts to zero
             this.Snapshot.SetElementLabels<UInt16>(0);
-
-            base.Begin();
         }
 
         protected override void OnUpdate()
@@ -88,7 +86,6 @@
                 }
             });
 
-            base.OnUpdate();
             this.UpdateScanCount?.Invoke();
         }
 
@@ -99,7 +96,6 @@
         {
             SnapshotManager.GetInstance().SaveSnapshot(this.Snapshot);
             LabelThresholderViewModel.GetInstance().OpenLabelThresholder();
-            base.OnEnd();
         }
 
         private void CleanUp()

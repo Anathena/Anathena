@@ -10,12 +10,13 @@
     using System.Threading;
     using Utils;
     using Utils.Extensions;
+    using Utils.Tasks;
 
     /// <summary>
     /// Class to walk through the managed heap of a .NET process, allowing for the easy retrieval.
     /// of fully labeled objects.
     /// </summary>
-    internal class DotNetObjectCollector : RepeatedTask
+    internal class DotNetObjectCollector : ScheduledTask
     {
         /// <summary>
         /// Duration in ms to poll the target process for .Net objects initially.
@@ -75,7 +76,7 @@
         /// <summary>
         /// Prevents a default instance of the <see cref="DotNetObjectCollector" /> class from being created.
         /// </summary>
-        private DotNetObjectCollector()
+        private DotNetObjectCollector() : base(isRepeated: true)
         {
         }
 
@@ -94,12 +95,10 @@
         }
 
         /// <summary>
-        /// Starts the collection of .Net objects.
+        /// Called before the collection of .Net objects.
         /// </summary>
-        public override void Begin()
+        protected override void OnBegin()
         {
-            base.Begin();
-
             this.UpdateInterval = DotNetObjectCollector.InitialPollingTime;
         }
 

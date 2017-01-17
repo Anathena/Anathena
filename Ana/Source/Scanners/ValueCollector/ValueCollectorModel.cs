@@ -17,7 +17,7 @@
         /// <summary>
         /// Performs the value collection scan.
         /// </summary>
-        public override void Begin()
+        protected override void OnBegin()
         {
             Snapshot snapshot = SnapshotManager.GetInstance().GetActiveSnapshot(createIfNone: true).Clone(this.ScannerName);
             snapshot.ReadAllMemory();

@@ -89,7 +89,7 @@
 
         private void StopScan()
         {
-            this.ChangeCounterModel.End();
+            this.ChangeCounterModel.Cancel();
         }
     }
     //// End class

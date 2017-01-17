@@ -25,20 +25,18 @@
             this.ScanConstraintManager = scanConstraintManager;
         }
 
-        public override void Begin()
+        protected override void OnBegin()
         {
             // Initialize snapshot
             this.Snapshot = SnapshotManager.GetInstance().GetActiveSnapshot(createIfNone: true).Clone(this.ScannerName);
 
             if (this.Snapshot == null || this.ScanConstraintManager == null || this.ScanConstraintManager.Count() <= 0)
             {
-                this.End();
+                this.Cancel();
                 return;
             }
 
             this.Snapshot.SetAllValidBits(true);
-
-            base.Begin();
         }
 
         protected override void OnUpdate()
@@ -179,9 +177,6 @@
                 }
             });
             //// End foreach Region
-
-            base.OnUpdate();
-            this.CancelFlag = true;
         }
 
         /// <summary>
@@ -192,7 +187,6 @@
             this.Snapshot.DiscardInvalidRegions();
             SnapshotManager.GetInstance().SaveSnapshot(this.Snapshot);
             this.CleanUp();
-            base.OnEnd();
         }
 
         private void CleanUp()

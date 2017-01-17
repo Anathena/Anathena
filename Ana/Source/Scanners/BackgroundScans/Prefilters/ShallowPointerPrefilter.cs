@@ -8,15 +8,15 @@
     using System;
     using System.Collections.Generic;
     using System.Threading;
-    using Utils;
     using Utils.DataStructures;
     using Utils.Extensions;
+    using Utils.Tasks;
 
     /// <summary>
     /// Class to collect all pointers in the module bases of the target process, and slowly trace pointers from there.
     /// The growth radius will be small, so only a small subset of the processes memory should be explored.
     /// </summary>
-    internal class ShallowPointerPrefilter : RepeatedTask, ISnapshotPrefilter
+    internal class ShallowPointerPrefilter : ScheduledTask, ISnapshotPrefilter
     {
         /// <summary>
         /// The distance from the pointer target where we will keep the addresses in this prefilter.
@@ -48,7 +48,7 @@
         /// <summary>
         /// Prevents a default instance of the <see cref="ShallowPointerPrefilter" /> class from being created.
         /// </summary>
-        private ShallowPointerPrefilter()
+        private ShallowPointerPrefilter() : base(isRepeated: true)
         {
             this.PrefilteredSnapshot = new Snapshot();
             this.RegionLock = new Object();
@@ -113,10 +113,9 @@
         /// <summary>
         /// Starts the prefilter.
         /// </summary>
-        public override void Begin()
+        protected override void OnBegin()
         {
-            this.UpdateInterval = RescanTime;
-            base.Begin();
+            this.UpdateInterval = ShallowPointerPrefilter.RescanTime;
         }
 
         /// <summary>
@@ -126,14 +125,6 @@
         {
             this.ProcessPages();
             this.UpdateProgress();
-        }
-
-        /// <summary>
-        /// Called when the repeated task completes.
-        /// </summary>
-        protected override void OnEnd()
-        {
-            base.OnEnd();
         }
 
         /// <summary>

@@ -13,6 +13,7 @@
     using UserSettings;
     using Utils;
     using Utils.Extensions;
+    using Utils.Tasks;
 
     /// <summary>
     /// <para>
@@ -33,7 +34,7 @@
     ///     3) On snapshot request, we can do a grow+mask operation of current chunks against the current virtual pages.
     /// </para>
     /// </summary>
-    internal class ChunkLinkedListPrefilter : RepeatedTask, ISnapshotPrefilter, IProcessObserver
+    internal class ChunkLinkedListPrefilter : ScheduledTask, ISnapshotPrefilter, IProcessObserver
     {
         /// <summary>
         /// The maximum number of chunks to process in a given update cycle.
@@ -60,7 +61,7 @@
         /// <summary>
         /// Prevents a default instance of the <see cref="ChunkLinkedListPrefilter" /> class from being created.
         /// </summary>
-        private ChunkLinkedListPrefilter()
+        private ChunkLinkedListPrefilter() : base(isRepeated: true)
         {
             this.ChunkList = new LinkedList<RegionProperties>();
             this.ChunkLock = new Object();
@@ -151,10 +152,9 @@
         /// <summary>
         /// Starts the prefilter.
         /// </summary>
-        public override void Begin()
+        protected override void OnBegin()
         {
             this.UpdateInterval = ChunkLinkedListPrefilter.RescanTime;
-            base.Begin();
         }
 
         /// <summary>
@@ -164,14 +164,6 @@
         {
             this.ProcessPages();
             this.UpdateProgress();
-        }
-
-        /// <summary>
-        /// Called when the repeated task completes.
-        /// </summary>
-        protected override void OnEnd()
-        {
-            base.OnEnd();
         }
 
         /// <summary>

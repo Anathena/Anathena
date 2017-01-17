@@ -6,13 +6,13 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading;
-    using Utils;
     using Utils.Extensions;
+    using Utils.Tasks;
 
     /// <summary>
     /// Singleton class to resolve the address of managed objects in an external process.
     /// </summary>
-    internal class AddressResolver : RepeatedTask
+    internal class AddressResolver : ScheduledTask
     {
         /// <summary>
         /// Time in ms of how often to poll and resolve addresses initially.
@@ -34,7 +34,7 @@
         /// <summary>
         /// Prevents a default instance of the <see cref="AddressResolver" /> class from being created.
         /// </summary>
-        private AddressResolver()
+        private AddressResolver() : base(isRepeated: true)
         {
             this.DotNetNameMap = new Dictionary<String, DotNetObject>();
         }
@@ -137,10 +137,8 @@
         /// <summary>
         /// Begins polling the external process for information needed to resolve addresses.
         /// </summary>
-        public override void Begin()
+        protected override void OnBegin()
         {
-            base.Begin();
-
             this.UpdateInterval = AddressResolver.ResolveIntervalInitial;
         }
 
@@ -159,16 +157,8 @@
             // After we have successfully grabbed information from the process, slow the update interval
             if (objectTrees != null)
             {
-                this.UpdateInterval = ResolveInterval;
+                this.UpdateInterval = AddressResolver.ResolveInterval;
             }
-        }
-
-        /// <summary>
-        /// Called when the repeated task completes.
-        /// </summary>
-        protected override void OnEnd()
-        {
-            base.OnEnd();
         }
 
         /// <summary>

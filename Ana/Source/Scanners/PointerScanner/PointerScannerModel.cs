@@ -184,11 +184,6 @@
             return this.MaxPointerOffset;
         }
 
-        public override void Begin()
-        {
-            base.Begin();
-        }
-
         public void BeginPointerScan()
         {
             this.ScanMode = ScanModeEnum.Scan;
@@ -238,16 +233,6 @@
                     this.ScanMode = ScanModeEnum.ReadValues;
                     break;
             }
-
-            base.OnUpdate();
-        }
-
-        /// <summary>
-        /// Called when the repeated task completes.
-        /// </summary>
-        protected override void OnEnd()
-        {
-            base.OnEnd();
         }
 
         private IntPtr ResolvePointer(Tuple<IntPtr, List<Int32>> fullPointer)

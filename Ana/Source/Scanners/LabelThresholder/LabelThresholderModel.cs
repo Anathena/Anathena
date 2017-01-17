@@ -148,11 +148,6 @@
             this.UpdateHistogram(forceUpdate: true);
         }
 
-        public override void Begin()
-        {
-            base.Begin();
-        }
-
         protected override void OnUpdate()
         {
             ConcurrentDictionary<dynamic, Int64> histogram = new ConcurrentDictionary<dynamic, Int64>();
@@ -161,7 +156,7 @@
             {
                 if (this.Snapshot == null)
                 {
-                    this.End();
+                    this.Cancel();
                     return;
                 }
 
@@ -198,15 +193,7 @@
 
             this.Histogram = new SortedList<dynamic, Int64>(histogram);
             this.UpdateHistogram();
-            this.End();
-        }
-
-        /// <summary>
-        /// Called when the repeated task completes.
-        /// </summary>
-        protected override void OnEnd()
-        {
-            base.OnEnd();
+            this.Cancel();
         }
 
         private void UpdateHistogram(Boolean forceUpdate = false)

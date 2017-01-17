@@ -57,27 +57,6 @@
             }
         }
 
-        public override void Begin()
-        {
-            this.InitializeObjects();
-
-            // Initialize labeled snapshot
-            this.Snapshot = SnapshotManager.GetInstance().GetActiveSnapshot(createIfNone: true).Clone(this.ScannerName);
-            this.Snapshot.LabelType = typeof(Int16);
-
-            if (this.Snapshot == null)
-            {
-                this.End();
-                return;
-            }
-
-            // Initialize with no correlation
-            this.Snapshot.SetElementLabels<Int16>(0);
-            this.TimeOutIntervalMs = SettingsViewModel.GetInstance().InputCorrelatorTimeOutInterval;
-
-            base.Begin();
-        }
-
         /// <summary>
         /// Event received when a key is pressed.
         /// </summary>
@@ -113,6 +92,25 @@
             {
                 this.LastActivated = DateTime.Now;
             }
+        }
+
+        protected override void OnBegin()
+        {
+            this.InitializeObjects();
+
+            // Initialize labeled snapshot
+            this.Snapshot = SnapshotManager.GetInstance().GetActiveSnapshot(createIfNone: true).Clone(this.ScannerName);
+            this.Snapshot.LabelType = typeof(Int16);
+
+            if (this.Snapshot == null)
+            {
+                this.Cancel();
+                return;
+            }
+
+            // Initialize with no correlation
+            this.Snapshot.SetElementLabels<Int16>(0);
+            this.TimeOutIntervalMs = SettingsViewModel.GetInstance().InputCorrelatorTimeOutInterval;
         }
 
         protected override void OnUpdate()
@@ -170,7 +168,6 @@
                 });
             }
 
-            base.OnUpdate();
             this.UpdateScanCount?.Invoke();
         }
 
@@ -198,7 +195,6 @@
 
             this.CleanUp();
             LabelThresholderViewModel.GetInstance().OpenLabelThresholder();
-            base.OnEnd();
         }
 
         private void InitializeObjects()
