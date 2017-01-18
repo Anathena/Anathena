@@ -6,7 +6,7 @@
     using System.Linq;
     using System.Threading;
     using System.Threading.Tasks;
-
+    using Utils.DataStructures;
     /// <summary>
     /// Class to schedule tasks that are executed.
     /// </summary>
@@ -44,6 +44,11 @@
         /// Gets or sets actions being scheduled.
         /// </summary>
         private LinkedList<ScheduledTaskManager> Actions { get; set; }
+
+        /// <summary>
+        /// Gets or sets the next action being scheduled.
+        /// </summary>
+        private LinkedListNode<ScheduledTaskManager> NextAction { get; set; }
 
         /// <summary>
         /// Gets a singleton instance of the <see cref="ActionSchedulerViewModel"/> class.
@@ -104,53 +109,52 @@
 
                     lock (this.AccessLock)
                     {
-                        ScheduledTaskManager scheduledTaskManager = this.Actions.FirstOrDefault();
+                        // Cycle to the next task
+                        this.NextAction = this.NextAction?.NextOrFirst() ?? this.Actions.First;
 
-                        if (scheduledTaskManager == null)
+                        if (NextAction == null)
                         {
                             continue;
                         }
 
-                        // Add the task to the end of the queue
-                        this.Actions.Remove(scheduledTaskManager);
-                        this.Actions.AddLast(scheduledTaskManager);
+                        ScheduledTaskManager nextTask = this.NextAction.Value;
 
-                        ScheduledTask scheduledTask = scheduledTaskManager.ScheduledTask;
-
-                        if (scheduledTaskManager.CanStart)
+                        if (nextTask.CanStart)
                         {
                             // Check if dependencies are complete for this task to start
-                            if (scheduledTask.DependencyBehavior.IsDependencyRequiredForStart && !this.DependenciesResolved(scheduledTask))
+                            if (nextTask.ScheduledTask.DependencyBehavior.IsDependencyRequiredForStart
+                                && !this.DependenciesResolved(nextTask.ScheduledTask))
                             {
                                 continue;
                             }
 
                             // Start the task
-                            scheduledTaskManager.InitializeStart();
-                            Task.Run(() => scheduledTaskManager.StartAction());
+                            nextTask.InitializeStart();
+                            Task.Run(() => nextTask.StartAction());
                         }
-                        else if (scheduledTaskManager.CanUpdate)
+                        else if (nextTask.CanUpdate)
                         {
                             // Check if dependencies are complete for this task to update
-                            if (scheduledTask.DependencyBehavior.IsDependencyRequiredForUpdate && !this.DependenciesResolved(scheduledTask))
+                            if (nextTask.ScheduledTask.DependencyBehavior.IsDependencyRequiredForUpdate
+                                && !this.DependenciesResolved(nextTask.ScheduledTask))
                             {
                                 continue;
                             }
 
-                            if (!scheduledTaskManager.IsBusy)
+                            if (!nextTask.IsBusy)
                             {
                                 // Update the task
-                                scheduledTaskManager.InitializeUpdate();
-                                Task.Run(() => scheduledTaskManager.UpdateAction());
+                                nextTask.InitializeUpdate();
+                                Task.Run(() => nextTask.UpdateAction());
                             }
                         }
-                        else if (scheduledTaskManager.CanEnd)
+                        else if (nextTask.CanEnd)
                         {
                             // End the task
-                            Task.Run(() => scheduledTaskManager.EndAction());
+                            Task.Run(() => nextTask.EndAction());
 
                             // Permanently remove this task
-                            this.Actions.Remove(scheduledTaskManager);
+                            this.Actions.Remove(nextTask);
                         }
                     }
                 }
