@@ -39,17 +39,27 @@
         /// <summary>
         /// The maximum number of chunks to process in a given update cycle.
         /// </summary>
-        private const Int32 ChunkLimit = 16384;
+        private const Int32 ChunkLimit = 0x4000;
+
+        /// <summary>
+        /// The maximum number of chunks to process in a given update cycle when ramping up.
+        /// </summary>
+        private const Int32 RampUpChunkLimit = 0x8000;
 
         /// <summary>
         /// The size of a chunk.
         /// </summary>
-        private const Int32 ChunkSize = 4096;
+        private const Int32 ChunkSize = 0x1000;
 
         /// <summary>
         /// The time between each update cycle.
         /// </summary>
         private const Int32 RescanTime = 800;
+
+        /// <summary>
+        /// The time between each update cycle when ramping up.
+        /// </summary>
+        private const Int32 RampUpRescanTime = 200;
 
         /// <summary>
         /// Singleton instance of the <see cref="ChunkLinkedListPrefilter"/> class.
@@ -154,7 +164,7 @@
         /// </summary>
         protected override void OnBegin()
         {
-            this.UpdateInterval = ChunkLinkedListPrefilter.RescanTime;
+            this.UpdateInterval = ChunkLinkedListPrefilter.RampUpRescanTime;
         }
 
         /// <summary>
@@ -167,6 +177,16 @@
             lock (this.ChunkLock)
             {
                 this.UpdateProgress(this.ChunkList.Where(x => x.IsProcessed()).Count(), this.ChunkList.Count());
+            }
+
+            // Set rescan time based on whether or not we have already cycled through all the pages
+            if (this.HasProgressCompleted)
+            {
+                this.UpdateInterval = ChunkLinkedListPrefilter.RescanTime;
+            }
+            else
+            {
+                this.UpdateInterval = ChunkLinkedListPrefilter.RampUpRescanTime;
             }
         }
 
@@ -250,12 +270,23 @@
                 }
             }
 
+            Int32 chunkLimit;
+
+            if (this.HasProgressCompleted)
+            {
+                chunkLimit = ChunkLinkedListPrefilter.ChunkLimit;
+            }
+            else
+            {
+                chunkLimit = ChunkLinkedListPrefilter.RampUpChunkLimit;
+            }
+
             lock (this.ChunkLock)
             {
                 // Process the allowed amount of chunks from the priority queue
                 Parallel.For(
                     0,
-                    Math.Min(this.ChunkList.Count, ChunkLinkedListPrefilter.ChunkLimit),
+                    Math.Min(this.ChunkList.Count, chunkLimit),
                     SettingsViewModel.GetInstance().ParallelSettings,
                     index =>
                 {
