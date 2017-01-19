@@ -165,12 +165,9 @@
                                 continue;
                             }
 
-                            if (!nextTask.IsBusy)
-                            {
-                                // Update the task
-                                nextTask.InitializeUpdate();
-                                Task.Run(() => nextTask.UpdateAction());
-                            }
+                            // Update the task
+                            nextTask.InitializeUpdate();
+                            Task.Run(() => nextTask.UpdateAction());
                         }
                         else if (nextTask.CanEnd)
                         {
@@ -216,7 +213,8 @@
             public ScheduledTaskManager(ScheduledTask scheduledTask, Action startAction, Action updateAction, Action endAction)
             {
                 this.ScheduledTask = scheduledTask;
-                this.StartAction = startAction;
+                this.InternalStartAction = startAction;
+                this.StartAction = this.Start;
                 this.InternalUpdateAction = updateAction;
                 this.UpdateAction = this.Update;
                 this.EndAction = endAction;
@@ -263,7 +261,7 @@
             {
                 get
                 {
-                    return !this.HasUpdated || this.ScheduledTask.IsRepeated;
+                    return !this.IsBusy && (!this.HasUpdated || this.ScheduledTask.IsRepeated);
                 }
             }
 
@@ -274,7 +272,7 @@
             {
                 get
                 {
-                    return !this.IsBusy || this.ScheduledTask.IsRepeated;
+                    return !this.IsBusy && this.HasUpdated;
                 }
             }
 
@@ -294,6 +292,11 @@
             private Boolean HasUpdated { get; set; }
 
             /// <summary>
+            /// Gets or sets the actual start callback function.
+            /// </summary>
+            private Action InternalStartAction { get; set; }
+
+            /// <summary>
             /// Gets or sets the actual update callback function.
             /// </summary>
             private Action InternalUpdateAction { get; set; }
@@ -311,6 +314,7 @@
                 lock (this.AccessLock)
                 {
                     this.HasStarted = true;
+                    this.IsBusy = true;
                 }
             }
 
@@ -323,6 +327,25 @@
                 {
                     this.HasUpdated = true;
                     this.IsBusy = true;
+                }
+            }
+
+            /// <summary>
+            /// A wrapper function for the start callback. This will call the start function and update required state information.
+            /// </summary>
+            private void Start()
+            {
+                lock (this.AccessLock)
+                {
+                    if (!this.IsBusy)
+                    {
+                        String error = "Error in task scheduler. Attempting to start before flagging action as busy.";
+                        OutputViewModel.GetInstance().Log(OutputViewModel.LogLevel.Fatal, error);
+                        throw new Exception(error);
+                    }
+
+                    this.InternalStartAction();
+                    this.IsBusy = false;
                 }
             }
 

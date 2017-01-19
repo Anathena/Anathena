@@ -85,9 +85,10 @@
                     }
                 }
 
-                lock (ProgressLock)
+                lock (this.ProgressLock)
                 {
                     processedPages++;
+                    this.UpdateProgress(processedPages, this.Snapshot.GetRegionCount());
                 }
             });
 
@@ -101,10 +102,6 @@
         {
             SnapshotManager.GetInstance().SaveSnapshot(this.Snapshot);
             LabelThresholderViewModel.GetInstance().OpenLabelThresholder();
-        }
-
-        private void CleanUp()
-        {
             this.Snapshot = null;
         }
     }

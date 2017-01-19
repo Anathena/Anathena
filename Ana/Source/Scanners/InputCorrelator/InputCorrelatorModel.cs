@@ -26,6 +26,7 @@
             dependencyBehavior: new DependencyBehavior(dependencies: typeof(ISnapshotPrefilter)))
         {
             this.UpdateScanCount = updateScanCount;
+            this.ProgressLock = new Object();
         }
 
         public List<IHotkey> HotKeys
@@ -51,6 +52,8 @@
         private Int32 TimeOutIntervalMs { get; set; }
 
         private DateTime LastActivated { get; set; }
+
+        private Object ProgressLock { get; set; }
 
         public void EditKeys()
         {
@@ -124,6 +127,7 @@
             this.Snapshot.ReadAllMemory();
 
             Boolean conditionValid = this.IsInputConditionValid(this.Snapshot.GetTimeSinceLastUpdate());
+            Int32 processedPages = 0;
 
             // Note the duplicated code here is an optimization to minimize comparisons done per iteration
             if (conditionValid)
@@ -147,6 +151,12 @@
                             ((dynamic)element).ElementLabel++;
                         }
                     }
+
+                    lock (this.ProgressLock)
+                    {
+                        processedPages++;
+                        this.UpdateProgress(processedPages, this.Snapshot.GetRegionCount());
+                    }
                 });
             }
             else
@@ -169,6 +179,12 @@
                         {
                             ((dynamic)element).ElementLabel--;
                         }
+                    }
+
+                    lock (this.ProgressLock)
+                    {
+                        processedPages++;
+                        this.UpdateProgress(processedPages, this.Snapshot.GetRegionCount());
                     }
                 });
             }

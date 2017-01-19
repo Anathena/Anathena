@@ -21,6 +21,7 @@
         {
             this.ItemLock = new Object();
             this.SnapshotLock = new Object();
+            this.ProgressLock = new Object();
             this.OnUpdateHistogram = onUpdateHistogram;
             Task.Run(() => SnapshotManager.GetInstance().Subscribe(this));
         }
@@ -72,6 +73,8 @@
         private Object ItemLock { get; set; }
 
         private Object SnapshotLock { get; set; }
+
+        private Object ProgressLock { get; set; }
 
         public void ToggleInverted()
         {
@@ -154,6 +157,7 @@
         protected override void OnUpdate()
         {
             ConcurrentDictionary<dynamic, Int64> histogram = new ConcurrentDictionary<dynamic, Int64>();
+            Int32 processedPages = 0;
 
             lock (this.SnapshotLock)
             {
@@ -188,6 +192,12 @@
                                 histogram.TryAdd(((dynamic)element).GetElementLabel(), 1);
                             }
                         }
+                    }
+
+                    lock (this.ProgressLock)
+                    {
+                        processedPages++;
+                        this.UpdateProgress(processedPages, this.Snapshot.GetRegionCount());
                     }
                     //// End foreach element
                 });

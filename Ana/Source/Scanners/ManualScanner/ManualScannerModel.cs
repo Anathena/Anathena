@@ -179,6 +179,7 @@
                 lock (this.ProgressLock)
                 {
                     processedPages++;
+                    this.UpdateProgress(processedPages, this.Snapshot.GetRegionCount());
                 }
             });
             //// End foreach Region
@@ -191,11 +192,6 @@
         {
             this.Snapshot.DiscardInvalidRegions();
             SnapshotManager.GetInstance().SaveSnapshot(this.Snapshot);
-            this.CleanUp();
-        }
-
-        private void CleanUp()
-        {
             Snapshot = null;
         }
     }
