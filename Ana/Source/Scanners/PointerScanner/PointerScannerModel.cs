@@ -43,7 +43,7 @@
             this.ConnectedPointers = new List<ConcurrentDictionary<IntPtr, IntPtr>>();
             this.ScanMode = ScanModeEnum.ReadValues;
 
-            this.Begin();
+            //// this.Begin();
         }
 
         private enum ScanModeEnum

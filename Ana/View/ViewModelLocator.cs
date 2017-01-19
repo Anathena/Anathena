@@ -1,5 +1,6 @@
 ﻿namespace Ana.View
 {
+    using Source.ActionScheduler;
     using Source.ChangeLog;
     using Source.CheatBrowser;
     using Source.DotNetExplorer;
@@ -45,6 +46,17 @@
             get
             {
                 return MainViewModel.GetInstance();
+            }
+        }
+
+        /// <summary>
+        /// Gets the Action Scheduler view model.
+        /// </summary>
+        public ActionSchedulerViewModel ActionSchedulerViewModel
+        {
+            get
+            {
+                return ActionSchedulerViewModel.GetInstance();
             }
         }
 

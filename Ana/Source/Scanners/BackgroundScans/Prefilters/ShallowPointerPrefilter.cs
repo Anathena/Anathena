@@ -48,7 +48,7 @@
         /// <summary>
         /// Prevents a default instance of the <see cref="ShallowPointerPrefilter" /> class from being created.
         /// </summary>
-        private ShallowPointerPrefilter() : base(isRepeated: true)
+        private ShallowPointerPrefilter() : base("Prefilter", isRepeated: true, trackProgress: true)
         {
             this.PrefilteredSnapshot = new Snapshot();
             this.RegionLock = new Object();

@@ -2,13 +2,12 @@
 {
     using ActionScheduler;
     using System;
-    using System.ComponentModel;
     using UserSettings;
 
     /// <summary>
     /// The base of all scanner classes.
     /// </summary>
-    internal abstract class ScannerBase : ScheduledTask, INotifyPropertyChanged
+    internal abstract class ScannerBase : ScheduledTask
     {
         /// <summary>
         /// The number of scans completed.
@@ -20,16 +19,13 @@
         /// </summary>
         /// <param name="scannerName">The name of this scanner.</param>
         public ScannerBase(String scannerName, Boolean isRepeated, DependencyBehavior dependencyBehavior) : base(
+            taskName: scannerName,
             isRepeated: isRepeated,
+            trackProgress: true,
             dependencyBehavior: dependencyBehavior)
         {
             this.ScannerName = scannerName;
         }
-
-        /// <summary>
-        /// Occurs after a property value changes.
-        /// </summary>
-        public event PropertyChangedEventHandler PropertyChanged;
 
         /// <summary>
         /// Gets the number of scans that have been executed.
@@ -52,15 +48,6 @@
         /// Gets the name of this scanner.
         /// </summary>
         protected String ScannerName { get; private set; }
-
-        /// <summary>
-        /// Notifies view model of a property change.
-        /// </summary>
-        /// <param name="propertyName">The name of the changing property.</param>
-        protected void NotifyPropertyChanged(String propertyName)
-        {
-            this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
 
         /// <summary>
         /// Begins the scan.

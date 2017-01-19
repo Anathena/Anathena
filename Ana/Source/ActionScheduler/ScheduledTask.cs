@@ -1,12 +1,13 @@
 ﻿namespace Ana.Source.ActionScheduler
 {
     using System;
+    using System.ComponentModel;
     using Utils.Extensions;
 
     /// <summary>
     /// A task that repeatedly performs an action.
     /// </summary>
-    internal abstract class ScheduledTask
+    internal abstract class ScheduledTask : INotifyPropertyChanged
     {
         /// <summary>
         /// The default update loop time.
@@ -28,20 +29,32 @@
         /// </summary>
         private const Single DefaultProgressCompletionThreshold = 100f;
 
+        private Single progress;
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="ScheduledTask" /> class.
         /// </summary>
-        public ScheduledTask(Boolean isRepeated) : this(isRepeated, new DependencyBehavior())
+        /// <param name="taskName">The dependencies and dependency behavior of this task.</param>
+        /// <param name="isRepeated">Whether or not this task is repeated.</param>
+        /// <param name="trackProgress">Whether or not progress is tracked for this task.</param>
+        public ScheduledTask(String taskName, Boolean isRepeated, Boolean trackProgress) : this(taskName, isRepeated, trackProgress, new DependencyBehavior())
         {
         }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ScheduledTask" /> class.
         /// </summary>
+        /// <param name="taskName">The dependencies and dependency behavior of this task.</param>
+        /// <param name="isRepeated">Whether or not this task is repeated.</param>
+        /// <param name="trackProgress">Whether or not progress is tracked for this task.</param>
         /// <param name="dependencyBehavior">The dependencies and dependency behavior of this task.</param>
-        public ScheduledTask(Boolean isRepeated, DependencyBehavior dependencyBehavior)
+        public ScheduledTask(String taskName, Boolean isRepeated, Boolean trackProgress, DependencyBehavior dependencyBehavior)
         {
+            this.TaskName = taskName;
             this.IsRepeated = isRepeated;
+            this.HasProgressCompleted = !trackProgress;
             this.DependencyBehavior = dependencyBehavior == null ? new DependencyBehavior() : dependencyBehavior;
 
             this.ProgressCompletionThreshold = ScheduledTask.DefaultProgressCompletionThreshold;
@@ -63,6 +76,11 @@
         public Boolean IsRepeated { get; private set; }
 
         /// <summary>
+        /// Gets or sets the name of this task.
+        /// </summary>
+        public String TaskName { get; set; }
+
+        /// <summary>
         /// Gets a value indicating whether the scheduled task has completed in terms of progress.
         /// </summary>
         public Boolean HasProgressCompleted { get; private set; }
@@ -70,12 +88,24 @@
         /// <summary>
         /// Gets or sets the progress of this task.
         /// </summary>
-        private Single Progress { get; set; }
+        public Single Progress
+        {
+            get
+            {
+                return this.progress;
+            }
+
+            private set
+            {
+                this.progress = value;
+                this.NotifyPropertyChanged(nameof(this.Progress));
+            }
+        }
 
         /// <summary>
         /// Gets or sets the progress completion threshold. Progress higher this threshold will be considered complete.
         /// </summary>
-        private Single ProgressCompletionThreshold { get; set; }
+        protected Single ProgressCompletionThreshold { get; set; }
 
         /// <summary>
         /// Starts the repeated task.
@@ -118,7 +148,7 @@
         /// <param name="total">The progress goal total.</param>
         public void UpdateProgress(Int32 subtotal, Int32 total)
         {
-            this.UpdateProgress(total <= 0 ? 0f : ((subtotal / total) * ScheduledTask.MaximumProgress + ScheduledTask.MinimumProgress));
+            this.UpdateProgress(total <= 0 ? 0f : (((Single)subtotal / (Single)total) * ScheduledTask.MaximumProgress + ScheduledTask.MinimumProgress));
         }
 
         /// <summary>
@@ -140,6 +170,15 @@
         /// </summary>
         protected virtual void OnEnd()
         {
+        }
+
+        /// <summary>
+        /// Indicates that a given property in this project item has changed.
+        /// </summary>
+        /// <param name="propertyName">The name of the changed property.</param>
+        protected void NotifyPropertyChanged(String propertyName)
+        {
+            this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
     //// End class

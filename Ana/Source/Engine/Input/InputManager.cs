@@ -19,7 +19,7 @@
         /// <summary>
         /// Initializes a new instance of the <see cref="InputManager" /> class.
         /// </summary>
-        public InputManager() : base(isRepeated: true)
+        public InputManager() : base("Input Manager", isRepeated: true, trackProgress: false)
         {
             this.ControllerSubject = new ControllerCapture();
             this.KeyboardSubject = new KeyboardCapture();

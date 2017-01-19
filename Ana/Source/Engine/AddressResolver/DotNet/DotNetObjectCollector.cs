@@ -76,7 +76,7 @@
         /// <summary>
         /// Prevents a default instance of the <see cref="DotNetObjectCollector" /> class from being created.
         /// </summary>
-        private DotNetObjectCollector() : base(isRepeated: true)
+        private DotNetObjectCollector() : base(".Net Object Collector", isRepeated: true, trackProgress: true)
         {
         }
 

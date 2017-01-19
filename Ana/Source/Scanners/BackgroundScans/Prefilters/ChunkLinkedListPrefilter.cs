@@ -61,7 +61,7 @@
         /// <summary>
         /// Prevents a default instance of the <see cref="ChunkLinkedListPrefilter" /> class from being created.
         /// </summary>
-        private ChunkLinkedListPrefilter() : base(isRepeated: true)
+        private ChunkLinkedListPrefilter() : base("Prefilter", isRepeated: true, trackProgress: true)
         {
             this.ChunkList = new LinkedList<RegionProperties>();
             this.ChunkLock = new Object();

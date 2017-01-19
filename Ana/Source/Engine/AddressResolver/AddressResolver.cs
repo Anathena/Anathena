@@ -34,7 +34,7 @@
         /// <summary>
         /// Prevents a default instance of the <see cref="AddressResolver" /> class from being created.
         /// </summary>
-        private AddressResolver() : base(isRepeated: true)
+        private AddressResolver() : base("Address Resolver", isRepeated: true, trackProgress: false)
         {
             this.DotNetNameMap = new Dictionary<String, DotNetObject>();
         }

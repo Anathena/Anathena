@@ -41,7 +41,7 @@
         /// <summary>
         /// Prevents a default instance of the <see cref="PointerCollector" /> class from being created.
         /// </summary>
-        private PointerCollector() : base(isRepeated: true)
+        private PointerCollector() : base("Pointer Collector", isRepeated: true, trackProgress: true)
         {
             this.FoundPointers = new HashSet<IntPtr>();
             this.ConstructingSet = new HashSet<IntPtr>();

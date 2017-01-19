@@ -1,17 +1,25 @@
 ﻿namespace Ana.Source.ActionScheduler
 {
+    using Docking;
     using Output;
     using System;
     using System.Collections.Generic;
+    using System.Collections.ObjectModel;
     using System.Linq;
     using System.Threading;
     using System.Threading.Tasks;
     using Utils.DataStructures;
+
     /// <summary>
     /// Class to schedule tasks that are executed.
     /// </summary>
-    internal class ActionSchedulerViewModel
+    internal class ActionSchedulerViewModel : ToolViewModel
     {
+        /// <summary>
+        /// The content id for the docking library associated with this view model.
+        /// </summary>
+        public const String ToolContentId = nameof(ActionSchedulerViewModel);
+
         /// <summary>
         /// The interval between scheduler calls, in milliseconds.
         /// </summary>
@@ -27,12 +35,21 @@
         /// <summary>
         /// Prevents a default instance of the <see cref="ActionSchedulerViewModel" /> class from being created.
         /// </summary>
-        private ActionSchedulerViewModel()
+        private ActionSchedulerViewModel() : base("Action Scheduler")
         {
+            this.ContentId = ActionSchedulerViewModel.ToolContentId;
             this.AccessLock = new Object();
             this.Actions = new LinkedList<ScheduledTaskManager>();
 
             this.Update();
+        }
+
+        public ObservableCollection<ScheduledTask> ActiveTasks
+        {
+            get
+            {
+                return new ObservableCollection<ScheduledTask>(this.Actions.Select(x => x.ScheduledTask).Where(x => !x.HasProgressCompleted));
+            }
         }
 
         /// <summary>
@@ -71,6 +88,7 @@
             lock (this.AccessLock)
             {
                 this.Actions.AddLast(new ScheduledTaskManager(scheduledTask, startAction, updateAction, endAction));
+                this.RaisePropertyChanged(nameof(this.ActiveTasks));
             }
         }
 
@@ -109,6 +127,12 @@
 
                     lock (this.AccessLock)
                     {
+                        // Check for a change in the active tasks
+                        if (!this.Actions.Select(x => x.ScheduledTask).SequenceEqual(this.ActiveTasks))
+                        {
+                            this.RaisePropertyChanged(nameof(this.ActiveTasks));
+                        }
+
                         // Cycle to the next task
                         this.NextAction = this.NextAction?.NextOrFirst() ?? this.Actions.First;
 
@@ -155,6 +179,7 @@
 
                             // Permanently remove this task
                             this.Actions.Remove(nextTask);
+                            this.RaisePropertyChanged(nameof(this.ActiveTasks));
                         }
                     }
                 }
