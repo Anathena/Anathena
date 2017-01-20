@@ -503,6 +503,7 @@
         <!--  Status Bar  -->
         <shell:Border
             Grid.Row="4"
+            Height="24"
             Padding="4"
             Background="{StaticResource AvalonDock_Expression_BaseColor15}"
             DataContext="{Binding ActionSchedulerViewModel, Source={StaticResource ViewModelLocator}}">

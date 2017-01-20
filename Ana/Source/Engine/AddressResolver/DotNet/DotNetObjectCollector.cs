@@ -78,6 +78,9 @@
         /// </summary>
         private DotNetObjectCollector() : base(".Net Object Collector", isRepeated: true, trackProgress: true)
         {
+            // TODO: Marking as completed by default until we have a reasonable way to track the progress on this.
+            // This is challenging because we have this offloaded to the proxy service right now.
+            this.IsTaskComplete = true;
         }
 
         /// <summary>
@@ -100,6 +103,8 @@
         protected override void OnBegin()
         {
             this.UpdateInterval = DotNetObjectCollector.InitialPollingTime;
+
+            base.OnBegin();
         }
 
         /// <summary>
@@ -182,6 +187,12 @@
             }
 
             this.ObjectTrees = objectTrees;
+            base.OnUpdate();
+        }
+
+        protected override void OnEnd()
+        {
+            base.OnEnd();
         }
 
         /// <summary>
