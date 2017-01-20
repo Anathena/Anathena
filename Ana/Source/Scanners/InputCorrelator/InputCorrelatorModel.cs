@@ -119,6 +119,8 @@
             // Initialize with no correlation
             this.Snapshot.SetElementLabels<Int16>(0);
             this.TimeOutIntervalMs = SettingsViewModel.GetInstance().InputCorrelatorTimeOutInterval;
+
+            base.OnBegin();
         }
 
         protected override void OnUpdate()
@@ -190,6 +192,8 @@
             }
 
             this.UpdateScanCount?.Invoke();
+
+            base.OnUpdate();
         }
 
         /// <summary>
@@ -216,6 +220,8 @@
 
             this.CleanUp();
             LabelThresholderViewModel.GetInstance().OpenLabelThresholder();
+
+            base.OnEnd();
         }
 
         private void InitializeObjects()

@@ -54,7 +54,7 @@
         {
             this.TaskName = taskName;
             this.IsRepeated = isRepeated;
-            this.HasProgressCompleted = !trackProgress;
+            this.IsTaskComplete = !trackProgress;
             this.DependencyBehavior = dependencyBehavior == null ? new DependencyBehavior() : dependencyBehavior;
 
             this.ProgressCompletionThreshold = ScheduledTask.DefaultProgressCompletionThreshold;
@@ -81,9 +81,20 @@
         public String TaskName { get; set; }
 
         /// <summary>
-        /// Gets a value indicating whether the scheduled task has completed in terms of progress.
+        /// Gets a value indicating whether the scheduled task has completed. This is not in terms of progress, but instead indicates the task is entirely done.
         /// </summary>
-        public Boolean HasProgressCompleted { get; private set; }
+        public Boolean IsTaskComplete { get; protected set; }
+
+        /// <summary>
+        /// Gets a value indicating whether the scheduled task has completed in terms of progress, although not necessarily finalized.
+        /// </summary>
+        public Boolean IsProgressComplete
+        {
+            get
+            {
+                return this.Progress >= this.ProgressCompletionThreshold;
+            }
+        }
 
         /// <summary>
         /// Gets or sets the progress of this task.
@@ -130,15 +141,6 @@
         public void UpdateProgress(Single progress)
         {
             this.Progress = progress.Clamp(ScheduledTask.MinimumProgress, ScheduledTask.MaximumProgress);
-
-            if (this.Progress >= this.ProgressCompletionThreshold)
-            {
-                this.HasProgressCompleted = true;
-            }
-            else
-            {
-                this.HasProgressCompleted = false;
-            }
         }
 
         /// <summary>

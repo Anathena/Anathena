@@ -165,6 +165,8 @@
         protected override void OnBegin()
         {
             this.UpdateInterval = ChunkLinkedListPrefilter.RampUpRescanTime;
+
+            base.OnBegin();
         }
 
         /// <summary>
@@ -177,10 +179,11 @@
             lock (this.ChunkLock)
             {
                 this.UpdateProgress(this.ChunkList.Where(x => x.IsProcessed()).Count(), this.ChunkList.Count());
+                this.IsTaskComplete = this.IsProgressComplete;
             }
 
             // Set rescan time based on whether or not we have already cycled through all the pages
-            if (this.HasProgressCompleted)
+            if (this.IsTaskComplete)
             {
                 this.UpdateInterval = ChunkLinkedListPrefilter.RescanTime;
             }
@@ -188,6 +191,13 @@
             {
                 this.UpdateInterval = ChunkLinkedListPrefilter.RampUpRescanTime;
             }
+
+            base.OnUpdate();
+        }
+
+        protected override void OnEnd()
+        {
+            base.OnEnd();
         }
 
         /// <summary>
@@ -272,7 +282,7 @@
 
             Int32 chunkLimit;
 
-            if (this.HasProgressCompleted)
+            if (this.IsTaskComplete)
             {
                 chunkLimit = ChunkLinkedListPrefilter.ChunkLimit;
             }

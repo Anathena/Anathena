@@ -199,6 +199,11 @@
             this.ScanMode = ScanModeEnum.Rescan;
         }
 
+        protected override void OnBegin()
+        {
+            base.OnBegin();
+        }
+
         protected override void OnUpdate()
         {
             // Scan mode determines the action to make, such that the action always happens on this task thread
@@ -238,6 +243,11 @@
                     this.ScanMode = ScanModeEnum.ReadValues;
                     break;
             }
+        }
+
+        protected override void OnEnd()
+        {
+            base.OnEnd();
         }
 
         private IntPtr ResolvePointer(Tuple<IntPtr, List<Int32>> fullPointer)

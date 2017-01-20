@@ -79,6 +79,8 @@
         protected override void OnBegin()
         {
             this.UpdateInterval = PointerCollector.RescanTime;
+
+            base.OnBegin();
         }
 
         protected override void OnUpdate()

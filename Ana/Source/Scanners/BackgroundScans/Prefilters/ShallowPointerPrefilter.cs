@@ -116,6 +116,8 @@
         protected override void OnBegin()
         {
             this.UpdateInterval = ShallowPointerPrefilter.RescanTime;
+
+            base.OnBegin();
         }
 
         /// <summary>
@@ -125,6 +127,13 @@
         {
             this.ProcessPages();
             this.UpdateProgress();
+
+            base.OnUpdate();
+        }
+
+        protected override void OnEnd()
+        {
+            base.OnEnd();
         }
 
         /// <summary>

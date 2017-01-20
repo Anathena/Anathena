@@ -25,6 +25,7 @@
             dependencyBehavior: dependencyBehavior)
         {
             this.ScannerName = scannerName;
+            this.UpdateInterval = SettingsViewModel.GetInstance().RescanInterval;
         }
 
         /// <summary>
@@ -55,7 +56,9 @@
         protected override void OnBegin()
         {
             this.ScanCount = 0;
-            this.UpdateInterval = SettingsViewModel.GetInstance().RescanInterval;
+            this.IsTaskComplete = false;
+
+            base.OnBegin();
         }
 
         /// <summary>
@@ -64,7 +67,15 @@
         protected override void OnUpdate()
         {
             this.ScanCount++;
-            this.UpdateInterval = SettingsViewModel.GetInstance().RescanInterval;
+
+            base.OnUpdate();
+        }
+
+        protected override void OnEnd()
+        {
+            this.IsTaskComplete = true;
+
+            base.OnEnd();
         }
     }
     //// End class

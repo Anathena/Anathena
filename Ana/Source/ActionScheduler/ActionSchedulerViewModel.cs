@@ -48,7 +48,7 @@
         {
             get
             {
-                return new ObservableCollection<ScheduledTask>(this.Actions.Select(x => x.ScheduledTask).Where(x => !x.HasProgressCompleted));
+                return new ObservableCollection<ScheduledTask>(this.Actions.Select(x => x.ScheduledTask).Where(x => !x.IsTaskComplete));
             }
         }
 
@@ -87,6 +87,13 @@
         {
             lock (this.AccessLock)
             {
+                // Do not schedule actions of the same type
+                if (this.Actions.Select(x => x.ScheduledTask.GetType()).Any(x => x == scheduledTask.GetType()))
+                {
+                    OutputViewModel.GetInstance().Log(OutputViewModel.LogLevel.Warn, "Action not scheduled. This action is already queued.");
+                    return;
+                }
+
                 this.Actions.AddLast(new ScheduledTaskManager(scheduledTask, startAction, updateAction, endAction));
                 this.RaisePropertyChanged(nameof(this.ActiveTasks));
             }
@@ -192,7 +199,7 @@
         private Boolean DependenciesResolved(ScheduledTask scheduledTask)
         {
             IEnumerable<Type> completedDependencies = this.Actions.Select(x => x.ScheduledTask)
-                .Where(x => x.HasProgressCompleted)
+                .Where(x => x.IsTaskComplete)
                 .Select(x => x.GetType());
 
             return scheduledTask.DependencyBehavior.AreDependenciesResolved(completedDependencies);

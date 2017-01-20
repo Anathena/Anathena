@@ -56,6 +56,8 @@
 
             // Initialize change counts to zero
             this.Snapshot.SetElementLabels<UInt16>(0);
+
+            base.OnBegin();
         }
 
         protected override void OnUpdate()
@@ -93,6 +95,8 @@
             });
 
             this.UpdateScanCount?.Invoke();
+
+            base.OnUpdate();
         }
 
         /// <summary>
@@ -103,6 +107,8 @@
             SnapshotManager.GetInstance().SaveSnapshot(this.Snapshot);
             LabelThresholderViewModel.GetInstance().OpenLabelThresholder();
             this.Snapshot = null;
+
+            base.OnEnd();
         }
     }
     //// End class

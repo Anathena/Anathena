@@ -193,6 +193,8 @@
             this.Snapshot.DiscardInvalidRegions();
             SnapshotManager.GetInstance().SaveSnapshot(this.Snapshot);
             Snapshot = null;
+
+            base.OnEnd();
         }
     }
     //// End class

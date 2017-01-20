@@ -27,6 +27,8 @@
             Snapshot snapshot = SnapshotManager.GetInstance().GetActiveSnapshot(createIfNone: true).Clone(this.ScannerName);
             snapshot.ReadAllMemory();
             SnapshotManager.GetInstance().SaveSnapshot(snapshot);
+
+            base.OnBegin();
         }
     }
     //// End class
