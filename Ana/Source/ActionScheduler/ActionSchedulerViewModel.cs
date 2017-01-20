@@ -114,9 +114,7 @@
                     return;
                 }
 
-                this.Actions.Remove(scheduledTaskManager);
-
-                Task.Run(() => scheduledTaskManager.EndAction());
+                scheduledTaskManager.Cancel();
             }
         }
 
@@ -226,6 +224,7 @@
                 this.UpdateAction = this.Update;
                 this.EndAction = endAction;
 
+                this.IsCanceled = false;
                 this.HasStarted = false;
                 this.AccessLock = new Object();
             }
@@ -257,7 +256,7 @@
             {
                 get
                 {
-                    return !this.HasStarted;
+                    return !this.IsCanceled && !this.HasStarted;
                 }
             }
 
@@ -268,7 +267,7 @@
             {
                 get
                 {
-                    return !this.IsBusy && (!this.HasUpdated || this.ScheduledTask.IsRepeated);
+                    return !this.IsCanceled && !this.IsBusy && (!this.HasUpdated || this.ScheduledTask.IsRepeated);
                 }
             }
 
@@ -279,7 +278,7 @@
             {
                 get
                 {
-                    return !this.IsBusy && this.HasUpdated;
+                    return !this.IsBusy && (this.HasUpdated || this.IsCanceled);
                 }
             }
 
@@ -287,6 +286,11 @@
             /// Gets a value indicating whether this task is busy.
             /// </summary>
             public Boolean IsBusy { get; private set; }
+
+            /// <summary>
+            /// Gets a value indicating whether this task has been canceled.
+            /// </summary>
+            public Boolean IsCanceled { get; private set; }
 
             /// <summary>
             /// Gets or sets a value indicating whether this task has started.
@@ -335,6 +339,14 @@
                     this.HasUpdated = true;
                     this.IsBusy = true;
                 }
+            }
+
+            /// <summary>
+            /// Canels this task.
+            /// </summary>
+            public void Cancel()
+            {
+                this.IsCanceled = true;
             }
 
             /// <summary>
