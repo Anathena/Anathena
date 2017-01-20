@@ -180,12 +180,22 @@
 
         public static UInt64 AddressToValue(String address)
         {
+            if (String.IsNullOrEmpty(address))
+            {
+                return 0;
+            }
+
             if (address.StartsWith("0x", StringComparison.OrdinalIgnoreCase))
             {
                 address = address.Substring("0x".Length);
             }
 
             address = address.TrimStart('0');
+
+            if (String.IsNullOrEmpty(address))
+            {
+                return 0;
+            }
 
             return UInt64.Parse(address, System.Globalization.NumberStyles.HexNumber);
         }

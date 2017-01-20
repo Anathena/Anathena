@@ -1,5 +1,6 @@
 ﻿namespace Ana.Source.Engine.OperatingSystems
 {
+    using Output;
     using System;
     using System.Collections.Generic;
     using Utils.Extensions;
@@ -116,8 +117,12 @@
         {
             if (chunkSize <= 0)
             {
-                throw new Exception("Invalid chunk size specified for region");
+                String error = "Invalid chunk size specified for region";
+                OutputViewModel.GetInstance().Log(OutputViewModel.LogLevel.Fatal, error);
+                throw new Exception(error);
             }
+
+            chunkSize = Math.Min(chunkSize, this.RegionSize);
 
             Int32 chunkCount = (this.RegionSize / chunkSize) + (this.RegionSize % chunkSize == 0 ? 0 : 1);
 
@@ -127,7 +132,8 @@
             {
                 Int32 size = chunkSize;
 
-                if (index == chunkCount - 1 && this.RegionSize % chunkSize == 0)
+                // Set size to the remainder if on the final chunk and they are not divisible evenly
+                if (index == chunkCount - 1 && this.RegionSize > chunkSize && this.RegionSize % chunkSize != 0)
                 {
                     size = this.RegionSize % chunkSize;
                 }
