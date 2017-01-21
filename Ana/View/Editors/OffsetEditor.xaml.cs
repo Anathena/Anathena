@@ -1,8 +1,8 @@
 ﻿namespace Ana.View.Editors
 {
     using Source.CustomControls;
+    using Source.Editors.ScriptEditor;
     using Source.Mvvm;
-    using Source.Utils.ScriptEditor;
     using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;

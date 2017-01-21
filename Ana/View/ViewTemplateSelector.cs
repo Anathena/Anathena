@@ -2,6 +2,8 @@
 {
     using Source.CheatBrowser;
     using Source.DotNetExplorer;
+    using Source.Editors.ScriptEditor;
+    using Source.Editors.TextEditor;
     using Source.Output;
     using Source.ProcessSelector;
     using Source.Project;
@@ -16,8 +18,6 @@
     using Source.SignatureCollector;
     using Source.Snapshots;
     using Source.UserSettings;
-    using Source.Utils.ScriptEditor;
-    using Source.Utils.TextEditor;
     using System;
     using System.Windows;
     using System.Windows.Controls;

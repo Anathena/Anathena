@@ -5,7 +5,7 @@
     using ICSharpCode.AvalonEdit.Editing;
     using ICSharpCode.AvalonEdit.Highlighting;
     using ICSharpCode.AvalonEdit.Highlighting.Xshd;
-    using Source.Utils.ScriptEditor;
+    using Source.Editors.ScriptEditor;
     using System;
     using System.Collections.Generic;
     using System.IO;

@@ -1,4 +1,4 @@
-﻿namespace Ana.Source.Utils.HotkeyEditor
+﻿namespace Ana.Source.Editors.HotkeyEditor
 {
     using Docking;
     using Engine;

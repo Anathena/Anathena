@@ -1,4 +1,4 @@
-﻿namespace Ana.Source.Utils.TextEditor
+﻿namespace Ana.Source.Editors.TextEditor
 {
     using Docking;
     using Main;

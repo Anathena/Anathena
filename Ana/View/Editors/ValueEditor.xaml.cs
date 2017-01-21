@@ -1,8 +1,8 @@
 ﻿namespace Ana.View.Editors
 {
     using Source.CustomControls;
+    using Source.Editors.ValueEditor;
     using Source.Project.ProjectItems;
-    using Source.Utils.ValueEditor;
     using System;
     using System.Windows;
 

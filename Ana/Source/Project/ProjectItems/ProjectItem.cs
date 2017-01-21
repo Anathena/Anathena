@@ -1,13 +1,15 @@
 ﻿namespace Ana.Source.Project.ProjectItems
 {
+    using Editors.TextEditor;
     using System;
     using System.ComponentModel;
     using System.Drawing.Design;
     using System.Runtime.Serialization;
-    using Utils.TextEditor;
-    using Utils.TypeConverters;    /// <summary>
-                                   /// A base class for all project items that can be added to the project explorer.
-                                   /// </summary>
+    using Utils.TypeConverters;
+
+    /// <summary>
+    /// A base class for all project items that can be added to the project explorer.
+    /// </summary>
     [KnownType(typeof(ProjectItem))]
     [KnownType(typeof(FolderItem))]
     [KnownType(typeof(ScriptItem))]

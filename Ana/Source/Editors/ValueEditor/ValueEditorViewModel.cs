@@ -1,4 +1,4 @@
-﻿namespace Ana.Source.Utils.ValueEditor
+﻿namespace Ana.Source.Editors.ValueEditor
 {
     using Docking;
     using Main;
