@@ -73,17 +73,18 @@
             {
                 this.alignment = value;
 
-                // Enforce alignment constraint on base address
                 if (this.BaseAddress.Mod(value).ToUInt64() == 0)
                 {
                     return;
                 }
 
+                // Enforce alignment constraint on base address
                 unchecked
                 {
-                    this.BaseAddress = this.BaseAddress.Subtract(this.BaseAddress.Mod(value));
-                    this.BaseAddress = this.BaseAddress.Add(value);
-                    this.RegionSize -= value - this.BaseAddress.Mod(value).ToInt32();
+                    IntPtr endAddress = this.EndAddress;
+                    this.BaseAddress = this.BaseAddress.Subtract(this.BaseAddress.Mod(this.alignment));
+                    this.BaseAddress = this.BaseAddress.Add(this.alignment);
+                    this.EndAddress = endAddress;
                 }
             }
         }
