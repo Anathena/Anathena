@@ -1,25 +1,25 @@
 ﻿namespace Ana.Source.Engine.Input
 {
+    using ActionScheduler;
     using Controller;
     using Keyboard;
     using Mouse;
     using System;
-    using Utils;
 
     /// <summary>
-    /// Manages all input devices and is responsible for updating them
+    /// Manages all input devices and is responsible for updating them.
     /// </summary>
-    internal class InputManager : RepeatedTask, IInputManager
+    internal class InputManager : ScheduledTask, IInputManager
     {
         /// <summary>
-        /// The rate at which to collect input in ms. Currently ~60 times per second
+        /// The rate at which to collect input in ms. Currently ~60 times per second.
         /// </summary>
         private const Int32 InputCollectionIntervalMs = 1000 / 60;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="InputManager" /> class
+        /// Initializes a new instance of the <see cref="InputManager" /> class.
         /// </summary>
-        public InputManager()
+        public InputManager() : base("Input Manager", isRepeated: true, trackProgress: false)
         {
             this.ControllerSubject = new ControllerCapture();
             this.KeyboardSubject = new KeyboardCapture();
@@ -29,59 +29,57 @@
         }
 
         /// <summary>
-        /// Gets or sets the controller capture interface
+        /// Gets or sets the controller capture interface.
         /// </summary>
         private IControllerSubject ControllerSubject { get; set; }
 
         /// <summary>
-        /// Gets or sets the keyboard capture interface
+        /// Gets or sets the keyboard capture interface.
         /// </summary>
         private IKeyboardSubject KeyboardSubject { get; set; }
 
         /// <summary>
-        /// Gets or sets the mouse capture interface
+        /// Gets or sets the mouse capture interface.
         /// </summary>
         private IMouseSubject MouseSubject { get; set; }
 
         /// <summary>
-        /// Begins input capture
+        /// Gets the keyboard capture interface.
         /// </summary>
-        public override void Begin()
-        {
-            this.UpdateInterval = InputManager.InputCollectionIntervalMs;
-
-            base.Begin();
-        }
-
-        /// <summary>
-        /// Gets the keyboard capture interface
-        /// </summary>
-        /// <returns>The keyboard capture interface</returns>
+        /// <returns>The keyboard capture interface.</returns>
         public IKeyboardSubject GetKeyboardCapture()
         {
             return this.KeyboardSubject;
         }
 
         /// <summary>
-        /// Gets the mouse capture interface
+        /// Gets the mouse capture interface.
         /// </summary>
-        /// <returns>The mouse capture interface</returns>
+        /// <returns>The mouse capture interface.</returns>
         public IControllerSubject GetControllerCapture()
         {
             return this.ControllerSubject;
         }
 
         /// <summary>
-        /// Gets the controller capture interface
+        /// Gets the controller capture interface.
         /// </summary>
-        /// <returns>The controller capture interface</returns>
+        /// <returns>The controller capture interface.</returns>
         public IMouseSubject GetMouseCapture()
         {
             return this.MouseSubject;
         }
 
         /// <summary>
-        /// Updates the input capture devices, polling the system for changes on each device
+        /// Begins input capture.
+        /// </summary>
+        protected override void OnBegin()
+        {
+            this.UpdateInterval = InputManager.InputCollectionIntervalMs;
+        }
+
+        /// <summary>
+        /// Updates the input capture devices, polling the system for changes on each device.
         /// </summary>
         protected override void OnUpdate()
         {

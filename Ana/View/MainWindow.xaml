@@ -503,11 +503,30 @@
         <!--  Status Bar  -->
         <shell:Border
             Grid.Row="4"
+            Height="24"
             Padding="4"
-            Background="{StaticResource AvalonDock_Expression_BaseColor15}">
-            <shell:TextBlock Foreground="{StaticResource AvalonDock_Expression_BaseColor2}">
-                Status: Ready
-            </shell:TextBlock>
+            Background="{StaticResource AvalonDock_Expression_BaseColor15}"
+            DataContext="{Binding ActionSchedulerViewModel, Source={StaticResource ViewModelLocator}}">
+            <shell:Grid>
+                <shell:ItemsControl HorizontalAlignment="Right" ItemsSource="{Binding Path=ActiveTasks}">
+                    <shell:ItemsControl.ItemTemplate>
+                        <shell:DataTemplate>
+                            <shell:WrapPanel>
+                                <shell:TextBlock
+                                    Padding="4,0,4,0"
+                                    Foreground="{StaticResource AvalonDock_Expression_BaseColor2}"
+                                    Text="{Binding Path=TaskName}" />
+                                <shell:ProgressBar Width="96" Value="{Binding Path=Progress, Mode=OneWay}" />
+                            </shell:WrapPanel>
+                        </shell:DataTemplate>
+                    </shell:ItemsControl.ItemTemplate>
+                    <shell:ItemsControl.ItemsPanel>
+                        <shell:ItemsPanelTemplate>
+                            <shell:StackPanel Orientation="Horizontal" />
+                        </shell:ItemsPanelTemplate>
+                    </shell:ItemsControl.ItemsPanel>
+                </shell:ItemsControl>
+            </shell:Grid>
         </shell:Border>
     </shell:Grid>
 </shell:Window>

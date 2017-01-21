@@ -177,8 +177,6 @@
       <DependentUpon>CodeInjectionTemplate.tt</DependentUpon>
     </Compile>
     <Compile Include="Source\ActionScheduler\ActionSchedulerViewModel.cs" />
-    <Compile Include="Source\ActionScheduler\ActionChannels.cs" />
-    <Compile Include="Source\ActionScheduler\IAction.cs" />
     <Compile Include="Source\ChangeLog\ChangeLogViewModel.cs" />
     <Compile Include="Source\CheatBrowser\CheatBrowserViewModel.cs" />
     <Compile Include="Content\Images.cs" />
@@ -439,9 +437,11 @@
     <Compile Include="Source\Utils\DataStructures\BiDictionary.cs">
       <ExcludeFromStyleCop>False</ExcludeFromStyleCop>
     </Compile>
+    <Compile Include="Source\Utils\DataStructures\CircularLinkedList.cs" />
     <Compile Include="Source\Utils\Extensions\DependencyObjectExtensions.cs" />
     <Compile Include="Source\Utils\Extensions\StringExtensions.cs" />
     <Compile Include="Source\Utils\Hashing.cs" />
+    <Compile Include="Source\ActionScheduler\DependencyBehavior.cs" />
     <Compile Include="Source\Utils\StaticRandom.cs" />
     <Compile Include="Source\Utils\TypeConverters\TextConverter.cs" />
     <Compile Include="Source\Utils\TypeEditors\HotkeyEditor\HotkeyEditorViewModel.cs" />
@@ -587,7 +587,7 @@
     <Compile Include="Source\Utils\Extensions\PrimitiveExtensions.cs" />
     <Compile Include="Source\Utils\ImageUtils.cs" />
     <Compile Include="Source\Utils\PrimitiveTypes.cs" />
-    <Compile Include="Source\Utils\RepeatedTask.cs">
+    <Compile Include="Source\ActionScheduler\ScheduledTask.cs">
       <ExcludeFromStyleCop>False</ExcludeFromStyleCop>
     </Compile>
     <Compile Include="Source\Utils\CheckSyntax.cs" />

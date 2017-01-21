@@ -248,10 +248,10 @@
 
             groundTruth = this.MergeAndSortRegions(groundTruth);
 
-            if (this.SnapshotRegions == null || groundTruth == null || this.SnapshotRegions.Count <= 0 || groundTruth.Count() <= 0)
+            // if (this.SnapshotRegions == null || groundTruth == null || this.SnapshotRegions.Count <= 0 || groundTruth.Count() <= 0)
             {
-                this.SnapshotRegions = resultRegions;
-                return;
+                // this.SnapshotRegions = resultRegions;
+                // return;
             }
 
             this.MergeAndSortRegions();

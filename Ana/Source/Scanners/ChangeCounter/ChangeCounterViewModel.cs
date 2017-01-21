@@ -46,23 +46,7 @@
         {
             get
             {
-                return ChangeCounterModel.ScanCount;
-            }
-        }
-
-        public Boolean ScanReady
-        {
-            get
-            {
-                return true;
-            }
-        }
-
-        public Boolean StopScanReady
-        {
-            get
-            {
-                return !this.ScanReady;
+                return this.ChangeCounterModel.ScanCount;
             }
         }
 
@@ -89,7 +73,7 @@
 
         private void StopScan()
         {
-            this.ChangeCounterModel.End();
+            this.ChangeCounterModel.Cancel();
         }
     }
     //// End class

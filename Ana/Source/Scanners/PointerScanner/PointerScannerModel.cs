@@ -1,5 +1,7 @@
 ﻿namespace Ana.Source.Scanners.PointerScanner
 {
+    using ActionScheduler;
+    using BackgroundScans.Prefilters;
     using Engine;
     using Engine.AddressResolver;
     using Project;
@@ -31,14 +33,17 @@
     {
         private const Int32 MaxAdd = 4096;
 
-        public PointerScannerModel() : base("Pointer Scanner")
+        public PointerScannerModel() : base(
+            scannerName: "Pointer Scanner",
+            isRepeated: false,
+            dependencyBehavior: new DependencyBehavior(dependencies: typeof(ISnapshotPrefilter)))
         {
             this.IndexValueMap = new ConcurrentDictionary<Int32, String>();
             this.PointerPool = new ConcurrentDictionary<IntPtr, IntPtr>();
             this.ConnectedPointers = new List<ConcurrentDictionary<IntPtr, IntPtr>>();
             this.ScanMode = ScanModeEnum.ReadValues;
 
-            this.Begin();
+            //// this.Begin();
         }
 
         private enum ScanModeEnum
@@ -184,11 +189,6 @@
             return this.MaxPointerOffset;
         }
 
-        public override void Begin()
-        {
-            base.Begin();
-        }
-
         public void BeginPointerScan()
         {
             this.ScanMode = ScanModeEnum.Scan;
@@ -197,6 +197,11 @@
         public void BeginPointerRescan()
         {
             this.ScanMode = ScanModeEnum.Rescan;
+        }
+
+        protected override void OnBegin()
+        {
+            base.OnBegin();
         }
 
         protected override void OnUpdate()
@@ -238,13 +243,8 @@
                     this.ScanMode = ScanModeEnum.ReadValues;
                     break;
             }
-
-            base.OnUpdate();
         }
 
-        /// <summary>
-        /// Called when the repeated task completes.
-        /// </summary>
         protected override void OnEnd()
         {
             base.OnEnd();

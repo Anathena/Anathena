@@ -1,14 +1,13 @@
 ﻿namespace Ana.Source.Scanners
 {
+    using ActionScheduler;
     using System;
-    using System.ComponentModel;
     using UserSettings;
-    using Utils;
 
     /// <summary>
     /// The base of all scanner classes.
     /// </summary>
-    internal abstract class ScannerBase : RepeatedTask, INotifyPropertyChanged
+    internal abstract class ScannerBase : ScheduledTask
     {
         /// <summary>
         /// The number of scans completed.
@@ -19,15 +18,15 @@
         /// Initializes a new instance of the <see cref="ScannerBase" /> class.
         /// </summary>
         /// <param name="scannerName">The name of this scanner.</param>
-        public ScannerBase(String scannerName)
+        public ScannerBase(String scannerName, Boolean isRepeated, DependencyBehavior dependencyBehavior) : base(
+            taskName: scannerName,
+            isRepeated: isRepeated,
+            trackProgress: true,
+            dependencyBehavior: dependencyBehavior)
         {
             this.ScannerName = scannerName;
+            this.UpdateInterval = SettingsViewModel.GetInstance().RescanInterval;
         }
-
-        /// <summary>
-        /// Occurs after a property value changes.
-        /// </summary>
-        public event PropertyChangedEventHandler PropertyChanged;
 
         /// <summary>
         /// Gets the number of scans that have been executed.
@@ -54,20 +53,12 @@
         /// <summary>
         /// Begins the scan.
         /// </summary>
-        public override void Begin()
+        protected override void OnBegin()
         {
             this.ScanCount = 0;
-            this.UpdateInterval = SettingsViewModel.GetInstance().RescanInterval;
-            base.Begin();
-        }
+            this.IsTaskComplete = false;
 
-        /// <summary>
-        /// Notifies view model of a property change.
-        /// </summary>
-        /// <param name="propertyName">The name of the changing property.</param>
-        protected void NotifyPropertyChanged(String propertyName)
-        {
-            this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            base.OnBegin();
         }
 
         /// <summary>
@@ -76,7 +67,15 @@
         protected override void OnUpdate()
         {
             this.ScanCount++;
-            this.UpdateInterval = SettingsViewModel.GetInstance().RescanInterval;
+
+            base.OnUpdate();
+        }
+
+        protected override void OnEnd()
+        {
+            this.IsTaskComplete = true;
+
+            base.OnEnd();
         }
     }
     //// End class

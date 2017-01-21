@@ -110,7 +110,7 @@
 
         private void StopScan()
         {
-            this.InputCorrelatorModel.End();
+            this.InputCorrelatorModel.Cancel();
         }
     }
     //// End class

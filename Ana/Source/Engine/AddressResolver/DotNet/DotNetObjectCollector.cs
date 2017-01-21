@@ -1,5 +1,6 @@
 ﻿namespace Ana.Source.Engine.AddressResolver.DotNet
 {
+    using ActionScheduler;
     using AnathenaProxy;
     using Processes;
     using Proxy;
@@ -15,7 +16,7 @@
     /// Class to walk through the managed heap of a .NET process, allowing for the easy retrieval.
     /// of fully labeled objects.
     /// </summary>
-    internal class DotNetObjectCollector : RepeatedTask
+    internal class DotNetObjectCollector : ScheduledTask
     {
         /// <summary>
         /// Duration in ms to poll the target process for .Net objects initially.
@@ -75,8 +76,11 @@
         /// <summary>
         /// Prevents a default instance of the <see cref="DotNetObjectCollector" /> class from being created.
         /// </summary>
-        private DotNetObjectCollector()
+        private DotNetObjectCollector() : base(".Net Object Collector", isRepeated: true, trackProgress: true)
         {
+            // TODO: Marking as completed by default until we have a reasonable way to track the progress on this.
+            // This is challenging because we have this offloaded to the proxy service right now.
+            this.IsTaskComplete = true;
         }
 
         /// <summary>
@@ -94,13 +98,13 @@
         }
 
         /// <summary>
-        /// Starts the collection of .Net objects.
+        /// Called before the collection of .Net objects.
         /// </summary>
-        public override void Begin()
+        protected override void OnBegin()
         {
-            base.Begin();
-
             this.UpdateInterval = DotNetObjectCollector.InitialPollingTime;
+
+            base.OnBegin();
         }
 
         /// <summary>
@@ -183,6 +187,12 @@
             }
 
             this.ObjectTrees = objectTrees;
+            base.OnUpdate();
+        }
+
+        protected override void OnEnd()
+        {
+            base.OnEnd();
         }
 
         /// <summary>

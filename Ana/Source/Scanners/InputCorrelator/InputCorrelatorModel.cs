@@ -1,5 +1,7 @@
 ﻿namespace Ana.Source.Scanners.InputCorrelator
 {
+    using ActionScheduler;
+    using BackgroundScans.Prefilters;
     using Engine;
     using Engine.Input.Controller;
     using Engine.Input.HotKeys;
@@ -18,9 +20,13 @@
     {
         private List<IHotkey> hotKeys;
 
-        public InputCorrelatorModel(Action updateScanCount) : base("Input Correlator")
+        public InputCorrelatorModel(Action updateScanCount) : base(
+            scannerName: "Input Correlator",
+            isRepeated: true,
+            dependencyBehavior: new DependencyBehavior(dependencies: typeof(ISnapshotPrefilter)))
         {
             this.UpdateScanCount = updateScanCount;
+            this.ProgressLock = new Object();
         }
 
         public List<IHotkey> HotKeys
@@ -47,6 +53,8 @@
 
         private DateTime LastActivated { get; set; }
 
+        private Object ProgressLock { get; set; }
+
         public void EditKeys()
         {
             View.Editors.HotkeyEditor hotKeyEditor = new View.Editors.HotkeyEditor(this.HotKeys);
@@ -55,27 +63,6 @@
             {
                 this.HotKeys = new List<IHotkey>(hotKeyEditor.HotkeyEditorViewModel.Hotkeys);
             }
-        }
-
-        public override void Begin()
-        {
-            this.InitializeObjects();
-
-            // Initialize labeled snapshot
-            this.Snapshot = SnapshotManager.GetInstance().GetActiveSnapshot(createIfNone: true).Clone(this.ScannerName);
-            this.Snapshot.LabelType = typeof(Int16);
-
-            if (this.Snapshot == null)
-            {
-                this.End();
-                return;
-            }
-
-            // Initialize with no correlation
-            this.Snapshot.SetElementLabels<Int16>(0);
-            this.TimeOutIntervalMs = SettingsViewModel.GetInstance().InputCorrelatorTimeOutInterval;
-
-            base.Begin();
         }
 
         /// <summary>
@@ -115,12 +102,34 @@
             }
         }
 
+        protected override void OnBegin()
+        {
+            this.InitializeObjects();
+
+            // Initialize labeled snapshot
+            this.Snapshot = SnapshotManager.GetInstance().GetActiveSnapshot(createIfNone: true).Clone(this.ScannerName);
+            this.Snapshot.LabelType = typeof(Int16);
+
+            if (this.Snapshot == null)
+            {
+                this.Cancel();
+                return;
+            }
+
+            // Initialize with no correlation
+            this.Snapshot.SetElementLabels<Int16>(0);
+            this.TimeOutIntervalMs = SettingsViewModel.GetInstance().InputCorrelatorTimeOutInterval;
+
+            base.OnBegin();
+        }
+
         protected override void OnUpdate()
         {
             // Read memory to update previous and current values
             this.Snapshot.ReadAllMemory();
 
             Boolean conditionValid = this.IsInputConditionValid(this.Snapshot.GetTimeSinceLastUpdate());
+            Int32 processedPages = 0;
 
             // Note the duplicated code here is an optimization to minimize comparisons done per iteration
             if (conditionValid)
@@ -143,6 +152,12 @@
                         {
                             ((dynamic)element).ElementLabel++;
                         }
+                    }
+
+                    lock (this.ProgressLock)
+                    {
+                        processedPages++;
+                        this.UpdateProgress(processedPages, this.Snapshot.GetRegionCount());
                     }
                 });
             }
@@ -167,11 +182,18 @@
                             ((dynamic)element).ElementLabel--;
                         }
                     }
+
+                    lock (this.ProgressLock)
+                    {
+                        processedPages++;
+                        this.UpdateProgress(processedPages, this.Snapshot.GetRegionCount());
+                    }
                 });
             }
 
-            base.OnUpdate();
             this.UpdateScanCount?.Invoke();
+
+            base.OnUpdate();
         }
 
         /// <summary>
@@ -198,6 +220,7 @@
 
             this.CleanUp();
             LabelThresholderViewModel.GetInstance().OpenLabelThresholder();
+
             base.OnEnd();
         }
 
