@@ -29,9 +29,10 @@
         /// </summary>
         private const Single DefaultProgressCompletionThreshold = 100f;
 
+        /// <summary>
+        /// The progress of this task.
+        /// </summary>
         private Single progress;
-
-        public event PropertyChangedEventHandler PropertyChanged;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ScheduledTask" /> class.
@@ -46,7 +47,7 @@
         /// <summary>
         /// Initializes a new instance of the <see cref="ScheduledTask" /> class.
         /// </summary>
-        /// <param name="taskName">The dependencies and dependency behavior of this task.</param>
+        /// <param name="taskName">The name of this task.</param>
         /// <param name="isRepeated">Whether or not this task is repeated.</param>
         /// <param name="trackProgress">Whether or not progress is tracked for this task.</param>
         /// <param name="dependencyBehavior">The dependencies and dependency behavior of this task.</param>
@@ -59,6 +60,11 @@
 
             this.ProgressCompletionThreshold = ScheduledTask.DefaultProgressCompletionThreshold;
         }
+
+        /// <summary>
+        /// Occurs after a property value changes.
+        /// </summary>
+        public event PropertyChangedEventHandler PropertyChanged;
 
         /// <summary>
         /// Gets or sets the dependency behavior of this task.
@@ -81,7 +87,7 @@
         public String TaskName { get; set; }
 
         /// <summary>
-        /// Gets a value indicating whether the scheduled task has completed. This is not in terms of progress, but instead indicates the task is entirely done.
+        /// Gets or sets a value indicating whether the scheduled task has completed. This is not in terms of progress, but instead indicates the task is entirely done.
         /// </summary>
         public Boolean IsTaskComplete { get; protected set; }
 
@@ -97,7 +103,7 @@
         }
 
         /// <summary>
-        /// Gets or sets the progress of this task.
+        /// Gets the progress of this task.
         /// </summary>
         public Single Progress
         {
@@ -150,7 +156,7 @@
         /// <param name="total">The progress goal total.</param>
         public void UpdateProgress(Int32 subtotal, Int32 total)
         {
-            this.UpdateProgress(total <= 0 ? 0f : (((Single)subtotal / (Single)total) * ScheduledTask.MaximumProgress + ScheduledTask.MinimumProgress));
+            this.UpdateProgress(total <= 0 ? 0f : (((Single)subtotal / (Single)total) * ScheduledTask.MaximumProgress) + ScheduledTask.MinimumProgress);
         }
 
         /// <summary>

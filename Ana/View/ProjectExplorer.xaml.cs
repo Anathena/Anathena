@@ -506,7 +506,7 @@
                 this.projectExplorerTreeView,
                 () =>
             {
-                result = MessageBoxEx.Show(
+                result = CenteredDialogBox.Show(
                     System.Windows.Application.Current.MainWindow,
                    "Delete selected items?",
                    "Confirm",

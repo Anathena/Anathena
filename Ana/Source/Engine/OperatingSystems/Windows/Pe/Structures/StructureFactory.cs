@@ -1,31 +1,43 @@
-﻿using System;
-
-namespace Ana.Source.Engine.OperatingSystems.Windows.Pe.Structures
+﻿namespace Ana.Source.Engine.OperatingSystems.Windows.Pe.Structures
 {
-    internal class StructureFactory<T>
-        where T : AbstractStructure
+    using System;
+
+    internal class StructureFactory<T> where T : AbstractStructure
     {
-        private T _instance;
-        private bool _instanceAlreadyParsed;
-        private byte[] _buff;
-        private uint _offset;
+        private T instance;
+        private Boolean instanceAlreadyParsed;
+        private Byte[] buff;
+        private UInt32 offset;
 
         public Exception ParseException { get; private set; }
 
-        public StructureFactory(byte[] buff, uint offset)
+        public StructureFactory(Byte[] buff, UInt32 offset)
         {
-            _buff = buff;
-            _offset = offset;
+            this.buff = buff;
+            this.offset = offset;
         }
 
-        private T CreateInstance<T>(byte[] buff, uint offset)
-            where T : AbstractStructure
+        public T GetInstance()
         {
-            T instance = null;
+            // The structure was already parsed. Return the result.
+            if (instanceAlreadyParsed)
+                return instance;
+
+            // The structure wasn't parsed before. Create and save a new
+            // instance and return it.
+            instanceAlreadyParsed = true;
+            instance = CreateInstance<T>(buff, offset);
+
+            return instance;
+        }
+
+        private N CreateInstance<N>(Byte[] buff, UInt32 offset) where N : AbstractStructure
+        {
+            N instance = null;
 
             try
             {
-                instance = Activator.CreateInstance(typeof(T), buff, offset) as T;
+                instance = Activator.CreateInstance(typeof(N), buff, offset) as N;
             }
             catch (Exception exception)
             {
@@ -34,19 +46,7 @@ namespace Ana.Source.Engine.OperatingSystems.Windows.Pe.Structures
 
             return instance;
         }
-
-        public T GetInstance()
-        {
-            // The structure was already parsed. Return the result.
-            if (_instanceAlreadyParsed)
-                return _instance;
-
-            // The structure wasn't parsed before. Create and save a new
-            // instance and return it.
-            _instanceAlreadyParsed = true;
-            _instance = CreateInstance<T>(_buff, _offset);
-
-            return _instance;
-        }
     }
+    //// End class
 }
+//// End namespace

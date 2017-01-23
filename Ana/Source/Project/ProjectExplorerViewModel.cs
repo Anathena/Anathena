@@ -249,7 +249,7 @@
                 projectName = "Untitled";
             }
 
-            MessageBoxResult result = MessageBoxEx.Show(
+            MessageBoxResult result = CenteredDialogBox.Show(
                 "Save changes to project " + projectName + "?",
                 "Unsaved Changes",
                 MessageBoxButton.YesNoCancel,
