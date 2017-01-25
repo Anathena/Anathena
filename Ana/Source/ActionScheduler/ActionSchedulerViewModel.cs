@@ -44,6 +44,9 @@
             this.Update();
         }
 
+        /// <summary>
+        /// Gets the tasks that are actively running.
+        /// </summary>
         public ObservableCollection<ScheduledTask> ActiveTasks
         {
             get

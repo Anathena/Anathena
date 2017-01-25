@@ -1,6 +1,7 @@
 ﻿namespace Ana.Source.SignatureCollector
 {
     using System;
+    using System.ComponentModel;
     using System.IO;
     using System.Runtime.Serialization;
     using System.Runtime.Serialization.Json;
@@ -10,8 +11,39 @@
     /// A class for storing an executale signature.
     /// </summary>
     [DataContract]
-    internal class SignatureModel
+    internal class SignatureModel : INotifyPropertyChanged
     {
+
+        /// <summary>
+        /// The 'window title' of the signature.
+        /// </summary>
+        public String windowTitle;
+
+        /// <summary>
+        /// The 'binary version' of the signature.
+        /// </summary>
+        public String binaryVersion;
+
+        /// <summary>
+        /// Gets or sets the 'binary header hash' of the signature.
+        /// </summary>
+        public String binaryHeaderHash;
+
+        /// <summary>
+        /// Gets or sets the 'binary import hash' of the signature.
+        /// </summary>
+        public String binaryImportHash;
+
+        /// <summary>
+        /// The 'main module hash' of the signature.
+        /// </summary>
+        public String mainModuleHash;
+
+        /// <summary>
+        /// The 'emulator hash' of the signature.
+        /// </summary>
+        public String emulatorHash;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="SignatureModel" /> class.
         /// </summary>
@@ -20,40 +52,117 @@
         }
 
         /// <summary>
+        /// Occurs after a property value changes.
+        /// </summary>
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        /// <summary>
         /// Gets or sets the 'window title' of the signature.
         /// </summary>
         [DataMember]
-        public String WindowTitle { get; set; }
+        public String WindowTitle
+        {
+            get
+            {
+                return this.windowTitle;
+            }
+
+            set
+            {
+                this.windowTitle = value;
+                this.NotifyPropertyChanged(nameof(this.WindowTitle));
+            }
+        }
 
         /// <summary>
         /// Gets or sets the 'binary version' of the signature.
         /// </summary>
         [DataMember]
-        public String BinaryVersion { get; set; }
+        public String BinaryVersion
+        {
+            get
+            {
+                return this.binaryVersion;
+            }
+
+            set
+            {
+                this.binaryVersion = value;
+                this.NotifyPropertyChanged(nameof(this.BinaryVersion));
+            }
+        }
 
         /// <summary>
         /// Gets or sets the 'binary header hash' of the signature.
         /// </summary>
         [DataMember]
-        public String BinaryHeaderHash { get; set; }
+        public String BinaryHeaderHash
+        {
+            get
+            {
+                return this.binaryHeaderHash;
+            }
+
+            set
+            {
+                this.binaryHeaderHash = value;
+                this.NotifyPropertyChanged(nameof(this.BinaryHeaderHash));
+            }
+        }
 
         /// <summary>
         /// Gets or sets the 'binary import hash' of the signature.
         /// </summary>
         [DataMember]
-        public String BinaryImportHash { get; set; }
+        public String BinaryImportHash
+        {
+            get
+            {
+                return this.binaryImportHash;
+            }
+
+            set
+            {
+                this.binaryImportHash = value;
+                this.NotifyPropertyChanged(nameof(this.BinaryImportHash));
+            }
+        }
 
         /// <summary>
         /// Gets or sets the 'main module hash' of the signature.
         /// </summary>
         [DataMember]
-        public String MainModuleHash { get; set; }
+        public String MainModuleHash
+        {
+            get
+            {
+                return this.mainModuleHash;
+            }
+
+            set
+            {
+                this.mainModuleHash = value;
+                this.NotifyPropertyChanged(nameof(this.MainModuleHash));
+            }
+        }
 
         /// <summary>
         /// Gets or sets the 'emulator hash' of the signature.
         /// </summary>
         [DataMember]
-        public String EmulatorHash { get; set; }
+        public String EmulatorHash
+        {
+            get
+            {
+                return this.emulatorHash;
+            }
+
+            set
+            {
+                this.emulatorHash = value;
+                this.NotifyPropertyChanged(nameof(this.EmulatorHash));
+            }
+        }
 
         /// <summary>
         /// Deserialized a stored base64 application signature.
@@ -95,6 +204,15 @@
             String base64Signature = Convert.ToBase64String(bytes);
 
             return base64Signature;
+        }
+
+        /// <summary>
+        /// Indicates that a given property in this project item has changed.
+        /// </summary>
+        /// <param name="propertyName">The name of the changed property.</param>
+        private void NotifyPropertyChanged(String propertyName)
+        {
+            this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
     //// End class

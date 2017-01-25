@@ -16,46 +16,44 @@
     DataContext="{Binding SignatureCollectorViewModel, Source={StaticResource ViewModelLocator}}"
     mc:Ignorable="d">
     <Grid Background="{StaticResource AvalonDock_Expression_BaseColor3}">
-        <ScrollViewer>
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition />
-                </Grid.RowDefinitions>
-                <WrapPanel Grid.Row="0" Background="{StaticResource AvalonDock_Expression_BaseColor4}">
-                    <Menu Padding="4" Background="Transparent">
-                        <MenuItem Command="{Binding CollectSignatureCommand}">
-                            <MenuItem.Header>
-                                <Image
-                                    Width="16"
-                                    Height="16"
-                                    Source="pack://application:,,,/Ana;component/Content/Icons/CollectValues.png" />
-                            </MenuItem.Header>
-                        </MenuItem>
-                    </Menu>
-                </WrapPanel>
-                <Grid Grid.Row="1" Margin="8">
-                    <StackPanel>
-                        <Label Foreground="{StaticResource AvalonDock_Expression_BaseColor2}">Full Signature:</Label>
-                        <TextBox
-                            Background="{StaticResource AvalonDock_Expression_BaseColor4}"
-                            Foreground="{StaticResource AvalonDock_Expression_BaseColor11}"
-                            IsReadOnly="True"
-                            Text="{Binding Signature, Mode=OneWay}"
-                            TextWrapping="Wrap" />
-                        <Label />
-                        <Label Foreground="{StaticResource AvalonDock_Expression_BaseColor2}">Window Title:</Label>
-                        <TextBlock Foreground="{StaticResource AvalonDock_Expression_BaseColor11}" Text="{Binding WindowTitle}" />
-                        <Label Foreground="{StaticResource AvalonDock_Expression_BaseColor2}">Binary Version:</Label>
-                        <TextBlock Foreground="{StaticResource AvalonDock_Expression_BaseColor11}" Text="{Binding BinaryVersion}" />
-                        <Label Foreground="{StaticResource AvalonDock_Expression_BaseColor2}">Header Hash:</Label>
-                        <TextBlock Foreground="{StaticResource AvalonDock_Expression_BaseColor11}" Text="{Binding BinaryHeaderHash}" />
-                        <Label Foreground="{StaticResource AvalonDock_Expression_BaseColor2}">Import Hash:</Label>
-                        <TextBlock Foreground="{StaticResource AvalonDock_Expression_BaseColor11}" Text="{Binding BinaryImportHash}" />
-                        <Label Foreground="{StaticResource AvalonDock_Expression_BaseColor2}">Main Module Hash:</Label>
-                        <TextBlock Foreground="{StaticResource AvalonDock_Expression_BaseColor11}" Text="{Binding MainModuleHash}" />
-                    </StackPanel>
-                </Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <WrapPanel Grid.Row="0" Background="{StaticResource AvalonDock_Expression_BaseColor4}">
+            <Menu Padding="4" Background="Transparent">
+                <MenuItem Command="{Binding CollectSignatureCommand}">
+                    <MenuItem.Header>
+                        <Image
+                            Width="16"
+                            Height="16"
+                            Source="pack://application:,,,/Ana;component/Content/Icons/CollectValues.png" />
+                    </MenuItem.Header>
+                </MenuItem>
+            </Menu>
+        </WrapPanel>
+        <ScrollViewer Grid.Row="1">
+            <Grid Margin="8">
+                <StackPanel>
+                    <Label Foreground="{StaticResource AvalonDock_Expression_BaseColor2}">Full Signature:</Label>
+                    <TextBox
+                        Background="{StaticResource AvalonDock_Expression_BaseColor4}"
+                        Foreground="{StaticResource AvalonDock_Expression_BaseColor11}"
+                        IsReadOnly="True"
+                        Text="{Binding Signature, Mode=OneWay}"
+                        TextWrapping="Wrap" />
+                    <Label />
+                    <Label Foreground="{StaticResource AvalonDock_Expression_BaseColor2}">Window Title:</Label>
+                    <TextBlock Foreground="{StaticResource AvalonDock_Expression_BaseColor11}" Text="{Binding SignatureModel.WindowTitle}" />
+                    <Label Foreground="{StaticResource AvalonDock_Expression_BaseColor2}">Binary Version:</Label>
+                    <TextBlock Foreground="{StaticResource AvalonDock_Expression_BaseColor11}" Text="{Binding SignatureModel.BinaryVersion}" />
+                    <Label Foreground="{StaticResource AvalonDock_Expression_BaseColor2}">Header Hash:</Label>
+                    <TextBlock Foreground="{StaticResource AvalonDock_Expression_BaseColor11}" Text="{Binding SignatureModel.BinaryHeaderHash}" />
+                    <Label Foreground="{StaticResource AvalonDock_Expression_BaseColor2}">Import Hash:</Label>
+                    <TextBlock Foreground="{StaticResource AvalonDock_Expression_BaseColor11}" Text="{Binding SignatureModel.BinaryImportHash}" />
+                    <Label Foreground="{StaticResource AvalonDock_Expression_BaseColor2}">Main Module Hash:</Label>
+                    <TextBlock Foreground="{StaticResource AvalonDock_Expression_BaseColor11}" Text="{Binding SignatureModel.MainModuleHash}" />
+                </StackPanel>
             </Grid>
         </ScrollViewer>
     </Grid>

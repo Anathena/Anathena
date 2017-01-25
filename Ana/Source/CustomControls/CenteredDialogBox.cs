@@ -23,7 +23,7 @@
             return MessageBox.Show(text, caption, buttons, icon);
         }
 
-        public static MessageBoxResult Show(Window owner, string text, string caption, MessageBoxButton buttons, MessageBoxImage icon)
+        public static MessageBoxResult Show(Window owner, String text, String caption, MessageBoxButton buttons, MessageBoxImage icon)
         {
             ownerPtr = new WindowInteropHelper(owner).Handle;
             CenteredDialogBox.Initialize();
