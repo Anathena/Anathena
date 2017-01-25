@@ -6,6 +6,8 @@
     using SharpDX.DirectInput;
     using Source.CustomControls;
     using Source.CustomControls.TreeView;
+    using Source.Editors.ScriptEditor;
+    using Source.Editors.ValueEditor;
     using Source.Engine;
     using Source.Engine.Input.Keyboard;
     using Source.Project;
@@ -13,8 +15,6 @@
     using Source.Utils;
     using Source.Utils.DataStructures;
     using Source.Utils.Extensions;
-    using Source.Utils.ScriptEditor;
-    using Source.Utils.ValueEditor;
     using System;
     using System.Collections.Generic;
     using System.ComponentModel;
@@ -506,7 +506,7 @@
                 this.projectExplorerTreeView,
                 () =>
             {
-                result = MessageBoxEx.Show(
+                result = CenteredDialogBox.Show(
                     System.Windows.Application.Current.MainWindow,
                    "Delete selected items?",
                    "Confirm",

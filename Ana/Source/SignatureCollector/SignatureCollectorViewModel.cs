@@ -38,8 +38,14 @@
             MainViewModel.GetInstance().Subscribe(this);
         }
 
+        /// <summary>
+        /// Gets the command to collect the target application signature.
+        /// </summary>
         public ICommand CollectSignatureCommand { get; private set; }
 
+        /// <summary>
+        /// Gets the full signature text of the target application.
+        /// </summary>
         public String Signature
         {
             get
@@ -48,91 +54,10 @@
             }
         }
 
-        public String WindowTitle
-        {
-            get
-            {
-                return this.SignatureModel.WindowTitle;
-            }
-
-            set
-            {
-                this.SignatureModel.WindowTitle = value;
-                this.RaisePropertyChanged(nameof(this.WindowTitle));
-            }
-        }
-
-        public String BinaryVersion
-        {
-            get
-            {
-                return this.SignatureModel.BinaryVersion;
-            }
-
-            set
-            {
-                this.SignatureModel.BinaryVersion = value;
-                this.RaisePropertyChanged(nameof(this.BinaryVersion));
-            }
-        }
-
-        public String BinaryHeaderHash
-        {
-            get
-            {
-                return this.SignatureModel.BinaryHeaderHash;
-            }
-
-            set
-            {
-                this.SignatureModel.BinaryHeaderHash = value;
-                this.RaisePropertyChanged(nameof(this.BinaryHeaderHash));
-            }
-        }
-
-        public String BinaryImportHash
-        {
-            get
-            {
-                return this.SignatureModel.BinaryImportHash;
-            }
-
-            set
-            {
-                this.SignatureModel.BinaryImportHash = value;
-                this.RaisePropertyChanged(nameof(this.BinaryImportHash));
-            }
-        }
-
-        public String MainModuleHash
-        {
-            get
-            {
-                return this.SignatureModel.MainModuleHash;
-            }
-
-            set
-            {
-                this.SignatureModel.MainModuleHash = value;
-                this.RaisePropertyChanged(nameof(this.MainModuleHash));
-            }
-        }
-
-        public String EmulatorHash
-        {
-            get
-            {
-                return this.SignatureModel.EmulatorHash;
-            }
-
-            set
-            {
-                this.SignatureModel.EmulatorHash = value;
-                this.RaisePropertyChanged(nameof(this.EmulatorHash));
-            }
-        }
-
-        private SignatureModel SignatureModel { get; set; }
+        /// <summary>
+        /// Gets or sets an object that contains the target process signature.
+        /// </summary>
+        public SignatureModel SignatureModel { get; set; }
 
         /// <summary>
         /// Gets a singleton instance of the <see cref="SignatureCollectorViewModel"/> class.
@@ -143,14 +68,17 @@
             return SignatureCollectorViewModel.signatureCollectorViewModelInstance.Value;
         }
 
+        /// <summary>
+        /// Collects the signature of the running target application.
+        /// </summary>
         private void CollectSignature()
         {
-            this.WindowTitle = EngineCore.GetInstance().OperatingSystemAdapter.CollectWindowTitle();
-            this.BinaryVersion = EngineCore.GetInstance().OperatingSystemAdapter.CollectBinaryVersion();
-            this.BinaryHeaderHash = EngineCore.GetInstance().OperatingSystemAdapter.CollectBinaryHeaderHash();
-            this.BinaryImportHash = EngineCore.GetInstance().OperatingSystemAdapter.CollectBinaryImportHash();
-            this.MainModuleHash = EngineCore.GetInstance().OperatingSystemAdapter.CollectMainModuleHash();
-            this.EmulatorHash = EngineCore.GetInstance().OperatingSystemAdapter.CollectEmulatorHash();
+            this.SignatureModel.WindowTitle = EngineCore.GetInstance().OperatingSystemAdapter.CollectWindowTitle();
+            this.SignatureModel.BinaryVersion = EngineCore.GetInstance().OperatingSystemAdapter.CollectBinaryVersion();
+            this.SignatureModel.BinaryHeaderHash = EngineCore.GetInstance().OperatingSystemAdapter.CollectBinaryHeaderHash();
+            this.SignatureModel.BinaryImportHash = EngineCore.GetInstance().OperatingSystemAdapter.CollectBinaryImportHash();
+            this.SignatureModel.MainModuleHash = EngineCore.GetInstance().OperatingSystemAdapter.CollectMainModuleHash();
+            this.SignatureModel.EmulatorHash = EngineCore.GetInstance().OperatingSystemAdapter.CollectEmulatorHash();
 
             this.RaisePropertyChanged(nameof(this.Signature));
         }

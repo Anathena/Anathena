@@ -143,7 +143,7 @@
                 {
                     Int64 elementCount = (Int64)region.GetElementCount();
 
-                    if (index - elementCount >= 0)
+                    if (index >= elementCount)
                     {
                         index -= elementCount;
                     }
@@ -153,7 +153,7 @@
                     }
                 }
 
-                return null;
+                throw new Exception("Invalid index");
             }
         }
 

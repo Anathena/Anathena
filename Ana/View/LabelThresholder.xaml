@@ -67,8 +67,8 @@
                 Height="20"
                 HigherValue="{Binding UpperThreshold}"
                 LowerValue="{Binding LowerThreshold}"
-                Maximum="{Binding MaximumValue, Mode=OneWay}"
-                Minimum="{Binding MinimumValue, Mode=OneWay}" />
+                Maximum="0"
+                Minimum="100" />
         </Grid>
     </Grid>
 </UserControl>

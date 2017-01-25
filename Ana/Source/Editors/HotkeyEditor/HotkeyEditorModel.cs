@@ -1,5 +1,6 @@
-﻿namespace Ana.Source.Utils.OffsetEditor
+﻿namespace Ana.Source.Editors.HotkeyEditor
 {
+    using Engine.Input.HotKeys;
     using System;
     using System.Collections.Generic;
     using System.ComponentModel;
@@ -8,14 +9,14 @@
     using System.Windows;
 
     /// <summary>
-    /// Type editor for pointer offsets.
+    /// Type editor for hot keys.
     /// </summary>
-    internal class OffsetEditorModel : UITypeEditor
+    internal class HotkeyEditorModel : UITypeEditor
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="OffsetEditorModel" /> class.
+        /// Initializes a new instance of the <see cref="HotkeyEditorModel" /> class.
         /// </summary>
-        public OffsetEditorModel()
+        public HotkeyEditorModel()
         {
         }
 
@@ -38,12 +39,12 @@
         /// <returns>The updated values.</returns>
         public override Object EditValue(ITypeDescriptorContext context, IServiceProvider provider, Object value)
         {
-            View.Editors.OffsetEditor offsetEditor = new View.Editors.OffsetEditor(value == null ? null : (value as IEnumerable<Int32>)?.ToList());
+            View.Editors.HotkeyEditor hotkeyEditor = new View.Editors.HotkeyEditor(value == null ? null : (value as IEnumerable<IHotkey>)?.ToList());
 
-            offsetEditor.Owner = Application.Current.MainWindow;
-            if (offsetEditor.ShowDialog() == true)
+            hotkeyEditor.Owner = Application.Current.MainWindow;
+            if (hotkeyEditor.ShowDialog() == true)
             {
-                List<Int32> newOffsets = offsetEditor.OffsetEditorViewModel.Offsets.Select(x => x.Value).ToList();
+                List<IHotkey> newOffsets = hotkeyEditor.HotkeyEditorViewModel.Hotkeys.ToList();
 
                 if (newOffsets != null && newOffsets.Count > 0)
                 {

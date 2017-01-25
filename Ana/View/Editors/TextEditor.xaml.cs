@@ -1,6 +1,6 @@
 ﻿namespace Ana.View.Editors
 {
-    using Source.Utils.TextEditor;
+    using Source.Editors.TextEditor;
     using System;
     using System.Windows;
     using System.Windows.Media;

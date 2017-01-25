@@ -1,20 +1,21 @@
-﻿namespace Ana.Source.Utils.ValueEditor
+﻿namespace Ana.Source.Editors.OffsetEditor
 {
-    using Project.ProjectItems;
     using System;
+    using System.Collections.Generic;
     using System.ComponentModel;
     using System.Drawing.Design;
+    using System.Linq;
     using System.Windows;
 
     /// <summary>
-    /// Type editor for scripts.
+    /// Type editor for pointer offsets.
     /// </summary>
-    internal class ValueEditorModel : UITypeEditor
+    internal class OffsetEditorModel : UITypeEditor
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="ValueEditorModel" /> class.
+        /// Initializes a new instance of the <see cref="OffsetEditorModel" /> class.
         /// </summary>
-        public ValueEditorModel()
+        public OffsetEditorModel()
         {
         }
 
@@ -37,15 +38,24 @@
         /// <returns>The updated values.</returns>
         public override Object EditValue(ITypeDescriptorContext context, IServiceProvider provider, Object value)
         {
-            View.Editors.ValueEditor valueEditor = new View.Editors.ValueEditor(value as AddressItem);
+            View.Editors.OffsetEditor offsetEditor = new View.Editors.OffsetEditor(value == null ? null : (value as IEnumerable<Int32>)?.ToList());
 
-            valueEditor.Owner = Application.Current.MainWindow;
-            if (valueEditor.ShowDialog() == true)
+            offsetEditor.Owner = Application.Current.MainWindow;
+            if (offsetEditor.ShowDialog() == true)
             {
-                return valueEditor.ValueEditorViewModel.Value;
+                List<Int32> newOffsets = offsetEditor.OffsetEditorViewModel.Offsets.Select(x => x.Value).ToList();
+
+                if (newOffsets != null && newOffsets.Count > 0)
+                {
+                    return newOffsets;
+                }
+                else
+                {
+                    return null;
+                }
             }
 
-            return (value as AddressItem)?.Value;
+            return value;
         }
     }
     //// End class

@@ -123,16 +123,16 @@
                 return;
             }
 
-            if (process == null || !proxyService.RefreshHeap(process.ProcessId))
-            {
-                return;
-            }
-
-            List<DotNetObject> objectTrees = new List<DotNetObject>();
-            HashSet<UInt64> visited = new HashSet<UInt64>();
-
             try
             {
+                if (process == null || !proxyService.RefreshHeap(process.ProcessId))
+                {
+                    return;
+                }
+
+                List<DotNetObject> objectTrees = new List<DotNetObject>();
+                HashSet<UInt64> visited = new HashSet<UInt64>();
+
                 foreach (UInt64 rootRef in proxyService.GetRoots())
                 {
                     String rootName = proxyService.GetRootName(rootRef);
@@ -181,12 +181,13 @@
                     {
                     }
                 }
+
+                this.ObjectTrees = objectTrees;
             }
             catch
             {
             }
 
-            this.ObjectTrees = objectTrees;
             base.OnUpdate();
         }
 

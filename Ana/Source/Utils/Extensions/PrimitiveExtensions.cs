@@ -10,7 +10,7 @@
         /// <summary>
         /// Bounds the value between the min and the maximum values provided.
         /// </summary>
-        /// <typeparam name="T">Type data type of the value<./typeparam>
+        /// <typeparam name="T">Type data type of the value.</typeparam>
         /// <param name="self">The value in consideration.</param>
         /// <param name="min">The minimum value allowed.</param>
         /// <param name="max">The maximum value allowed.</param>

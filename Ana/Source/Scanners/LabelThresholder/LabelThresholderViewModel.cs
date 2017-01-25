@@ -31,12 +31,24 @@
                 () => { return new LabelThresholderViewModel(); },
                 LazyThreadSafetyMode.ExecutionAndPublication);
 
+        /// <summary>
+        /// The histogram collection object.
+        /// </summary>
         private SeriesCollection seriesCollection;
 
+        /// <summary>
+        /// The histogram labels.
+        /// </summary>
         private IList<String> labels;
 
+        /// <summary>
+        /// The histogram of label values which will be discarded if the filter is applied.
+        /// </summary>
         private IChartValues filteredValues;
 
+        /// <summary>
+        /// The histogram of label values which will be kept if the filter is applied.
+        /// </summary>
         private IChartValues keptValues;
 
         /// <summary>
@@ -46,18 +58,27 @@
         {
             this.ContentId = LabelThresholderViewModel.ToolContentId;
             this.LabelThresholderModel = new LabelThresholderModel(this.OnUpdateHistogram);
-            this.LowerThreshold = this.MinimumValue;
-            this.UpperThreshold = this.MaximumValue;
+            this.LowerThreshold = 0;
+            this.UpperThreshold = 100;
             this.ApplyThresholdCommand = new RelayCommand(() => Task.Run(() => this.ApplyThreshold()), () => true);
             this.InvertSelectionCommand = new RelayCommand(() => Task.Run(() => this.InvertSelection()), () => true);
 
             Task.Run(() => MainViewModel.GetInstance().Subscribe(this));
         }
 
+        /// <summary>
+        /// Gets a command to apply a filter to the current selection.
+        /// </summary>
         public ICommand ApplyThresholdCommand { get; private set; }
 
+        /// <summary>
+        /// Gets a command to invert the current filter selection.
+        /// </summary>
         public ICommand InvertSelectionCommand { get; private set; }
 
+        /// <summary>
+        /// Gets or sets the histogram collection object.
+        /// </summary>
         public SeriesCollection SeriesCollection
         {
             get
@@ -72,6 +93,9 @@
             }
         }
 
+        /// <summary>
+        /// Gets or sets the histogram labels.
+        /// </summary>
         public IList<String> Labels
         {
             get
@@ -86,6 +110,9 @@
             }
         }
 
+        /// <summary>
+        /// Gets or sets the histogram of label values which will be discarded if the filter is applied.
+        /// </summary>
         public IChartValues FilteredValues
         {
             get
@@ -100,6 +127,9 @@
             }
         }
 
+        /// <summary>
+        /// Gets or sets the histogram of label values which will be kept if the filter is applied.
+        /// </summary>
         public IChartValues KeptValues
         {
             get
@@ -114,6 +144,9 @@
             }
         }
 
+        /// <summary>
+        /// Gets or sets the current lower filter threshold.
+        /// </summary>
         public Double LowerThreshold
         {
             get
@@ -128,6 +161,9 @@
             }
         }
 
+        /// <summary>
+        /// Gets or sets the current upper filter threshold.
+        /// </summary>
         public Double UpperThreshold
         {
             get
@@ -142,22 +178,9 @@
             }
         }
 
-        public Double MinimumValue
-        {
-            get
-            {
-                return 0;
-            }
-        }
-
-        public Double MaximumValue
-        {
-            get
-            {
-                return 100;
-            }
-        }
-
+        /// <summary>
+        /// Gets or sets the model associated with this view model.
+        /// </summary>
         private LabelThresholderModel LabelThresholderModel { get; set; }
 
         /// <summary>
@@ -169,22 +192,34 @@
             return labelThresholderViewModelInstance.Value;
         }
 
+        /// <summary>
+        /// Opens the label thresholder.
+        /// </summary>
         public void OpenLabelThresholder()
         {
             this.IsVisible = true;
             this.IsActive = true;
         }
 
+        /// <summary>
+        /// Applies the current label threshold.
+        /// </summary>
         private void ApplyThreshold()
         {
             this.LabelThresholderModel.ApplyThreshold();
         }
 
+        /// <summary>
+        /// Inverts the selected histogram region.
+        /// </summary>
         private void InvertSelection()
         {
             this.LabelThresholderModel.ToggleInverted();
         }
 
+        /// <summary>
+        /// Callback function when the model updates the histogram.
+        /// </summary>
         private void OnUpdateHistogram()
         {
             SortedList<dynamic, Int64> histogram = LabelThresholderModel.Histogram;

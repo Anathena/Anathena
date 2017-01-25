@@ -1,12 +1,12 @@
 ﻿namespace Ana.Source.Project.ProjectItems
 {
+    using Editors.ScriptEditor;
     using Output;
     using ScriptEngine;
     using System;
     using System.ComponentModel;
     using System.Drawing.Design;
     using System.Runtime.Serialization;
-    using Utils.ScriptEditor;
     using Utils.TypeConverters;
 
     /// <summary>
