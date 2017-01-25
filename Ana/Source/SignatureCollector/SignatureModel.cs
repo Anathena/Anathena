@@ -13,36 +13,35 @@
     [DataContract]
     internal class SignatureModel : INotifyPropertyChanged
     {
-
         /// <summary>
         /// The 'window title' of the signature.
         /// </summary>
-        public String windowTitle;
+        private String windowTitle;
 
         /// <summary>
         /// The 'binary version' of the signature.
         /// </summary>
-        public String binaryVersion;
+        private String binaryVersion;
 
         /// <summary>
         /// Gets or sets the 'binary header hash' of the signature.
         /// </summary>
-        public String binaryHeaderHash;
+        private String binaryHeaderHash;
 
         /// <summary>
         /// Gets or sets the 'binary import hash' of the signature.
         /// </summary>
-        public String binaryImportHash;
+        private String binaryImportHash;
 
         /// <summary>
         /// The 'main module hash' of the signature.
         /// </summary>
-        public String mainModuleHash;
+        private String mainModuleHash;
 
         /// <summary>
         /// The 'emulator hash' of the signature.
         /// </summary>
-        public String emulatorHash;
+        private String emulatorHash;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="SignatureModel" /> class.

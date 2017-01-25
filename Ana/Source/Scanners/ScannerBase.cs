@@ -18,6 +18,8 @@
         /// Initializes a new instance of the <see cref="ScannerBase" /> class.
         /// </summary>
         /// <param name="scannerName">The name of this scanner.</param>
+        /// <param name="isRepeated">A value indicating whether this scan is repeated.</param>
+        /// <param name="dependencyBehavior">The object defining task dependencies.</param>
         public ScannerBase(String scannerName, Boolean isRepeated, DependencyBehavior dependencyBehavior) : base(
             taskName: scannerName,
             isRepeated: isRepeated,
@@ -51,7 +53,7 @@
         protected String ScannerName { get; private set; }
 
         /// <summary>
-        /// Begins the scan.
+        /// Called when the scan begins.
         /// </summary>
         protected override void OnBegin()
         {
@@ -62,7 +64,7 @@
         }
 
         /// <summary>
-        /// Updates the scan.
+        /// Called when the scan updates.
         /// </summary>
         protected override void OnUpdate()
         {
@@ -71,6 +73,9 @@
             base.OnUpdate();
         }
 
+        /// <summary>
+        /// Called when the scan ends.
+        /// </summary>
         protected override void OnEnd()
         {
             this.IsTaskComplete = true;

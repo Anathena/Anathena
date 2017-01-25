@@ -7,6 +7,9 @@
     using System.Windows;
     using System.Windows.Interop;
 
+    /// <summary>
+    /// A class for displaying a dialog box centered to the calling parent.
+    /// </summary>
     internal class CenteredDialogBox
     {
         public const Int32 WH_CALLWNDPROCRET = 12;
@@ -17,12 +20,29 @@
 
         private static IntPtr windowHook;
 
+        /// <summary>
+        /// Shows a dialog box with the specified parameters.
+        /// </summary>
+        /// <param name="text">The body text.</param>
+        /// <param name="caption">The window caption.</param>
+        /// <param name="buttons">The buttons choices to display</param>
+        /// <param name="icon">The icon to display.</param>
+        /// <returns>The result based on the button pressed.</returns>
         public static MessageBoxResult Show(String text, String caption, MessageBoxButton buttons, MessageBoxImage icon)
         {
             CenteredDialogBox.Initialize();
             return MessageBox.Show(text, caption, buttons, icon);
         }
 
+        /// <summary>
+        /// Shows a dialog box with the specified parameters.
+        /// </summary>
+        /// <param name="owner">The creator of this messagebox, on which we will center this.</param>
+        /// <param name="text">The body text.</param>
+        /// <param name="caption">The window caption.</param>
+        /// <param name="buttons">The buttons choices to display</param>
+        /// <param name="icon">The icon to display.</param>
+        /// <returns>The result based on the button pressed.</returns>
         public static MessageBoxResult Show(Window owner, String text, String caption, MessageBoxButton buttons, MessageBoxImage icon)
         {
             ownerPtr = new WindowInteropHelper(owner).Handle;
@@ -34,7 +54,7 @@
 
         public delegate void TimerProc(IntPtr hWnd, UInt32 uMsg, UIntPtr nIDEvent, UInt32 dwTime);
 
-        public enum CbtHookAction : Int32
+        private enum CbtHookAction : Int32
         {
             HCBT_MOVESIZE = 0,
 
@@ -143,7 +163,7 @@
         }
 
         [StructLayout(LayoutKind.Sequential)]
-        public struct CWPRETSTRUCT
+        private struct CWPRETSTRUCT
         {
             public IntPtr LResult;
 

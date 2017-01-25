@@ -141,7 +141,7 @@
         /// <param name="value">The value to convert.</param>
         /// <param name="formatAsAddress">Whether or not to use a zero padded address format.</param>
         /// <param name="includePrefix">Whether or not to include the '0x' hex prefix.</param>
-        /// <returns></returns>
+        /// <returns>The value converted to hex.</returns>
         public static String ToHex<T>(T value, Boolean formatAsAddress = true, Boolean includePrefix = false)
         {
             Type dataType = typeof(T);
@@ -178,6 +178,11 @@
             return result;
         }
 
+        /// <summary>
+        /// Converts an address string to a raw value.
+        /// </summary>
+        /// <param name="address">The address hex string.</param>
+        /// <returns>The raw value as a <see cref="UInt64"/></returns>
         public static UInt64 AddressToValue(String address)
         {
             if (String.IsNullOrEmpty(address))

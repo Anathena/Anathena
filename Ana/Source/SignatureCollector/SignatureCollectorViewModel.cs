@@ -38,8 +38,14 @@
             MainViewModel.GetInstance().Subscribe(this);
         }
 
+        /// <summary>
+        /// Gets the command to collect the target application signature.
+        /// </summary>
         public ICommand CollectSignatureCommand { get; private set; }
 
+        /// <summary>
+        /// Gets the full signature text of the target application.
+        /// </summary>
         public String Signature
         {
             get
