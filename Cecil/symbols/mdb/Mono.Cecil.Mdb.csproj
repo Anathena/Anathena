@@ -6,7 +6,7 @@
     <RootNamespace>Mono.Cecil.Mdb</RootNamespace>
     <AssemblyName>Mono.Cecil.Mdb</AssemblyName>
     <DefineConstants>$(DefineConstants);CECIL</DefineConstants>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup>

@@ -29,8 +29,10 @@ namespace Ana.Content
         /// </summary>
         public virtual string TransformText()
         {
-            this.Write("- Significant simplication to scripting\r\n- (More) fixes to memory allocation in a" +
-                    " 64-bit process");
+            this.Write(@"- Fixes to a hex conversion crash, preventing opening of the settings view
+- Progress bars added for various tasks
+- Moving to .Net Framework 4.6.1, which has improved garbage collection
+- Fixes to potential .NET object collector crash when proxy services unavailable");
             return this.GenerationEnvironment.ToString();
         }
     }
