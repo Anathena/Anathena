@@ -4378,11 +4378,6 @@
             If set to 'true' "static...Main" in the imported script is not renamed.
             </summary>
         </member>
-        <member name="M:csscript.CSharpParser.#ctor">
-            <summary>
-            Initializes a new instance of the <see cref="T:csscript.CSharpParser"/> class.
-            </summary>
-        </member>
         <member name="M:csscript.CSharpParser.#ctor(System.String)">
             <summary>
             Creates an instance of CSharpParser.
