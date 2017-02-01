@@ -29,10 +29,8 @@ namespace Ana.Content
         /// </summary>
         public virtual string TransformText()
         {
-            this.Write(@"- Fixes to a hex conversion crash, preventing opening of the settings view
-- Progress bars added for various tasks
-- Moving to .Net Framework 4.6.1, which has improved garbage collection
-- Fixes to potential .NET object collector crash when proxy services unavailable");
+            this.Write("- Hotfix to Label Thresholder - Incorrect bounds settings caused it to be useless" +
+                    ".");
             return this.GenerationEnvironment.ToString();
         }
     }

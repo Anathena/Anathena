@@ -67,8 +67,8 @@
                 Height="20"
                 HigherValue="{Binding UpperThreshold}"
                 LowerValue="{Binding LowerThreshold}"
-                Maximum="0"
-                Minimum="100" />
+                Maximum="100"
+                Minimum="0" />
         </Grid>
     </Grid>
 </UserControl>
