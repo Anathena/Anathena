@@ -16,7 +16,7 @@
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <IsWebBootstrapper>true</IsWebBootstrapper>
     <TargetFrameworkProfile />
-    <PublishUrl>F:\Users\Zachary\Documents\Visual Studio 2015\Projects\AnathenaSite\AnathenaSite\Content\Release\</PublishUrl>
+    <PublishUrl>F:\Users\Zachary\Documents\Visual Studio 2015\Projects\AnaSite\public\Release\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Web</InstallFrom>
     <UpdateEnabled>true</UpdateEnabled>
@@ -26,17 +26,17 @@
     <UpdatePeriodically>false</UpdatePeriodically>
     <UpdateRequired>true</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
-    <InstallUrl>https://www.anathena.com/Content/Release/</InstallUrl>
+    <InstallUrl>https://www.anathena.com/Release/</InstallUrl>
     <UpdateUrl>https://www.anathena.com/Content/Release/</UpdateUrl>
     <SupportUrl>https://www.anathena.com/</SupportUrl>
     <ErrorReportUrl>https://www.anathena.com/</ErrorReportUrl>
     <ProductName>Anathena</ProductName>
     <PublisherName>Anathena</PublisherName>
-    <MinimumRequiredVersion>3.4.6.0</MinimumRequiredVersion>
+    <MinimumRequiredVersion>3.4.7.0</MinimumRequiredVersion>
     <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>publish.htm</WebPage>
     <ApplicationRevision>0</ApplicationRevision>
-    <ApplicationVersion>3.4.6.0</ApplicationVersion>
+    <ApplicationVersion>3.4.7.0</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
     <PublishWizardCompleted>true</PublishWizardCompleted>
