@@ -9,12 +9,13 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Ana</RootNamespace>
     <AssemblyName>Ana</AssemblyName>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WarningLevel>4</WarningLevel>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <IsWebBootstrapper>true</IsWebBootstrapper>
+    <TargetFrameworkProfile />
     <PublishUrl>F:\Users\Zachary\Documents\Visual Studio 2015\Projects\AnathenaSite\AnathenaSite\Content\Release\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Web</InstallFrom>
@@ -31,11 +32,11 @@
     <ErrorReportUrl>https://www.anathena.com/</ErrorReportUrl>
     <ProductName>Anathena</ProductName>
     <PublisherName>Anathena</PublisherName>
-    <MinimumRequiredVersion>3.4.2.0</MinimumRequiredVersion>
+    <MinimumRequiredVersion>3.4.6.0</MinimumRequiredVersion>
     <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>publish.htm</WebPage>
     <ApplicationRevision>0</ApplicationRevision>
-    <ApplicationVersion>3.4.2.0</ApplicationVersion>
+    <ApplicationVersion>3.4.6.0</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -161,6 +162,11 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
+    <Compile Include="Content\Templates\ScriptTemplate.cs">
+      <DependentUpon>ScriptTemplate.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
     <Compile Include="Content\Templates\GraphicsInjectionTemplate.cs">
       <DependentUpon>GraphicsInjectionTemplate.tt</DependentUpon>
       <AutoGen>True</AutoGen>
@@ -172,8 +178,6 @@
       <DependentUpon>CodeInjectionTemplate.tt</DependentUpon>
     </Compile>
     <Compile Include="Source\ActionScheduler\ActionSchedulerViewModel.cs" />
-    <Compile Include="Source\ActionScheduler\ActionChannels.cs" />
-    <Compile Include="Source\ActionScheduler\IAction.cs" />
     <Compile Include="Source\ChangeLog\ChangeLogViewModel.cs" />
     <Compile Include="Source\CheatBrowser\CheatBrowserViewModel.cs" />
     <Compile Include="Content\Images.cs" />
@@ -434,22 +438,28 @@
     <Compile Include="Source\Utils\DataStructures\BiDictionary.cs">
       <ExcludeFromStyleCop>False</ExcludeFromStyleCop>
     </Compile>
+    <Compile Include="Source\Utils\DataStructures\CircularLinkedList.cs" />
     <Compile Include="Source\Utils\Extensions\DependencyObjectExtensions.cs" />
     <Compile Include="Source\Utils\Extensions\StringExtensions.cs" />
     <Compile Include="Source\Utils\Hashing.cs" />
-    <Compile Include="Source\Utils\TypeEditors\HotkeyEditor\HotkeyEditorViewModel.cs" />
-    <Compile Include="Source\Utils\TypeEditors\HotkeyEditor\HotkeyEditorModel.cs" />
-    <Compile Include="Source\Utils\TypeEditors\OffsetEditor\OffsetEditorViewModel.cs" />
-    <Compile Include="Source\Utils\TypeEditors\ValueEditor\ValueEditorModel.cs" />
-    <Compile Include="Source\Utils\TypeEditors\ValueEditor\ValueEditorViewModel.cs" />
-    <Compile Include="Source\Utils\TypeEditors\ScriptEditor\ScriptEditorModel.cs" />
-    <Compile Include="Source\Utils\TypeEditors\ScriptEditor\ScriptEditorViewModel.cs" />
+    <Compile Include="Source\ActionScheduler\DependencyBehavior.cs" />
+    <Compile Include="Source\Utils\StaticRandom.cs" />
+    <Compile Include="Source\Utils\TypeConverters\TextConverter.cs" />
+    <Compile Include="Source\Editors\HotkeyEditor\HotkeyEditorViewModel.cs" />
+    <Compile Include="Source\Editors\HotkeyEditor\HotkeyEditorModel.cs" />
+    <Compile Include="Source\Editors\OffsetEditor\OffsetEditorViewModel.cs" />
+    <Compile Include="Source\Editors\TextEditor\TextEditorModel.cs" />
+    <Compile Include="Source\Editors\TextEditor\TextEditorViewModel.cs" />
+    <Compile Include="Source\Editors\ValueEditor\ValueEditorModel.cs" />
+    <Compile Include="Source\Editors\ValueEditor\ValueEditorViewModel.cs" />
+    <Compile Include="Source\Editors\ScriptEditor\ScriptEditorModel.cs" />
+    <Compile Include="Source\Editors\ScriptEditor\ScriptEditorViewModel.cs" />
     <Compile Include="Source\Utils\TypeConverters\AddressConverter.cs" />
     <Compile Include="Source\Utils\TypeConverters\DynamicConverter.cs" />
     <Compile Include="Source\Utils\TypeConverters\HotkeyConverter.cs" />
     <Compile Include="Source\Utils\TypeConverters\ScriptConverter.cs" />
     <Compile Include="Source\Utils\TypeConverters\OffsetConverter.cs" />
-    <Compile Include="Source\Utils\TypeEditors\OffsetEditor\OffsetEditorModel.cs" />
+    <Compile Include="Source\Editors\OffsetEditor\OffsetEditorModel.cs" />
     <Compile Include="Source\Utils\TypeConverters\ValueTypeConverter.cs" />
     <Compile Include="Source\DotNetExplorer\DotNetExplorerViewModel.cs" />
     <Compile Include="Source\Engine\AddressResolver\AddressResolver.cs" />
@@ -578,7 +588,7 @@
     <Compile Include="Source\Utils\Extensions\PrimitiveExtensions.cs" />
     <Compile Include="Source\Utils\ImageUtils.cs" />
     <Compile Include="Source\Utils\PrimitiveTypes.cs" />
-    <Compile Include="Source\Utils\RepeatedTask.cs">
+    <Compile Include="Source\ActionScheduler\ScheduledTask.cs">
       <ExcludeFromStyleCop>False</ExcludeFromStyleCop>
     </Compile>
     <Compile Include="Source\Utils\CheckSyntax.cs" />
@@ -590,6 +600,9 @@
     <Compile Include="Source\CustomControls\TreeView\ProjectNode.cs" />
     <Compile Include="View\ChangeLog.xaml.cs">
       <DependentUpon>ChangeLog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Editors\TextEditor.xaml.cs">
+      <DependentUpon>TextEditor.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\Editors\ValueEditor.xaml.cs">
       <DependentUpon>ValueEditor.xaml</DependentUpon>
@@ -617,9 +630,6 @@
     </Compile>
     <Compile Include="Source\CustomControls\DarkBrushes.cs" />
     <Compile Include="Source\CustomControls\HexDecTextBox.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Source\CustomControls\WatermarkTextBox.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Source\CustomControls\WinformsHostingHelper.cs" />
@@ -706,6 +716,10 @@
       <ExcludeFromStyleCop>False</ExcludeFromStyleCop>
     </Compile>
     <Page Include="View\ChangeLog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\Editors\TextEditor.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -868,6 +882,10 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Content\CSharp.xshd" />
+    <Content Include="Content\Templates\ScriptTemplate.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>ScriptTemplate.cs</LastGenOutput>
+    </Content>
     <Content Include="Content\Templates\GraphicsInjectionTemplate.tt">
       <Generator>TextTemplatingFilePreprocessor</Generator>
       <LastGenOutput>GraphicsInjectionTemplate.cs</LastGenOutput>

@@ -8,7 +8,7 @@
     /// <summary>
     /// A textbox that allows for hex and dec values to be stored, validated, and colored. Extends WatermarkTextBox.
     /// </summary>
-    internal class HexDecTextBox : WatermarkTextBox
+    internal class HexDecTextBox : TextBox
     {
         /// <summary>
         /// The data type being represented.

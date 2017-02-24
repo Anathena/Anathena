@@ -1,5 +1,7 @@
 ﻿namespace Ana.Source.Scanners.ChangeCounter
 {
+    using ActionScheduler;
+    using BackgroundScans.Prefilters;
     using LabelThresholder;
     using Snapshots;
     using System;
@@ -9,7 +11,10 @@
 
     internal class ChangeCounterModel : ScannerBase
     {
-        public ChangeCounterModel(Action updateScanCount) : base("Change Counter")
+        public ChangeCounterModel(Action updateScanCount) : base(
+            scannerName: "Change Counter",
+            isRepeated: true,
+            dependencyBehavior: new DependencyBehavior(dependencies: typeof(ISnapshotPrefilter)))
         {
             this.UpdateScanCount = updateScanCount;
             this.ProgressLock = new Object();
@@ -38,7 +43,7 @@
             this.MaxChanges = maxChanges;
         }
 
-        public override void Begin()
+        protected override void OnBegin()
         {
             // Initialize labeled snapshot
             this.Snapshot = SnapshotManager.GetInstance().GetActiveSnapshot(createIfNone: true).Clone();
@@ -52,7 +57,7 @@
             // Initialize change counts to zero
             this.Snapshot.SetElementLabels<UInt16>(0);
 
-            base.Begin();
+            base.OnBegin();
         }
 
         protected override void OnUpdate()
@@ -82,14 +87,16 @@
                     }
                 }
 
-                lock (ProgressLock)
+                lock (this.ProgressLock)
                 {
                     processedPages++;
+                    this.UpdateProgress(processedPages, this.Snapshot.GetRegionCount());
                 }
             });
 
-            base.OnUpdate();
             this.UpdateScanCount?.Invoke();
+
+            base.OnUpdate();
         }
 
         /// <summary>
@@ -99,12 +106,9 @@
         {
             SnapshotManager.GetInstance().SaveSnapshot(this.Snapshot);
             LabelThresholderViewModel.GetInstance().OpenLabelThresholder();
-            base.OnEnd();
-        }
-
-        private void CleanUp()
-        {
             this.Snapshot = null;
+
+            base.OnEnd();
         }
     }
     //// End class

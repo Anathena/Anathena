@@ -1,5 +1,6 @@
 ﻿namespace Ana.Source.Project.ProjectItems
 {
+    using Editors.OffsetEditor;
     using Engine;
     using Engine.AddressResolver;
     using System;
@@ -10,7 +11,6 @@
     using System.Runtime.Serialization;
     using Utils;
     using Utils.Extensions;
-    using Utils.OffsetEditor;
     using Utils.TypeConverters;
 
     /// <summary>

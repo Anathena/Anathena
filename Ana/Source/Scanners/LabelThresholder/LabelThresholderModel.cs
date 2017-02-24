@@ -14,10 +14,14 @@
 
         private Double lowerThreshold;
 
-        public LabelThresholderModel(Action onUpdateHistogram) : base("Label Thresholder")
+        public LabelThresholderModel(Action onUpdateHistogram) : base(
+            scannerName: "Label Thresholder",
+            isRepeated: false,
+            dependencyBehavior: null)
         {
             this.ItemLock = new Object();
             this.SnapshotLock = new Object();
+            this.ProgressLock = new Object();
             this.OnUpdateHistogram = onUpdateHistogram;
             Task.Run(() => SnapshotManager.GetInstance().Subscribe(this));
         }
@@ -69,6 +73,8 @@
         private Object ItemLock { get; set; }
 
         private Object SnapshotLock { get; set; }
+
+        private Object ProgressLock { get; set; }
 
         public void ToggleInverted()
         {
@@ -148,20 +154,21 @@
             this.UpdateHistogram(forceUpdate: true);
         }
 
-        public override void Begin()
+        protected override void OnBegin()
         {
-            base.Begin();
+            base.OnBegin();
         }
 
         protected override void OnUpdate()
         {
             ConcurrentDictionary<dynamic, Int64> histogram = new ConcurrentDictionary<dynamic, Int64>();
+            Int32 processedPages = 0;
 
             lock (this.SnapshotLock)
             {
                 if (this.Snapshot == null)
                 {
-                    this.End();
+                    this.Cancel();
                     return;
                 }
 
@@ -191,6 +198,12 @@
                             }
                         }
                     }
+
+                    lock (this.ProgressLock)
+                    {
+                        processedPages++;
+                        this.UpdateProgress(processedPages, this.Snapshot.GetRegionCount());
+                    }
                     //// End foreach element
                 });
                 //// End foreach region
@@ -198,12 +211,11 @@
 
             this.Histogram = new SortedList<dynamic, Int64>(histogram);
             this.UpdateHistogram();
-            this.End();
+            this.Cancel();
+
+            base.OnUpdate();
         }
 
-        /// <summary>
-        /// Called when the repeated task completes.
-        /// </summary>
         protected override void OnEnd()
         {
             base.OnEnd();

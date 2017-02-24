@@ -1,5 +1,7 @@
 ﻿namespace Ana.Source.Scanners.ManualScanner
 {
+    using ActionScheduler;
+    using BackgroundScans.Prefilters;
     using ScanConstraints;
     using Snapshots;
     using System;
@@ -7,40 +9,66 @@
     using System.Threading.Tasks;
     using UserSettings;
 
+    /// <summary>
+    /// A memory scanning class for classic manual memory scanning techniques.
+    /// </summary>
     internal class ManualScannerModel : ScannerBase
     {
-        public ManualScannerModel() : base("Manual Scan")
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ManualScannerModel" /> class.
+        /// </summary>
+        public ManualScannerModel() : base(
+            scannerName: "Manual Scan",
+            isRepeated: false,
+            dependencyBehavior: new DependencyBehavior(dependencies: typeof(ISnapshotPrefilter)))
         {
             this.ProgressLock = new Object();
         }
 
+        /// <summary>
+        /// Gets or sets the snapshot on which we perform the manual scan.
+        /// </summary>
         private Snapshot Snapshot { get; set; }
 
+        /// <summary>
+        /// Gets or sets the scan constraint manager.
+        /// </summary>
         private ScanConstraintManager ScanConstraintManager { get; set; }
 
+        /// <summary>
+        /// Gets or sets a lock object for updating scan progress.
+        /// </summary>
         private Object ProgressLock { get; set; }
 
+        /// <summary>
+        /// Sets the scan constraints for this scan.
+        /// </summary>
+        /// <param name="scanConstraintManager">The scan constraint manager, which contains all scan constraints.</param>
         public void SetScanConstraintManager(ScanConstraintManager scanConstraintManager)
         {
             this.ScanConstraintManager = scanConstraintManager;
         }
 
-        public override void Begin()
+        /// <summary>
+        /// Called when the scan begins.
+        /// </summary>
+        protected override void OnBegin()
         {
             // Initialize snapshot
             this.Snapshot = SnapshotManager.GetInstance().GetActiveSnapshot(createIfNone: true).Clone(this.ScannerName);
 
             if (this.Snapshot == null || this.ScanConstraintManager == null || this.ScanConstraintManager.Count() <= 0)
             {
-                this.End();
+                this.Cancel();
                 return;
             }
 
             this.Snapshot.SetAllValidBits(true);
-
-            base.Begin();
         }
 
+        /// <summary>
+        /// Called when the scan updates.
+        /// </summary>
         protected override void OnUpdate()
         {
             Int32 processedPages = 0;
@@ -176,28 +204,24 @@
                 lock (this.ProgressLock)
                 {
                     processedPages++;
+                    this.UpdateProgress(processedPages, this.Snapshot.GetRegionCount());
                 }
             });
             //// End foreach Region
 
             base.OnUpdate();
-            this.CancelFlag = true;
         }
 
         /// <summary>
-        /// Called when the repeated task completes.
+        /// Called when the scan ends.
         /// </summary>
         protected override void OnEnd()
         {
             this.Snapshot.DiscardInvalidRegions();
             SnapshotManager.GetInstance().SaveSnapshot(this.Snapshot);
-            this.CleanUp();
-            base.OnEnd();
-        }
-
-        private void CleanUp()
-        {
             Snapshot = null;
+
+            base.OnEnd();
         }
     }
     //// End class

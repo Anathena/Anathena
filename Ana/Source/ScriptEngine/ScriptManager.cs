@@ -1,5 +1,6 @@
 ﻿namespace Ana.Source.ScriptEngine
 {
+    using Content.Templates;
     using CSScriptLibrary;
     using Output;
     using Project.ProjectItems;
@@ -7,6 +8,7 @@
     using System.IO;
     using System.Reflection;
     using System.Security;
+    using System.Text;
     using System.Threading;
     using System.Threading.Tasks;
     using Utils;
@@ -16,6 +18,16 @@
     /// </summary>
     internal class ScriptManager
     {
+        /// <summary>
+        /// The identifier to look for when inserting a the using statements from a script into the main script template.
+        /// </summary>
+        public const String ScriptUsingsInsertionIdentifier = "{{USINGS}}";
+
+        /// <summary>
+        /// The identifier to look for when inserting a classless script into the main script template.
+        /// </summary>
+        public const String ScriptCodeInsertionIdentifier = "{{CODE}}";
+
         /// <summary>
         /// Time to wait for the update loop to finish on deactivation.
         /// </summary>
@@ -49,7 +61,8 @@
         private dynamic ScriptObject { get; set; }
 
         /// <summary>
-        /// Compiles a script. Will compress the file and convert to base64.
+        /// Compiles a script. Will compress the file and convert to base64. This will compile using CodeDOM becuase this
+        /// generates a file that we can read to create the assembly. At runtime we can compile using Mono instead.
         /// </summary>
         /// <param name="script">The input script in plaintext.</param>
         /// <returns>The compiled script. Returns null on failure.</returns>
@@ -59,6 +72,7 @@
 
             try
             {
+                script = this.PrecompileScript(script);
                 String compiledScriptFile = CSScript.CompileCode(script);
                 Byte[] compressedScript = Compression.Compress(File.ReadAllBytes(compiledScriptFile));
                 result = Convert.ToBase64String(compressedScript);
@@ -92,8 +106,9 @@
                 }
                 else
                 {
-                    // Raw script, compile it
-                    assembly = CSScript.MonoEvaluator.CompileCode(scriptItem.Script);
+                    // Raw script, compile it. Use Mono at runtime instead of CodeDOM.
+                    String script = this.PrecompileScript(scriptItem.Script);
+                    assembly = CSScript.MonoEvaluator.CompileCode(script);
                 }
 
                 this.ScriptObject = assembly.CreateObject("*");
@@ -201,6 +216,53 @@
             }
 
             return;
+        }
+
+        /// <summary>
+        /// Takes the classless script written by the user and embeds it in the main script template.
+        /// This gives the script access to the engine classes that it will require.
+        /// </summary>
+        /// <param name="script">The classless script.</param>
+        /// <returns>The complete script.</returns>
+        private String PrecompileScript(String script)
+        {
+            StringBuilder usings = new StringBuilder(4096);
+            String classlessScript = String.Empty;
+            script = script ?? String.Empty;
+
+            using (StringReader sr = new StringReader(script))
+            {
+                // Collect all using statements from the script
+                String line = null;
+                while ((line = sr.ReadLine()) != null)
+                {
+                    // Ignore comments and whitespace
+                    if (line.StartsWith("//") || line.Trim() == String.Empty)
+                    {
+                        continue;
+                    }
+
+                    if (!line.TrimStart().StartsWith("using "))
+                    {
+                        break;
+                    }
+
+                    // Collect using statement
+                    usings.AppendLine(line);
+                }
+
+                // The remaining portion of the script will be kept as the actual script
+                if (line != null)
+                {
+                    classlessScript = line + sr.ReadToEnd();
+                }
+            }
+
+            // Fill in the script template with the collected information
+            script = new ScriptTemplate().TransformText().Replace(ScriptManager.ScriptUsingsInsertionIdentifier, usings.ToString());
+            script = script.Replace(ScriptManager.ScriptCodeInsertionIdentifier, classlessScript);
+
+            return script;
         }
     }
     //// End class

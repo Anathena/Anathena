@@ -1,5 +1,6 @@
 ﻿namespace Ana.Source.Scanners.BackgroundScans.Prefilters
 {
+    using ActionScheduler;
     using Engine;
     using Engine.OperatingSystems;
     using Engine.Processes;
@@ -33,22 +34,32 @@
     ///     3) On snapshot request, we can do a grow+mask operation of current chunks against the current virtual pages.
     /// </para>
     /// </summary>
-    internal class ChunkLinkedListPrefilter : RepeatedTask, ISnapshotPrefilter, IProcessObserver
+    internal class ChunkLinkedListPrefilter : ScheduledTask, ISnapshotPrefilter, IProcessObserver
     {
         /// <summary>
         /// The maximum number of chunks to process in a given update cycle.
         /// </summary>
-        private const Int32 ChunkLimit = 16384;
+        private const Int32 ChunkLimit = 0x4000;
+
+        /// <summary>
+        /// The maximum number of chunks to process in a given update cycle when ramping up.
+        /// </summary>
+        private const Int32 RampUpChunkLimit = 0x8000;
 
         /// <summary>
         /// The size of a chunk.
         /// </summary>
-        private const Int32 ChunkSize = 4096;
+        private const Int32 ChunkSize = 0x1000;
 
         /// <summary>
         /// The time between each update cycle.
         /// </summary>
         private const Int32 RescanTime = 800;
+
+        /// <summary>
+        /// The time between each update cycle when ramping up.
+        /// </summary>
+        private const Int32 RampUpRescanTime = 200;
 
         /// <summary>
         /// Singleton instance of the <see cref="ChunkLinkedListPrefilter"/> class.
@@ -60,7 +71,7 @@
         /// <summary>
         /// Prevents a default instance of the <see cref="ChunkLinkedListPrefilter" /> class from being created.
         /// </summary>
-        private ChunkLinkedListPrefilter()
+        private ChunkLinkedListPrefilter() : base("Prefilter", isRepeated: true, trackProgress: true)
         {
             this.ChunkList = new LinkedList<RegionProperties>();
             this.ChunkLock = new Object();
@@ -151,10 +162,11 @@
         /// <summary>
         /// Starts the prefilter.
         /// </summary>
-        public override void Begin()
+        protected override void OnBegin()
         {
-            this.UpdateInterval = ChunkLinkedListPrefilter.RescanTime;
-            base.Begin();
+            this.UpdateInterval = ChunkLinkedListPrefilter.RampUpRescanTime;
+
+            base.OnBegin();
         }
 
         /// <summary>
@@ -163,12 +175,26 @@
         protected override void OnUpdate()
         {
             this.ProcessPages();
-            this.UpdateProgress();
+
+            lock (this.ChunkLock)
+            {
+                this.UpdateProgress(this.ChunkList.Where(x => x.IsProcessed()).Count(), this.ChunkList.Count());
+                this.IsTaskComplete = this.IsProgressComplete;
+            }
+
+            // Set rescan time based on whether or not we have already cycled through all the pages
+            if (this.IsTaskComplete)
+            {
+                this.UpdateInterval = ChunkLinkedListPrefilter.RescanTime;
+            }
+            else
+            {
+                this.UpdateInterval = ChunkLinkedListPrefilter.RampUpRescanTime;
+            }
+
+            base.OnUpdate();
         }
 
-        /// <summary>
-        /// Called when the repeated task completes.
-        /// </summary>
         protected override void OnEnd()
         {
             base.OnEnd();
@@ -254,12 +280,23 @@
                 }
             }
 
+            Int32 chunkLimit;
+
+            if (this.IsTaskComplete)
+            {
+                chunkLimit = ChunkLinkedListPrefilter.ChunkLimit;
+            }
+            else
+            {
+                chunkLimit = ChunkLinkedListPrefilter.RampUpChunkLimit;
+            }
+
             lock (this.ChunkLock)
             {
                 // Process the allowed amount of chunks from the priority queue
                 Parallel.For(
                     0,
-                    Math.Min(this.ChunkList.Count, ChunkLinkedListPrefilter.ChunkLimit),
+                    Math.Min(this.ChunkList.Count, chunkLimit),
                     SettingsViewModel.GetInstance().ParallelSettings,
                     index =>
                 {
@@ -269,7 +306,13 @@
                     // Grab next available element
                     lock (this.ElementLock)
                     {
-                        chunk = this.ChunkList.First();
+                        chunk = this.ChunkList.FirstOrDefault();
+
+                        if (chunk == null)
+                        {
+                            return;
+                        }
+
                         this.ChunkList.RemoveFirst();
 
                         // Do not process chunks that have been marked as changed
@@ -298,21 +341,6 @@
                         ChunkList.AddLast(chunk);
                     }
                 });
-            }
-        }
-
-        /// <summary>
-        /// Updates the progress of how many chunks have been processed.
-        /// </summary>
-        private void UpdateProgress()
-        {
-            Int32 processedCount;
-            Int32 chunkCount;
-
-            lock (this.ChunkLock)
-            {
-                processedCount = this.ChunkList.Where(x => x.IsProcessed()).Count();
-                chunkCount = this.ChunkList.Count();
             }
         }
 

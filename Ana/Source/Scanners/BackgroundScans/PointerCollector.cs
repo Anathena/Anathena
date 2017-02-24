@@ -1,5 +1,6 @@
 ﻿namespace Ana.Source.Scanners.BackgroundScans
 {
+    using ActionScheduler;
     using Engine;
     using Snapshots;
     using System;
@@ -8,13 +9,12 @@
     using System.Threading;
     using System.Threading.Tasks;
     using UserSettings;
-    using Utils;
     using Utils.DataStructures;
 
     /// <summary>
     /// Class to collect all pointers in the running process.
     /// </summary>
-    internal class PointerCollector : RepeatedTask
+    internal class PointerCollector : ScheduledTask
     {
         /// <summary>
         /// Time in milliseconds between scans
@@ -41,7 +41,7 @@
         /// <summary>
         /// Prevents a default instance of the <see cref="PointerCollector" /> class from being created.
         /// </summary>
-        private PointerCollector()
+        private PointerCollector() : base("Pointer Collector", isRepeated: true, trackProgress: true)
         {
             this.FoundPointers = new HashSet<IntPtr>();
             this.ConstructingSet = new HashSet<IntPtr>();
@@ -76,23 +76,16 @@
             return this.FoundPointers;
         }
 
-        public override void Begin()
+        protected override void OnBegin()
         {
-            this.UpdateInterval = RescanTime;
-            base.Begin();
+            this.UpdateInterval = PointerCollector.RescanTime;
+
+            base.OnBegin();
         }
 
         protected override void OnUpdate()
         {
             this.GatherPointers();
-        }
-
-        /// <summary>
-        /// Called when the repeated task completes.
-        /// </summary>
-        protected override void OnEnd()
-        {
-            base.OnEnd();
         }
 
         /// <summary>

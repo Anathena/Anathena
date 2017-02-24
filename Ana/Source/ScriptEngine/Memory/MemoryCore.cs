@@ -30,8 +30,8 @@
         /// <summary>
         /// Gets or sets the keywords associated with all running scripts.
         /// </summary>
-        private static Lazy<ConcurrentDictionary<String, String>> globalKeywords = new Lazy<ConcurrentDictionary<String, String>>(
-            () => { return new ConcurrentDictionary<String, String>(); },
+        private static Lazy<ConcurrentDictionary<String, dynamic>> globalKeywords = new Lazy<ConcurrentDictionary<String, dynamic>>(
+            () => { return new ConcurrentDictionary<String, dynamic>(); },
             LazyThreadSafetyMode.ExecutionAndPublication);
 
         /// <summary>
@@ -40,14 +40,14 @@
         public MemoryCore()
         {
             this.RemoteAllocations = new List<UInt64>();
-            this.Keywords = new ConcurrentDictionary<String, String>();
+            this.Keywords = new ConcurrentDictionary<String, dynamic>();
             this.CodeCaves = new List<CodeCave>();
         }
 
         /// <summary>
         /// Gets or sets the keywords associated with the calling script.
         /// </summary>
-        private ConcurrentDictionary<String, String> Keywords { get; set; }
+        private ConcurrentDictionary<String, dynamic> Keywords { get; set; }
 
         /// <summary>
         /// Gets or sets the collection of allocations created in the external process;
@@ -172,7 +172,7 @@
         /// </summary>
         /// <param name="size">The size of the allocation.</param>
         /// <returns>The address of the allocated memory.</returns>
-        public UInt64 AllocateMemory(Int32 size)
+        public UInt64 Allocate(Int32 size)
         {
             this.PrintDebugTag();
 
@@ -188,11 +188,11 @@
         /// <param name="size">The size of the allocation.</param>
         /// <param name="allocAddress">The rough address of where the allocation should take place.</param>
         /// <returns>The address of the allocated memory.</returns>
-        public UInt64 AllocateMemory(Int32 size, IntPtr allocAddress)
+        public UInt64 Allocate(Int32 size, UInt64 allocAddress)
         {
             this.PrintDebugTag();
 
-            UInt64 address = EngineCore.GetInstance().OperatingSystemAdapter.AllocateMemory(size, allocAddress).ToUInt64();
+            UInt64 address = EngineCore.GetInstance().OperatingSystemAdapter.AllocateMemory(size, allocAddress.ToIntPtr()).ToUInt64();
             this.RemoteAllocations.Add(address);
 
             return address;
@@ -202,7 +202,7 @@
         /// Deallocates memory previously allocated at a specified address.
         /// </summary>
         /// <param name="address">The address to perform the deallocation.</param>
-        public void DeallocateMemory(UInt64 address)
+        public void Deallocate(UInt64 address)
         {
             this.PrintDebugTag();
 
@@ -222,7 +222,7 @@
         /// <summary>
         /// Deallocates all allocated memory for the parent script.
         /// </summary>
-        public void DeallocateAllMemory()
+        public void DeallocateAll()
         {
             this.PrintDebugTag();
 
@@ -256,14 +256,14 @@
             // Gather the original bytes
             Byte[] originalBytes = this.CollectOriginalBytes(address, minimumReplacementSize);
 
-            // Determine number of no-ops to fill dangling bytes
-            String noOps = originalBytes.Length - minimumReplacementSize > 0 ? "db " + String.Join(" ", Enumerable.Repeat("0x90,", originalBytes.Length - minimumReplacementSize)).TrimEnd(',') : String.Empty;
-
             // Handle case where allocation is not needed
             if (assemblySize <= originalBytes.Length)
             {
-                Byte[] injectionBytes = this.GetAssemblyBytes(assembly + "\n" + noOps, address);
-                this.WriteMemory(address, injectionBytes);
+                // Determine number of no-ops to fill dangling bytes
+                String noOps = assemblySize - originalBytes.Length > 0 ? "db " + String.Join(" ", Enumerable.Repeat("0x90,", assemblySize - originalBytes.Length)).TrimEnd(',') : String.Empty;
+
+                Byte[] injectionBytes = this.GetAssemblyBytes(assembly + Environment.NewLine + noOps, address);
+                this.Write(address, injectionBytes);
 
                 CodeCave codeCave = new CodeCave(address, 0, originalBytes);
                 this.CodeCaves.Add(codeCave);
@@ -272,6 +272,9 @@
             }
             else
             {
+                // Determine number of no-ops to fill dangling bytes
+                String noOps = originalBytes.Length - minimumReplacementSize > 0 ? "db " + String.Join(" ", Enumerable.Repeat("0x90,", originalBytes.Length - minimumReplacementSize)).TrimEnd(',') : String.Empty;
+
                 // Add code cave jump return automatically
                 UInt64 returnAddress = this.GetCaveExitAddress(address);
 
@@ -285,21 +288,21 @@
                 UInt64 remoteAllocation;
                 if (EngineCore.GetInstance().Processes.IsOpenedProcess32Bit())
                 {
-                    remoteAllocation = this.AllocateMemory(assemblySize);
+                    remoteAllocation = this.Allocate(assemblySize);
                 }
                 else
                 {
-                    remoteAllocation = this.AllocateMemory(assemblySize, address.ToIntPtr());
+                    remoteAllocation = this.Allocate(assemblySize, address);
                 }
 
                 // Write injected code to new page
                 Byte[] injectionBytes = this.GetAssemblyBytes(assembly, remoteAllocation);
-                this.WriteMemory(remoteAllocation, injectionBytes);
+                this.Write(remoteAllocation, injectionBytes);
 
                 // Write in the jump to the code cave
                 String codeCaveJump = ("jmp " + Conversions.ToHex(remoteAllocation, formatAsAddress: false, includePrefix: true) + Environment.NewLine + noOps).Trim();
                 Byte[] jumpBytes = this.GetAssemblyBytes(codeCaveJump, address);
-                this.WriteMemory(address, jumpBytes);
+                this.Write(address, jumpBytes);
 
                 // Save this code cave for later deallocation
                 CodeCave codeCave = new CodeCave(address, remoteAllocation, originalBytes);
@@ -419,26 +422,24 @@
         /// Binds a keyword to a given value for use in the script.
         /// </summary>
         /// <param name="keyword">The local keyword to bind.</param>
-        /// <param name="address">The address to which the keyword is bound.</param>
-        public void SetKeyword(String keyword, UInt64 address)
+        /// <param name="value">The value to which the keyword is bound.</param>
+        public void SetKeyword(String keyword, dynamic value)
         {
-            this.PrintDebugTag(keyword?.ToLower(), address.ToString("X"));
+            this.PrintDebugTag(keyword?.ToLower(), value?.ToString() as String);
 
-            String mapping = Conversions.ToHex(address, formatAsAddress: true, includePrefix: true);
-            this.Keywords[keyword?.ToLower()] = mapping;
+            this.Keywords[keyword?.ToLower()] = value;
         }
 
         /// <summary>
         /// Binds a keyword to a given value for use in all scripts.
         /// </summary>
         /// <param name="globalKeyword">The global keyword to bind.</param>
-        /// <param name="address">The address to which the keyword is bound.</param>
-        public void SetGlobalKeyword(String globalKeyword, UInt64 address)
+        /// <param name="value">The address to which the keyword is bound.</param>
+        public void SetGlobalKeyword(String globalKeyword, dynamic value)
         {
-            this.PrintDebugTag(globalKeyword?.ToLower(), address.ToString("X"));
+            this.PrintDebugTag(globalKeyword?.ToLower(), value.ToString() as String);
 
-            String mapping = Conversions.ToHex(address, formatAsAddress: true, includePrefix: true);
-            MemoryCore.globalKeywords.Value[globalKeyword?.ToLower()] = mapping;
+            MemoryCore.globalKeywords.Value[globalKeyword?.ToLower()] = value;
         }
 
         /// <summary>
@@ -446,22 +447,12 @@
         /// </summary>
         /// <param name="keyword">The keyword.</param>
         /// <returns>The value of the keyword. If not found, returns 0.</returns>
-        public UInt64 GetKeywordValue(String keyword)
+        public dynamic GetKeyword(String keyword)
         {
-            if (String.IsNullOrWhiteSpace(keyword))
-            {
-                return 0;
-            }
-
-            String result = null;
+            dynamic result;
             this.Keywords.TryGetValue(keyword?.ToLower(), out result);
 
-            if (!CheckSyntax.CanParseAddress(result))
-            {
-                return 0;
-            }
-
-            return Conversions.ParseHexStringAsDynamic(typeof(UInt64), result);
+            return result;
         }
 
         /// <summary>
@@ -469,22 +460,12 @@
         /// </summary>
         /// <param name="globalKeyword">The global keyword.</param>
         /// <returns>The value of the global keyword. If not found, returns 0.</returns>
-        public UInt64 GetGlobalKeywordValue(String globalKeyword)
+        public dynamic GetGlobalKeyword(String globalKeyword)
         {
-            if (String.IsNullOrWhiteSpace(globalKeyword))
-            {
-                return 0;
-            }
-
-            String result = null;
+            dynamic result;
             MemoryCore.globalKeywords.Value.TryGetValue(globalKeyword?.ToLower(), out result);
 
-            if (!CheckSyntax.CanParseAddress(result))
-            {
-                return 0;
-            }
-
-            return Conversions.ParseHexStringAsDynamic(typeof(UInt64), result);
+            return result;
         }
 
         /// <summary>
@@ -495,7 +476,7 @@
         {
             this.PrintDebugTag(keyword);
 
-            String result;
+            dynamic result;
             if (this.Keywords.ContainsKey(keyword))
             {
                 this.Keywords.TryRemove(keyword, out result);
@@ -510,9 +491,9 @@
         {
             this.PrintDebugTag(globalKeyword);
 
-            String valueRemoved;
             if (MemoryCore.globalKeywords.Value.ContainsKey(globalKeyword))
             {
+                dynamic valueRemoved;
                 MemoryCore.globalKeywords.Value.TryRemove(globalKeyword, out valueRemoved);
             }
         }
@@ -582,7 +563,7 @@
         /// <typeparam name="T">The data type to read.</typeparam>
         /// <param name="address">The address of the read.</param>
         /// <returns>The value read from memory.</returns>
-        public T ReadMemory<T>(UInt64 address)
+        public T Read<T>(UInt64 address)
         {
             this.PrintDebugTag(address.ToString("x"));
 
@@ -596,7 +577,7 @@
         /// <param name="address">The address of the read.</param>
         /// <param name="count">The number of bytes to read.</param>
         /// <returns>The bytes read at the address.</returns>
-        public Byte[] ReadMemory(UInt64 address, Int32 count)
+        public Byte[] Read(UInt64 address, Int32 count)
         {
             this.PrintDebugTag(address.ToString("x"), count.ToString());
 
@@ -610,7 +591,7 @@
         /// <typeparam name="T">The data type to write.</typeparam>
         /// <param name="address">The address of the write.</param>
         /// <param name="value">The value of the write.</param>
-        public void WriteMemory<T>(UInt64 address, T value)
+        public void Write<T>(UInt64 address, T value)
         {
             this.PrintDebugTag(address.ToString("x"), value.ToString());
 
@@ -622,7 +603,7 @@
         /// </summary>
         /// <param name="address">The address of the write.</param>
         /// <param name="values">The values of the write.</param>
-        public void WriteMemory(UInt64 address, Byte[] values)
+        public void Write(UInt64 address, Byte[] values)
         {
             this.PrintDebugTag(address.ToString("x"));
 
@@ -645,14 +626,14 @@
             assembly = assembly.Replace("\t", String.Empty);
 
             // Resolve keywords
-            foreach (KeyValuePair<String, String> keyword in this.Keywords)
+            foreach (KeyValuePair<String, dynamic> keyword in this.Keywords)
             {
-                assembly = assembly.Replace("<" + keyword.Key + ">", keyword.Value, StringComparison.OrdinalIgnoreCase);
+                assembly = assembly.Replace("<" + keyword.Key + ">", Conversions.ToHex(keyword.Value, formatAsAddress: false, includePrefix: true) as String, StringComparison.OrdinalIgnoreCase);
             }
 
-            foreach (KeyValuePair<String, String> globalKeyword in MemoryCore.globalKeywords.Value.ToArray())
+            foreach (KeyValuePair<String, dynamic> globalKeyword in MemoryCore.globalKeywords.Value.ToArray())
             {
-                assembly = assembly.Replace("<" + globalKeyword.Key + ">", globalKeyword.Value, StringComparison.OrdinalIgnoreCase);
+                assembly = assembly.Replace("<" + globalKeyword.Key + ">", Conversions.ToHex(globalKeyword.Value, formatAsAddress: false, includePrefix: true) as String, StringComparison.OrdinalIgnoreCase);
             }
 
             return assembly;

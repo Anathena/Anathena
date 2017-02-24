@@ -1,22 +1,20 @@
-﻿namespace Ana.Source.Utils.HotkeyEditor
+﻿namespace Ana.Source.Editors.ValueEditor
 {
-    using Engine.Input.HotKeys;
+    using Project.ProjectItems;
     using System;
-    using System.Collections.Generic;
     using System.ComponentModel;
     using System.Drawing.Design;
-    using System.Linq;
     using System.Windows;
 
     /// <summary>
-    /// Type editor for hot keys.
+    /// Type editor for scripts.
     /// </summary>
-    internal class HotkeyEditorModel : UITypeEditor
+    internal class ValueEditorModel : UITypeEditor
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="HotkeyEditorModel" /> class.
+        /// Initializes a new instance of the <see cref="ValueEditorModel" /> class.
         /// </summary>
-        public HotkeyEditorModel()
+        public ValueEditorModel()
         {
         }
 
@@ -39,24 +37,15 @@
         /// <returns>The updated values.</returns>
         public override Object EditValue(ITypeDescriptorContext context, IServiceProvider provider, Object value)
         {
-            View.Editors.HotkeyEditor hotkeyEditor = new View.Editors.HotkeyEditor(value == null ? null : (value as IEnumerable<IHotkey>)?.ToList());
+            View.Editors.ValueEditor valueEditor = new View.Editors.ValueEditor(value as AddressItem);
 
-            hotkeyEditor.Owner = Application.Current.MainWindow;
-            if (hotkeyEditor.ShowDialog() == true)
+            valueEditor.Owner = Application.Current.MainWindow;
+            if (valueEditor.ShowDialog() == true)
             {
-                List<IHotkey> newOffsets = hotkeyEditor.HotkeyEditorViewModel.Hotkeys.ToList();
-
-                if (newOffsets != null && newOffsets.Count > 0)
-                {
-                    return newOffsets;
-                }
-                else
-                {
-                    return null;
-                }
+                return valueEditor.ValueEditorViewModel.Value;
             }
 
-            return value;
+            return (value as AddressItem)?.Value;
         }
     }
     //// End class

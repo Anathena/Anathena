@@ -6,6 +6,7 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Runtime.InteropServices;
+    using Utils;
     using Utils.Extensions;
     using static Native.Enumerations;
     using static Native.Structures;
@@ -16,14 +17,14 @@
     internal static class Memory
     {
         /// <summary>
-        /// The number of retry attempts for 64-bit process allocation. This is a work around due to non-deterministic allocation failures.
+        /// The number of retry attempts for memory allocation. This is used to prevent cases of bad luck for 64-bit memory allocation when a specific address is requested.
         /// </summary>
-        private const Int32 AllocateRetryCount = 64;
+        private const Int32 AllocateRetryCount = 4;
 
         /// <summary>
-        /// Random class instance.
+        /// A windows constraint on the address alignment of an allocated virtual memory page.
         /// </summary>
-        private static readonly Random Random = new Random();
+        private const Int32 AllocAlignment = 0x10000;
 
         /// <summary>
         /// Reads an array of bytes in the memory form the target process.
@@ -89,18 +90,36 @@
             if (allocAddress != IntPtr.Zero)
             {
                 /* A specific address has been given. We will modify it to support the following constraints:
-                 * - Aligned by 0x10000 / 65536
-                 * - Pointing to an unallocated region of memory
-                 * - Within +/- 2GB (using 256MB for safety) of address space of the originally specified address, such as to always be in range of a far jump instruction
-                 * Note: This does not seem to guarentee a valid result, so a retry count has been put in place.
+                 *  - Aligned by 0x10000 / 65536
+                 *  - Pointing to an unallocated region of memory
+                 *  - Within +/- 2GB (using 1GB for safety) of address space of the originally specified address, such as to always be in range of a far jump instruction
+                 * Note: A retry count has been put in place because VirtualAllocEx with an allocAddress specified may be invalid by the time we request the allocation.
                  */
 
-                Int32 retryCount = 0;
                 IntPtr result = IntPtr.Zero;
-                IEnumerable<MemoryBasicInformation64> freeMemory = UnallocatedMemory(processHandle, allocAddress.Subtract(Int32.MaxValue >> 2), allocAddress.Add(Int32.MaxValue >> 2));
+                Int32 retryCount = 0;
+
+                // Request all chunks of unallocated memory. These will be very large in a 64-bit process.
+                IEnumerable<MemoryBasicInformation64> freeMemory = Memory.QueryUnallocatedMemory(
+                    processHandle,
+                    allocAddress.Subtract(Int32.MaxValue >> 1, wrapAround: false),
+                    allocAddress.Add(Int32.MaxValue >> 1, wrapAround: false));
+
+                // Convert to normalized regions
+                IEnumerable<NormalizedRegion> regions = freeMemory.Select(x => new NormalizedRegion(x.BaseAddress, unchecked((Int32)x.RegionSize)));
+
+                // Chunk the large regions into smaller regions based on the allocation size (minimum size is the alloc alignment to prevent creating too many chunks)
+                List<NormalizedRegion> subRegions = new List<NormalizedRegion>();
+                foreach (NormalizedRegion region in regions)
+                {
+                    region.BaseAddress = region.BaseAddress.Subtract(region.BaseAddress.Mod(Memory.AllocAlignment), wrapAround: false);
+                    subRegions.AddRange(region.ChunkNormalizedRegion(Math.Max(size, Memory.AllocAlignment)).Select(x => x).Where(x => x.RegionSize >= size));
+                }
+
                 do
                 {
-                    result = freeMemory.ElementAt(Memory.Random.Next(0, freeMemory.Count())).BaseAddress;
+                    // Sample a random chunk and attempt to allocate the memory
+                    result = subRegions.ElementAt(StaticRandom.Next(0, subRegions.Count())).BaseAddress;
                     result = NativeMethods.VirtualAllocEx(processHandle, result, size, allocationFlags, protectionFlags);
 
                     if (result != IntPtr.Zero || retryCount >= Memory.AllocateRetryCount)
@@ -181,7 +200,7 @@
         /// <returns>
         /// A collection of <see cref="MemoryBasicInformation64"/> structures containing info about all virtual pages in the target process.
         /// </returns>
-        public static IEnumerable<MemoryBasicInformation64> UnallocatedMemory(
+        public static IEnumerable<MemoryBasicInformation64> QueryUnallocatedMemory(
             IntPtr processHandle,
             IntPtr startAddress,
             IntPtr endAddress)

@@ -1,4 +1,4 @@
-﻿namespace Ana.Source.Utils.ScriptEditor
+﻿namespace Ana.Source.Editors.TextEditor
 {
     using System;
     using System.ComponentModel;
@@ -6,14 +6,14 @@
     using System.Windows;
 
     /// <summary>
-    /// Type editor for scripts.
+    /// Type editor for text.
     /// </summary>
-    internal class ScriptEditorModel : UITypeEditor
+    internal class TextEditorModel : UITypeEditor
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="ScriptEditorModel" /> class.
+        /// Initializes a new instance of the <see cref="TextEditorModel" /> class.
         /// </summary>
-        public ScriptEditorModel()
+        public TextEditorModel()
         {
         }
 
@@ -36,12 +36,12 @@
         /// <returns>The updated values.</returns>
         public override Object EditValue(ITypeDescriptorContext context, IServiceProvider provider, Object value)
         {
-            View.Editors.ScriptEditor scriptEditor = new View.Editors.ScriptEditor(value as String);
+            View.Editors.TextEditor textEditor = new View.Editors.TextEditor(value as String);
 
-            scriptEditor.Owner = Application.Current.MainWindow;
-            if (scriptEditor.ShowDialog() == true)
+            textEditor.Owner = Application.Current.MainWindow;
+            if (textEditor.ShowDialog() == true)
             {
-                return scriptEditor.ScriptEditorViewModel.Script ?? String.Empty;
+                return textEditor.TextEditorViewModel.Text ?? String.Empty;
             }
 
             return value;

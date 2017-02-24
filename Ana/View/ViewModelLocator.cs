@@ -1,8 +1,13 @@
 ﻿namespace Ana.View
 {
+    using Source.ActionScheduler;
     using Source.ChangeLog;
     using Source.CheatBrowser;
     using Source.DotNetExplorer;
+    using Source.Editors.HotkeyEditor;
+    using Source.Editors.ScriptEditor;
+    using Source.Editors.TextEditor;
+    using Source.Editors.ValueEditor;
     using Source.Main;
     using Source.Output;
     using Source.ProcessSelector;
@@ -19,9 +24,6 @@
     using Source.SignatureCollector;
     using Source.Snapshots;
     using Source.UserSettings;
-    using Source.Utils.HotkeyEditor;
-    using Source.Utils.ScriptEditor;
-    using Source.Utils.ValueEditor;
 
     /// <summary>
     /// This class contains static references to all the view models in the
@@ -44,6 +46,17 @@
             get
             {
                 return MainViewModel.GetInstance();
+            }
+        }
+
+        /// <summary>
+        /// Gets the Action Scheduler view model.
+        /// </summary>
+        public ActionSchedulerViewModel ActionSchedulerViewModel
+        {
+            get
+            {
+                return ActionSchedulerViewModel.GetInstance();
             }
         }
 
@@ -242,6 +255,17 @@
             get
             {
                 return new ScriptEditorViewModel();
+            }
+        }
+
+        /// <summary>
+        /// Gets the Text Editor view model. Note: Not a singleton, will create a new object.
+        /// </summary>
+        public TextEditorViewModel TextEditorViewModel
+        {
+            get
+            {
+                return new TextEditorViewModel();
             }
         }
 

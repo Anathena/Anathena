@@ -60,7 +60,7 @@
 
         private void StopScan()
         {
-            this.PointerScannerModel.End();
+            this.PointerScannerModel.Cancel();
         }
     }
     //// End class

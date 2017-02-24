@@ -1,7 +1,7 @@
 ﻿namespace Ana.View.Editors
 {
+    using Source.Editors.HotkeyEditor;
     using Source.Engine.Input.HotKeys;
-    using Source.Utils.HotkeyEditor;
     using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;

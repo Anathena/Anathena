@@ -45,7 +45,7 @@
         /// </summary>
         /// <param name="size">The size of the allocation.</param>
         /// <returns>The address of the allocated memory.</returns>
-        UInt64 AllocateMemory(Int32 size);
+        UInt64 Allocate(Int32 size);
 
         /// <summary>
         /// Allocates memory in the target process, and returns the address of the new memory.
@@ -53,18 +53,18 @@
         /// <param name="size">The size of the allocation.</param>
         /// <param name="allocAddress">The rough address of where the allocation should take place.</param>
         /// <returns>The address of the allocated memory.</returns>
-        UInt64 AllocateMemory(Int32 size, IntPtr allocAddress);
+        UInt64 Allocate(Int32 size, UInt64 allocAddress);
 
         /// <summary>
         /// Deallocates memory previously allocated at a specified address.
         /// </summary>
         /// <param name="address">The address to perform the deallocation.</param>
-        void DeallocateMemory(UInt64 address);
+        void Deallocate(UInt64 address);
 
         /// <summary>
         /// Deallocates all allocated memory for the parent script.
         /// </summary>
-        void DeallocateAllMemory();
+        void DeallocateAll();
 
         /// <summary>
         /// Creates a code cave that jumps from a given entry address and executes the given assembly. This will nop-fill.
@@ -105,29 +105,29 @@
         /// Binds a keyword to a given value for use in the script.
         /// </summary>
         /// <param name="keyword">The local keyword to bind.</param>
-        /// <param name="address">The address to which the keyword is bound.</param>
-        void SetKeyword(String keyword, UInt64 address);
+        /// <param name="value">The address to which the keyword is bound.</param>
+        void SetKeyword(String keyword, dynamic value);
 
         /// <summary>
         /// Binds a keyword to a given value for use in all scripts.
         /// </summary>
         /// <param name="globalKeyword">The global keyword to bind.</param>
-        /// <param name="address">The address to which the keyword is bound.</param>
-        void SetGlobalKeyword(String globalKeyword, UInt64 address);
+        /// <param name="value">The value to which the keyword is bound.</param>
+        void SetGlobalKeyword(String globalKeyword, dynamic value);
 
         /// <summary>
         /// Gets the value of a keyword.
         /// </summary>
         /// <param name="keyword">The keyword.</param>
         /// <returns>The value of the keyword. If not found, returns 0.</returns>
-        UInt64 GetKeywordValue(String keyword);
+        dynamic GetKeyword(String keyword);
 
         /// <summary>
         /// Gets the value of a global keyword.
         /// </summary>
         /// <param name="globalKeyword">The global keyword.</param>
         /// <returns>The value of the global keyword. If not found, returns 0.</returns>
-        UInt64 GetGlobalKeywordValue(String globalKeyword);
+        dynamic GetGlobalKeyword(String globalKeyword);
 
         /// <summary>
         /// Clears the specified keyword created by the parent script.
@@ -178,7 +178,7 @@
         /// <param name="address">The address of the read.</param>
         /// <typeparam name="T">The data type to read.</typeparam>
         /// <returns>The Double read from memory.</returns>
-        T ReadMemory<T>(UInt64 address);
+        T Read<T>(UInt64 address);
 
         /// <summary>
         /// Reads the array of bytes of the specified count at the given address.
@@ -186,7 +186,7 @@
         /// <param name="address">The address of the read.</param>
         /// <param name="count">The number of bytes to read.</param>
         /// <returns>The bytes read at the address.</returns>
-        Byte[] ReadMemory(UInt64 address, Int32 count);
+        Byte[] Read(UInt64 address, Int32 count);
 
         /// <summary>
         /// Writes the value at the specified address.
@@ -194,14 +194,14 @@
         /// <param name="address">The address of the write.</param>
         /// <param name="value">The value of the write.</param>
         /// <typeparam name="T">The data type to write.</typeparam>
-        void WriteMemory<T>(UInt64 address, T value);
+        void Write<T>(UInt64 address, T value);
 
         /// <summary>
         /// Writes the Byte array to the specified address
         /// </summary>
         /// <param name="address">The address of the write.</param>
         /// <param name="values">The values of the write.</param>
-        void WriteMemory(UInt64 address, Byte[] values);
+        void Write(UInt64 address, Byte[] values);
     }
     //// End interface
 }

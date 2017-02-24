@@ -3,46 +3,24 @@
 <#@ import namespace="System.Linq" #>
 <#@ import namespace="System.Text" #>
 <#@ import namespace="System.Collections.Generic" #>
-using System;
-using Ana.Source.ScriptEngine;
-using Ana.Source.ScriptEngine.Graphics;
-using Ana.Source.ScriptEngine.Hook;
-using Ana.Source.ScriptEngine.Input;
-using Ana.Source.ScriptEngine.Memory;
-
-public class Cheat
+public void OnActivate()
 {
-	// Engine to provide access to memory, graphics, input, etc
-	private ScriptEngine Engine = new ScriptEngine();
-	// API to access memory in the target process
-	private IMemoryCore Memory { get { return Engine.MemoryCore; } }
-	// API to access graphics features (DirectX, OpenGL)
-	private IGraphicsCore Graphics { get { return Engine.GraphicsCore; } }
-	// API to access process hook features (speed hack, unrandomizer, etc)
-	private IHookCore Hook { get { return Engine.HookCore; } }
-	// API to access user input
-	private IInputCore Input { get { return Engine.InputCore; } }
-	
-	public void OnActivate()
-	{
-		var moduleBase = Memory.GetModuleAddress("moduleName");
-		var entry = moduleBase + 0x1234;
+	var moduleBase = Memory.GetModuleAddress("moduleName");
+	var entry = moduleBase + 0x1234;
 		
-		var code = @"
-			nop
-			";
+	var code = @"
+		nop
+		";
 		
-		Memory.CreateCodeCave(entry, code);
-	}
+	Memory.CreateCodeCave(entry, code);
+}
 
-	public void OnUpdate(float elapsedTimeMillis)
-	{
-	
-	}
+public void OnUpdate(float elapsedTimeMillis)
+{
+}
 
-	public void OnDeactivate()
-	{
-		Memory.ClearAllKeywords();
-		Memory.RemoveAllCodeCaves();
-	}
+public void OnDeactivate()
+{
+	Memory.ClearAllKeywords();
+	Memory.RemoveAllCodeCaves();
 }

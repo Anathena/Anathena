@@ -29,8 +29,8 @@ namespace Ana.Content
         /// </summary>
         public virtual string TransformText()
         {
-            this.Write("- Added an output window to show useful events as they happen.\r\n- Added auto dete" +
-                    "ction for when a process closes");
+            this.Write("- Hotfix to Label Thresholder - Incorrect bounds settings caused it to be useless" +
+                    ".");
             return this.GenerationEnvironment.ToString();
         }
     }

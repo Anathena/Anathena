@@ -5,5 +5,4 @@
 <#@ import namespace="System.Text" #>
 <#@ import namespace="System.Collections.Generic" #>
 <#@ import namespace="Ana" #>
-- Added an output window to show useful events as they happen.
-- Added auto detection for when a process closes
+- Hotfix to Label Thresholder - Incorrect bounds settings caused it to be useless.

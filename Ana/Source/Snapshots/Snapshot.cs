@@ -143,7 +143,7 @@
                 {
                     Int64 elementCount = (Int64)region.GetElementCount();
 
-                    if (index - elementCount >= 0)
+                    if (index >= elementCount)
                     {
                         index -= elementCount;
                     }
@@ -153,7 +153,7 @@
                     }
                 }
 
-                return null;
+                throw new Exception("Invalid index");
             }
         }
 
@@ -248,10 +248,10 @@
 
             groundTruth = this.MergeAndSortRegions(groundTruth);
 
-            if (this.SnapshotRegions == null || groundTruth == null || this.SnapshotRegions.Count <= 0 || groundTruth.Count() <= 0)
+            // if (this.SnapshotRegions == null || groundTruth == null || this.SnapshotRegions.Count <= 0 || groundTruth.Count() <= 0)
             {
-                this.SnapshotRegions = resultRegions;
-                return;
+                // this.SnapshotRegions = resultRegions;
+                // return;
             }
 
             this.MergeAndSortRegions();

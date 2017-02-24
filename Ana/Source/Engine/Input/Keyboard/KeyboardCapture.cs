@@ -1,7 +1,9 @@
 ﻿namespace Ana.Source.Engine.Input.Keyboard
 {
+    using Output;
     using SharpDX;
     using SharpDX.DirectInput;
+    using System;
     using System.Collections.Generic;
 
     /// <summary>
@@ -14,11 +16,8 @@
         /// </summary>
         public KeyboardCapture()
         {
-            SharpDX.RawInput.Device.RegisterDevice(SharpDX.Multimedia.UsagePage.Generic, SharpDX.Multimedia.UsageId.GenericKeyboard, SharpDX.RawInput.DeviceFlags.None);
             this.Subjects = new List<IKeyboardObserver>();
-            this.DirectInput = new DirectInput();
-            this.Keyboard = new Keyboard(this.DirectInput);
-            this.Keyboard.Acquire();
+            this.FindKeyboard();
         }
 
         /// <summary>
@@ -81,7 +80,7 @@
         {
             try
             {
-                this.CurrentKeyboardState = Keyboard.GetCurrentState();
+                this.CurrentKeyboardState = this.Keyboard.GetCurrentState();
 
                 if (this.PreviousKeyboardState == null)
                 {
@@ -121,7 +120,13 @@
             }
             catch (SharpDXException)
             {
-                this.Keyboard.Acquire();
+                try
+                {
+                    this.Keyboard.Acquire();
+                }
+                catch
+                {
+                }
             }
         }
 
@@ -170,6 +175,25 @@
             foreach (IKeyboardObserver keySubject in this.Subjects)
             {
                 keySubject.OnUpdateAllDownKeys(downKeys);
+            }
+        }
+
+        /// <summary>
+        /// Finds any connected keyboard devices.
+        /// </summary>
+        private void FindKeyboard()
+        {
+            try
+            {
+                this.DirectInput = new DirectInput();
+                this.Keyboard = new Keyboard(this.DirectInput);
+                this.Keyboard.Acquire();
+
+                OutputViewModel.GetInstance().Log(OutputViewModel.LogLevel.Info, "Keyboard device found");
+            }
+            catch (Exception ex)
+            {
+                OutputViewModel.GetInstance().Log(OutputViewModel.LogLevel.Error, "Unable to acquire keyboard device: " + ex.ToString());
             }
         }
     }

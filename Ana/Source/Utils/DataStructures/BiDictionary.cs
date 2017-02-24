@@ -13,84 +13,119 @@
     [Serializable]
     internal class BiDictionary<TFirst, TSecond> : IDictionary<TFirst, TSecond>, IReadOnlyDictionary<TFirst, TSecond>, IDictionary
     {
+        /// <summary>
+        /// The dictionary mapping from the first type to the second type.
+        /// </summary>
         private readonly IDictionary<TFirst, TSecond> firstToSecond;
 
+        /// <summary>
+        /// The dictionary mapping from the second type to the first type.
+        /// </summary>
         [NonSerialized]
         private readonly IDictionary<TSecond, TFirst> secondToFirst;
-
-        [NonSerialized]
-        private readonly ReverseDictionary reversedDictionary;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="BiDictionary{TFirst,TSecond}" /> class.
         /// </summary>
         public BiDictionary()
         {
-            this.reversedDictionary = new ReverseDictionary(this);
             this.firstToSecond = new Dictionary<TFirst, TSecond>();
             this.secondToFirst = new Dictionary<TSecond, TFirst>();
         }
 
-        public IDictionary<TSecond, TFirst> Reverse
-        {
-            get { return this.reversedDictionary; }
-        }
-
+        /// <summary>
+        /// Gets the number of elements contained in this dictionary.
+        /// </summary>
         public Int32 Count
         {
             get { return this.firstToSecond.Count; }
         }
 
+        /// <summary>
+        /// Gets an object that can be used to synchronize access to this dictionary.
+        /// </summary>
         Object ICollection.SyncRoot
         {
             get { return ((ICollection)this.firstToSecond).SyncRoot; }
         }
 
+        /// <summary>
+        /// Gets a value indicating whether access to this dictionary is synchronized (thread safe).
+        /// </summary>
         Boolean ICollection.IsSynchronized
         {
             get { return ((ICollection)this.firstToSecond).IsSynchronized; }
         }
 
+        /// <summary>
+        /// Gets a value indicating whether this dictionary has a fixed size.
+        /// </summary>
         Boolean IDictionary.IsFixedSize
         {
             get { return ((IDictionary)this.firstToSecond).IsFixedSize; }
         }
 
+        /// <summary>
+        /// Gets a value indicating whether this dictionary is read only.
+        /// </summary>
         public Boolean IsReadOnly
         {
             get { return this.firstToSecond.IsReadOnly || this.secondToFirst.IsReadOnly; }
         }
 
+        /// <summary>
+        /// Gets a collection containing the keys of this dictionary.
+        /// </summary>
         public ICollection<TFirst> Keys
         {
             get { return this.firstToSecond.Keys; }
         }
 
+        /// <summary>
+        /// Gets a collection containing the keys of this dictionary.
+        /// </summary>
         ICollection IDictionary.Keys
         {
             get { return ((IDictionary)this.firstToSecond).Keys; }
         }
 
+        /// <summary>
+        /// Gets a collection containing the keys of this dictionary.
+        /// </summary>
         IEnumerable<TFirst> IReadOnlyDictionary<TFirst, TSecond>.Keys
         {
             get { return ((IReadOnlyDictionary<TFirst, TSecond>)this.firstToSecond).Keys; }
         }
 
+        /// <summary>
+        /// Gets a collection containing the values of this dictionary.
+        /// </summary>
         public ICollection<TSecond> Values
         {
             get { return this.firstToSecond.Values; }
         }
 
+        /// <summary>
+        /// Gets a collection containing the values of this dictionary.
+        /// </summary>
         ICollection IDictionary.Values
         {
             get { return ((IDictionary)this.firstToSecond).Values; }
         }
 
+        /// <summary>
+        /// Gets a collection containing the values of this dictionary.
+        /// </summary>
         IEnumerable<TSecond> IReadOnlyDictionary<TFirst, TSecond>.Values
         {
             get { return ((IReadOnlyDictionary<TFirst, TSecond>)this.firstToSecond).Values; }
         }
 
+        /// <summary>
+        /// Indexer to set or get the value of the specified key.
+        /// </summary>
+        /// <param name="key">The dictionary key.</param>
+        /// <returns>The value at the specified key.</returns>
         public TSecond this[TFirst key]
         {
             get
@@ -105,6 +140,11 @@
             }
         }
 
+        /// <summary>
+        /// Indexer to set or get the value of the specified key.
+        /// </summary>
+        /// <param name="key">The dictionary key.</param>
+        /// <returns>The value at the specified key.</returns>
         Object IDictionary.this[Object key]
         {
             get
@@ -119,54 +159,111 @@
             }
         }
 
+        /// <summary>
+        /// Returns an enumerator that iterates through the collection.
+        /// </summary>
+        /// <returns>An enumerator that iterates through the collection.</returns>
         public IEnumerator<KeyValuePair<TFirst, TSecond>> GetEnumerator()
         {
             return this.firstToSecond.GetEnumerator();
         }
 
+        /// <summary>
+        /// Returns an enumerator that iterates through the collection.
+        /// </summary>
+        /// <returns>An enumerator that iterates through the collection.</returns>
         IEnumerator IEnumerable.GetEnumerator()
         {
             return this.GetEnumerator();
         }
 
+        /// <summary>
+        /// Returns an enumerator that iterates through the collection.
+        /// </summary>
+        /// <returns>An enumerator that iterates through the collection.</returns>
         IDictionaryEnumerator IDictionary.GetEnumerator()
         {
             return ((IDictionary)this.firstToSecond).GetEnumerator();
         }
 
+        /// <summary>
+        /// Adds an element with the provided key to the dictionary.
+        /// </summary>
+        /// <param name="key">The key to add.</param>
+        /// <param name="value">The value to add.</param>
         public void Add(TFirst key, TSecond value)
         {
             this.firstToSecond.Add(key, value);
             this.secondToFirst.Add(value, key);
         }
 
+        /// <summary>
+        /// Adds an element with the provided key to the dictionary.
+        /// </summary>
+        /// <param name="key">The key to add.</param>
+        /// <param name="value">The value to add.</param>
         void IDictionary.Add(Object key, Object value)
         {
             ((IDictionary)this.firstToSecond).Add(key, value);
             ((IDictionary)this.secondToFirst).Add(value, key);
         }
 
+        /// <summary>
+        /// Adds an element with the provided key to the dictionary.
+        /// </summary>
+        /// <param name="item">The key value pair to add.</param>
         void ICollection<KeyValuePair<TFirst, TSecond>>.Add(KeyValuePair<TFirst, TSecond> item)
         {
             this.firstToSecond.Add(item);
             this.secondToFirst.Add(new KeyValuePair<TSecond, TFirst>(item.Value, item.Key));
         }
 
+        /// <summary>
+        /// Determines whether this dictionary contains an element with the specified key.
+        /// </summary>
+        /// <param name="key">The dictionary key.</param>
+        /// <returns>Returns true if found, otherwise false.</returns>
         public Boolean ContainsKey(TFirst key)
         {
             return this.firstToSecond.ContainsKey(key);
         }
 
+        /// <summary>
+        /// Determines whether this dictionary contains an element with the specified key.
+        /// </summary>
+        /// <param name="key">The dictionary key.</param>
+        /// <returns>Returns true if found, otherwise false.</returns>
+        Boolean IDictionary.Contains(Object key)
+        {
+            return ((IDictionary)this.firstToSecond).Contains(key);
+        }
+
+        /// <summary>
+        /// Determines whether this dictionary contains a specific value.
+        /// </summary>
+        /// <param name="item">The key value pair.</param>
+        /// <returns>Returns true if found, otherwise false.</returns>
         Boolean ICollection<KeyValuePair<TFirst, TSecond>>.Contains(KeyValuePair<TFirst, TSecond> item)
         {
             return this.firstToSecond.Contains(item);
         }
 
+        /// <summary>
+        /// Gets a value associated with the specified key.
+        /// </summary>
+        /// <param name="key">The dictionary key.</param>
+        /// <param name="value">The dictionary value.</param>
+        /// <returns>True if retrieval succeeded, otherwise false.</returns>
         public Boolean TryGetValue(TFirst key, out TSecond value)
         {
             return this.firstToSecond.TryGetValue(key, out value);
         }
 
+        /// <summary>
+        /// Removes the element with the specified key from this dictionary.
+        /// </summary>
+        /// <param name="key">The dictionary key.</param>
+        /// <returns>True if removal succeeded, otherwise false.</returns>
         public Boolean Remove(TFirst key)
         {
             TSecond value;
@@ -181,6 +278,10 @@
             return false;
         }
 
+        /// <summary>
+        /// Removes the element with the specified key from this dictionary.
+        /// </summary>
+        /// <param name="key">The dictionary key.</param>
         void IDictionary.Remove(Object key)
         {
             IDictionary firstToSecond = (IDictionary)this.firstToSecond;
@@ -195,32 +296,49 @@
             ((IDictionary)this.secondToFirst).Remove(value);
         }
 
+        /// <summary>
+        /// Removes the first occurence of the specific object from this dictionary.
+        /// </summary>
+        /// <param name="item">The dictionary key value pair.</param>
+        /// <returns>True if removal succeeded, otherwise false.</returns>
         Boolean ICollection<KeyValuePair<TFirst, TSecond>>.Remove(KeyValuePair<TFirst, TSecond> item)
         {
             return this.firstToSecond.Remove(item);
         }
 
-        Boolean IDictionary.Contains(Object key)
-        {
-            return ((IDictionary)this.firstToSecond).Contains(key);
-        }
-
+        /// <summary>
+        /// Removes all items from this dictionary.
+        /// </summary>
         public void Clear()
         {
             this.firstToSecond.Clear();
             this.secondToFirst.Clear();
         }
 
+        /// <summary>
+        /// Copies the elements from this dictionary to an <see cref="Array"/>, starting at a particular <see cref="Array"/> index.
+        /// </summary>
+        /// <param name="array">The destination array for the copied elements.</param>
+        /// <param name="arrayIndex">The zero-based index at which the copying begins.</param>
         void ICollection<KeyValuePair<TFirst, TSecond>>.CopyTo(KeyValuePair<TFirst, TSecond>[] array, Int32 arrayIndex)
         {
             this.firstToSecond.CopyTo(array, arrayIndex);
         }
 
+        /// <summary>
+        /// Copies the elements from this dictionary to an <see cref="Array"/>, starting at a particular <see cref="Array"/> index.
+        /// </summary>
+        /// <param name="array">The destination array for the copied elements.</param>
+        /// <param name="index">The zero-based index at which the copying begins.</param>
         void ICollection.CopyTo(Array array, Int32 index)
         {
             ((IDictionary)this.firstToSecond).CopyTo(array, index);
         }
 
+        /// <summary>
+        /// Called when this object is deserialized to reconstruct this object.
+        /// </summary>
+        /// <param name="context">The streaming context.</param>
         [OnDeserialized]
         internal void OnDeserialized(StreamingContext context)
         {
@@ -229,200 +347,6 @@
             foreach (KeyValuePair<TFirst, TSecond> item in this.firstToSecond)
             {
                 this.secondToFirst.Add(item.Value, item.Key);
-            }
-        }
-
-        private class ReverseDictionary : IDictionary<TSecond, TFirst>, IReadOnlyDictionary<TSecond, TFirst>, IDictionary
-        {
-            private readonly BiDictionary<TFirst, TSecond> owner;
-
-            public ReverseDictionary(BiDictionary<TFirst, TSecond> owner)
-            {
-                this.owner = owner;
-            }
-
-            public Int32 Count
-            {
-                get { return this.owner.secondToFirst.Count; }
-            }
-
-            Object ICollection.SyncRoot
-            {
-                get { return ((ICollection)this.owner.secondToFirst).SyncRoot; }
-            }
-
-            Boolean ICollection.IsSynchronized
-            {
-                get { return ((ICollection)this.owner.secondToFirst).IsSynchronized; }
-            }
-
-            Boolean IDictionary.IsFixedSize
-            {
-                get { return ((IDictionary)this.owner.secondToFirst).IsFixedSize; }
-            }
-
-            public Boolean IsReadOnly
-            {
-                get { return this.owner.secondToFirst.IsReadOnly || this.owner.firstToSecond.IsReadOnly; }
-            }
-
-            public ICollection<TSecond> Keys
-            {
-                get { return this.owner.secondToFirst.Keys; }
-            }
-
-            ICollection IDictionary.Keys
-            {
-                get { return ((IDictionary)this.owner.secondToFirst).Keys; }
-            }
-
-            IEnumerable<TSecond> IReadOnlyDictionary<TSecond, TFirst>.Keys
-            {
-                get { return ((IReadOnlyDictionary<TSecond, TFirst>)this.owner.secondToFirst).Keys; }
-            }
-
-            public ICollection<TFirst> Values
-            {
-                get { return this.owner.secondToFirst.Values; }
-            }
-
-            ICollection IDictionary.Values
-            {
-                get { return ((IDictionary)this.owner.secondToFirst).Values; }
-            }
-
-            IEnumerable<TFirst> IReadOnlyDictionary<TSecond, TFirst>.Values
-            {
-                get { return ((IReadOnlyDictionary<TSecond, TFirst>)this.owner.secondToFirst).Values; }
-            }
-
-            public TFirst this[TSecond key]
-            {
-                get
-                {
-                    return this.owner.secondToFirst[key];
-                }
-
-                set
-                {
-                    this.owner.secondToFirst[key] = value;
-                    this.owner.firstToSecond[value] = key;
-                }
-            }
-
-            Object IDictionary.this[Object key]
-            {
-                get
-                {
-                    return ((IDictionary)this.owner.secondToFirst)[key];
-                }
-
-                set
-                {
-                    ((IDictionary)this.owner.secondToFirst)[key] = value;
-                    ((IDictionary)this.owner.firstToSecond)[value] = key;
-                }
-            }
-
-            public IEnumerator<KeyValuePair<TSecond, TFirst>> GetEnumerator()
-            {
-                return this.owner.secondToFirst.GetEnumerator();
-            }
-
-            IEnumerator IEnumerable.GetEnumerator()
-            {
-                return this.GetEnumerator();
-            }
-
-            IDictionaryEnumerator IDictionary.GetEnumerator()
-            {
-                return ((IDictionary)this.owner.secondToFirst).GetEnumerator();
-            }
-
-            public void Add(TSecond key, TFirst value)
-            {
-                this.owner.secondToFirst.Add(key, value);
-                this.owner.firstToSecond.Add(value, key);
-            }
-
-            void IDictionary.Add(Object key, Object value)
-            {
-                ((IDictionary)this.owner.secondToFirst).Add(key, value);
-                ((IDictionary)this.owner.firstToSecond).Add(value, key);
-            }
-
-            void ICollection<KeyValuePair<TSecond, TFirst>>.Add(KeyValuePair<TSecond, TFirst> item)
-            {
-                this.owner.secondToFirst.Add(item);
-                this.owner.firstToSecond.Add(new KeyValuePair<TFirst, TSecond>(item.Value, item.Key));
-            }
-
-            public Boolean ContainsKey(TSecond key)
-            {
-                return this.owner.secondToFirst.ContainsKey(key);
-            }
-
-            Boolean ICollection<KeyValuePair<TSecond, TFirst>>.Contains(KeyValuePair<TSecond, TFirst> item)
-            {
-                return this.owner.secondToFirst.Contains(item);
-            }
-
-            public Boolean TryGetValue(TSecond key, out TFirst value)
-            {
-                return this.owner.secondToFirst.TryGetValue(key, out value);
-            }
-
-            public Boolean Remove(TSecond key)
-            {
-                TFirst value;
-                if (this.owner.secondToFirst.TryGetValue(key, out value))
-                {
-                    this.owner.secondToFirst.Remove(key);
-                    this.owner.firstToSecond.Remove(value);
-                    return true;
-                }
-
-                return false;
-            }
-
-            void IDictionary.Remove(Object key)
-            {
-                IDictionary firstToSecond = (IDictionary)this.owner.secondToFirst;
-
-                if (!firstToSecond.Contains(key))
-                {
-                    return;
-                }
-
-                Object value = firstToSecond[key];
-                firstToSecond.Remove(key);
-                ((IDictionary)this.owner.firstToSecond).Remove(value);
-            }
-
-            Boolean ICollection<KeyValuePair<TSecond, TFirst>>.Remove(KeyValuePair<TSecond, TFirst> item)
-            {
-                return this.owner.secondToFirst.Remove(item);
-            }
-
-            Boolean IDictionary.Contains(Object key)
-            {
-                return ((IDictionary)this.owner.secondToFirst).Contains(key);
-            }
-
-            public void Clear()
-            {
-                this.owner.secondToFirst.Clear();
-                this.owner.firstToSecond.Clear();
-            }
-
-            void ICollection<KeyValuePair<TSecond, TFirst>>.CopyTo(KeyValuePair<TSecond, TFirst>[] array, Int32 arrayIndex)
-            {
-                this.owner.secondToFirst.CopyTo(array, arrayIndex);
-            }
-
-            void ICollection.CopyTo(Array array, Int32 index)
-            {
-                ((IDictionary)this.owner.secondToFirst).CopyTo(array, index);
             }
         }
     }

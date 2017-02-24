@@ -1,4 +1,4 @@
-﻿namespace Ana.Source.Utils.ScriptEditor
+﻿namespace Ana.Source.Editors.ScriptEditor
 {
     using Ana.Content.Templates;
     using Docking;

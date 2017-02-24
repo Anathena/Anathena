@@ -6,6 +6,8 @@
     using SharpDX.DirectInput;
     using Source.CustomControls;
     using Source.CustomControls.TreeView;
+    using Source.Editors.ScriptEditor;
+    using Source.Editors.ValueEditor;
     using Source.Engine;
     using Source.Engine.Input.Keyboard;
     using Source.Project;
@@ -13,8 +15,6 @@
     using Source.Utils;
     using Source.Utils.DataStructures;
     using Source.Utils.Extensions;
-    using Source.Utils.ScriptEditor;
-    using Source.Utils.ValueEditor;
     using System;
     using System.Collections.Generic;
     using System.ComponentModel;
@@ -106,6 +106,11 @@
         /// The right click menu.
         /// </summary>
         private ContextMenuStrip contextMenuStrip;
+
+        /// <summary>
+        /// The tool tip for project items.
+        /// </summary>
+        private ToolTip projectItemToolTip;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ProjectExplorer" /> class.
@@ -398,7 +403,12 @@
         private IEnumerable<ProjectItem> GetSelectedProjectItems()
         {
             List<ProjectItem> nodes = new List<ProjectItem>();
-            this.projectExplorerTreeView.SelectedNodes.ForEach(x => nodes.Add(this.GetProjectItemFromNode(x)));
+
+            foreach (TreeNodeAdv node in this.projectExplorerTreeView.SelectedNodes.ToArray())
+            {
+                nodes.Add(this.GetProjectItemFromNode(node));
+            }
+
             return nodes;
         }
 
@@ -408,8 +418,12 @@
         /// <returns>A collection of the cloned project items.</returns>
         private IEnumerable<ProjectItem> CloneSelectedProjectItems()
         {
-            List<ProjectItem> nodes = new List<ProjectItem>();
-            this.projectExplorerTreeView.SelectedNodes.ForEach(x => nodes.Add(this.GetProjectItemFromNode(x).Clone()));
+            IList<ProjectItem> nodes = new List<ProjectItem>();
+            foreach (ProjectItem node in this.GetSelectedProjectItems())
+            {
+                nodes.Add(node);
+            }
+
             return nodes;
         }
 
@@ -428,14 +442,9 @@
         /// </summary>
         private void ActivateSelectedItems()
         {
-            if (this.projectExplorerTreeView.SelectedNodes == null || this.projectExplorerTreeView.SelectedNodes.Count <= 0)
-            {
-                return;
-            }
-
             IEnumerable<ProjectItem> selectedProjectItems = this.GetSelectedProjectItems();
 
-            if (selectedProjectItems == null || selectedProjectItems.Count() <= 0)
+            if (selectedProjectItems.IsNullOrEmpty())
             {
                 return;
             }
@@ -443,9 +452,8 @@
             // Behavior here is undefined, we could check only the selected items, or enforce the recursive rules of folders
             selectedProjectItems.ForEach(x => this.CheckItem(x, !x.IsActivated));
 
-            foreach (TreeNodeAdv projectNode in this.projectExplorerTreeView.SelectedNodes)
+            foreach (ProjectItem projectItem in this.GetSelectedProjectItems())
             {
-                ProjectItem projectItem = this.GetProjectItemFromNode(projectNode);
                 ProjectNode result;
 
                 if (this.nodeCache.TryGetValue(projectItem, out result))
@@ -462,14 +470,9 @@
         /// </summary>
         private void CompileSelectedItems()
         {
-            if (this.projectExplorerTreeView.SelectedNodes == null || this.projectExplorerTreeView.SelectedNodes.Count <= 0)
-            {
-                return;
-            }
-
             IEnumerable<ProjectItem> selectedProjectItems = this.GetSelectedProjectItems();
 
-            if (selectedProjectItems == null || selectedProjectItems.Count() <= 0)
+            if (selectedProjectItems.IsNullOrEmpty())
             {
                 return;
             }
@@ -493,7 +496,7 @@
         /// </summary>
         private void DeleteSelectedItems()
         {
-            if (this.projectExplorerTreeView.SelectedNodes == null || this.projectExplorerTreeView.SelectedNodes.Count <= 0)
+            if (this.GetSelectedProjectItems().IsNullOrEmpty())
             {
                 return;
             }
@@ -503,7 +506,7 @@
                 this.projectExplorerTreeView,
                 () =>
             {
-                result = MessageBoxEx.Show(
+                result = CenteredDialogBox.Show(
                     System.Windows.Application.Current.MainWindow,
                    "Delete selected items?",
                    "Confirm",
@@ -612,9 +615,9 @@
             // Update the view model with the selected nodes
             List<ProjectItem> projectItems = new List<ProjectItem>();
 
-            foreach (TreeNodeAdv node in this.projectExplorerTreeView.SelectedNodes.ToArray())
+            foreach (ProjectItem node in this.GetSelectedProjectItems())
             {
-                projectItems.Add(this.GetProjectItemFromNode(node));
+                projectItems.Add(node);
             }
 
             ProjectExplorerViewModel.GetInstance().SelectedProjectItems = projectItems;
@@ -741,6 +744,7 @@
             entryValuePreview.ParentColumn = null;
             entryValuePreview.DrawText += this.EntryValuePreviewDrawText;
 
+            this.projectItemToolTip = new ToolTip();
             this.toggleSelectionMenuItem = new ToolStripMenuItem("Toggle");
             this.compileSelectionMenuItem = new ToolStripMenuItem("Compile");
             this.addNewItemMenuItem = new ToolStripMenuItem("Add New...");
@@ -802,11 +806,37 @@
             this.projectExplorerTreeView.DragDrop += this.ProjectExplorerTreeViewDragDrop;
             this.projectExplorerTreeView.DragEnter += this.ProjectExplorerTreeViewDragEnter;
             this.projectExplorerTreeView.DragOver += this.ProjectExplorerTreeViewDragOver;
+            this.projectExplorerTreeView.MouseMove += this.ProjectExplorerTreeViewMouseMove;
 
             this.projectExplorerTreeView.BackColor = DarkBrushes.BaseColor3;
             this.projectExplorerTreeView.ForeColor = DarkBrushes.BaseColor2;
             this.projectExplorerTreeView.DragDropMarkColor = DarkBrushes.BaseColor11;
             this.projectExplorerTreeView.LineColor = DarkBrushes.BaseColor11;
+        }
+
+        /// <summary>
+        /// Event when the mouse moves on the tree view. Will show the appropriate tooltip for the target item.
+        /// </summary>
+        /// <param name="sender">Sending object.</param>
+        /// <param name="e">Event args.</param>
+        private void ProjectExplorerTreeViewMouseMove(Object sender, MouseEventArgs e)
+        {
+            // Get the node at the current mouse pointer location
+            ProjectItem projectItem = this.GetProjectItemFromNode(this.projectExplorerTreeView.GetNodeAt(e.Location));
+
+            if (projectItem != null)
+            {
+                // Change the ToolTip only if the pointer moved to a new node
+                if (projectItem.ExtendedDescription != this.projectItemToolTip.GetToolTip(this.projectExplorerTreeView))
+                {
+                    this.projectItemToolTip.SetToolTip(this.projectExplorerTreeView, projectItem.ExtendedDescription);
+                }
+            }
+            else
+            {
+                // Pointer is not over a node so clear the ToolTip
+                this.projectItemToolTip.SetToolTip(this.projectExplorerTreeView, String.Empty);
+            }
         }
 
         /// <summary>
@@ -816,7 +846,7 @@
         /// <param name="e">Event args.</param>
         private void ContextMenuStripOpening(Object sender, CancelEventArgs e)
         {
-            if (this.projectExplorerTreeView.SelectedNodes == null || this.projectExplorerTreeView.SelectedNodes.Count <= 0)
+            if (this.GetSelectedProjectItems().IsNullOrEmpty())
             {
                 this.deleteSelectionMenuItem.Enabled = false;
                 this.toggleSelectionMenuItem.Enabled = false;
@@ -831,7 +861,7 @@
                 this.copySelectionMenuItem.Enabled = true;
                 this.cutSelectionMenuItem.Enabled = true;
 
-                if (this.projectExplorerTreeView.SelectedNodes.All(x => this.GetProjectItemFromNode(x)?.GetType() == typeof(ScriptItem)))
+                if (this.GetSelectedProjectItems().All(x => x?.GetType() == typeof(ScriptItem)))
                 {
                     this.compileSelectionMenuItem.Visible = true;
                 }

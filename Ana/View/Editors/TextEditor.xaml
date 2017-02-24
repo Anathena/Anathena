@@ -1,0 +1,109 @@
+﻿<shell:Window
+    x:Class="Ana.View.Editors.TextEditor"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:avalonedit="http://icsharpcode.net/sharpdevelop/avalonedit"
+    xmlns:converters="clr-namespace:Ana.Source.Mvvm.Converters"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+    xmlns:local="clr-namespace:Ana"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:shell="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:sys="clr-namespace:System;assembly=mscorlib"
+    xmlns:sysWindows="clr-namespace:System.Windows;assembly=PresentationCore"
+    xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+    x:Name="AnaTextEditor"
+    Title="Text Editor"
+    Width="512"
+    Height="512"
+    d:DesignHeight="256"
+    d:DesignWidth="256"
+    x:ClassModifier="internal"
+    BorderBrush="{StaticResource AvalonDock_Expression_BaseColor2}"
+    BorderThickness="2"
+    DataContext="{Binding TextEditorViewModel, Source={StaticResource ViewModelLocator}}"
+    WindowStartupLocation="CenterOwner"
+    WindowStyle="None"
+    mc:Ignorable="d">
+    <shell:WindowChrome.WindowChrome>
+        <shell:WindowChrome CaptionHeight="{Binding ActualHeight, ElementName=titlebar}" />
+    </shell:WindowChrome.WindowChrome>
+
+    <shell:Grid Background="{StaticResource AvalonDock_Expression_BaseColor3}">
+        <shell:Grid.RowDefinitions>
+            <shell:RowDefinition Height="Auto" />
+            <shell:RowDefinition Height="Auto" />
+            <shell:RowDefinition />
+            <shell:RowDefinition Height="Auto" />
+        </shell:Grid.RowDefinitions>
+
+        <shell:Grid
+            x:Name="titlebar"
+            Grid.Row="0"
+            Height="24"
+            Background="{StaticResource AvalonDock_Expression_BaseColor4}">
+            <shell:WrapPanel Margin="8,0,0,0" VerticalAlignment="Center">
+                <shell:TextBlock
+                    Foreground="{StaticResource AvalonDock_Expression_BaseColor2}"
+                    Text="* "
+                    Visibility="Collapsed" />
+                <shell:TextBlock Foreground="{StaticResource AvalonDock_Expression_BaseColor2}" Text="Text Editor" />
+            </shell:WrapPanel>
+        </shell:Grid>
+
+
+        <shell:Menu
+            Grid.Row="1"
+            Background="{StaticResource AvalonDock_Expression_BaseColor4}"
+            BorderBrush="{StaticResource AvalonDock_Expression_BaseColor2}"
+            Foreground="{StaticResource AvalonDock_Expression_BaseColor2}">
+            <shell:Menu.Resources>
+                <shell:Style x:Key="menuItemStyle" TargetType="{x:Type MenuItem}">
+                    <shell:Setter Property="Foreground" Value="{StaticResource AvalonDock_Expression_BaseColor2}" />
+                    <shell:Setter Property="Background" Value="{StaticResource AvalonDock_Expression_BaseColor4}" />
+                    <shell:Setter Property="BorderBrush" Value="{StaticResource AvalonDock_Expression_BaseColor4}" />
+                    <shell:Setter Property="BorderThickness" Value="0" />
+                </shell:Style>
+            </shell:Menu.Resources>
+            <!--  File Header  -->
+            <shell:MenuItem Header="File" Style="{StaticResource DropDown}">
+                <shell:MenuItem
+                    Command="{Binding SaveCommand}"
+                    Header="Save"
+                    Style="{StaticResource menuItemStyle}"
+                    Visibility="Collapsed" />
+                <shell:MenuItem
+                    Click="ExitFileMenuItemClick"
+                    Header="Exit"
+                    Style="{StaticResource menuItemStyle}" />
+            </shell:MenuItem>
+        </shell:Menu>
+
+        <avalonedit:TextEditor
+            Name="TextEditorTextEditor"
+            Margin="8"
+            shell:Grid.Row="2"
+            Background="{StaticResource AvalonDock_Expression_BaseColor3}"
+            Foreground="{StaticResource AvalonDock_Expression_BaseColor2}" />
+
+        <shell:Grid Grid.Row="3" Margin="8">
+            <shell:Button
+                Width="96"
+                Height="20"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Bottom"
+                Click="CancelButtonClick">
+                <shell:TextBlock Text="Cancel" />
+            </shell:Button>
+            <shell:Button
+                Width="96"
+                Height="20"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Bottom"
+                shell:Grid.Column="1"
+                Click="AcceptButtonClick">
+                <shell:TextBlock Text="Accept" />
+            </shell:Button>
+        </shell:Grid>
+    </shell:Grid>
+</shell:Window>
