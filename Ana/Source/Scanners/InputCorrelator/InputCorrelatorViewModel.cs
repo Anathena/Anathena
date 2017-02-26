@@ -69,7 +69,7 @@
         private InputCorrelatorModel InputCorrelatorModel { get; set; }
 
         /// <summary>
-        /// Gets a singleton instance of the <see cref="ChangeCounterViewModel"/> class.
+        /// Gets a singleton instance of the <see cref="InputCorrelatorViewModel"/> class.
         /// </summary>
         /// <returns>A singleton instance of the class.</returns>
         public static InputCorrelatorViewModel GetInstance()

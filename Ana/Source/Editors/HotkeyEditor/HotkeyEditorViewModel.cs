@@ -185,7 +185,7 @@
         {
             lock (this.AccessLock)
             {
-                if (this.ActiveHotkey != null)
+                if (this.ActiveHotkey != null && this.ActiveHotkey.HasHotkey())
                 {
                     this.hotkeys.Add(this.ActiveHotkey);
                     this.ClearActiveHotkey();

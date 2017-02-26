@@ -36,6 +36,12 @@
         private String extendedDescription;
 
         /// <summary>
+        /// The unique identifier of this project item.
+        /// </summary>
+        [Browsable(false)]
+        private Guid guid;
+
+        /// <summary>
         /// A value indicating whether this project item has been activated.
         /// </summary>
         [Browsable(false)]
@@ -58,6 +64,7 @@
             this.description = description == null ? String.Empty : description;
             this.parent = null;
             this.isActivated = false;
+            this.guid = Guid.NewGuid();
         }
 
         /// <summary>
@@ -128,6 +135,28 @@
         }
 
         /// <summary>
+        /// Gets or sets the unique identifier of this project item.
+        /// </summary>
+        [DataMember]
+        // [Browsable(false)]
+        [Category("Properties"), DisplayName("GUID"), Description("Extended description for additional information about this item")]
+        public Guid Guid
+        {
+            get
+            {
+                return this.guid;
+            }
+
+            set
+            {
+                this.guid = value;
+                ProjectExplorerViewModel.GetInstance().HasUnsavedChanges = true;
+                this.NotifyPropertyChanged(nameof(this.Guid));
+                ProjectExplorerViewModel.GetInstance().OnPropertyUpdate();
+            }
+        }
+
+        /// <summary>
         /// Gets or sets a value indicating whether or not this item is activated.
         /// </summary>
         [Browsable(false)]
@@ -177,6 +206,10 @@
         [OnDeserialized]
         public void OnDeserialized(StreamingContext streamingContext)
         {
+            if (this.Guid == null || this.Guid == Guid.Empty)
+            {
+                this.guid = Guid.NewGuid();
+            }
         }
 
         /// <summary>

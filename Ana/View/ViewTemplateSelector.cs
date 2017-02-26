@@ -2,8 +2,10 @@
 {
     using Source.CheatBrowser;
     using Source.DotNetExplorer;
+    using Source.Editors.HotkeyEditor;
     using Source.Editors.ScriptEditor;
     using Source.Editors.TextEditor;
+    using Source.HotkeyManager;
     using Source.Output;
     using Source.ProcessSelector;
     using Source.Project;
@@ -130,6 +132,11 @@
         public DataTemplate TextEditorViewTemplate { get; set; }
 
         /// <summary>
+        /// Gets or sets the template for the Hotkey Manager.
+        /// </summary>
+        public DataTemplate HotkeyManagerViewTemplate { get; set; }
+
+        /// <summary>
         /// Gets or sets the template for the Hotkey Editor.
         /// </summary>
         public DataTemplate HotkeyEditorViewTemplate { get; set; }
@@ -213,6 +220,14 @@
             else if (item is TextEditorViewModel)
             {
                 return this.TextEditorViewTemplate;
+            }
+            else if (item is HotkeyEditorViewModel)
+            {
+                return this.HotkeyEditorViewTemplate;
+            }
+            else if (item is HotkeyManagerViewModel)
+            {
+                return this.HotkeyManagerViewTemplate;
             }
 
             return base.SelectTemplate(item, container);

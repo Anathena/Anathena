@@ -410,6 +410,7 @@
       <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
     </Compile>
     <Compile Include="Source\Engine\Proxy\ProxyCommunicator.cs" />
+    <Compile Include="Source\Hotkeymanager\HotkeyManagerViewModel.cs" />
     <Compile Include="Source\Mvvm\Converters\BoolToVisibilityConverter.cs" />
     <Compile Include="Source\Mvvm\Converters\HotkeyToStringConverter.cs" />
     <Compile Include="Source\Mvvm\Converters\DataGridIndexConverter.cs" />
@@ -607,6 +608,9 @@
     <Compile Include="View\Editors\ValueEditor.xaml.cs">
       <DependentUpon>ValueEditor.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\HotkeyManager.xaml.cs">
+      <DependentUpon>HotkeyManager.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\Output.xaml.cs">
       <DependentUpon>Output.xaml</DependentUpon>
     </Compile>
@@ -724,6 +728,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="View\Editors\ValueEditor.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\HotkeyManager.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

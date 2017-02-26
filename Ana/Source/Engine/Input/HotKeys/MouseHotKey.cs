@@ -25,6 +25,15 @@
         public HashSet<Byte> ActivationMouseButtons { get; set; }
 
         /// <summary>
+        /// Determines if the current set of activation hotkeys are empty.
+        /// </summary>
+        /// <returns>True if there are hotkeys, otherwise false.</returns>
+        public Boolean HasHotkey()
+        {
+            return this.ActivationMouseButtons == null ? false : this.ActivationMouseButtons.Count > 0;
+        }
+
+        /// <summary>
         /// Gets the string representation of the hotkey inputs
         /// </summary>
         /// <returns>The string representatio of hotkey inputs</returns>
