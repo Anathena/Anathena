@@ -34,6 +34,17 @@
         }
 
         /// <summary>
+        /// Clones the hotkey.
+        /// </summary>
+        /// <returns>A clone of the hotkey.</returns>
+        public IHotkey Clone()
+        {
+            ControllerHotkey hotkey = new ControllerHotkey();
+            hotkey.ActivationKeys = new HashSet<Int32>(this.ActivationKeys);
+            return hotkey;
+        }
+
+        /// <summary>
         /// Gets the string representation of the hotkey inputs
         /// </summary>
         /// <returns>The string representatio of hotkey inputs</returns>

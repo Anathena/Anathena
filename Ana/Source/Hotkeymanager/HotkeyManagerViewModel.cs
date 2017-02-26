@@ -2,8 +2,10 @@
 {
     using Docking;
     using Main;
+    using Mvvm.Command;
     using System;
     using System.Threading;
+    using System.Windows.Input;
 
     /// <summary>
     /// View model for the Hotkey Manager.
@@ -28,9 +30,12 @@
         private HotkeyManagerViewModel() : base("Hotkey Manager")
         {
             this.ContentId = HotkeyManagerViewModel.ToolContentId;
+            this.NewHotkeyCommand = new RelayCommand(() => this.NewHotkey(), () => true);
 
             MainViewModel.GetInstance().Subscribe(this);
         }
+
+        public ICommand NewHotkeyCommand { get; private set; }
 
         /// <summary>
         /// Gets a singleton instance of the <see cref="HotkeyManagerViewModel"/> class.
@@ -39,6 +44,11 @@
         public static HotkeyManagerViewModel GetInstance()
         {
             return inputCorrelatorViewModelInstance.Value;
+        }
+
+        private void NewHotkey()
+        {
+
         }
     }
     //// End class

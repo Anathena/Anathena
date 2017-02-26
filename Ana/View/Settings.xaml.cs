@@ -6,12 +6,12 @@
     using System.Windows.Controls;
 
     /// <summary>
-    /// Interaction logic for Settings.xaml
+    /// Interaction logic for Settings.xaml.
     /// </summary>
     internal partial class Settings : UserControl
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="Settings" /> class
+        /// Initializes a new instance of the <see cref="Settings" /> class.
         /// </summary>
         public Settings()
         {
@@ -74,50 +74,50 @@
         }
 
         /// <summary>
-        /// Gets or sets the hex dec box for the scan alignment
+        /// Gets or sets the hex dec box for the scan alignment.
         /// </summary>
         private HexDecTextBox AlignmentHexDecBox { get; set; }
 
         /// <summary>
-        /// Gets or sets the hex dec box for the scan range start
+        /// Gets or sets the hex dec box for the scan range start.
         /// </summary>
         private HexDecTextBox ScanRangeStartHexDecBox { get; set; }
 
         /// <summary>
-        /// Gets or sets the hex dec box for the scan range end
+        /// Gets or sets the hex dec box for the scan range end.
         /// </summary>
         private HexDecTextBox ScanRangeEndHexDecBox { get; set; }
 
         /// <summary>
-        /// Gets or sets the hex dec box for the freeze interval
+        /// Gets or sets the hex dec box for the freeze interval.
         /// </summary>
         private HexDecTextBox FreezeIntervalHexDecBox { get; set; }
 
         /// <summary>
-        /// Gets or sets the hex dec box for the rescan interval
+        /// Gets or sets the hex dec box for the rescan interval.
         /// </summary>
         private HexDecTextBox RescanIntervalHexDecBox { get; set; }
 
         /// <summary>
-        /// Gets or sets the hex dec box for the table read interval
+        /// Gets or sets the hex dec box for the table read interval.
         /// </summary>
         private HexDecTextBox TableReadIntervalHexDecBox { get; set; }
 
         /// <summary>
-        /// Gets or sets the hex dec box for the input correlation timeout
+        /// Gets or sets the hex dec box for the input correlation timeout.
         /// </summary>
         private HexDecTextBox ResultReadIntervalHexDecBox { get; set; }
 
         /// <summary>
-        /// Gets or sets the hex dec box for the input correlation timeout
+        /// Gets or sets the hex dec box for the input correlation timeout.
         /// </summary>
         private HexDecTextBox InputCorrelatorTimeoutHexDecBox { get; set; }
 
         /// <summary>
         /// Invoked when the scan alignment is changed, and informs the viewmodel.
         /// </summary>
-        /// <param name="sender">Sending object</param>
-        /// <param name="e">Event args</param>
+        /// <param name="sender">Sending object.</param>
+        /// <param name="e">Event args.</param>
         private void AlignmentUpdated(Object sender, EventArgs e)
         {
             dynamic value = this.AlignmentHexDecBox.GetValue();
@@ -133,8 +133,8 @@
         /// <summary>
         /// Invoked when the scan start range is changed, and informs the viewmodel.
         /// </summary>
-        /// <param name="sender">Sending object</param>
-        /// <param name="e">Event args</param>
+        /// <param name="sender">Sending object.</param>
+        /// <param name="e">Event args.</param>
         private void StartRangeUpdated(Object sender, EventArgs e)
         {
             dynamic value = this.ScanRangeStartHexDecBox.GetValue();
@@ -150,8 +150,8 @@
         /// <summary>
         /// Invoked when the scan end range is changed, and informs the viewmodel.
         /// </summary>
-        /// <param name="sender">Sending object</param>
-        /// <param name="e">Event args</param>
+        /// <param name="sender">Sending object.</param>
+        /// <param name="e">Event args.</param>
         private void EndRangeUpdated(Object sender, EventArgs e)
         {
             dynamic value = this.ScanRangeEndHexDecBox.GetValue();
@@ -167,8 +167,8 @@
         /// <summary>
         /// Invoked when the freeze interval is changed, and informs the viewmodel.
         /// </summary>
-        /// <param name="sender">Sending object</param>
-        /// <param name="e">Event args</param>
+        /// <param name="sender">Sending object.</param>
+        /// <param name="e">Event args.</param>
         private void FreezeIntervalUpdated(Object sender, EventArgs e)
         {
             dynamic value = this.FreezeIntervalHexDecBox.GetValue();
@@ -184,8 +184,8 @@
         /// <summary>
         /// Invoked when the rescan interval is changed, and informs the viewmodel.
         /// </summary>
-        /// <param name="sender">Sending object</param>
-        /// <param name="e">Event args</param>
+        /// <param name="sender">Sending object.</param>
+        /// <param name="e">Event args.</param>
         private void RescanIntervalUpdated(Object sender, EventArgs e)
         {
             dynamic value = this.RescanIntervalHexDecBox.GetValue();
@@ -201,8 +201,8 @@
         /// <summary>
         /// Invoked when the table read interval is changed, and informs the viewmodel.
         /// </summary>
-        /// <param name="sender">Sending object</param>
-        /// <param name="e">Event args</param>
+        /// <param name="sender">Sending object.</param>
+        /// <param name="e">Event args.</param>
         private void TableReadIntervalUpdated(Object sender, EventArgs e)
         {
             dynamic value = this.TableReadIntervalHexDecBox.GetValue();
@@ -218,8 +218,8 @@
         /// <summary>
         /// Invoked when the result read interval is changed, and informs the viewmodel.
         /// </summary>
-        /// <param name="sender">Sending object</param>
-        /// <param name="e">Event args</param>
+        /// <param name="sender">Sending object.</param>
+        /// <param name="e">Event args.</param>
         private void ResultReadIntervalUpdated(Object sender, EventArgs e)
         {
             dynamic value = this.ResultReadIntervalHexDecBox.GetValue();
@@ -235,8 +235,8 @@
         /// <summary>
         /// Invoked when the input correlator timeout changed, and informs the viewmodel.
         /// </summary>
-        /// <param name="sender">Sending object</param>
-        /// <param name="e">Event args</param>
+        /// <param name="sender">Sending object.</param>
+        /// <param name="e">Event args.</param>
         private void InputCorrelatorTimeoutUpdated(Object sender, EventArgs e)
         {
             dynamic value = this.InputCorrelatorTimeoutHexDecBox.GetValue();

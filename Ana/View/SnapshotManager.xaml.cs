@@ -3,12 +3,12 @@
     using System.Windows.Controls;
 
     /// <summary>
-    /// Interaction logic for SnapshotManager.xaml
+    /// Interaction logic for SnapshotManager.xaml.
     /// </summary>
     internal partial class SnapshotManager : UserControl
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="SnapshotManager" /> class
+        /// Initializes a new instance of the <see cref="SnapshotManager" /> class.
         /// </summary>
         public SnapshotManager()
         {

@@ -14,7 +14,7 @@
     x:Name="AnaHotkeyEditor"
     Title="Hotkey Editor"
     Width="256"
-    Height="256"
+    Height="112"
     d:DesignHeight="256"
     d:DesignWidth="256"
     x:ClassModifier="internal"
@@ -37,21 +37,23 @@
             <shell:RowDefinition Height="Auto" />
             <shell:RowDefinition Height="Auto" />
             <shell:RowDefinition />
-            <shell:RowDefinition Height="Auto" />
         </shell:Grid.RowDefinitions>
         <shell:Grid
             x:Name="titlebar"
             Grid.Row="0"
             Height="24"
-            Background="{StaticResource AvalonDock_Expression_BaseColor4}" />
-        <shell:Grid Grid.Row="1" Margin="4">
+            Background="{StaticResource AvalonDock_Expression_BaseColor4}">
+            <shell:TextBlock Margin="4" Foreground="{StaticResource AvalonDock_Expression_BaseColor2}">
+                New Hotkey
+            </shell:TextBlock>
+        </shell:Grid>
+        <shell:Grid Grid.Row="1" Margin="8,8,8,0">
             <shell:Grid.ColumnDefinitions>
                 <shell:ColumnDefinition Width="*" />
                 <shell:ColumnDefinition Width="Auto" />
             </shell:Grid.ColumnDefinitions>
             <shell:Border
                 Grid.Column="0"
-                Margin="0,0,8,0"
                 BorderBrush="{StaticResource AvalonDock_Expression_BaseColor2}"
                 BorderThickness="1">
                 <xctk:WatermarkTextBox
@@ -59,20 +61,13 @@
                     Foreground="{StaticResource AvalonDock_Expression_BaseColor2}"
                     IsReadOnly="True"
                     Text="{Binding ActiveHotkey, Mode=OneWay, Converter={StaticResource HotkeyToStringConverter}}"
-                    Watermark="(Press any key)" />
+                    Watermark="(Press any keys)" />
             </shell:Border>
             <shell:WrapPanel
                 Grid.Column="1"
+                Margin="8,0,0,0"
                 HorizontalAlignment="Right"
                 VerticalAlignment="Center">
-                <shell:Button Background="Transparent" Command="{Binding AddHotkeyCommand}">
-                    <shell:Image
-                        Width="16"
-                        Height="16"
-                        Source="pack://application:,,,/Ana;component/Content/Icons/Increased.png"
-                        ToolTip="Add Hotkey" />
-                </shell:Button>
-                <shell:Grid Margin="0,0,8,0" />
                 <shell:Button Background="Transparent" Command="{Binding ClearHotkeysCommand}">
                     <shell:Image
                         Width="16"
@@ -80,73 +75,9 @@
                         Source="pack://application:,,,/Ana;component/Content/Icons/Cancel.png"
                         ToolTip="Clear Current Input" />
                 </shell:Button>
-                <shell:Grid Margin="0,0,8,0" />
-                <shell:Button Background="Transparent" Command="{Binding RemoveHotkeyCommand}">
-                    <shell:Image
-                        Width="16"
-                        Height="16"
-                        Source="pack://application:,,,/Ana;component/Content/Icons/Decreased.png"
-                        ToolTip="Remove Selected Hotkey" />
-                </shell:Button>
             </shell:WrapPanel>
         </shell:Grid>
-        <shell:ScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Auto">
-            <shell:ListView
-                Name="hotkeysListView"
-                Background="{StaticResource AvalonDock_Expression_BaseColor3}"
-                BorderThickness="0"
-                ItemsSource="{Binding Hotkeys}"
-                SelectionChanged="ListViewSelectionChanged">
-                <shell:ListView.ItemTemplate>
-                    <shell:DataTemplate>
-                        <shell:Grid Width="{Binding Path=ActualWidth, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListView}}}">
-                            <shell:Grid.ColumnDefinitions>
-                                <shell:ColumnDefinition />
-                            </shell:Grid.ColumnDefinitions>
-                            <shell:TextBlock
-                                Grid.Column="0"
-                                Foreground="{StaticResource AvalonDock_Expression_BaseColor2}"
-                                Text="{Binding .}" />
-                        </shell:Grid>
-                    </shell:DataTemplate>
-                </shell:ListView.ItemTemplate>
-                <shell:ListView.Template>
-                    <shell:ControlTemplate>
-                        <shell:Grid HorizontalAlignment="Left">
-                            <shell:Grid.RowDefinitions>
-                                <shell:RowDefinition Height="Auto" />
-                                <shell:RowDefinition Height="Auto" />
-                            </shell:Grid.RowDefinitions>
-                            <shell:Grid
-                                Grid.Row="0"
-                                Width="{Binding Path=ActualWidth, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListView}}}"
-                                VerticalAlignment="Center">
-                                <shell:Grid.ColumnDefinitions>
-                                    <shell:ColumnDefinition />
-                                </shell:Grid.ColumnDefinitions>
-                                <shell:Grid.Resources>
-                                    <shell:Style TargetType="TextBlock">
-                                        <shell:Setter Property="Margin" Value="5,0" />
-                                        <shell:Setter Property="Foreground" Value="{StaticResource AvalonDock_Expression_BaseColor2}" />
-                                        <shell:Setter Property="FontWeight" Value="Bold" />
-                                    </shell:Style>
-                                    <shell:Style TargetType="Border">
-                                        <shell:Setter Property="BorderThickness" Value="0" />
-                                        <shell:Setter Property="Padding" Value="8,4,8,4" />
-                                        <shell:Setter Property="Background" Value="{StaticResource AvalonDock_Expression_BaseColor4}" />
-                                    </shell:Style>
-                                </shell:Grid.Resources>
-                                <shell:Border Grid.Column="0">
-                                    <shell:TextBlock>Hotkey</shell:TextBlock>
-                                </shell:Border>
-                            </shell:Grid>
-                            <shell:ItemsPresenter Grid.Row="1" />
-                        </shell:Grid>
-                    </shell:ControlTemplate>
-                </shell:ListView.Template>
-            </shell:ListView>
-        </shell:ScrollViewer>
-        <shell:Grid Grid.Row="3" Margin="8">
+        <shell:Grid Grid.Row="2" Margin="8">
             <shell:Button
                 Width="96"
                 Height="20"

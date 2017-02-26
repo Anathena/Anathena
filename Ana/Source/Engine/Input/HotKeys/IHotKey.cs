@@ -12,6 +12,12 @@
         /// </summary>
         /// <returns>True if there are hotkeys, otherwise false.</returns>
         Boolean HasHotkey();
+
+        /// <summary>
+        /// Clones the hotkey.
+        /// </summary>
+        /// <returns>A clone of the hotkey.</returns>
+        IHotkey Clone();
     }
     //// End interface
 }

@@ -27,6 +27,7 @@
         {
             this.UpdateScanCount = updateScanCount;
             this.ProgressLock = new Object();
+            this.HotKeys = new List<IHotkey>();
         }
 
         public List<IHotkey> HotKeys
@@ -57,11 +58,11 @@
 
         public void EditKeys()
         {
-            View.Editors.HotkeyEditor hotKeyEditor = new View.Editors.HotkeyEditor(this.HotKeys);
+            View.Editors.HotkeyEditor hotKeyEditor = new View.Editors.HotkeyEditor();
 
             if (hotKeyEditor.ShowDialog() == true)
             {
-                this.HotKeys = new List<IHotkey>(hotKeyEditor.HotkeyEditorViewModel.Hotkeys);
+                this.HotKeys.Add(hotKeyEditor.HotkeyEditorViewModel.Hotkey);
             }
         }
 

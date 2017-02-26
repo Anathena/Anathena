@@ -34,6 +34,17 @@
         }
 
         /// <summary>
+        /// Clones the hotkey.
+        /// </summary>
+        /// <returns>A clone of the hotkey.</returns>
+        public IHotkey Clone()
+        {
+            MouseHotKey hotkey = new MouseHotKey();
+            hotkey.ActivationMouseButtons = new HashSet<Byte>(this.ActivationMouseButtons);
+            return hotkey;
+        }
+
+        /// <summary>
         /// Gets the string representation of the hotkey inputs
         /// </summary>
         /// <returns>The string representatio of hotkey inputs</returns>

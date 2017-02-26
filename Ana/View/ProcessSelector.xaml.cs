@@ -3,12 +3,12 @@
     using System.Windows.Controls;
 
     /// <summary>
-    /// Interaction logic for ProcessSelector.xaml
+    /// Interaction logic for ProcessSelector.xaml.
     /// </summary>
     internal partial class ProcessSelector : UserControl
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="ProcessSelector" /> class
+        /// Initializes a new instance of the <see cref="ProcessSelector" /> class.
         /// </summary>
         public ProcessSelector()
         {

@@ -28,7 +28,7 @@
                         Height="20"
                         HorizontalAlignment="Left"
                         VerticalAlignment="Center"
-                        Command="{Binding EditHotkeysCommand}">
+                        Command="{Binding NewHotkeyCommand}">
                         <TextBlock Text="New Hotkey" />
                     </Button>
                 </WrapPanel>

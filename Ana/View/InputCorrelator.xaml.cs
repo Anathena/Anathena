@@ -3,12 +3,12 @@
     using System.Windows.Controls;
 
     /// <summary>
-    /// Interaction logic for InputCorrelator.xaml
+    /// Interaction logic for InputCorrelator.xaml.
     /// </summary>
     internal partial class InputCorrelator : UserControl
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="InputCorrelator" /> class
+        /// Initializes a new instance of the <see cref="InputCorrelator" /> class.
         /// </summary>
         public InputCorrelator()
         {

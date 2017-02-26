@@ -7,7 +7,6 @@
     using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
-    using System.Linq;
     using System.Threading;
     using System.Threading.Tasks;
     using System.Windows;
@@ -36,7 +35,8 @@
         private InputCorrelatorViewModel() : base("Input Correlator")
         {
             this.ContentId = InputCorrelatorViewModel.ToolContentId;
-            this.EditHotkeysCommand = new RelayCommand(() => this.EditHotkeys(), () => true);
+            this.NewHotkeyCommand = new RelayCommand(() => this.NewHotkey(), () => true);
+            this.RemoveHotkeyCommand = new RelayCommand<IHotkey>((hotkey) => this.RemoveHotkey(hotkey), (hotkey) => true);
             this.StartScanCommand = new RelayCommand(() => Task.Run(() => this.StartScan()), () => true);
             this.StopScanCommand = new RelayCommand(() => Task.Run(() => this.StopScan()), () => true);
             this.InputCorrelatorModel = new InputCorrelatorModel(this.ScanCountUpdated);
@@ -48,7 +48,9 @@
 
         public ICommand StopScanCommand { get; private set; }
 
-        public ICommand EditHotkeysCommand { get; private set; }
+        public ICommand NewHotkeyCommand { get; private set; }
+
+        public ICommand RemoveHotkeyCommand { get; private set; }
 
         public ObservableCollection<IHotkey> Hotkeys
         {
@@ -77,18 +79,18 @@
             return inputCorrelatorViewModelInstance.Value;
         }
 
-        private void EditHotkeys()
+        private void NewHotkey()
         {
-            View.Editors.HotkeyEditor hotkeyEditor = new View.Editors.HotkeyEditor(InputCorrelatorModel.HotKeys);
-
+            View.Editors.HotkeyEditor hotkeyEditor = new View.Editors.HotkeyEditor();
             hotkeyEditor.Owner = Application.Current.MainWindow;
+
             if (hotkeyEditor.ShowDialog() == true)
             {
-                List<IHotkey> newOffsets = hotkeyEditor.HotkeyEditorViewModel.Hotkeys.ToList();
+                IHotkey newHotkey = hotkeyEditor.HotkeyEditorViewModel.Hotkey;
 
-                if (newOffsets != null && newOffsets.Count > 0)
+                if (newHotkey != null)
                 {
-                    this.InputCorrelatorModel.HotKeys = hotkeyEditor.HotkeyEditorViewModel.Hotkeys.ToList();
+                    this.InputCorrelatorModel.HotKeys.Add(newHotkey);
                     this.RaisePropertyChanged(nameof(this.Hotkeys));
                 }
                 else
@@ -96,6 +98,12 @@
                     return;
                 }
             }
+        }
+
+        private void RemoveHotkey(IHotkey hotkey)
+        {
+            this.InputCorrelatorModel.HotKeys.Remove(hotkey);
+            this.RaisePropertyChanged(nameof(this.Hotkeys));
         }
 
         private void ScanCountUpdated()
