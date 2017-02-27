@@ -21,18 +21,18 @@
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
-            <Grid Grid.Row="0" Margin="8">
-                <WrapPanel>
-                    <Button
-                        Width="96"
-                        Height="20"
-                        HorizontalAlignment="Left"
-                        VerticalAlignment="Center"
-                        Command="{Binding NewHotkeyCommand}">
-                        <TextBlock Text="New Hotkey" />
-                    </Button>
-                </WrapPanel>
-            </Grid>
+            <WrapPanel Grid.Row="0" Background="{StaticResource AvalonDock_Expression_BaseColor4}">
+                <Menu Padding="4" Background="Transparent">
+                    <MenuItem Command="{Binding NewHotkeyCommand}" ToolTip="New Hotkey">
+                        <MenuItem.Header>
+                            <Image
+                                Width="16"
+                                Height="16"
+                                Source="pack://application:,,,/Ana;component/Content/Icons/Increased.png" />
+                        </MenuItem.Header>
+                    </MenuItem>
+                </Menu>
+            </WrapPanel>
             <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
                 <DataGrid
                     Name="offsetsDataGrid"
@@ -65,12 +65,26 @@
                         <Style TargetType="{x:Type DataGridCell}">
                             <Setter Property="Background" Value="{StaticResource AvalonDock_Expression_BaseColor3}" />
                             <Setter Property="Foreground" Value="{StaticResource AvalonDock_Expression_BaseColor2}" />
-
                         </Style>
                     </DataGrid.CellStyle>
                     <DataGrid.Columns>
-                        <DataGridTextColumn Binding="{Binding Path=Value}" Header="Hotkey" />
-                        <DataGridTextColumn Binding="{Binding Path=Value, Converter={StaticResource Int32ToHexConverter}}" Header="Target" />
+                        <DataGridTextColumn Binding="{Binding Path=HotkeyName, Mode=OneWay}" Header="Hotkey" />
+                        <DataGridComboBoxColumn
+                            DisplayMemberPath="Description"
+                            Header="Target"
+                            SelectedValueBinding="{Binding TargetGuid, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                            SelectedValuePath="Guid">
+                            <DataGridComboBoxColumn.ElementStyle>
+                                <Style TargetType="ComboBox">
+                                    <Setter Property="ItemsSource" Value="{Binding ProjectExplorerViewModel.BindableProjectItems, Source={StaticResource ViewModelLocator}}" />
+                                </Style>
+                            </DataGridComboBoxColumn.ElementStyle>
+                            <DataGridComboBoxColumn.EditingElementStyle>
+                                <Style TargetType="ComboBox">
+                                    <Setter Property="ItemsSource" Value="{Binding ProjectExplorerViewModel.BindableProjectItems, Source={StaticResource ViewModelLocator}}" />
+                                </Style>
+                            </DataGridComboBoxColumn.EditingElementStyle>
+                        </DataGridComboBoxColumn>
                     </DataGrid.Columns>
                 </DataGrid>
             </ScrollViewer>

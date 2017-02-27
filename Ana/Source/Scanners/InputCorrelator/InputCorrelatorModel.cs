@@ -56,16 +56,6 @@
 
         private Object ProgressLock { get; set; }
 
-        public void EditKeys()
-        {
-            View.Editors.HotkeyEditor hotKeyEditor = new View.Editors.HotkeyEditor();
-
-            if (hotKeyEditor.ShowDialog() == true)
-            {
-                this.HotKeys.Add(hotKeyEditor.HotkeyEditorViewModel.Hotkey);
-            }
-        }
-
         /// <summary>
         /// Event received when a key is pressed.
         /// </summary>

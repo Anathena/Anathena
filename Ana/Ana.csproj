@@ -421,6 +421,7 @@
     <Compile Include="Source\Output\OutputViewModel.cs" />
     <Compile Include="Source\Project\IProjectExplorerObserver.cs" />
     <Compile Include="Source\Project\ProjectItems\ProjectRoot.cs" />
+    <Compile Include="Source\Project\ProjectItems\ProjectItemHotkey.cs" />
     <Compile Include="Source\PropertyViewer\IPropertyViewerObserver.cs" />
     <Compile Include="Source\Results\PointerScanResults\IPointerScanResultsObserver.cs" />
     <Compile Include="Source\Results\PointerScanResults\PointerScanResult.cs" />

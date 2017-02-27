@@ -1,6 +1,7 @@
 ﻿namespace Ana.Source.Scanners.InputCorrelator
 {
     using Docking;
+    using Editors.HotkeyEditor;
     using Engine.Input.HotKeys;
     using Main;
     using Mvvm.Command;
@@ -9,7 +10,6 @@
     using System.Collections.ObjectModel;
     using System.Threading;
     using System.Threading.Tasks;
-    using System.Windows;
     using System.Windows.Input;
 
     /// <summary>
@@ -81,22 +81,13 @@
 
         private void NewHotkey()
         {
-            View.Editors.HotkeyEditor hotkeyEditor = new View.Editors.HotkeyEditor();
-            hotkeyEditor.Owner = Application.Current.MainWindow;
+            HotkeyEditorModel hotkeyEditor = new HotkeyEditorModel();
+            IHotkey newHotkey = hotkeyEditor.EditValue(context: null, provider: null, value: null) as IHotkey;
 
-            if (hotkeyEditor.ShowDialog() == true)
+            if (newHotkey != null)
             {
-                IHotkey newHotkey = hotkeyEditor.HotkeyEditorViewModel.Hotkey;
-
-                if (newHotkey != null)
-                {
-                    this.InputCorrelatorModel.HotKeys.Add(newHotkey);
-                    this.RaisePropertyChanged(nameof(this.Hotkeys));
-                }
-                else
-                {
-                    return;
-                }
+                this.InputCorrelatorModel.HotKeys.Add(newHotkey);
+                this.RaisePropertyChanged(nameof(this.Hotkeys));
             }
         }
 

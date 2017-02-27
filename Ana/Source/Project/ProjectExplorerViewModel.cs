@@ -9,6 +9,7 @@
     using PropertyViewer;
     using System;
     using System.Collections.Generic;
+    using System.Collections.ObjectModel;
     using System.IO;
     using System.Linq;
     using System.Runtime.Serialization.Json;
@@ -192,6 +193,14 @@
                 this.projectRoot = value;
                 this.NotifyObserversStructureChange();
                 this.RaisePropertyChanged(nameof(this.ProjectRoot));
+            }
+        }
+
+        public ObservableCollection<ProjectItem> BindableProjectItems
+        {
+            get
+            {
+                return new ObservableCollection<ProjectItem>(projectRoot.Children);
             }
         }
 
@@ -567,6 +576,8 @@
                     observer.UpdateStructure(this.ProjectRoot);
                 }
             }
+
+            this.RaisePropertyChanged(nameof(this.ProjectRoot));
         }
 
         /// <summary>
