@@ -11,12 +11,15 @@
     [DataContract]
     internal class ProjectItemHotkey : INotifyPropertyChanged
     {
+        private const Int32 ActivationDelayMs = 200;
+
         private Guid targetGuid;
 
         private IHotkey hotkey;
 
         public ProjectItemHotkey(IHotkey hotkey)
         {
+            this.TimeSinceLastActivation = DateTime.MinValue;
             this.Hotkey = hotkey;
         }
 
@@ -35,6 +38,7 @@
             set
             {
                 this.targetGuid = value;
+                this.TargetProjectItem = ProjectExplorerViewModel.GetInstance().ProjectRoot.FindProjectItemByGuid(this.targetGuid);
                 this.NotifyPropertyChanged(nameof(this.TargetGuid));
             }
         }
@@ -59,6 +63,23 @@
             get
             {
                 return this.Hotkey?.ToString();
+            }
+        }
+
+        private ProjectItem TargetProjectItem { get; set; }
+
+        private DateTime TimeSinceLastActivation { get; set; }
+
+        public void Activate()
+        {
+            if (DateTime.Now - TimeSinceLastActivation > TimeSpan.FromMilliseconds(ProjectItemHotkey.ActivationDelayMs))
+            {
+                if (this.TargetProjectItem != null)
+                {
+                    this.TargetProjectItem.IsActivated = !this.TargetProjectItem.IsActivated;
+                }
+
+                this.TimeSinceLastActivation = DateTime.Now;
             }
         }
 

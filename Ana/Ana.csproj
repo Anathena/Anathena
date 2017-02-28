@@ -410,6 +410,7 @@
       <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
     </Compile>
     <Compile Include="Source\Engine\Proxy\ProxyCommunicator.cs" />
+    <Compile Include="Source\HotkeyManager\HotkeyManagerModel.cs" />
     <Compile Include="Source\HotkeyManager\HotkeyManagerViewModel.cs" />
     <Compile Include="Source\Mvvm\Converters\BoolToVisibilityConverter.cs" />
     <Compile Include="Source\Mvvm\Converters\HotkeyToStringConverter.cs" />

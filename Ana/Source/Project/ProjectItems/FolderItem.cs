@@ -104,6 +104,27 @@
             return clone;
         }
 
+        public List<ProjectItem> Flatten()
+        {
+            List<ProjectItem> flattenedItems = new List<ProjectItem>();
+            this.FlattenHelper(flattenedItems);
+
+            return flattenedItems;
+        }
+
+        public ProjectItem FindProjectItemByGuid(Guid guid)
+        {
+            foreach (ProjectItem projectItem in this.Flatten())
+            {
+                if (projectItem.Guid == guid)
+                {
+                    return projectItem;
+                }
+            }
+
+            return null;
+        }
+
         /// <summary>
         /// Update event for this project item. Updates all children.
         /// </summary>
@@ -279,6 +300,22 @@
         protected override Boolean IsActivatable()
         {
             return false;
+        }
+
+        private void FlattenHelper(List<ProjectItem> flattenedList)
+        {
+            foreach (ProjectItem projectItem in this.Children)
+            {
+                if (!(projectItem is FolderItem))
+                {
+                    flattenedList.Add(projectItem);
+                }
+                else
+                {
+                    FolderItem folderItem = projectItem as FolderItem;
+                    folderItem.FlattenHelper(flattenedList);
+                }
+            }
         }
     }
     //// End class
