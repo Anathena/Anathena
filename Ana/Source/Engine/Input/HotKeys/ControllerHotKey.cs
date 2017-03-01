@@ -5,13 +5,13 @@
     using System.Runtime.Serialization;
 
     /// <summary>
-    /// A controller hotkey, which is activated by a given set of input
+    /// A controller hotkey, which is activated by a given set of input.
     /// </summary>
     [DataContract]
     internal class ControllerHotkey : IHotkey
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="ControllerHotkey" /> class
+        /// Initializes a new instance of the <see cref="ControllerHotkey" /> class.
         /// </summary>
         public ControllerHotkey()
         {
@@ -19,7 +19,7 @@
         }
 
         /// <summary>
-        /// Gets or sets the set of inputs corresponding to this hotkey
+        /// Gets or sets the set of inputs corresponding to this hotkey.
         /// </summary>
         [DataMember]
         public HashSet<Int32> ActivationKeys { get; set; }
@@ -28,7 +28,7 @@
         /// Determines if the current set of activation hotkeys are empty.
         /// </summary>
         /// <returns>True if there are hotkeys, otherwise false.</returns>
-        public Boolean HasHotkey()
+        public override Boolean HasHotkey()
         {
             return this.ActivationKeys == null ? false : this.ActivationKeys.Count > 0;
         }
@@ -37,7 +37,7 @@
         /// Clones the hotkey.
         /// </summary>
         /// <returns>A clone of the hotkey.</returns>
-        public IHotkey Clone()
+        public override IHotkey Clone()
         {
             ControllerHotkey hotkey = new ControllerHotkey();
             hotkey.ActivationKeys = new HashSet<Int32>(this.ActivationKeys);
@@ -45,9 +45,9 @@
         }
 
         /// <summary>
-        /// Gets the string representation of the hotkey inputs
+        /// Gets the string representation of the hotkey inputs.
         /// </summary>
-        /// <returns>The string representatio of hotkey inputs</returns>
+        /// <returns>The string representatio of hotkey inputs.</returns>
         public override String ToString()
         {
             return base.ToString();

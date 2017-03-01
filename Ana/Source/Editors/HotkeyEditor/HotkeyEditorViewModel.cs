@@ -43,7 +43,7 @@
         /// The mouse hotkey being constructed.
         /// TODO: Unused right now.
         /// </summary>
-        private MouseHotKey mouseHotkey;
+        private MouseHotkey mouseHotkey;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="HotkeyEditorViewModel" /> class.

@@ -222,7 +222,7 @@
     <Compile Include="Source\Engine\Input\HotKeys\ControllerHotkey.cs" />
     <Compile Include="Source\Engine\Input\HotKeys\IHotkey.cs" />
     <Compile Include="Source\Engine\Input\HotKeys\KeyboardHotkey.cs" />
-    <Compile Include="Source\Engine\Input\HotKeys\MouseHotKey.cs" />
+    <Compile Include="Source\Engine\Input\HotKeys\MouseHotkey.cs" />
     <Compile Include="Source\Engine\Input\IInputCapture.cs" />
     <Compile Include="Source\Engine\Input\IInputManager.cs" />
     <Compile Include="Source\Engine\Input\InputManager.cs" />
@@ -410,7 +410,6 @@
       <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
     </Compile>
     <Compile Include="Source\Engine\Proxy\ProxyCommunicator.cs" />
-    <Compile Include="Source\HotkeyManager\HotkeyManagerModel.cs" />
     <Compile Include="Source\HotkeyManager\HotkeyManagerViewModel.cs" />
     <Compile Include="Source\Mvvm\Converters\BoolToVisibilityConverter.cs" />
     <Compile Include="Source\Mvvm\Converters\HotkeyToStringConverter.cs" />

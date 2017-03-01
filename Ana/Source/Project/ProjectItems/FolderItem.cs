@@ -104,6 +104,10 @@
             return clone;
         }
 
+        /// <summary>
+        /// Returns all items under this folder flattened as a single list.
+        /// </summary>
+        /// <returns>All items under this folder.</returns>
         public List<ProjectItem> Flatten()
         {
             List<ProjectItem> flattenedItems = new List<ProjectItem>();
@@ -112,6 +116,11 @@
             return flattenedItems;
         }
 
+        /// <summary>
+        /// Recursively finds a project item by the given guid.
+        /// </summary>
+        /// <param name="guid">The project item guid.</param>
+        /// <returns>The project item if found, otherwise null.</returns>
         public ProjectItem FindProjectItemByGuid(Guid guid)
         {
             foreach (ProjectItem projectItem in this.Flatten())
@@ -302,6 +311,10 @@
             return false;
         }
 
+        /// <summary>
+        /// Helper function for flattening all project items under this folder.
+        /// </summary>
+        /// <param name="flattenedList">The current list of flattened items.</param>
         private void FlattenHelper(List<ProjectItem> flattenedList)
         {
             foreach (ProjectItem projectItem in this.Children)

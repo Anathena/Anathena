@@ -138,8 +138,7 @@
         /// Gets or sets the unique identifier of this project item.
         /// </summary>
         [DataMember]
-        // [Browsable(false)]
-        [Category("Properties"), DisplayName("GUID"), Description("Extended description for additional information about this item")]
+        [Browsable(false)]
         public Guid Guid
         {
             get

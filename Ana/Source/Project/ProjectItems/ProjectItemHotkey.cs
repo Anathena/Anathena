@@ -8,15 +8,29 @@
     /// <summary>
     /// Defines a hotkey for a project item.
     /// </summary>
+    [KnownType(typeof(IHotkey))]
     [DataContract]
     internal class ProjectItemHotkey : INotifyPropertyChanged
     {
-        private const Int32 ActivationDelayMs = 200;
+        /// <summary>
+        /// The delay in miliseconds between hotkey activations
+        /// </summary>
+        private const Int32 ActivationDelayMs = 400;
 
+        /// <summary>
+        /// The target guid, from which the target project is derived.
+        /// </summary>
         private Guid targetGuid;
 
+        /// <summary>
+        /// The hotkey bound to the project item.
+        /// </summary>
         private IHotkey hotkey;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ProjectItemHotkey" /> class.
+        /// </summary>
+        /// <param name="hotkey">The initial hotkey bound to the project item.</param>
         public ProjectItemHotkey(IHotkey hotkey)
         {
             this.TimeSinceLastActivation = DateTime.MinValue;
@@ -28,6 +42,9 @@
         /// </summary>
         public event PropertyChangedEventHandler PropertyChanged;
 
+        /// <summary>
+        /// Gets or sets the target guid, from which the target project is derived.
+        /// </summary>
         [DataMember]
         public Guid TargetGuid
         {
@@ -35,6 +52,7 @@
             {
                 return this.targetGuid;
             }
+
             set
             {
                 this.targetGuid = value;
@@ -43,6 +61,9 @@
             }
         }
 
+        /// <summary>
+        /// Gets or sets the hotkey bound to the project item.
+        /// </summary>
         [DataMember]
         public IHotkey Hotkey
         {
@@ -58,6 +79,9 @@
             }
         }
 
+        /// <summary>
+        /// Gets the name of the hotkey keys as a string.
+        /// </summary>
         public String HotkeyName
         {
             get
@@ -66,13 +90,22 @@
             }
         }
 
+        /// <summary>
+        /// Gets or sets the project item bound to the hotkey.
+        /// </summary>
         private ProjectItem TargetProjectItem { get; set; }
 
+        /// <summary>
+        /// Gets or sets the time since the hotkey was last triggered.
+        /// </summary>
         private DateTime TimeSinceLastActivation { get; set; }
 
+        /// <summary>
+        /// Activates this hotkey, toggling the corresponding project item.
+        /// </summary>
         public void Activate()
         {
-            if (DateTime.Now - TimeSinceLastActivation > TimeSpan.FromMilliseconds(ProjectItemHotkey.ActivationDelayMs))
+            if (DateTime.Now - this.TimeSinceLastActivation > TimeSpan.FromMilliseconds(ProjectItemHotkey.ActivationDelayMs))
             {
                 if (this.TargetProjectItem != null)
                 {
