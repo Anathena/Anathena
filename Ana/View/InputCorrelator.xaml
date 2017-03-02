@@ -40,26 +40,24 @@
                                 Source="pack://application:,,,/Ana;component/Content/Icons/Stop.png" />
                         </MenuItem.Header>
                     </MenuItem>
+                    <Separator Style="{DynamicResource VerticalSeparator}" />
+                    <MenuItem Command="{Binding NewHotkeyCommand}" ToolTip="New Hotkey">
+                        <MenuItem.Header>
+                            <Image
+                                Width="16"
+                                Height="16"
+                                Source="pack://application:,,,/Ana;component/Content/Icons/Increased.png" />
+                        </MenuItem.Header>
+                    </MenuItem>
                 </Menu>
             </WrapPanel>
             <Grid Grid.Row="1" Margin="8">
-                <WrapPanel>
-                    <Button
-                        Width="96"
-                        Height="20"
-                        HorizontalAlignment="Left"
-                        VerticalAlignment="Center"
-                        Command="{Binding EditHotkeysCommand}">
-                        <TextBlock Text="Edit Keys" />
-                    </Button>
-                    <Border Padding="8,0,0,0" />
-                    <Border Grid.Row="1" VerticalAlignment="Center">
-                        <WrapPanel>
-                            <TextBlock Foreground="{StaticResource AvalonDock_Expression_BaseColor2}" Text="Change Count: " />
-                            <TextBlock Foreground="{StaticResource AvalonDock_Expression_BaseColor2}" Text="{Binding ScanCount}" />
-                        </WrapPanel>
-                    </Border>
-                </WrapPanel>
+                <Border Grid.Row="1" VerticalAlignment="Center">
+                    <WrapPanel>
+                        <TextBlock Foreground="{StaticResource AvalonDock_Expression_BaseColor2}" Text="Change Count: " />
+                        <TextBlock Foreground="{StaticResource AvalonDock_Expression_BaseColor2}" Text="{Binding ScanCount}" />
+                    </WrapPanel>
+                </Border>
             </Grid>
             <ScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Auto">
                 <ListView
@@ -71,10 +69,26 @@
                         <DataTemplate>
                             <Grid Width="{Binding Path=ActualWidth, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListView}}}">
                                 <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
                                     <ColumnDefinition />
                                 </Grid.ColumnDefinitions>
+                                <WrapPanel Grid.Column="0">
+                                    <Menu Name="debug" Background="{StaticResource AvalonDock_Expression_BaseColor3}">
+                                        <MenuItem
+                                            Command="{Binding ElementName=AnaInputCorrelator, Path=DataContext.RemoveHotkeyCommand}"
+                                            CommandParameter="{Binding .}"
+                                            ToolTip="Remove Hotkey">
+                                            <MenuItem.Header>
+                                                <Image
+                                                    Width="16"
+                                                    Height="16"
+                                                    Source="pack://application:,,,/Ana;component/Content/Icons/X.png" />
+                                            </MenuItem.Header>
+                                        </MenuItem>
+                                    </Menu>
+                                </WrapPanel>
                                 <TextBlock
-                                    Grid.Column="0"
+                                    Grid.Column="1"
                                     Foreground="{StaticResource AvalonDock_Expression_BaseColor2}"
                                     Text="{Binding .}" />
                             </Grid>

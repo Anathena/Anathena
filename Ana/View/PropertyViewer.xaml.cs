@@ -11,17 +11,17 @@
     using System.Windows.Controls;
 
     /// <summary>
-    /// Interaction logic for PropertyViewer.xaml
+    /// Interaction logic for PropertyViewer.xaml.
     /// </summary>
     internal partial class PropertyViewer : UserControl, IPropertyViewerObserver
     {
         /// <summary>
-        /// The property grid to display selected objects
+        /// The property grid to display selected objects.
         /// </summary>
         private System.Windows.Forms.PropertyGrid propertyGrid;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="PropertyViewer" /> class
+        /// Initializes a new instance of the <see cref="PropertyViewer" /> class.
         /// </summary>
         public PropertyViewer()
         {
@@ -63,9 +63,9 @@
         }
 
         /// <summary>
-        /// Updates the selected target objects
+        /// Updates the selected target objects.
         /// </summary>
-        /// <param name="targetObjects">The selected target objects</param>
+        /// <param name="targetObjects">The selected target objects.</param>
         public void Update(Object[] targetObjects)
         {
             ControlThreadingHelper.InvokeControlAction(

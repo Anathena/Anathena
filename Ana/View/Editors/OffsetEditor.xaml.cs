@@ -10,14 +10,14 @@
     using System.Windows;
 
     /// <summary>
-    /// Interaction logic for OffsetEditor.xaml
+    /// Interaction logic for OffsetEditor.xaml.
     /// </summary>
     internal partial class OffsetEditor : Window
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="OffsetEditor" /> class
+        /// Initializes a new instance of the <see cref="OffsetEditor" /> class.
         /// </summary>
-        /// <param name="offsets">The initial offsets to edit</param>
+        /// <param name="offsets">The initial offsets to edit.</param>
         public OffsetEditor(IList<Int32> offsets)
         {
             this.InitializeComponent();
@@ -49,8 +49,8 @@
         /// <summary>
         /// Invoked when the added offsets are canceled. Closes the view.
         /// </summary>
-        /// <param name="sender">Sending object</param>
-        /// <param name="e">Event args</param>
+        /// <param name="sender">Sending object.</param>
+        /// <param name="e">Event args.</param>
         private void CancelButtonClick(Object sender, RoutedEventArgs e)
         {
             this.DialogResult = false;
@@ -60,8 +60,8 @@
         /// <summary>
         /// Invoked when the added offsets are accepted. Closes the view.
         /// </summary>
-        /// <param name="sender">Sending object</param>
-        /// <param name="e">Event args</param>
+        /// <param name="sender">Sending object.</param>
+        /// <param name="e">Event args.</param>
         private void AcceptButtonClick(Object sender, RoutedEventArgs e)
         {
             this.DialogResult = true;
@@ -71,8 +71,8 @@
         /// <summary>
         /// Invoked when the current offset is changed, and informs the viewmodel.
         /// </summary>
-        /// <param name="sender">Sending object</param>
-        /// <param name="e">Event args</param>
+        /// <param name="sender">Sending object.</param>
+        /// <param name="e">Event args.</param>
         private void ValueUpdated(Object sender, EventArgs e)
         {
             this.OffsetEditorViewModel.UpdateActiveValueCommand.Execute(this.OffsetHexDecBox.GetValue());
@@ -81,8 +81,8 @@
         /// <summary>
         /// Invoked when the selected offset is changed, and informs the viewmodel.
         /// </summary>
-        /// <param name="sender">Sending object</param>
-        /// <param name="e">Selection event args</param>
+        /// <param name="sender">Sending object.</param>
+        /// <param name="e">Selection event args.</param>
         private void DataGridSelectionChanged(Object sender, System.Windows.Controls.SelectionChangedEventArgs e)
         {
             this.OffsetEditorViewModel.SelectedOffsetIndex = this.offsetsDataGrid.SelectedIndex;

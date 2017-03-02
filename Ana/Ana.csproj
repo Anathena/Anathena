@@ -16,7 +16,7 @@
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <IsWebBootstrapper>true</IsWebBootstrapper>
     <TargetFrameworkProfile />
-    <PublishUrl>F:\Users\Zachary\Documents\Visual Studio 2015\Projects\AnathenaSite\AnathenaSite\Content\Release\</PublishUrl>
+    <PublishUrl>F:\Users\Zachary\Documents\Visual Studio 2015\Projects\AnaSite\public\Release\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Web</InstallFrom>
     <UpdateEnabled>true</UpdateEnabled>
@@ -26,17 +26,17 @@
     <UpdatePeriodically>false</UpdatePeriodically>
     <UpdateRequired>true</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
-    <InstallUrl>https://www.anathena.com/Content/Release/</InstallUrl>
+    <InstallUrl>https://www.anathena.com/Release/</InstallUrl>
     <UpdateUrl>https://www.anathena.com/Content/Release/</UpdateUrl>
     <SupportUrl>https://www.anathena.com/</SupportUrl>
     <ErrorReportUrl>https://www.anathena.com/</ErrorReportUrl>
     <ProductName>Anathena</ProductName>
     <PublisherName>Anathena</PublisherName>
-    <MinimumRequiredVersion>3.4.6.0</MinimumRequiredVersion>
+    <MinimumRequiredVersion>3.4.7.0</MinimumRequiredVersion>
     <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>publish.htm</WebPage>
     <ApplicationRevision>0</ApplicationRevision>
-    <ApplicationVersion>3.4.6.0</ApplicationVersion>
+    <ApplicationVersion>3.4.7.0</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -222,7 +222,7 @@
     <Compile Include="Source\Engine\Input\HotKeys\ControllerHotkey.cs" />
     <Compile Include="Source\Engine\Input\HotKeys\IHotkey.cs" />
     <Compile Include="Source\Engine\Input\HotKeys\KeyboardHotkey.cs" />
-    <Compile Include="Source\Engine\Input\HotKeys\MouseHotKey.cs" />
+    <Compile Include="Source\Engine\Input\HotKeys\MouseHotkey.cs" />
     <Compile Include="Source\Engine\Input\IInputCapture.cs" />
     <Compile Include="Source\Engine\Input\IInputManager.cs" />
     <Compile Include="Source\Engine\Input\InputManager.cs" />
@@ -410,6 +410,7 @@
       <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
     </Compile>
     <Compile Include="Source\Engine\Proxy\ProxyCommunicator.cs" />
+    <Compile Include="Source\HotkeyManager\HotkeyManagerViewModel.cs" />
     <Compile Include="Source\Mvvm\Converters\BoolToVisibilityConverter.cs" />
     <Compile Include="Source\Mvvm\Converters\HotkeyToStringConverter.cs" />
     <Compile Include="Source\Mvvm\Converters\DataGridIndexConverter.cs" />
@@ -420,6 +421,7 @@
     <Compile Include="Source\Output\OutputViewModel.cs" />
     <Compile Include="Source\Project\IProjectExplorerObserver.cs" />
     <Compile Include="Source\Project\ProjectItems\ProjectRoot.cs" />
+    <Compile Include="Source\Project\ProjectItems\ProjectItemHotkey.cs" />
     <Compile Include="Source\PropertyViewer\IPropertyViewerObserver.cs" />
     <Compile Include="Source\Results\PointerScanResults\IPointerScanResultsObserver.cs" />
     <Compile Include="Source\Results\PointerScanResults\PointerScanResult.cs" />
@@ -607,6 +609,9 @@
     <Compile Include="View\Editors\ValueEditor.xaml.cs">
       <DependentUpon>ValueEditor.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\HotkeyManager.xaml.cs">
+      <DependentUpon>HotkeyManager.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\Output.xaml.cs">
       <DependentUpon>Output.xaml</DependentUpon>
     </Compile>
@@ -724,6 +729,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="View\Editors\ValueEditor.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\HotkeyManager.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

@@ -3,12 +3,12 @@
     using System.Windows.Controls;
 
     /// <summary>
-    /// Interaction logic for ScanResults.xaml
+    /// Interaction logic for ScanResults.xaml.
     /// </summary>
     internal partial class ScanResults : UserControl
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="ScanResults" /> class
+        /// Initializes a new instance of the <see cref="ScanResults" /> class.
         /// </summary>
         public ScanResults()
         {

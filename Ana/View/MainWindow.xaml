@@ -257,6 +257,11 @@
                         Style="{StaticResource menuItemStyle}" />
                     <shell:Separator />
                     <shell:MenuItem
+                        Header="Hotkey Manager"
+                        IsCheckable="True"
+                        IsChecked="{Binding HotkeyManagerViewModel.IsVisible, Mode=TwoWay}"
+                        Style="{StaticResource menuItemStyle}" />
+                    <shell:MenuItem
                         Header="Signature Collector"
                         IsCheckable="True"
                         IsChecked="{Binding SignatureCollectorViewModel.IsVisible, Mode=TwoWay}"
@@ -467,6 +472,12 @@
                             <view:SignatureCollector />
                         </shell:DataTemplate>
                     </view:ViewTemplateSelector.SignatureCollectorViewTemplate>
+                    <!--  Hotkey Manager  -->
+                    <view:ViewTemplateSelector.HotkeyManagerViewTemplate>
+                        <shell:DataTemplate>
+                            <view:HotkeyManager />
+                        </shell:DataTemplate>
+                    </view:ViewTemplateSelector.HotkeyManagerViewTemplate>
                     <!--  Output  -->
                     <view:ViewTemplateSelector.OutputViewTemplate>
                         <shell:DataTemplate>

@@ -10,7 +10,6 @@
     using Mvvm.Command;
     using System;
     using System.Collections.Generic;
-    using System.Collections.ObjectModel;
     using System.Threading.Tasks;
     using System.Windows.Input;
 
@@ -23,11 +22,6 @@
         /// The content id for the docking library associated with this view model.
         /// </summary>
         public const String ToolContentId = nameof(HotkeyEditorViewModel);
-
-        /// <summary>
-        /// The collection of hotkeys.
-        /// </summary>
-        private List<IHotkey> hotkeys;
 
         /// <summary>
         /// The active hotkey being edited.
@@ -49,7 +43,7 @@
         /// The mouse hotkey being constructed.
         /// TODO: Unused right now.
         /// </summary>
-        private MouseHotKey mouseHotkey;
+        private MouseHotkey mouseHotkey;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="HotkeyEditorViewModel" /> class.
@@ -57,8 +51,6 @@
         public HotkeyEditorViewModel() : base("Hotkey Editor")
         {
             this.ContentId = HotkeyEditorViewModel.ToolContentId;
-            this.AddHotkeyCommand = new RelayCommand(() => this.AddHotkey(), () => true);
-            this.RemoveHotkeyCommand = new RelayCommand(() => this.RemoveSelectedHotkey(), () => true);
             this.ClearHotkeysCommand = new RelayCommand(() => this.ClearActiveHotkey(), () => true);
             this.keyboardHotkey = new KeyboardHotkey();
             this.AccessLock = new Object();
@@ -90,6 +82,18 @@
         public ICommand UpdateActiveValueCommand { get; private set; }
 
         /// <summary>
+        /// Gets the hotkey.
+        /// </summary>
+        public IHotkey Hotkey
+        {
+            get
+            {
+                return this.activeHotkey.Clone();
+            }
+        }
+
+
+        /// <summary>
         /// Gets or sets the active hotkey being edited.
         /// </summary>
         public IHotkey ActiveHotkey
@@ -103,34 +107,6 @@
             {
                 this.activeHotkey = value;
                 this.RaisePropertyChanged(nameof(this.ActiveHotkey));
-            }
-        }
-
-        /// <summary>
-        /// Gets or sets the collection of hotkeys.
-        /// </summary>
-        public ObservableCollection<IHotkey> Hotkeys
-        {
-            get
-            {
-                lock (this.AccessLock)
-                {
-                    if (this.hotkeys == null)
-                    {
-                        this.hotkeys = new List<IHotkey>();
-                    }
-
-                    return new ObservableCollection<IHotkey>(this.hotkeys);
-                }
-            }
-
-            set
-            {
-                lock (this.AccessLock)
-                {
-                    this.hotkeys = value == null ? new List<IHotkey>() : new List<IHotkey>(value);
-                    this.RaisePropertyChanged(nameof(this.Hotkeys));
-                }
             }
         }
 
@@ -179,46 +155,6 @@
         }
 
         /// <summary>
-        /// Adds the active hotkey to the hotkey collection.
-        /// </summary>
-        private void AddHotkey()
-        {
-            lock (this.AccessLock)
-            {
-                if (this.ActiveHotkey != null)
-                {
-                    this.hotkeys.Add(this.ActiveHotkey);
-                    this.ClearActiveHotkey();
-                }
-            }
-
-            this.RaisePropertyChanged(nameof(this.Hotkeys));
-        }
-
-        /// <summary>
-        /// Removes the selected hotkey from the hotkey collection.
-        /// </summary>
-        private void RemoveSelectedHotkey()
-        {
-            Int32 removalIndex = this.SelectedHotkeyIndex;
-
-            lock (this.AccessLock)
-            {
-                if (removalIndex < 0)
-                {
-                    removalIndex = 0;
-                }
-
-                if (removalIndex < this.hotkeys.Count)
-                {
-                    this.hotkeys.RemoveAt(removalIndex);
-                }
-            }
-
-            this.RaisePropertyChanged(nameof(this.Hotkeys));
-        }
-
-        /// <summary>
         /// Clears the active hotkey value.
         /// </summary>
         private void ClearActiveHotkey()
@@ -228,8 +164,6 @@
                 this.keyboardHotkey = new KeyboardHotkey();
                 this.ActiveHotkey = this.keyboardHotkey;
             }
-
-            this.RaisePropertyChanged(nameof(this.Hotkeys));
         }
 
         /// <summary>

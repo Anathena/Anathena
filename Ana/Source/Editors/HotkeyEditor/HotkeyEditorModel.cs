@@ -2,10 +2,8 @@
 {
     using Engine.Input.HotKeys;
     using System;
-    using System.Collections.Generic;
     using System.ComponentModel;
     using System.Drawing.Design;
-    using System.Linq;
     using System.Windows;
 
     /// <summary>
@@ -39,16 +37,16 @@
         /// <returns>The updated values.</returns>
         public override Object EditValue(ITypeDescriptorContext context, IServiceProvider provider, Object value)
         {
-            View.Editors.HotkeyEditor hotkeyEditor = new View.Editors.HotkeyEditor(value == null ? null : (value as IEnumerable<IHotkey>)?.ToList());
-
+            View.Editors.HotkeyEditor hotkeyEditor = new View.Editors.HotkeyEditor(value == null ? null : (value as IHotkey));
             hotkeyEditor.Owner = Application.Current.MainWindow;
+
             if (hotkeyEditor.ShowDialog() == true)
             {
-                List<IHotkey> newOffsets = hotkeyEditor.HotkeyEditorViewModel.Hotkeys.ToList();
+                IHotkey newHotkey = hotkeyEditor.HotkeyEditorViewModel.Hotkey;
 
-                if (newOffsets != null && newOffsets.Count > 0)
+                if (newHotkey != null)
                 {
-                    return newOffsets;
+                    return newHotkey;
                 }
                 else
                 {
