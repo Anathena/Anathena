@@ -121,12 +121,12 @@
         /// <summary>
         /// Adds a new constraint to the constraint manager.
         /// </summary>
-        /// <param name="scanConstraint">The new constraint.</param>
+        /// <param name="newScanConstraint">The new constraint.</param>
         /// <param name="hasPriority">Whether or not the new constraint has priority for conflicts.</param>
-        public void AddConstraint(ScanConstraint scanConstraint, Boolean hasPriority = true)
+        public void AddConstraint(ScanConstraint newScanConstraint, Boolean hasPriority = true)
         {
             // Resolve potential conflicts depending on if the new constraint has priority
-            if (scanConstraint.Constraint == ConstraintsEnum.NotScientificNotation)
+            if (newScanConstraint.Constraint == ConstraintsEnum.NotScientificNotation)
             {
                 if (this.ElementType != typeof(Single) && this.ElementType != typeof(Double))
                 {
@@ -134,7 +134,16 @@
                 }
             }
 
-            this.ValueConstraints.Add(scanConstraint);
+            // Remove conflicting constraints
+            foreach (ScanConstraint scanConstraint in this.ValueConstraints.Select(x => x).Reverse())
+            {
+                if (scanConstraint.ConflictsWith(newScanConstraint))
+                {
+                    this.ValueConstraints.Remove(scanConstraint);
+                }
+            }
+
+            this.ValueConstraints.Add(newScanConstraint);
         }
 
         /// <summary>
