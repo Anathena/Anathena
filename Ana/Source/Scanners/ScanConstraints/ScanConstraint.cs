@@ -243,6 +243,29 @@
         }
 
         /// <summary>
+        /// Determines if this constraint conflicts with another constraint.
+        /// </summary>
+        /// <param name="scanConstraint">The other scan constraint.</param>
+        /// <returns>True if the constraints conflict, otherwise false.</returns>
+        public Boolean ConflictsWith(ScanConstraint scanConstraint)
+        {
+            bool thisRel = this.IsRelativeConstraint();
+            bool thisVal = this.IsValuedConstraint();
+            bool thatRel = scanConstraint.IsRelativeConstraint();
+            bool thatVal = scanConstraint.IsValuedConstraint();
+
+            if (this.Constraint == scanConstraint.Constraint ||
+                this.IsRelativeConstraint() && scanConstraint.IsRelativeConstraint() ||
+                (this.IsValuedConstraint() && scanConstraint.IsValuedConstraint() &&
+                (!this.IsRelativeConstraint() && !scanConstraint.IsRelativeConstraint())))
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        /// <summary>
         /// Gets a value indicating whether this constraint is a relative comparison constraint or not.
         /// </summary>
         /// <returns>True if the constraint is a relative value constraint.</returns>
@@ -250,6 +273,13 @@
         {
             switch (this.Constraint)
             {
+                case ConstraintsEnum.Changed:
+                case ConstraintsEnum.Unchanged:
+                case ConstraintsEnum.Increased:
+                case ConstraintsEnum.Decreased:
+                case ConstraintsEnum.IncreasedByX:
+                case ConstraintsEnum.DecreasedByX:
+                    return true;
                 case ConstraintsEnum.Equal:
                 case ConstraintsEnum.NotEqual:
                 case ConstraintsEnum.GreaterThan:
@@ -258,13 +288,6 @@
                 case ConstraintsEnum.LessThanOrEqual:
                 case ConstraintsEnum.NotScientificNotation:
                     return false;
-                case ConstraintsEnum.Changed:
-                case ConstraintsEnum.Unchanged:
-                case ConstraintsEnum.Increased:
-                case ConstraintsEnum.Decreased:
-                case ConstraintsEnum.IncreasedByX:
-                case ConstraintsEnum.DecreasedByX:
-                    return true;
                 default:
                     throw new Exception("Unrecognized Constraint");
             }
