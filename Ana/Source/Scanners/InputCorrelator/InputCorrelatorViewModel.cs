@@ -1,16 +1,15 @@
 ﻿namespace Ana.Source.Scanners.InputCorrelator
 {
     using Docking;
+    using Editors.HotkeyEditor;
     using Engine.Input.HotKeys;
     using Main;
     using Mvvm.Command;
     using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
-    using System.Linq;
     using System.Threading;
     using System.Threading.Tasks;
-    using System.Windows;
     using System.Windows.Input;
 
     /// <summary>
@@ -36,7 +35,8 @@
         private InputCorrelatorViewModel() : base("Input Correlator")
         {
             this.ContentId = InputCorrelatorViewModel.ToolContentId;
-            this.EditHotkeysCommand = new RelayCommand(() => this.EditHotkeys(), () => true);
+            this.NewHotkeyCommand = new RelayCommand(() => this.NewHotkey(), () => true);
+            this.RemoveHotkeyCommand = new RelayCommand<IHotkey>((hotkey) => this.RemoveHotkey(hotkey), (hotkey) => true);
             this.StartScanCommand = new RelayCommand(() => Task.Run(() => this.StartScan()), () => true);
             this.StopScanCommand = new RelayCommand(() => Task.Run(() => this.StopScan()), () => true);
             this.InputCorrelatorModel = new InputCorrelatorModel(this.ScanCountUpdated);
@@ -48,7 +48,9 @@
 
         public ICommand StopScanCommand { get; private set; }
 
-        public ICommand EditHotkeysCommand { get; private set; }
+        public ICommand NewHotkeyCommand { get; private set; }
+
+        public ICommand RemoveHotkeyCommand { get; private set; }
 
         public ObservableCollection<IHotkey> Hotkeys
         {
@@ -69,7 +71,7 @@
         private InputCorrelatorModel InputCorrelatorModel { get; set; }
 
         /// <summary>
-        /// Gets a singleton instance of the <see cref="ChangeCounterViewModel"/> class.
+        /// Gets a singleton instance of the <see cref="InputCorrelatorViewModel"/> class.
         /// </summary>
         /// <returns>A singleton instance of the class.</returns>
         public static InputCorrelatorViewModel GetInstance()
@@ -77,25 +79,22 @@
             return inputCorrelatorViewModelInstance.Value;
         }
 
-        private void EditHotkeys()
+        private void NewHotkey()
         {
-            View.Editors.HotkeyEditor hotkeyEditor = new View.Editors.HotkeyEditor(InputCorrelatorModel.HotKeys);
+            HotkeyEditorModel hotkeyEditor = new HotkeyEditorModel();
+            IHotkey newHotkey = hotkeyEditor.EditValue(context: null, provider: null, value: null) as IHotkey;
 
-            hotkeyEditor.Owner = Application.Current.MainWindow;
-            if (hotkeyEditor.ShowDialog() == true)
+            if (newHotkey != null)
             {
-                List<IHotkey> newOffsets = hotkeyEditor.HotkeyEditorViewModel.Hotkeys.ToList();
-
-                if (newOffsets != null && newOffsets.Count > 0)
-                {
-                    this.InputCorrelatorModel.HotKeys = hotkeyEditor.HotkeyEditorViewModel.Hotkeys.ToList();
-                    this.RaisePropertyChanged(nameof(this.Hotkeys));
-                }
-                else
-                {
-                    return;
-                }
+                this.InputCorrelatorModel.HotKeys.Add(newHotkey);
+                this.RaisePropertyChanged(nameof(this.Hotkeys));
             }
+        }
+
+        private void RemoveHotkey(IHotkey hotkey)
+        {
+            this.InputCorrelatorModel.HotKeys.Remove(hotkey);
+            this.RaisePropertyChanged(nameof(this.Hotkeys));
         }
 
         private void ScanCountUpdated()

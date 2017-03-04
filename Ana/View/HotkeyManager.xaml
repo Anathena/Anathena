@@ -1,0 +1,93 @@
+﻿<UserControl
+    x:Class="Ana.View.HotkeyManager"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:converters="clr-namespace:Ana.Source.Mvvm.Converters"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+    xmlns:local="clr-namespace:Ana"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:sys="clr-namespace:System;assembly=mscorlib"
+    xmlns:sysWindows="clr-namespace:System.Windows;assembly=PresentationCore"
+    x:Name="AnaHotkeyManager"
+    d:DesignHeight="256"
+    d:DesignWidth="256"
+    x:ClassModifier="internal"
+    DataContext="{Binding HotkeyManagerViewModel, Source={StaticResource ViewModelLocator}}"
+    mc:Ignorable="d">
+    <Grid Background="{StaticResource AvalonDock_Expression_BaseColor3}">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <WrapPanel Grid.Row="0" Background="{StaticResource AvalonDock_Expression_BaseColor4}">
+                <Menu Padding="4" Background="Transparent">
+                    <MenuItem Command="{Binding NewHotkeyCommand}" ToolTip="New Hotkey">
+                        <MenuItem.Header>
+                            <Image
+                                Width="16"
+                                Height="16"
+                                Source="pack://application:,,,/Ana;component/Content/Icons/Increased.png" />
+                        </MenuItem.Header>
+                    </MenuItem>
+                </Menu>
+            </WrapPanel>
+            <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+                <DataGrid
+                    Name="offsetsDataGrid"
+                    Grid.Row="2"
+                    AutoGenerateColumns="False"
+                    Background="{StaticResource AvalonDock_Expression_BaseColor3}"
+                    ColumnWidth="*"
+                    HeadersVisibility="Column"
+                    ItemsSource="{Binding Path=Hotkeys}"
+                    RowHeaderWidth="0"
+                    SelectionChanged="DataGridSelectionChanged">
+                    <DataGrid.Resources>
+                        <converters:Int32ToHexConverter x:Key="Int32ToHexConverter" />
+                        <converters:DataGridIndexConverter x:Key="DataGridIndexConverter" />
+                    </DataGrid.Resources>
+                    <DataGrid.ColumnHeaderStyle>
+                        <Style TargetType="{x:Type DataGridColumnHeader}">
+                            <Setter Property="Background" Value="{StaticResource AvalonDock_Expression_BaseColor3}" />
+                            <Setter Property="Foreground" Value="{StaticResource AvalonDock_Expression_BaseColor2}" />
+                            <Setter Property="HorizontalAlignment" Value="Stretch" />
+                        </Style>
+                    </DataGrid.ColumnHeaderStyle>
+                    <DataGrid.Style>
+                        <Style TargetType="{x:Type DataGrid}">
+                            <Setter Property="Background" Value="{StaticResource AvalonDock_Expression_BaseColor3}" />
+                            <Setter Property="Foreground" Value="{StaticResource AvalonDock_Expression_BaseColor2}" />
+                        </Style>
+                    </DataGrid.Style>
+                    <DataGrid.CellStyle>
+                        <Style TargetType="{x:Type DataGridCell}">
+                            <Setter Property="Background" Value="{StaticResource AvalonDock_Expression_BaseColor3}" />
+                            <Setter Property="Foreground" Value="{StaticResource AvalonDock_Expression_BaseColor2}" />
+                        </Style>
+                    </DataGrid.CellStyle>
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Binding="{Binding Path=HotkeyName, Mode=OneWay}" Header="Hotkey" />
+                        <DataGridComboBoxColumn
+                            DisplayMemberPath="Description"
+                            Header="Target"
+                            SelectedValueBinding="{Binding TargetGuid, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                            SelectedValuePath="Guid">
+                            <DataGridComboBoxColumn.ElementStyle>
+                                <Style TargetType="ComboBox">
+                                    <Setter Property="ItemsSource" Value="{Binding ProjectExplorerViewModel.BindableProjectItems, Source={StaticResource ViewModelLocator}}" />
+                                </Style>
+                            </DataGridComboBoxColumn.ElementStyle>
+                            <DataGridComboBoxColumn.EditingElementStyle>
+                                <Style TargetType="ComboBox">
+                                    <Setter Property="ItemsSource" Value="{Binding ProjectExplorerViewModel.BindableProjectItems, Source={StaticResource ViewModelLocator}}" />
+                                </Style>
+                            </DataGridComboBoxColumn.EditingElementStyle>
+                        </DataGridComboBoxColumn>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </ScrollViewer>
+        </Grid>
+    </Grid>
+</UserControl>

@@ -3,12 +3,12 @@
     using System.Windows.Controls;
 
     /// <summary>
-    /// Interaction logic for DotNetExplorer.xaml
+    /// Interaction logic for DotNetExplorer.xaml.
     /// </summary>
     internal partial class DotNetExplorer : UserControl
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="DotNetExplorer" /> class
+        /// Initializes a new instance of the <see cref="DotNetExplorer" /> class.
         /// </summary>
         public DotNetExplorer()
         {

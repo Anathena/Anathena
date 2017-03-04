@@ -8,6 +8,7 @@
     using Source.Editors.ScriptEditor;
     using Source.Editors.TextEditor;
     using Source.Editors.ValueEditor;
+    using Source.HotkeyManager;
     using Source.Main;
     using Source.Output;
     using Source.ProcessSelector;
@@ -299,6 +300,17 @@
             get
             {
                 return new HotkeyEditorViewModel();
+            }
+        }
+
+        /// <summary>
+        /// Gets a Hotkey Manager view model.
+        /// </summary>
+        public HotkeyManagerViewModel HotkeyManagerViewModel
+        {
+            get
+            {
+                return HotkeyManagerViewModel.GetInstance();
             }
         }
 

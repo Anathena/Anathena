@@ -2,17 +2,19 @@
 {
     using CustomControls;
     using Docking;
+    using HotkeyManager;
     using Main;
     using Microsoft.Win32;
     using Mvvm.Command;
+    using Output;
     using ProjectItems;
     using PropertyViewer;
     using System;
     using System.Collections.Generic;
+    using System.Collections.ObjectModel;
     using System.IO;
     using System.Linq;
     using System.Runtime.Serialization.Json;
-    using System.Text;
     using System.Threading;
     using System.Threading.Tasks;
     using System.Windows;
@@ -192,6 +194,14 @@
                 this.projectRoot = value;
                 this.NotifyObserversStructureChange();
                 this.RaisePropertyChanged(nameof(this.ProjectRoot));
+            }
+        }
+
+        public ObservableCollection<ProjectItem> BindableProjectItems
+        {
+            get
+            {
+                return new ObservableCollection<ProjectItem>(projectRoot.Children);
             }
         }
 
@@ -439,28 +449,34 @@
             openFileDialog.Filter = ProjectExtensionFilter;
             openFileDialog.Title = "Open Project";
 
-            if (openFileDialog.ShowDialog() == true)
+            if (openFileDialog.ShowDialog() == false)
             {
-                this.ProjectFilePath = openFileDialog.FileName;
+                return;
+            }
 
-                if (this.ProjectFilePath == null || this.ProjectFilePath == String.Empty)
+            this.ProjectFilePath = openFileDialog.FileName;
+
+            try
+            {
+                if (!File.Exists(this.ProjectFilePath))
                 {
+                    OutputViewModel.GetInstance().Log(OutputViewModel.LogLevel.Warn, "Unable to locate project.");
                     return;
                 }
 
-                try
+                using (FileStream fileStream = new FileStream(this.ProjectFilePath, FileMode.Open, FileAccess.Read))
                 {
-                    using (FileStream fileStream = new FileStream(this.ProjectFilePath, FileMode.Open, FileAccess.Read))
-                    {
-                        DataContractJsonSerializer serializer = new DataContractJsonSerializer(typeof(ProjectRoot));
-                        this.ProjectRoot = serializer.ReadObject(fileStream) as ProjectRoot;
-                        this.HasUnsavedChanges = false;
-                    }
+                    DataContractJsonSerializer serializer = new DataContractJsonSerializer(typeof(ProjectRoot));
+                    this.ProjectRoot = serializer.ReadObject(fileStream) as ProjectRoot;
+                    this.HasUnsavedChanges = false;
                 }
-                catch
-                {
-                    return;
-                }
+
+                HotkeyManagerViewModel.GetInstance().Open(this.ProjectFilePath);
+            }
+            catch
+            {
+                OutputViewModel.GetInstance().Log(OutputViewModel.LogLevel.Warn, "Unable to open project.");
+                return;
             }
         }
 
@@ -477,24 +493,27 @@
                 openFileDialog.Filter = ProjectExtensionFilter;
                 openFileDialog.Title = "Import Project";
 
-                if (openFileDialog.ShowDialog() == true)
+                if (openFileDialog.ShowDialog() == false)
                 {
-                    this.ProjectFilePath = openFileDialog.FileName;
-
-                    if (this.ProjectFilePath == null || this.ProjectFilePath == String.Empty)
-                    {
-                        return;
-                    }
-
-                    filename = this.ProjectFilePath;
+                    return;
                 }
+
+                filename = openFileDialog.FileName;
+
+                // Clear the current project, such that on save the user is prompted to reselect this
+                this.ProjectFilePath = null;
             }
 
             try
             {
+                if (!File.Exists(filename))
+                {
+                    OutputViewModel.GetInstance().Log(OutputViewModel.LogLevel.Warn, "Unable to locate project.");
+                    return;
+                }
+
                 using (FileStream fileStream = new FileStream(filename, FileMode.Open, FileAccess.Read))
                 {
-                    String why = Encoding.ASCII.GetString(File.ReadAllBytes(filename));
                     DataContractJsonSerializer serializer = new DataContractJsonSerializer(typeof(ProjectRoot));
                     ProjectRoot importedProjectRoot = serializer.ReadObject(fileStream) as ProjectRoot;
 
@@ -505,9 +524,12 @@
 
                     this.HasUnsavedChanges = true;
                 }
+
+                HotkeyManagerViewModel.GetInstance().Import(filename);
             }
             catch
             {
+                OutputViewModel.GetInstance().Log(OutputViewModel.LogLevel.Warn, "Unable to import project.");
                 return;
             }
         }
@@ -517,24 +539,27 @@
         /// </summary>
         private void SaveProject()
         {
-            if (this.ProjectFilePath == null || this.ProjectFilePath == String.Empty)
-            {
-                this.SaveAsProject();
-                return;
-            }
-
             try
             {
+                if (!File.Exists(this.ProjectFilePath))
+                {
+                    this.SaveAsProject();
+                    return;
+                }
+
                 using (FileStream fileStream = new FileStream(this.ProjectFilePath, FileMode.Create, FileAccess.Write))
                 {
                     DataContractJsonSerializer serializer = new DataContractJsonSerializer(typeof(ProjectRoot));
                     serializer.WriteObject(fileStream, this.ProjectRoot);
                 }
 
+                HotkeyManagerViewModel.GetInstance().Save(this.ProjectFilePath);
+
                 this.HasUnsavedChanges = false;
             }
             catch
             {
+                OutputViewModel.GetInstance().Log(OutputViewModel.LogLevel.Fatal, "Unable to save project.");
                 return;
             }
         }
@@ -567,6 +592,8 @@
                     observer.UpdateStructure(this.ProjectRoot);
                 }
             }
+
+            this.RaisePropertyChanged(nameof(this.ProjectRoot));
         }
 
         /// <summary>

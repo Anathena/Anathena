@@ -15,21 +15,22 @@
       <LayoutAnchorablePaneGroup Orientation="Vertical" DockWidth="1.27193901842561*">
         <LayoutAnchorablePaneGroup Orientation="Horizontal" FloatingWidth="525" FloatingHeight="612" FloatingLeft="388" FloatingTop="426">
           <LayoutAnchorablePane Id="a42f6f95-c504-4245-809f-0c17262e297f" DockWidth="1.27193901842561*" FloatingWidth="525" FloatingHeight="612" FloatingLeft="388" FloatingTop="426">
-            <LayoutAnchorable IsVisible="True" AutoHideMinWidth="100" AutoHideMinHeight="100" Title="Input Correlator" ContentId="InputCorrelatorViewModel" FloatingLeft="670" FloatingTop="352" FloatingWidth="353" FloatingHeight="612" LastActivationTimeStamp="01/06/2017 22:58:39" />
-            <LayoutAnchorable IsVisible="True" AutoHideMinWidth="100" AutoHideMinHeight="100" Title="Change Counter" ContentId="ChangeCounterViewModel" FloatingLeft="666" FloatingTop="356" FloatingWidth="353" FloatingHeight="612" LastActivationTimeStamp="01/06/2017 22:58:39" />
-            <LayoutAnchorable IsVisible="True" AutoHideMinWidth="100" AutoHideMinHeight="100" Title="Manual Scanner" IsSelected="True" ContentId="ManualScannerViewModel" FloatingLeft="388" FloatingTop="426" FloatingWidth="525" FloatingHeight="612" LastActivationTimeStamp="01/06/2017 22:58:39" />
+            <LayoutAnchorable IsVisible="True" AutoHideMinWidth="100" AutoHideMinHeight="100" Title="Hotkey Manager" ContentId="HotkeyManagerViewModel" FloatingLeft="487" FloatingTop="333" FloatingWidth="353" FloatingHeight="612" LastActivationTimeStamp="03/01/2017 19:30:35" />
+            <LayoutAnchorable IsVisible="True" AutoHideMinWidth="100" AutoHideMinHeight="100" Title="Change Counter" ContentId="ChangeCounterViewModel" FloatingLeft="666" FloatingTop="356" FloatingWidth="353" FloatingHeight="612" LastActivationTimeStamp="03/01/2017 19:30:25" />
+            <LayoutAnchorable IsVisible="True" AutoHideMinWidth="100" AutoHideMinHeight="100" Title="Input Correlator" ContentId="InputCorrelatorViewModel" FloatingLeft="670" FloatingTop="352" FloatingWidth="353" FloatingHeight="612" LastActivationTimeStamp="03/01/2017 19:30:25" />
+            <LayoutAnchorable IsVisible="True" AutoHideMinWidth="100" AutoHideMinHeight="100" Title="Manual Scanner" IsSelected="True" ContentId="ManualScannerViewModel" FloatingLeft="388" FloatingTop="426" FloatingWidth="525" FloatingHeight="612" LastActivationTimeStamp="03/01/2017 19:30:25" />
           </LayoutAnchorablePane>
         </LayoutAnchorablePaneGroup>
         <LayoutAnchorablePane Id="618e3105-9254-49be-b1fe-be65419addeb" DockWidth="1.27193901842561*">
           <LayoutAnchorable IsVisible="True" AutoHideMinWidth="100" AutoHideMinHeight="100" Title="Signature Collector" ContentId="SignatureCollectorViewModel" LastActivationTimeStamp="01/06/2017 22:58:39" />
-          <LayoutAnchorable IsVisible="True" AutoHideMinWidth="100" AutoHideMinHeight="100" Title="Snapshot Manager" ContentId="SnapshotManagerViewModel" FloatingLeft="651" FloatingTop="654" FloatingWidth="353" FloatingHeight="612" LastActivationTimeStamp="01/06/2017 22:58:39" />
-          <LayoutAnchorable IsVisible="True" AutoHideMinWidth="100" AutoHideMinHeight="100" Title="Scan Results" IsSelected="True" ContentId="ScanResultsViewModel" LastActivationTimeStamp="01/06/2017 22:58:39" />
+          <LayoutAnchorable IsVisible="True" AutoHideMinWidth="100" AutoHideMinHeight="100" Title="Scan Results" IsSelected="True" ContentId="ScanResultsViewModel" LastActivationTimeStamp="03/01/2017 19:30:25" />
+          <LayoutAnchorable IsVisible="True" AutoHideMinWidth="100" AutoHideMinHeight="100" Title="Snapshot Manager" ContentId="SnapshotManagerViewModel" FloatingLeft="651" FloatingTop="654" FloatingWidth="353" FloatingHeight="612" LastActivationTimeStamp="03/01/2017 19:30:25" />
         </LayoutAnchorablePane>
       </LayoutAnchorablePaneGroup>
     </LayoutPanel>
     <LayoutAnchorablePaneGroup Orientation="Horizontal" DockHeight="0.348961914707283*" FloatingWidth="353" FloatingHeight="612" FloatingLeft="473" FloatingTop="786">
       <LayoutAnchorablePane Id="b4dfe946-b7dc-43cb-925b-fe87877128c8" FloatingWidth="353" FloatingHeight="612" FloatingLeft="473" FloatingTop="786">
-        <LayoutAnchorable IsVisible="True" AutoHideMinWidth="100" AutoHideMinHeight="100" Title="Output" IsSelected="True" ContentId="OutputViewModel" FloatingLeft="473" FloatingTop="786" FloatingWidth="353" FloatingHeight="612" LastActivationTimeStamp="01/06/2017 22:58:39" />
+        <LayoutAnchorable IsVisible="True" AutoHideMinWidth="100" AutoHideMinHeight="100" Title="Output" IsSelected="True" ContentId="OutputViewModel" FloatingLeft="473" FloatingTop="786" FloatingWidth="353" FloatingHeight="612" LastActivationTimeStamp="03/01/2017 19:30:25" />
       </LayoutAnchorablePane>
     </LayoutAnchorablePaneGroup>
   </RootPanel>

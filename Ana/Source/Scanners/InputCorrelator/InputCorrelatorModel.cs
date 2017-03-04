@@ -27,6 +27,7 @@
         {
             this.UpdateScanCount = updateScanCount;
             this.ProgressLock = new Object();
+            this.HotKeys = new List<IHotkey>();
         }
 
         public List<IHotkey> HotKeys
@@ -54,16 +55,6 @@
         private DateTime LastActivated { get; set; }
 
         private Object ProgressLock { get; set; }
-
-        public void EditKeys()
-        {
-            View.Editors.HotkeyEditor hotKeyEditor = new View.Editors.HotkeyEditor(this.HotKeys);
-
-            if (hotKeyEditor.ShowDialog() == true)
-            {
-                this.HotKeys = new List<IHotkey>(hotKeyEditor.HotkeyEditorViewModel.Hotkeys);
-            }
-        }
 
         /// <summary>
         /// Event received when a key is pressed.
