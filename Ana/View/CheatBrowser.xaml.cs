@@ -3,9 +3,11 @@
     using Source.CheatBrowser;
     using Source.Project;
     using System;
+    using System.Collections.Specialized;
+    using System.Diagnostics;
     using System.IO;
-    using System.Linq;
     using System.Net;
+    using System.Web;
     using System.Windows;
     using System.Windows.Navigation;
 
@@ -55,12 +57,24 @@
 
             try
             {
-                if (e.Uri.Query.Split('&').Any(x => x.ToLower().EndsWith(FileExtension)))
+                NameValueCollection queries = HttpUtility.ParseQueryString(e.Uri.Query);
+                String cheatName = queries["cheatName"];
+                String native = queries["native"];
+
+                // Handle file downloads
+                if (cheatName != null && cheatName.EndsWith(CheatBrowser.FileExtension))
                 {
                     e.Cancel = true;
                     WebClient client = new WebClient();
                     client.DownloadDataCompleted += (source, args) => this.DownloadDataCompleted(source, args);
                     client.DownloadDataAsync(e.Uri);
+                    return;
+                }
+
+                // Handle request to open the native browser
+                if (native != null)
+                {
+                    Process.Start(new Uri(new Uri(CheatBrowserViewModel.HomeUrl), native).AbsoluteUri);
                 }
             }
             catch

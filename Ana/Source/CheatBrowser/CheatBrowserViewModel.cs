@@ -21,7 +21,7 @@
         /// <summary>
         /// The home url for the cheat browser.
         /// </summary>
-        private const String HomeUrl = "http://www.anathena.com/CheatBrowser/Index";
+        public const String HomeUrl = "http://www.anathena.com/CheatBrowser/Index";
 
         /// <summary>
         /// Singleton instance of the <see cref="CheatBrowserViewModel" /> class.
