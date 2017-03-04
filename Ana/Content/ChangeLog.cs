@@ -29,8 +29,9 @@ namespace Ana.Content
         /// </summary>
         public virtual string TransformText()
         {
-            this.Write("- Hotfix to Label Thresholder - Incorrect bounds settings caused it to be useless" +
-                    ".");
+            this.Write("- Added hotkey manager for binding project items to hotkeys\r\n- Added automatic co" +
+                    "nstraint conflict resolution in manual scanner\r\n- Improved interaction with webs" +
+                    "ite from Ana");
             return this.GenerationEnvironment.ToString();
         }
     }

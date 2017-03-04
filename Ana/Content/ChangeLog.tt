@@ -5,4 +5,6 @@
 <#@ import namespace="System.Text" #>
 <#@ import namespace="System.Collections.Generic" #>
 <#@ import namespace="Ana" #>
-- Hotfix to Label Thresholder - Incorrect bounds settings caused it to be useless.
+- Added hotkey manager for binding project items to hotkeys
+- Added automatic constraint conflict resolution in manual scanner
+- Improved interaction with website from Ana
