@@ -492,8 +492,7 @@ namespace Xceed.Wpf.Toolkit.Primitives
       {
         // When text is typed, if UpdateValueOnEnterKey is true, 
         // Sync Value on Text only when Enter Key is pressed.
-        if( ( _isTextChangedFromUI && !this.UpdateValueOnEnterKey )
-          || !_isTextChangedFromUI)
+        if( !_isTextChangedFromUI || !this.UpdateValueOnEnterKey )
         {
           SyncTextAndValueProperties( true, Text );
         }
