@@ -102,7 +102,7 @@
 
         public override String ToString()
         {
-            return this.Type?.ToString();
+            return this.Type?.ToString() ?? String.Empty;
         }
     }
     //// End class
