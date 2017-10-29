@@ -529,8 +529,11 @@ namespace Xceed.Wpf.Toolkit.Zoombox
 
       public void Dispose()
       {
-        _viewStack.IsChangeFromSource = false;
-        _viewStack = null;
+        if ( _viewStack != null )
+        {
+          _viewStack.IsChangeFromSource = false;
+          _viewStack = null;
+        }
         GC.SuppressFinalize( this );
       }
 
